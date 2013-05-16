@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.overlord.dtgov</groupId>
@@ -6,7 +7,6 @@
   <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Design Time Governance</name>
   <url>http://www.jboss.org/overlord</url>
   <inceptionYear>2013</inceptionYear>
 
@@ -78,27 +78,40 @@
     <maven.source.plugin.version>2.1.2</maven.source.plugin.version>
     <maven.deploy.plugin.version>2.5</maven.deploy.plugin.version>
 
+    <!-- S-RAMP version -->
+    <sramp.client.version>0.1.2-SNAPSHOT</sramp.client.version>
+
     <!-- Dependency versions -->
-    <junit.version>4.11</junit.version>
-    <log4j.version>1.2.16</log4j.version>
-    <slf4j-api.version>1.5.11</slf4j-api.version>
-    <slf4j-log4j.version>1.5.11</slf4j-log4j.version>
-    <slf4j-nop.version>1.5.11</slf4j-nop.version>
-    <servlet-api.version>2.5</servlet-api.version>
-    <overlord-commons.version>1.0.5</overlord-commons.version>
+    <overlord-commons.version>1.0.6-SNAPSHOT</overlord-commons.version>
     <commons-io.version>2.4</commons-io.version>
     <commons-lang3.version>3.1</commons-lang3.version>
     <commons-config.version>1.8</commons-config.version>
     <commons-compress.version>1.4.1</commons-compress.version>
+    <commons-fileupload.version>1.2.2</commons-fileupload.version>
+    <errai.version>3.0-SNAPSHOT</errai.version>
+    <gwt.version>2.5.0</gwt.version>
+    <weld.version>1.1.6.Final</weld.version>
+    <mvel.version>2.1.Beta8</mvel.version>
+    <jetty.version>6.1.25</jetty.version>
+    <uel.impl.version>2.1.2-b04</uel.impl.version>
+    <servlet-api.version>3.0.1</servlet-api.version>
+    <jsp-api.version>2.0</jsp-api.version>
+    <jboss-ejb3-api.version>3.1.0</jboss-ejb3-api.version>
+    <cdi-api.version>1.0-SP4</cdi-api.version>
+    <jboss-logging.version>3.0.0.Beta4</jboss-logging.version>
+    <junit.version>4.11</junit.version>
+    <log4j.version>1.2.16</log4j.version>
+    <slf4j.version>1.6.1</slf4j.version>
+    <slf4j-api.version>1.5.11</slf4j-api.version>
+    <slf4j-log4j.version>1.5.11</slf4j-log4j.version>
+    <slf4j-nop.version>1.5.11</slf4j-nop.version>
   </properties>
 
   <build>
-    <!-- This section defines the default plugin settings inherited by child 
-      projects. -->
+    <!-- This section defines the default plugin settings inherited by child projects. -->
     <pluginManagement>
       <plugins>
-        <!-- Fixes how test resources of a project can be used in projects dependent 
-          on it -->
+        <!-- Fixes how test resources of a project can be used in projects dependent on it -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
@@ -119,6 +132,30 @@
           <artifactId>maven-bundle-plugin</artifactId>
           <version>${maven.bundle.plugin.version}</version>
           <extensions>true</extensions>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>gwt-maven-plugin</artifactId>
+                    <versionRange>[2.3.0,)</versionRange>
+                    <goals>
+                      <goal>resources</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <execute />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -169,9 +206,8 @@
           <argLine>-Xmx368m -XX:MaxPermSize=128m</argLine>
         </configuration>
       </plugin>
-      <!-- Build a test-jar for each project, so that src/test/* resources and 
-        classes can be used in other projects. Also customize how the jar files are 
-        assembled. -->
+      <!-- Build a test-jar for each project, so that src/test/* resources and classes can be used in other projects. 
+        Also customize how the jar files are assembled. -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -198,69 +234,6 @@
       </plugin>
     </plugins>
   </build>
-
-  <dependencyManagement>
-    <dependencies>
-      <!-- Common libraries -->
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>${commons-lang3.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>${commons-io.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-codec</groupId>
-        <artifactId>commons-codec</artifactId>
-        <version>${commons-codec.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-configuration</groupId>
-        <artifactId>commons-configuration</artifactId>
-        <version>${commons-config.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-compress</artifactId>
-        <version>${commons-compress.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>${servlet-api.version}</version>
-      </dependency>
-      <!-- Logging (require SLF4J API for compiling, but use Log4J and its SLF4J 
-        binding for testing) -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j-api.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>${slf4j-log4j.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>${log4j.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <!-- Testing (note the scope) -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-        <scope>test</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <reporting>
     <plugins>
@@ -317,6 +290,7 @@
   </distributionManagement>
 
   <modules>
+  <module>dtgov-ui-war</module>
   </modules>
 
 </project>
