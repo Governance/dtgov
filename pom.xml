@@ -82,7 +82,7 @@
     <sramp.client.version>0.1.2-SNAPSHOT</sramp.client.version>
 
     <!-- Dependency versions -->
-    <overlord-commons.version>1.0.6-SNAPSHOT</overlord-commons.version>
+    <overlord-commons.version>1.0.6</overlord-commons.version>
     <commons-io.version>2.4</commons-io.version>
     <commons-lang3.version>3.1</commons-lang3.version>
     <commons-config.version>1.8</commons-config.version>
