@@ -7,6 +7,8 @@
   <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <name>DesignTime Governance</name>
+  <description>DTGov is a Governance Application build on top of a SOA Repository</description>
   <url>http://www.jboss.org/overlord</url>
   <inceptionYear>2013</inceptionYear>
 
@@ -29,26 +31,26 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:git:https://github.com/Governance/dtgov.git</connection>
-    <developerConnection>scm:git:https://github.com/Governance/dtgov.git</developerConnection>
-    <url>scm:git:https://github.com/Governance/dtgov.git</url>
+    <connection>scm:git:git@github.com:Governance/dtgov.git</connection>
+    <developerConnection>scm:git:git@github.com:Governance/dtgov.git</developerConnection>
+    <url>scm:git:git@github.com:Governance/dtgov.git</url>
   </scm>
 
   <developers>
-    <developer>
-      <name>Eric Wittmann</name>
-      <id>ewittman</id>
-      <email>eric.wittmann@redhat.com</email>
-      <organization>Red Hat</organization>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
     <developer>
       <name>Kurt Stam</name>
       <id>kstam</id>
       <email>kstam@jboss.com</email>
       <organization>JBoss, a division of Red Hat</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Eric Wittmann</name>
+      <id>ewittman</id>
+      <email>eric.wittmann@redhat.com</email>
+      <organization>Red Hat</organization>
       <roles>
         <role>Developer</role>
       </roles>
@@ -79,7 +81,7 @@
     <maven.deploy.plugin.version>2.5</maven.deploy.plugin.version>
 
     <!-- S-RAMP version -->
-    <sramp.client.version>0.1.2-SNAPSHOT</sramp.client.version>
+    <sramp.client.version>0.3.0-SNAPSHOT</sramp.client.version>
 
     <!-- Dependency versions -->
     <overlord-commons.version>1.0.6</overlord-commons.version>
@@ -235,6 +237,84 @@
     </plugins>
   </build>
 
+  <dependencyManagement>
+    <dependencies>
+      <!-- Common libraries -->
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${commons.lang3.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${commons.io.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>${commons.codec.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-configuration</groupId>
+        <artifactId>commons-configuration</artifactId>
+        <version>${commons.config.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+        <version>${commons.compress.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <version>${joda-time.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${servlet.api.version}</version>
+      </dependency>
+      <!-- Logging (require SLF4J API for compiling, but use Log4J and its SLF4J binding for testing) -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.api.version}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${slf4j.log4j.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <!-- Testing (note the scope) -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>xmlunit</groupId>
+        <artifactId>xmlunit</artifactId>
+        <version>${xmlunit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tika</groupId>
+        <artifactId>tika-core</artifactId>
+        <version>${tika-core.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <reporting>
     <plugins>
       <plugin>
@@ -257,7 +337,7 @@
       </releases>
       <snapshots>
         <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
+        <updatePolicy>always</updatePolicy>
       </snapshots>
     </repository>
   </repositories>
@@ -272,6 +352,7 @@
       </releases>
       <snapshots>
         <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
@@ -289,9 +370,12 @@
     </snapshotRepository>
   </distributionManagement>
 
+  <!-- modules in alphabetical order -->
   <modules>
-  <module>dtgov-ui-war</module>
+    <module>dtgov-ui-war</module>
+    <module>dtgov-war</module>
+    <module>dtgov-workflows</module>
+    <module>dtgov-workitems</module>
   </modules>
-
 </project>
 
