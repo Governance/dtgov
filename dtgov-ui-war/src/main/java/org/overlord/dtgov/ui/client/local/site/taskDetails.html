@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>DTGov - Task Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <meta name="description" content=""></meta>
+    <meta name="author" content=""></meta>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui-responsive.css" rel="stylesheet"></link>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.min.js"></script>
+    <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/js/dtgov-responsive.js"></script>
+  </head>
+
+  <body>
+    <div id="page" data-field="page">
+
+      <!-- Content area with footer-->
+      <div id="page-content" class="container-fluid">
+
+        <!-- Breadcrumbs -->
+        <div class="row-fluid">
+          <ul class="breadcrumb">
+            <li><a data-field="back-to-dashboard" href="dashboard.html">DTGov Dashboard</a> <span class="divider">/</span></li>
+            <li><a data-field="back-to-tasks" href="taskInbox.html">Task Inbox</a> <span class="divider">/</span></li>
+            <li class="active">Task Details</li>
+          </ul>
+        </div>
+
+        <!-- Loading spinner -->
+        <div data-field="task-details-loading-spinner" class="spinner task-details-loading hide">Loading task, please wait...</div>
+
+        <div id="task-details-content-wrapper">
+        <!-- Action bar -->
+        <div class="row-fluid task-actions">
+          <div class="span12">
+            <span class="sp4n-label">
+              <span class="task-details-title" data-field="task-name">My Task 1</span>
+            </span>
+            <div class="btn-group">
+              <button data-field="action-claim" class="btn" disabled="true">Claim</button>
+              <button data-field="action-release" class="btn">Release</button>
+            </div>
+            <div class="btn-group">
+              <button data-field="action-start" class="btn">Start</button>
+              <button data-field="action-complete" class="btn">Complete</button>
+            </div>
+          </div>
+        </div>
+        <!-- Task Details -->
+        <div class="row-fluid task-details">
+          <div class="container-fluid">
+            <!-- Task Properties and Description -->
+            <div class="row-fluid">
+              <!-- Task Properties (left half) -->
+              <div class="span6 details-meta-data-section">
+                <div class="details-meta-data-section-header">Task Properties</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">ID:</div>
+                <div data-field="task-id" class="details-meta-data-section-value">17</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">Owner:</div>
+                <div data-field="task-owner" class="details-meta-data-section-value">ewittman</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">Group:</div>
+                <div data-field="task-group" class="details-meta-data-section-value">developer</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">Priority:</div>
+                <div class="details-meta-data-section-value">1</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">Due Date:</div>
+                <div class="details-meta-data-section-value">
+                  <span data-field="task-dueDate">12/07/2012</span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <!-- Description -->
+              <div class="span6 details-meta-data-section">
+                <div class="details-meta-data-section-header">Description</div>
+                <div class="clearfix"></div>
+                <span data-field="core-property-description" class="core-property-description">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent 
+                  libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum 
+                  imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper 
+                  porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu 
+                  ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales 
+                  ligula in libero. Sed dignissim lacinia nunc. 
+                </span>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <hr />
+            <!-- Task Form -->
+            <div class="row-fluid task-form">
+                 <b>Employee Evaluation</b>
+                 <p>Please perform a self-evaluation</p>
+                 <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent 
+                  libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum 
+                  imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper 
+                  porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu 
+                  ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales 
+                  ligula in libero. Sed dignissim lacinia nunc. 
+                 </p>
+            </div>
+            <!-- Save Button -->
+            <div class="row-fluid task-form">
+              <a data-field="action-save" class="btn">Save</a>
+            </div>
+          </div>
+        </div>  <!-- /task-details -->
+        
+        </div> <!-- /content-wrapper -->
+        
+        <!-- Footer -->
+        <footer>
+          <hr />
+          <p>&copy; JBoss Overlord 2013</p>
+        </footer>
+      </div> <!-- /container -->
+      
+    </div> <!-- /page -->
+
+    <!-- Some scripting to add functionality to the live template -->
+    <script>
+      $(document).ready(function() {
+      });
+    </script>
+  </body>
+</html>
