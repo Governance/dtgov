@@ -13,35 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.dtgov.ui.client.local.pages;
-
-import javax.annotation.PostConstruct;
-
-import org.jboss.errai.ui.nav.client.local.Page;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
+package org.overlord.dtgov.ui.client.shared.beans;
 
 /**
- * Overlord:DTGov Home page.
+ * An enumeration listing the types of growls.
  *
  * @author eric.wittmann@redhat.com
  */
-@Page(path="home", startingPage=true)
-public class HomePage extends FlowPanel {
-
-    /**
-     * Constructor.
-     */
-    public HomePage() {
-    }
-
-    /**
-     * Post contruct method.
-     */
-    @PostConstruct
-    protected void onPostConstruct() {
-        add(new InlineLabel("Welcome to Overlord:DTGov"));
-    }
-
+public enum NotificationType {
+    notification, error, progress, progressCompleted, progressErrored;
 }
