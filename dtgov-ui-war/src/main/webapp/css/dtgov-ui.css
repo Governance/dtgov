@@ -234,6 +234,28 @@ footer hr {
   padding-bottom: 10px;
 }
 
+.tasks-none, .tasks-searching, .deployments-none, .deployments-searching {
+    float: left;
+    width: 100%;
+    background-color: white;
+    border-left: 1px solid rgb(211, 211, 211);
+    border-right: 1px solid rgb(211, 211, 211);
+    border-bottom: 1px solid rgb(211, 211, 211);
+    margin-bottom: 20px;
+}
+.tasks-searching span, .deployments-searching span {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 36px;
+    float: left;
+    background-position: 16px 11px;
+}
+.tasks-none span, .deployments-none span {
+    padding: 10px;
+    float: left;
+    font-style: italic;
+}
+
 .tasks-table, .deployments-table {
     border-left: 1px solid rgb(211, 211, 211);
     border-right: 1px solid rgb(211, 211, 211);

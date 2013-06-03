@@ -33,12 +33,18 @@ public class DtgovUIConfig {
 
     private static CompositeConfiguration config;
     static {
-        DtgovUIConfig.config = new CompositeConfiguration();
-        DtgovUIConfig.config.addConfiguration(new SystemConfiguration());
+        config = new CompositeConfiguration();
+        config.addConfiguration(new SystemConfiguration());
         try {
-            DtgovUIConfig.config.addConfiguration(new PropertiesConfiguration(TaskClientAccessor.class.getResource("/META-INF/config/org.overlord.dtgov.ui.server.api.properties")));
+            config.addConfiguration(new PropertiesConfiguration(TaskClientAccessor.class.getResource("/META-INF/config/org.overlord.dtgov.ui.server.api.properties")));
         } catch (ConfigurationException e) {}
         System.out.println("DTGov user interface configuration loaded.  S-RAMP Atom API endpoint: " + DtgovUIConfig.config.getString("dtgov-ui.atom-api.endpoint"));
+    }
+
+    /**
+     * Constructor.
+     */
+    public DtgovUIConfig() {
     }
 
     /**

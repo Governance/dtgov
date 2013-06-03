@@ -31,10 +31,9 @@ public interface ITaskInboxService {
     /**
      * Search for tasks using the given filters and search text.
      * @param filtersPanel
-     * @param searchText
      * @param page
      * @throws SrampUiException
      */
-    public TaskInboxResultSetBean search(TaskInboxFilterBean filters, String searchText, int page) throws DtgovUiException;
+    public TaskInboxResultSetBean search(TaskInboxFilterBean filters, int page) throws DtgovUiException;
 
 }

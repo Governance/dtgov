@@ -17,8 +17,8 @@ package org.overlord.dtgov.ui.server.api;
 
 import java.lang.reflect.Constructor;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.apache.commons.configuration.Configuration;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -29,18 +29,16 @@ import org.overlord.sramp.client.auth.AuthenticationProvider;
  *
  * @author eric.wittmann@redhat.com
  */
-@ApplicationScoped
+@Singleton
 public class SrampApiClientAccessor {
-
-    @Inject
-    private DtgovUIConfig config;
 
     private transient SrampAtomApiClient client;
 
 	/**
 	 * C'tor.
 	 */
-	public SrampApiClientAccessor() {
+    @Inject
+	public SrampApiClientAccessor(DtgovUIConfig config) {
 		String endpoint = (String) config.getConfiguration().getProperty("dtgov-ui.atom-api.endpoint");
         boolean validating = "true".equals(config.getConfiguration().getProperty("dtgov-ui.atom-api.validating"));
         AuthenticationProvider authProvider = null;

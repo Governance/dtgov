@@ -15,6 +15,8 @@
  */
 package org.overlord.dtgov.ui.server.api;
 
+import org.overlord.dtgov.ui.client.shared.beans.TaskInboxResultSetBean;
+
 /**
  * A client used to access a human task repository (e.g. a WS-HumanTask server, or a proprietary
  * task inbox backend).
@@ -22,5 +24,12 @@ package org.overlord.dtgov.ui.server.api;
  * @author eric.wittmann@redhat.com
  */
 public interface ITaskClient {
+
+    /**
+     * Gets tasks from a back-end task system.
+     * @param startIndex
+     * @param endIndex
+     */
+    public TaskInboxResultSetBean getTasks(int startIndex, int endIndex);
 
 }

@@ -22,6 +22,7 @@ import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxResultSetBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.ITaskInboxService;
+import org.overlord.dtgov.ui.server.api.ITaskClient;
 import org.overlord.dtgov.ui.server.api.TaskClientAccessor;
 
 /**
@@ -31,6 +32,8 @@ import org.overlord.dtgov.ui.server.api.TaskClientAccessor;
  */
 @Service
 public class TaskInboxService implements ITaskInboxService {
+
+    private static final int PAGE_SIZE = 20;
 
     @Inject
     private TaskClientAccessor taskClientAccessor;
@@ -42,13 +45,17 @@ public class TaskInboxService implements ITaskInboxService {
     }
 
     /**
-     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#search(org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean, java.lang.String, int)
+     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#search(org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean, int)
      */
     @Override
-    public TaskInboxResultSetBean search(TaskInboxFilterBean filters, String searchText, int page)
+    public TaskInboxResultSetBean search(TaskInboxFilterBean filters, int page)
             throws DtgovUiException {
-        // TODO Auto-generated method stub
-        return null;
+        ITaskClient client = taskClientAccessor.getClient();
+
+        int startIndex = (page-1) * PAGE_SIZE;
+        int endIndex = (startIndex + PAGE_SIZE) - 1;
+
+        return client.getTasks(startIndex, endIndex);
     }
 
 }

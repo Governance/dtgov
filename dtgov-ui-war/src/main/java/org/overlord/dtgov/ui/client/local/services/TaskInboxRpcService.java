@@ -47,9 +47,9 @@ public class TaskInboxRpcService {
     }
 
     /**
-     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#search(TaskInboxFilterBean, String, int)
+     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#search(TaskInboxFilterBean, int)
      */
-    public void search(TaskInboxFilterBean filters, String searchText, int page,
+    public void search(TaskInboxFilterBean filters, int page,
             final IRpcServiceInvocationHandler<TaskInboxResultSetBean> handler) {
         // TODO only allow one search at a time.  If another search comes in before the previous one
         // finished, cancel the previous one.  In other words, only return the results of the *last*
@@ -57,7 +57,7 @@ public class TaskInboxRpcService {
         RemoteCallback<TaskInboxResultSetBean> successCallback = new DelegatingRemoteCallback<TaskInboxResultSetBean>(handler);
         ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
         try {
-            remoteTaskInboxService.call(successCallback, errorCallback).search(filters, searchText, page);
+            remoteTaskInboxService.call(successCallback, errorCallback).search(filters, page);
         } catch (DtgovUiException e) {
             errorCallback.error(null, e);
         }

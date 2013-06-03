@@ -29,7 +29,7 @@ import org.jboss.errai.common.client.api.annotations.Portable;
 public class TaskInboxFilterBean {
 
     private TaskOwnerEnum owner = TaskOwnerEnum.any;
-    private int priority;
+    private int priority = -1;
     private Date dateDueFrom;
     private Date dateDueTo;
 
@@ -49,8 +49,9 @@ public class TaskInboxFilterBean {
     /**
      * @param owner the owner to set
      */
-    public void setOwner(TaskOwnerEnum owner) {
+    public TaskInboxFilterBean setOwner(TaskOwnerEnum owner) {
         this.owner = owner;
+        return this;
     }
 
     /**
@@ -63,8 +64,9 @@ public class TaskInboxFilterBean {
     /**
      * @param priority the priority to set
      */
-    public void setPriority(int priority) {
+    public TaskInboxFilterBean setPriority(int priority) {
         this.priority = priority;
+        return this;
     }
 
     /**
@@ -77,8 +79,9 @@ public class TaskInboxFilterBean {
     /**
      * @param dateDueFrom the dateDueFrom to set
      */
-    public void setDateDueFrom(Date dateDueFrom) {
+    public TaskInboxFilterBean setDateDueFrom(Date dateDueFrom) {
         this.dateDueFrom = dateDueFrom;
+        return this;
     }
 
     /**
@@ -91,8 +94,9 @@ public class TaskInboxFilterBean {
     /**
      * @param dateDueTo the dateDueTo to set
      */
-    public void setDateDueTo(Date dateDueTo) {
+    public TaskInboxFilterBean setDateDueTo(Date dateDueTo) {
         this.dateDueTo = dateDueTo;
+        return this;
     }
 
     /**
