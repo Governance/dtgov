@@ -42,6 +42,12 @@
       <artifactId>overlord-commons-gwt</artifactId>
       <version>${overlord-commons.version}</version>
     </dependency>
+    <!-- S-RAMP Widgets -->
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-ui-widgets</artifactId>
+      <version>${s-ramp-ui.version}</version>
+    </dependency>
     
     <!-- Third Party Dependencies -->
     <dependency>

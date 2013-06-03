@@ -17,8 +17,8 @@ package org.overlord.dtgov.ui.server.api;
 
 import java.lang.reflect.Constructor;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.apache.commons.configuration.Configuration;
 
@@ -27,18 +27,16 @@ import org.apache.commons.configuration.Configuration;
  *
  * @author eric.wittmann@redhat.com
  */
-@ApplicationScoped
+@Singleton
 public class TaskClientAccessor {
-
-    @Inject
-    private DtgovUIConfig config;
 
     private transient ITaskClient client;
 
 	/**
 	 * C'tor.
 	 */
-	public TaskClientAccessor() {
+    @Inject
+	public TaskClientAccessor(DtgovUIConfig config) {
 		String clientClassname = (String) config.getConfiguration().getProperty("dtgov-ui.task-client.class");
 		if (clientClassname != null) {
 		    try {
