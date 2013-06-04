@@ -16,6 +16,8 @@
 package org.overlord.dtgov.ui.client.shared.services;
 
 import org.jboss.errai.bus.server.annotations.Remote;
+import org.overlord.dtgov.ui.client.shared.beans.TaskActionEnum;
+import org.overlord.dtgov.ui.client.shared.beans.TaskBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxResultSetBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
@@ -35,5 +37,26 @@ public interface ITaskInboxService {
      * @throws SrampUiException
      */
     public TaskInboxResultSetBean search(TaskInboxFilterBean filters, int page) throws DtgovUiException;
+
+    /**
+     * Fetches a full task by its ID.
+     * @param taskId
+     * @throws DtgovUiException
+     */
+    public TaskBean get(String taskId) throws DtgovUiException;
+
+    /**
+     * Updates the meta-data of a task.
+     * @param task
+     * @throws DtgovUiException
+     */
+    public void update(TaskBean task) throws DtgovUiException;
+
+    /**
+     * Executes the given action on the given task.
+     * @param task
+     * @param action
+     */
+    public TaskBean executeAction(TaskBean task, TaskActionEnum action) throws DtgovUiException;
 
 }

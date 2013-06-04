@@ -16,6 +16,8 @@
 package org.overlord.dtgov.ui.client.shared.beans;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
@@ -31,10 +33,72 @@ public class TaskBean extends TaskSummaryBean implements Serializable {
 
     private static final long serialVersionUID = TaskBean.class.hashCode();
 
+    private String group;
+    private String description;
+    private Set<TaskActionEnum> allowedActions = new HashSet<TaskActionEnum>();
+
     /**
      * Constructor.
      */
     public TaskBean() {
+    }
+
+    /**
+     * Returns true if an action is allowed by this user on this task.
+     * @param action
+     */
+    public boolean isActionAllowed(TaskActionEnum action) {
+        return getAllowedActions().contains(action);
+    }
+
+    /**
+     * Adds a single allowed action to this task.
+     * @param action
+     */
+    public void addAllowedAction(TaskActionEnum action) {
+        getAllowedActions().add(action);
+    }
+
+    /**
+     * @return the allowedActions
+     */
+    public Set<TaskActionEnum> getAllowedActions() {
+        return allowedActions;
+    }
+
+    /**
+     * @param allowedActions the allowedActions to set
+     */
+    public void setAllowedActions(Set<TaskActionEnum> allowedActions) {
+        this.allowedActions = allowedActions;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * @return the group
+     */
+    public String getGroup() {
+        return group;
+    }
+
+    /**
+     * @param group the group to set
+     */
+    public void setGroup(String group) {
+        this.group = group;
     }
 
 }

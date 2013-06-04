@@ -15,6 +15,9 @@
  */
 package org.overlord.dtgov.ui.server.api;
 
+import org.overlord.dtgov.ui.client.shared.beans.TaskActionEnum;
+import org.overlord.dtgov.ui.client.shared.beans.TaskBean;
+import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxResultSetBean;
 
 /**
@@ -27,9 +30,30 @@ public interface ITaskClient {
 
     /**
      * Gets tasks from a back-end task system.
+     * @param filters
      * @param startIndex
      * @param endIndex
      */
-    public TaskInboxResultSetBean getTasks(int startIndex, int endIndex);
+    public TaskInboxResultSetBean getTasks(TaskInboxFilterBean filters, int startIndex, int endIndex) throws Exception;
+
+    /**
+     * Gets a single task by its ID.
+     * @param taskId
+     */
+    public TaskBean getTask(String taskId) throws Exception;
+
+    /**
+     * Updates a single task's meta data (only those fields that are allowed to be updated).
+     * @param task
+     */
+    public void updateTask(TaskBean task) throws Exception;
+
+    /**
+     * Executes the given action for the given task.  Returns a new version of the task bean
+     * reflecting any changes made by the action (e.g. change of status and available actions).
+     * @param task
+     * @param action
+     */
+    public TaskBean executeAction(TaskBean task, TaskActionEnum action) throws Exception;
 
 }
