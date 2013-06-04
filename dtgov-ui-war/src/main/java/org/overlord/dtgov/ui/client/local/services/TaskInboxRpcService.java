@@ -24,6 +24,8 @@ import org.jboss.errai.common.client.api.RemoteCallback;
 import org.overlord.dtgov.ui.client.local.services.rpc.DelegatingErrorCallback;
 import org.overlord.dtgov.ui.client.local.services.rpc.DelegatingRemoteCallback;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
+import org.overlord.dtgov.ui.client.shared.beans.TaskActionEnum;
+import org.overlord.dtgov.ui.client.shared.beans.TaskBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxResultSetBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
@@ -58,6 +60,48 @@ public class TaskInboxRpcService {
         ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
         try {
             remoteTaskInboxService.call(successCallback, errorCallback).search(filters, page);
+        } catch (DtgovUiException e) {
+            errorCallback.error(null, e);
+        }
+    }
+
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#get(String)
+     */
+    public void get(String taskId, IRpcServiceInvocationHandler<TaskBean> handler) {
+        RemoteCallback<TaskBean> successCallback = new DelegatingRemoteCallback<TaskBean>(handler);
+        ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
+        try {
+            remoteTaskInboxService.call(successCallback, errorCallback).get(taskId);
+        } catch (DtgovUiException e) {
+            errorCallback.error(null, e);
+        }
+    }
+
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#update(TaskBean)
+     */
+    public void update(TaskBean task, IRpcServiceInvocationHandler<Void> handler) {
+        RemoteCallback<Void> successCallback = new DelegatingRemoteCallback<Void>(handler);
+        ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
+        try {
+            remoteTaskInboxService.call(successCallback, errorCallback).update(task);
+        } catch (DtgovUiException e) {
+            errorCallback.error(null, e);
+        }
+    }
+
+    /**
+     * Executes the given action on the task.
+     * @param task
+     * @param action
+     * @param handler
+     */
+    public void executeAction(TaskBean task, TaskActionEnum action, IRpcServiceInvocationHandler<TaskBean> handler) {
+        RemoteCallback<TaskBean> successCallback = new DelegatingRemoteCallback<TaskBean>(handler);
+        ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
+        try {
+            remoteTaskInboxService.call(successCallback, errorCallback).executeAction(task, action);
         } catch (DtgovUiException e) {
             errorCallback.error(null, e);
         }

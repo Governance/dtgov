@@ -15,40 +15,30 @@
  */
 package org.overlord.dtgov.ui.client.local.util;
 
-import java.util.Date;
-
 import org.jboss.errai.databinding.client.api.Converter;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
-
 /**
- * Converts between a String and a Date.
+ * Converts between a String and an integer.
  *
  * @author eric.wittmann@redhat.com
  */
-public class DataBindingDateConverter implements Converter<Date, String> {
-
-    private static DateTimeFormat dateFormat;
-    static {
-        String dFormat = "yyyy-MM-dd";
-        dateFormat = DateTimeFormat.getFormat(dFormat);
-    }
+public class DataBindingIntegerConverter implements Converter<Integer, String> {
 
     /**
      * Constructor.
      */
-    public DataBindingDateConverter() {
+    public DataBindingIntegerConverter() {
     }
 
     /**
      * @see org.jboss.errai.databinding.client.api.Converter#toModelValue(java.lang.Object)
      */
     @Override
-    public Date toModelValue(String widgetValue) {
+    public Integer toModelValue(String widgetValue) {
         try {
-            return dateFormat.parse(widgetValue);
-        } catch (IllegalArgumentException e) {
-            return null;
+            return new Integer(widgetValue);
+        } catch (NumberFormatException e) {
+            return new Integer(-1);
         }
     }
 
@@ -56,11 +46,11 @@ public class DataBindingDateConverter implements Converter<Date, String> {
      * @see org.jboss.errai.databinding.client.api.Converter#toWidgetValue(java.lang.Object)
      */
     @Override
-    public String toWidgetValue(Date modelValue) {
-        if (modelValue == null)
+    public String toWidgetValue(Integer modelValue) {
+        if (modelValue == -1)
             return "";
         else
-            return dateFormat.format(modelValue);
+            return String.valueOf(modelValue);
     }
 
 }

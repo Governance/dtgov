@@ -18,6 +18,8 @@ package org.overlord.dtgov.ui.server.services;
 import javax.inject.Inject;
 
 import org.jboss.errai.bus.server.annotations.Service;
+import org.overlord.dtgov.ui.client.shared.beans.TaskActionEnum;
+import org.overlord.dtgov.ui.client.shared.beans.TaskBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxResultSetBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
@@ -55,7 +57,50 @@ public class TaskInboxService implements ITaskInboxService {
         int startIndex = (page-1) * PAGE_SIZE;
         int endIndex = (startIndex + PAGE_SIZE) - 1;
 
-        return client.getTasks(startIndex, endIndex);
+        try {
+            return client.getTasks(filters, startIndex, endIndex);
+        } catch (Exception e) {
+            throw new DtgovUiException(e);
+        }
+    }
+
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#get(java.lang.String)
+     */
+    @Override
+    public TaskBean get(String taskId) throws DtgovUiException {
+        ITaskClient client = taskClientAccessor.getClient();
+        try {
+            return client.getTask(taskId);
+        } catch (Exception e) {
+            throw new DtgovUiException(e);
+        }
+    }
+
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#update(org.overlord.dtgov.ui.client.shared.beans.TaskBean)
+     */
+    @Override
+    public void update(TaskBean task) throws DtgovUiException {
+        ITaskClient client = taskClientAccessor.getClient();
+        try {
+            client.updateTask(task);
+        } catch (Exception e) {
+            throw new DtgovUiException(e);
+        }
+    }
+
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#executeAction(org.overlord.dtgov.ui.client.shared.beans.TaskBean, org.overlord.dtgov.ui.client.shared.beans.TaskActionEnum)
+     */
+    @Override
+    public TaskBean executeAction(TaskBean task, TaskActionEnum action) throws DtgovUiException {
+        ITaskClient client = taskClientAccessor.getClient();
+        try {
+            return client.executeAction(task, action);
+        } catch (Exception e) {
+            throw new DtgovUiException(e);
+        }
     }
 
 }
