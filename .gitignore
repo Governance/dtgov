@@ -7,3 +7,10 @@
 /.settings
 /.project
 /target
+.settings
+.project
+.classpath
+target
+.metadata
+.errai
+rebel.xml
