@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 
+  <display-name>rewards-basic</display-name>
+
   <servlet>
     <servlet-name>GovernanceServlet</servlet-name>
     <display-name>Governance Servlet</display-name>
@@ -15,10 +17,27 @@
       <param-value>org.overlord.sramp.governance.services.GovernanceApplication</param-value>
     </init-param>
   </servlet>
+  <servlet>
+    <servlet-name>ProcessServlet</servlet-name>
+    <servlet-class>org.overlord.dtgov.jbpm.web.ProcessServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>TaskServlet</servlet-name>
+    <servlet-class>org.overlord.dtgov.jbpm.web.TaskServlet</servlet-class>
+  </servlet>
+  
   
   <servlet-mapping>
     <servlet-name>Resteasy</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/brms</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProcessServlet</servlet-name>
+    <url-pattern>/process</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TaskServlet</servlet-name>
+    <url-pattern>/task</url-pattern>
   </servlet-mapping>
 
   <security-constraint>
@@ -39,5 +58,10 @@
   <security-role>
     <role-name>overlorduser</role-name>
   </security-role>
+  
+  <!-- Welcome files -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
   
 </web-app>

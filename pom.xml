@@ -46,15 +46,6 @@
       </roles>
     </developer>
     <developer>
-      <name>Randall Hauch</name>
-      <id>randall</id>
-      <email>rhauch@redhat.com</email>
-      <organization>JBoss, a division of Red Hat</organization>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
       <name>Eric Wittmann</name>
       <id>ewittman</id>
       <email>eric.wittmann@redhat.com</email>
@@ -355,6 +346,7 @@
   <!-- modules in alphabetical order -->
   <modules>
     <module>dtgov-war</module>
+    <module>dtgov-jbpm</module>
     <module>dtgov-workflows</module>
     <module>dtgov-workitems</module>
   </modules>
