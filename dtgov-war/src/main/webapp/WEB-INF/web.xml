@@ -28,8 +28,9 @@
   
   
   <servlet-mapping>
+    <!-- either we add multiple mappings, or we do something like /rest/brms/* -->
     <servlet-name>Resteasy</servlet-name>
-    <url-pattern>/brms</url-pattern>
+    <url-pattern>/brms/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ProcessServlet</servlet-name>
