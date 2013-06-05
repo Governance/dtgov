@@ -125,20 +125,19 @@ public class TaskInboxPage extends AbstractPage {
     }
 
     /**
-     * Kick off an artifact search at this point so that we show some data in the UI.
-     *
-     * @see org.overlord.sramp.ui.client.local.pages.AbstractPage#onPageShowing()
+     * Kick off a search at this point so that we show some data in the UI.
+     * @see org.overlord.dtgov.ui.client.local.pages.AbstractPage#onPageShowing()
      */
     @Override
     protected void onPageShowing() {
-        // Kick off an artifact search
+        // Kick off a search
         doTaskSearch();
-        // Refresh the artifact filters
+        // Refresh the filters
         filtersPanel.refresh();
     }
 
     /**
-     * Search for artifacts based on the current filter settings and search text.
+     * Search for tasks based on the current filter settings and search text.
      */
     protected void doTaskSearch() {
         doTaskSearch(1);
@@ -179,7 +178,7 @@ public class TaskInboxPage extends AbstractPage {
     }
 
     /**
-     * Updates the table of artifacts with the given data.
+     * Updates the table of tasks with the given data.
      * @param data
      */
     protected void updateTasksTable(TaskInboxResultSetBean data) {
