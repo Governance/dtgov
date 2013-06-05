@@ -51,8 +51,9 @@ public class DeploymentSummaryBean {
     /**
      * @param uuid the uuid to set
      */
-    public void setUuid(String uuid) {
+    public DeploymentSummaryBean setUuid(String uuid) {
         this.uuid = uuid;
+        return this;
     }
 
     /**
@@ -65,8 +66,9 @@ public class DeploymentSummaryBean {
     /**
      * @param name the name to set
      */
-    public void setName(String name) {
+    public DeploymentSummaryBean setName(String name) {
         this.name = name;
+        return this;
     }
 
     /**
@@ -79,8 +81,9 @@ public class DeploymentSummaryBean {
     /**
      * @param type the type to set
      */
-    public void setType(String type) {
+    public DeploymentSummaryBean setType(String type) {
         this.type = type;
+        return this;
     }
 
     /**
@@ -93,8 +96,9 @@ public class DeploymentSummaryBean {
     /**
      * @param stage the stage to set
      */
-    public void setStage(String stage) {
+    public DeploymentSummaryBean setStage(String stage) {
         this.stage = stage;
+        return this;
     }
 
     /**
@@ -107,8 +111,9 @@ public class DeploymentSummaryBean {
     /**
      * @param initiatedDate the initiatedDate to set
      */
-    public void setInitiatedDate(Date initiatedDate) {
+    public DeploymentSummaryBean setInitiatedDate(Date initiatedDate) {
         this.initiatedDate = initiatedDate;
+        return this;
     }
 
     /**

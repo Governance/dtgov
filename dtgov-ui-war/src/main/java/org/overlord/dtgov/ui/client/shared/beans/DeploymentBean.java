@@ -31,9 +31,12 @@ public class DeploymentBean extends DeploymentSummaryBean implements Serializabl
 
     private static final long serialVersionUID = DeploymentBean.class.hashCode();
 
+    private String version;
+    private String initiatedBy;
     private String mavenGroup;
     private String mavenId;
     private String mavenVersion;
+    private String description;
 
     /**
      * Constructor.
@@ -88,6 +91,48 @@ public class DeploymentBean extends DeploymentSummaryBean implements Serializabl
      */
     public void setMavenVersion(String mavenVersion) {
         this.mavenVersion = mavenVersion;
+    }
+
+    /**
+     * @return the version
+     */
+    public String getVersion() {
+        return version;
+    }
+
+    /**
+     * @param version the version to set
+     */
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    /**
+     * @return the initiatedBy
+     */
+    public String getInitiatedBy() {
+        return initiatedBy;
+    }
+
+    /**
+     * @param initiatedBy the initiatedBy to set
+     */
+    public void setInitiatedBy(String initiatedBy) {
+        this.initiatedBy = initiatedBy;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

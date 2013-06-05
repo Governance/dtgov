@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.inject.Inject;
-
 import org.jboss.errai.bus.server.annotations.Service;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentResultSetBean;
@@ -28,7 +26,6 @@ import org.overlord.dtgov.ui.client.shared.beans.DeploymentSummaryBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentsFilterBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IDeploymentsService;
-import org.overlord.dtgov.ui.server.api.SrampApiClientAccessor;
 
 /**
  * Concrete implementation of the task inbox service.
@@ -38,10 +35,10 @@ import org.overlord.dtgov.ui.server.api.SrampApiClientAccessor;
 @Service
 public class DeploymentsService implements IDeploymentsService {
 
-    private static final int PAGE_SIZE = 20;
+//    private static final int PAGE_SIZE = 20;
 
-    @Inject
-    private SrampApiClientAccessor srampClientAccessor;
+//    @Inject
+//    private SrampApiClientAccessor srampClientAccessor;
 
     /**
      * Constructor.
@@ -55,6 +52,7 @@ public class DeploymentsService implements IDeploymentsService {
     @Override
     public DeploymentResultSetBean search(DeploymentsFilterBean filters, String searchText, int page)
             throws DtgovUiException {
+        // TODO implement search()
         DeploymentResultSetBean result = new DeploymentResultSetBean();
         result.setItemsPerPage(20);
         result.setStartIndex(0);
@@ -78,7 +76,20 @@ public class DeploymentsService implements IDeploymentsService {
      */
     @Override
     public DeploymentBean get(String uuid) throws DtgovUiException {
-        throw new DtgovUiException("Get Deployment not yet implemented.");
+        // TODO implement get()
+        DeploymentBean bean = new DeploymentBean();
+        bean.setInitiatedDate(new Date());
+        bean.setName("switchyard-application-" + 5 + ".jar");
+        bean.setStage("DEV");
+        bean.setType("SwitchYardApplication");
+        bean.setUuid(UUID.randomUUID().toString());
+        bean.setVersion("2.1.3");
+        bean.setInitiatedBy("ewittman");
+        bean.setMavenGroup("org.overlord.mock");
+        bean.setMavenId("switchyard-application-" + 5);
+        bean.setMavenVersion("2.1.3");
+        bean.setDescription("Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. ");
+        return bean;
     }
 
     /**
@@ -86,7 +97,7 @@ public class DeploymentsService implements IDeploymentsService {
      */
     @Override
     public void update(DeploymentBean deployment) throws DtgovUiException {
-        throw new DtgovUiException("Update Deployment not yet implemented.");
+        // TODO implement update()
     }
 
 }

@@ -47,7 +47,7 @@
               <span class="deployment-details-type" data-field="deployment-type">(SwitchYardApplication)</span>
             </span>
             <div class="sp4n-label pull-right">
-              <span class="deployment-details-version">(1.0.3)</span>
+              <span data-field="deployment-version" class="deployment-details-version">(1.0.3)</span>
             </div>
             <div class="btn-group" style="visibility:hidden">
               <button class="btn" disabled="true">Spacer</button>
@@ -63,8 +63,11 @@
               <div class="span6 details-meta-data-section">
                 <div class="details-meta-data-section-header">Deployment Properties</div>
                 <div class="clearfix"></div>
-                <div class="details-meta-data-section-label">ID:</div>
+                <div class="details-meta-data-section-label">UUID:</div>
                 <div data-field="deploymentUuid" class="details-meta-data-section-value">22143-2134982-23782-3782</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">Version:</div>
+                <div data-field="version" class="details-meta-data-section-value">1.0.7</div>
                 <div class="clearfix"></div>
                 <div class="details-meta-data-section-label">Type:</div>
                 <div data-field="deploymentType" class="details-meta-data-section-value">SwitchYardApplication</div>
@@ -79,10 +82,10 @@
                   <div data-field="mavenGroupId" class="details-meta-data-section-value">org.switchyard.demos.multiApp</div>
                   <div class="clearfix"></div>
                   <div class="details-meta-data-section-label">Maven Id:</div>
-                  <div data-field="mavenArtifactid" class="details-meta-data-section-value">switchyard-demos-multiApp-artifacts</div>
+                  <div data-field="mavenArtifactId" class="details-meta-data-section-value">switchyard-demos-multiApp-artifacts</div>
                   <div class="clearfix"></div>
                   <div class="details-meta-data-section-label">Maven Version:</div>
-                  <div data-field="mavenArtifactid" class="details-meta-data-section-value">1.0.7</div>
+                  <div data-field="mavenVersion" class="details-meta-data-section-value">1.0.7</div>
                 </div>
                 <div class="clearfix"></div>
               </div>
@@ -90,7 +93,7 @@
               <div class="span6 details-meta-data-section">
                 <div class="details-meta-data-section-header">Description</div>
                 <div class="clearfix"></div>
-                <span data-field="core-property-description" class="core-property-description">
+                <span data-field="deployment-description" class="core-property-description">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent 
                   libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum 
                   imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper 
@@ -103,6 +106,7 @@
             </div>
             <hr />
             <!-- Deployment History -->
+            <!-- 
             <div class="row-fluid deployment-history">
               <div class="span12">
                 <span class="deployment-history-title">Deployment History</span>
@@ -130,6 +134,7 @@
                 </div>
               </div>
             </div>
+             -->
           </div>
         </div>  <!-- /deployment-details -->
         
