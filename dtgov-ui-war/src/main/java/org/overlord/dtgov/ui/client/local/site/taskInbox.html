@@ -1,122 +1,188 @@
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<META http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-<meta charset="utf-8"> 
-<title>DTGov - Task Inbox</title> 
-<meta content="width=device-width, initial-scale=1.0" name="viewport"> 
-<link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" media="screen" rel="stylesheet"> 
-<link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" media="screen" rel="stylesheet"> 
-<link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-datepicker.css" media="screen" rel="stylesheet"> 
-<link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-fileupload.min.css" media="screen" rel="stylesheet"> 
-<link href="../../../../../../../../webapp/css/dtgov-ui.css" rel="stylesheet"> 
-<link href="../../../../../../../../webapp/css/dtgov-ui-responsive.css" rel="stylesheet">   
-<script src="../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js" type="text/javascript"></script> <script src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.min.js" type="text/javascript"></script> <script src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-datepicker.js" type="text/javascript"></script> <script src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-fileupload.min.js" type="text/javascript"></script> <script src="../../../../../../../../webapp/js/dtgov-ui-responsive.js" type="text/javascript"></script> 
-</head> 
-<body> 
-<div data-field="page" id="page">  
-<div class="container-fluid" id="page-content">  
-<div class="row-fluid"> 
-<ul class="breadcrumb"> 
-<li>
-<a data-field="back-to-dashboard" href="dashboard.html">DTGov Dashboard</a> <span class="divider">/</span>
-</li> 
-<li class="active">Task Inbox</li> 
-</ul> 
-</div>  
-<div class="row-fluid">  
-<div class="span3 filter-sidebar" data-field="tasks-filter-sidebar" id="tasks-filter-sidebar"> 
-<div class="row-fluid filter-header"> 
-<a class="span12" data-target="#task-filters" data-toggle="slide">Task Filters <span class="mobile-only caret pull-right"></span></a> 
-</div>  
-<div class="row-fluid close-on-mobile closed-on-mobile open-on-desktop" id="task-filters"> 
-<div class="span12"> 
-<div class="filter-inner"> 
-<form class="" onsubmit="return false;"> 
-<div class="controls controls-row"> 
-<label class="filter-label">Owner</label> <label class="radio offset1"> <input data-field="ownerAny" id="owner-any" name="owner" type="radio" value=""> Any </label> <label class="radio offset1"> <input checked data-field="ownerMine" id="owner-mine" name="owner" type="radio" value="mine"> My Tasks </label> <label class="radio offset1"> <input data-field="ownerActive" id="owner-active" name="owner" type="radio" value="primary"> Active Tasks </label> <label class="radio offset1"> <input data-field="ownerGroup" id="owner-group" name="owner" type="radio" value="derived"> Group Tasks </label> 
-</div> 
-<div class="controls"> 
-<label class="filter-label">Priority</label> <input class="span12" data-field="priority" placeholder="Any" type="text"> 
-</div> 
-<div class="controls controls-row"> 
-<label class="filter-label">Date Due</label> <input class="span5 filter-date" data-field="dateDueFrom" placeholder="Any" readonly type="text"> <span class="span2 desktop-only" style="padding-top: 4px; text-align: center">to</span> <input class="span5 filter-date" data-field="dateDueTo" placeholder="Any" readonly type="text"> 
-</div> 
-<div class="controls"> 
-<a class="btn btn-focus btn-clear" data-field="clearFilters">Clear All Filters</a> 
-</div> 
-</form> 
-</div> 
-</div> 
-</div> 
-</div>  
-<div class="span9"> 
-<div class="row-fluid tasks"> 
-<div class="span12 tasks-actions"> 
-<a class="btn spacer" style="visibility:hidden"><i class="icon-refresh"></i></a> <a class="btn pull-right" data-field="btn-refresh"><i class="icon-refresh"></i></a> 
-<div class="pull-right sp4n-label"> Displaying <span data-field="tasks-range">1-11</span> of <span data-field="tasks-total">37</span> 
-</div> 
-</div> 
-<div class="tasks-none" data-field="tasks-none" style="display:none"> 
-<span>No tasks found.</span> 
-</div> 
-<div class="tasks-searching" data-field="tasks-searching" style="display:none"> 
-<span class="spinner">Loading tasks, please wait...</span> 
-</div> 
-<table class="tasks-table table table-striped table-condensed table-hover" data-field="tasks-table" data-i18n-skip="true"> 
-<thead> 
-<tr> 
-<th>Name</th> <th>Priority</th> <th class="desktop-only">Owner</th> <th class="desktop-only">Status</th> <th>Due On</th> 
-</tr> 
-</thead> 
-<tbody> 
-<tr> 
-<td><a href="taskDetails.html">Task 1</a></td> <td>1</td> <td class="desktop-only">ewittman</td> <td class="desktop-only">Reserved</td> <td>03/10/2012</td> 
-</tr> 
-<tr> 
-<td><a href="taskDetails.html">Task 2</a></td> <td>3</td> <td class="desktop-only">ewittman</td> <td class="desktop-only">Claimed</td> <td>03/22/2012</td> 
-</tr> 
-<tr> 
-<td><a href="taskDetails.html">Task 3</a></td> <td>1</td> <td class="desktop-only">ewittman</td> <td class="desktop-only">Reserved</td> <td>02/14/2012</td> 
-</tr> 
-<tr> 
-<td><a href="taskDetails.html">Task 4</a></td> <td>2</td> <td class="desktop-only"></td> <td class="desktop-only"></td> <td>01/17/2013</td> 
-</tr> 
-<tr> 
-<td><a href="taskDetails.html">Task 5</a></td> <td>1</td> <td class="desktop-only">kstam</td> <td class="desktop-only">Reserved</td> <td>12/22/2011</td> 
-</tr> 
-</tbody> 
-</table> 
-<div class="pagination tasks-pager" data-field="tasks-pager"> 
-<ul> 
-<li class="disabled">
-<a>&laquo;</a>
-</li> 
-<li class="active">
-<a>1</a>
-</li> 
-<li>
-<a>2</a>
-</li> 
-<li>
-<a>3</a>
-</li> 
-<li>
-<a>4</a>
-</li> 
-<li>
-<a>&raquo;</a>
-</li> 
-</ul> 
-</div> 
-</div> 
-</div> 
-</div>  
-<footer> 
-<hr> 
-<p>&copy; JBoss Overlord 2013</p> 
-</footer> 
-</div>  
-</div>   
-<script></script>   
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title>DTGov - Task Inbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-datepicker.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-fileupload.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui-responsive.css" rel="stylesheet"></link>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-fileupload.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/js/dtgov-ui-responsive.js"></script>
+  </head>
+
+  <body>
+    <div id="page" data-field="page">
+
+      <!-- Content area with footer-->
+      <div id="page-content" class="container-fluid">
+      
+        <!-- Breadcrumbs -->
+        <div class="row-fluid">
+          <ul class="breadcrumb">
+            <li><a data-field="back-to-dashboard" href="dashboard.html">DTGov Dashboard</a> <span class="divider">/</span></li>
+            <li class="active">Task Inbox</li>
+          </ul>
+        </div>
+      
+        <!-- Page content -->
+        <div class="row-fluid">
+          <!-- The Task Filter Sidebar -->
+          <div id="tasks-filter-sidebar" data-field="tasks-filter-sidebar" class="span3 filter-sidebar">
+            <div class="row-fluid filter-header">
+              <a class="span12" data-toggle="slide" data-target="#task-filters">Task Filters <span class="mobile-only caret pull-right"></span></a>
+            </div>
+            <!-- The actual Task Filters -->
+            <div id="task-filters" class="row-fluid close-on-mobile closed-on-mobile open-on-desktop">
+              <div class="span12">
+                <div class="filter-inner">
+                  <form class="" onSubmit="return false;">
+                    <div class="controls controls-row">
+                      <label class="filter-label">Owner</label>
+                      <label class="radio offset1">
+                        <input data-field="ownerAny" type="radio" name="owner" id="owner-any" value="">
+                        Any
+                      </label>
+                      <label class="radio offset1">
+                        <input data-field="ownerMine" type="radio" name="owner" id="owner-mine" value="mine" checked="checked">
+                        My Tasks
+                      </label>
+                      <label class="radio offset1">
+                        <input data-field="ownerActive" type="radio" name="owner" id="owner-active" value="primary">
+                        Active Tasks
+                      </label>
+                      <label class="radio offset1">
+                        <input data-field="ownerGroup" type="radio" name="owner" id="owner-group" value="derived">
+                        Group Tasks
+                      </label>
+                    </div>
+                    <div class="controls">
+                      <label class="filter-label">Priority</label>
+                      <input data-field="priority" class="span12" type="text" placeholder="Any">
+                    </div>
+                    <div class="controls controls-row">
+                      <label class="filter-label">Date Due</label>
+                      <input data-field="dateDueFrom" class="span5 filter-date" type="text" placeholder="Any" readonly="readonly"></input>
+                      <span class="span2 desktop-only" style="padding-top: 4px; text-align: center">to</span>
+                      <input data-field="dateDueTo" class="span5 filter-date" type="text" placeholder="Any" readonly="readonly"></input>
+                    </div>
+                    <div class="controls">
+                      <a data-field="clearFilters" class="btn btn-focus btn-clear">Clear All Filters</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- The Task table -->
+          <div class="span9">
+            <div class="row-fluid tasks">
+              <div class="span12 tasks-actions">
+                <a class="btn spacer" style="visibility:hidden"><i class="icon-refresh"></i></a>
+                <a data-field="btn-refresh" class="btn pull-right"><i class="icon-refresh"></i></a>
+                <div class="pull-right sp4n-label">
+                  Displaying <span data-field="tasks-range">1-11</span> of <span data-field="tasks-total">37</span>
+                </div>
+              </div>
+              <div data-field="tasks-none" style="display:none" class="tasks-none">
+                <span>No tasks found.</span>
+              </div>
+              <div data-field="tasks-searching" style="display:none" class="tasks-searching">
+                <span class="spinner">Loading tasks, please wait...</span>
+              </div>
+              <table data-i18n-skip="true" data-field="tasks-table" class="tasks-table table table-striped table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Priority</th>
+                  <th class="desktop-only">Owner</th>
+                  <th class="desktop-only">Status</th>
+                  <th>Due On</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="taskDetails.html">Task 1</a></td>
+                  <td>1</td>
+                  <td class="desktop-only">ewittman</td>
+                  <td class="desktop-only">Reserved</td>
+                  <td>03/10/2012</td>
+                </tr>
+                <tr>
+                  <td><a href="taskDetails.html">Task 2</a></td>
+                  <td>3</td>
+                  <td class="desktop-only">ewittman</td>
+                  <td class="desktop-only">Claimed</td>
+                  <td>03/22/2012</td>
+                </tr>
+                <tr>
+                  <td><a href="taskDetails.html">Task 3</a></td>
+                  <td>1</td>
+                  <td class="desktop-only">ewittman</td>
+                  <td class="desktop-only">Reserved</td>
+                  <td>02/14/2012</td>
+                </tr>
+                <tr>
+                  <td><a href="taskDetails.html">Task 4</a></td>
+                  <td>2</td>
+                  <td class="desktop-only"></td>
+                  <td class="desktop-only"></td>
+                  <td>01/17/2013</td>
+                </tr>
+                <tr>
+                  <td><a href="taskDetails.html">Task 5</a></td>
+                  <td>1</td>
+                  <td class="desktop-only">kstam</td>
+                  <td class="desktop-only">Reserved</td>
+                  <td>12/22/2011</td>
+                </tr>
+              </tbody>
+              </table>
+              <div data-field="tasks-pager" class="pagination tasks-pager">
+                <ul>
+                  <li class="disabled"><a>&#x00AB;</a></li>
+                  <li class="active"><a>1</a></li>
+                  <li><a>2</a></li>
+                  <li><a>3</a></li>
+                  <li><a>4</a></li>
+                  <li><a>&#x00BB;</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+          <hr />
+          <p>&copy; JBoss Overlord 2013</p>
+        </footer>
+      </div> <!-- /container -->
+      
+    </div> <!-- /page -->
+
+
+    <!-- Some scripting to add functionality to the live template -->
+    <script>
+      $(document).ready(function() {
+    	  $('.filter-date').datepicker({
+    		  autoclose: true,
+    		  todayBtn: true,
+    		  todayHighlight: true
+    	  });
+      });
+    </script>
+
+  </body>
 </html>
