@@ -381,6 +381,8 @@
     <module>dtgov-jbpm</module>
     <module>dtgov-workflows</module>
     <module>dtgov-workitems</module>
+    <module>dtgov-task-client</module>
+    <module>dtgov-task-api</module>
   </modules>
 </project>
 
