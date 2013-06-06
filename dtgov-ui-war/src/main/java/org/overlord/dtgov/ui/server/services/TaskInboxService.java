@@ -24,8 +24,8 @@ import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxResultSetBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.ITaskInboxService;
-import org.overlord.dtgov.ui.server.api.ITaskClient;
-import org.overlord.dtgov.ui.server.api.TaskClientAccessor;
+import org.overlord.dtgov.ui.server.services.tasks.ITaskClient;
+import org.overlord.dtgov.ui.server.services.tasks.TaskClientAccessor;
 
 /**
  * Concrete implementation of the task inbox service.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.dtgov.ui.server.api;
+package org.overlord.dtgov.ui.server;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -22,6 +22,7 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
+import org.overlord.dtgov.ui.server.services.tasks.TaskClientAccessor;
 
 /**
  * Global access to configuration information.
@@ -31,6 +32,22 @@ import org.apache.commons.configuration.SystemConfiguration;
 @ApplicationScoped
 public class DtgovUIConfig {
 
+    // S-RAMP related properties
+    public static final String SRAMP_ATOM_API_ENDPOINT = "dtgov-ui.s-ramp.atom-api.endpoint";
+    public static final String SRAMP_ATOM_API_AUTH_PROVIDER = "dtgov-ui.s-ramp.atom-api.authentication.provider";
+    public static final String SRAMP_ATOM_API_BASIC_AUTH_USER = "dtgov-ui.s-ramp.atom-api.authentication.basic.username";
+    public static final String SRAMP_ATOM_API_BASIC_AUTH_PASS = "dtgov-ui.s-ramp.atom-api.authentication.basic.password";
+    public static final String SRAMP_ATOM_API_SAML_ISSUER = "dtgov-ui.s-ramp.atom-api.authentication.saml.issuer";
+    public static final String SRAMP_ATOM_API_SAML_SERVICE = "dtgov-ui.s-ramp.atom-api.authentication.saml.service";
+    // Task API related properties
+    public static final String TASK_API_ENDPOINT = "dtgov-ui.task-api.endpoint";
+    public static final String TASK_CLIENT_CLASS = "dtgov-ui.task-client.class";
+    public static final String TASK_API_AUTH_PROVIDER = "dtgov-ui.task-api.authentication.provider";
+    public static final String TASK_API_BASIC_AUTH_USER = "dtgov-ui.task-api.authentication.basic.username";
+    public static final String TASK_API_BASIC_AUTH_PASS = "dtgov-ui.task-api.authentication.basic.password";
+    public static final String TASK_API_SAML_ISSUER = "dtgov-ui.task-api.authentication.saml.issuer";
+    public static final String TASK_API_SAML_SERVICE = "dtgov-ui.task-api.authentication.saml.service";
+
     private static CompositeConfiguration config;
     static {
         config = new CompositeConfiguration();
@@ -38,7 +55,6 @@ public class DtgovUIConfig {
         try {
             config.addConfiguration(new PropertiesConfiguration(TaskClientAccessor.class.getResource("/META-INF/config/org.overlord.dtgov.ui.server.api.properties")));
         } catch (ConfigurationException e) {}
-        System.out.println("DTGov user interface configuration loaded.  S-RAMP Atom API endpoint: " + DtgovUIConfig.config.getString("dtgov-ui.atom-api.endpoint"));
     }
 
     /**

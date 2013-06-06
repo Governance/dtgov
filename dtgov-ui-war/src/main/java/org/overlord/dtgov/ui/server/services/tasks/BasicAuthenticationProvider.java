@@ -13,31 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.dtgov.ui.server.api;
+package org.overlord.dtgov.ui.server.services.tasks;
 
-import org.apache.http.HttpRequest;
-import org.overlord.sramp.client.auth.AuthenticationProvider;
+import org.apache.commons.configuration.Configuration;
+import org.overlord.dtgov.ui.server.DtgovUIConfig;
 
 
 /**
- * An authentication provider that doesn't do anything.  Useful during development of
- * the UI.  Not intended to be used in any other scenario.
+ * An authentication provider that uses simple BASIC authentication.
  *
  * @author eric.wittmann@redhat.com
  */
-public class NoAuthenticationProvider implements AuthenticationProvider {
+public class BasicAuthenticationProvider extends org.overlord.dtgov.taskclient.auth.BasicAuthenticationProvider {
 
     /**
      * Constructor.
      */
-    public NoAuthenticationProvider() {
-    }
-
-    /**
-     * @see org.overlord.sramp.client.auth.AuthenticationProvider#provideAuthentication(org.apache.http.HttpRequest)
-     */
-    @Override
-    public void provideAuthentication(HttpRequest request) {
+    public BasicAuthenticationProvider(Configuration config) {
+        super((String) config.getProperty(DtgovUIConfig.TASK_API_BASIC_AUTH_USER),
+                (String) config.getProperty(DtgovUIConfig.TASK_API_BASIC_AUTH_PASS));
     }
 
 }

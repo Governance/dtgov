@@ -9,6 +9,12 @@
   <artifactId>dtgov-ui-war</artifactId>
   <packaging>war</packaging>
   <dependencies>
+    <!-- DTGov Task API Client -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-task-client</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <!-- S-RAMP client -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>

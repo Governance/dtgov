@@ -33,7 +33,6 @@ public class TaskBean extends TaskSummaryBean implements Serializable {
 
     private static final long serialVersionUID = TaskBean.class.hashCode();
 
-    private String group;
     private String description;
     private Set<TaskActionEnum> allowedActions = new HashSet<TaskActionEnum>();
 
@@ -85,20 +84,6 @@ public class TaskBean extends TaskSummaryBean implements Serializable {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * @return the group
-     */
-    public String getGroup() {
-        return group;
-    }
-
-    /**
-     * @param group the group to set
-     */
-    public void setGroup(String group) {
-        this.group = group;
     }
 
 }

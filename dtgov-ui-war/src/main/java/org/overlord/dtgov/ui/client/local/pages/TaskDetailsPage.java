@@ -86,8 +86,6 @@ public class TaskDetailsPage extends AbstractPage {
     InlineLabel status;
     @Inject @DataField("task-owner") @Bound(property="owner")
     InlineLabel owner;
-    @Inject @DataField("task-group") @Bound(property="group")
-    InlineLabel group;
     @Inject @DataField("task-priority") @Bound(property="priority", converter=DataBindingIntegerConverter.class)
     EditableInlineLabel priority;
     @Inject @DataField("task-dueDate") @Bound(property="dueDate", converter=DataBindingDateConverter.class)

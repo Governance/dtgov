@@ -165,7 +165,7 @@ public class TaskApi {
                     taskSummary.setOwner(actualOwner.getId());
                 }
                 taskSummary.setPriority(task.getPriority());
-                taskSummary.setStatus(task.getStatus().toString());
+                taskSummary.setStatus(StatusType.fromValue(task.getStatus().toString()));
                 response.getTaskSummary().add(taskSummary);
             }
             idx++;
@@ -212,7 +212,7 @@ public class TaskApi {
                 DatatypeFactory dtFactory = DatatypeFactory.newInstance();
                 rval.setDueDate(dtFactory.newXMLGregorianCalendar(cal));
             }
-            rval.setStatus(taskData.getStatus().toString());
+            rval.setStatus(StatusType.fromValue(taskData.getStatus().toString()));
         }
 
         return rval;

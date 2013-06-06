@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.dtgov.ui.server.api;
+package org.overlord.dtgov.ui.server.services.sramp;
 
 import java.lang.reflect.Constructor;
 
@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.commons.configuration.Configuration;
+import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.auth.AuthenticationProvider;
 

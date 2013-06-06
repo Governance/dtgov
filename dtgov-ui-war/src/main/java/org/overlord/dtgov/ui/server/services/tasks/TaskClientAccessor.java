@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.dtgov.ui.server.api;
+package org.overlord.dtgov.ui.server.services.tasks;
 
 import java.lang.reflect.Constructor;
 
@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.commons.configuration.Configuration;
+import org.overlord.dtgov.ui.server.DtgovUIConfig;
 
 /**
  * The class used whenever a request to a task server needs to be made.
@@ -32,12 +33,13 @@ public class TaskClientAccessor {
 
     private transient ITaskClient client;
 
-	/**
-	 * C'tor.
-	 */
+    /**
+     * Constructor.
+     * @param config
+     */
     @Inject
 	public TaskClientAccessor(DtgovUIConfig config) {
-		String clientClassname = (String) config.getConfiguration().getProperty("dtgov-ui.task-client.class");
+		String clientClassname = (String) config.getConfiguration().getProperty(DtgovUIConfig.TASK_CLIENT_CLASS);
 		if (clientClassname != null) {
 		    try {
                 Class<?> clientClass = Class.forName(clientClassname);

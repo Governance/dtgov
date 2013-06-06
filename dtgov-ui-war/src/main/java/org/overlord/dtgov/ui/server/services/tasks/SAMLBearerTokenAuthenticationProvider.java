@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.dtgov.ui.server.api;
+package org.overlord.dtgov.ui.server.services.tasks;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.http.HttpRequest;
 import org.overlord.commons.auth.jboss7.SAMLBearerTokenLoginModule;
 import org.overlord.commons.auth.jboss7.SAMLBearerTokenUtil;
-import org.overlord.sramp.client.auth.AuthenticationProvider;
-import org.overlord.sramp.client.auth.BasicAuthenticationProvider;
+import org.overlord.dtgov.taskclient.auth.AuthenticationProvider;
+import org.overlord.dtgov.ui.server.DtgovUIConfig;
 
 /**
- * An authentication provider that uses SAML Bearer Tokens.  The S-RAMP
- * Atom API must be configured to accept and consume a SAML Assertion.
- * For more information see {@link SAMLBearerTokenLoginModule}.
+ * An authentication provider that uses SAML Bearer Tokens. The Task API must be configured to accept and
+ * consume a SAML Assertion. For more information see {@link SAMLBearerTokenLoginModule}.
  *
  * @author eric.wittmann@redhat.com
  */
@@ -54,8 +53,8 @@ public class SAMLBearerTokenAuthenticationProvider implements AuthenticationProv
      * S-RAMP Atom API.
      */
     private String createSAMLBearerTokenAssertion() {
-        String issuer = (String) config.getProperty("dtgov-ui.atom-api.authentication.saml.issuer");
-        String service = (String) config.getProperty("dtgov-ui.atom-api.authentication.saml.service");
+        String issuer = (String) config.getProperty(DtgovUIConfig.TASK_API_SAML_ISSUER);
+        String service = (String) config.getProperty(DtgovUIConfig.TASK_API_SAML_SERVICE);
         return SAMLBearerTokenUtil.createSAMLAssertion(issuer, service);
     }
 
