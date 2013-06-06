@@ -28,7 +28,15 @@
 <td><%= task.getStatus() %></td>
 <td><%= task.getExpirationTime() %></td>
 <td><%= task.getProcessInstanceId() %></td>
-<td><a href="task?user=<%= user %>&taskId=<%= task.getId() %>&cmd=approve">Approve</a></td>
+<td>
+  <a href="task?user=<%= user %>&taskId=<%= task.getId() %>&cmd=approve">Approve</a> - 
+  <a href="rest/tasks/claim/<%= task.getId() %>">Claim</a> | 
+  <a href="rest/tasks/release/<%= task.getId() %>">Release</a> -
+  <a href="rest/tasks/start/<%= task.getId() %>">Start</a> |
+  <a href="rest/tasks/stop/<%= task.getId() %>">Stop</a> -
+  <a href="rest/tasks/complete/<%= task.getId() %>">Complete</a> |
+  <a href="rest/tasks/fail/<%= task.getId() %>">Fail</a>
+</td>
 </tr>
 <% } %>
 </table>

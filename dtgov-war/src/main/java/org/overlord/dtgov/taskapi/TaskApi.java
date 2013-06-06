@@ -27,8 +27,12 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.RollbackException;
+import javax.transaction.Status;
 import javax.transaction.UserTransaction;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -40,12 +44,14 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.jbpm.services.task.exception.PermissionDeniedException;
 import org.kie.api.task.TaskService;
 import org.kie.api.task.model.I18NText;
 import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskData;
 import org.kie.api.task.model.TaskSummary;
 import org.kie.api.task.model.User;
+import org.overlord.dtgov.jbpm.ejb.ProcessOperationException;
 import org.overlord.dtgov.taskapi.types.FindTasksRequest;
 import org.overlord.dtgov.taskapi.types.FindTasksResponse;
 import org.overlord.dtgov.taskapi.types.StatusType;
@@ -126,11 +132,9 @@ public class TaskApi {
     @POST
     @Path("find")
     @Produces(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_XML)
     public FindTasksResponse findTasks(final FindTasksRequest findTasksRequest, @Context HttpServletRequest httpRequest) throws Exception {
-        String currentUser = httpRequest.getRemoteUser();
-        if (currentUser == null) {
-            throw new Exception("User not authenticated.");
-        }
+        String currentUser = assertCurrentUser(httpRequest);
 
         FindTasksResponse response = new FindTasksResponse();
         // Get all tasks - the ones assigned as potential owner *and* the ones assigned as owner.  If
@@ -181,6 +185,8 @@ public class TaskApi {
     @Produces(MediaType.APPLICATION_XML)
     public TaskType getTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
+        assertCurrentUser(httpRequest);
+
         Task task = taskService.getTaskById(taskId);
         TaskType rval = new TaskType();
         List<I18NText> descriptions = task.getDescriptions();
@@ -210,6 +216,187 @@ public class TaskApi {
         }
 
         return rval;
+    }
+
+    /**
+     * Called to claim a task.
+     * @param httpRequest
+     * @param taskId
+     * @throws Exception
+     */
+    @GET
+    @Path("claim/{taskId}")
+    @Produces(MediaType.APPLICATION_XML)
+    public TaskType claimTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
+            throws Exception {
+        String currentUser = assertCurrentUser(httpRequest);
+        ut.begin();
+        try {
+            taskService.claim(taskId, currentUser);
+            ut.commit();
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return getTask(httpRequest, taskId);
+    }
+
+
+    /**
+     * Called to release a task.
+     * @param httpRequest
+     * @param taskId
+     * @throws Exception
+     */
+    @GET
+    @Path("release/{taskId}")
+    @Produces(MediaType.APPLICATION_XML)
+    public TaskType releaseTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
+            throws Exception {
+        String currentUser = assertCurrentUser(httpRequest);
+        ut.begin();
+        try {
+            taskService.release(taskId, currentUser);
+            ut.commit();
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return getTask(httpRequest, taskId);
+    }
+
+
+    /**
+     * Called to start a task.
+     * @param httpRequest
+     * @param taskId
+     * @throws Exception
+     */
+    @GET
+    @Path("start/{taskId}")
+    @Produces(MediaType.APPLICATION_XML)
+    public TaskType startTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
+            throws Exception {
+        String currentUser = assertCurrentUser(httpRequest);
+        ut.begin();
+        try {
+            taskService.start(taskId, currentUser);
+            ut.commit();
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return getTask(httpRequest, taskId);
+    }
+
+
+    /**
+     * Called to stop a task.
+     * @param httpRequest
+     * @param taskId
+     * @throws Exception
+     */
+    @GET
+    @Path("stop/{taskId}")
+    @Produces(MediaType.APPLICATION_XML)
+    public TaskType stopTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
+            throws Exception {
+        String currentUser = assertCurrentUser(httpRequest);
+        ut.begin();
+        try {
+            taskService.stop(taskId, currentUser);
+            ut.commit();
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return getTask(httpRequest, taskId);
+    }
+
+
+    /**
+     * Called to complete a task.
+     * @param httpRequest
+     * @param taskId
+     * @throws Exception
+     */
+    @GET
+    @Path("complete/{taskId}")
+    @Produces(MediaType.APPLICATION_XML)
+    public TaskType completeTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
+            throws Exception {
+        String currentUser = assertCurrentUser(httpRequest);
+        ut.begin();
+        try {
+            taskService.complete(taskId, currentUser, null);
+            ut.commit();
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return getTask(httpRequest, taskId);
+    }
+
+
+    /**
+     * Called to fail a task.
+     * @param httpRequest
+     * @param taskId
+     * @throws Exception
+     */
+    @GET
+    @Path("fail/{taskId}")
+    @Produces(MediaType.APPLICATION_XML)
+    public TaskType failTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
+            throws Exception {
+        String currentUser = assertCurrentUser(httpRequest);
+        ut.begin();
+        try {
+            taskService.fail(taskId, currentUser, null);
+            ut.commit();
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return getTask(httpRequest, taskId);
+    }
+
+    /**
+     * Handles an exception that comes out of one of the task operations.  This provides a common
+     * way to handle transaction rollbacks (when necessary) and also re-throws the appropriate
+     * exceptions.
+     * @param error
+     * @throws Exception
+     */
+    protected void handleException(Exception error) throws Exception {
+        if (error instanceof RollbackException) {
+            Throwable cause = error.getCause();
+            if (cause != null && cause instanceof OptimisticLockException) {
+                // Concurrent access to the same process instance
+                throw new ProcessOperationException("The same task instance has likely been accessed concurrently", error);
+            }
+            throw error;
+        }
+        if (error instanceof PermissionDeniedException) {
+            // Transaction might be already rolled back by TaskServiceSession
+            if (ut.getStatus() == Status.STATUS_ACTIVE) {
+                ut.rollback();
+            }
+            // Probably the task has already been started by other users
+            throw new ProcessOperationException("The task has likely been claimed/started by another user.", error);
+        }
+        // Transaction might be already rolled back by TaskServiceSession
+        if (ut.getStatus() == Status.STATUS_ACTIVE) {
+            ut.rollback();
+        }
+        throw error;
+    }
+
+    /**
+     * Asserts that a user is logged in and then returns the user's id.
+     * @param httpRequest
+     * @throws Exception
+     */
+    protected String assertCurrentUser(HttpServletRequest httpRequest) throws Exception {
+        String currentUser = httpRequest.getRemoteUser();
+        if (currentUser == null) {
+            throw new Exception("User not authenticated.");
+        }
+        return currentUser;
     }
 
     /**
