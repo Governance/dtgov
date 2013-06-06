@@ -17,13 +17,14 @@ package org.overlord.dtgov.taskclient;
 
 import java.io.IOException;
 
+import javax.ws.rs.core.MediaType;
+
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HttpContext;
 import org.jboss.resteasy.client.ClientExecutor;
-import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 import org.overlord.dtgov.taskapi.types.FindTasksRequest;
@@ -92,7 +93,8 @@ public class TaskApiClient {
         try {
             String url = String.format("%1$s/find", this.endpoint);
             ClientRequest request = createClientRequest(url);
-            ClientResponse<FindTasksResponse> response = request.get(FindTasksResponse.class);
+            request.body(MediaType.APPLICATION_XML_TYPE, findTasksRequest);
+            ClientResponse<FindTasksResponse> response = request.post(FindTasksResponse.class);
             return response.getEntity();
         } catch (Throwable e) {
             throw new TaskApiClientException(e);

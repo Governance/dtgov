@@ -20,13 +20,13 @@ import org.overlord.dtgov.taskapi.types.FindTasksResponse;
 import org.overlord.dtgov.taskapi.types.TaskSummaryType;
 
 /**
- *
+ * Simple main to test the client.
  * @author eric.wittmann@redhat.com
  */
 public class TaskApiClientMain {
 
     public static void main(String [] args) throws Exception {
-        TaskApiClient client = new TaskApiClient("http://localhost:8080/dtgov/tasks", "eric", "eric");
+        TaskApiClient client = new TaskApiClient("http://localhost:8080/dtgov/rest/tasks", "eric", "eric");
         FindTasksRequest ftReq = new FindTasksRequest();
         ftReq.setStartIndex(0);
         ftReq.setEndIndex(19);
@@ -35,6 +35,9 @@ public class TaskApiClientMain {
         FindTasksResponse tasksResponse = client.findTasks(ftReq);
         for (TaskSummaryType task : tasksResponse.getTaskSummary()) {
             System.out.println(task.getId() + " - Task: " + task.getName() + " (" + task.getStatus() + ")");
+            if (task.getStatus().equals("Reserved")) {
+                client.startTask(task.getId());
+            }
         }
     }
 
