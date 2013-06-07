@@ -15,9 +15,7 @@
  */
 package org.overlord.sramp.governance.services;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 /**
@@ -25,27 +23,29 @@ import javax.ws.rs.core.Application;
  * RESTEasy application - it provides the resource implementation as well as any other
  * providers (mappers, etc).
  */
+@ApplicationPath("/rest")
 public class GovernanceApplication extends Application {
-
-	private Set<Object> singletons = new HashSet<Object>();
-	private Set<Class<?>> classes = new HashSet<Class<?>>();
-
-	/**
-	 * Constructor.
-	 */
-	public GovernanceApplication() {
-		singletons.add(new DeploymentResource());
-		singletons.add(new NotificationResource());
-		singletons.add(new UpdateMetaDataResource());
-	}
-
-	@Override
-	public Set<Class<?>> getClasses() {
-		return classes;
-	}
-
-	@Override
-	public Set<Object> getSingletons() {
-		return singletons;
-	}
+//
+//	private Set<Object> singletons = new HashSet<Object>();
+//	private Set<Class<?>> classes = new HashSet<Class<?>>();
+//
+//	/**
+//	 * Constructor.
+//	 */
+//	public GovernanceApplication() {
+//		singletons.add(new DeploymentResource());
+//		singletons.add(new NotificationResource());
+//		singletons.add(new UpdateMetaDataResource());
+//		singletons.add(new TaskApi());
+//	}
+//
+//	@Override
+//	public Set<Class<?>> getClasses() {
+//		return classes;
+//	}
+//
+//	@Override
+//	public Set<Object> getSingletons() {
+//		return singletons;
+//	}
 }

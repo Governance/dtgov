@@ -82,7 +82,7 @@
       </dataInputAssociation>
       <potentialOwner>
         <resourceAssignmentExpression>
-          <formalExpression>john</formalExpression>
+          <formalExpression>eric</formalExpression>
         </resourceAssignmentExpression>
       </potentialOwner>
     </userTask>
@@ -149,7 +149,7 @@
       </dataInputAssociation>
       <potentialOwner>
         <resourceAssignmentExpression>
-          <formalExpression>mary</formalExpression>
+          <formalExpression>kurt</formalExpression>
         </resourceAssignmentExpression>
       </potentialOwner>
     </userTask>
