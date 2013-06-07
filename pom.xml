@@ -376,9 +376,10 @@
 
   <!-- modules in alphabetical order -->
   <modules>
+    <module>dtgov-task-api</module>
+    <module>dtgov-task-client</module>
     <module>dtgov-ui-war</module>
     <module>dtgov-war</module>
-    <module>dtgov-jbpm</module>
     <module>dtgov-workflows</module>
     <module>dtgov-workitems</module>
   </modules>

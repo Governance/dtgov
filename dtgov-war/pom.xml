@@ -7,7 +7,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>dt-gov-war</artifactId>
+  <artifactId>dtgov-war</artifactId>
   <name>Design Time Governance</name>
   <packaging>war</packaging>
   <description>Design Time Governance with BPMN2 workflow support.</description>
@@ -18,6 +18,11 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-task-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-api</artifactId>
@@ -148,7 +153,6 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -213,7 +217,7 @@
         <configuration>
           <attachClasses>true</attachClasses>
           <classesClassifier>classes</classesClassifier>
-          <warName>${artifactId}</warName>
+          <warName>${project.artifactId}</warName>
           <archive>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>

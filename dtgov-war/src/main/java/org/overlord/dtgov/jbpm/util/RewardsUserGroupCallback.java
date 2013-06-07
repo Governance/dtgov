@@ -26,20 +26,23 @@ import org.kie.internal.task.api.UserGroupCallback;
 @Alternative
 public class RewardsUserGroupCallback implements UserGroupCallback {
 
+    @Override
     public boolean existsUser(String userId) {
-        return userId.equals("john") || userId.equals("mary") || userId.equals("Administrator");
+        return userId.equals("eric") || userId.equals("kurt") || userId.equals("Administrator");
     }
 
+    @Override
     public boolean existsGroup(String groupId) {
         return groupId.equals("PM") || groupId.equals("HR");
     }
 
+    @Override
     public List<String> getGroupsForUser(String userId,
             List<String> groupIds, List<String> allExistingGroupIds) {
         List<String> groups = new ArrayList<String>();
-        if (userId.equals("john"))
+        if (userId.equals("eric"))
             groups.add("PM");
-        else if (userId.equals("mary"))
+        else if (userId.equals("kurt"))
             groups.add("HR");
         return groups;
     }
