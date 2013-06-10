@@ -17,6 +17,7 @@ package org.overlord.dtgov.ui.client.shared.beans;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.jboss.errai.common.client.api.annotations.Portable;
@@ -35,6 +36,8 @@ public class TaskBean extends TaskSummaryBean implements Serializable {
 
     private String description;
     private Set<TaskActionEnum> allowedActions = new HashSet<TaskActionEnum>();
+    private String taskForm;
+    private Map<String, String> taskData;
 
     /**
      * Constructor.
@@ -84,6 +87,34 @@ public class TaskBean extends TaskSummaryBean implements Serializable {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * @return the taskForm
+     */
+    public String getTaskForm() {
+        return taskForm;
+    }
+
+    /**
+     * @param taskForm the taskForm to set
+     */
+    public void setTaskForm(String taskForm) {
+        this.taskForm = taskForm;
+    }
+
+    /**
+     * @return the taskData
+     */
+    public Map<String, String> getTaskData() {
+        return taskData;
+    }
+
+    /**
+     * @param taskData the taskData to set
+     */
+    public void setTaskData(Map<String, String> taskData) {
+        this.taskData = taskData;
     }
 
 }

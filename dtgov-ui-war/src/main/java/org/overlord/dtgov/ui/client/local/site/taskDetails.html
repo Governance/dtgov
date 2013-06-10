@@ -52,8 +52,6 @@
             <div class="btn-group">
               <button data-field="action-start" class="btn">Start</button>
               <button data-field="action-stop" class="btn">Stop</button>
-              <button data-field="action-complete" class="btn">Complete</button>
-              <button data-field="action-fail" class="btn">Fail</button>
             </div>
           </div>
         </div>
@@ -101,7 +99,7 @@
             </div>
             <hr />
             <!-- Task Form -->
-            <div class="row-fluid task-form">
+            <div data-field="task-form" class="row-fluid task-form">
                  <b>Employee Evaluation</b>
                  <p>Please perform a self-evaluation</p>
                  <p>
@@ -115,7 +113,8 @@
             </div>
             <!-- Save Button -->
             <div class="row-fluid task-form">
-              <button data-field="action-save" class="btn">Save</button>
+              <button data-field="action-complete" class="btn">Complete</button>
+              <button data-field="action-fail" class="btn">Fail</button>
             </div>
           </div>
         </div>  <!-- /task-details -->

@@ -24,6 +24,6 @@ import org.jboss.errai.common.client.api.annotations.Portable;
 @Portable
 public enum TaskActionEnum {
 
-    claim, release, start, stop, complete, fail, save;
+    claim, release, start, stop, complete, fail;
 
 }

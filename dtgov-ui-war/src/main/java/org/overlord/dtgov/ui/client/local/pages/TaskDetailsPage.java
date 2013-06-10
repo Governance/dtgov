@@ -15,6 +15,8 @@
  */
 package org.overlord.dtgov.ui.client.local.pages;
 
+import java.util.HashMap;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -31,6 +33,7 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.pages.taskInbox.TaskFormPanel;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.TaskInboxRpcService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
@@ -103,13 +106,14 @@ public class TaskDetailsPage extends AbstractPage {
     Button startButton;
     @Inject @DataField("action-stop")
     Button stopButton;
+
+    @Inject @DataField("task-form")
+    TaskFormPanel taskFormWrapper;
+
     @Inject @DataField("action-complete")
     Button completeButton;
     @Inject @DataField("action-fail")
     Button failButton;
-
-    @Inject @DataField("action-save")
-    Button saveButton;
 
     @Inject @DataField("task-details-loading-spinner")
     protected HtmlSnippet taskLoading;
@@ -188,6 +192,13 @@ public class TaskDetailsPage extends AbstractPage {
         this.task.setModel(task, InitialState.FROM_MODEL);
         taskLoading.getElement().addClassName("hide");
         pageContent.removeClassName("hide");
+        if (task.getTaskForm() != null) {
+            taskFormWrapper.setHTML(task.getTaskForm());
+            taskFormWrapper.setData(task.getTaskData());
+        } else {
+            taskFormWrapper.setHTML("");
+            taskFormWrapper.setData(new HashMap<String, String>());
+        }
     }
 
     /**
@@ -201,10 +212,9 @@ public class TaskDetailsPage extends AbstractPage {
 
         startButton.setEnabled(task.isActionAllowed(TaskActionEnum.start));
         stopButton.setEnabled(task.isActionAllowed(TaskActionEnum.stop));
+
         completeButton.setEnabled(task.isActionAllowed(TaskActionEnum.complete));
         failButton.setEnabled(task.isActionAllowed(TaskActionEnum.fail));
-
-        saveButton.setEnabled(task.isActionAllowed(TaskActionEnum.save));
     }
 
     /**
@@ -279,7 +289,9 @@ public class TaskDetailsPage extends AbstractPage {
             final String successTitle, final String successDescription) {
         final NotificationBean notificationBean = notificationService.startProgressNotification(
                 inProgressTitle, inProgressDescription);
-        taskInboxService.executeAction(task.getModel(), action, new IRpcServiceInvocationHandler<TaskBean>() {
+        TaskBean model = task.getModel();
+        model.setTaskData(taskFormWrapper.getData());
+        taskInboxService.executeAction(model, action, new IRpcServiceInvocationHandler<TaskBean>() {
             @Override
             public void onReturn(TaskBean data) {
                 notificationService.completeProgressNotification(notificationBean.getUuid(), successTitle,
