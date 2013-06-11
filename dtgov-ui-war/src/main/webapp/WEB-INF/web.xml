@@ -38,23 +38,10 @@
     <servlet-class>org.jboss.errai.bus.server.servlet.DefaultBlockingServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  <servlet>
-    <servlet-name>OverlordHeaderDataJS</servlet-name>
-    <servlet-class>org.overlord.commons.ui.header.OverlordHeaderDataJS</servlet-class>
-    <init-param>
-        <param-name>app-id</param-name>
-        <param-value>s-ramp-ui</param-value>
-    </init-param>
-  </servlet>
   <servlet-mapping>
     <servlet-name>ErraiServlet</servlet-name>
     <url-pattern>*.erraiBus</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>OverlordHeaderDataJS</servlet-name>
-    <url-pattern>/js/overlord-header-data.js</url-pattern>
-  </servlet-mapping>
-
   <resource-env-ref>
     <description>Object factory for the CDI Bean Manager</description>
     <resource-env-ref-name>BeanManager</resource-env-ref-name>
@@ -65,7 +52,6 @@
     <resource-env-ref-name>ErraiService</resource-env-ref-name>
     <resource-env-ref-type>org.jboss.errai.bus.server.service.ErraiService</resource-env-ref-type>
   </resource-env-ref>
-
   <context-param>
     <param-name>errai.properties</param-name>
     <param-value>/WEB-INF/errai.properties</param-value>
@@ -78,5 +64,37 @@
     <param-name>users.properties</param-name>
     <param-value>/WEB-INF/users.properties</param-value>
   </context-param>
+
+  <servlet>
+    <servlet-name>OverlordHeaderDataJS</servlet-name>
+    <servlet-class>org.overlord.commons.ui.header.OverlordHeaderDataJS</servlet-class>
+    <init-param>
+        <param-name>app-id</param-name>
+        <param-value>s-ramp-ui</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OverlordHeaderDataJS</servlet-name>
+    <url-pattern>/js/overlord-header-data.js</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeploymentDownload</servlet-name>
+    <servlet-class>org.overlord.dtgov.ui.server.servlets.DeploymentDownloadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeploymentDownload</servlet-name>
+    <url-pattern>/app/services/deploymentDownload</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>DeploymentUpload</servlet-name>
+    <servlet-class>org.overlord.dtgov.ui.server.servlets.DeploymentUploadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeploymentUpload</servlet-name>
+    <url-pattern>/app/services/deploymentUpload</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>

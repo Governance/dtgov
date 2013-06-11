@@ -17,6 +17,7 @@ package org.overlord.dtgov.ui.client.local.pages;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.jboss.errai.ui.nav.client.local.Page;
@@ -24,6 +25,7 @@ import org.jboss.errai.ui.nav.client.local.TransitionAnchor;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.pages.deployments.AddDeploymentDialog;
 import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentFilters;
 import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentTable;
 import org.overlord.dtgov.ui.client.local.services.DeploymentsRpcService;
@@ -71,6 +73,8 @@ public class DeploymentsPage extends AbstractPage {
     protected Button refreshButton;
     @Inject @DataField("btn-add")
     protected Button addButton;
+    @Inject
+    protected Instance<AddDeploymentDialog> addDeploymentDialog;
 
     @Inject @DataField("deployments-none")
     protected HtmlSnippet noDataMessage;
@@ -140,7 +144,7 @@ public class DeploymentsPage extends AbstractPage {
      */
     @EventHandler("btn-add")
     public void onAddClick(ClickEvent event) {
-        // TODO implement this!
+        addDeploymentDialog.get().show();
     }
 
     /**

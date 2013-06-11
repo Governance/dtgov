@@ -51,7 +51,6 @@ public class DashboardPage extends AbstractPage {
      */
     @PageShown
     public void onPageShown() {
-        toDeploymentsPage.getElement().setAttribute("disabled", "true");
     }
 
 }
