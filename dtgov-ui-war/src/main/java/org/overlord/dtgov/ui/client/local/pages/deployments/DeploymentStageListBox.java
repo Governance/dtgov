@@ -35,9 +35,9 @@ public class DeploymentStageListBox extends AbstractFilterListBox {
     @Override
     protected void configureItems() {
         this.addItem("Any", "");
-        this.addItem("Dev", "dev");
-        this.addItem("QA", "qa");
-        this.addItem("Production", "prod");
+        this.addItem("Dev", "http://www.jboss.org/overlord/deployment-status.owl#Dev");
+        this.addItem("QA", "http://www.jboss.org/overlord/deployment-status.owl#Qa");
+        this.addItem("Production", "http://www.jboss.org/overlord/deployment-status.owl#Prod");
     }
 
 }

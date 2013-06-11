@@ -365,3 +365,14 @@ footer hr {
 .deployment-history-item:hover {
   background-color: #bfbfcf;
 }
+
+.deployment-nav-panel {
+  padding: 10px;
+}
+.deployment-nav-panel h4 {
+  font-size: 15px;
+  font-weight: normal;
+  text-decoration: underline;
+  font-style: italic;
+  color: #333;
+}

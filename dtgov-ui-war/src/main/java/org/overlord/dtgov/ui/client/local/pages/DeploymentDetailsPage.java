@@ -83,6 +83,9 @@ public class DeploymentDetailsPage extends AbstractPage {
     // Properties
     @Inject @DataField @Bound(property="uuid")
     InlineLabel deploymentUuid;
+    // Properties
+    @Inject @DataField @Bound(property="stage")
+    InlineLabel stage;
     @Inject @DataField @Bound(property="version")
     InlineLabel version;
     @Inject @DataField @Bound(property="type")

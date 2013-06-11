@@ -40,7 +40,7 @@ import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -68,7 +68,9 @@ public class DeploymentsPage extends AbstractPage {
     protected TextBox searchBox;
 
     @Inject @DataField("btn-refresh")
-    protected Anchor refreshButton;
+    protected Button refreshButton;
+    @Inject @DataField("btn-add")
+    protected Button addButton;
 
     @Inject @DataField("deployments-none")
     protected HtmlSnippet noDataMessage;
@@ -130,6 +132,15 @@ public class DeploymentsPage extends AbstractPage {
     @EventHandler("btn-refresh")
     public void onRefreshClick(ClickEvent event) {
         doSearch(currentPage);
+    }
+
+    /**
+     * Event handler that fires when the user clicks the Add Deployment button.
+     * @param event
+     */
+    @EventHandler("btn-add")
+    public void onAddClick(ClickEvent event) {
+        // TODO implement this!
     }
 
     /**

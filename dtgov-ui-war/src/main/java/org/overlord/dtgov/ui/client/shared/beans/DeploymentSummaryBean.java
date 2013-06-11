@@ -31,7 +31,9 @@ public class DeploymentSummaryBean {
 
     private String uuid;
     private String name;
+    private String model;
     private String type;
+    private String rawType;
     private String stage;
     private Date initiatedDate;
 
@@ -114,6 +116,34 @@ public class DeploymentSummaryBean {
     public DeploymentSummaryBean setInitiatedDate(Date initiatedDate) {
         this.initiatedDate = initiatedDate;
         return this;
+    }
+
+    /**
+     * @return the model
+     */
+    public String getModel() {
+        return model;
+    }
+
+    /**
+     * @param model the model to set
+     */
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    /**
+     * @return the rawType
+     */
+    public String getRawType() {
+        return rawType;
+    }
+
+    /**
+     * @param rawType the rawType to set
+     */
+    public void setRawType(String rawType) {
+        this.rawType = rawType;
     }
 
     /**
