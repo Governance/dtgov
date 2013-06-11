@@ -18,6 +18,9 @@ package org.overlord.dtgov.ui.server.services.tasks;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -27,6 +30,8 @@ import org.apache.commons.configuration.Configuration;
 import org.overlord.dtgov.taskapi.types.FindTasksRequest;
 import org.overlord.dtgov.taskapi.types.FindTasksResponse;
 import org.overlord.dtgov.taskapi.types.StatusType;
+import org.overlord.dtgov.taskapi.types.TaskDataType;
+import org.overlord.dtgov.taskapi.types.TaskDataType.Entry;
 import org.overlord.dtgov.taskapi.types.TaskSummaryType;
 import org.overlord.dtgov.taskapi.types.TaskType;
 import org.overlord.dtgov.taskclient.TaskApiClient;
@@ -123,7 +128,7 @@ public class DtGovTaskApiClient implements ITaskClient {
         if (action == TaskActionEnum.claim) {
             updatedTask = client.claimTask(task.getId());
         } else if (action == TaskActionEnum.complete) {
-            updatedTask = client.completeTask(task.getId());
+            updatedTask = client.completeTask(task.getId(), task.getTaskData());
         } else if (action == TaskActionEnum.start) {
             updatedTask = client.startTask(task.getId());
         } else if (action == TaskActionEnum.stop) {
@@ -131,7 +136,7 @@ public class DtGovTaskApiClient implements ITaskClient {
         } else if (action == TaskActionEnum.release) {
             updatedTask = client.releaseTask(task.getId());
         } else if (action == TaskActionEnum.fail) {
-            updatedTask = client.failTask(task.getId());
+            updatedTask = client.failTask(task.getId(), task.getTaskData());
         }
         return convertToBean(updatedTask);
     }
@@ -180,7 +185,17 @@ public class DtGovTaskApiClient implements ITaskClient {
         bean.setOwner(taskType.getOwner());
         bean.setPriority(taskType.getPriority());
         bean.setStatus(taskType.getStatus().value());
+        bean.setType(taskType.getType());
         bean.setDescription(taskType.getDescription());
+        Map<String, String> taskData = new HashMap<String, String>();
+        TaskDataType data = taskType.getTaskData();
+        if (data != null) {
+            List<Entry> entries = data.getEntry();
+            for (Entry entry : entries) {
+                taskData.put(entry.getKey(), entry.getValue());
+            }
+        }
+        bean.setTaskData(taskData);
         assignAvailableActions(bean, taskType.getStatus());
         return bean;
     }

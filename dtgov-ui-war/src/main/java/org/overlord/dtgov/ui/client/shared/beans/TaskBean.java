@@ -34,6 +34,7 @@ public class TaskBean extends TaskSummaryBean implements Serializable {
 
     private static final long serialVersionUID = TaskBean.class.hashCode();
 
+    private String type;
     private String description;
     private Set<TaskActionEnum> allowedActions = new HashSet<TaskActionEnum>();
     private String taskForm;
@@ -115,6 +116,20 @@ public class TaskBean extends TaskSummaryBean implements Serializable {
      */
     public void setTaskData(Map<String, String> taskData) {
         this.taskData = taskData;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

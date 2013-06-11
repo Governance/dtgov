@@ -17,8 +17,10 @@ package org.overlord.dtgov.taskapi;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -55,6 +57,8 @@ import org.overlord.dtgov.jbpm.ejb.ProcessOperationException;
 import org.overlord.dtgov.taskapi.types.FindTasksRequest;
 import org.overlord.dtgov.taskapi.types.FindTasksResponse;
 import org.overlord.dtgov.taskapi.types.StatusType;
+import org.overlord.dtgov.taskapi.types.TaskDataType;
+import org.overlord.dtgov.taskapi.types.TaskDataType.Entry;
 import org.overlord.dtgov.taskapi.types.TaskSummaryType;
 import org.overlord.dtgov.taskapi.types.TaskType;
 
@@ -199,6 +203,7 @@ public class TaskApi {
         }
         rval.setPriority(task.getPriority());
         rval.setId(String.valueOf(task.getId()));
+        rval.setType(task.getTaskType());
         TaskData taskData = task.getTaskData();
         if (taskData != null) {
             User owner = taskData.getActualOwner();
@@ -312,19 +317,22 @@ public class TaskApi {
 
     /**
      * Called to complete a task.
+     * @param taskData
      * @param httpRequest
      * @param taskId
      * @throws Exception
      */
-    @GET
+    @POST
     @Path("complete/{taskId}")
+    @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public TaskType completeTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
+    public TaskType completeTask(final TaskDataType taskData, @Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
         String currentUser = assertCurrentUser(httpRequest);
         ut.begin();
         try {
-            taskService.complete(taskId, currentUser, null);
+            Map<String, Object> data = taskDataAsMap(taskData);
+            taskService.complete(taskId, currentUser, data);
             ut.commit();
         } catch (Exception e) {
             handleException(e);
@@ -339,20 +347,35 @@ public class TaskApi {
      * @param taskId
      * @throws Exception
      */
-    @GET
+    @POST
     @Path("fail/{taskId}")
+    @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public TaskType failTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
+    public TaskType failTask(final TaskDataType taskData, @Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
         String currentUser = assertCurrentUser(httpRequest);
         ut.begin();
         try {
-            taskService.fail(taskId, currentUser, null);
+            Map<String, Object> data = taskDataAsMap(taskData);
+            taskService.fail(taskId, currentUser, data);
             ut.commit();
         } catch (Exception e) {
             handleException(e);
         }
         return getTask(httpRequest, taskId);
+    }
+
+    /**
+     * Converts the inbound task data payload into a map useable by jbpm.
+     * @param taskData
+     */
+    private Map<String, Object> taskDataAsMap(TaskDataType taskData) {
+        Map<String, Object> data = new HashMap<String, Object>();
+        // TODO missing type mappings here - can we convert types in some way based on a schema or something?  right now everything is a string
+        for (Entry entry : taskData.getEntry()) {
+            data.put(entry.getKey(), entry.getValue());
+        }
+        return data;
     }
 
     /**

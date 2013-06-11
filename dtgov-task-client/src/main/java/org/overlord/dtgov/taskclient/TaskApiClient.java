@@ -16,6 +16,7 @@
 package org.overlord.dtgov.taskclient;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
@@ -29,6 +30,8 @@ import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 import org.overlord.dtgov.taskapi.types.FindTasksRequest;
 import org.overlord.dtgov.taskapi.types.FindTasksResponse;
+import org.overlord.dtgov.taskapi.types.TaskDataType;
+import org.overlord.dtgov.taskapi.types.TaskDataType.Entry;
 import org.overlord.dtgov.taskapi.types.TaskType;
 import org.overlord.dtgov.taskclient.auth.AuthenticationProvider;
 import org.overlord.dtgov.taskclient.auth.BasicAuthenticationProvider;
@@ -181,11 +184,13 @@ public class TaskApiClient {
      * Completes a task and returns the latest (updated) task instance.
      * @param taskid
      */
-    public TaskType completeTask(String taskId) throws TaskApiClientException {
+    public TaskType completeTask(String taskId, Map<String, String> taskData) throws TaskApiClientException {
         try {
+            TaskDataType data = convertMapToTaskData(taskData);
             String url = String.format("%1$s/complete/%2$s", this.endpoint, taskId);
             ClientRequest request = createClientRequest(url);
-            ClientResponse<TaskType> response = request.get(TaskType.class);
+            request.body(MediaType.APPLICATION_XML_TYPE, data);
+            ClientResponse<TaskType> response = request.post(TaskType.class);
             return response.getEntity();
         } catch (Throwable e) {
             throw new TaskApiClientException(e);
@@ -196,15 +201,32 @@ public class TaskApiClient {
      * Fails a task and returns the latest (updated) task instance.
      * @param taskid
      */
-    public TaskType failTask(String taskId) throws TaskApiClientException {
+    public TaskType failTask(String taskId, Map<String, String> taskData) throws TaskApiClientException {
         try {
+            TaskDataType data = convertMapToTaskData(taskData);
             String url = String.format("%1$s/fail/%2$s", this.endpoint, taskId);
             ClientRequest request = createClientRequest(url);
-            ClientResponse<TaskType> response = request.get(TaskType.class);
+            request.body(MediaType.APPLICATION_XML_TYPE, data);
+            ClientResponse<TaskType> response = request.post(TaskType.class);
             return response.getEntity();
         } catch (Throwable e) {
             throw new TaskApiClientException(e);
         }
+    }
+
+    /**
+     * Converts the given map of task data into a structure useful for sending to the remote task api.
+     * @param taskData
+     */
+    private TaskDataType convertMapToTaskData(Map<String, String> taskData) {
+        TaskDataType data = new TaskDataType();
+        for (Map.Entry<String, String> entry : taskData.entrySet()) {
+            Entry e = new Entry();
+            e.setKey(entry.getKey());
+            e.setValue(entry.getValue());
+            data.getEntry().add(e);
+        }
+        return data;
     }
 
     /**

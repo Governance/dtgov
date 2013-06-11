@@ -40,10 +40,10 @@ public class SrampApiClientAccessor {
 	 */
     @Inject
 	public SrampApiClientAccessor(DtgovUIConfig config) {
-		String endpoint = (String) config.getConfiguration().getProperty("dtgov-ui.atom-api.endpoint");
-        boolean validating = "true".equals(config.getConfiguration().getProperty("dtgov-ui.atom-api.validating"));
+		String endpoint = (String) config.getConfiguration().getProperty(DtgovUIConfig.SRAMP_ATOM_API_ENDPOINT);
+        boolean validating = "true".equals(config.getConfiguration().getProperty(DtgovUIConfig.SRAMP_ATOM_API_VALIDATING));
         AuthenticationProvider authProvider = null;
-        String authProviderClass = (String) config.getConfiguration().getProperty("dtgov-ui.atom-api.authentication.provider");
+        String authProviderClass = (String) config.getConfiguration().getProperty(DtgovUIConfig.SRAMP_ATOM_API_AUTH_PROVIDER);
         try {
             if (authProviderClass != null && authProviderClass.trim().length() > 0) {
                 Class<?> c = Class.forName(authProviderClass);

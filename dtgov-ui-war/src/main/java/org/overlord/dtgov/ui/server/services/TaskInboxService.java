@@ -15,8 +15,12 @@
  */
 package org.overlord.dtgov.ui.server.services;
 
+import java.io.InputStream;
+import java.io.StringWriter;
+
 import javax.inject.Inject;
 
+import org.apache.commons.io.IOUtils;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.overlord.dtgov.ui.client.shared.beans.TaskActionEnum;
 import org.overlord.dtgov.ui.client.shared.beans.TaskBean;
@@ -24,8 +28,12 @@ import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxResultSetBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.ITaskInboxService;
+import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.dtgov.ui.server.services.tasks.ITaskClient;
 import org.overlord.dtgov.ui.server.services.tasks.TaskClientAccessor;
+import org.overlord.sramp.client.SrampAtomApiClient;
+import org.overlord.sramp.client.query.ArtifactSummary;
+import org.overlord.sramp.client.query.QueryResultSet;
 
 /**
  * Concrete implementation of the task inbox service.
@@ -39,6 +47,8 @@ public class TaskInboxService implements ITaskInboxService {
 
     @Inject
     private TaskClientAccessor taskClientAccessor;
+    @Inject
+    private SrampApiClientAccessor srampClientAccessor;
 
     /**
      * Constructor.
@@ -71,7 +81,10 @@ public class TaskInboxService implements ITaskInboxService {
     public TaskBean get(String taskId) throws DtgovUiException {
         ITaskClient client = taskClientAccessor.getClient();
         try {
-            return client.getTask(taskId);
+            TaskBean task = client.getTask(taskId);
+            String taskForm = getTaskForm(task);
+            task.setTaskForm(taskForm);
+            return task;
         } catch (Exception e) {
             throw new DtgovUiException(e);
         }
@@ -101,6 +114,33 @@ public class TaskInboxService implements ITaskInboxService {
         } catch (Exception e) {
             throw new DtgovUiException(e);
         }
+    }
+
+    /**
+     * Gets the task form configured for the given task.  This is done by looking for an
+     * artifact in the S-RAMP repository of type /s-ramp/ext/OverlordTaskForm with a property
+     * named "task-type" and a value equal to the one found in the {@link TaskBean}.  If
+     * the search of the repository uncovers multiple forms that match the criteria, the
+     * one most recently added
+     * @param task
+     */
+    private String getTaskForm(TaskBean task) throws Exception {
+        SrampAtomApiClient client = srampClientAccessor.getClient();
+        QueryResultSet resultSet = client.buildQuery("/s-ramp/ext/OverlordTaskForm[@task-type = ?]")
+                .parameter(task.getType()).count(1).orderBy("createdTimestamp").descending().query();
+        if (resultSet.size() == 1) {
+            ArtifactSummary artifact = resultSet.get(0);
+            InputStream inputStream = null;
+            try {
+                inputStream = client.getArtifactContent(artifact);
+                StringWriter output = new StringWriter();
+                IOUtils.copy(inputStream, output);
+                return output.toString();
+            } finally {
+                IOUtils.closeQuietly(inputStream);
+            }
+        }
+        throw new Exception("No task form found for task type: " + task.getType());
     }
 
 }

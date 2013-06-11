@@ -39,6 +39,7 @@ public class DtgovUIConfig {
     public static final String SRAMP_ATOM_API_BASIC_AUTH_PASS = "dtgov-ui.s-ramp.atom-api.authentication.basic.password";
     public static final String SRAMP_ATOM_API_SAML_ISSUER = "dtgov-ui.s-ramp.atom-api.authentication.saml.issuer";
     public static final String SRAMP_ATOM_API_SAML_SERVICE = "dtgov-ui.s-ramp.atom-api.authentication.saml.service";
+    public static final String SRAMP_ATOM_API_VALIDATING = "dtgov-ui.s-ramp.atom-api.validating";
     // Task API related properties
     public static final String TASK_API_ENDPOINT = "dtgov-ui.task-api.endpoint";
     public static final String TASK_CLIENT_CLASS = "dtgov-ui.task-client.class";
