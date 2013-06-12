@@ -30,6 +30,7 @@ import org.overlord.dtgov.ui.client.shared.beans.DeploymentSummaryBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentsFilterBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IDeploymentsService;
+import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -52,6 +53,8 @@ public class DeploymentsService implements IDeploymentsService {
 
     @Inject
     private SrampApiClientAccessor srampClientAccessor;
+    @Inject
+    private DtgovUIConfig config;
 
     /**
      * Constructor.
@@ -137,9 +140,11 @@ public class DeploymentsService implements IDeploymentsService {
         criteria.add("classifiedByAnyOf(., ?)");
         if (filters.getStage() == null) {
             if (filters.isShowCompleted()) {
-                params.add("http://www.jboss.org/overlord/deployment-status.owl#Lifecycle");
+                params.add(config.getConfiguration().getString(DtgovUIConfig.DEPLOYMENT_ALL_CLASSIFIER,
+                        "http://www.jboss.org/overlord/deployment-status.owl#Lifecycle"));
             } else {
-                params.add("http://www.jboss.org/overlord/deployment-status.owl#Deploying");
+                params.add(config.getConfiguration().getString(DtgovUIConfig.DEPLOYMENT_INPROGRESS_CLASSIFIER,
+                        "http://www.jboss.org/overlord/deployment-status.owl#Deploying"));
             }
         } else {
             params.add(filters.getStage());

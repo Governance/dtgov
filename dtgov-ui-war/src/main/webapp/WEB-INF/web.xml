@@ -79,6 +79,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>UiConfigurationJS</servlet-name>
+    <servlet-class>org.overlord.dtgov.ui.server.servlets.UiConfigurationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UiConfigurationJS</servlet-name>
+    <url-pattern>/js/dtgovui-configuration.js</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>DeploymentDownload</servlet-name>
     <servlet-class>org.overlord.dtgov.ui.server.servlets.DeploymentDownloadServlet</servlet-class>
   </servlet>
