@@ -9,7 +9,7 @@
       <xsd:element name="name" type="xsd:string" />
       <xsd:element name="priority" type="xsd:int" />
       <xsd:element name="owner" type="xsd:string" minOccurs="0" />
-      <xsd:element name="status" type="xsd:string" />
+      <xsd:element name="status" type="tns:statusType" />
       <xsd:element name="dueDate" type="xsd:dateTime" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>
@@ -19,10 +19,24 @@
     <xsd:complexContent>
       <xsd:extension base="tns:taskSummaryType">
         <xsd:sequence>
+          <xsd:element name="type" type="xsd:string" />
           <xsd:element name="description" type="xsd:string" minOccurs="0" />
+          <xsd:element ref="tns:taskData" minOccurs="0" />
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:element name="taskData" type="tns:taskDataType" />
+  <xsd:complexType name="taskDataType">
+    <xsd:sequence>
+      <xsd:element name="entry" minOccurs="0" maxOccurs="unbounded">
+        <xsd:complexType>
+          <xsd:attribute name="key" type="xsd:string" use="required" />
+          <xsd:attribute name="value" type="xsd:string" use="required" />
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
   </xsd:complexType>
 
   <xsd:element name="findTasksRequest">

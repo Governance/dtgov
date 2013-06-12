@@ -13,35 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.dtgov.ui.client.local.pages;
+package org.overlord.dtgov.ui.server.services.tasks;
 
-import javax.annotation.PostConstruct;
+import org.apache.http.HttpRequest;
+import org.overlord.dtgov.taskclient.auth.AuthenticationProvider;
 
-import org.jboss.errai.ui.nav.client.local.Page;
-
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
 
 /**
- * Overlord:DTGov Home page.
+ * An authentication provider that doesn't do anything.  Useful during development of
+ * the UI.  Not intended to be used in any other scenario.
  *
  * @author eric.wittmann@redhat.com
  */
-@Page(path="home", startingPage=true)
-public class HomePage extends FlowPanel {
+public class NoAuthenticationProvider implements AuthenticationProvider {
 
     /**
      * Constructor.
      */
-    public HomePage() {
+    public NoAuthenticationProvider() {
     }
 
     /**
-     * Post contruct method.
+     * @see org.overlord.dtgov.taskclient.auth.AuthenticationProvider#provideAuthentication(org.apache.http.HttpRequest)
      */
-    @PostConstruct
-    protected void onPostConstruct() {
-        add(new InlineLabel("Welcome to Overlord:DTGov"));
+    @Override
+    public void provideAuthentication(HttpRequest request) {
     }
 
 }
