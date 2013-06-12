@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>DTGov - Deployments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-datepicker.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-fileupload.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui-responsive.css" rel="stylesheet"></link>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-fileupload.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/js/dtgov-ui-responsive.js"></script>
+  </head>
+
+  <body>
+    <div id="page" data-field="page">
+
+      <!-- Content area with footer-->
+      <div id="page-content" class="container-fluid">
+
+        <!-- Breadcrumbs -->
+        <div class="row-fluid">
+          <ul class="breadcrumb">
+            <li><a data-field="back-to-dashboard" href="dashboard.html">DTGov Dashboard</a> <span class="divider">/</span></li>
+            <li class="active">Deployments</li>
+          </ul>
+        </div>
+
+        <!-- Page content -->
+        <div class="row-fluid">
+          <!-- The Deployment Filter Sidebar -->
+          <div id="deployments-filter-sidebar" data-field="deployments-filter-sidebar" class="span3 filter-sidebar">
+            <div class="row-fluid filter-header">
+              <a class="span12" data-toggle="slide" data-target="#deployment-filters">Deployment Filters <span class="mobile-only caret pull-right"></span></a>
+            </div>
+            <!-- The Deployment Filters -->
+            <div id="deployment-filters" class="row-fluid close-on-mobile closed-on-mobile open-on-desktop">
+              <div class="span12">
+                <div class="filter-inner">
+                  <form class="" onSubmit="return false;">
+                    <div class="controls controls-row">
+                      <label class="filter-label">Type</label>
+                      <select data-field="type" class="selectpicker span12">
+                        <option value="">Any</option>
+                        <option value="SwitchYardApplication">SwitchYard Application</option>
+                        <option value="JavaApplication">Java Application</option>
+                        <option value="CXFApplication">CXF Application</option>
+                      </select>
+                    </div>
+                    <div class="controls controls-row">
+                      <label class="filter-label">Stage</label>
+                      <select data-field="stage" class="selectpicker span12">
+                        <option value="">Any</option>
+                        <option value="Dev">Dev</option>
+                        <option value="QA">QA</option>
+                        <option value="Production">Production</option>
+                      </select>
+                    </div>
+                    <div class="controls controls-row">
+                      <label class="filter-label">Bundle Name</label>
+                      <input data-field="bundleName" class="span12" type="text" placeholder="Any"></input>
+                    </div>
+                    <div class="controls controls-row">
+                      <label class="filter-label">Date Initiated</label>
+                      <input data-field="dateInitiatedFrom" class="span5 filter-date" type="text" placeholder="Any" readonly="readonly"></input>
+                      <span class="span2 desktop-only" style="padding-top: 4px; text-align: center">to</span>
+                      <input data-field="dateInitiatedTo" class="span5 filter-date" type="text" placeholder="Any" readonly="readonly"></input>
+                    </div>
+                    <div class="controls controls-row controls-checkbox">
+                      <label class="filter-checkbox">
+                        <input data-field="showCompleted" class="pull-left" type="checkbox" value="completed"></input>
+                        <span class="pull-left" style="">Show completed deployments</span>
+                      </label>
+                    </div>
+                    <div class="controls">
+                      <a data-field="clearFilters" class="btn btn-focus btn-clear">Clear All Filters</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- The Deployments table -->
+          <div class="span9">
+            <div class="row-fluid">
+              <div class="span12 deployment-search">
+                <input data-field="deployment-search-box" id="deployment-search-box" type="text" class="span12 deployment-search-box" placeholder="Search..."></input>
+              </div>
+            </div>
+            <div class="row-fluid deployments">
+              <div class="span12 deployments-actions">
+                <a class="btn spacer" style="visibility:hidden"><i class="icon-refresh"></i></a>
+                <a data-field="btn-refresh" class="btn pull-right"><i class="icon-refresh"></i></a>
+                <div class="pull-right sp4n-label">
+                  Displaying <span data-field="deployments-range">1-11</span> of <span data-field="deployments-total">37</span>
+                </div>
+              </div>
+              <div data-field="deployments-none" style="display:none" class="deployments-none">
+                <span>No deployments found.</span>
+              </div>
+              <div data-field="deployments-searching" style="display:none" class="deployments-searching">
+                <span class="spinner">Finding deployments, please wait...</span>
+              </div>
+              <table data-i18n-skip="true" data-field="deployments-table" class="deployments-table table table-striped table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th>Deployment</th>
+                  <th class="desktop-only">Type</th>
+                  <th>Stage</th>
+                  <th>Initiated On</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="deploymentDetails.html">switchyard-demo-multiApp-artifacts.jar</a></td>
+                  <td class="desktop-only">SwitchYardApplication</td>
+                  <td>Qa</td>
+                  <td>03/10/2012</td>
+                </tr>
+                <tr>
+                  <td><a href="deploymentDetails.html">switchyard-demo-multiApp-order-service.jar</a></td>
+                  <td class="desktop-only">SwitchYardApplication</td>
+                  <td>Dev</td>
+                  <td>03/12/2012</td>
+                </tr>
+                <tr>
+                  <td><a href="deploymentDetails.html">switchyard-demo-multiApp-order-consumer.jar</a></td>
+                  <td class="desktop-only">SwitchYardApplication</td>
+                  <td>Dev</td>
+                  <td>03/12/2012</td>
+                </tr>
+                <tr>
+                  <td><a href="deploymentDetails.html">switchyard-demo-multiApp-web.jar</a></td>
+                  <td class="desktop-only">SwitchYardApplication</td>
+                  <td>Dev</td>
+                  <td>05/19/2012</td>
+                </tr>
+              </tbody>
+              </table>
+              <div data-field="deployments-pager" class="pagination deployments-pager">
+                <ul>
+                  <li class="disabled"><a>&#x00AB;</a></li>
+                  <li class="active"><a>1</a></li>
+                  <li><a>2</a></li>
+                  <li><a>3</a></li>
+                  <li><a>4</a></li>
+                  <li><a>&#x00BB;</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+          <hr />
+          <p>&copy; JBoss Overlord 2013</p>
+        </footer>
+      </div> <!-- /container -->
+      
+    </div> <!-- /page -->
+
+
+    <!-- Some scripting to add functionality to the live template -->
+    <script>
+      $(document).ready(function() {
+    	  $('.filter-date').datepicker({
+    		  autoclose: true,
+    		  todayBtn: true,
+    		  todayHighlight: true
+    	  });
+      });
+    </script>
+
+  </body>
+</html>
