@@ -35,9 +35,15 @@ public class DeploymentStageListBox extends AbstractFilterListBox {
     @Override
     protected void configureItems() {
         this.addItem("Any", "");
-        this.addItem("Dev", "dev");
-        this.addItem("QA", "qa");
-        this.addItem("Production", "prod");
+    }
+
+    /**
+     * @see com.google.gwt.user.client.ui.ListBox#clear()
+     */
+    @Override
+    public void clear() {
+        super.clear();
+        this.addItem("Any", "");
     }
 
 }

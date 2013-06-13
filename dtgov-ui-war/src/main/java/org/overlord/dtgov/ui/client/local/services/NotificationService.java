@@ -491,16 +491,18 @@ public class NotificationService {
             notification.getData().setMessage(notificationBean.getMessage());
             notification.getData().setMessageWidget(notificationBean.getMessageWidget());
             notification.getData().setType(NotificationType.error);
+            notification.getData().setException(notificationBean.getException());
             notification.getWidget().setNotificationTitle(notificationBean.getTitle());
             if (notificationBean.getMessageWidget() != null) {
                 notification.getWidget().setNotificationMessage((Widget) notificationBean.getMessageWidget());
             } else {
                 FlowPanel errorDetails = new FlowPanel();
-                if (notification.getData().getMessage() != null) {
-                    errorDetails.add(new InlineLabel(notification.getData().getMessage()));
-                }
+//                if (notification.getData().getMessage() != null) {
+//                    errorDetails.add(new InlineLabel(notification.getData().getMessage()));
+//                }
                 if (notification.getData().getException() != null) {
-                    // TODO handle exceptions - need to create an exception dialog
+                    // TODO handle exceptions better - need to create an exception dialog
+                    errorDetails.add(new InlineLabel(notification.getData().getException().getMessage()));
                 }
                 notification.getWidget().setNotificationMessage(errorDetails);
             }

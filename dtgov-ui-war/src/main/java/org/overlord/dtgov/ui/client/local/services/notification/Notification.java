@@ -21,7 +21,7 @@ import com.google.gwt.animation.client.Animation;
 import com.google.gwt.user.client.Timer;
 
 /**
- *
+ * TODO doco
  * @author eric.wittmann@redhat.com
  */
 public class Notification {

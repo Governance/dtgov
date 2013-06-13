@@ -66,6 +66,9 @@
                 <div class="details-meta-data-section-label">UUID:</div>
                 <div data-field="deploymentUuid" class="details-meta-data-section-value">22143-2134982-23782-3782</div>
                 <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">Deployment Stage:</div>
+                <div data-field="stage" class="details-meta-data-section-value" style="font-weight: bold">Dev</div>
+                <div class="clearfix"></div>
                 <div class="details-meta-data-section-label">Version:</div>
                 <div data-field="version" class="details-meta-data-section-value">1.0.7</div>
                 <div class="clearfix"></div>
@@ -105,6 +108,25 @@
               </div>
             </div>
             <hr />
+            <div class="row-fluid hidden">
+              <div class="span4 deployment-nav-panel">
+                <h4>Deployment History</h4>
+                <p>
+                  Click to see the history of this deployment, from the time it was added to the system
+                  until now.  The history includes its transitions within the Deployment Lifecycle.
+                </p>
+                <p><a data-field="to-deploymentHistory-page" class="btn" href="deploymentHistory.html">History &raquo;</a></p>
+              </div>
+              <div class="span4 deployment-nav-panel">
+                <h4>Deployment Contents</h4>
+                <p>
+                  Here you can view a list of the interesting artifacts that the system located within
+                  the deployment.  This often includes artifacts such as XML files, WSDLs, and Schemas.
+                </p>
+                <p><a data-field="to-deploymentContents-page" class="btn" href="deploymentContents.html">Contents &raquo;</a></p>
+             </div>
+            </div>
+
             <!-- Deployment History -->
             <!-- 
             <div class="row-fluid deployment-history">
