@@ -35,10 +35,15 @@ public class DeploymentTypeListBox extends AbstractFilterListBox {
     @Override
     protected void configureItems() {
         this.addItem("Any", "");
-        this.addItem("SwitchYard Application", "SwitchYardApplication");
-        this.addItem("Java Application", "JavaApplication");
-        this.addItem("Java Web Application", "JavaWebApplication");
-        this.addItem("Java Enterprise Application", "JavaEnterpriseApplication");
+    }
+
+    /**
+     * @see com.google.gwt.user.client.ui.ListBox#clear()
+     */
+    @Override
+    public void clear() {
+        super.clear();
+        this.addItem("Any", "");
     }
 
 }

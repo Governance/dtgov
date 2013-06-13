@@ -49,6 +49,19 @@ public class DtgovUIConfig {
     public static final String TASK_API_SAML_ISSUER = "dtgov-ui.task-api.authentication.saml.issuer";
     public static final String TASK_API_SAML_SERVICE = "dtgov-ui.task-api.authentication.saml.service";
 
+    // Deployment Lifecycle UI properties
+    public static final String DEPLOYMENT_INITIAL_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.initial";
+    public static final String DEPLOYMENT_ALL_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.all";
+    public static final String DEPLOYMENT_INPROGRESS_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.in-progress";
+    // This next one is a prefix for any property that will indicate a possible classifier stage that
+    // should be displayed in the UI.  In the dtgov ui configuration file, multiple properties would
+    // be specified that begin with this prefix and have a value of the format  {label}:{classifier}
+    public static final String DEPLOYMENT_CLASSIFIER_STAGE_PREFIX = "dtgov-ui.deployment-lifecycle.classifiers.stage";
+    // And another one that is a prefix for any property that will indicate a possible deployment type
+    // that should be displayed in the UI.  In the dtgov ui configuration file, multiple properties would
+    // be specified that begin with this prefix and have a value of the format  {label}:{type}
+    public static final String DEPLOYMENT_TYPE_PREFIX = "dtgov-ui.deployment-lifecycle.types";
+
     private static CompositeConfiguration config;
     static {
         config = new CompositeConfiguration();
