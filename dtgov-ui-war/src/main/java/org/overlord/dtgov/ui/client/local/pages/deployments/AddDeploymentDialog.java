@@ -15,6 +15,9 @@
  */
 package org.overlord.dtgov.ui.client.local.pages.deployments;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
@@ -23,6 +26,8 @@ import javax.inject.Inject;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.beans.UiConfiguration;
+import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
 import org.overlord.sramp.ui.client.local.widgets.bootstrap.ModalDialog;
 import org.overlord.sramp.ui.client.local.widgets.common.TemplatedFormPanel;
 
@@ -39,8 +44,13 @@ import com.google.gwt.user.client.ui.Anchor;
 @Dependent
 public class AddDeploymentDialog extends ModalDialog {
 
+    @Inject
+    private ConfigurationService configService;
+
     @Inject @DataField("add-deployment-dialog-form")
     private TemplatedFormPanel form;
+    @Inject
+    private DeploymentTypeListBox deploymentType;
     @Inject @DataField("add-deployment-dialog-submit-button")
     private Anchor submitButton;
     @Inject
@@ -69,6 +79,15 @@ public class AddDeploymentDialog extends ModalDialog {
     @Override
     public void show() {
         form.setAction(GWT.getModuleBaseURL() + "services/deploymentUpload");
+        UiConfiguration uiConfig = configService.getUiConfig();
+
+        // Update the items in the deployment type drop-down
+        this.deploymentType.clear();
+        Map<String, String> deploymentTypes = uiConfig.getDeploymentTypes();
+        for (Entry<String, String> entry : deploymentTypes.entrySet()) {
+            this.deploymentType.addItem(entry.getKey(), entry.getValue());
+        }
+
         super.show();
     }
 
