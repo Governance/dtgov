@@ -131,6 +131,7 @@ input.filter-date {
 .hero-unit {
   background-color: transparent;
   border-bottom: 1px solid rgb(187, 187, 187);
+  border-radius: 0px;
 }
 
 .breadcrumb {

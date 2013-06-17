@@ -8,6 +8,7 @@
   </parent>
   <artifactId>dtgov-ui-war</artifactId>
   <packaging>war</packaging>
+  <name>Design Time Governance UI</name>
   <dependencies>
     <!-- DTGov Task API Client -->
     <dependency>
