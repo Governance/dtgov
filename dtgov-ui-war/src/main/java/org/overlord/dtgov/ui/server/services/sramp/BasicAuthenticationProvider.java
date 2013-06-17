@@ -16,6 +16,7 @@
 package org.overlord.dtgov.ui.server.services.sramp;
 
 import org.apache.commons.configuration.Configuration;
+import org.overlord.dtgov.ui.server.DtgovUIConfig;
 
 
 /**
@@ -29,8 +30,8 @@ public class BasicAuthenticationProvider extends org.overlord.sramp.client.auth.
      * Constructor.
      */
     public BasicAuthenticationProvider(Configuration config) {
-        super((String) config.getProperty("dtgov-ui.atom-api.authentication.basic.user"),
-                (String) config.getProperty("dtgov-ui.atom-api.authentication.basic.password"));
+        super((String) config.getProperty(DtgovUIConfig.SRAMP_ATOM_API_BASIC_AUTH_USER),
+                (String) config.getProperty(DtgovUIConfig.SRAMP_ATOM_API_BASIC_AUTH_PASS));
     }
 
 }
