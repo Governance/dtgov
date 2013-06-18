@@ -44,12 +44,11 @@ import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.dtgov.ui.server.util.ExceptionUtils;
 import org.overlord.sramp.atom.archive.SrampArchive;
-import org.overlord.sramp.atom.archive.jar.DefaultMetaDataFactory;
-import org.overlord.sramp.atom.archive.jar.DiscoveredArtifact;
-import org.overlord.sramp.atom.archive.jar.JarToSrampArchive;
+import org.overlord.sramp.atom.archive.expand.DefaultMetaDataFactory;
+import org.overlord.sramp.atom.archive.expand.ZipToSrampArchive;
+import org.overlord.sramp.atom.archive.expand.registry.ZipToSrampArchiveRegistry;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.common.ArtifactType;
-import org.overlord.sramp.common.SrampModelUtils;
 
 /**
  * A standard servlet that artifact content is POSTed to in order to add new artifacts
@@ -200,12 +199,12 @@ public class DeploymentUploadServlet extends HttpServlet {
      */
     private void uploadSingleDeployment(String deploymentType, String fileName,
             File tempFile, Map<String, String> responseParams) throws Exception {
+        ArtifactType at = ArtifactType.valueOf(deploymentType);
         String uuid = null;
 		// First, upload the deployment
         InputStream contentStream = null;
 		try {
 			contentStream = FileUtils.openInputStream(tempFile);
-			ArtifactType at = ArtifactType.valueOf(deploymentType);
 			BaseArtifactType artifact = at.newArtifactInstance();
 			artifact.setName(fileName);
             artifact.getClassifiedBy().add(
@@ -220,27 +219,19 @@ public class DeploymentUploadServlet extends HttpServlet {
 			IOUtils.closeQuietly(contentStream);
 		}
 
-		// Check if this is an expandable file type.  If it is, then expand it!
-		if (isExpandable(fileName)) {
-			JarToSrampArchive j2sramp = null;
-			SrampArchive archive = null;
-			try {
-				final String parentUUID = uuid;
-				j2sramp = new JarToSrampArchive(tempFile);
-				j2sramp.setMetaDataFactory(new DefaultMetaDataFactory() {
-					@Override
-					public BaseArtifactType createMetaData(DiscoveredArtifact artifact) {
-						BaseArtifactType metaData = super.createMetaData(artifact);
-						SrampModelUtils.addGenericRelationship(metaData, "expandedFromDocument", parentUUID);
-						return metaData;
-					}
-				});
-				archive = j2sramp.createSrampArchive();
-				clientAccessor.getClient().uploadBatch(archive);
-			} finally {
-				SrampArchive.closeQuietly(archive);
-				JarToSrampArchive.closeQuietly(j2sramp);
+		// Try to expand the artifact (works if an expander is available for the given artifact type).
+		ZipToSrampArchive j2sramp = null;
+		SrampArchive archive = null;
+		try {
+			j2sramp = ZipToSrampArchiveRegistry.createExpander(at, tempFile);
+			if (j2sramp != null) {
+    			j2sramp.setContextParam(DefaultMetaDataFactory.PARENT_UUID, uuid);
+    			archive = j2sramp.createSrampArchive();
+    			clientAccessor.getClient().uploadBatch(archive);
 			}
+		} finally {
+			SrampArchive.closeQuietly(archive);
+			ZipToSrampArchive.closeQuietly(j2sramp);
 		}
     }
 
@@ -264,17 +255,6 @@ public class DeploymentUploadServlet extends HttpServlet {
 			IOUtils.closeQuietly(resourceInputStream);
 			IOUtils.closeQuietly(oStream);
 		}
-	}
-
-	/**
-	 * Returns true if the uploaded file should be expanded.  We support expanding JAR, WAR,
-	 * and EAR files.
-	 * @param fileName the name of the uploaded file
-	 * @return true if the file should be expanded
-	 */
-	private boolean isExpandable(String fileName) {
-		String name = fileName.toLowerCase();
-		return name.endsWith(".jar") || name.endsWith(".war") || name.endsWith(".ear");
 	}
 
 	/**
