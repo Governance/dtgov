@@ -108,23 +108,33 @@
               </div>
             </div>
             <hr />
-            <div class="row-fluid hidden">
+            <div class="row-fluid">
               <div class="span4 deployment-nav-panel">
-                <h4>Deployment History</h4>
-                <p>
-                  Click to see the history of this deployment, from the time it was added to the system
-                  until now.  The history includes its transitions within the Deployment Lifecycle.
-                </p>
-                <p><a data-field="to-deploymentHistory-page" class="btn" href="deploymentHistory.html">History &raquo;</a></p>
+                <div class="description">
+                  <span class="deployment-history-icon"></span>
+                  <span>
+                    Click to see the history of this deployment, from the time it was added to the system
+                    until now.  The history includes its transitions within the Deployment Lifecycle.
+                  </span>
+                </div>
+                <div class="label-bar">
+                  <a data-field="to-deploymentHistory-page" class="btn btn-mini btn-focus btn-hover pull-right" href="deploymentHistory.html">Go &raquo;</a>
+                  <span>Deployment History</span>
+                </div>
               </div>
               <div class="span4 deployment-nav-panel">
-                <h4>Deployment Contents</h4>
-                <p>
-                  Here you can view a list of the interesting artifacts that the system located within
-                  the deployment.  This often includes artifacts such as XML files, WSDLs, and Schemas.
-                </p>
-                <p><a data-field="to-deploymentContents-page" class="btn" href="deploymentContents.html">Contents &raquo;</a></p>
-             </div>
+                <div class="description">
+                  <span class="deployment-contents-icon"></span>
+                  <span>
+                    Here you can view a list of the interesting artifacts that the system located within
+                    the deployment.  This often includes artifacts such as XML files, WSDLs, and Schemas.
+                  </span>
+                </div>
+                <div class="label-bar">
+                  <a data-field="to-deploymentContents-page" class="btn btn-mini btn-focus btn-hover pull-right" href="deploymentContents.html">Go &raquo;</a>
+                  <span>Deployment Contents</span>
+                </div>
+              </div>
             </div>
 
             <!-- Deployment History -->

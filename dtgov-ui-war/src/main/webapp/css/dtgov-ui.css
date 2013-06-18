@@ -32,6 +32,10 @@ a:hover {
   color: rgb(51, 51, 51);
 }
 
+.btn-hover {
+  visibility: hidden;
+}
+
 .btn-clear {
   padding: 5px 0px 5px 0px;
   width: 100%;
@@ -298,7 +302,7 @@ footer hr {
     background-color: white;
 }
 
-.task-details-title, .deployment-details-title {
+.task-details-title, .deployment-details-title, .deployment-history-title, .deployment-contents-title {
     font-weight: bold;
     font-size: 16px;
     text-shadow: 1px 1px 2px rgb(170, 170, 170);
@@ -328,7 +332,7 @@ footer hr {
   float: left;
 }
 
-.task-details, .deployment-details {
+.task-details, .deployment-details, .deployment-history, .deployment-contents {
   border-left: 1px solid rgb(211, 211, 211);
   border-bottom: 1px solid rgb(211, 211, 211);
   border-right: 1px solid rgb(211, 211, 211);
@@ -348,32 +352,106 @@ footer hr {
   padding-left: 5px;
 }
 
-.deployment-history-title {
-  font-weight: bold;
-  text-decoration: underline;
-}
-
 .deployment-details-emphasis {
   font-weight: bold;
   font-style: italic;
 }
 
-.deployment-history-item {
-  border-bottom: 1px solid rgb(211, 211, 211);
-  padding: 10px;
-  margin-bottom: 5px;
-}
-.deployment-history-item:hover {
-  background-color: #bfbfcf;
+.deployment-details-bold {
+  font-weight: bold;
 }
 
 .deployment-nav-panel {
+  border: 1px solid rgb(211, 211, 211);
+  background-color: rgb(244, 244, 244);
+  cursor: pointer;
+}
+.deployment-nav-panel .description {
+  padding: 10px;
+  line-height: 16px;
+}
+.deployment-nav-panel .label-bar {
+  padding: 5px;
+  padding-left: 10px;
+  background-color: white;
+}
+.deployment-nav-panel .label-bar span {
+  font-size: 12px;
+  font-weight: bold;
+  font-style: italic;
+}
+.deployment-nav-panel:hover {
+  border: 1px solid rgb(151, 161, 171);
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+}
+.deployment-nav-panel:hover .label-bar .btn-hover {
+  visibility: visible;
+}
+
+.deployment-history-icon, .deployment-contents-icon {
+  display: block;
+  float: left;
+  margin: 10px;
+}
+.deployment-history-icon {
+  background-image: url(../images/map-icon.png);
+  width: 26px;
+  height: 21px;
+}
+.deployment-contents-icon {
+  background-image: url(../images/shoebox-icon.png);
+  width: 24px;
+  height: 22px;
+}
+
+.deployment-history, .deployment-contents {
+  padding-top: 15px;
+}
+.deployment-history p {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.deployment-history-item, .deployment-contents-item {
+  border: 1px solid rgb(211, 211, 211);
+  background-color: rgb(247, 247, 247);
+  cursor: pointer;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+.deployment-history-item .details, .deployment-contents-item .details {
+  background-color: white;
+  border: 1px solid rgb(211, 211, 211);
+  margin-top: 5px;
   padding: 10px;
 }
-.deployment-nav-panel h4 {
-  font-size: 15px;
-  font-weight: normal;
-  text-decoration: underline;
-  font-style: italic;
-  color: #333;
+.deployment-history-item:hover {
+  border: 1px solid rgb(201, 201, 201);
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+}
+
+.deployment-contents-item {
+  margin-bottom: 6px;
+}
+.deployment-contents-item span {
+  line-height: 26px;
+  text-shadow: 0px 1px 0px white;
+}
+.deployment-contents-item .deployment-type {
+  margin-left: 15px;
+}
+.deployment-contents-item button {
+  margin-left: 5px;
+}
+.deployment-contents-item:hover {
+  border: 1px solid rgb(151, 161, 171);
+  margin-bottom: 6px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
+.deployment-history-item:hover .btn-hover, .deployment-contents-item:hover .btn-hover {
+  visibility: visible;
+}
+.deployment-contents-item .details .summary span {
+  font-size: 13px;
+  line-height: 15px;
 }
