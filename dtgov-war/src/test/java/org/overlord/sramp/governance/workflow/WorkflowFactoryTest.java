@@ -25,6 +25,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.overlord.sramp.governance.workflow.WorkflowFactory;
 import org.overlord.sramp.governance.workflow.brms.JbpmManager;
+import org.overlord.sramp.governance.workflow.jbpm.EmbeddedJbpmManager;
 
 /**
  * @author <a href="mailto:kurt.stam@gmail.com">Kurt Stam</a>
@@ -41,7 +42,7 @@ public class WorkflowFactoryTest {
     @Test
     public void testPersistenceFactory() throws Exception {
         BpmManager bpmManager = WorkflowFactory.newInstance();
-        Assert.assertEquals(JbpmManager.class, bpmManager.getClass());
+        Assert.assertEquals(EmbeddedJbpmManager.class, bpmManager.getClass());
     }
 
     @Test @Ignore  //the BPM engine needs to be running for this test to pass

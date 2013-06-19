@@ -385,7 +385,6 @@
     <module>dtgov-ui-war-jboss7</module>
     <module>dtgov-war</module>
     <module>dtgov-workflows</module>
-    <module>dtgov-workitems</module>
   </modules>
 </project>
 
