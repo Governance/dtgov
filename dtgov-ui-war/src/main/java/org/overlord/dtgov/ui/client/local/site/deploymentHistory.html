@@ -48,7 +48,7 @@
               <span class="deployment-history-type" data-field="deployment-type">(SwitchYardApplication)</span>
             </span>
             <div class="sp4n-label pull-right">
-              <span data-field="deployment-version" class="deployment-history-version">(1.0.3)</span>
+              <span class="deployment-history-version" data-field="deployment-version">(1.0.3)</span>
             </div>
             <div class="btn-group" style="visibility:hidden">
               <button class="btn" disabled="true">Spacer</button>
@@ -62,42 +62,47 @@
               <div class="span8">
                 <p>
                   <span>Below is a list of all historical events related to deployment</span>
-                  <span class="deployment-details-emphasis">switchyard-demos-multiApp-artifacts</span><span>, version</span>
-                  <span class="deployment-details-bold">1.0.3</span><span>.  Click on an individual event to see details about it.</span>
+                  <span data-field="deployment-name-2" class="deployment-details-emphasis">switchyard-demos-multiApp-artifacts</span><span>, version</span>
+                  <span data-field="deployment-version-2" class="deployment-details-bold">1.0.3</span><span>.  Click on an individual event to see details about it.</span>
                 </p>
               </div>
             </div>
-            <div class="row-fluid deployment-history-row">
-               <div class="span8 deployment-history-item">
-                 <div>
-                   <b>ewittman</b> on <em>12/24/2012</em> at <em>1:55PM</em>
-                   <a href="#" class="btn btn-small btn-hover btn-focus pull-right">Details</a>
+            <!-- The History Events/Items -->
+            <div data-field="deployment-history-items" class="deployment-history-items">
+              <div data-field="deployment-history-item" class="row-fluid deployment-history-row">
+                 <div class="span8 deployment-history-item">
+                   <div>
+                     <span data-field="who" class="bold">ewittman</span>
+                     <span>on</span>
+                     <span data-field="whenDay" class="italic">12/24/2012</span>
+                     <span>at</span>
+                     <span data-field="whenTime" class="italic">1:55PM</span>
+                     <button data-field="btn-details" class="btn btn-small btn-hover btn-focus pull-right">Details</button>
+                   </div>
+                   <div data-field="summary">Updated the deployment's meta-data.</div>
+                   <div data-field="deployment-history-item-details" class="details">
+                     <div data-field="deployment-history-item-loading-spinner" class="spinner deployment-history-item-loading">Loading event details, please wait...</div>
+                   </div>
                  </div>
-                 <div>Updated the deployment's meta-data.</div>
-                 <div class="details">
-                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent 
-                   libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum 
-                   imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper 
+              </div>
+              <div class="row-fluid deployment-history-row">
+                 <div class="span8 deployment-history-item">
+                   <div>
+                     <b>kstam</b> on <em>11/19/2012</em> at <em>10:23PM</em>
+                     <a href="#" class="btn btn-small btn-hover btn-focus pull-right">Details</a>
+                   </div>
+                   <div>Updated the deployment's meta-data.</div>
                  </div>
-               </div>
-            </div>
-            <div class="row-fluid deployment-history-row">
-               <div class="span8 deployment-history-item">
-                 <div>
-                   <b>kstam</b> on <em>11/19/2012</em> at <em>10:23PM</em>
-                   <a href="#" class="btn btn-small btn-hover btn-focus pull-right">Details</a>
+              </div>
+              <div class="row-fluid deployment-history-row">
+                 <div class="span8 deployment-history-item">
+                   <div>
+                     <b>kstam</b> on <em>11/15/2012</em> at <em>07:55AM</em>
+                     <a href="#" class="btn btn-small btn-hover btn-focus pull-right">Details</a>
+                   </div>
+                   <div>Initially updated/created the deployment.</div>
                  </div>
-                 <div>Updated the deployment's meta-data.</div>
-               </div>
-            </div>
-            <div class="row-fluid deployment-history-row">
-               <div class="span8 deployment-history-item">
-                 <div>
-                   <b>kstam</b> on <em>11/15/2012</em> at <em>07:55AM</em>
-                   <a href="#" class="btn btn-small btn-hover btn-focus pull-right">Details</a>
-                 </div>
-                 <div>Initially updated/created the deployment.</div>
-               </div>
+              </div>
             </div>
           </div>
         </div>  <!-- /deployment-history -->

@@ -26,8 +26,6 @@ import org.overlord.dtgov.ui.client.local.util.DtgovJS;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 
 /**
@@ -105,17 +103,5 @@ public abstract class AbstractPage extends Composite {
         state.put(stateKey, stateValue);
         return createPageHref(pageName, state);
     }
-
-    /**
-     * Adds a jquery click handler to the given element.  This allows the page to get notified when
-     * a native javascript element is clicked.
-     * @param element
-     * @param handler
-     */
-    protected native void addClickHandlerToElement(Element element, ClickHandler handler) /*-{
-        $wnd.jQuery(element).click(function() {
-            handler.@com.google.gwt.event.dom.client.ClickHandler::onClick(Lcom/google/gwt/event/dom/client/ClickEvent;)(null);
-        });
-    }-*/;
 
 }

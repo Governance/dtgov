@@ -65,7 +65,6 @@ public class DeploymentDetailsPage extends AbstractPage {
     protected DeploymentsRpcService deploymentsService;
     @Inject
     protected NotificationService notificationService;
-    protected DeploymentBean currentDeployment;
 
     @PageState
     private String uuid;
@@ -149,14 +148,14 @@ public class DeploymentDetailsPage extends AbstractPage {
         });
 
         Element navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-history");
-        addClickHandlerToElement(navPanel, new ClickHandler() {
+        DOMUtil.addClickHandlerToElement(navPanel, new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 onDeploymentHistoryNav(event);
             }
         });
         navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-contents");
-        addClickHandlerToElement(navPanel, new ClickHandler() {
+        DOMUtil.addClickHandlerToElement(navPanel, new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 onDeploymentContentsNav(event);
@@ -192,13 +191,11 @@ public class DeploymentDetailsPage extends AbstractPage {
      */
     @Override
     protected void onPageShowing() {
-        currentDeployment = null;
         pageContent.addClassName("hide");
         deploymentLoading.getElement().removeClassName("hide");
         deploymentsService.get(uuid, new IRpcServiceInvocationHandler<DeploymentBean>() {
             @Override
             public void onReturn(DeploymentBean data) {
-                currentDeployment = data;
                 updateMetaData(data);
             }
             @Override

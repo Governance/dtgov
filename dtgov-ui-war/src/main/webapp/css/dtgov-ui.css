@@ -6,6 +6,19 @@ body {
   display: none;
 }
 
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.emphasis {
+  font-weight: bold;
+  font-style: italic;
+}
+
 a {
   cursor: pointer;
   text-decoration: none;
