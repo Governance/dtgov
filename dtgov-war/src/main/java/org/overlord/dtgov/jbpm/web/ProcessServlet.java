@@ -17,6 +17,9 @@
 package org.overlord.dtgov.jbpm.web;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kie.api.runtime.process.ProcessInstance;
 import org.overlord.dtgov.jbpm.ejb.ProcessLocal;
 
 public class ProcessServlet extends HttpServlet {
@@ -40,16 +44,33 @@ public class ProcessServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String recipient = req.getParameter("recipient");
+        String processId = req.getParameter("processId");
+        String uuid = req.getParameter("uuid");
+        		//"com.sample.rewards-basic";
 
         long processInstanceId = -1;
+        Collection<ProcessInstance> processInstances = null;
+        
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        String governanceUrl = "http://localhost:8080/dtgov";
+        if (processId.equals("overlord.demo.SimpleReleaseProcess")) {
+        	parameters.put("ArtifactUuid", uuid);
+        	parameters.put("DeploymentUrl",governanceUrl + "/deploy/copy/{target}/{uuid}");
+        	parameters.put("NotificationUrl",governanceUrl + "/notify/email/{group}/deployed/{target}/{uuid}");
+        	parameters.put("UpdateMetaDataUrl",governanceUrl + "/update/{name}/{value}/{uuid}");
+        }
+        parameters.put("recipient", recipient);
         try {
-            processInstanceId = processService.startProcess(recipient);
+            processInstanceId = processService.startProcess(processId, parameters);
+            processInstances = processService.listProcessInstances();
         } catch (Exception e) {
             throw new ServletException(e);
         }
 
         req.setAttribute("message", "process instance (id = "
                 + processInstanceId + ") has been started.");
+        
+        req.setAttribute("processList", processInstances);
 
         ServletContext context = this.getServletContext();
         RequestDispatcher dispatcher = context

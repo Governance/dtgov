@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Rewards Basic example</title>
+<title>Workflow Processes</title>
 </head>
 <body>
 <p>Rewards Basic example</p>

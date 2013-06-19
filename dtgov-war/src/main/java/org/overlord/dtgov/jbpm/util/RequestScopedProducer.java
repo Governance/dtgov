@@ -27,7 +27,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 @RequestScoped
-public class RewardsRequestScopedProducer {
+public class RequestScopedProducer {
 
     @Inject
     private EntityManagerFactory emf;

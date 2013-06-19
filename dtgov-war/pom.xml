@@ -15,6 +15,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jbpm.version>6.0.0.Beta2</jbpm.version>
+    <drools.version>6.0.0-SNAPSHOT</drools.version>
   </properties>
 
   <dependencies>
@@ -45,22 +46,14 @@
       <version>${overlord-commons.version}</version>
       <scope>provided</scope>
     </dependency>
-
+	<dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-workitems</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jaxrs</artifactId>
-      <version>${resteasy.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.resteasy</groupId>
-      <artifactId>resteasy-atom-provider</artifactId>
-      <version>${resteasy.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.resteasy</groupId>
-      <artifactId>resteasy-jaxb-provider</artifactId>
       <version>${resteasy.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -161,7 +154,7 @@
     <dependency>
       <groupId>org.kie</groupId>
       <artifactId>kie-api</artifactId>
-      <version>${jbpm.version}</version>
+      <version>${drools.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
@@ -203,6 +196,11 @@
       <groupId>org.jboss.seam.transaction</groupId>
       <artifactId>seam-transaction</artifactId>
       <version>3.1.0.Final</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.jboss.spec.javax.security.jacc</groupId>
+    	<artifactId>jboss-jacc-api_1.4_spec</artifactId>
+    	<version>1.0.2.Final</version>
     </dependency>
   </dependencies>
 

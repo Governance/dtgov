@@ -16,9 +16,15 @@
 
 package org.overlord.dtgov.jbpm.ejb;
 
+import java.util.Collection;
+import java.util.Map;
+
 import javax.ejb.Local;
+
+import org.kie.api.runtime.process.ProcessInstance;
 
 @Local
 public interface ProcessLocal {
-    public long startProcess(String recipient) throws Exception;
+    public long startProcess(String processId, Map<String, Object> parameters) throws Exception;
+    public Collection<ProcessInstance> listProcessInstances() throws Exception;
 }

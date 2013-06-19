@@ -30,7 +30,9 @@
   <servlet-mapping>
     <!-- either we add multiple mappings, or we do something like /rest/brms/* -->
     <servlet-name>Resteasy</servlet-name>
-    <url-pattern>/brms/*</url-pattern>
+    <url-pattern>/deploy/*</url-pattern>
+    <url-pattern>/notify/*</url-pattern>
+    <url-pattern>/update/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ProcessServlet</servlet-name>

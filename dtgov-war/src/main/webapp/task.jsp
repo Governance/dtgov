@@ -17,6 +17,7 @@
 </tr>
 <% for (TaskSummary task : (List<TaskSummary>)request.getAttribute("taskList")) { %>
 <tr>
+<td><%= task.getProcessId() %></td>
 <td><%= task.getName() %></td>
 <td><%= task.getId() %></td>
 <td><%= task.getProcessInstanceId() %></td>

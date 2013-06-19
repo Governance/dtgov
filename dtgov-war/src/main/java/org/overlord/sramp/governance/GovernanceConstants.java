@@ -38,10 +38,10 @@ public interface GovernanceConstants {
     public static final String GOVERNANCE_EMAIL_DOMAIN  = "governance.email.domain";
     public static final String GOVERNANCE_EMAIL_FROM    = "governance.email.from";
 
-    //JBPM connection info
-    public static final String GOVERNANCE_JBPM_USER     = "governance.jbpm.user";
-    public static final String GOVERNANCE_JBPM_PASSWORD = "governance.jbpm.password";
-    public static final String GOVERNANCE_JBPM_URL      = "governance.jbpm.url";
+    //BPM connection info
+    public static final String GOVERNANCE_BPM_USER     = "governance.bpm.user";
+    public static final String GOVERNANCE_BPM_PASSWORD = "governance.bpm.password";
+    public static final String GOVERNANCE_BPM_URL      = "governance.bpm.url";
 
     //governance resource configuration
     public static final String GOVERNANCE_TARGETS       = "governance.targets";

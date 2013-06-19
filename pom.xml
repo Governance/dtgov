@@ -94,6 +94,7 @@
     <commons-fileupload.version>1.2.2</commons-fileupload.version>
     <errai.version>3.0-SNAPSHOT</errai.version>
     <gwt.version>2.5.0</gwt.version>
+    <jbpm.version>6.0.0.Beta2</jbpm.version>
     <weld.version>1.1.6.Final</weld.version>
     <mvel.version>2.1.Beta8</mvel.version>
     <jetty.version>6.1.25</jetty.version>
@@ -111,6 +112,7 @@
     <slf4j-api.version>1.5.11</slf4j-api.version>
     <slf4j-log4j.version>1.5.11</slf4j-log4j.version>
     <slf4j-nop.version>1.5.11</slf4j-nop.version>
+    
   </properties>
 
   <build>

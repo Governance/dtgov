@@ -16,7 +16,7 @@
 
 package org.overlord.dtgov.jbpm.ejb;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -33,11 +33,15 @@ import org.kie.api.runtime.manager.RuntimeManager;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.runtime.manager.context.EmptyContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class ProcessBean implements ProcessLocal {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
     @Resource
     private UserTransaction ut;
 
@@ -45,7 +49,7 @@ public class ProcessBean implements ProcessLocal {
     @Singleton
     RuntimeManager singletonManager;
     
-    public long startProcess(String recipient) throws Exception {
+    public long startProcess(String processId, Map<String, Object> parameters) throws Exception {
 
         RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
         KieSession ksession = runtime.getKieSession();
@@ -55,14 +59,14 @@ public class ProcessBean implements ProcessLocal {
         ut.begin();
 
         try {
+        	
+        	
             // start a new process instance
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("recipient", recipient);
-            ProcessInstance processInstance = ksession.startProcess("com.sample.rewards-basic", params);
-
+            ProcessInstance processInstance = ksession.startProcess(processId, parameters);
+            
             processInstanceId = processInstance.getId();
 
-            System.out.println("Process started ... : processInstanceId = " + processInstanceId);
+            logger.info("Process started ... : processInstanceId = " + processInstanceId);
 
             ut.commit();
         } catch (Exception e) {
@@ -74,6 +78,32 @@ public class ProcessBean implements ProcessLocal {
         }
 
         return processInstanceId;
+    }
+    
+    public Collection<ProcessInstance> listProcessInstances() throws Exception {
+    	
+    	RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
+        KieSession ksession = runtime.getKieSession();
+        
+        Collection<ProcessInstance> processInstances = null;
+        ut.begin();
+
+        try {
+	        processInstances = ksession.getProcessInstances();
+	        for (ProcessInstance processInstance : processInstances) {
+				System.out.println(processInstance.getProcess().getName());
+				System.out.println("..");
+			}
+	        ut.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (ut.getStatus() == Status.STATUS_ACTIVE) {
+                ut.rollback();
+            }
+            throw e;
+        }
+        return processInstances;
+    	
     }
     
 }

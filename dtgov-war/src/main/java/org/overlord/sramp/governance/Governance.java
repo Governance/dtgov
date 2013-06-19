@@ -78,9 +78,9 @@ public class Governance {
         StringBuffer configuration = new StringBuffer();
         try {
             configuration.append("Governance configuration:").append("\n");
-            configuration.append(GovernanceConstants.GOVERNANCE_JBPM_URL      + ": " + getJbpmUrl()).append("\n");
-            configuration.append(GovernanceConstants.GOVERNANCE_JBPM_USER     + ": " + getJbpmUser()).append("\n");
-            configuration.append(GovernanceConstants.GOVERNANCE_JBPM_PASSWORD + ": " + getJbpmPassword().replaceAll(".", "*")).append("\n");
+            configuration.append(GovernanceConstants.GOVERNANCE_BPM_URL       + ": " + getBpmUrl()).append("\n");
+            configuration.append(GovernanceConstants.GOVERNANCE_BPM_USER      + ": " + getBpmUser()).append("\n");
+            configuration.append(GovernanceConstants.GOVERNANCE_BPM_PASSWORD  + ": " + getBpmPassword().replaceAll(".", "*")).append("\n");
 
             configuration.append(GovernanceConstants.SRAMP_REPO_URL           + ": " + getSrampUrl()).append("\n");
             configuration.append(GovernanceConstants.SRAMP_REPO_USER          + ": " + getSrampUser()).append("\n");
@@ -111,16 +111,16 @@ public class Governance {
         }
     }
 
-    public String getJbpmUser() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_JBPM_USER, "admin");
+    public String getBpmUser() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_USER, "admin");
     }
 
-    public String getJbpmPassword() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_JBPM_PASSWORD, "admin");
+    public String getBpmPassword() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_PASSWORD, "overlord");
     }
 
-    public URL getJbpmUrl() throws MalformedURLException {
-        return new URL(configuration.getString(GovernanceConstants.GOVERNANCE_JBPM_URL, "http://localhost:8080/gwt-console-server"));
+    public URL getBpmUrl() throws MalformedURLException {
+        return new URL(configuration.getString(GovernanceConstants.GOVERNANCE_BPM_URL, "http://localhost:8080/gwt-console-server"));
     }
 
     /**

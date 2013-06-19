@@ -27,6 +27,10 @@ public class SimpleWorkItemHandlerProducer implements WorkItemHandlerProducer {
     //@Override
     public Map<String, WorkItemHandler> getWorkItemHandlers(String s, Map<String, Object> stringObjectMap) {
         // add any WorkItemHandlers that should be registered on the session
-        return new HashMap<String, WorkItemHandler>();
+    	Map<String, WorkItemHandler> workItemHandlers = new HashMap<String, WorkItemHandler>();
+    	workItemHandlers.put("HttpClientDeploy", (WorkItemHandler) new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
+    	workItemHandlers.put("HttpClientNotify", (WorkItemHandler) new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
+    	workItemHandlers.put("HttpClientUpdateMetaData", (WorkItemHandler) new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
+        return workItemHandlers;
     }
 }

@@ -49,7 +49,8 @@ public class NotificationResourceTest extends BaseResourceTest {
     public void testMail() {
         try {
             Properties properties = new Properties();
-            properties.setProperty("mail.smtp.host", "smtp.mailinator.com");
+            properties.setProperty("mail.smtp.host", "localhost");
+            properties.setProperty("mail.smtp.port", "25");
             Session mailSession = Session.getDefaultInstance(properties);
             MimeMessage m = new MimeMessage(mailSession);
             Address from = new InternetAddress("me@gmail.com");

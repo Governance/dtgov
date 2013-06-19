@@ -17,6 +17,7 @@
 package org.overlord.dtgov.jbpm.ejb;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -29,8 +30,18 @@ import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
 import org.jbpm.services.task.exception.PermissionDeniedException;
+import org.jbpm.services.task.utils.ContentMarshallerHelper;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.manager.RuntimeEngine;
+import org.kie.api.runtime.manager.RuntimeManager;
+import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.api.runtime.process.WorkflowProcessInstance;
 import org.kie.api.task.TaskService;
+import org.kie.api.task.model.Content;
+import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskSummary;
+import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
+import org.kie.internal.runtime.manager.context.EmptyContext;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
@@ -50,9 +61,29 @@ public class TaskBean implements TaskLocal {
         System.out.println("retrieveTaskList by " + actorId);
         for (TaskSummary task : list) {
             System.out.println(" task.getId() = " + task.getId());
+            
         }
 
         return list;
+    }
+    
+    public Task retrieveTask(long taskId) throws Exception {
+    	
+    	Task task = taskService.getTaskById(taskId);
+    	
+    	long processInstanceId = task.getTaskData().getProcessInstanceId();
+    	
+    	
+    	
+    	
+    	long docId = taskService.getTaskById(taskId).getTaskData().getDocumentContentId();
+        Content content = taskService.getContentById(docId);
+        
+        @SuppressWarnings("unchecked")
+		Map<String,Object> inputVars = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
+        return task;
+    	
+    	
     }
 
     public void approveTask(String actorId, long taskId) throws Exception {
@@ -61,9 +92,20 @@ public class TaskBean implements TaskLocal {
 
         try {
             System.out.println("approveTask (taskId = " + taskId + ") by " + actorId);
+            
+            Task task = taskService.getTaskById(taskId);
+        	task.getTaskData().getProcessInstanceId();
+            
             taskService.start(taskId, actorId);
+            
+            //set outputdata in the 3rd argument
             taskService.complete(taskId, actorId, null);
-
+            
+            //long docId = taskService.getTaskById(1l).getTaskData().getDocumentContentId();
+            //Content content = taskService.getContentById(docId);
+            
+           // Map<String,Object> inputVars = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
+            
             //Thread.sleep(10000); // To test OptimisticLockException
 
             ut.commit();

@@ -34,14 +34,14 @@ import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.task.api.UserGroupCallback;
 
 @ApplicationScoped
-public class RewardsApplicationScopedProducer {
+public class ApplicationScopedProducer {
 
     @Inject
     private InjectableRegisterableItemsFactory factory;
     @Inject
     private UserGroupCallback usergroupCallback;
 
-    @PersistenceUnit(unitName = "com.sample.rewards")
+    @PersistenceUnit(unitName = "org.overlord.dtgov.jbpm")
     private EntityManagerFactory emf;
 
 
@@ -54,7 +54,7 @@ public class RewardsApplicationScopedProducer {
     public EntityManagerFactory produceEntityManagerFactory() {
         if (this.emf == null) {
             this.emf = Persistence
-                    .createEntityManagerFactory("com.sample.rewards");
+                    .createEntityManagerFactory("org.overlord.dtgov.jbpm");
         }
         return this.emf;
     }
@@ -72,7 +72,13 @@ public class RewardsApplicationScopedProducer {
                 .addAsset(
                         ResourceFactory
                                 .newClassPathResource("rewards-basic.bpmn"),
-                        ResourceType.BPMN2).get();
+                        ResourceType.BPMN2)
+                .addAsset(
+                        ResourceFactory
+                                .newClassPathResource("overlord.demo.SimpleReleaseProcess.bpmn"),
+                        ResourceType.BPMN2)
+                        .get();
+        
         return environment;
     }
 

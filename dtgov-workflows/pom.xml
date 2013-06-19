@@ -9,7 +9,30 @@
 
 	<artifactId>dtgov-workflows</artifactId>
 	<name>Design Time Governance Workflows</name>
-  <packaging>jar</packaging>
+        <packaging>jar</packaging>
 	<description>Design Time Governance governance workflows.</description>
+	
+	<build>
+        <plugins>
+            <plugin>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-maven-plugin</artifactId>
+                <version>6.0.0-SNAPSHOT</version>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+       <dependency>
+         <groupId>org.jbpm</groupId>
+         <artifactId>jbpm-bpmn2</artifactId>
+         <version>6.0.0-SNAPSHOT</version>
+       </dependency>
+       <dependency>
+       	<groupId>org.drools</groupId>
+       	<artifactId>drools-compiler</artifactId>
+       	<version>6.0.0-SNAPSHOT</version>
+       </dependency>
+    </dependencies>
 
 </project>

@@ -13,34 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.sramp.governance.workflow.brms;
+package org.overlord.sramp.governance.workflow.jbpm;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Map;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
+import javax.ejb.EJB;
+
+import org.overlord.dtgov.jbpm.ejb.ProcessLocal;
 import org.overlord.sramp.governance.Governance;
 import org.overlord.sramp.governance.workflow.BpmManager;
 import org.overlord.sramp.governance.workflow.WorkflowException;
 
-public class JbpmManager implements BpmManager {
+public class EmbeddedJbpmManager implements BpmManager {
 
+	@EJB
+    private ProcessLocal processService;
+	
     Governance governance = new Governance();
     @Override
     public void newProcessInstance(String processId, Map<String, Object> context) throws WorkflowException {
-        try {
-	    	HttpClient httpclient = new DefaultHttpClient();
-	        JbpmRestClient jbpmClient = new JbpmRestClient(httpclient, governance.getBpmUrl().toExternalForm());
-	        jbpmClient.logon(governance.getBpmUser(), governance.getBpmPassword());
-	        jbpmClient.newProcessInstanceAndCompleteFirstTask(processId, context);
-	        httpclient.getConnectionManager().shutdown();
-        } catch (IOException e) {
-        	throw new WorkflowException(e);
-        } catch (URISyntaxException e) {
-        	throw new WorkflowException(e);
-		}
+        
+    	try {
+    		@SuppressWarnings("unused")
+			long processInstanceId = processService.startProcess(processId, context);
+    		
+    	} catch (Exception e) {
+    		throw new WorkflowException(e);
+    	}
     }
+    
+   
     
 }
