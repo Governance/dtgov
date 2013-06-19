@@ -1,0 +1,379 @@
+body {
+  background-color: #eaeaea;
+}
+
+#page .closed {
+  display: none;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.spinner {
+  background-image: url("../images/spinner_16.gif");
+  background-position: top left;
+  background-repeat: no-repeat;
+  padding-left: 20px;
+}
+
+.btn-focus {
+  color: #2da0db;
+  text-shadow: 0px 1px 0px white;
+}
+.btn-focus:hover {
+  color: #2da0db;
+}
+.btn-focus[disabled]:hover {
+  color: rgb(51, 51, 51);
+}
+
+.btn-clear {
+  padding: 5px 0px 5px 0px;
+  width: 100%;
+}
+
+.btn-filter {
+  padding: 5px 0px 5px 0px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+input.filter-date {
+    cursor: pointer;
+}
+
+.sp4n-label {
+  text-shadow: 0px 1px 0px white;
+  padding: 4px 12px;
+  line-height: 20px;
+  display: inline;
+}
+
+.filter-label {
+    cursor: default;
+}
+
+.propval-editor-popover {
+  position: fixed;
+}
+.propval-editor-popover .overlay {
+  border: 1px solid #999;
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+}
+.propval-editor-popover .actions {
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+  float: right;
+  border: 1px solid #999;
+  border-top: none;
+}
+.propval-editor-popover .actions .action {
+  float: left;
+  padding: 6px;
+  background-color: white;
+}
+.propval-editor-popover .actions .action:hover {
+  background-color: #eee;
+}
+
+.growl-dialog {
+  position: fixed;
+  z-index: 1000;
+  width: 350px;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px 4px 0px 0px;
+  outline: 0px none;
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+  background-clip: padding-box;
+}
+.growl-dialog-error {
+  color: #d00000;
+}
+.growl-dialog-hover {
+  background-color: #fefefe;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.5);
+}
+.growl-dialog-header {
+  padding: 1px 8px;
+  background-color: rgb(245, 245, 245);
+  background-image: url("../images/modal-header-bg.png");
+  background-position: bottom left;
+  background-repeat: repeat-x;
+  border-radius: 6px 6px 0px 0px;
+  border-bottom: 1px solid rgb(223, 223, 223);
+}
+.growl-dialog-header-title {
+  font-size: 11px;
+  font-weight: bold;
+}
+.growl-dialog-body {
+  position: relative;
+  max-height: 200px;
+  padding: 8px;
+  overflow-y: auto;
+  line-height: normal;
+  font-size: 12px;
+}
+
+.input-name {
+  width: 95%;
+}
+.input-value {
+  width: 95%;
+}
+
+.hero-unit {
+  background-color: transparent;
+  border-bottom: 1px solid rgb(187, 187, 187);
+  border-radius: 0px;
+}
+
+.breadcrumb {
+  border: 1px solid rgb(211, 211, 211);
+  background-image: url("../images/gradient-bg.png");
+  background-position: bottom left;
+  background-repeat: repeat-x;
+}
+
+.table-striped tbody tr:nth-child(2n) td, .table-striped tbody tr:nth-child(2n) th {
+  background-color: white;
+}
+
+.tooltip-inner {
+  background-color: #666;
+  color: #fafafa;
+  text-shadow: 0px 1px 0px black;
+}
+
+.tooltip.in {
+  opacity: 1.0;
+}
+
+.tooltip.top .tooltip-arrow {
+  border-top-color: #666;
+}
+.tooltip.right .tooltip-arrow {
+  border-right-color: #666;
+}
+.tooltip.left .tooltip-arrow {
+  border-left-color: #666;
+}
+.tooltip.bottom .tooltip-arrow {
+  border-bottom-color: #666;
+}
+
+footer {
+  color: #666;
+  text-shadow: 0px 1px 0px white;
+  margin-bottom: 10px;
+}
+
+footer p {
+  margin: 0px;
+  padding: 0px;
+}
+
+footer hr {
+  border-bottom: 1px solid #bbb;
+}
+
+.modal-header {
+  padding: 1px 15px;
+  background-color: #f5f5f5;
+  background-image: url("../images/modal-header-bg.png");
+  background-position: bottom left;
+  background-repeat: repeat-x;
+  border-radius: 6px 6px 0px 0px;
+  border-bottom: 1px solid #dfdfdf;
+}
+.modal-header h4 {
+  font-size: 110%;
+  text-shadow: 0px 1px 0px white;
+}
+.modal-header .close {
+  margin-top: 10px;
+}
+
+#fileupload-import .input-append {
+  width: 100%;
+}
+#fileupload-import .uneditable-input {
+  width: 60%;
+}
+
+.filter-sidebar {
+  border: 1px solid rgb(211, 211, 211);
+}
+
+.filter-inner {
+  padding: 9px 15px 0px;
+}
+
+.filter-header {
+    text-indent: 15px;
+    background-color: rgb(31, 151, 216);
+}
+.filter-header a {
+    padding-top: 5px;
+    color: white;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+.filter-header span.caret {
+    color: white;
+    margin-top: 8px;
+    margin-right: 8px;
+    border-top: 4px solid white;
+}
+
+.task-search {
+    padding: 5px;
+}
+
+.tasks, .deployments {
+    padding: 0px;
+}
+
+.tasks-actions, .task-actions, .deployments-actions, .deployment-actions {
+    border: 1px solid rgb(211, 211, 211);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-image: url("../images/gradient-bg.png");
+    background-position: left bottom;
+    background-repeat: repeat-x;
+    background-color: rgb(242, 242, 242);
+}
+.tasks-actions, .deployments-actions {
+  padding: 10px;
+}
+.task-actions, .deployment-actions {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.tasks-none, .tasks-searching, .deployments-none, .deployments-searching {
+    float: left;
+    width: 100%;
+    background-color: white;
+    border-left: 1px solid rgb(211, 211, 211);
+    border-right: 1px solid rgb(211, 211, 211);
+    border-bottom: 1px solid rgb(211, 211, 211);
+    margin-bottom: 20px;
+}
+.tasks-searching span, .deployments-searching span {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 36px;
+    float: left;
+    background-position: 16px 11px;
+}
+.tasks-none span, .deployments-none span {
+    padding: 10px;
+    float: left;
+    font-style: italic;
+}
+
+.tasks-table, .deployments-table {
+    border-left: 1px solid rgb(211, 211, 211);
+    border-right: 1px solid rgb(211, 211, 211);
+    border-bottom: 1px solid rgb(211, 211, 211);
+}
+
+.tasks-table thead th, .tasks-table tbody td {
+    border-left: 1px solid rgb(211, 211, 211);
+}
+.tasks-table thead th {
+    background-color: white;
+}
+.deployments-table thead th, .deployments-table tbody td {
+    border-left: 1px solid rgb(211, 211, 211);
+}
+.deployments-table thead th {
+    background-color: white;
+}
+
+.task-details-title, .deployment-details-title {
+    font-weight: bold;
+    font-size: 16px;
+    text-shadow: 1px 1px 2px rgb(170, 170, 170);
+    padding-right: 15px;
+}
+
+.details-meta-data-section {
+  margin-top: 15px;
+}
+
+.details-meta-data-section .btn {
+  margin-top: 5px;
+}
+
+.details-meta-data-section-header {
+  font-weight: bold;
+  float: left;
+}
+
+.details-meta-data-section-label {
+  white-space: nowrap;
+  min-width: 130px;
+  float: left;
+}
+
+.details-meta-data-section-value {
+  float: left;
+}
+
+.task-details, .deployment-details {
+  border-left: 1px solid rgb(211, 211, 211);
+  border-bottom: 1px solid rgb(211, 211, 211);
+  border-right: 1px solid rgb(211, 211, 211);
+  background-color: white;
+  padding-bottom: 15px;
+}
+
+.task-search, .deployment-search {
+  padding: 5px;
+}
+
+.controls-checkbox {
+  margin-bottom: 5px;
+}
+
+.filter-checkbox span {
+  padding-left: 5px;
+}
+
+.deployment-history-title {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.deployment-details-emphasis {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.deployment-history-item {
+  border-bottom: 1px solid rgb(211, 211, 211);
+  padding: 10px;
+  margin-bottom: 5px;
+}
+.deployment-history-item:hover {
+  background-color: #bfbfcf;
+}
+
+.deployment-nav-panel {
+  padding: 10px;
+}
+.deployment-nav-panel h4 {
+  font-size: 15px;
+  font-weight: normal;
+  text-decoration: underline;
+  font-style: italic;
+  color: #333;
+}

@@ -50,6 +50,10 @@ body.no-fileupload .requires-fileupload {
   .modal-header .close {
     display: none;
   }
+  
+  .details-meta-data-section, .task-form {
+    padding: 10px;
+  }
 
 }
 

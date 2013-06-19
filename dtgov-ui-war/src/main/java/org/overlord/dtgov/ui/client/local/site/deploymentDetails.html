@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>DTGov - Deployment Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <meta name="description" content=""></meta>
+    <meta name="author" content=""></meta>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui-responsive.css" rel="stylesheet"></link>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.min.js"></script>
+    <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/js/dtgov-responsive.js"></script>
+  </head>
+
+  <body>
+    <div id="page" data-field="page">
+
+      <!-- Content area with footer-->
+      <div id="page-content" class="container-fluid">
+
+        <!-- Breadcrumbs -->
+        <div class="row-fluid">
+          <ul class="breadcrumb">
+            <li><a data-field="back-to-dashboard" href="dashboard.html">DTGov Dashboard</a> <span class="divider">/</span></li>
+            <li><a data-field="back-to-deployments" href="deployments.html">Deployments</a> <span class="divider">/</span></li>
+            <li class="active">Deployment Details</li>
+          </ul>
+        </div>
+
+        <!-- Loading spinner -->
+        <div data-field="deployment-details-loading-spinner" class="spinner deployment-details-loading hide">Loading deployment, please wait...</div>
+
+        <div id="deployment-details-content-wrapper">
+        <!-- Action bar -->
+        <div class="row-fluid deployment-actions">
+          <div class="span12">
+            <span class="sp4n-label">
+              <span class="deployment-details-title" data-field="deployment-name">switchyard-demos-multiApp-artifacts</span>
+              <span class="deployment-details-type" data-field="deployment-type">(SwitchYardApplication)</span>
+            </span>
+            <div class="sp4n-label pull-right">
+              <span data-field="deployment-version" class="deployment-details-version">(1.0.3)</span>
+            </div>
+            <div class="btn-group" style="visibility:hidden">
+              <button class="btn" disabled="true">Spacer</button>
+            </div>
+          </div>
+        </div>
+        <!-- Deployment Details -->
+        <div class="row-fluid deployment-details">
+          <div class="container-fluid">
+            <!-- Deployment Properties and Description -->
+            <div class="row-fluid">
+              <!-- Deployment Properties (left half) -->
+              <div class="span6 details-meta-data-section">
+                <div class="details-meta-data-section-header">Deployment Properties</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">UUID:</div>
+                <div data-field="deploymentUuid" class="details-meta-data-section-value">22143-2134982-23782-3782</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">Deployment Stage:</div>
+                <div data-field="stage" class="details-meta-data-section-value" style="font-weight: bold">Dev</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">Version:</div>
+                <div data-field="version" class="details-meta-data-section-value">1.0.7</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">Type:</div>
+                <div data-field="deploymentType" class="details-meta-data-section-value">SwitchYardApplication</div>
+                <div class="clearfix"></div>
+                <div class="details-meta-data-section-label">Initiated:</div>
+                <div class="details-meta-data-section-value">
+                  <span class="deployment-details-emphasis" data-field="initiatedDate">12/07/2012</span> by <span class="deployment-details-emphasis" data-field="initiatedBy">ewittman</span>
+                </div>
+                <div id="maven-details" class="maven-details">
+                  <div class="clearfix"></div>
+                  <div class="details-meta-data-section-label">Maven Group:</div>
+                  <div data-field="mavenGroupId" class="details-meta-data-section-value">org.switchyard.demos.multiApp</div>
+                  <div class="clearfix"></div>
+                  <div class="details-meta-data-section-label">Maven Id:</div>
+                  <div data-field="mavenArtifactId" class="details-meta-data-section-value">switchyard-demos-multiApp-artifacts</div>
+                  <div class="clearfix"></div>
+                  <div class="details-meta-data-section-label">Maven Version:</div>
+                  <div data-field="mavenVersion" class="details-meta-data-section-value">1.0.7</div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <!-- Description -->
+              <div class="span6 details-meta-data-section">
+                <div class="details-meta-data-section-header">Description</div>
+                <div class="clearfix"></div>
+                <span data-field="deployment-description" class="core-property-description">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent 
+                  libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum 
+                  imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper 
+                  porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu 
+                  ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales 
+                  ligula in libero. Sed dignissim lacinia nunc. 
+                </span>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <hr />
+            <div class="row-fluid hidden">
+              <div class="span4 deployment-nav-panel">
+                <h4>Deployment History</h4>
+                <p>
+                  Click to see the history of this deployment, from the time it was added to the system
+                  until now.  The history includes its transitions within the Deployment Lifecycle.
+                </p>
+                <p><a data-field="to-deploymentHistory-page" class="btn" href="deploymentHistory.html">History &raquo;</a></p>
+              </div>
+              <div class="span4 deployment-nav-panel">
+                <h4>Deployment Contents</h4>
+                <p>
+                  Here you can view a list of the interesting artifacts that the system located within
+                  the deployment.  This often includes artifacts such as XML files, WSDLs, and Schemas.
+                </p>
+                <p><a data-field="to-deploymentContents-page" class="btn" href="deploymentContents.html">Contents &raquo;</a></p>
+             </div>
+            </div>
+
+            <!-- Deployment History -->
+            <!-- 
+            <div class="row-fluid deployment-history">
+              <div class="span12">
+                <span class="deployment-history-title">Deployment History</span>
+              </div>
+              <div class="container-fluid">
+                <div class="row-fluid">
+                  <div class="span6">
+                     <div class="container-fluid">
+                       <div class="row-fluid deployment-history-item">
+                         <div><b>ewittman</b> on <em>12/24/2012</em> at <em>1:55PM</em></div>
+                         <div>Updated the deployment's meta-data.  Click for details.</div>
+                       </div>
+                       <div class="row-fluid deployment-history-item">
+                         <div><b>kstam</b> on <em>11/19/2012</em> at <em>10:23PM</em></div>
+                         <div>Updated the deployment's meta-data.  Click for details.</div>
+                       </div>
+                       <div class="row-fluid deployment-history-item">
+                         <div><b>kstam</b> on <em>11/15/2012</em> at <em>07:55AM</em></div>
+                         <div>Initially updated/created the deployment.</div>
+                       </div>
+                     </div>
+                  </div>
+                  <div class="span6">
+                  </div>
+                </div>
+              </div>
+            </div>
+             -->
+          </div>
+        </div>  <!-- /deployment-details -->
+        
+        </div> <!-- /content-wrapper -->
+        
+        <!-- Footer -->
+        <footer>
+          <hr />
+          <p>&copy; JBoss Overlord 2013</p>
+        </footer>
+      </div> <!-- /container -->
+      
+    </div> <!-- /page -->
+
+    <!-- Some scripting to add functionality to the live template -->
+    <script>
+      $(document).ready(function() {
+      });
+    </script>
+  </body>
+</html>

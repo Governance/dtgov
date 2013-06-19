@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-datepicker.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-fileupload.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui-responsive.css" rel="stylesheet"></link>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-fileupload.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/js/dtgov-ui-responsive.js"></script>
+  </head>
+
+  <body>
+  
+    <div>
+      <div class="btn-group" style="margin: 20px">
+        <button id="btn-add-deployment" class="btn">Add Deployment</button>
+      </div>
+    </div>
+
+
+    <!-- Add Deployment modal -->
+    <div data-field="add-deployment-dialog" id="add-deployment-dialog" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4>Add Deployment</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Choose a deployment file to upload.  This is typically a binary artifact (e.g. web application .war)
+          whose lifecycle you would like to govern.
+        </p>
+        <form data-field="add-deployment-dialog-form" method="post" enctype="multipart/form-data">
+          <div id="fileupload-deployment" class="fileupload fileupload-new" data-provides="fileupload" data-name="deployment-file">
+            <div class="input-append">
+              <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> 
+                <span class="fileupload-preview"></span>
+              </div><span class="btn btn-file"><span class="fileupload-new">Select</span><span class="fileupload-exists">Change</span><input type="file"></input></span><a class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+            </div>
+          </div>
+          <p>
+            Also make sure to specify what type of artifact it is:
+          </p>
+          <select data-field="deploymentType" name="deploymentType" class="selectpicker">
+            <option value="ext/SwitchYardApplication">SwitchYard Application</option>
+            <option value="ext/JavaApplication">Java Application</option>
+            <option value="ext/CXFApplication">CXF Application</option>
+          </select>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a class="btn" data-dismiss="modal">Cancel</a>
+        <a data-field="add-deployment-dialog-submit-button" class="btn btn-focus">Add</a>
+      </div>
+    </div>
+
+
+    <!-- Some scripting to add functionality to the live template -->
+    <script>
+      $('#btn-add-deployment').click(function() {
+        $('#add-deployment-dialog').modal({keyboard:false,backdrop:'static'});
+      });
+    </script>
+
+  </body>
+</html>

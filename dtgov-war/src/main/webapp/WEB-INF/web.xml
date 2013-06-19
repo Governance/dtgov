@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  version="2.5">
 
   <display-name>rewards-basic</display-name>
 
   <servlet>
     <servlet-name>GovernanceServlet</servlet-name>
-    <display-name>Governance Servlet</display-name>
     <servlet-class>org.overlord.sramp.governance.GovernanceServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  <servlet>
-    <servlet-name>Resteasy</servlet-name>
-    <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
-    <init-param>
-      <param-name>javax.ws.rs.Application</param-name>
-      <param-value>org.overlord.sramp.governance.services.GovernanceApplication</param-value>
-    </init-param>
-  </servlet>
+
   <servlet>
     <servlet-name>ProcessServlet</servlet-name>
     <servlet-class>org.overlord.dtgov.jbpm.web.ProcessServlet</servlet-class>
@@ -26,7 +20,6 @@
     <servlet-class>org.overlord.dtgov.jbpm.web.TaskServlet</servlet-class>
   </servlet>
   
-  
   <servlet-mapping>
     <!-- either we add multiple mappings, or we do something like /rest/brms/* -->
     <servlet-name>Resteasy</servlet-name>
@@ -34,10 +27,12 @@
     <url-pattern>/notify/*</url-pattern>
     <url-pattern>/update/*</url-pattern>
   </servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>ProcessServlet</servlet-name>
     <url-pattern>/process</url-pattern>
   </servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>TaskServlet</servlet-name>
     <url-pattern>/task</url-pattern>
@@ -61,10 +56,8 @@
   <security-role>
     <role-name>overlorduser</role-name>
   </security-role>
-  
-  <!-- Welcome files -->
+
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
-  
 </web-app>
