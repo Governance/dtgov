@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.dtgov.ui.client.local.widgets;
+package org.overlord.dtgov.ui.client.local.pages.deployments;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import org.overlord.dtgov.ui.client.shared.beans.ExpandedArtifactSummaryBean;
 import org.overlord.dtgov.ui.client.shared.beans.HistoryEventSummaryBean;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -34,23 +35,23 @@ import com.google.gwt.user.client.ui.HasValue;
  * @author eric.wittmann@redhat.com
  */
 @Dependent
-public class HistoryEventsList extends FlowPanel implements HasValue<List<HistoryEventSummaryBean>> {
+public class ExpandedArtifactList extends FlowPanel implements HasValue<List<ExpandedArtifactSummaryBean>> {
 
-    private List<HistoryEventSummaryBean> value;
+    private List<ExpandedArtifactSummaryBean> value;
     @Inject
-    protected Instance<HistoryEventItem> eventItemFactory;
+    protected Instance<ExpandedArtifactItem> itemFactory;
 
     /**
      * Constructor.
      */
-    public HistoryEventsList() {
+    public ExpandedArtifactList() {
     }
 
     /**
      * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
      */
     @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<HistoryEventSummaryBean>> handler) {
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<ExpandedArtifactSummaryBean>> handler) {
         return addHandler(handler, ValueChangeEvent.getType());
     }
 
@@ -58,7 +59,7 @@ public class HistoryEventsList extends FlowPanel implements HasValue<List<Histor
      * @see com.google.gwt.user.client.ui.HasValue#getValue()
      */
     @Override
-    public List<HistoryEventSummaryBean> getValue() {
+    public List<ExpandedArtifactSummaryBean> getValue() {
         return value;
     }
 
@@ -66,7 +67,7 @@ public class HistoryEventsList extends FlowPanel implements HasValue<List<Histor
      * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(List<HistoryEventSummaryBean> value) {
+    public void setValue(List<ExpandedArtifactSummaryBean> value) {
         setValue(value, false);
     }
 
@@ -74,7 +75,7 @@ public class HistoryEventsList extends FlowPanel implements HasValue<List<Histor
      * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
      */
     @Override
-    public void setValue(List<HistoryEventSummaryBean> value, boolean fireEvents) {
+    public void setValue(List<ExpandedArtifactSummaryBean> value, boolean fireEvents) {
         this.value = value;
         render();
     }
@@ -85,10 +86,10 @@ public class HistoryEventsList extends FlowPanel implements HasValue<List<Histor
     private void render() {
         clear();
         if (this.value != null) {
-            for (HistoryEventSummaryBean event : this.value) {
-                HistoryEventItem eventItem = eventItemFactory.get();
-                eventItem.setValue(event);
-                add(eventItem);
+            for (ExpandedArtifactSummaryBean artifact : this.value) {
+                ExpandedArtifactItem item = itemFactory.get();
+                item.setValue(artifact);
+                add(item);
             }
         }
     }

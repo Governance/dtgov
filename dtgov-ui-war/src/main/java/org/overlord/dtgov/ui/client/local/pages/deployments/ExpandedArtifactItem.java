@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.dtgov.ui.client.local.widgets;
+package org.overlord.dtgov.ui.client.local.pages.deployments;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -27,20 +27,22 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
-import org.overlord.dtgov.ui.client.local.services.HistoryRpcService;
+import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
+import org.overlord.dtgov.ui.client.local.services.DeploymentsRpcService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
 import org.overlord.dtgov.ui.client.local.util.DOMUtil;
-import org.overlord.dtgov.ui.client.local.util.DataBindingDateConverter;
-import org.overlord.dtgov.ui.client.local.util.DataBindingTimeConverter;
-import org.overlord.dtgov.ui.client.shared.beans.HistoryEventBean;
-import org.overlord.dtgov.ui.client.shared.beans.HistoryEventSummaryBean;
+import org.overlord.dtgov.ui.client.local.util.DataBindingParentheticalConverter;
+import org.overlord.dtgov.ui.client.shared.beans.DerivedArtifactSummaryBean;
+import org.overlord.dtgov.ui.client.shared.beans.DerivedArtifactsBean;
+import org.overlord.dtgov.ui.client.shared.beans.ExpandedArtifactSummaryBean;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -48,41 +50,47 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.InlineLabel;
 
 /**
- * A single item in the history UI for an artifact.
+ * A single item in the list of expanded artifacts for a deployment.
  * @author eric.wittmann@redhat.com
  */
-@Templated("/org/overlord/dtgov/ui/client/local/site/deploymentHistory.html#deployment-history-item")
+@Templated("/org/overlord/dtgov/ui/client/local/site/deploymentContents.html#deployment-contents-item")
 @Dependent
-public class HistoryEventItem extends Composite implements HasValue<HistoryEventSummaryBean> {
+public class ExpandedArtifactItem extends Composite implements HasValue<ExpandedArtifactSummaryBean> {
 
     @Inject
-    protected HistoryRpcService historyService;
+    protected DeploymentsRpcService deploymentsService;
     @Inject
     protected NotificationService notificationService;
+    @Inject
+    protected ConfigurationService configService;
 
     @Inject @AutoBound
-    protected DataBinder<HistoryEventSummaryBean> value;
+    protected DataBinder<ExpandedArtifactSummaryBean> value;
 
-    @Inject @DataField @Bound
-    InlineLabel who;
-    @Inject @DataField @Bound(property="when", converter=DataBindingDateConverter.class)
-    InlineLabel whenDay;
-    @Inject @DataField @Bound(property="when", converter=DataBindingTimeConverter.class)
-    InlineLabel whenTime;
+    @Inject @DataField("artifact-name") @Bound
+    InlineLabel name;
+    @Inject @DataField("artifact-type") @Bound(converter=DataBindingParentheticalConverter.class)
+    InlineLabel type;
+
+    @Inject @DataField("btn-browse")
+    Anchor browseButton;
     @Inject @DataField("btn-details")
     Button detailsButton;
-    @Inject @DataField @Bound
-    InlineLabel summary;
-    @Inject @DataField("deployment-history-item-details")
+    @Inject @DataField("deployment-contents-item-details")
     FlowPanel detailsPanel;
 
     @Inject
-    Instance<HistoryEventLoading> spinnerFactory;
+    Instance<ExpandedArtifactDetailsLoading> spinnerFactory;
+
+    @Inject
+    Instance<ExpandedArtifactSummary> summaryFactory;
+    @Inject
+    Instance<DerivedArtifactsTable> derivedArtifactsTableFactory;
 
     /**
      * Constructor.
      */
-    public HistoryEventItem() {
+    public ExpandedArtifactItem() {
     }
 
     /**
@@ -103,7 +111,7 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
      * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
      */
     @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<HistoryEventSummaryBean> handler) {
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ExpandedArtifactSummaryBean> handler) {
         return addHandler(handler, ValueChangeEvent.getType());
     }
 
@@ -111,7 +119,7 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
      * @see com.google.gwt.user.client.ui.HasValue#getValue()
      */
     @Override
-    public HistoryEventSummaryBean getValue() {
+    public ExpandedArtifactSummaryBean getValue() {
         return value.getModel();
     }
 
@@ -119,7 +127,7 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
      * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(HistoryEventSummaryBean value) {
+    public void setValue(ExpandedArtifactSummaryBean value) {
         setValue(value, false);
     }
 
@@ -127,8 +135,9 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
      * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
      */
     @Override
-    public void setValue(HistoryEventSummaryBean value, boolean fireEvents) {
+    public void setValue(ExpandedArtifactSummaryBean value, boolean fireEvents) {
         this.value.setModel(value, InitialState.FROM_MODEL);
+        this.browseButton.setHref(configService.getUiConfig().createSrampUiUrl("details", "uuid", value.getUuid()));
     }
 
     /**
@@ -138,16 +147,16 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
     @EventHandler("btn-details")
     protected void onDetails(ClickEvent event) {
         if (!detailsPanel.isVisible()) {
-            HistoryEventSummaryBean bean = value.getModel();
-            historyService.getEventDetails(bean.getArtifactUuid(), bean.getId(), new IRpcServiceInvocationHandler<HistoryEventBean>() {
+            ExpandedArtifactSummaryBean bean = value.getModel();
+            deploymentsService.listDerivedArtifacts(bean.getUuid(), new IRpcServiceInvocationHandler<DerivedArtifactsBean>() {
                 @Override
-                public void onReturn(HistoryEventBean data) {
-                    showEventDetails(data);
+                public void onReturn(DerivedArtifactsBean data) {
+                    showDetails(data);
                 }
                 @Override
                 public void onError(Throwable error) {
                     detailsPanel.clear();
-                    notificationService.sendErrorNotification("Error Getting History Event", error);
+                    notificationService.sendErrorNotification("Error Getting Derived Artifacts", error);
                 }
             });
             detailsPanel.clear();
@@ -157,17 +166,41 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
             detailsPanel.setVisible(false);
             detailsPanel.clear();
         }
+
+        if (event != null) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
     }
 
     /**
-     * Shows the event details in the UI.
+     * Called when the user clicks the 'Browse' button.
+     * @param event
+     */
+    @EventHandler("btn-browse")
+    protected void onBrowse(ClickEvent event) {
+        event.stopPropagation();
+    }
+
+    /**
+     * Shows the details in the UI.
      * @param data
      */
-    protected void showEventDetails(HistoryEventBean data) {
-        String details = data.getDetails();
-        InlineLabel label = new InlineLabel(details);
+    protected void showDetails(DerivedArtifactsBean data) {
         detailsPanel.clear();
-        detailsPanel.add(label);
+        if (data.getDerivedArtifacts().isEmpty()) {
+            InlineLabel label = new InlineLabel("No derived artifacts found.");
+            detailsPanel.add(label);
+        } else {
+            ExpandedArtifactSummary summaryInfo = summaryFactory.get();
+            summaryInfo.setValue(data);
+            detailsPanel.add(summaryInfo);
+            DerivedArtifactsTable table = derivedArtifactsTableFactory.get();
+            for (DerivedArtifactSummaryBean row : data.getDerivedArtifacts()) {
+                table.addRow(row);
+            }
+            detailsPanel.add(table);
+        }
     }
 
 }

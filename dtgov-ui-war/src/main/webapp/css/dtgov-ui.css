@@ -450,6 +450,14 @@ footer hr {
   line-height: 26px;
   text-shadow: 0px 1px 0px white;
 }
+.deployment-contents-item table span {
+  line-height: 20px;
+  text-shadow: none;
+}
+.deployment-contents-item .summary {
+  padding: 5px;
+  padding-bottom: 12px;
+}
 .deployment-contents-item .deployment-type {
   margin-left: 15px;
 }

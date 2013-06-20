@@ -18,6 +18,10 @@ package org.overlord.dtgov.ui.client.local.beans;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.jboss.errai.ui.nav.client.local.HistoryToken;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gwt.core.client.GWT;
 
 /**
@@ -27,6 +31,7 @@ import com.google.gwt.core.client.GWT;
  */
 public class UiConfiguration {
 
+    private String srampUiUrlBase;
     private Map<String, String> deploymentTypes = new LinkedHashMap<String, String>();
     private Map<String, String> deploymentStages = new LinkedHashMap<String, String>();
 
@@ -49,6 +54,29 @@ public class UiConfiguration {
      */
     public Map<String, String> getDeploymentStages() {
         return deploymentStages;
+    }
+
+    /**
+     * Creates a link into the s-ramp UI.
+     * @param pageName
+     * @param state
+     */
+    public String createSrampUiUrl(String pageName, Multimap<String, String> state) {
+        HistoryToken token = HistoryToken.of(pageName, state);
+        String href = srampUiUrlBase + "#" + token.toString();
+        return href;
+    }
+
+    /**
+     * Creates a link into the s-ramp UI.
+     * @param pageName
+     * @param stateKey
+     * @param stateValue
+     */
+    public String createSrampUiUrl(String pageName, String stateKey, String stateValue) {
+        Multimap<String, String> state = HashMultimap.create();
+        state.put(stateKey, stateValue);
+        return createSrampUiUrl(pageName, state);
     }
 
     /**
@@ -77,6 +105,11 @@ public class UiConfiguration {
                     dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addDeploymentStage(Ljava/lang/String;Ljava/lang/String;)(label, classifier);
                 }
             }
+
+            // Read the s-ramp UI config
+            var srampUiConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.srampui;
+            var urlBase = srampUiConfig.urlBase;
+            dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setSrampUiUrlBase(Ljava/lang/String;)(urlBase);
         } catch (e) {
             // TODO do something interesting here?
         }
@@ -100,6 +133,14 @@ public class UiConfiguration {
     private void addDeploymentStage(String label, String classifier) {
         this.getDeploymentStages().put(label, classifier);
         GWT.log("[UiConfig] - Registered Deployment Stage: " + label + "=" + classifier);
+    }
+
+    /**
+     * Sets the s-ramp-ui URL base.
+     * @param urlBase
+     */
+    private void setSrampUiUrlBase(String urlBase) {
+        this.srampUiUrlBase = urlBase;
     }
 
 }

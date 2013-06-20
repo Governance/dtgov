@@ -30,12 +30,12 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.pages.deployments.HistoryEventsList;
 import org.overlord.dtgov.ui.client.local.services.HistoryRpcService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
 import org.overlord.dtgov.ui.client.local.util.DOMUtil;
 import org.overlord.dtgov.ui.client.local.util.DataBindingParentheticalConverter;
-import org.overlord.dtgov.ui.client.local.widgets.HistoryEventsList;
 import org.overlord.dtgov.ui.client.shared.beans.ArtifactHistoryBean;
 import org.overlord.sramp.ui.client.local.widgets.common.HtmlSnippet;
 
