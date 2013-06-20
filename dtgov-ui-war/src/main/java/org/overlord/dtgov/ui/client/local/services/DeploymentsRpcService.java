@@ -27,6 +27,8 @@ import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHand
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentResultSetBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentsFilterBean;
+import org.overlord.dtgov.ui.client.shared.beans.DerivedArtifactsBean;
+import org.overlord.dtgov.ui.client.shared.beans.ExpandedArtifactsBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IDeploymentsService;
 
@@ -85,6 +87,32 @@ public class DeploymentsRpcService {
         ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
         try {
             remoteDeploymentsService.call(successCallback, errorCallback).update(deployment);
+        } catch (DtgovUiException e) {
+            errorCallback.error(null, e);
+        }
+    }
+
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.IDeploymentsService#listExpandedArtifacts(String)
+     */
+    public void listExpandedArtifacts(String uuid, IRpcServiceInvocationHandler<ExpandedArtifactsBean> handler) {
+        RemoteCallback<ExpandedArtifactsBean> successCallback = new DelegatingRemoteCallback<ExpandedArtifactsBean>(handler);
+        ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
+        try {
+            remoteDeploymentsService.call(successCallback, errorCallback).listExpandedArtifacts(uuid);
+        } catch (DtgovUiException e) {
+            errorCallback.error(null, e);
+        }
+    }
+
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.IDeploymentsService#listDerivedArtifacts(String)
+     */
+    public void listDerivedArtifacts(String uuid, IRpcServiceInvocationHandler<DerivedArtifactsBean> handler) {
+        RemoteCallback<DerivedArtifactsBean> successCallback = new DelegatingRemoteCallback<DerivedArtifactsBean>(handler);
+        ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
+        try {
+            remoteDeploymentsService.call(successCallback, errorCallback).listDerivedArtifacts(uuid);
         } catch (DtgovUiException e) {
             errorCallback.error(null, e);
         }

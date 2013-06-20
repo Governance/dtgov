@@ -19,6 +19,8 @@ import org.jboss.errai.bus.server.annotations.Remote;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentResultSetBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentsFilterBean;
+import org.overlord.dtgov.ui.client.shared.beans.DerivedArtifactsBean;
+import org.overlord.dtgov.ui.client.shared.beans.ExpandedArtifactsBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 
 /**
@@ -51,5 +53,19 @@ public interface IDeploymentsService {
      * @throws DtgovUiException
      */
     public void update(DeploymentBean deployment) throws DtgovUiException;
+
+    /**
+     * Returns all artifacts expanded from the given deployment.
+     * @param uuid
+     * @throws DtgovUiException
+     */
+    public ExpandedArtifactsBean listExpandedArtifacts(String uuid) throws DtgovUiException;
+
+    /**
+     * Returns all artifacts expanded from the given deployment.
+     * @param uuid
+     * @throws DtgovUiException
+     */
+    public DerivedArtifactsBean listDerivedArtifacts(String uuid) throws DtgovUiException;
 
 }

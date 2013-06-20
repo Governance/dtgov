@@ -66,6 +66,12 @@ public class UiConfigurationServlet extends HttpServlet {
             JsonGenerator g = f.createJsonGenerator(json);
             g.useDefaultPrettyPrinter();
             g.writeStartObject();
+
+            // Some s-ramp UI/browser integration settings
+            g.writeObjectFieldStart("srampui");
+            g.writeStringField("urlBase", config.getConfiguration().getString(DtgovUIConfig.SRAMP_UI_URL_BASE, "http://localhost:8080/s-ramp-ui"));
+            g.writeEndObject();
+
             g.writeObjectFieldStart("deployments");
             // Pull in any configured deployment types.
             Iterator<String> typeKeys = config.getConfiguration().getKeys(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX);

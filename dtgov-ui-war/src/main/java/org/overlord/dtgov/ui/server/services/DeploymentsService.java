@@ -28,6 +28,10 @@ import org.overlord.dtgov.ui.client.shared.beans.DeploymentBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentResultSetBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentSummaryBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentsFilterBean;
+import org.overlord.dtgov.ui.client.shared.beans.DerivedArtifactSummaryBean;
+import org.overlord.dtgov.ui.client.shared.beans.DerivedArtifactsBean;
+import org.overlord.dtgov.ui.client.shared.beans.ExpandedArtifactSummaryBean;
+import org.overlord.dtgov.ui.client.shared.beans.ExpandedArtifactsBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IDeploymentsService;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
@@ -237,6 +241,69 @@ public class DeploymentsService implements IDeploymentsService {
             artifact.setDescription(bean.getDescription());
             // Push the changes back to the server
             srampClientAccessor.getClient().updateArtifactMetaData(artifact);
+        } catch (SrampClientException e) {
+            throw new DtgovUiException(e.getMessage());
+        } catch (SrampAtomException e) {
+            throw new DtgovUiException(e.getMessage());
+        }
+    }
+
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.IDeploymentsService#listExpandedArtifacts(java.lang.String)
+     */
+    @Override
+    public ExpandedArtifactsBean listExpandedArtifacts(String uuid) throws DtgovUiException {
+        try {
+            ExpandedArtifactsBean rval = new ExpandedArtifactsBean();
+            BaseArtifactType artifact = srampClientAccessor.getClient().getArtifactMetaData(uuid);
+            ArtifactType type = ArtifactType.valueOf(artifact);
+            rval.setArtifactName(artifact.getName());
+            rval.setArtifactType(type.getType());
+            rval.setArtifactUuid(uuid);
+            rval.setArtifactVersion(artifact.getVersion());
+
+            SrampClientQuery query = srampClientAccessor.getClient().buildQuery("/s-ramp[expandedFromDocument[@uuid = ?]]");
+            QueryResultSet results = query.parameter(uuid).orderBy("name").ascending().query();
+            for (ArtifactSummary artifactSummary : results) {
+                ArtifactType at = artifactSummary.getType();
+                ExpandedArtifactSummaryBean easBean = new ExpandedArtifactSummaryBean();
+                easBean.setName(artifactSummary.getName());
+                easBean.setType(at.getType());
+                easBean.setUuid(artifactSummary.getUuid());
+                rval.getExpandedArtifacts().add(easBean);
+            }
+
+            return rval;
+        } catch (SrampClientException e) {
+            throw new DtgovUiException(e.getMessage());
+        } catch (SrampAtomException e) {
+            throw new DtgovUiException(e.getMessage());
+        }
+    }
+
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.IDeploymentsService#listDerivedArtifacts(java.lang.String)
+     */
+    @Override
+    public DerivedArtifactsBean listDerivedArtifacts(String uuid) throws DtgovUiException {
+        try {
+            DerivedArtifactsBean rval = new DerivedArtifactsBean();
+            BaseArtifactType artifact = srampClientAccessor.getClient().getArtifactMetaData(uuid);
+            rval.setArtifactName(artifact.getName());
+            rval.setArtifactUuid(uuid);
+
+            SrampClientQuery query = srampClientAccessor.getClient().buildQuery("/s-ramp[relatedDocument[@uuid = ?]]");
+            QueryResultSet results = query.parameter(uuid).orderBy("name").ascending().query();
+            for (ArtifactSummary artifactSummary : results) {
+                ArtifactType at = artifactSummary.getType();
+                DerivedArtifactSummaryBean dasBean = new DerivedArtifactSummaryBean();
+                dasBean.setName(artifactSummary.getName());
+                dasBean.setType(at.getType());
+                dasBean.setUuid(artifactSummary.getUuid());
+                rval.getDerivedArtifacts().add(dasBean);
+            }
+
+            return rval;
         } catch (SrampClientException e) {
             throw new DtgovUiException(e.getMessage());
         } catch (SrampAtomException e) {
