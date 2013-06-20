@@ -20,9 +20,12 @@ import javax.inject.Inject;
 
 import org.jboss.errai.bus.client.api.ClientMessageBus;
 import org.jboss.errai.enterprise.client.cdi.api.CDI;
+import org.jboss.errai.ui.nav.client.local.HistoryToken;
 import org.jboss.errai.ui.nav.client.local.PageShowing;
 import org.overlord.dtgov.ui.client.local.util.DtgovJS;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gwt.user.client.ui.Composite;
 
 /**
@@ -73,6 +76,32 @@ public abstract class AbstractPage extends Composite {
      * is about to be shown.
      */
     protected void onPageShowing() {
+    }
+
+    /**
+     * Creates an href to a page.
+     * @param pageName
+     * @param state
+     */
+    protected String createPageHref(String pageName, Multimap<String, String> state) {
+        HistoryToken token = HistoryToken.of(pageName, state);
+        String href = "#" + token.toString();
+        return href;
+    }
+
+    /**
+     * Creates an href to a page.
+     *
+     * TODO enhance TransitionAnchor so that its state can be dynamically set (contribute back to Errai).  Then remove this method (and the above)!
+     *
+     * @param pageName
+     * @param stateKey
+     * @param stateValue
+     */
+    protected String createPageHref(String pageName, String stateKey, String stateValue) {
+        Multimap<String, String> state = HashMultimap.create();
+        state.put(stateKey, stateValue);
+        return createPageHref(pageName, state);
     }
 
 }

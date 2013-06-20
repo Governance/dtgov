@@ -55,6 +55,33 @@ body.no-fileupload .requires-fileupload {
     padding: 10px;
   }
 
+  .btn-hover {
+    visibility: visible;
+  }
+
+  .deployment-nav-panel {
+    margin-bottom: 5px;
+    border-left: 0px;
+    border-right: 0px;
+  }
+  .deployment-nav-panel:hover {
+    box-shadow: none;
+    border-left: 0px;
+    border-right: 0px;
+  }
+
+  .deployment-history-item, .deployment-contents-item {
+    border-left: none;
+    border-right: none;
+    margin-bottom: 1px;
+  }
+  .deployment-history-item:hover, .deployment-contents-item:hover {
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+    margin-bottom: 1px;
+  }
+
 }
 
 

@@ -70,6 +70,9 @@ public class DtgovUIConfig {
     // be specified that begin with this prefix and have a value of the format  {label}:{type}
     public static final String DEPLOYMENT_TYPE_PREFIX = "dtgov-ui.deployment-lifecycle.types";
 
+    // S-RAMP UI integration properties
+    public static final String SRAMP_UI_URL_BASE = "dtgov-ui.s-ramp-browser.url-base";
+
     private static CompositeConfiguration config;
     static {
         config = new CompositeConfiguration();

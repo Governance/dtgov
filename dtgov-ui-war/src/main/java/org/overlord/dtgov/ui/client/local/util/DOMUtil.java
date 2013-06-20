@@ -18,6 +18,7 @@ package org.overlord.dtgov.ui.client.local.util;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.event.dom.client.ClickHandler;
 
 /**
  * Some util methods for dealing with the DOM.
@@ -47,5 +48,17 @@ public class DOMUtil {
         }
         return null;
     }
+
+    /**
+     * Adds a jquery click handler to the given element.  This allows the page to get notified when
+     * a native javascript element is clicked.
+     * @param element
+     * @param handler
+     */
+    public static native void addClickHandlerToElement(Element element, ClickHandler handler) /*-{
+        $wnd.jQuery(element).click(function() {
+            handler.@com.google.gwt.event.dom.client.ClickHandler::onClick(Lcom/google/gwt/event/dom/client/ClickEvent;)(null);
+        });
+    }-*/;
 
 }

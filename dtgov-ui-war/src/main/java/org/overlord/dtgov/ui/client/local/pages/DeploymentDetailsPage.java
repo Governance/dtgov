@@ -26,9 +26,11 @@ import org.jboss.errai.databinding.client.api.PropertyChangeHandler;
 import org.jboss.errai.ui.nav.client.local.Page;
 import org.jboss.errai.ui.nav.client.local.PageState;
 import org.jboss.errai.ui.nav.client.local.TransitionAnchor;
+import org.jboss.errai.ui.nav.client.local.TransitionTo;
 import org.jboss.errai.ui.shared.api.annotations.AutoBound;
 import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
+import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.overlord.dtgov.ui.client.local.services.DeploymentsRpcService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
@@ -41,7 +43,12 @@ import org.overlord.dtgov.ui.client.shared.beans.DeploymentBean;
 import org.overlord.dtgov.ui.client.shared.beans.NotificationBean;
 import org.overlord.sramp.ui.client.local.widgets.common.HtmlSnippet;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.InlineLabel;
 
 /**
@@ -58,7 +65,6 @@ public class DeploymentDetailsPage extends AbstractPage {
     protected DeploymentsRpcService deploymentsService;
     @Inject
     protected NotificationService notificationService;
-    protected DeploymentBean currentDeployment;
 
     @PageState
     private String uuid;
@@ -110,6 +116,15 @@ public class DeploymentDetailsPage extends AbstractPage {
     protected HtmlSnippet deploymentLoading;
     protected Element pageContent;
 
+    // Navigation panels
+    @Inject @DataField("to-deploymentHistory-page")
+    Anchor toDeploymentHistory;
+    @Inject
+    TransitionTo<DeploymentHistoryPage> goToDeploymentHistory;
+    @Inject @DataField("to-deploymentContents-page")
+    Anchor toDeploymentContents;
+    @Inject
+    TransitionTo<DeploymentContentsPage> goToDeploymentContents;
 
     /**
      * Constructor.
@@ -129,6 +144,21 @@ public class DeploymentDetailsPage extends AbstractPage {
             @Override
             public void onPropertyChange(PropertyChangeEvent<Object> event) {
                 pushModelToServer();
+            }
+        });
+
+        Element navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-history");
+        DOMUtil.addClickHandlerToElement(navPanel, new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                onDeploymentHistoryNav(event);
+            }
+        });
+        navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-contents");
+        DOMUtil.addClickHandlerToElement(navPanel, new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                onDeploymentContentsNav(event);
             }
         });
     }
@@ -161,13 +191,11 @@ public class DeploymentDetailsPage extends AbstractPage {
      */
     @Override
     protected void onPageShowing() {
-        currentDeployment = null;
         pageContent.addClassName("hide");
         deploymentLoading.getElement().removeClassName("hide");
         deploymentsService.get(uuid, new IRpcServiceInvocationHandler<DeploymentBean>() {
             @Override
             public void onReturn(DeploymentBean data) {
-                currentDeployment = data;
                 updateMetaData(data);
             }
             @Override
@@ -175,6 +203,9 @@ public class DeploymentDetailsPage extends AbstractPage {
                 notificationService.sendErrorNotification("Error getting deployment details.", error);
             }
         });
+
+        toDeploymentHistory.setHref(createPageHref("deploymentDetails", "uuid", uuid));
+        toDeploymentContents.setHref(createPageHref("deploymentContents", "uuid", uuid));
     }
 
     /**
@@ -190,6 +221,36 @@ public class DeploymentDetailsPage extends AbstractPage {
             mavenPropsWrapper.addClassName("hide");
         }
         pageContent.removeClassName("hide");
+    }
+
+    /**
+     * Called when the user clicks the deployment history nav panel.
+     * @param event
+     */
+    @EventHandler("to-deploymentHistory-page")
+    protected void onDeploymentHistoryNav(ClickEvent event) {
+        Multimap<String, String> state = HashMultimap.create();
+        state.put("uuid", uuid);
+        goToDeploymentHistory.go(state);
+        if (event != null) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    }
+
+    /**
+     * Called when the user clicks the deployment contents nav panel.
+     * @param event
+     */
+    @EventHandler("to-deploymentContents-page")
+    protected void onDeploymentContentsNav(ClickEvent event) {
+        Multimap<String, String> state = HashMultimap.create();
+        state.put("uuid", uuid);
+        goToDeploymentContents.go(state);
+        if (event != null) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
     }
 
 }
