@@ -22,7 +22,6 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.overlord.dtgov.ui.client.shared.beans.ExpandedArtifactSummaryBean;
-import org.overlord.dtgov.ui.client.shared.beans.HistoryEventSummaryBean;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;

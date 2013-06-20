@@ -14,6 +14,10 @@ body {
   font-style: italic;
 }
 
+.underline {
+  text-decoration: underline;
+}
+
 .emphasis {
   font-weight: bold;
   font-style: italic;

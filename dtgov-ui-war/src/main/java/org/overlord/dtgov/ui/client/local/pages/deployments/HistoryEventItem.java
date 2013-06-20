@@ -44,6 +44,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.InlineLabel;
 
@@ -170,9 +171,9 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
      */
     protected void showEventDetails(HistoryEventBean data) {
         String details = data.getDetails();
-        InlineLabel label = new InlineLabel(details);
+        HTML html = new HTML(details);
         detailsPanel.clear();
-        detailsPanel.add(label);
+        detailsPanel.add(html);
     }
 
 }
