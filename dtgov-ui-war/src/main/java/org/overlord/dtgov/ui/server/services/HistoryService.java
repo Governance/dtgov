@@ -78,6 +78,7 @@ public class HistoryService implements IHistoryService {
                 HistoryEventSummaryBean event = new HistoryEventSummaryBean();
                 event.setArtifactUuid(artifactUuid);
                 event.setId(auditEntry.getUuid());
+                event.setType(auditEntry.getType());
                 event.setSummary(generateEventSummary(auditEntry));
                 event.setWhen(auditEntry.getWhen());
                 event.setWho(auditEntry.getWho());

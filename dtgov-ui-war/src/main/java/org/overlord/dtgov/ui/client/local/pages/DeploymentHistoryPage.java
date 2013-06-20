@@ -30,6 +30,8 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.beans.DeploymentHistoryFilterBean;
+import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentHistoryFilters;
 import org.overlord.dtgov.ui.client.local.pages.deployments.HistoryEventsList;
 import org.overlord.dtgov.ui.client.local.services.HistoryRpcService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
@@ -43,6 +45,8 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.InlineLabel;
 
@@ -66,6 +70,9 @@ public class DeploymentHistoryPage extends AbstractPage {
 
     @Inject @AutoBound
     protected DataBinder<ArtifactHistoryBean> historyBean;
+
+    @Inject @DataField("deployment-history-filters")
+    protected DeploymentHistoryFilters filtersPanel;
 
     // Breadcrumbs
     @Inject @DataField("back-to-dashboard")
@@ -112,6 +119,13 @@ public class DeploymentHistoryPage extends AbstractPage {
     protected void onPostConstruct() {
         pageContent = DOMUtil.findElementById(getElement(), "deployment-history-content-wrapper");
         pageContent.addClassName("hide");
+        filtersPanel.addValueChangeHandler(new ValueChangeHandler<DeploymentHistoryFilterBean>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<DeploymentHistoryFilterBean> event) {
+                events.setFilters(event.getValue());
+                events.render();
+            }
+        });
     }
 
     /**

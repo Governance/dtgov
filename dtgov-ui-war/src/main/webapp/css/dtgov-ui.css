@@ -480,3 +480,28 @@ footer hr {
   font-size: 13px;
   line-height: 15px;
 }
+
+.deployment-history .filter-body {
+  background-color: rgb(247, 247, 247);
+}
+
+.history-item-icon {
+  display: block;
+  float: left;
+  margin: 5px;
+  margin-right: 10px;
+  width: 24px;
+  height: 24px;
+}
+.history-item-icon-none {
+  display: none;
+}
+.history-item-icon-edit {
+  background-image: url(../images/event-edit.png);
+}
+.history-item-icon-delete {
+  background-image: url(../images/event-delete.png);
+}
+.history-item-icon-new {
+  background-image: url(../images/event-new.png);
+}

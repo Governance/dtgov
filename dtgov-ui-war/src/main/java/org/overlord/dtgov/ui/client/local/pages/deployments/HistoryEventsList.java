@@ -21,6 +21,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import org.overlord.dtgov.ui.client.local.beans.DeploymentHistoryFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.HistoryEventSummaryBean;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -36,9 +37,11 @@ import com.google.gwt.user.client.ui.HasValue;
 @Dependent
 public class HistoryEventsList extends FlowPanel implements HasValue<List<HistoryEventSummaryBean>> {
 
-    private List<HistoryEventSummaryBean> value;
     @Inject
     protected Instance<HistoryEventItem> eventItemFactory;
+
+    private List<HistoryEventSummaryBean> value;
+    private DeploymentHistoryFilterBean filters = new DeploymentHistoryFilterBean();
 
     /**
      * Constructor.
@@ -80,15 +83,24 @@ public class HistoryEventsList extends FlowPanel implements HasValue<List<Histor
     }
 
     /**
+     * @param filters
+     */
+    public void setFilters(DeploymentHistoryFilterBean filters) {
+        this.filters = filters;
+    }
+
+    /**
      * Renders the
      */
-    private void render() {
+    public void render() {
         clear();
         if (this.value != null) {
             for (HistoryEventSummaryBean event : this.value) {
-                HistoryEventItem eventItem = eventItemFactory.get();
-                eventItem.setValue(event);
-                add(eventItem);
+                if (this.filters.accepts(event)) {
+                    HistoryEventItem eventItem = eventItemFactory.get();
+                    eventItem.setValue(event);
+                    add(eventItem);
+                }
             }
         }
     }

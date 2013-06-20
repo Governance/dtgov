@@ -64,6 +64,8 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
     @Inject @AutoBound
     protected DataBinder<HistoryEventSummaryBean> value;
 
+    @Inject @DataField
+    InlineLabel icon;
     @Inject @DataField @Bound
     InlineLabel who;
     @Inject @DataField @Bound(property="when", converter=DataBindingDateConverter.class)
@@ -130,6 +132,27 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
     @Override
     public void setValue(HistoryEventSummaryBean value, boolean fireEvents) {
         this.value.setModel(value, InitialState.FROM_MODEL);
+        setIcon(value);
+    }
+
+    /**
+     * Sets the appropriate class to show the right icon (or none).
+     * @param value
+     */
+    private void setIcon(HistoryEventSummaryBean value) {
+        String type = value.getType();
+        if (type != null) {
+            if (type.contains("add")) {
+                this.icon.getElement().removeClassName("history-item-icon-none");
+                this.icon.getElement().addClassName("history-item-icon-new");
+            } else if (type.contains("update")) {
+                this.icon.getElement().removeClassName("history-item-icon-none");
+                this.icon.getElement().addClassName("history-item-icon-edit");
+            } else if (type.contains("delete")) {
+                this.icon.getElement().removeClassName("history-item-icon-none");
+                this.icon.getElement().addClassName("history-item-icon-delete");
+            }
+        }
     }
 
     /**

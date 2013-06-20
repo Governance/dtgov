@@ -30,6 +30,7 @@ public class HistoryEventSummaryBean {
 
     private String artifactUuid;
     private String id;
+    private String type;
     private String who;
     private Date when;
     private String summary;
@@ -139,6 +140,20 @@ public class HistoryEventSummaryBean {
      */
     public void setArtifactUuid(String artifactUuid) {
         this.artifactUuid = artifactUuid;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 
 }
