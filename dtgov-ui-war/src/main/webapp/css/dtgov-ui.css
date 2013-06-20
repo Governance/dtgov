@@ -481,7 +481,7 @@ footer hr {
   line-height: 15px;
 }
 
-.deployment-history .filter-body {
+.deployment-history .filter-body, .deployment-contents .filter-body {
   background-color: rgb(247, 247, 247);
 }
 

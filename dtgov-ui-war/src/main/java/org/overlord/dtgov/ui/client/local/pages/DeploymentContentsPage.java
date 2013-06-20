@@ -30,6 +30,8 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.beans.DeploymentContentsFilterBean;
+import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentContentsFilters;
 import org.overlord.dtgov.ui.client.local.pages.deployments.ExpandedArtifactList;
 import org.overlord.dtgov.ui.client.local.services.DeploymentsRpcService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
@@ -44,6 +46,8 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.InlineLabel;
 
@@ -96,6 +100,10 @@ public class DeploymentContentsPage extends AbstractPage {
     @Inject @DataField("deployment-contents-items") @Bound
     ExpandedArtifactList expandedArtifacts;
 
+    // Artifact Filters
+    @Inject @DataField("deployment-contents-filters")
+    protected DeploymentContentsFilters filtersPanel;
+
     @Inject @DataField("deployment-contents-loading-spinner")
     protected HtmlSnippet loading;
     protected Element pageContent;
@@ -113,6 +121,13 @@ public class DeploymentContentsPage extends AbstractPage {
     protected void onPostConstruct() {
         pageContent = DOMUtil.findElementById(getElement(), "deployment-contents-content-wrapper");
         pageContent.addClassName("hide");
+        filtersPanel.addValueChangeHandler(new ValueChangeHandler<DeploymentContentsFilterBean>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<DeploymentContentsFilterBean> event) {
+                expandedArtifacts.setFilters(event.getValue());
+                expandedArtifacts.render();
+            }
+        });
     }
 
     /**
@@ -140,9 +155,9 @@ public class DeploymentContentsPage extends AbstractPage {
      * @param deployment
      */
     protected void update(ExpandedArtifactsBean bean) {
-        this.deploymentContentsBean.setModel(bean, InitialState.FROM_MODEL);
         loading.getElement().addClassName("hide");
         pageContent.removeClassName("hide");
+        this.deploymentContentsBean.setModel(bean, InitialState.FROM_MODEL);
     }
 
     /**

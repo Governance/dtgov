@@ -21,6 +21,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import org.overlord.dtgov.ui.client.local.beans.DeploymentContentsFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.ExpandedArtifactSummaryBean;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -36,9 +37,11 @@ import com.google.gwt.user.client.ui.HasValue;
 @Dependent
 public class ExpandedArtifactList extends FlowPanel implements HasValue<List<ExpandedArtifactSummaryBean>> {
 
-    private List<ExpandedArtifactSummaryBean> value;
     @Inject
     protected Instance<ExpandedArtifactItem> itemFactory;
+
+    private List<ExpandedArtifactSummaryBean> value;
+    private DeploymentContentsFilterBean filters = new DeploymentContentsFilterBean();
 
     /**
      * Constructor.
@@ -80,15 +83,24 @@ public class ExpandedArtifactList extends FlowPanel implements HasValue<List<Exp
     }
 
     /**
+     * @param filters
+     */
+    public void setFilters(DeploymentContentsFilterBean filters) {
+        this.filters = filters;
+    }
+
+    /**
      * Renders the
      */
-    private void render() {
+    public void render() {
         clear();
         if (this.value != null) {
             for (ExpandedArtifactSummaryBean artifact : this.value) {
-                ExpandedArtifactItem item = itemFactory.get();
-                item.setValue(artifact);
-                add(item);
+                if (filters.accepts(artifact)) {
+                    ExpandedArtifactItem item = itemFactory.get();
+                    item.setValue(artifact);
+                    add(item);
+                }
             }
         }
     }

@@ -71,9 +71,6 @@ public class DeploymentHistoryPage extends AbstractPage {
     @Inject @AutoBound
     protected DataBinder<ArtifactHistoryBean> historyBean;
 
-    @Inject @DataField("deployment-history-filters")
-    protected DeploymentHistoryFilters filtersPanel;
-
     // Breadcrumbs
     @Inject @DataField("back-to-dashboard")
     TransitionAnchor<DashboardPage> backToDashboard;
@@ -101,6 +98,10 @@ public class DeploymentHistoryPage extends AbstractPage {
     // History event list
     @Inject @DataField("deployment-history-items") @Bound
     HistoryEventsList events;
+
+    // History Filters
+    @Inject @DataField("deployment-history-filters")
+    protected DeploymentHistoryFilters filtersPanel;
 
     @Inject @DataField("deployment-history-loading-spinner")
     protected HtmlSnippet historyLoading;
