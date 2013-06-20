@@ -22,6 +22,12 @@
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-jboss-as-support</artifactId>
       <version>${errai.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>xml-apis</artifactId>
+          <groupId>xml-apis</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <build>
@@ -53,6 +59,7 @@
                 <exclude>WEB-INF/lib/resteasy*.jar</exclude>
                 <exclude>WEB-INF/lib/jaxb-*.jar</exclude>
                 <exclude>WEB-INF/lib/netty*.jar</exclude>
+                <exclude>WEB-INF/lib/xercesImpl*.jar</exclude>
               </excludes>
             </overlay>
           </overlays>
