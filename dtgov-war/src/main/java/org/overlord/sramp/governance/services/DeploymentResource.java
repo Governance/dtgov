@@ -35,9 +35,9 @@ import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.query.ArtifactSummary;
 import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.governance.Governance;
+import org.overlord.sramp.governance.SlashDecoder;
 import org.overlord.sramp.governance.SrampAtomApiClientFactory;
 import org.overlord.sramp.governance.Target;
-import org.overlord.sramp.governance.SlashDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
