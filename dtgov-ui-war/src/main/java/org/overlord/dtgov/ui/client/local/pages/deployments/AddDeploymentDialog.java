@@ -33,7 +33,7 @@ import org.overlord.sramp.ui.client.local.widgets.common.TemplatedFormPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 
 /**
  * A modal dialog used to allow the user to add (upload) a new deployment file.  A deployment
@@ -52,7 +52,7 @@ public class AddDeploymentDialog extends ModalDialog {
     @Inject
     private DeploymentTypeListBox deploymentType;
     @Inject @DataField("add-deployment-dialog-submit-button")
-    private Anchor submitButton;
+    private Button submitButton;
     @Inject
     private Instance<AddDeploymentFormSubmitHandler> formHandlerFactory;
 

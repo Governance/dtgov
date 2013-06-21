@@ -27,9 +27,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kie.api.task.model.TaskSummary;
 import org.overlord.dtgov.jbpm.ejb.ProcessOperationException;
 import org.overlord.dtgov.jbpm.ejb.TaskLocal;
-import org.kie.api.task.model.TaskSummary;
 
 public class TaskServlet extends HttpServlet {
 
