@@ -110,7 +110,7 @@
             <div class="row-fluid">
               <div id="deployment-nav-history" class="span4 deployment-nav-panel">
                 <div class="description">
-                  <span class="deployment-history-icon"></span>
+                  <span class="deployment-details-icon deployment-history-icon"></span>
                   <span>
                     Click to see the history of this deployment, from the time it was added to the system
                     until now.  The history includes its transitions within the Deployment Lifecycle.
@@ -121,9 +121,10 @@
                   <span>Deployment History</span>
                 </div>
               </div>
+              
               <div id="deployment-nav-contents" class="span4 deployment-nav-panel">
                 <div class="description">
-                  <span class="deployment-contents-icon"></span>
+                  <span class="deployment-details-icon deployment-contents-icon"></span>
                   <span>
                     Here you can view a list of the interesting artifacts that the system located within
                     the deployment.  This often includes artifacts such as XML files, WSDLs, and Schemas.
@@ -132,6 +133,20 @@
                 <div class="label-bar">
                   <a data-field="to-deploymentContents-page" class="btn btn-mini btn-focus btn-hover pull-right" href="deploymentContents.html">Go &raquo;</a>
                   <span>Deployment Contents</span>
+                </div>
+              </div>
+              
+              <div id="deployment-nav-browse" class="span4 deployment-nav-panel">
+                <div class="description">
+                  <span class="deployment-details-icon deployment-browse-icon"></span>
+                  <span>
+                    Click here to browse this deployment artifact in the S-RAMP browser interface.  This
+                    may allow you to view and modify all aspects of the artifact.
+                  </span>
+                </div>
+                <div class="label-bar">
+                  <a data-field="to-sramp" class="btn btn-mini btn-focus btn-hover pull-right" href="#">Go &raquo;</a>
+                  <span>Browse in S-RAMP</span>
                 </div>
               </div>
             </div>
