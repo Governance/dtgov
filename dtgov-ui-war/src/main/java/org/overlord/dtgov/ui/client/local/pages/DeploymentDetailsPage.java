@@ -32,6 +32,7 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
 import org.overlord.dtgov.ui.client.local.services.DeploymentsRpcService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
@@ -48,6 +49,7 @@ import com.google.common.collect.Multimap;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.InlineLabel;
 
@@ -61,6 +63,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 @Dependent
 public class DeploymentDetailsPage extends AbstractPage {
 
+    @Inject
+    protected ConfigurationService configurationService;
     @Inject
     protected DeploymentsRpcService deploymentsService;
     @Inject
@@ -125,6 +129,8 @@ public class DeploymentDetailsPage extends AbstractPage {
     Anchor toDeploymentContents;
     @Inject
     TransitionTo<DeploymentContentsPage> goToDeploymentContents;
+    @Inject @DataField("to-sramp")
+    Anchor toSramp;
 
     /**
      * Constructor.
@@ -159,6 +165,13 @@ public class DeploymentDetailsPage extends AbstractPage {
             @Override
             public void onClick(ClickEvent event) {
                 onDeploymentContentsNav(event);
+            }
+        });
+        navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-browse");
+        DOMUtil.addClickHandlerToElement(navPanel, new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                onBrowseToSrampNav(event);
             }
         });
     }
@@ -206,6 +219,7 @@ public class DeploymentDetailsPage extends AbstractPage {
 
         toDeploymentHistory.setHref(createPageHref("deploymentDetails", "uuid", uuid));
         toDeploymentContents.setHref(createPageHref("deploymentContents", "uuid", uuid));
+        toSramp.setHref(configurationService.getUiConfig().createSrampUiUrl("details", "uuid", uuid));
     }
 
     /**
@@ -247,6 +261,20 @@ public class DeploymentDetailsPage extends AbstractPage {
         Multimap<String, String> state = HashMultimap.create();
         state.put("uuid", uuid);
         goToDeploymentContents.go(state);
+        if (event != null) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    }
+
+    /**
+     * Called when the user clicks the browse to s-ramp nav panel.
+     * @param event
+     */
+    @EventHandler("to-sramp")
+    protected void onBrowseToSrampNav(ClickEvent event) {
+        String srampUrl = configurationService.getUiConfig().createSrampUiUrl("details", "uuid", uuid);
+        Window.Location.assign(srampUrl);
         if (event != null) {
             event.stopPropagation();
             event.preventDefault();

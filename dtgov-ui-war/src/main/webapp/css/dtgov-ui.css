@@ -382,6 +382,7 @@ footer hr {
   border: 1px solid rgb(211, 211, 211);
   background-color: rgb(244, 244, 244);
   cursor: pointer;
+  min-height: 100px;
 }
 .deployment-nav-panel .description {
   padding: 10px;
@@ -405,7 +406,7 @@ footer hr {
   visibility: visible;
 }
 
-.deployment-history-icon, .deployment-contents-icon {
+.deployment-details-icon {
   display: block;
   float: left;
   margin: 10px;
@@ -418,6 +419,11 @@ footer hr {
 .deployment-contents-icon {
   background-image: url(../images/shoebox-icon.png);
   width: 24px;
+  height: 22px;
+}
+.deployment-browse-icon {
+  background-image: url(../images/wrench-icon.png);
+  width: 22px;
   height: 22px;
 }
 
