@@ -1,13 +1,11 @@
 package org.overlord.dtgov.jbpm.util;
 
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;

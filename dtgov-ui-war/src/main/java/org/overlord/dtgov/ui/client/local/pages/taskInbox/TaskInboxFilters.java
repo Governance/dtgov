@@ -32,7 +32,7 @@ import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -69,7 +69,7 @@ public class TaskInboxFilters extends Composite implements HasValueChangeHandler
     protected DateBox dateDueTo;
 
     @Inject @DataField
-    protected Anchor clearFilters;
+    protected Button clearFilters;
 
     /**
      * Constructor.

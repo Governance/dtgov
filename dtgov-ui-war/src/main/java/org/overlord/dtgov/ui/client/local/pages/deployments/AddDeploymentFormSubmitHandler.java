@@ -111,7 +111,7 @@ public class AddDeploymentFormSubmitHandler implements SubmitHandler, SubmitComp
             Widget ty = new InlineLabel("Thank you for waiting - your deployment has completed successfully.  ");
             TransitionAnchor<DeploymentDetailsPage> clickHere = toDetailsFactory.get("uuid", results.getUuid());
             clickHere.setText("Click here");
-            Widget postAmble = new InlineLabel(" to view the deployment details.");
+            Widget postAmble = new InlineLabel(" to view the deployment details.  Note that the deployment may not appear in the search results right away.");
             FlowPanel body = new FlowPanel();
             body.add(ty);
             body.add(clickHere);

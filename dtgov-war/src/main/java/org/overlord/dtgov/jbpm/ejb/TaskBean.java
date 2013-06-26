@@ -17,8 +17,6 @@
 package org.overlord.dtgov.jbpm.ejb;
 
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
@@ -46,7 +44,8 @@ public class TaskBean implements TaskLocal {
 
     @Inject
     TaskService taskService;
-    
+
+    @Override
     public List<TaskSummary> retrieveTaskList(String actorId) throws Exception {
 
         List<TaskSummary> list = taskService.getTasksAssignedAsPotentialOwner(actorId, "en-UK");
@@ -54,29 +53,29 @@ public class TaskBean implements TaskLocal {
         System.out.println("retrieveTaskList by " + actorId);
         for (TaskSummary task : list) {
             System.out.println(" task.getId() = " + task.getId());
-            
+
         }
 
         return list;
     }
-    
+
     public Task retrieveTask(long taskId) throws Exception {
-    	
+
     	Task task = taskService.getTaskById(taskId);
-    	
-    	long processInstanceId = task.getTaskData().getProcessInstanceId();
-    	
-    	
-    	
-    	
+
+    	/*long processInstanceId = */task.getTaskData().getProcessInstanceId();
+
+
+
+
     	long docId = taskService.getTaskById(taskId).getTaskData().getDocumentContentId();
         Content content = taskService.getContentById(docId);
-        
-        @SuppressWarnings("unchecked")
-		Map<String,Object> inputVars = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
+
+        /*@SuppressWarnings("unchecked")
+		Map<String,Object> inputVars = (Map<String, Object>) */ContentMarshallerHelper.unmarshall(content.getContent(), null);
         return task;
-    	
-    	
+
+
     }
     
     @SuppressWarnings("unchecked")
@@ -125,26 +124,27 @@ public class TaskBean implements TaskLocal {
     	return inputVars;
     }
 
+    @Override
     public void approveTask(String actorId, long taskId) throws Exception {
 
         ut.begin();
 
         try {
             System.out.println("approveTask (taskId = " + taskId + ") by " + actorId);
-            
+
             Task task = taskService.getTaskById(taskId);
         	task.getTaskData().getProcessInstanceId();
-            
+
             taskService.start(taskId, actorId);
-            
+
             //set outputdata in the 3rd argument
             taskService.complete(taskId, actorId, null);
-            
+
             //long docId = taskService.getTaskById(1l).getTaskData().getDocumentContentId();
             //Content content = taskService.getContentById(docId);
-            
+
            // Map<String,Object> inputVars = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
-            
+
             //Thread.sleep(10000); // To test OptimisticLockException
 
             ut.commit();
@@ -173,7 +173,7 @@ public class TaskBean implements TaskLocal {
                 ut.rollback();
             }
             throw new RuntimeException(e);
-        } 
+        }
     }
 
 }
