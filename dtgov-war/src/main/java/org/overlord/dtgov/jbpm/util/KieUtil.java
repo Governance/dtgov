@@ -28,7 +28,7 @@ public class KieUtil {
 	 * @throws ComponentLookupException
 	 * @throws UnknownRepositoryLayoutException
 	 */
-	public static MavenProject getSrampProject(String srampVersion, String srampUrl, boolean isSnapshotEnabled, boolean isReleaseEnabled) 
+	public static MavenProject getSrampProject(String wagonVersion, String srampUrl, boolean isSnapshotEnabled, boolean isReleaseEnabled) 
 			throws PlexusContainerException, ComponentLookupException, UnknownRepositoryLayoutException {
 		//MavenRepository.addExtraRepository(remote);
     	MavenProject project = new MavenProject();
@@ -36,7 +36,7 @@ public class KieUtil {
     	Extension extension = new Extension();
     	extension.setArtifactId("s-ramp-wagon");
     	extension.setGroupId("org.overlord.sramp");
-    	extension.setVersion(srampVersion);
+    	extension.setVersion(wagonVersion);
     	build.addExtension(extension);
     	project.setBuild(build);
     	
@@ -46,8 +46,8 @@ public class KieUtil {
     	ArtifactRepository srampRepo = artifactRepoFactory.createArtifactRepository("central", 
     			srampUrl,
     			"default",
-    			new ArtifactRepositoryPolicy( true, ArtifactRepositoryPolicy.UPDATE_POLICY_ALWAYS, ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE ),
-    			new ArtifactRepositoryPolicy( true, ArtifactRepositoryPolicy.UPDATE_POLICY_ALWAYS, ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE ));
+    			new ArtifactRepositoryPolicy( isSnapshotEnabled, ArtifactRepositoryPolicy.UPDATE_POLICY_ALWAYS, ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE ),
+    			new ArtifactRepositoryPolicy( isReleaseEnabled,  ArtifactRepositoryPolicy.UPDATE_POLICY_ALWAYS, ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE ));
     	org.apache.maven.artifact.repository.Authentication authentication = new org.apache.maven.artifact.repository.Authentication("kurt", "kurt");
     	srampRepo.setAuthentication(authentication);
     	

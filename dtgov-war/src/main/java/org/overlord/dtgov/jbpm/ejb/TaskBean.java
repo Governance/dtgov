@@ -31,17 +31,10 @@ import javax.transaction.UserTransaction;
 
 import org.jbpm.services.task.exception.PermissionDeniedException;
 import org.jbpm.services.task.utils.ContentMarshallerHelper;
-import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.manager.RuntimeEngine;
-import org.kie.api.runtime.manager.RuntimeManager;
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.runtime.process.WorkflowProcessInstance;
 import org.kie.api.task.TaskService;
 import org.kie.api.task.model.Content;
 import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskSummary;
-import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
-import org.kie.internal.runtime.manager.context.EmptyContext;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
@@ -84,6 +77,52 @@ public class TaskBean implements TaskLocal {
         return task;
     	
     	
+    }
+    
+    @SuppressWarnings("unchecked")
+	public Map<String,Object> claimTask(String actorId, long taskId) throws Exception {
+    	
+    	Map<String,Object> inputVars = null;
+    	ut.begin();
+    	
+    	try {
+            System.out.println("approveTask (taskId = " + taskId + ") by " + actorId);
+            
+            Task task = taskService.getTaskById(taskId);
+        	task.getTaskData().getProcessInstanceId();
+            taskService.claim(taskId, actorId);
+            long docId = taskService.getTaskById(1l).getTaskData().getDocumentContentId();
+            Content content = taskService.getContentById(docId);
+            inputVars = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
+
+            ut.commit();
+        } catch (RollbackException e) {
+            e.printStackTrace();
+            Throwable cause = e.getCause();
+            if (cause != null && cause instanceof OptimisticLockException) {
+                // Concurrent access to the same process instance
+                throw new ProcessOperationException("The same process instance has likely been accessed concurrently",
+                        e);
+            }
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+            // Transaction might be already rolled back by TaskServiceSession
+            if (ut.getStatus() == Status.STATUS_ACTIVE) {
+                ut.rollback();
+            }
+            // Probably the task has already been started by other users
+            throw new ProcessOperationException("The task (id = " + taskId
+                    + ") has likely been started by other users ", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Transaction might be already rolled back by TaskServiceSession
+            if (ut.getStatus() == Status.STATUS_ACTIVE) {
+                ut.rollback();
+            }
+            throw new RuntimeException(e);
+        } 
+    	return inputVars;
     }
 
     public void approveTask(String actorId, long taskId) throws Exception {

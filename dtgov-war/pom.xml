@@ -163,31 +163,37 @@
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-bam</artifactId>
       <version>${jbpm.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-bpmn2</artifactId>
       <version>${jbpm.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-human-task-services</artifactId>
       <version>${jbpm.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-shared-services</artifactId>
       <version>${jbpm.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-persistence-jpa</artifactId>
       <version>${jbpm.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-runtime-manager</artifactId>
       <version>${jbpm.version}</version>
+      <scope>provided</scope>
     </dependency>
     
     <!-- can compile, but cannot deploy without these seam dependencies -->

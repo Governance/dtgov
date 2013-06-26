@@ -17,32 +17,21 @@ package org.overlord.dtgov.jbpm.util;
 
 import static org.kie.scanner.MavenRepository.getMavenRepository;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.net.MalformedURLException;
 
 import org.apache.maven.artifact.UnknownRepositoryLayoutException;
-import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.PlexusContainerException;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.junit.Assert;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
-import org.kie.api.definition.KiePackage;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.scanner.MavenRepository;
 import org.overlord.sramp.governance.ConfigException;
 import org.overlord.sramp.governance.Governance;
-import org.overlord.sramp.governance.GovernanceConstants;
-import org.overlord.sramp.governance.Query;
-import org.overlord.sramp.governance.Target;
 import org.sonatype.aether.artifact.Artifact;
 
 
@@ -51,7 +40,6 @@ import org.sonatype.aether.artifact.Artifact;
  *
  * @author kurt.stam@redhat.com
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class KieTest {
 
 	/**
@@ -59,15 +47,21 @@ public class KieTest {
 	 * @throws ComponentLookupException 
 	 * @throws PlexusContainerException 
 	 * @throws UnknownRepositoryLayoutException 
+	 * @throws MalformedURLException 
 	 */
     @Test
-	public void testKieJar() throws ConfigException, UnknownRepositoryLayoutException, PlexusContainerException, ComponentLookupException {
+	public void testKieJar() throws ConfigException, UnknownRepositoryLayoutException, PlexusContainerException, ComponentLookupException, MalformedURLException {
     	
+    	Governance governance = new Governance();
+    	String wagonVersion = governance.getSrampWagonVersion();
+    	String srampUrl = governance.getSrampUrl().toExternalForm();
+    	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":"));
     	try {
+    		
 	    	KieServices ks = KieServices.Factory.get();
 	    	MavenProject srampProject = KieUtil.getSrampProject(
-	    			"0.2.1-SNAPSHOT", 
-	    			"sramp://localhost:8080/s-ramp-server/", 
+	    			wagonVersion, 
+	    			srampUrl, 
 	    			true, 
 	    			true);
 	    	//MavenRepository repository = getMavenRepository();
@@ -83,7 +77,6 @@ public class KieTest {
 	    	KieContainer kieContainer = ks.newKieContainer(releaseId);
 	    	Assert.assertNotNull(kieContainer);
 	        
-	        @SuppressWarnings("unused")
 			KieSession ksession = kieContainer.newKieSession("ksessionSRAMP");
 	        Assert.assertNotNull(ksession);
 	        

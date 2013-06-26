@@ -21,11 +21,11 @@ package org.overlord.dtgov.jbpm.ejb;
  * Used for recoverable exception like OptimisticLockException
  *
  */
-public class ProcessOperationException extends Exception {
+public class WorkflowConfigurationException extends Exception {
 
-	private static final long serialVersionUID = -2011224496919175817L;
+	private static final long serialVersionUID = -1094983882719895557L;
 
-	public ProcessOperationException(String message, Throwable cause) {
+	public WorkflowConfigurationException(String message, Throwable cause) {
         super(message, cause);
     }
 }
