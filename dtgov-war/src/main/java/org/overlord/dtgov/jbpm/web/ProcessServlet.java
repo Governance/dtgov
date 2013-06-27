@@ -77,4 +77,17 @@ public class ProcessServlet extends HttpServlet {
                 .getRequestDispatcher("/index.jsp");
         dispatcher.forward(req, res);
     }
+    
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    		throws ServletException, IOException {
+    	
+    	String processId = req.getParameter("processId");
+    	try {
+            processService.listProcessInstanceDetail(Long.parseLong(processId));
+            //processInstances = processService.listProcessInstances();
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
+    }
 }

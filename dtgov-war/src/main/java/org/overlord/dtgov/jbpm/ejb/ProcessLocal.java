@@ -27,4 +27,5 @@ import org.kie.api.runtime.process.ProcessInstance;
 public interface ProcessLocal {
     public long startProcess(String processId, Map<String, Object> parameters) throws Exception;
     public Collection<ProcessInstance> listProcessInstances() throws Exception;
+    public void listProcessInstanceDetail(long processId) throws Exception;
 }
