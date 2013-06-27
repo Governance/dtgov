@@ -17,6 +17,8 @@
 package org.overlord.dtgov.jbpm.ejb;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
@@ -76,6 +78,52 @@ public class TaskBean implements TaskLocal {
         return task;
 
 
+    }
+    
+    @SuppressWarnings("unchecked")
+	public Map<String,Object> claimTask(String actorId, long taskId) throws Exception {
+    	
+    	Map<String,Object> inputVars = null;
+    	ut.begin();
+    	
+    	try {
+            System.out.println("approveTask (taskId = " + taskId + ") by " + actorId);
+            
+            Task task = taskService.getTaskById(taskId);
+        	task.getTaskData().getProcessInstanceId();
+            taskService.claim(taskId, actorId);
+            long docId = taskService.getTaskById(1l).getTaskData().getDocumentContentId();
+            Content content = taskService.getContentById(docId);
+            inputVars = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
+
+            ut.commit();
+        } catch (RollbackException e) {
+            e.printStackTrace();
+            Throwable cause = e.getCause();
+            if (cause != null && cause instanceof OptimisticLockException) {
+                // Concurrent access to the same process instance
+                throw new ProcessOperationException("The same process instance has likely been accessed concurrently",
+                        e);
+            }
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+            // Transaction might be already rolled back by TaskServiceSession
+            if (ut.getStatus() == Status.STATUS_ACTIVE) {
+                ut.rollback();
+            }
+            // Probably the task has already been started by other users
+            throw new ProcessOperationException("The task (id = " + taskId
+                    + ") has likely been started by other users ", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Transaction might be already rolled back by TaskServiceSession
+            if (ut.getStatus() == Status.STATUS_ACTIVE) {
+                ut.rollback();
+            }
+            throw new RuntimeException(e);
+        } 
+    	return inputVars;
     }
 
     @Override

@@ -118,29 +118,45 @@ public class TaskInboxService implements ITaskInboxService {
 
     /**
      * Gets the task form configured for the given task.  This is done by looking for an
-     * artifact in the S-RAMP repository of type /s-ramp/ext/OverlordTaskForm with a property
-     * named "task-type" and a value equal to the one found in the {@link TaskBean}.  If
+     * artifact in the S-RAMP repository of type /s-ramp/ext/OverlordTaskForm with name
+     * named <TaskName>-overlord-form.html and a value equal to the one found in the {@link TaskBean}.  If
      * the search of the repository uncovers multiple forms that match the criteria, the
-     * one most recently added
+     * one most recently added.
      * @param task
      */
     private String getTaskForm(TaskBean task) throws Exception {
-        SrampAtomApiClient client = srampClientAccessor.getClient();
-        QueryResultSet resultSet = client.buildQuery("/s-ramp/ext/OverlordTaskForm[@task-type = ?]")
-                .parameter(task.getType()).count(1).orderBy("createdTimestamp").descending().query();
-        if (resultSet.size() == 1) {
-            ArtifactSummary artifact = resultSet.get(0);
-            InputStream inputStream = null;
-            try {
-                inputStream = client.getArtifactContent(artifact);
-                StringWriter output = new StringWriter();
-                IOUtils.copy(inputStream, output);
-                return output.toString();
-            } finally {
-                IOUtils.closeQuietly(inputStream);
-            }
-        }
-        throw new Exception("No task form found for task type: " + task.getType());
+    	String taskFormName = null;
+    	if (task.getTaskData()!=null) {
+    		taskFormName = task.getTaskData().get("TaskName") + "-overlord-form.html";
+    	}
+    	if (taskFormName!=null) {
+	        SrampAtomApiClient client = srampClientAccessor.getClient();
+	        QueryResultSet resultSet = client.buildQuery("/s-ramp/ext/OverlordTaskForm[@name = ?]")
+	                .parameter(taskFormName).count(1).orderBy("createdTimestamp").descending().query();
+	        if (resultSet.size() == 1) {
+	            ArtifactSummary artifact = resultSet.get(0);
+	            InputStream inputStream = null;
+	            try {
+	                inputStream = client.getArtifactContent(artifact);
+	                StringWriter output = new StringWriter();
+	                IOUtils.copy(inputStream, output);
+	                return output.toString();
+	            } finally {
+	                IOUtils.closeQuietly(inputStream);
+	            }
+	        }
+    	}
+		String form = "<form>" +
+				"<fieldset>" +
+				" <label>Status</label>" +
+				"<input checked type=\"radio\" name=\"Status\" value=\"pass\">Pass</input>" + 
+			    "<input         type=\"radio\" name=\"Status\" value=\"fail\">Fail</input>" +
+				"</fieldSet>" +
+			    "</form>";
+		return form;
+    
+    	
+        //throw new Exception("No task form found for task name: " + taskFormName);
     }
 
 }

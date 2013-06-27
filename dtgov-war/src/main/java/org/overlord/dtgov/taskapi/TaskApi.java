@@ -47,7 +47,9 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.jbpm.services.task.exception.PermissionDeniedException;
+import org.jbpm.services.task.utils.ContentMarshallerHelper;
 import org.kie.api.task.TaskService;
+import org.kie.api.task.model.Content;
 import org.kie.api.task.model.I18NText;
 import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskData;
@@ -192,6 +194,13 @@ public class TaskApi {
         assertCurrentUser(httpRequest);
 
         Task task = taskService.getTaskById(taskId);
+        
+        long docId = taskService.getTaskById(taskId).getTaskData().getDocumentContentId();
+        Content content = taskService.getContentById(docId);
+
+        @SuppressWarnings("unchecked")
+		Map<String,Object> inputParams = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
+        
         TaskType rval = new TaskType();
         List<I18NText> descriptions = task.getDescriptions();
         if (descriptions != null && !descriptions.isEmpty()) {
@@ -218,6 +227,16 @@ public class TaskApi {
                 rval.setDueDate(dtFactory.newXMLGregorianCalendar(cal));
             }
             rval.setStatus(StatusType.fromValue(taskData.getStatus().toString()));
+        }
+        //Set the input params
+        if (inputParams!=null && inputParams.size() > 0) {
+        	if (rval.getTaskData()==null) rval.setTaskData(new TaskDataType());
+        	for ( String key : inputParams.keySet()) {
+        		Entry entry = new Entry();
+        		entry.setKey(key);
+        		entry.setValue(String.valueOf(inputParams.get(key)));
+				rval.getTaskData().getEntry().add(entry);
+			}
         }
 
         return rval;

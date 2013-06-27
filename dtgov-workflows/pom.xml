@@ -26,12 +26,30 @@
        <dependency>
          <groupId>org.jbpm</groupId>
          <artifactId>jbpm-bpmn2</artifactId>
-         <version>6.0.0-SNAPSHOT</version>
+         <version>6.0.0.Beta3</version>
+         <scope>provided</scope>
        </dependency>
        <dependency>
        	<groupId>org.drools</groupId>
        	<artifactId>drools-compiler</artifactId>
-       	<version>6.0.0-SNAPSHOT</version>
+       	<version>6.0.0.Beta3</version>
+       	<scope>provided</scope>
+       </dependency>
+       <dependency>
+       	<groupId>org.kie</groupId>
+       	<artifactId>kie-api</artifactId>
+       	<version>6.0.0.Beta3</version>
+       	<scope>provided</scope>
+       </dependency>
+       <dependency>
+      	<groupId>commons-io</groupId>
+      	<artifactId>commons-io</artifactId>
+      	<scope>provided</scope> 
+       </dependency>
+       <dependency>
+      	<groupId>commons-codec</groupId>
+      	<artifactId>commons-codec</artifactId>
+      	<scope>provided</scope> 
        </dependency>
     </dependencies>
 

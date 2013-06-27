@@ -42,6 +42,4 @@ public class EmbeddedJbpmManager implements BpmManager {
     	}
     }
     
-   
-    
 }

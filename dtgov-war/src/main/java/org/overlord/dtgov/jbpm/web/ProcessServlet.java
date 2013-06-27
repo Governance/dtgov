@@ -55,14 +55,14 @@ public class ProcessServlet extends HttpServlet {
         String governanceUrl = "http://localhost:8080/dtgov";
         if (processId.equals("overlord.demo.SimpleReleaseProcess")) {
         	parameters.put("ArtifactUuid", uuid);
-        	parameters.put("DeploymentUrl",governanceUrl + "/deploy/copy/{target}/{uuid}");
-        	parameters.put("NotificationUrl",governanceUrl + "/notify/email/{group}/deployed/{target}/{uuid}");
-        	parameters.put("UpdateMetaDataUrl",governanceUrl + "/update/{name}/{value}/{uuid}");
+        	parameters.put("DeploymentUrl",governanceUrl + "/rest/deploy/copy/{target}/{uuid}");
+        	parameters.put("NotificationUrl",governanceUrl + "/rest/notify/email/{group}/deployed/{target}/{uuid}");
+        	parameters.put("UpdateMetaDataUrl",governanceUrl + "/rest/update/{name}/{value}/{uuid}");
         }
         parameters.put("recipient", recipient);
         try {
             processInstanceId = processService.startProcess(processId, parameters);
-            processInstances = processService.listProcessInstances();
+            //processInstances = processService.listProcessInstances();
         } catch (Exception e) {
             throw new ServletException(e);
         }
