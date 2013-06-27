@@ -37,6 +37,7 @@ public interface GovernanceConstants {
     public static final String GOVERNANCE_JNDI_EMAIL_REF= "governance.jndi.email.reference";
     public static final String GOVERNANCE_EMAIL_DOMAIN  = "governance.email.domain";
     public static final String GOVERNANCE_EMAIL_FROM    = "governance.email.from";
+    
 
     //BPM connection info
     public static final String GOVERNANCE_BPM_USER     = "governance.bpm.user";
@@ -47,4 +48,15 @@ public interface GovernanceConstants {
     public static final String GOVERNANCE_TARGETS       = "governance.targets";
     public static final String GOVERNANCE_QUERIES       = "governance.queries";
     public static final String GOVERNANCE               = "governance.";
+    
+    //S-RAMP
+    public static final String SRAMP_WAGON_JAR          = "s-ramp-wagon";
+    public static final String SRAMP_WAGON_SNAPSHOTS    = "dtgov.s-ramp-wagon.snapshots";
+    public static final String SRAMP_WAGON_RELEASES     = "dtgov.s-ramp-wagon.releases";
+    
+    //Workflow config
+    public static final String GOVERNANCE_WORKFLOW_GROUP   = "dtgov.workflows.group";
+    public static final String GOVERNANCE_WORKFLOW_NAME    = "dtgov.workflows.name";
+    public static final String GOVERNANCE_WORKFLOW_VERSION = "dtgov.workflows.version";
+    public static final String GOVERNANCE_WORKFLOW_SESSION = "dtgov.workflows.session";
 }

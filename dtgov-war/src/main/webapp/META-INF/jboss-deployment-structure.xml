@@ -6,6 +6,7 @@
       <module name="org.jboss.as.web" />
       <module name="org.apache.httpcomponents" />
       <module name="org.apache.commons.codec" />
+      <module name="org.jboss.netty" />
 <!--       <module name="org.jboss.resteasy.resteasy-cdi" /> -->
       <module name="org.overlord.commons.overlord-commons-auth" />
     </dependencies>

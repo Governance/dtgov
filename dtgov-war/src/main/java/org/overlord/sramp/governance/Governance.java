@@ -40,6 +40,10 @@ public class Governance {
     public static String DEFAULT_JNDI_EMAIL_REF = "java:jboss/mail/Default";
     public static String DEFAULT_EMAIL_DOMAIN = "mailinator.com";
     public static String DEFAULT_EMAIL_FROM = "overlord@overlord.jboss.org";
+    public static String DEFAULT_GOVERNANCE_WORKFLOW_GROUP   = "org.overlord.dtgov";
+    public static String DEFAULT_GOVERNANCE_WORKFLOW_NAME    = "dtgov-workflows";
+    public static String DEFAULT_GOVERNANCE_WORKFLOW_VERSION = "1.0.0";
+    public static String DEFAULT_GOVERNANCE_WORKFLOW_SESSION = "ksessionSRAMP";
 
     public Governance() {
         super();
@@ -252,5 +256,33 @@ public class Governance {
 
     public String getDefaultEmailFromAddress() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_EMAIL_FROM, DEFAULT_EMAIL_FROM);
+    }
+    
+    public String getSrampWagonVersion() {
+        return Release.getVersionFromManifest(GovernanceConstants.SRAMP_WAGON_JAR);
+    }
+    
+    public Boolean getSrampWagonSnapshots() {
+        return configuration.getBoolean(GovernanceConstants.SRAMP_WAGON_SNAPSHOTS, true);
+    }
+    
+    public Boolean getSrampWagonReleases() {
+        return configuration.getBoolean(GovernanceConstants.SRAMP_WAGON_RELEASES, true);
+    }
+    
+    public String getGovernanceWorkflowGroup() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_GROUP, DEFAULT_GOVERNANCE_WORKFLOW_GROUP);
+    }
+    
+    public String getGovernanceWorkflowName() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_NAME, DEFAULT_GOVERNANCE_WORKFLOW_NAME);
+    }
+    
+    public String getGovernanceWorkflowVersion() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_VERSION, DEFAULT_GOVERNANCE_WORKFLOW_VERSION);
+    }
+    
+    public String getGovernanceWorkflowSession() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_SESSION, DEFAULT_GOVERNANCE_WORKFLOW_SESSION);
     }
 }

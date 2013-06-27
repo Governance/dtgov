@@ -82,11 +82,14 @@ public class DTGovUserGroupCallback implements UserGroupCallback {
         }
         if (roles==null || roles.size()==0) {
 	        roles = new ArrayList<String>();
-	        if (userId.equals("kurt"))
+	        if (userId.equals("kurt")) {
 	        	roles.add("PM");
-	        else if (userId.equals("eric"))
+	            roles.add("dev");
+	        } else if (userId.equals("eric")) {
 	        	roles.add("HR");
-        }
+	        	roles.add("dev");
+	        }
+        }     
         return roles;
     }
 }

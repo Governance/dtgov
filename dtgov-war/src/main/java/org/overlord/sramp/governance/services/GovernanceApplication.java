@@ -25,7 +25,7 @@ import javax.ws.rs.core.Application;
  */
 @ApplicationPath("/rest")
 public class GovernanceApplication extends Application {
-//
+
 //	private Set<Object> singletons = new HashSet<Object>();
 //	private Set<Class<?>> classes = new HashSet<Class<?>>();
 //
@@ -36,7 +36,7 @@ public class GovernanceApplication extends Application {
 //		singletons.add(new DeploymentResource());
 //		singletons.add(new NotificationResource());
 //		singletons.add(new UpdateMetaDataResource());
-//		singletons.add(new TaskApi());
+//		//singletons.add(new TaskApi());
 //	}
 //
 //	@Override
