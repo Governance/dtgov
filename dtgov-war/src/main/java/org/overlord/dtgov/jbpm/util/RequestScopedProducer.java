@@ -48,4 +48,6 @@ public class RequestScopedProducer {
         return Logger.getLogger(injectionPoint.getMember().getDeclaringClass()
                 .getName());
     }
+    
+    
 }

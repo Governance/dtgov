@@ -60,6 +60,7 @@
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-workflows</artifactId>
       <version>${project.version}</version>
+      
     </dependency>
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
@@ -158,42 +159,40 @@
       <version>2.1</version>
       <scope>provided</scope>
     </dependency>
-    <!-- jBPM 6 dependencies -->
+    <!-- jBPM 6 dependencies --> 
+    <!--  
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-bam</artifactId>
       <version>${jbpm.version}</version>
-      <scope>provided</scope>
     </dependency>
+    -->
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-bpmn2</artifactId>
       <version>${jbpm.version}</version>
-      <scope>provided</scope>
     </dependency>
+    <!--  
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-human-task-services</artifactId>
       <version>${jbpm.version}</version>
-      <scope>provided</scope>
     </dependency>
+    -->
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-shared-services</artifactId>
       <version>${jbpm.version}</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-persistence-jpa</artifactId>
       <version>${jbpm.version}</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-runtime-manager</artifactId>
       <version>${jbpm.version}</version>
-      <scope>provided</scope>
     </dependency>
     
     <!-- can compile, but cannot deploy without these seam dependencies -->
@@ -223,7 +222,7 @@
       <artifactId>drools-compiler</artifactId>
       <version>${drools.version}</version>
     </dependency>
-     <dependency>
+    <dependency>
       <groupId>org.kie</groupId>
       <artifactId>kie-api</artifactId>
       <version>${drools.version}</version>
@@ -232,6 +231,18 @@
      <groupId>org.kie</groupId>
   	 <artifactId>kie-ci</artifactId>
   	 <version>${drools.version}</version>
+  	 <exclusions>
+  	 	<exclusion>
+  	 		<artifactId>netty</artifactId>
+  	 		<groupId>org.jboss.netty</groupId>
+  	 	</exclusion>
+  	 </exclusions>
+    </dependency>
+    <dependency>
+      <artifactId>netty</artifactId>
+  	  <groupId>org.jboss.netty</groupId>
+  	  <version>3.2.5.Final</version>
+  	  <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>

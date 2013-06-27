@@ -17,6 +17,8 @@
 package org.overlord.dtgov.jbpm.ejb;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;

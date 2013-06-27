@@ -60,14 +60,16 @@ public class KieTest {
     		
 	    	KieServices ks = KieServices.Factory.get();
 	    	MavenProject srampProject = KieUtil.getSrampProject(
-	    			wagonVersion, 
+	    			governance.getSrampWagonVersion(), 
 	    			srampUrl, 
-	    			true, 
-	    			true);
-	    	//MavenRepository repository = getMavenRepository();
+	    			governance.getSrampWagonSnapshots(), 
+	    			governance.getSrampWagonReleases());
 	    	MavenRepository repo = getMavenRepository(srampProject);
 	    	
-	    	ReleaseId releaseId = ks.newReleaseId("org.overlord.dtgov", "dtgov-workflows", "0.1.0-SNAPSHOT");
+	    	ReleaseId releaseId = ks.newReleaseId(
+	    			governance.getGovernanceWorkflowGroup(),
+	    			governance.getGovernanceWorkflowName(),
+	    			governance.getGovernanceWorkflowVersion());
 	    	
 	        String name = releaseId.toExternalForm();
 	        Artifact artifact = repo.resolveArtifact(name);

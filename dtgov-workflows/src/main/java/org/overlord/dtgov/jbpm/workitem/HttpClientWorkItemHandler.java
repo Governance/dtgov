@@ -1,4 +1,4 @@
-package org.overlord.dtgov.jbpm.util;
+package org.overlord.dtgov.jbpm.workitem;
 
 
 import java.io.InputStream;

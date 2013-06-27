@@ -1,5 +1,5 @@
 governance.query.interval=5000
-dtgov.workflows.version=0.2.1-SNAPSHOT
+dtgov.workflows.version=0.1.0-SNAPSHOT
 
 governance.queries=/s-ramp/ext/SwitchyardApplication|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/deploy/copy/{target}/{uuid}::NotificationUrl={governance.url}/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/update/{name}/{value}/{uuid}
 governance.queries=/s-ramp/ext/MavenPom[@maven.artifactId='project']|overlord.demo.ProjectLifeCycle|UpdateMetaDataUrl={governance.url}/update/project/relatedto/{uuid}
