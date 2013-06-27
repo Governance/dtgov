@@ -21,6 +21,7 @@ import static org.kie.scanner.MavenRepository.getMavenRepository;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
@@ -64,6 +65,7 @@ import org.sonatype.aether.artifact.Artifact;
 public class ProcessBean implements ProcessLocal {
 
 	private KieContainer kieContainer = null;
+	KieSession ksession = null;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
     @Resource
@@ -76,15 +78,20 @@ public class ProcessBean implements ProcessLocal {
     @Inject
     TaskService taskService;
     
+    @PreDestroy
+    public void preDestroy() {
+    	getSession().dispose();
+    }
+    
     public long startProcess(String processId, Map<String, Object> parameters) throws Exception {
 
-    	Governance governance = new Governance();
     	
-    	KieSession ksession = getContainer().newKieSession(governance.getGovernanceWorkflowSession());
+    	ksession = getSession();
     	
     	//HT handler 
     	NonManagedLocalHTWorkItemHandler humanTaskHandler = new NonManagedLocalHTWorkItemHandler(ksession, taskService);
         
+    	
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task", humanTaskHandler);
     	
     	ksession.getWorkItemManager().registerWorkItemHandler("HttpClientDeploy", (WorkItemHandler) new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
@@ -105,8 +112,6 @@ public class ProcessBean implements ProcessLocal {
                 ut.rollback();
             }
             throw e;
-        } finally {
-        	ksession.dispose();
         }
         return processInstanceId;
     }
@@ -123,7 +128,8 @@ public class ProcessBean implements ProcessLocal {
         try {
 	        processInstances = ksession.getProcessInstances();
 	        for (ProcessInstance processInstance : processInstances) {
-				System.out.println(processInstance.getProcess().getName());
+	        	logger.info(processInstance.getProcess().getName());
+	        	
 				System.out.println("..");
 			}
 	        ut.commit();
@@ -133,12 +139,42 @@ public class ProcessBean implements ProcessLocal {
                 ut.rollback();
             }
             throw e;
+        } finally {
+        	ksession.dispose();
         }
         return processInstances;
     	
     }
     
-	public synchronized KieContainer getContainer() {
+ public void listProcessInstanceDetail(long processId) throws Exception {
+    	
+	    
+ 	    KieSession ksession = getSession();
+ 	   logger.info("ksession=" + ksession);
+        
+        ut.begin();
+
+        try {
+	        ProcessInstance processInstance = ksession.getProcessInstance(processId);
+	        if (processInstance!=null) {
+				System.out.println(processInstance.getProcess().getName());
+				System.out.println(processInstance.getState());
+				
+				System.out.println("..");
+	        }
+	        ut.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (ut.getStatus() == Status.STATUS_ACTIVE) {
+                ut.rollback();
+            }
+            throw e;
+        }
+        
+    	
+    }
+    
+	public synchronized KieSession getSession() {
 		
 		if (kieContainer==null) {
 			Governance governance = new Governance();
@@ -164,13 +200,13 @@ public class ProcessBean implements ProcessLocal {
 		        Artifact artifact = repo.resolveArtifact(name);
 		        logger.info("Creating KIE container with workflows from " + artifact);
 		    	kieContainer = ks.newKieContainer(releaseId);
-		    	
+		    	ksession = kieContainer.newKieSession(governance.getGovernanceWorkflowSession());
 	    	} catch (Exception e) {
 	    		logger.error(e.getMessage(),e);
 	    	}
 		}
 		
-		return kieContainer;
+		return ksession;
 	}
 	
 	 
