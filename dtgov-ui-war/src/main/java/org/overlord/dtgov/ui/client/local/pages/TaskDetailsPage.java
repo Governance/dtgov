@@ -289,13 +289,15 @@ public class TaskDetailsPage extends AbstractPage {
             final String successTitle, final String successDescription) {
         final NotificationBean notificationBean = notificationService.startProgressNotification(
                 inProgressTitle, inProgressDescription);
-        TaskBean model = task.getModel();
+        final TaskBean model = task.getModel();
         model.setTaskData(taskFormWrapper.getData());
         taskInboxService.executeAction(model, action, new IRpcServiceInvocationHandler<TaskBean>() {
             @Override
             public void onReturn(TaskBean data) {
                 notificationService.completeProgressNotification(notificationBean.getUuid(), successTitle,
                         successDescription);
+                data.setTaskForm(model.getTaskForm());
+                data.setTaskData(taskFormWrapper.getData());
                 updateTaskMetaData(data);
                 updateActionStates(data);
             }

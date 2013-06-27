@@ -1,0 +1,156 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.overlord.dtgov</groupId>
+    <artifactId>dtgov</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>dtgov-installer</artifactId>
+  <name>Design Time Governance: Community Installer</name>
+  <description>Scripts used to install Overlord DTGov into JBoss EAP.</description>
+
+  <dependencies>
+    <!-- Overlord Commons -->
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-installer</artifactId>
+      <version>${overlord-commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-auth</artifactId>
+      <version>${overlord-commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-idp</artifactId>
+      <version>${overlord-commons.version}</version>
+      <type>war</type>
+    </dependency>
+
+    <!-- DTGov -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-war</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-ui-war-jboss7</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+    <!-- Profile to install to EAP 6.1 -->
+    <profile>
+      <id>eap61</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.7</version>
+            <dependencies>
+              <dependency>
+                <groupId>ant</groupId>
+                <artifactId>ant-trax</artifactId>
+                <version>1.6.5</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>install-eap61</id>
+                <phase>install</phase>
+                <configuration>
+                  <tasks>
+                    <property name="appserver.id" value="jboss-eap-6.1" />
+
+                    <!-- Overlord Commons Installer and Dependencies -->
+                    <property name="overlord-commons.installer.jar"
+                      value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
+                    <property name="overlord-commons.idp.download.url"
+                      value="file:///${maven.dependency.org.overlord.overlord-commons-idp.war.path}" />
+                    <property name="overlord-commons.auth.download.url"
+                      value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+
+                    <!-- DTGov WARs -->
+                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war.war.path}" />
+                    <property name="dtgov.dtgov-ui.path"
+                      value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jboss7.war.path}" />
+
+                    <property file="build.properties" />
+                    <property name="dtgov.install.dir" value="${project.build.directory}" />
+                    <property name="dtgov.appserver.zip" value="${basedir}/jboss-eap-6.1.0.zip" />
+
+                    <ant dir="${basedir}/src/main/resources" antfile="${basedir}/src/main/resources/build.xml">
+                      <target name="install" />
+                    </ant>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <!-- Profile to install into JBoss AS 7.1.1.Final -->
+    <profile>
+      <id>jboss7</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.7</version>
+            <dependencies>
+              <dependency>
+                <groupId>ant</groupId>
+                <artifactId>ant-trax</artifactId>
+                <version>1.6.5</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>install-as711</id>
+                <phase>install</phase>
+                <configuration>
+                  <tasks>
+                    <property name="appserver.id" value="jboss-as-7.1.1.Final" />
+
+                    <property name="overlord-commons.installer.jar"
+                      value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
+                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war.war.path}" />
+                    <property name="dtgov.dtgov-ui.path"
+                      value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jboss7.war.path}" />
+                    <property name="overlord-commons.idp.download.url"
+                      value="file:///${maven.dependency.org.overlord.overlord-commons-idp.war.path}" />
+                    <property name="overlord-commons.auth.download.url"
+                      value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+
+                    <property file="build.properties" />
+                    <property name="dtgov.install.dir" value="${project.build.directory}" />
+                    <property name="dtgov.appserver.zip" value="${basedir}/jboss-as-7.1.1.Final.zip" />
+
+                    <ant dir="${basedir}/src/main/resources" antfile="${basedir}/src/main/resources/build.xml">
+                      <target name="install" />
+                    </ant>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
