@@ -4,11 +4,11 @@
   <parent>
     <groupId>org.overlord.dtgov</groupId>
     <artifactId>dtgov</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>dtgov-ui-war</artifactId>
   <packaging>war</packaging>
-  <name>Design Time Governance UI</name>
+  <name>Design Time Governance: UI</name>
   <dependencies>
     <!-- DTGov Task API Client -->
     <dependency>
