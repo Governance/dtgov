@@ -1,56 +1,57 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.overlord.dtgov</groupId>
-		<artifactId>dtgov</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.overlord.dtgov</groupId>
+    <artifactId>dtgov</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
 
-	<artifactId>dtgov-workflows</artifactId>
-	<name>Design Time Governance Workflows</name>
-        <packaging>jar</packaging>
-	<description>Design Time Governance governance workflows.</description>
-	
-	<build>
-        <plugins>
-            <plugin>
-                <groupId>org.drools</groupId>
-                <artifactId>drools-maven-plugin</artifactId>
-                <version>6.0.0-SNAPSHOT</version>
-                <extensions>true</extensions>
-            </plugin>
-        </plugins>
-    </build>
-    <dependencies>
-       <dependency>
-         <groupId>org.jbpm</groupId>
-         <artifactId>jbpm-bpmn2</artifactId>
-         <version>6.0.0.Beta3</version>
-         <scope>provided</scope>
-       </dependency>
-       <dependency>
-       	<groupId>org.drools</groupId>
-       	<artifactId>drools-compiler</artifactId>
-       	<version>6.0.0.Beta3</version>
-       	<scope>provided</scope>
-       </dependency>
-       <dependency>
-       	<groupId>org.kie</groupId>
-       	<artifactId>kie-api</artifactId>
-       	<version>6.0.0.Beta3</version>
-       	<scope>provided</scope>
-       </dependency>
-       <dependency>
-      	<groupId>commons-io</groupId>
-      	<artifactId>commons-io</artifactId>
-      	<scope>provided</scope> 
-       </dependency>
-       <dependency>
-      	<groupId>commons-codec</groupId>
-      	<artifactId>commons-codec</artifactId>
-      	<scope>provided</scope> 
-       </dependency>
-    </dependencies>
+  <artifactId>dtgov-workflows</artifactId>
+  <name>Design Time Governance: Workflows</name>
+  <packaging>jar</packaging>
+  <description>Design Time Governance governance workflows.</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.drools</groupId>
+        <artifactId>drools-maven-plugin</artifactId>
+        <version>6.0.0-SNAPSHOT</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-bpmn2</artifactId>
+      <version>6.0.0.Beta3</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-compiler</artifactId>
+      <version>6.0.0.Beta3</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kie</groupId>
+      <artifactId>kie-api</artifactId>
+      <version>6.0.0.Beta3</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 
 </project>

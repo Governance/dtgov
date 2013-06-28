@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.overlord.dtgov</groupId>
+    <artifactId>dtgov</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>dtgov-distro</artifactId>
+  <name>Design Time Governance: Community Distribution</name>
+  <packaging>pom</packaging>
+  
+  <dependencies>
+    <!-- Overlord Commons -->
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-installer</artifactId>
+      <version>${overlord-commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-auth</artifactId>
+      <version>${overlord-commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-idp</artifactId>
+      <version>${overlord-commons.version}</version>
+      <type>war</type>
+    </dependency>
+    
+    <!-- DTGov Installer -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-installer</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- DTGov WARs -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-war</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-ui-war-jboss7</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    
+    <!-- DTGov Sources -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-task-api</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-task-client</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-ui-war</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-war</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-workflows</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <!-- Entry needed to enable jdocbook unzipping -->
+            <groupId>org.jboss.maven.plugins</groupId>
+            <artifactId>maven-jdocbook-plugin</artifactId>
+            <version>2.3.8</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>make-dist</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>dtgov-${project.version}</finalName>
+              <attach>false</attach>
+              <descriptors>
+                <descriptor>src/main/assembly/dist.xml</descriptor>
+              </descriptors>
+              <tarLongFileMode>gnu</tarLongFileMode>
+              <appendAssemblyId>false</appendAssemblyId>
+              <archiverConfig>
+                <defaultDirectoryMode>0755</defaultDirectoryMode>
+              </archiverConfig>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
