@@ -16,8 +16,6 @@
 
 package org.overlord.dtgov.jbpm.util;
 
-import static org.kie.scanner.MavenRepository.getMavenRepository;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -25,11 +23,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 
-import org.apache.maven.project.MavenProject;
 import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
 import org.jbpm.runtime.manager.impl.cdi.InjectableRegisterableItemsFactory;
-import org.kie.api.KieServices;
-import org.kie.api.builder.ReleaseId;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieContainer;
 import org.kie.internal.io.ResourceFactory;
@@ -38,21 +33,16 @@ import org.kie.internal.runtime.manager.cdi.qualifier.PerProcessInstance;
 import org.kie.internal.runtime.manager.cdi.qualifier.PerRequest;
 import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.task.api.UserGroupCallback;
-import org.kie.scanner.MavenRepository;
-import org.overlord.dtgov.jbpm.ejb.WorkflowConfigurationException;
-import org.overlord.sramp.governance.Governance;
-import org.overlord.sramp.governance.GovernanceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonatype.aether.artifact.Artifact;
 
 @ApplicationScoped
 public class ApplicationScopedProducer {
 
 	private KieContainer kieContainer = null;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	
+
+
     @Inject
     private InjectableRegisterableItemsFactory factory;
     @Inject
@@ -81,7 +71,7 @@ public class ApplicationScopedProducer {
     @PerProcessInstance
     @PerRequest
     public RuntimeEnvironment produceEnvironment(EntityManagerFactory emf) {
-    	
+
         RuntimeEnvironment environment = RuntimeEnvironmentBuilder
                 .getDefault()
                 .entityManagerFactory(emf)
@@ -92,11 +82,11 @@ public class ApplicationScopedProducer {
                                 .newClassPathResource("rewards-basic.bpmn"),
                         ResourceType.BPMN2)
                 .get();
-                
+
         return environment;
     }
-    
-	
+
+
 
 
 }

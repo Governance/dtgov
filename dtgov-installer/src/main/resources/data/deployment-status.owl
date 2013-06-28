@@ -9,20 +9,40 @@
     <rdfs:label>Status</rdfs:label>
     <rdfs:comment>Deployment Status Ontology</rdfs:comment>
   </owl:Ontology>
-  
+
+  <owl:Class rdf:ID="Lifecycle">
+    <rdfs:label>lifecycle</rdfs:label>
+    <rdfs:comment>Root status - participating in deployment lifecycle workflow.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Deploying">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Lifecycle" />
+    <rdfs:label>deploying</rdfs:label>
+    <rdfs:comment>In the process of being deployed.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="Deployed">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Lifecycle" />
+    <rdfs:label>deployed</rdfs:label>
+    <rdfs:comment>Has been deployed (or failed to be deployed).</rdfs:comment>
+  </owl:Class>
+
   <owl:Class rdf:ID="Dev">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Deploying" />
     <rdfs:label>dev</rdfs:label>
     <rdfs:comment>Development Environment Status</rdfs:comment>
   </owl:Class>
   <owl:Class rdf:ID="Qa">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Deploying" />
     <rdfs:label>qa</rdfs:label>
     <rdfs:comment>QA Environment Status</rdfs:comment>
   </owl:Class>
   <owl:Class rdf:ID="Stage">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Deploying" />
     <rdfs:label>staging</rdfs:label>
     <rdfs:comment>Staging Environment Status</rdfs:comment>
   </owl:Class>
   <owl:Class rdf:ID="Prod">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Deploying" />
     <rdfs:label>prod</rdfs:label>
     <rdfs:comment>Production Environment Status</rdfs:comment>
   </owl:Class>
@@ -90,4 +110,11 @@
     <rdfs:label>prodfail</rdfs:label>
     <rdfs:comment>Artifact failed testing in the Production Environment.</rdfs:comment>
   </owl:Class> 
+
+  <owl:Class rdf:ID="InProd">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Deployed" />
+    <rdfs:label>inprod</rdfs:label>
+    <rdfs:comment>Artifact has been deployed to the Production Environment.</rdfs:comment>
+  </owl:Class> 
+
 </rdf:RDF>

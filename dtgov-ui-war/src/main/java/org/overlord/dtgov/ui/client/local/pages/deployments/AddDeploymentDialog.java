@@ -49,7 +49,7 @@ public class AddDeploymentDialog extends ModalDialog {
 
     @Inject @DataField("add-deployment-dialog-form")
     private TemplatedFormPanel form;
-    @Inject
+    @Inject @DataField
     private DeploymentTypeListBox deploymentType;
     @Inject @DataField("add-deployment-dialog-submit-button")
     private Button submitButton;

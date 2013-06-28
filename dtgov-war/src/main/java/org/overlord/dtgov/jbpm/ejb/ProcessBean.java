@@ -26,16 +26,11 @@ import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
 import org.apache.maven.project.MavenProject;
-import org.jbpm.runtime.manager.impl.RuntimeEngineImpl;
-import org.jbpm.runtime.manager.impl.factory.LocalTaskServiceFactory;
-import org.jbpm.services.task.wih.ExternalTaskEventListener;
-import org.jbpm.services.task.wih.LocalHTWorkItemHandler;
 import org.jbpm.services.task.wih.NonManagedLocalHTWorkItemHandler;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
@@ -44,18 +39,12 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeManager;
 import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.task.TaskService;
-import org.kie.internal.runtime.manager.Disposable;
-import org.kie.internal.runtime.manager.DisposeListener;
-import org.kie.internal.runtime.manager.TaskServiceFactory;
 import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.runtime.manager.context.EmptyContext;
-import org.kie.internal.task.api.EventService;
 import org.kie.scanner.MavenRepository;
 import org.overlord.dtgov.jbpm.util.KieUtil;
 import org.overlord.sramp.governance.Governance;
-import org.overlord.sramp.governance.GovernanceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.aether.artifact.Artifact;
@@ -67,37 +56,38 @@ public class ProcessBean implements ProcessLocal {
 	private KieContainer kieContainer = null;
 	KieSession ksession = null;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
     @Resource
     private UserTransaction ut;
 
     @Inject
     @Singleton
     RuntimeManager singletonManager;
-    
+
     @Inject
     TaskService taskService;
-    
+
     @PreDestroy
     public void preDestroy() {
     	getSession().dispose();
     }
-    
+
+    @Override
     public long startProcess(String processId, Map<String, Object> parameters) throws Exception {
 
-    	
+
     	ksession = getSession();
-    	
-    	//HT handler 
+
+    	//HT handler
     	NonManagedLocalHTWorkItemHandler humanTaskHandler = new NonManagedLocalHTWorkItemHandler(ksession, taskService);
-        
-    	
+
+
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task", humanTaskHandler);
-    	
-    	ksession.getWorkItemManager().registerWorkItemHandler("HttpClientDeploy", (WorkItemHandler) new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
-    	ksession.getWorkItemManager().registerWorkItemHandler("HttpClientNotify", (WorkItemHandler) new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
-    	ksession.getWorkItemManager().registerWorkItemHandler("HttpClientUpdateMetaData", (WorkItemHandler) new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
-        
+
+    	ksession.getWorkItemManager().registerWorkItemHandler("HttpClientDeploy", new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
+    	ksession.getWorkItemManager().registerWorkItemHandler("HttpClientNotify", new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
+    	ksession.getWorkItemManager().registerWorkItemHandler("HttpClientUpdateMetaData", new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
+
         long processInstanceId = -1;
         ut.begin();
         try {
@@ -115,13 +105,14 @@ public class ProcessBean implements ProcessLocal {
         }
         return processInstanceId;
     }
-    
+
+    @Override
     public Collection<ProcessInstance> listProcessInstances() throws Exception {
-    	
+
     	RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
-    	
+
         KieSession ksession = runtime.getKieSession();
-        
+
         Collection<ProcessInstance> processInstances = null;
         ut.begin();
 
@@ -129,7 +120,7 @@ public class ProcessBean implements ProcessLocal {
 	        processInstances = ksession.getProcessInstances();
 	        for (ProcessInstance processInstance : processInstances) {
 	        	logger.info(processInstance.getProcess().getName());
-	        	
+
 				System.out.println("..");
 			}
 	        ut.commit();
@@ -143,15 +134,16 @@ public class ProcessBean implements ProcessLocal {
         	ksession.dispose();
         }
         return processInstances;
-    	
+
     }
-    
- public void listProcessInstanceDetail(long processId) throws Exception {
-    	
-	    
+
+ @Override
+public void listProcessInstanceDetail(long processId) throws Exception {
+
+
  	    KieSession ksession = getSession();
  	   logger.info("ksession=" + ksession);
-        
+
         ut.begin();
 
         try {
@@ -159,7 +151,7 @@ public class ProcessBean implements ProcessLocal {
 	        if (processInstance!=null) {
 				System.out.println(processInstance.getProcess().getName());
 				System.out.println(processInstance.getState());
-				
+
 				System.out.println("..");
 	        }
 	        ut.commit();
@@ -170,32 +162,32 @@ public class ProcessBean implements ProcessLocal {
             }
             throw e;
         }
-        
-    	
+
+
     }
-    
+
 	public synchronized KieSession getSession() {
-		
+
 		if (kieContainer==null) {
 			Governance governance = new Governance();
 	    	try {
 	    		String srampUrl = governance.getSrampUrl().toExternalForm();
 	        	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":"));
-	        	
+
 		    	KieServices ks = KieServices.Factory.get();
 		    	MavenProject srampProject = KieUtil.getSrampProject(
-		    			governance.getSrampWagonVersion(), 
-		    			srampUrl, 
-		    			governance.getSrampWagonSnapshots(), 
+		    			governance.getSrampWagonVersion(),
+		    			srampUrl,
+		    			governance.getSrampWagonSnapshots(),
 		    			governance.getSrampWagonReleases());
-		    	
+
 		    	MavenRepository repo = getMavenRepository();
 		    	//MavenRepository repo = getMavenRepository(srampProject);
 		    	ReleaseId releaseId = ks.newReleaseId(
 		    			governance.getGovernanceWorkflowGroup(),
 		    			governance.getGovernanceWorkflowName(),
 		    			governance.getGovernanceWorkflowVersion());
-		    	
+
 		        String name = releaseId.toExternalForm();
 		        Artifact artifact = repo.resolveArtifact(name);
 		        logger.info("Creating KIE container with workflows from " + artifact);
@@ -205,10 +197,10 @@ public class ProcessBean implements ProcessLocal {
 	    		logger.error(e.getMessage(),e);
 	    	}
 		}
-		
+
 		return ksession;
 	}
-	
-	 
-    
+
+
+
 }
