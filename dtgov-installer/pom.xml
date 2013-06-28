@@ -70,7 +70,7 @@
                     <property name="appserver.id" value="jboss-eap-6.1" />
 
                     <!-- Overlord Commons Installer and Dependencies -->
-                    <property name="overlord-commons.installer.jar"
+                    <property name="dtgov.overlord-commons.installer.jar"
                       value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
                     <property name="overlord-commons.idp.download.url"
                       value="file:///${maven.dependency.org.overlord.overlord-commons-idp.war.path}" />
@@ -124,15 +124,18 @@
                   <tasks>
                     <property name="appserver.id" value="jboss-as-7.1.1.Final" />
 
-                    <property name="overlord-commons.installer.jar"
+                    <!-- Overlord Commons Installer and Dependencies -->
+                    <property name="dtgov.overlord-commons.installer.jar"
                       value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
-                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war.war.path}" />
-                    <property name="dtgov.dtgov-ui.path"
-                      value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jboss7.war.path}" />
                     <property name="overlord-commons.idp.download.url"
                       value="file:///${maven.dependency.org.overlord.overlord-commons-idp.war.path}" />
                     <property name="overlord-commons.auth.download.url"
                       value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+
+                    <!-- DTGov WARs -->
+                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war.war.path}" />
+                    <property name="dtgov.dtgov-ui.path"
+                      value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jboss7.war.path}" />
 
                     <property file="build.properties" />
                     <property name="dtgov.install.dir" value="${project.build.directory}" />
