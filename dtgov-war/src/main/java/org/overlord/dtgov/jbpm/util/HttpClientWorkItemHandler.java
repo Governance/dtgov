@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
+import org.overlord.sramp.governance.Governance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,11 +102,9 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
      * @param connection
      */
     private void addAuthorization(HttpURLConnection connection) {
-    	//Governance governance = new Governance();
-    	//String username = governance.getBpmUser();
-    	//String password = governance.getBpmPassword();
-    	String username = "admin";
-    	String password = "overlord";
+    	Governance governance = new Governance();
+    	String username = governance.getBpmUser();
+    	String password = governance.getBpmPassword();
     	
         if (username != null && password != null) {
             String b64Auth = Base64.encodeBase64String((username + ":" + password).getBytes()).trim();

@@ -12,13 +12,19 @@
   <name>Design Time Governance: Workflows</name>
   <packaging>jar</packaging>
   <description>Design Time Governance governance workflows.</description>
-
   <build>
+    <extensions>
+      <extension>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-wagon</artifactId>
+        <version>${s-ramp.version}</version>
+      </extension>
+    </extensions>
     <plugins>
       <plugin>
         <groupId>org.drools</groupId>
         <artifactId>drools-maven-plugin</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
+        <version>${drools.version}</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>
@@ -27,19 +33,19 @@
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-bpmn2</artifactId>
-      <version>6.0.0.Beta3</version>
+      <version>${jbpm.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-compiler</artifactId>
-      <version>6.0.0.Beta3</version>
+      <version>${drools.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kie</groupId>
       <artifactId>kie-api</artifactId>
-      <version>6.0.0.Beta3</version>
+      <version>${drools.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -53,5 +59,24 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-
+   <profiles>
+	  <profile>
+	    <id>sramp</id>
+	    <activation>
+          <activeByDefault>false</activeByDefault>
+        </activation>
+	      <distributionManagement>
+	        <repository>
+	          <id>local-sramp-repo</id>
+	          <name>S-RAMP Releases Repository</name>
+	          <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
+	        </repository>
+	        <snapshotRepository>
+	          <id>local-sramp-repo-snapshots</id>
+	          <name>S-RAMP Snapshots Repository</name>
+	          <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
+	        </snapshotRepository>
+	      </distributionManagement>
+	    </profile>
+    </profiles>
 </project>

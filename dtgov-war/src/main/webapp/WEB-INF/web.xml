@@ -15,19 +15,10 @@
     <servlet-name>ProcessServlet</servlet-name>
     <servlet-class>org.overlord.dtgov.jbpm.web.ProcessServlet</servlet-class>
   </servlet>
-  <servlet>
-    <servlet-name>TaskServlet</servlet-name>
-    <servlet-class>org.overlord.dtgov.jbpm.web.TaskServlet</servlet-class>
-  </servlet>
 
   <servlet-mapping>
     <servlet-name>ProcessServlet</servlet-name>
     <url-pattern>/process</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>TaskServlet</servlet-name>
-    <url-pattern>/task</url-pattern>
   </servlet-mapping>
 
   <security-constraint>

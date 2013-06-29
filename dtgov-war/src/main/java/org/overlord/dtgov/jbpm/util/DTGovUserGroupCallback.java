@@ -42,12 +42,12 @@ public class DTGovUserGroupCallback implements UserGroupCallback {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
     public boolean existsUser(String userId) {
-    	// allows everything as there is no way to ask JAAS/JACC for users in the domain
+    	// allow everything as there is no way to ask JAAS/JACC for users in the domain
         return true;
     }
 
     public boolean existsGroup(String groupId) {
-    	// allows everything as there is no way to ask JAAS/JACC for groups in the domain
+    	// allow everything as there is no way to ask JAAS/JACC for groups in the domain
     	return true;
     }
 

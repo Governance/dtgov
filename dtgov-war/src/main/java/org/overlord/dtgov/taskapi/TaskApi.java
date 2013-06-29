@@ -72,17 +72,17 @@ import org.overlord.dtgov.taskapi.types.TaskType;
 @TransactionManagement(TransactionManagementType.BEAN)
 @Path("/tasks")
 public class TaskApi {
-
+	
+	@Inject
+    TaskService taskService;
+	
     @Resource
     private UserTransaction ut;
-    @Inject
-    private TaskService taskService;
 
     /**
      * Constructor.
      */
-    public TaskApi() {
-    }
+    public TaskApi() {}
 
     /**
      * Gets a list of all tasks for the authenticated user.
@@ -143,6 +143,7 @@ public class TaskApi {
         String currentUser = assertCurrentUser(httpRequest);
 
         FindTasksResponse response = new FindTasksResponse();
+        
         // Get all tasks - the ones assigned as potential owner *and* the ones assigned as owner.  If
         // there is overlap we'll deal with that during the sort.
         List<TaskSummary> list = taskService.getTasksAssignedAsPotentialOwner(currentUser, "en-UK");
@@ -192,7 +193,7 @@ public class TaskApi {
     public TaskType getTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
         assertCurrentUser(httpRequest);
-
+        
         Task task = taskService.getTaskById(taskId);
         
         long docId = taskService.getTaskById(taskId).getTaskData().getDocumentContentId();
@@ -479,5 +480,4 @@ public class TaskApi {
         }
         return true;
     }
-
 }

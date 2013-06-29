@@ -74,7 +74,7 @@ public class ProcessServlet extends HttpServlet {
 
         ServletContext context = this.getServletContext();
         RequestDispatcher dispatcher = context
-                .getRequestDispatcher("/index.jsp");
+                .getRequestDispatcher("/startProcess.jsp");
         dispatcher.forward(req, res);
     }
     
