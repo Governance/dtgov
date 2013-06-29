@@ -3,12 +3,12 @@
   <parent>
     <groupId>org.overlord.dtgov</groupId>
     <artifactId>dtgov</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>dtgov-war</artifactId>
-  <name>Design Time Governance</name>
+  <name>Design Time Governance: WAR</name>
   <packaging>war</packaging>
   <description>Design Time Governance with BPMN2 workflow support.</description>
 
@@ -54,7 +54,6 @@
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-workflows</artifactId>
       <version>${project.version}</version>
-      
     </dependency>
     <dependency>
       <groupId>org.jboss.resteasy</groupId>

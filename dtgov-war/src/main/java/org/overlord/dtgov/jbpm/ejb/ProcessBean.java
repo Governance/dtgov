@@ -42,106 +42,106 @@ import org.slf4j.LoggerFactory;
 public class ProcessBean implements ProcessLocal {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-    @Resource
-    private UserTransaction ut;
 
-    @Inject
-    @Singleton
-    RuntimeManager singletonManager;
-    
-    @Inject
-    TaskService taskService;
-    
-    
-    public long startProcess(String processId, Map<String, Object> parameters) throws Exception {
-    	
-    	RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
-    	KieSession ksession = runtime.getKieSession();
-    	
-    	logger.info(ksession.toString());
-        
-        long processInstanceId = -1;
-        ut.begin();
-        try {
-            // start a new process instance
-            ProcessInstance processInstance = ksession.startProcess(processId, parameters);
-            processInstanceId = processInstance.getId();
-            logger.info("Process started ... : processInstanceId = " + processInstanceId);
-            ut.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                ut.rollback();
-            }
-            throw e;
-        } 
-        return processInstanceId;
-    }
-    
-    public Collection<ProcessInstance> listProcessInstances() throws Exception {
-    	
-    	
-    	RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
-    	
-        KieSession ksession = runtime.getKieSession();
-        
-        Collection<ProcessInstance> processInstances = null;
-        ut.begin();
+	@Resource
+	private UserTransaction ut;
 
-        try {
-	        processInstances = ksession.getProcessInstances();
-	        for (ProcessInstance processInstance : processInstances) {
-	        	logger.info(processInstance.getProcess().getName());
-	        	
+	@Inject
+	@Singleton
+	RuntimeManager singletonManager;
+
+	@Inject
+	TaskService taskService;
+
+	/**
+	 * Starts up a new ProcessInstance with the given ProcessId. The
+	 * parameters Map is set into the context of the workflow.
+	 * 
+	 */
+	public long startProcess(String processId, Map<String, Object> parameters)
+			throws Exception {
+
+		RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
+		KieSession ksession = runtime.getKieSession();
+
+		long processInstanceId = -1;
+		ut.begin();
+		try {
+			// start a new process instance
+			ProcessInstance processInstance = ksession.startProcess(processId,
+					parameters);
+			processInstanceId = processInstance.getId();
+			logger.info("Process started ... : processInstanceId = "
+					+ processInstanceId);
+			ut.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (ut.getStatus() == Status.STATUS_ACTIVE) {
+				ut.rollback();
+			}
+			throw e;
+		}
+		return processInstanceId;
+	}
+
+	public Collection<ProcessInstance> listProcessInstances() throws Exception {
+
+		RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext
+				.get());
+
+		KieSession ksession = runtime.getKieSession();
+
+		Collection<ProcessInstance> processInstances = null;
+		ut.begin();
+
+		try {
+			processInstances = ksession.getProcessInstances();
+			for (ProcessInstance processInstance : processInstances) {
+				logger.info(processInstance.getProcess().getName());
+
 				System.out.println("..");
 			}
-	        ut.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                ut.rollback();
-            }
-            throw e;
-        } finally {
-        	ksession.dispose();
-        }
-        return processInstances;
-    	
-    }
-    
- public void listProcessInstanceDetail(long processId) throws Exception {
-     
-	 RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
- 	
- 	
-     KieSession ksession = runtime.getKieSession();
- 	   logger.info("ksession=" + ksession);
-        
-        ut.begin();
+			ut.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (ut.getStatus() == Status.STATUS_ACTIVE) {
+				ut.rollback();
+			}
+			throw e;
+		} finally {
+			ksession.dispose();
+		}
+		return processInstances;
 
-        try {
-	        ProcessInstance processInstance = ksession.getProcessInstance(processId);
-	        if (processInstance!=null) {
+	}
+
+	public void listProcessInstanceDetail(long processId) throws Exception {
+
+		RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext
+				.get());
+		KieSession ksession = runtime.getKieSession();
+		logger.info("ksession=" + ksession);
+
+		ut.begin();
+
+		try {
+			ProcessInstance processInstance = ksession
+					.getProcessInstance(processId);
+			if (processInstance != null) {
 				System.out.println(processInstance.getProcess().getName());
 				System.out.println(processInstance.getState());
-				
-				System.out.println("..");
-	        }
-	        ut.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                ut.rollback();
-            }
-            throw e;
-        }
-        
-    	
-    }
- 
 
-	
-	 
-    
+				System.out.println("..");
+			}
+			ut.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (ut.getStatus() == Status.STATUS_ACTIVE) {
+				ut.rollback();
+			}
+			throw e;
+		}
+
+	}
+
 }

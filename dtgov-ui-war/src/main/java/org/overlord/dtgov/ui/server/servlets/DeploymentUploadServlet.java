@@ -40,7 +40,6 @@ import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
-import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.dtgov.ui.server.util.ExceptionUtils;
 import org.overlord.sramp.atom.archive.SrampArchive;
@@ -62,8 +61,6 @@ public class DeploymentUploadServlet extends HttpServlet {
 
     @Inject
     private SrampApiClientAccessor clientAccessor;
-    @Inject
-    private DtgovUIConfig config;
 
 	/**
 	 * Constructor.
@@ -207,9 +204,6 @@ public class DeploymentUploadServlet extends HttpServlet {
 			contentStream = FileUtils.openInputStream(tempFile);
 			BaseArtifactType artifact = at.newArtifactInstance();
 			artifact.setName(fileName);
-            artifact.getClassifiedBy().add(
-                    config.getConfiguration().getString(DtgovUIConfig.DEPLOYMENT_INITIAL_CLASSIFIER,
-                            "http://www.jboss.org/overlord/deployment-status.owl#DevTest"));
 			artifact = clientAccessor.getClient().uploadArtifact(artifact, contentStream);
 			responseParams.put("model", at.getArtifactType().getModel());
 			responseParams.put("type", at.getArtifactType().getType());
