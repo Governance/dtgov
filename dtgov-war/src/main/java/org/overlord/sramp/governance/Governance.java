@@ -43,7 +43,7 @@ public class Governance {
     public static String DEFAULT_GOVERNANCE_WORKFLOW_GROUP   = "org.overlord.dtgov";
     public static String DEFAULT_GOVERNANCE_WORKFLOW_NAME    = "dtgov-workflows";
     public static String DEFAULT_GOVERNANCE_WORKFLOW_VERSION = "1.0.0";
-    public static String DEFAULT_GOVERNANCE_WORKFLOW_SESSION = "ksessionSRAMP";
+    public static String DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE = "SRAMPPackage";
 
     public Governance() {
         super();
@@ -279,10 +279,12 @@ public class Governance {
     }
     
     public String getGovernanceWorkflowVersion() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_VERSION, DEFAULT_GOVERNANCE_WORKFLOW_VERSION);
+    	String defaultDtGovVersion = Release.getVersionFromManifest(GovernanceConstants.GOVERNANCE_DTGOV_WAR);
+    	if (defaultDtGovVersion==null) defaultDtGovVersion = DEFAULT_GOVERNANCE_WORKFLOW_VERSION;
+        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_VERSION, defaultDtGovVersion);
     }
     
-    public String getGovernanceWorkflowSession() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_SESSION, DEFAULT_GOVERNANCE_WORKFLOW_SESSION);
+    public String getGovernanceWorkflowPackage() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_PACKAGE, DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE);
     }
 }

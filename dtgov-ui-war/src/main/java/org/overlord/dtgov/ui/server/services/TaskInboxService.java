@@ -127,7 +127,7 @@ public class TaskInboxService implements ITaskInboxService {
     private String getTaskForm(TaskBean task) throws Exception {
     	String taskFormName = null;
     	if (task.getTaskData()!=null) {
-    		taskFormName = task.getTaskData().get("TaskName") + "-overlord-form.html";
+    		taskFormName = task.getTaskData().get("TaskName") + "-taskform.xml";
     	}
     	if (taskFormName!=null) {
 	        SrampAtomApiClient client = srampClientAccessor.getClient();
@@ -149,8 +149,8 @@ public class TaskInboxService implements ITaskInboxService {
 		String form = "<form>" +
 				"<fieldset>" +
 				" <label>Status</label>" +
-				"<input checked type=\"radio\" name=\"Status\" value=\"pass\">Pass</input>" + 
-			    "<input         type=\"radio\" name=\"Status\" value=\"fail\">Fail</input>" +
+				" <input checked type=\"radio\" name=\"Status\" value=\"pass\">Pass</input>" + 
+			    " <input         type=\"radio\" name=\"Status\" value=\"fail\">Fail</input>" +
 				"</fieldSet>" +
 			    "</form>";
 		return form;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/bpmn20" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_Oi0wYHenEeK6_ZZSVMnKcQ" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" expressionLanguage="http://www.mvel.org/2.0" targetNamespace="http://www.omg.org/bpmn20" typeLanguage="http://www.java.com/javaTypes">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmn20="http://www.omg.org/bpmn20" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" xmlns="http://www.jboss.org/drools" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd" id="_Oi0wYHenEeK6_ZZSVMnKcQ" expressionLanguage="http://www.mvel.org/2.0" targetNamespace="http://www.omg.org/bpmn20" typeLanguage="http://www.java.com/javaTypes">
   <bpmn2:itemDefinition id="_DeploymentUrlItem" structureRef="String"/>
   <bpmn2:itemDefinition id="_ArtifactUuidItem" structureRef="String"/>
   <bpmn2:itemDefinition id="_ResponseItem" structureRef="String"/>
@@ -89,7 +89,7 @@
   <bpmn2:itemDefinition id="__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_MethodInputItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_ValueInputItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" structureRef="String"/>
-  <bpmn2:process id="overlord.demo.SimpleReleaseProcess" drools:packageName="SRAMPPackage" name="Simple Release Process" isExecutable="true">
+  <bpmn2:process id="overlord.demo.SimpleReleaseProcess" drools:version="1" drools:packageName="SRAMPPackage" drools:adHoc="false" name="Simple Release Process" isExecutable="true">
     <bpmn2:property id="DeploymentUrl" itemSubjectRef="_DeploymentUrlItem"/>
     <bpmn2:property id="ArtifactUuid" itemSubjectRef="_ArtifactUuidItem"/>
     <bpmn2:property id="Response" itemSubjectRef="_ResponseItem"/>
@@ -147,6 +147,14 @@
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
     <bpmn2:userTask id="_D1229038-83E0-44B7-AB75-8C46C2399E21" drools:selectable="true" drools:taskName="overlord.demo.CheckDeployment" drools:scriptFormat="http://www.java.com/java" name="Test Dev">
+      <bpmn2:extensionElements>
+        <drools:onEntry-script scriptFormat="http://www.java.com/java">
+          <drools:script></drools:script>
+        </drools:onEntry-script>
+        <drools:onExit-script scriptFormat="http://www.java.com/java">
+          <drools:script></drools:script>
+        </drools:onExit-script>
+      </bpmn2:extensionElements>
       <bpmn2:incoming>_7BF0E187-5EB5-444F-A418-8A0C40680106</bpmn2:incoming>
       <bpmn2:outgoing>_CA2C941E-CE1D-497D-80D7-0D2BA2DBC85B</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi0wcnenEeK6_ZZSVMnKcQ">
@@ -189,7 +197,7 @@
         <bpmn2:targetRef>Response</bpmn2:targetRef>
       </bpmn2:dataOutputAssociation>
     </bpmn2:userTask>
-    <bpmn2:sequenceFlow id="_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1-_10396334-5EBF-495F-A2F6-057453889A21" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1" targetRef="_10396334-5EBF-495F-A2F6-057453889A21"/>
+    <bpmn2:sequenceFlow id="_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1-_10396334-5EBF-495F-A2F6-057453889A21" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1" targetRef="_10396334-5EBF-495F-A2F6-057453889A21"/>
     <bpmn2:task id="_CB2C4BBF-0555-409A-B738-F9507EFF42FF" drools:selectable="true" drools:taskName="HttpClientNotify" name="Notify Dev">
       <bpmn2:incoming>_547C5E3D-E7B4-48B1-AAD2-0F9619442714</bpmn2:incoming>
       <bpmn2:outgoing>_7BF0E187-5EB5-444F-A418-8A0C40680106</bpmn2:outgoing>
@@ -247,8 +255,8 @@
         <bpmn2:targetRef>_CB2C4BBF-0555-409A-B738-F9507EFF42FF_UrlInput</bpmn2:targetRef>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:sequenceFlow id="_51BCA560-9E6E-4B5E-9421-0445629FBFA3" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_10396334-5EBF-495F-A2F6-057453889A21" targetRef="_9EEA6B8E-5706-473A-923E-D909060F45F3"/>
-    <bpmn2:sequenceFlow id="_7BF0E187-5EB5-444F-A418-8A0C40680106" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_CB2C4BBF-0555-409A-B738-F9507EFF42FF" targetRef="_D1229038-83E0-44B7-AB75-8C46C2399E21"/>
+    <bpmn2:sequenceFlow id="_51BCA560-9E6E-4B5E-9421-0445629FBFA3" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_10396334-5EBF-495F-A2F6-057453889A21" targetRef="_9EEA6B8E-5706-473A-923E-D909060F45F3"/>
+    <bpmn2:sequenceFlow id="_7BF0E187-5EB5-444F-A418-8A0C40680106" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_CB2C4BBF-0555-409A-B738-F9507EFF42FF" targetRef="_D1229038-83E0-44B7-AB75-8C46C2399E21"/>
     <bpmn2:task id="_9EEA6B8E-5706-473A-923E-D909060F45F3" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>_51BCA560-9E6E-4B5E-9421-0445629FBFA3</bpmn2:incoming>
       <bpmn2:outgoing>_547C5E3D-E7B4-48B1-AAD2-0F9619442714</bpmn2:outgoing>
@@ -306,7 +314,7 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:sequenceFlow id="_547C5E3D-E7B4-48B1-AAD2-0F9619442714" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_9EEA6B8E-5706-473A-923E-D909060F45F3" targetRef="_CB2C4BBF-0555-409A-B738-F9507EFF42FF"/>
+    <bpmn2:sequenceFlow id="_547C5E3D-E7B4-48B1-AAD2-0F9619442714" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_9EEA6B8E-5706-473A-923E-D909060F45F3" targetRef="_CB2C4BBF-0555-409A-B738-F9507EFF42FF"/>
     <bpmn2:task id="_26A2090D-8B65-4D24-AAE9-9796E8DF1D2E" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>_C8E6A0E5-3830-4180-B06B-8686717870FD</bpmn2:incoming>
       <bpmn2:outgoing>_50CA17EA-17D9-499E-B1B5-B74F86FFD9F9</bpmn2:outgoing>
@@ -424,17 +432,17 @@
     <bpmn2:endEvent id="_B5164971-0281-4B49-BE1E-692A45713D88" drools:bgcolor="#ff6347" drools:selectable="true" name="">
       <bpmn2:incoming>_50CA17EA-17D9-499E-B1B5-B74F86FFD9F9</bpmn2:incoming>
     </bpmn2:endEvent>
-    <bpmn2:sequenceFlow id="_50CA17EA-17D9-499E-B1B5-B74F86FFD9F9" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_26A2090D-8B65-4D24-AAE9-9796E8DF1D2E" targetRef="_B5164971-0281-4B49-BE1E-692A45713D88"/>
+    <bpmn2:sequenceFlow id="_50CA17EA-17D9-499E-B1B5-B74F86FFD9F9" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_26A2090D-8B65-4D24-AAE9-9796E8DF1D2E" targetRef="_B5164971-0281-4B49-BE1E-692A45713D88"/>
     <bpmn2:exclusiveGateway id="_82331A90-6BCD-40BD-B614-6910EA87E501" drools:bgcolor="#f0e68c" drools:selectable="true" drools:bordercolor="#a67f00" drools:dg="" name="" gatewayDirection="Diverging">
       <bpmn2:incoming>_CA2C941E-CE1D-497D-80D7-0D2BA2DBC85B</bpmn2:incoming>
       <bpmn2:outgoing>_DB71CBE7-ABCF-4BE1-B7E8-C86D8781E73A</bpmn2:outgoing>
       <bpmn2:outgoing>_C8E6A0E5-3830-4180-B06B-8686717870FD</bpmn2:outgoing>
     </bpmn2:exclusiveGateway>
-    <bpmn2:sequenceFlow id="_CA2C941E-CE1D-497D-80D7-0D2BA2DBC85B" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_D1229038-83E0-44B7-AB75-8C46C2399E21" targetRef="_82331A90-6BCD-40BD-B614-6910EA87E501"/>
-    <bpmn2:sequenceFlow id="_DB71CBE7-ABCF-4BE1-B7E8-C86D8781E73A" drools:bgcolor="#000000" drools:selectable="true" name="PASS" sourceRef="_82331A90-6BCD-40BD-B614-6910EA87E501" targetRef="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6">
+    <bpmn2:sequenceFlow id="_CA2C941E-CE1D-497D-80D7-0D2BA2DBC85B" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_D1229038-83E0-44B7-AB75-8C46C2399E21" targetRef="_82331A90-6BCD-40BD-B614-6910EA87E501"/>
+    <bpmn2:sequenceFlow id="_DB71CBE7-ABCF-4BE1-B7E8-C86D8781E73A" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="PASS" sourceRef="_82331A90-6BCD-40BD-B614-6910EA87E501" targetRef="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi0w1nenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (Response.toLowerCase().startsWith("ok") || Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="_C8E6A0E5-3830-4180-B06B-8686717870FD" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_82331A90-6BCD-40BD-B614-6910EA87E501" targetRef="_26A2090D-8B65-4D24-AAE9-9796E8DF1D2E">
+    <bpmn2:sequenceFlow id="_C8E6A0E5-3830-4180-B06B-8686717870FD" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_82331A90-6BCD-40BD-B614-6910EA87E501" targetRef="_26A2090D-8B65-4D24-AAE9-9796E8DF1D2E">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi0w13enEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
     <bpmn2:task id="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A" drools:selectable="true" drools:taskName="HttpClientDeploy" name="Deploy to QA">
@@ -585,8 +593,8 @@
         <bpmn2:targetRef>_A0728AFC-FEFB-4AED-A79F-3D9CE5191241_UrlInput</bpmn2:targetRef>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:sequenceFlow id="_D74B847F-E8CF-47C9-90D2-C7CEA732C0FA" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A" targetRef="_643862C9-5582-4983-8F57-30890E0D6FDE"/>
-    <bpmn2:sequenceFlow id="_0C8353ED-6A91-4611-9BC2-B124A5321633" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_A0728AFC-FEFB-4AED-A79F-3D9CE5191241" targetRef="_6563CD33-BE15-4405-BABF-C9F0E4047D49"/>
+    <bpmn2:sequenceFlow id="_D74B847F-E8CF-47C9-90D2-C7CEA732C0FA" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A" targetRef="_643862C9-5582-4983-8F57-30890E0D6FDE"/>
+    <bpmn2:sequenceFlow id="_0C8353ED-6A91-4611-9BC2-B124A5321633" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_A0728AFC-FEFB-4AED-A79F-3D9CE5191241" targetRef="_6563CD33-BE15-4405-BABF-C9F0E4047D49"/>
     <bpmn2:task id="_643862C9-5582-4983-8F57-30890E0D6FDE" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>_D74B847F-E8CF-47C9-90D2-C7CEA732C0FA</bpmn2:incoming>
       <bpmn2:outgoing>_3638CBA9-1CC7-4E6C-ADEC-50B8B20ADFBD</bpmn2:outgoing>
@@ -644,7 +652,7 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:sequenceFlow id="_3638CBA9-1CC7-4E6C-ADEC-50B8B20ADFBD" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_643862C9-5582-4983-8F57-30890E0D6FDE" targetRef="_A0728AFC-FEFB-4AED-A79F-3D9CE5191241"/>
+    <bpmn2:sequenceFlow id="_3638CBA9-1CC7-4E6C-ADEC-50B8B20ADFBD" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_643862C9-5582-4983-8F57-30890E0D6FDE" targetRef="_A0728AFC-FEFB-4AED-A79F-3D9CE5191241"/>
     <bpmn2:task id="_03860FA0-9416-4559-A599-9E11E36563D2" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>_3C37B81C-545B-4F59-9770-BC979EE79184</bpmn2:incoming>
       <bpmn2:outgoing>_85CAB8F3-ADC7-4BC2-B574-A57C86F89A5E</bpmn2:outgoing>
@@ -705,20 +713,20 @@
     <bpmn2:endEvent id="_2DFE6E44-20DA-4CAF-A6F9-90554943AC55" drools:bgcolor="#ff6347" drools:selectable="true" name="">
       <bpmn2:incoming>_85CAB8F3-ADC7-4BC2-B574-A57C86F89A5E</bpmn2:incoming>
     </bpmn2:endEvent>
-    <bpmn2:sequenceFlow id="_85CAB8F3-ADC7-4BC2-B574-A57C86F89A5E" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_03860FA0-9416-4559-A599-9E11E36563D2" targetRef="_2DFE6E44-20DA-4CAF-A6F9-90554943AC55"/>
+    <bpmn2:sequenceFlow id="_85CAB8F3-ADC7-4BC2-B574-A57C86F89A5E" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_03860FA0-9416-4559-A599-9E11E36563D2" targetRef="_2DFE6E44-20DA-4CAF-A6F9-90554943AC55"/>
     <bpmn2:exclusiveGateway id="_006A92F9-95BB-4D04-978B-8EC32634F854" drools:bgcolor="#f0e68c" drools:selectable="true" drools:bordercolor="#a67f00" drools:dg="" name="" gatewayDirection="Diverging">
       <bpmn2:incoming>_4E4874F5-ECB1-483F-8D54-7F8131CDEE04</bpmn2:incoming>
       <bpmn2:outgoing>_3F46503A-B3F3-4B66-9C6E-C41D879B8D95</bpmn2:outgoing>
       <bpmn2:outgoing>_3C37B81C-545B-4F59-9770-BC979EE79184</bpmn2:outgoing>
     </bpmn2:exclusiveGateway>
-    <bpmn2:sequenceFlow id="_4E4874F5-ECB1-483F-8D54-7F8131CDEE04" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_6563CD33-BE15-4405-BABF-C9F0E4047D49" targetRef="_006A92F9-95BB-4D04-978B-8EC32634F854"/>
-    <bpmn2:sequenceFlow id="_3F46503A-B3F3-4B66-9C6E-C41D879B8D95" drools:bgcolor="#000000" drools:selectable="true" name="PASS" sourceRef="_006A92F9-95BB-4D04-978B-8EC32634F854" targetRef="_DF064985-DF31-4CCA-8AB5-913B81DF84DB">
+    <bpmn2:sequenceFlow id="_4E4874F5-ECB1-483F-8D54-7F8131CDEE04" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_6563CD33-BE15-4405-BABF-C9F0E4047D49" targetRef="_006A92F9-95BB-4D04-978B-8EC32634F854"/>
+    <bpmn2:sequenceFlow id="_3F46503A-B3F3-4B66-9C6E-C41D879B8D95" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="PASS" sourceRef="_006A92F9-95BB-4D04-978B-8EC32634F854" targetRef="_DF064985-DF31-4CCA-8AB5-913B81DF84DB">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi0xOHenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (Response.toLowerCase().startsWith("ok") || Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="_3C37B81C-545B-4F59-9770-BC979EE79184" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_006A92F9-95BB-4D04-978B-8EC32634F854" targetRef="_03860FA0-9416-4559-A599-9E11E36563D2">
+    <bpmn2:sequenceFlow id="_3C37B81C-545B-4F59-9770-BC979EE79184" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_006A92F9-95BB-4D04-978B-8EC32634F854" targetRef="_03860FA0-9416-4559-A599-9E11E36563D2">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi0xOXenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="_DE1F8D86-454C-40F1-A8A7-2D8335667704" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6" targetRef="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A"/>
+    <bpmn2:sequenceFlow id="_DE1F8D86-454C-40F1-A8A7-2D8335667704" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6" targetRef="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A"/>
     <bpmn2:task id="_DF064985-DF31-4CCA-8AB5-913B81DF84DB" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>_3F46503A-B3F3-4B66-9C6E-C41D879B8D95</bpmn2:incoming>
       <bpmn2:outgoing>_6754854B-A1CA-48E6-8FB6-3846FD39E456</bpmn2:outgoing>
@@ -924,8 +932,8 @@
         <bpmn2:targetRef>_607E27D7-89CD-49BA-AB23-BD7B96C8351E_UrlInput</bpmn2:targetRef>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:sequenceFlow id="_BDFC7CE6-31F3-464A-8546-16825132714F" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_9FCA8369-193F-45A9-AC27-4E492D7ED835" targetRef="_275DAD9E-74F8-4DD7-93A1-BA998A359EAC"/>
-    <bpmn2:sequenceFlow id="_C6F1F2D5-E429-472D-9393-580EE2D766FB" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_607E27D7-89CD-49BA-AB23-BD7B96C8351E" targetRef="_84FCDE07-2478-4773-A87C-2DB6C19F8974"/>
+    <bpmn2:sequenceFlow id="_BDFC7CE6-31F3-464A-8546-16825132714F" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_9FCA8369-193F-45A9-AC27-4E492D7ED835" targetRef="_275DAD9E-74F8-4DD7-93A1-BA998A359EAC"/>
+    <bpmn2:sequenceFlow id="_C6F1F2D5-E429-472D-9393-580EE2D766FB" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_607E27D7-89CD-49BA-AB23-BD7B96C8351E" targetRef="_84FCDE07-2478-4773-A87C-2DB6C19F8974"/>
     <bpmn2:task id="_275DAD9E-74F8-4DD7-93A1-BA998A359EAC" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>_BDFC7CE6-31F3-464A-8546-16825132714F</bpmn2:incoming>
       <bpmn2:outgoing>_A37AD1C1-D47E-430A-8B11-93AA65623571</bpmn2:outgoing>
@@ -983,7 +991,7 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:sequenceFlow id="_A37AD1C1-D47E-430A-8B11-93AA65623571" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_275DAD9E-74F8-4DD7-93A1-BA998A359EAC" targetRef="_607E27D7-89CD-49BA-AB23-BD7B96C8351E"/>
+    <bpmn2:sequenceFlow id="_A37AD1C1-D47E-430A-8B11-93AA65623571" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_275DAD9E-74F8-4DD7-93A1-BA998A359EAC" targetRef="_607E27D7-89CD-49BA-AB23-BD7B96C8351E"/>
     <bpmn2:task id="_38564A45-65C6-4F5E-A1FF-BD9ED0D827E8" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>_7A03BC64-C29F-4460-88BE-EA1B447AFE11</bpmn2:incoming>
       <bpmn2:outgoing>_E113B14F-776D-470C-9AC1-2385D9642DE9</bpmn2:outgoing>
@@ -1044,20 +1052,20 @@
     <bpmn2:endEvent id="_F3A62D66-15ED-4D86-94BA-8AD08B87E288" drools:bgcolor="#ff6347" drools:selectable="true" name="">
       <bpmn2:incoming>_E113B14F-776D-470C-9AC1-2385D9642DE9</bpmn2:incoming>
     </bpmn2:endEvent>
-    <bpmn2:sequenceFlow id="_E113B14F-776D-470C-9AC1-2385D9642DE9" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_38564A45-65C6-4F5E-A1FF-BD9ED0D827E8" targetRef="_F3A62D66-15ED-4D86-94BA-8AD08B87E288"/>
+    <bpmn2:sequenceFlow id="_E113B14F-776D-470C-9AC1-2385D9642DE9" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_38564A45-65C6-4F5E-A1FF-BD9ED0D827E8" targetRef="_F3A62D66-15ED-4D86-94BA-8AD08B87E288"/>
     <bpmn2:exclusiveGateway id="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F" drools:bgcolor="#f0e68c" drools:selectable="true" drools:bordercolor="#a67f00" drools:dg="" name="" gatewayDirection="Diverging">
       <bpmn2:incoming>_4E7824A3-5694-4C7C-8F75-4E81E98D6955</bpmn2:incoming>
       <bpmn2:outgoing>_656C46F9-13C1-4078-86CB-0C4453C1E4DD</bpmn2:outgoing>
       <bpmn2:outgoing>_7A03BC64-C29F-4460-88BE-EA1B447AFE11</bpmn2:outgoing>
     </bpmn2:exclusiveGateway>
-    <bpmn2:sequenceFlow id="_4E7824A3-5694-4C7C-8F75-4E81E98D6955" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_84FCDE07-2478-4773-A87C-2DB6C19F8974" targetRef="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F"/>
-    <bpmn2:sequenceFlow id="_656C46F9-13C1-4078-86CB-0C4453C1E4DD" drools:bgcolor="#000000" drools:selectable="true" name="PASS" sourceRef="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F" targetRef="_8481C119-988D-4943-8B3B-CDF9EC64E366">
+    <bpmn2:sequenceFlow id="_4E7824A3-5694-4C7C-8F75-4E81E98D6955" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_84FCDE07-2478-4773-A87C-2DB6C19F8974" targetRef="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F"/>
+    <bpmn2:sequenceFlow id="_656C46F9-13C1-4078-86CB-0C4453C1E4DD" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="PASS" sourceRef="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F" targetRef="_8481C119-988D-4943-8B3B-CDF9EC64E366">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi1X5HenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (Response.toLowerCase().startsWith("ok") || Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="_7A03BC64-C29F-4460-88BE-EA1B447AFE11" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F" targetRef="_38564A45-65C6-4F5E-A1FF-BD9ED0D827E8">
+    <bpmn2:sequenceFlow id="_7A03BC64-C29F-4460-88BE-EA1B447AFE11" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F" targetRef="_38564A45-65C6-4F5E-A1FF-BD9ED0D827E8">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi1X5XenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="_6754854B-A1CA-48E6-8FB6-3846FD39E456" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_DF064985-DF31-4CCA-8AB5-913B81DF84DB" targetRef="_9FCA8369-193F-45A9-AC27-4E492D7ED835"/>
+    <bpmn2:sequenceFlow id="_6754854B-A1CA-48E6-8FB6-3846FD39E456" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_DF064985-DF31-4CCA-8AB5-913B81DF84DB" targetRef="_9FCA8369-193F-45A9-AC27-4E492D7ED835"/>
     <bpmn2:task id="_8481C119-988D-4943-8B3B-CDF9EC64E366" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>_656C46F9-13C1-4078-86CB-0C4453C1E4DD</bpmn2:incoming>
       <bpmn2:outgoing>_AC071416-29C9-4F97-BC5C-EE8AFD11BF5B</bpmn2:outgoing>
@@ -1263,8 +1271,8 @@
         <bpmn2:targetRef>_F83BE871-758F-46CF-A91C-BC258795F145_UrlInput</bpmn2:targetRef>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:sequenceFlow id="_3541A42D-FAB4-4D14-8FE6-F4D4F7968948" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_C658F868-8729-487C-824E-8DEDE5646AC9" targetRef="_A3637909-40CE-426D-9D28-8D2B1F44A5A4"/>
-    <bpmn2:sequenceFlow id="_55FA9F19-7C24-41D8-9ECB-8DDE10401D13" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_F83BE871-758F-46CF-A91C-BC258795F145" targetRef="_5D2065CF-8E36-44FF-B443-F31EC22D24C0"/>
+    <bpmn2:sequenceFlow id="_3541A42D-FAB4-4D14-8FE6-F4D4F7968948" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_C658F868-8729-487C-824E-8DEDE5646AC9" targetRef="_A3637909-40CE-426D-9D28-8D2B1F44A5A4"/>
+    <bpmn2:sequenceFlow id="_55FA9F19-7C24-41D8-9ECB-8DDE10401D13" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_F83BE871-758F-46CF-A91C-BC258795F145" targetRef="_5D2065CF-8E36-44FF-B443-F31EC22D24C0"/>
     <bpmn2:task id="_A3637909-40CE-426D-9D28-8D2B1F44A5A4" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>_3541A42D-FAB4-4D14-8FE6-F4D4F7968948</bpmn2:incoming>
       <bpmn2:outgoing>_1ECF637F-C517-4D4B-924E-08B0A354ABC0</bpmn2:outgoing>
@@ -1322,7 +1330,7 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:sequenceFlow id="_1ECF637F-C517-4D4B-924E-08B0A354ABC0" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_A3637909-40CE-426D-9D28-8D2B1F44A5A4" targetRef="_F83BE871-758F-46CF-A91C-BC258795F145"/>
+    <bpmn2:sequenceFlow id="_1ECF637F-C517-4D4B-924E-08B0A354ABC0" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_A3637909-40CE-426D-9D28-8D2B1F44A5A4" targetRef="_F83BE871-758F-46CF-A91C-BC258795F145"/>
     <bpmn2:task id="_5B21962D-4428-45B5-B5EB-6C03F49897AF" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>_7586EECA-6EB7-4C9A-98BD-32552BFEB3BD</bpmn2:incoming>
       <bpmn2:outgoing>_7C34BF85-86EA-4675-A77A-31E84289B7B0</bpmn2:outgoing>
@@ -1440,24 +1448,24 @@
     <bpmn2:endEvent id="_1CB67AC5-0AB1-479B-BECE-D2C88A3A4DB7" drools:bgcolor="#ff6347" drools:selectable="true" name="">
       <bpmn2:incoming>_7C34BF85-86EA-4675-A77A-31E84289B7B0</bpmn2:incoming>
     </bpmn2:endEvent>
-    <bpmn2:sequenceFlow id="_7C34BF85-86EA-4675-A77A-31E84289B7B0" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_5B21962D-4428-45B5-B5EB-6C03F49897AF" targetRef="_1CB67AC5-0AB1-479B-BECE-D2C88A3A4DB7"/>
+    <bpmn2:sequenceFlow id="_7C34BF85-86EA-4675-A77A-31E84289B7B0" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_5B21962D-4428-45B5-B5EB-6C03F49897AF" targetRef="_1CB67AC5-0AB1-479B-BECE-D2C88A3A4DB7"/>
     <bpmn2:exclusiveGateway id="_6B5FE858-F9E2-4E8D-B417-676F40E99967" drools:bgcolor="#f0e68c" drools:selectable="true" drools:bordercolor="#a67f00" drools:dg="" name="" gatewayDirection="Diverging">
       <bpmn2:incoming>_027DA187-2155-4F5B-810B-68F0E8D886F1</bpmn2:incoming>
       <bpmn2:outgoing>_792E6E7C-D7A3-4506-87BF-DAC1AE33CFD4</bpmn2:outgoing>
       <bpmn2:outgoing>_7586EECA-6EB7-4C9A-98BD-32552BFEB3BD</bpmn2:outgoing>
     </bpmn2:exclusiveGateway>
-    <bpmn2:sequenceFlow id="_027DA187-2155-4F5B-810B-68F0E8D886F1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_5D2065CF-8E36-44FF-B443-F31EC22D24C0" targetRef="_6B5FE858-F9E2-4E8D-B417-676F40E99967"/>
-    <bpmn2:sequenceFlow id="_792E6E7C-D7A3-4506-87BF-DAC1AE33CFD4" drools:bgcolor="#000000" drools:selectable="true" name="PASS" sourceRef="_6B5FE858-F9E2-4E8D-B417-676F40E99967" targetRef="_02FE2758-2074-41A5-A59E-6FE49BEE8DBF">
+    <bpmn2:sequenceFlow id="_027DA187-2155-4F5B-810B-68F0E8D886F1" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_5D2065CF-8E36-44FF-B443-F31EC22D24C0" targetRef="_6B5FE858-F9E2-4E8D-B417-676F40E99967"/>
+    <bpmn2:sequenceFlow id="_792E6E7C-D7A3-4506-87BF-DAC1AE33CFD4" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="PASS" sourceRef="_6B5FE858-F9E2-4E8D-B417-676F40E99967" targetRef="_02FE2758-2074-41A5-A59E-6FE49BEE8DBF">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi1YcHenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (Response.toLowerCase().startsWith("ok") || Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="_7586EECA-6EB7-4C9A-98BD-32552BFEB3BD" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_6B5FE858-F9E2-4E8D-B417-676F40E99967" targetRef="_5B21962D-4428-45B5-B5EB-6C03F49897AF">
+    <bpmn2:sequenceFlow id="_7586EECA-6EB7-4C9A-98BD-32552BFEB3BD" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_6B5FE858-F9E2-4E8D-B417-676F40E99967" targetRef="_5B21962D-4428-45B5-B5EB-6C03F49897AF">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi1YcXenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="_AC071416-29C9-4F97-BC5C-EE8AFD11BF5B" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_8481C119-988D-4943-8B3B-CDF9EC64E366" targetRef="_C658F868-8729-487C-824E-8DEDE5646AC9"/>
+    <bpmn2:sequenceFlow id="_AC071416-29C9-4F97-BC5C-EE8AFD11BF5B" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_8481C119-988D-4943-8B3B-CDF9EC64E366" targetRef="_C658F868-8729-487C-824E-8DEDE5646AC9"/>
     <bpmn2:endEvent id="_4EF14AA9-6B63-4F2A-84F8-50D1E2005829" drools:bgcolor="#ff6347" drools:selectable="true" name="">
       <bpmn2:incoming>_69483716-CC8C-45C7-828C-167AA3F9CA82</bpmn2:incoming>
     </bpmn2:endEvent>
-    <bpmn2:sequenceFlow id="_69483716-CC8C-45C7-828C-167AA3F9CA82" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_02FE2758-2074-41A5-A59E-6FE49BEE8DBF" targetRef="_4EF14AA9-6B63-4F2A-84F8-50D1E2005829"/>
+    <bpmn2:sequenceFlow id="_69483716-CC8C-45C7-828C-167AA3F9CA82" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_02FE2758-2074-41A5-A59E-6FE49BEE8DBF" targetRef="_4EF14AA9-6B63-4F2A-84F8-50D1E2005829"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="_Oi1YcnenEeK6_ZZSVMnKcQ">
     <bpmndi:BPMNPlane id="_Oi1Yc3enEeK6_ZZSVMnKcQ" bpmnElement="overlord.demo.SimpleReleaseProcess">
@@ -1505,7 +1513,7 @@
         <di:waypoint xsi:type="dc:Point" x="126.5" y="545.0"/>
         <di:waypoint xsi:type="dc:Point" x="117.0" y="604.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_Oi1YgXenEeK6_ZZSVMnKcQ" bpmnElement="_82331A90-6BCD-40BD-B614-6910EA87E501">
+      <bpmndi:BPMNShape id="_Oi1YgXenEeK6_ZZSVMnKcQ" bpmnElement="_82331A90-6BCD-40BD-B614-6910EA87E501" isMarkerVisible="true">
         <dc:Bounds height="40.0" width="40.0" x="106.0" y="435.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="_Oi1YgnenEeK6_ZZSVMnKcQ" bpmnElement="_CA2C941E-CE1D-497D-80D7-0D2BA2DBC85B">
@@ -1556,7 +1564,7 @@
         <di:waypoint xsi:type="dc:Point" x="367.5" y="545.0"/>
         <di:waypoint xsi:type="dc:Point" x="358.0" y="604.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_Oi1Yj3enEeK6_ZZSVMnKcQ" bpmnElement="_006A92F9-95BB-4D04-978B-8EC32634F854">
+      <bpmndi:BPMNShape id="_Oi1Yj3enEeK6_ZZSVMnKcQ" bpmnElement="_006A92F9-95BB-4D04-978B-8EC32634F854" isMarkerVisible="true">
         <dc:Bounds height="40.0" width="40.0" x="347.0" y="435.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="_Oi1YkHenEeK6_ZZSVMnKcQ" bpmnElement="_4E4874F5-ECB1-483F-8D54-7F8131CDEE04">
@@ -1614,7 +1622,7 @@
         <di:waypoint xsi:type="dc:Point" x="622.5" y="545.0"/>
         <di:waypoint xsi:type="dc:Point" x="613.0" y="604.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_Oi1Yn3enEeK6_ZZSVMnKcQ" bpmnElement="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F">
+      <bpmndi:BPMNShape id="_Oi1Yn3enEeK6_ZZSVMnKcQ" bpmnElement="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F" isMarkerVisible="true">
         <dc:Bounds height="40.0" width="40.0" x="602.0" y="435.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="_Oi1YoHenEeK6_ZZSVMnKcQ" bpmnElement="_4E7824A3-5694-4C7C-8F75-4E81E98D6955">
@@ -1675,7 +1683,7 @@
         <di:waypoint xsi:type="dc:Point" x="877.5" y="545.0"/>
         <di:waypoint xsi:type="dc:Point" x="868.0" y="604.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_Oi1YsHenEeK6_ZZSVMnKcQ" bpmnElement="_6B5FE858-F9E2-4E8D-B417-676F40E99967">
+      <bpmndi:BPMNShape id="_Oi1YsHenEeK6_ZZSVMnKcQ" bpmnElement="_6B5FE858-F9E2-4E8D-B417-676F40E99967" isMarkerVisible="true">
         <dc:Bounds height="40.0" width="40.0" x="857.0" y="435.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="_Oi1YsXenEeK6_ZZSVMnKcQ" bpmnElement="_027DA187-2155-4F5B-810B-68F0E8D886F1">
