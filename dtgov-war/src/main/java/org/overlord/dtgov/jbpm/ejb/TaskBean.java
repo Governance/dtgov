@@ -36,11 +36,11 @@ import org.kie.api.task.model.Content;
 import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskSummary;
 
+
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class TaskBean implements TaskLocal {
-
-
+	
     @Resource
     private UserTransaction ut;
 
@@ -49,7 +49,7 @@ public class TaskBean implements TaskLocal {
 
     @Override
     public List<TaskSummary> retrieveTaskList(String actorId) throws Exception {
-
+    	
         List<TaskSummary> list = taskService.getTasksAssignedAsPotentialOwner(actorId, "en-UK");
 
         System.out.println("retrieveTaskList by " + actorId);
@@ -177,5 +177,7 @@ public class TaskBean implements TaskLocal {
             throw new RuntimeException(e);
         }
     }
+    
+	
 
 }

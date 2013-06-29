@@ -28,39 +28,33 @@ import javax.persistence.PersistenceUnit;
 import org.apache.maven.project.MavenProject;
 import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
 import org.jbpm.runtime.manager.impl.cdi.InjectableRegisterableItemsFactory;
+import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
-import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieContainer;
-import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;
 import org.kie.internal.runtime.manager.cdi.qualifier.PerProcessInstance;
 import org.kie.internal.runtime.manager.cdi.qualifier.PerRequest;
 import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.task.api.UserGroupCallback;
 import org.kie.scanner.MavenRepository;
-import org.overlord.dtgov.jbpm.ejb.WorkflowConfigurationException;
 import org.overlord.sramp.governance.Governance;
-import org.overlord.sramp.governance.GovernanceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.aether.artifact.Artifact;
 
 @ApplicationScoped
 public class ApplicationScopedProducer {
-
-	private KieContainer kieContainer = null;
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
     @Inject
     private InjectableRegisterableItemsFactory factory;
     @Inject
     private UserGroupCallback usergroupCallback;
-
+    
     @PersistenceUnit(unitName = "org.overlord.dtgov.jbpm")
     private EntityManagerFactory emf;
-
 
     @Produces
     public UserGroupCallback produceUserGroupCallback() {
@@ -82,18 +76,55 @@ public class ApplicationScopedProducer {
     @PerRequest
     public RuntimeEnvironment produceEnvironment(EntityManagerFactory emf) {
     	
-        RuntimeEnvironment environment = RuntimeEnvironmentBuilder
+    	
+        RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder
                 .getDefault()
                 .entityManagerFactory(emf)
                 .userGroupCallback(usergroupCallback)
-                .registerableItemsFactory(factory)
-                .addAsset(
-                        ResourceFactory
-                                .newClassPathResource("rewards-basic.bpmn"),
-                        ResourceType.BPMN2)
-                .get();
-                
-        return environment;
+                .registerableItemsFactory(factory);
+        
+        KieBase kbase = getKieBase();
+        if (kbase!=null) builder.knowledgeBase(getKieBase());        
+        return builder.get();
+    }
+    
+    private KieBase getKieBase() {
+    	Governance governance = new Governance();
+    	try {
+    		String srampUrl = governance.getSrampUrl().toExternalForm();
+        	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":"));
+        	
+	    	KieServices ks = KieServices.Factory.get();
+	    	MavenProject srampProject = KieUtil.getSrampProject(
+	    			governance.getSrampWagonVersion(), 
+	    			srampUrl, 
+	    			governance.getSrampWagonSnapshots(), 
+	    			governance.getSrampWagonReleases());
+	    	
+	    	//Setup S-RAMP as the Maven Repository
+	    	MavenRepository repo = getMavenRepository(srampProject);
+	    	
+	    	ReleaseId releaseId = ks.newReleaseId(
+	    			governance.getGovernanceWorkflowGroup(),
+	    			governance.getGovernanceWorkflowName(),
+	    			governance.getGovernanceWorkflowVersion());
+	    	
+	        //Resolving the workflow package in the S-RAMP repo
+	        Artifact artifact = repo.resolveArtifact(releaseId.toExternalForm());
+	        
+	        logger.info("Creating KIE container with workflows from " + artifact);
+	    	KieContainer kieContainer = ks.newKieContainer(releaseId);
+	    	
+	    	//Creating the KieBase for the SRAMPPackage
+	    	logger.info("Looking for KieBase named " + governance.getGovernanceWorkflowPackage());
+	    	KieBase kbase = kieContainer.getKieBase(governance.getGovernanceWorkflowPackage());
+	    	
+	    	return kbase;
+    	} catch (Exception e) {
+    		logger.error("Could not find or read the " + governance.getGovernanceWorkflowPackage());
+    		logger.error(e.getMessage(),e);
+    	}
+    	return null;
     }
     
 	
