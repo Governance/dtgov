@@ -20,7 +20,9 @@ import static org.overlord.sramp.common.test.resteasy.TestPortProvider.generateU
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -33,9 +35,13 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.overlord.sramp.common.test.resteasy.BaseResourceTest;
+
+import com.dumbster.smtp.SimpleSmtpServer;
+import com.dumbster.smtp.SmtpMessage;
 
 
 /**
@@ -45,12 +51,21 @@ import org.overlord.sramp.common.test.resteasy.BaseResourceTest;
  */
 public class NotificationResourceTest extends BaseResourceTest {
 	
+	private static SimpleSmtpServer mailServer;
+	private static Integer smtpPort = 25;
+	
+	@BeforeClass
+	public static void init() {
+		smtpPort = 9700 + new Random().nextInt(99);
+	}
+	
     @Test
     public void testMail() {
         try {
+        	mailServer = SimpleSmtpServer.start(smtpPort);
             Properties properties = new Properties();
             properties.setProperty("mail.smtp.host", "localhost");
-            properties.setProperty("mail.smtp.port", "25");
+            properties.setProperty("mail.smtp.port", String.valueOf(smtpPort));
             Session mailSession = Session.getDefaultInstance(properties);
             MimeMessage m = new MimeMessage(mailSession);
             Address from = new InternetAddress("me@gmail.com");
@@ -61,12 +76,24 @@ public class NotificationResourceTest extends BaseResourceTest {
             m.setSubject("test");
             m.setContent("test","text/plain");
             Transport.send(m);
+            
+            Assert.assertTrue(mailServer.getReceivedEmailSize() > 0);
+            @SuppressWarnings("rawtypes")
+			Iterator iter = mailServer.getReceivedEmail();
+            while (iter.hasNext()) {
+            	SmtpMessage email = (SmtpMessage) iter.next();
+            	System.out.println(email.getBody());
+            	Assert.assertEquals("test",email.getBody());
+			}
+            
         } catch (AddressException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (MessagingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } finally {
+        	mailServer.stop();
         }
         
     }
