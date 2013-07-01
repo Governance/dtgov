@@ -118,8 +118,8 @@ public class TaskInboxService implements ITaskInboxService {
 
     /**
      * Gets the task form configured for the given task.  This is done by looking for an
-     * artifact in the S-RAMP repository of type /s-ramp/ext/OverlordTaskForm with name
-     * named <TaskName>-overlord-form.html and a value equal to the one found in the {@link TaskBean}.  If
+     * artifact in the S-RAMP repository of type /s-ramp/core/XmlDocument with name
+     * named <TaskName>-overlord-form.xml and a value equal to the one found in the {@link TaskBean}.  If
      * the search of the repository uncovers multiple forms that match the criteria, the
      * one most recently added.
      * @param task
@@ -131,8 +131,9 @@ public class TaskInboxService implements ITaskInboxService {
     	}
     	if (taskFormName!=null) {
 	        SrampAtomApiClient client = srampClientAccessor.getClient();
-	        QueryResultSet resultSet = client.buildQuery("/s-ramp/ext/OverlordTaskForm[@name = ?]")
-	                .parameter(taskFormName).count(1).orderBy("createdTimestamp").descending().query();
+	        QueryResultSet resultSet = client.buildQuery("/s-ramp/core/XmlDocument[@name = ?]")
+	                .parameter(taskFormName)
+	                .count(1).orderBy("createdTimestamp").descending().query();
 	        if (resultSet.size() == 1) {
 	            ArtifactSummary artifact = resultSet.get(0);
 	            InputStream inputStream = null;
