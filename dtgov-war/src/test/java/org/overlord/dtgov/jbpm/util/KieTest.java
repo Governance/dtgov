@@ -25,6 +25,7 @@ import org.codehaus.plexus.PlexusContainerException;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
@@ -52,19 +53,24 @@ public class KieTest {
     @Test
 	public void testKieJar() throws ConfigException, UnknownRepositoryLayoutException, PlexusContainerException, ComponentLookupException, MalformedURLException {
     	
+    	boolean isSrampRepo = false; // true reads from S-RAMP, false from m2
     	Governance governance = new Governance();
-    	String wagonVersion = governance.getSrampWagonVersion();
+    	
     	String srampUrl = governance.getSrampUrl().toExternalForm();
     	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":"));
     	try {
-    		
+    		MavenRepository mavenRepo = null;
 	    	KieServices ks = KieServices.Factory.get();
-	    	MavenProject srampProject = KieUtil.getSrampProject(
+	    	if (isSrampRepo) {
+	    		MavenProject srampProject = KieUtil.getSrampProject(
 	    			governance.getSrampWagonVersion(), 
 	    			srampUrl, 
 	    			governance.getSrampWagonSnapshots(), 
 	    			governance.getSrampWagonReleases());
-	    	MavenRepository repo = getMavenRepository(srampProject);
+	    		mavenRepo = getMavenRepository(srampProject);
+	    	} else {
+	    		mavenRepo = getMavenRepository();
+	    	}
 	    	
 	    	ReleaseId releaseId = ks.newReleaseId(
 	    			governance.getGovernanceWorkflowGroup(),
@@ -72,17 +78,17 @@ public class KieTest {
 	    			governance.getGovernanceWorkflowVersion());
 	    	
 	        String name = releaseId.toExternalForm();
-	        Artifact artifact = repo.resolveArtifact(name);
+	        Artifact artifact = mavenRepo.resolveArtifact(name);
 	    	System.out.println("artifact=" + artifact);
 	    	Assert.assertNotNull(artifact);
 	    	
 	    	KieContainer kieContainer = ks.newKieContainer(releaseId);
 	    	Assert.assertNotNull(kieContainer);
 	        
-			KieSession ksession = kieContainer.newKieSession("ksessionSRAMP");
-	        Assert.assertNotNull(ksession);
+			KieBase kieBase = kieContainer.getKieBase("SRAMPPackage");
+	        Assert.assertNotNull(kieBase);
 	        
-	        System.out.println("KSession=" + ksession);
+	        System.out.println("KieBase=" + kieBase);
     	} catch (Exception e) {
     		e.printStackTrace();
     		Assert.fail(e.getMessage());

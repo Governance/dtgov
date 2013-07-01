@@ -55,7 +55,7 @@ public interface GovernanceConstants {
     public static final String SRAMP_WAGON_RELEASES     = "dtgov.s-ramp-wagon.releases";
     
     //Workflow config
-    public static final String GOVERNANCE_DTGOV_WAR        = "dtgov-war";
+    public static final String GOVERNANCE_DTGOV            = "dtgov";
     public static final String GOVERNANCE_WORKFLOW_GROUP   = "dtgov.workflows.group";
     public static final String GOVERNANCE_WORKFLOW_NAME    = "dtgov.workflows.name";
     public static final String GOVERNANCE_WORKFLOW_VERSION = "dtgov.workflows.version";
