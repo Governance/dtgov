@@ -279,8 +279,8 @@ public class Governance {
     }
     
     public String getGovernanceWorkflowVersion() {
-    	String defaultDtGovVersion = Release.getVersionFromManifest(GovernanceConstants.GOVERNANCE_DTGOV_WAR);
-    	if (defaultDtGovVersion==null) defaultDtGovVersion = DEFAULT_GOVERNANCE_WORKFLOW_VERSION;
+    	String defaultDtGovVersion = Release.getVersionFromManifest(GovernanceConstants.GOVERNANCE_DTGOV);
+    	if (defaultDtGovVersion==null || defaultDtGovVersion.equals("unknown")) defaultDtGovVersion = DEFAULT_GOVERNANCE_WORKFLOW_VERSION;
         return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_VERSION, defaultDtGovVersion);
     }
     

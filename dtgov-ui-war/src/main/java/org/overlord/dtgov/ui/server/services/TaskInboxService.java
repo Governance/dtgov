@@ -147,17 +147,7 @@ public class TaskInboxService implements ITaskInboxService {
 	            }
 	        }
     	}
-		String form = "<form>" +
-				"<fieldset>" +
-				" <label>Status</label>" +
-				" <input checked type=\"radio\" name=\"Status\" value=\"pass\">Pass</input>" + 
-			    " <input         type=\"radio\" name=\"Status\" value=\"fail\">Fail</input>" +
-				"</fieldSet>" +
-			    "</form>";
-		return form;
-    
-    	
-        //throw new Exception("No task form found for task name: " + taskFormName);
+        throw new Exception("No task form found with name: " + taskFormName);
     }
 
 }
