@@ -79,17 +79,7 @@ public class DTGovUserGroupCallback implements UserGroupCallback {
             }
         } catch (Exception e) {
             logger.error("Error when getting user roles, userid:" + userId, e);
-        }
-        if (roles==null || roles.size()==0) {
-	        roles = new ArrayList<String>();
-	        if (userId.equals("kurt")) {
-	        	roles.add("PM");
-	            roles.add("dev");
-	        } else if (userId.equals("eric")) {
-	        	roles.add("HR");
-	        	roles.add("dev");
-	        }
-        }     
+        }    
         return roles;
     }
 }

@@ -62,6 +62,7 @@ public class KieTest {
     		MavenRepository mavenRepo = null;
 	    	KieServices ks = KieServices.Factory.get();
 	    	if (isSrampRepo) {
+	    		System.out.println("Reading your S-RAMP repo");
 	    		MavenProject srampProject = KieUtil.getSrampProject(
 	    			governance.getSrampWagonVersion(), 
 	    			srampUrl, 
@@ -69,6 +70,7 @@ public class KieTest {
 	    			governance.getSrampWagonReleases());
 	    		mavenRepo = getMavenRepository(srampProject);
 	    	} else {
+	    		System.out.println("Reading your .m2 repo");
 	    		mavenRepo = getMavenRepository();
 	    	}
 	    	
