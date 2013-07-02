@@ -14,6 +14,7 @@ import org.codehaus.plexus.DefaultPlexusContainer;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.PlexusContainerException;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
+import org.overlord.sramp.governance.Governance;
 
 public class KieUtil {
 
@@ -48,7 +49,14 @@ public class KieUtil {
     			"default",
     			new ArtifactRepositoryPolicy( isSnapshotEnabled, ArtifactRepositoryPolicy.UPDATE_POLICY_ALWAYS, ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE ),
     			new ArtifactRepositoryPolicy( isReleaseEnabled,  ArtifactRepositoryPolicy.UPDATE_POLICY_ALWAYS, ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE ));
-    	org.apache.maven.artifact.repository.Authentication authentication = new org.apache.maven.artifact.repository.Authentication("kurt", "kurt");
+    	
+    	Governance goverance = new Governance();
+    	//governance.get
+    	
+    	org.apache.maven.artifact.repository.Authentication authentication 
+    		= new org.apache.maven.artifact.repository.Authentication(
+    				"kurt", "kurt"
+    				);
     	srampRepo.setAuthentication(authentication);
     	
     	List<ArtifactRepository> remoteArtifactRepositories = new ArrayList<ArtifactRepository>();
