@@ -22,6 +22,7 @@ import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.configuration.ConfigurationException;
 import org.overlord.sramp.client.SrampClientException;
 import org.slf4j.Logger;
@@ -119,13 +120,7 @@ public class SRAMPMonitor extends TimerTask {
 	    boolean isReady = true;
 	    String serviceDocumentUrl = governance.getSrampUrl().toExternalForm() + "/s-ramp/servicedocument";
 	    isReady =  urlExists(serviceDocumentUrl);
-	    if (isReady) {
-	        String bpmUrl = governance.getBpmUrl().toExternalForm();
-	        isReady = urlExists(bpmUrl);
-	        if (!isReady) log.debug("Cannot yet connect to the BPM API at: " + governance.getBpmUrl().toExternalForm());
-	    } else {
-	        if (!isReady) log.debug("Cannot yet connect to the S-RAMP repo at: " + governance.getSrampUrl().toExternalForm());
-	    }
+	    if (!isReady) log.debug("Cannot yet connect to the S-RAMP repo at: " + governance.getSrampUrl().toExternalForm());
 	    return isReady;
 	}
 
@@ -134,16 +129,38 @@ public class SRAMPMonitor extends TimerTask {
      * @param checkUrl
      */
     public boolean urlExists(String checkUrl) {
+    	HttpURLConnection checkConnection = null;
         try {
             URL checkURL = new URL(checkUrl);
-            HttpURLConnection checkConnection = (HttpURLConnection) checkURL.openConnection();
+            checkConnection = (HttpURLConnection) checkURL.openConnection();
             checkConnection.setRequestMethod("HEAD");
             checkConnection.setConnectTimeout(10000);
             checkConnection.setReadTimeout(10000);
+            addAuthorization(checkConnection);
             checkConnection.connect();
             return (checkConnection.getResponseCode() == 200);
         } catch (Exception e) {
             return false;
+        } finally {
+        	if (checkConnection!=null) checkConnection.disconnect();
+        }
+    }
+    
+    /**
+     * Adds Authorization config to the connection prior to the request
+     * being sent to the server.
+     * @param connection
+     */
+    private void addAuthorization(HttpURLConnection connection) {
+    	Governance governance = new Governance();
+    	String username = governance.getOverlordUser();
+    	String password = governance.getOverlordPassword();
+    	
+        if (username != null && password != null) {
+            String b64Auth = Base64.encodeBase64String((username + ":" + password).getBytes()).trim();
+            connection.setRequestProperty("Authorization", "Basic " + b64Auth);
+        } else {
+            log.warn("No username (governance.user) and/or password (governance.password) found in the dtgov properties file.");
         }
     }
 
