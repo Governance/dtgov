@@ -38,12 +38,14 @@ public class Governance {
     public static String TARGET_ERROR = GovernanceConstants.GOVERNANCE_TARGETS + " should be of the format <targetName>|<directory>\nCheck\n";
     public static String NOTIFICATION_ERROR  = GovernanceConstants.GOVERNANCE + ".<email|..> should be of the format <groupName>|<fromAddress>|<destination1>,<destination2>\nCheck\n";
     public static String DEFAULT_JNDI_EMAIL_REF = "java:jboss/mail/Default";
-    public static String DEFAULT_EMAIL_DOMAIN = "mailinator.com";
-    public static String DEFAULT_EMAIL_FROM = "overlord@overlord.jboss.org";
+    public static String DEFAULT_EMAIL_DOMAIN = "example.com";
+    public static String DEFAULT_EMAIL_FROM = "overlord@example.org";
     public static String DEFAULT_GOVERNANCE_WORKFLOW_GROUP   = "org.overlord.dtgov";
     public static String DEFAULT_GOVERNANCE_WORKFLOW_NAME    = "dtgov-workflows";
     public static String DEFAULT_GOVERNANCE_WORKFLOW_VERSION = "1.0.0";
     public static String DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE = "SRAMPPackage";
+    public static String DEFAULT_GOVERNANCE_USER = "admin";
+    public static String DEFAULT_GOVERNANCE_PASSWORD = "overlord";
 
     public Governance() {
         super();
@@ -116,11 +118,19 @@ public class Governance {
     }
 
     public String getBpmUser() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_USER, "admin");
+        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_USER, DEFAULT_GOVERNANCE_USER);
     }
 
     public String getBpmPassword() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_PASSWORD, "overlord");
+        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
+    }
+    
+    public String getOverlordUser() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_USER, DEFAULT_GOVERNANCE_USER);
+    }
+
+    public String getOverlordPassword() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
     }
 
     public URL getBpmUrl() throws MalformedURLException {

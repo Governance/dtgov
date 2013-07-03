@@ -45,6 +45,8 @@ public interface GovernanceConstants {
     public static final String GOVERNANCE_BPM_URL      = "governance.bpm.url";
 
     //governance resource configuration
+    public static final String GOVERNANCE_USER          = "governance.user";
+    public static final String GOVERNANCE_PASSWORD      = "governance.password";
     public static final String GOVERNANCE_TARGETS       = "governance.targets";
     public static final String GOVERNANCE_QUERIES       = "governance.queries";
     public static final String GOVERNANCE               = "governance.";
