@@ -50,13 +50,11 @@ public class KieUtil {
     			new ArtifactRepositoryPolicy( isSnapshotEnabled, ArtifactRepositoryPolicy.UPDATE_POLICY_ALWAYS, ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE ),
     			new ArtifactRepositoryPolicy( isReleaseEnabled,  ArtifactRepositoryPolicy.UPDATE_POLICY_ALWAYS, ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE ));
     	
-    	Governance goverance = new Governance();
-    	//governance.get
-    	
+    	//Authentication Credentials for the S-RAMP repo
+    	Governance governance = new Governance(); 
     	org.apache.maven.artifact.repository.Authentication authentication 
     		= new org.apache.maven.artifact.repository.Authentication(
-    				"kurt", "kurt"
-    				);
+    				governance.getSrampUser(), governance.getSrampPassword());
     	srampRepo.setAuthentication(authentication);
     	
     	List<ArtifactRepository> remoteArtifactRepositories = new ArrayList<ArtifactRepository>();
