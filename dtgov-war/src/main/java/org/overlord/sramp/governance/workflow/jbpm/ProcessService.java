@@ -17,19 +17,21 @@ package org.overlord.sramp.governance.workflow.jbpm;
 
 import java.util.Map;
 
-import org.overlord.sramp.governance.workflow.BpmManager;
+import javax.ejb.EJB;
+
+import org.overlord.dtgov.jbpm.ejb.ProcessLocal;
 import org.overlord.sramp.governance.workflow.WorkflowException;
 
-public class EmbeddedJbpmManager implements BpmManager {
+public class ProcessService {
 
-    @Override
-    public void newProcessInstance(String processId, Map<String, Object> context) throws WorkflowException {
+	@EJB
+    private ProcessLocal processService;
+	
+    public long newProcessInstance(String processId, Map<String, Object> context) throws WorkflowException {
         
     	try {
-    		ProcessService processService = new ProcessService();
-    		@SuppressWarnings("unused")
-			long processInstanceId = processService.newProcessInstance(processId, context);
-    		
+			long processInstanceId = processService.startProcess(processId, context);
+    		return processInstanceId;
     	} catch (Exception e) {
     		throw new WorkflowException(e);
     	}
