@@ -153,8 +153,8 @@ public class SRAMPMonitor extends TimerTask {
      */
     private void addAuthorization(HttpURLConnection connection) {
     	Governance governance = new Governance();
-    	String username = governance.getOverlordUser();
-    	String password = governance.getOverlordPassword();
+    	String username = governance.getSrampUser();
+    	String password = governance.getSrampPassword();
     	
         if (username != null && password != null) {
             String b64Auth = Base64.encodeBase64String((username + ":" + password).getBytes()).trim();
