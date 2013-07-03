@@ -13,6 +13,11 @@
   <description>Design Time Governance with BPMN2 workflow support.</description>
 
   <dependencies>
+   <dependency>
+      <groupId>com.jayway.restassured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>1.7.2</version>
+    </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-task-api</artifactId>
@@ -83,13 +88,14 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
+    <!-- this is now brought in by rest-assured too
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
       <version>4.1.2</version>
       <scope>provided</scope>
     </dependency>
-    
+     -->
     <!-- Provided libraries -->
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -127,6 +133,7 @@
       <version>1.5</version>
       <scope>test</scope>
 	</dependency>
+
     
     <!-- Java EE dependencies -->
     <dependency>

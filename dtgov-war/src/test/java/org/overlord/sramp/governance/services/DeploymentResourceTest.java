@@ -17,9 +17,11 @@ package org.overlord.sramp.governance.services;
 
 import static org.overlord.sramp.common.test.resteasy.TestPortProvider.generateURL;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
@@ -27,6 +29,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.overlord.sramp.common.test.resteasy.BaseResourceTest;
+import org.overlord.sramp.governance.services.rhq.RHQDeployUtil;
 
 
 /**
@@ -51,7 +54,7 @@ public class DeploymentResourceTest extends BaseResourceTest {
 	 * @throws Exception
 	 */
 	@Test @Ignore
-	public void testDeploy() {
+	public void testDeployCopy() {
 	    try {
 	        
 	        URL url = new URL(generateURL("/deploy/copy/dev/e67e1b09-1de7-4945-a47f-45646752437a"));
@@ -73,7 +76,32 @@ public class DeploymentResourceTest extends BaseResourceTest {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        Assert.fail();
-	    }
-	    
+	    } 
+	}
+	
+	@Test @Ignore
+	public void testDeployMaven() {
+		;
+		
+	}
+	
+	@Test
+	public void testDeployRHQ() throws IOException {
+		
+		RHQDeployUtil rhqDeployUtil = new RHQDeployUtil("rhqadmin", "rhqadmin", "http://localhost", 7080);
+		
+		String artifactName = "test-simple.war";
+		rhqDeployUtil.wipeWarArchiveIfNecessary(artifactName, null);
+		List<Integer> resourceIds = rhqDeployUtil.getServerIdsForGroup("Dev");
+		
+		for (Integer resourceId : resourceIds) {
+			
+			
+			InputStream in =
+		            getClass().getClassLoader().getResourceAsStream(artifactName);
+			
+			rhqDeployUtil.deploy(resourceId, in, artifactName);
+		}
+		System.out.println("done");
 	}
 }
