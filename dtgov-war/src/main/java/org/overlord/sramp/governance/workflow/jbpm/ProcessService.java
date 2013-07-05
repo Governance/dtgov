@@ -18,10 +18,14 @@ package org.overlord.sramp.governance.workflow.jbpm;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
 import org.overlord.dtgov.jbpm.ejb.ProcessLocal;
 import org.overlord.sramp.governance.workflow.WorkflowException;
 
+@Named
+@RequestScoped
 public class ProcessService {
 
 	@EJB
