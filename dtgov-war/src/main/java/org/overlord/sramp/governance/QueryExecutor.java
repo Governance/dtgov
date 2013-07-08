@@ -21,6 +21,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Property;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -38,12 +41,15 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:kstam@jboss.com">Kurt T Stam</a>
  *
  */
+@Named
+@RequestScoped
 public class QueryExecutor {
 
     private static String WORKFLOW_PROCESS_ID = "workflowProcessId=";
     private static String WORKFLOW_PARAMETERS = "workflowParameters=";
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private Governance governance = new Governance();
+    
     private BpmManager bpmManager = WorkflowFactory.newInstance();
 
     public synchronized void execute() throws SrampClientException, MalformedURLException, ConfigException {

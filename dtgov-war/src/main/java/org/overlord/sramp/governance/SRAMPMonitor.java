@@ -19,8 +19,17 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.ejb.Timeout;
+import javax.ejb.Timer;
+import javax.ejb.TimerConfig;
+import javax.ejb.TimerService;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.configuration.ConfigurationException;
@@ -28,39 +37,43 @@ import org.overlord.sramp.client.SrampClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
 /**
  *
  *
  */
-public class SRAMPMonitor extends TimerTask {
+@Singleton
+public class SRAMPMonitor {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
-	private Timer timer = null;
 	Governance governance = new Governance();
 
 	private long interval = governance.getQueryInterval();
 	private long acceptableLagTime = governance.getAcceptableLagtime();
 
-	public SRAMPMonitor() throws ConfigurationException {
-		super();
-		timer = new Timer(true);
-		timer.scheduleAtFixedRate(this, 0, interval);
+	@Resource
+	private TimerService timerService;
+	private Timer timer;
+	
+	public SRAMPMonitor() {
+		log.info("SRAMP Monitor constructing...");
+	}
+	
+	public void init () {
+		log.info("SRAMP Monitor init'ing");
+		TimerConfig timerConfig = new TimerConfig(null, false);
+		this.timer = timerService.createIntervalTimer(interval, interval, timerConfig);
 	}
 
-	@Override
 	public boolean cancel() {
-		timer.cancel();
-		return super.cancel();
+		this.timer.cancel();
+		return true;
 	}
 
-
-	@Override
-    public synchronized void run()
+	@Timeout
+    public synchronized void executeMonitoring(Timer timer)
 	{
 	    try {
-    		if (firedOnTime(scheduledExecutionTime()) && isAppserverReady()) {
+    		if (isAppserverReady()) {
     			long startTime = System.currentTimeMillis();
 
     			QueryExecutor queryExecutor = new QueryExecutor();
@@ -76,7 +89,7 @@ public class SRAMPMonitor extends TimerTask {
                 	log.debug("Notification background task took " + (endTime - startTime) + " milliseconds.");
                 }
     		} else {
-    			log.debug("Skipping current notification cycle because lagtime is too great.");
+    			log.debug("Skipping current notification cycle because app server is not ready.");
     		}
 	    } catch (ConfigException confEx) {
 	        log.error(confEx.getMessage());
