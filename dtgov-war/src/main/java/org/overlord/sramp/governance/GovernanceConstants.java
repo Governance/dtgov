@@ -40,6 +40,11 @@ public interface GovernanceConstants {
     
 
     //BPM connection info
+    public static final String GOVERNANCE_RHQ_USER     = "rhq.rest.user";
+    public static final String GOVERNANCE_RHQ_PASSWORD = "rhq.rest.password";
+    public static final String GOVERNANCE_RHQ_URL      = "rhq.base.url";
+    
+    //RHQ connection info
     public static final String GOVERNANCE_BPM_USER     = "governance.bpm.user";
     public static final String GOVERNANCE_BPM_PASSWORD = "governance.bpm.password";
     public static final String GOVERNANCE_BPM_URL      = "governance.bpm.url";

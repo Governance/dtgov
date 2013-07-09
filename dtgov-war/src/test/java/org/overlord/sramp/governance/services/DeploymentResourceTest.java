@@ -29,6 +29,8 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.overlord.sramp.common.test.resteasy.BaseResourceTest;
+import org.overlord.sramp.governance.ConfigException;
+import org.overlord.sramp.governance.Target;
 import org.overlord.sramp.governance.services.rhq.RHQDeployUtil;
 
 
@@ -81,27 +83,35 @@ public class DeploymentResourceTest extends BaseResourceTest {
 	
 	@Test @Ignore
 	public void testDeployMaven() {
-		;
+		
 		
 	}
 	
 	@Test
-	public void testDeployRHQ() throws IOException {
+	public void testDeployRHQ() throws IOException, ConfigException {
 		
-		RHQDeployUtil rhqDeployUtil = new RHQDeployUtil("rhqadmin", "rhqadmin", "http://localhost", 7080);
 		
-		String artifactName = "test-simple.war";
-		rhqDeployUtil.wipeWarArchiveIfNecessary(artifactName, null);
-		List<Integer> resourceIds = rhqDeployUtil.getServerIdsForGroup("Dev");
+		Target target = new Target("dev", "rhqadmin", "rhqadmin", "http://localhost:7080");
 		
+		RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getRhqUser(), target.getRhqPassword(),
+				target.getRhqBaseUrl(), target.getRhqPort());
+		String groupName = target.getName();
+		
+		String artifactName = "test-simple.war"; 
+		
+		Integer groupId = rhqDeployUtil.getGroupIdForGroup(groupName);
+		
+		rhqDeployUtil.wipeArchiveIfNecessary(artifactName, groupId);
+		List<Integer> resourceIds = rhqDeployUtil.getServerIdsForGroup(groupId);
+		InputStream is =
+	            getClass().getClassLoader().getResourceAsStream(artifactName);
+		byte[] fileContent = IOUtils.toByteArray(is);
+		IOUtils.closeQuietly(is);
 		for (Integer resourceId : resourceIds) {
-			
-			
-			InputStream in =
-		            getClass().getClassLoader().getResourceAsStream(artifactName);
-			
-			rhqDeployUtil.deploy(resourceId, in, artifactName);
+		    System.out.println(String.format("Deploying %1$s to RHQ Server %2$s", artifactName, resourceId));
+			rhqDeployUtil.deploy(resourceId, fileContent, artifactName);
 		}
-		System.out.println("done");
+		
+		System.out.println("complete");
 	}
 }

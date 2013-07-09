@@ -6,13 +6,13 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.isOneOf;
 import static org.hamcrest.Matchers.startsWith;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
+import org.overlord.sramp.governance.ConfigException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
@@ -22,25 +22,32 @@ import com.jayway.restassured.response.Response;
 
 public class RHQDeployUtil {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	static final String APPLICATION_JSON = "application/json";
 	static Header acceptJson = new Header("Accept", APPLICATION_JSON);
 	String rhqUser, rhqPassword;
 	
-	public RHQDeployUtil(String rhqUser, String rhqPassword, String baseURI, int port) {
+	public RHQDeployUtil(String rhqUser, String rhqPassword, String rhqBaseUrl, Integer rhqPort) {
 		super();
-		RestAssured.baseURI = baseURI;
-        RestAssured.port = port;
+		RestAssured.baseURI = rhqBaseUrl;
+        RestAssured.port = rhqPort;
         RestAssured.basePath = "/rest/";
         this.rhqUser = rhqUser;
         this.rhqPassword = rhqPassword;
         RestAssured.authentication = basic(rhqUser,rhqPassword);
 	}
-	
-	public List<Integer> getServerIdsForGroup(String group) {
+	/**
+	 * Looks up the group id in RHQ for the given group name.
+	 * 
+	 * @param groupName - name of the group
+	 * @return - the group id in RHQ
+	 * @throws ConfigException 
+	 */
+	public Integer getGroupIdForGroup(String groupName) throws ConfigException {
 		Response response =
 		given()
 		    .header(acceptJson)
-    		.queryParam("q", group)
+    		.queryParam("q", groupName)
     	.expect()
     		.statusCode(200)
     	.when()
@@ -48,8 +55,22 @@ public class RHQDeployUtil {
 		
 		//System.out.println(response.asString());
 		JsonPath jsonPath = response.jsonPath();
+		if (! jsonPath.prettyPrint().contains("\"id\"")) {
+			throw new ConfigException("Group " + groupName + " does not exist in RHQ." + jsonPath.prettyPrint());
+		}
 		int groupId = jsonPath.getInt("[0].id");
-		response =
+		return groupId;
+	}
+	/**
+	 * Given a RHQ Group this will return a the resource Ids in this
+	 * Group.
+	 * 
+	 * @param groupId - the group's RHQ id.
+	 * @return a list of resourceIds in this group.
+	 */
+	public List<Integer> getServerIdsForGroup(Integer groupId) {
+		
+		Response response =
 		given()
 		    .header(acceptJson)
         	.pathParam("groupId", groupId)
@@ -57,25 +78,21 @@ public class RHQDeployUtil {
         	.statusCode(200)
         .when()
         	.get("/group/{groupId}/resources");
-		jsonPath = response.jsonPath();
-		
+		JsonPath jsonPath = response.jsonPath();
 		List<Integer> resourceIds = jsonPath.get("resourceId");
-		
 		return resourceIds;
 	}
-
-	public void deploy(Integer as7Id, InputStream in, String artifactName) throws IOException {
+	/**
+	 * In RHQ the group needs be a grouping of JBossAS7/EAP6 SERVERs
+	 * @param as7Id
+	 * @param in
+	 * @param artifactName
+	 * @throws IOException
+	 */
+	public void deploy(Integer as7Id, byte[] bytes, String artifactName) throws IOException {
         
 		String handle = null;
 		try {
-	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-	        int data;
-	        while ((data = in.read())!=-1) {
-	            baos.write(data);
-	        }
-
-	        byte[] bytes = baos.toByteArray();
 	        //int size = bytes.length;
 
 	        handle =
@@ -152,7 +169,6 @@ public class RHQDeployUtil {
             assert  createdResourceId != -1;
 
         } finally {
-        	IOUtils.closeQuietly(in);
             // Remove the uploaded content
             removeContent(handle, false);
 
@@ -170,33 +186,49 @@ public class RHQDeployUtil {
         .when()
             .delete("/content/{handle}");
     }
-	
-	public void wipeWarArchiveIfNecessary(String artifactName, String groupName) {
+	/**
+	 * Deletes (undeploys) all archives from the all AS7/EAP servers in the given
+	 * RHQ group.
+	 * @param artifactName - the name of the archive to be deleted
+	 * @param groupId - the id of the RHQ group
+	 */
+	public void wipeArchiveIfNecessary(String artifactName, Integer groupId) {
 
         @SuppressWarnings("unchecked")
         List<Resource> resources =
         given()
             .queryParam("q",artifactName)
             .queryParam("category", "SERVICE")
-            //.queryParam("group", "10041")
+            .queryParam("group", groupId)
             .header(acceptJson)
         .expect()
-            .log().everything()
+            //.log().everything()
         .when()
             .get("/resource")
         .as(List.class);
-
-        if (resources!=null && resources.size()>0) {
-            @SuppressWarnings("unchecked")
-			int resourceId = (Integer) ((Map < String,Object>)resources.get(0)).get("resourceId");
-
-            given()
-                .pathParam("id", resourceId)
-                .queryParam("physical", "true") // Also remove target on the EAP instance
-            .expect()
-                .statusCode(204)
-            .when()
-                .delete("/resource/{id}");
-        }
+        String.format("archive ? on resource ? , args");
+        logger.info(String.format("RHQ manages %1$s servers in group with id '%2$s' with artifact name '%3$s'"
+        		,resources.size()
+        		,groupId
+        		,artifactName));
+    	for (int i=0; i<resources.size(); i++) {
+    		try {
+	            @SuppressWarnings("unchecked")
+				int resourceId = (Integer) ((Map < String,Object>)resources.get(i)).get("resourceId");
+	            logger.info(String.format("Deleting %1$s from Server with Id %2$s", artifactName, resourceId));
+	            given()
+	                .pathParam("id", resourceId)
+	                .queryParam("physical", "true") // Also remove target on the EAP instance
+	            .expect()
+	                .statusCode(204)
+	            .when()
+	                .delete("/resource/{id}");
+    		} catch (Throwable t) {
+    			logger.error("Could not delete archive from resource ");
+    			logger.error(t.getMessage());
+    			//TODO do we need to send out somekind of notification about this?
+    		}
+    	}
+        
     }
 }

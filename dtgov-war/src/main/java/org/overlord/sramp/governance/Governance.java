@@ -46,6 +46,9 @@ public class Governance {
     public static String DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE = "SRAMPPackage";
     public static String DEFAULT_GOVERNANCE_USER = "admin";
     public static String DEFAULT_GOVERNANCE_PASSWORD = "overlord";
+    public static String DEFAULT_RHQ_USER = "rhqadmin";
+    public static String DEFAULT_RHQ_PASSWORD = "rhqadmin";
+    public static String DEFAULT_RHQ_BASEURL = "http://localhost:7080";
 
     public Governance() {
         super();
@@ -132,6 +135,14 @@ public class Governance {
     public String getOverlordPassword() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
     }
+    
+    public String getRhqUser() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_RHQ_USER, DEFAULT_RHQ_USER);
+    }
+
+    public String getRhqPassword() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_RHQ_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
+    }
 
     public URL getBpmUrl() throws MalformedURLException {
         return new URL(configuration.getString(GovernanceConstants.GOVERNANCE_BPM_URL, "http://localhost:8080/gwt-console-server"));
@@ -187,13 +198,23 @@ public class Governance {
         boolean hasErrors = false;
         for (String targetString : targetStrings) {
             String[] info = targetString.split("\\|");
-            if (info.length != 2) {
+            if (info.length < 3) {
                 hasErrors = true;
                 errors.append(targetString).append("\n");
             }
             if (!hasErrors) {
-                Target target = new Target(info[0],info[1]);
-                targets.put(target.getName(), target);
+            	if (Target.TYPE.COPY.toString().equalsIgnoreCase(info[1])) {
+            		Target target = new Target(info[0],info[1]);
+            		targets.put(target.getName(), target);
+            	} else if (Target.TYPE.RHQ.toString().equalsIgnoreCase(info[1])) {
+            		String rhqConfigStr = info[2].replaceAll("{rhq.user}",    DEFAULT_RHQ_USER)
+            									 .replaceAll("{rhq.password}",DEFAULT_RHQ_PASSWORD)
+            									 .replaceAll("{rhq.baseUrl}", DEFAULT_RHQ_BASEURL);
+            				
+            		String[] rhqConfig = rhqConfigStr.split("\\:\\:");
+            		Target target = new Target(info[0],rhqConfig[0], rhqConfig[1], rhqConfig[2]);
+            		targets.put(target.getName(), target);
+            	}
             }
         }
         if (hasErrors) {
