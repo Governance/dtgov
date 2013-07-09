@@ -195,7 +195,7 @@ public class DeploymentResource {
      * @throws SrampAtomException
      */
     @POST
-    @Path("copy/{target}/{uuid}")
+    @Path("rhq/{target}/{uuid}")
     @Produces(MediaType.APPLICATION_XML)
     public Response rhq(@Context HttpServletRequest request,
             @PathParam("target") String targetRef,

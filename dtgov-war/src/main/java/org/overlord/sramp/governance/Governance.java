@@ -207,11 +207,12 @@ public class Governance {
             		Target target = new Target(info[0],info[1]);
             		targets.put(target.getName(), target);
             	} else if (Target.TYPE.RHQ.toString().equalsIgnoreCase(info[1])) {
-            		String rhqConfigStr = info[2].replaceAll("{rhq.user}",    DEFAULT_RHQ_USER)
-            									 .replaceAll("{rhq.password}",DEFAULT_RHQ_PASSWORD)
-            									 .replaceAll("{rhq.baseUrl}", DEFAULT_RHQ_BASEURL);
+            		String rhqConfigStr = info[2].replaceAll("\\{rhq.user\\}",    DEFAULT_RHQ_USER)
+            									 .replaceAll("\\{rhq.password\\}",DEFAULT_RHQ_PASSWORD)
+            									 .replaceAll("\\{rhq.baseUrl\\}", DEFAULT_RHQ_BASEURL);
             				
             		String[] rhqConfig = rhqConfigStr.split("\\:\\:");
+            		
             		Target target = new Target(info[0],rhqConfig[0], rhqConfig[1], rhqConfig[2]);
             		targets.put(target.getName(), target);
             	}

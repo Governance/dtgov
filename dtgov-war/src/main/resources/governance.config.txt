@@ -4,5 +4,5 @@ governance.queries=/s-ramp/ext/SwitchyardApplication|overlord.demo.SimpleRelease
 governance.queries=/s-ramp/ext/MavenPom[@maven.artifactId='project']|overlord.demo.ProjectLifeCycle|UpdateMetaDataUrl={governance.url}/update/project/relatedto/{uuid}
 governance.targets=  dev|copy|/tmp/dev/jbossas7/standalone/deployments
 governance.targets=   qa|copy|/tmp/qa/jbossas7/standalone/deployments
-governance.targets=stage|rhq|{rhq.user}::{rhq.password}::{rhq.baseUrl}::{rhq.port}
-governance.targets= prod|rhq|{rhq.user}::{rhq.password}::{rhq.baseUrl}::{rhq.port}
+governance.targets=stage|rhq|{rhq.user}::{rhq.password}::{rhq.baseUrl}
+governance.targets= prod|rhq|{rhq.user}::{rhq.password}::{rhq.baseUrl}

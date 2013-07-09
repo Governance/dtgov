@@ -53,10 +53,9 @@ public class RHQDeployUtil {
     	.when()
     		.get("/group");
 		
-		//System.out.println(response.asString());
 		JsonPath jsonPath = response.jsonPath();
-		if (! jsonPath.prettyPrint().contains("\"id\"")) {
-			throw new ConfigException("Group " + groupName + " does not exist in RHQ." + jsonPath.prettyPrint());
+		if (! jsonPath.prettify().contains("\"id\"")) {
+			throw new ConfigException("Group " + groupName + " does not exist in RHQ." + jsonPath.prettify());
 		}
 		int groupId = jsonPath.getInt("[0].id");
 		return groupId;
