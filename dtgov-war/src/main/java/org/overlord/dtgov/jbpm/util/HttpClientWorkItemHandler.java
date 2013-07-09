@@ -103,8 +103,8 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
      */
     private void addAuthorization(HttpURLConnection connection) {
     	Governance governance = new Governance();
-    	String username = governance.getBpmUser();
-    	String password = governance.getBpmPassword();
+    	String username = governance.getOverlordUser();
+    	String password = governance.getOverlordPassword();
     	
         if (username != null && password != null) {
             String b64Auth = Base64.encodeBase64String((username + ":" + password).getBytes()).trim();
