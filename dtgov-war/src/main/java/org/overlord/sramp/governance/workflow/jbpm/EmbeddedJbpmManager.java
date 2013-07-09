@@ -17,16 +17,18 @@ package org.overlord.sramp.governance.workflow.jbpm;
 
 import java.util.Map;
 
+import org.overlord.dtgov.jbpm.util.CDIUtil;
 import org.overlord.sramp.governance.workflow.BpmManager;
 import org.overlord.sramp.governance.workflow.WorkflowException;
 
 public class EmbeddedJbpmManager implements BpmManager {
-
+	
     @Override
     public void newProcessInstance(String processId, Map<String, Object> context) throws WorkflowException {
         
     	try {
-    		ProcessService processService = new ProcessService();
+    		ProcessService processService = CDIUtil.getContextualBeanInstance(ProcessService.class);
+    		
     		@SuppressWarnings("unused")
 			long processInstanceId = processService.newProcessInstance(processId, context);
     		
