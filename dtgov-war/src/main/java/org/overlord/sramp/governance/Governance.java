@@ -38,12 +38,17 @@ public class Governance {
     public static String TARGET_ERROR = GovernanceConstants.GOVERNANCE_TARGETS + " should be of the format <targetName>|<directory>\nCheck\n";
     public static String NOTIFICATION_ERROR  = GovernanceConstants.GOVERNANCE + ".<email|..> should be of the format <groupName>|<fromAddress>|<destination1>,<destination2>\nCheck\n";
     public static String DEFAULT_JNDI_EMAIL_REF = "java:jboss/mail/Default";
-    public static String DEFAULT_EMAIL_DOMAIN = "mailinator.com";
-    public static String DEFAULT_EMAIL_FROM = "overlord@overlord.jboss.org";
+    public static String DEFAULT_EMAIL_DOMAIN = "example.com";
+    public static String DEFAULT_EMAIL_FROM = "overlord@example.org";
     public static String DEFAULT_GOVERNANCE_WORKFLOW_GROUP   = "org.overlord.dtgov";
     public static String DEFAULT_GOVERNANCE_WORKFLOW_NAME    = "dtgov-workflows";
     public static String DEFAULT_GOVERNANCE_WORKFLOW_VERSION = "1.0.0";
     public static String DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE = "SRAMPPackage";
+    public static String DEFAULT_GOVERNANCE_USER = "admin";
+    public static String DEFAULT_GOVERNANCE_PASSWORD = "overlord";
+    public static String DEFAULT_RHQ_USER = "rhqadmin";
+    public static String DEFAULT_RHQ_PASSWORD = "rhqadmin";
+    public static String DEFAULT_RHQ_BASEURL = "http://localhost:7080";
 
     public Governance() {
         super();
@@ -116,11 +121,27 @@ public class Governance {
     }
 
     public String getBpmUser() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_USER, "admin");
+        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_USER, DEFAULT_GOVERNANCE_USER);
     }
 
     public String getBpmPassword() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_PASSWORD, "overlord");
+        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
+    }
+    
+    public String getOverlordUser() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_USER, DEFAULT_GOVERNANCE_USER);
+    }
+
+    public String getOverlordPassword() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
+    }
+    
+    public String getRhqUser() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_RHQ_USER, DEFAULT_RHQ_USER);
+    }
+
+    public String getRhqPassword() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_RHQ_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
     }
 
     public URL getBpmUrl() throws MalformedURLException {
@@ -177,13 +198,24 @@ public class Governance {
         boolean hasErrors = false;
         for (String targetString : targetStrings) {
             String[] info = targetString.split("\\|");
-            if (info.length != 2) {
+            if (info.length < 3) {
                 hasErrors = true;
                 errors.append(targetString).append("\n");
             }
             if (!hasErrors) {
-                Target target = new Target(info[0],info[1]);
-                targets.put(target.getName(), target);
+            	if (Target.TYPE.COPY.toString().equalsIgnoreCase(info[1])) {
+            		Target target = new Target(info[0],info[1]);
+            		targets.put(target.getName(), target);
+            	} else if (Target.TYPE.RHQ.toString().equalsIgnoreCase(info[1])) {
+            		String rhqConfigStr = info[2].replaceAll("\\{rhq.user\\}",    DEFAULT_RHQ_USER)
+            									 .replaceAll("\\{rhq.password\\}",DEFAULT_RHQ_PASSWORD)
+            									 .replaceAll("\\{rhq.baseUrl\\}", DEFAULT_RHQ_BASEURL);
+            				
+            		String[] rhqConfig = rhqConfigStr.split("\\:\\:");
+            		
+            		Target target = new Target(info[0],rhqConfig[0], rhqConfig[1], rhqConfig[2]);
+            		targets.put(target.getName(), target);
+            	}
             }
         }
         if (hasErrors) {

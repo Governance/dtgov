@@ -17,9 +17,12 @@ package org.overlord.sramp.governance.services;
 
 import static org.overlord.sramp.common.test.resteasy.TestPortProvider.generateURL;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
@@ -27,6 +30,9 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.overlord.sramp.common.test.resteasy.BaseResourceTest;
+import org.overlord.sramp.governance.ConfigException;
+import org.overlord.sramp.governance.Target;
+import org.overlord.sramp.governance.services.rhq.RHQDeployUtil;
 
 
 /**
@@ -51,7 +57,7 @@ public class DeploymentResourceTest extends BaseResourceTest {
 	 * @throws Exception
 	 */
 	@Test @Ignore
-	public void testDeploy() {
+	public void testDeployCopy() {
 	    try {
 	        
 	        URL url = new URL(generateURL("/deploy/copy/dev/e67e1b09-1de7-4945-a47f-45646752437a"));
@@ -73,7 +79,42 @@ public class DeploymentResourceTest extends BaseResourceTest {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        Assert.fail();
-	    }
-	    
+	    } 
+	}
+	
+	@Test @Ignore
+	public void testDeployMaven() {
+		
+		
+	}
+	
+	@Test
+	public void testDeployRHQ() throws IOException, ConfigException {
+		
+		
+		Target target = new Target("stage", "rhqadmin", "rhqadmin", "http://localhost:7080");
+		
+		RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getRhqUser(), target.getRhqPassword(),
+				target.getRhqBaseUrl(), target.getRhqPort());
+		String groupName = target.getName();
+		
+		//String artifactName = "test-simple2.war";
+		String artifactName = "s-ramp-server.war";
+		//String artifactName = "dtgov-workflows2.jar"; 
+		
+		Integer groupId = rhqDeployUtil.getGroupIdForGroup(groupName);
+		
+		rhqDeployUtil.wipeArchiveIfNecessary(artifactName, groupId);
+		List<Integer> resourceIds = rhqDeployUtil.getServerIdsForGroup(groupId);
+		InputStream is = getClass().getClassLoader().getResourceAsStream(artifactName);
+		byte[] fileContent = IOUtils.toByteArray(is);
+		
+		IOUtils.closeQuietly(is);
+		for (Integer resourceId : resourceIds) {
+		    System.out.println(String.format("Deploying %1$s to RHQ Server %2$s", artifactName, resourceId));
+			rhqDeployUtil.deploy(resourceId, fileContent, artifactName);
+		}
+		
+		System.out.println("complete");
 	}
 }
