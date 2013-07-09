@@ -1,7 +1,0 @@
-<form>
-	<fieldset>
-		<label>Status</label>
-		<input type="radio" name="Status" value="pass" checked>Pass</input>
-		<input type="radio" name="Status" value="fail">Fail</input>
-	</fieldSet>
-</form>
