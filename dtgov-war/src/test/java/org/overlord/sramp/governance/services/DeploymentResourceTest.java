@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
@@ -88,7 +87,13 @@ public class DeploymentResourceTest extends BaseResourceTest {
 		
 	}
 	
-	@Test
+	@Test @Ignore
+	/**
+	 * Only works with a running RHQ Server.
+	 * 
+	 * @throws IOException
+	 * @throws ConfigException
+	 */
 	public void testDeployRHQ() throws IOException, ConfigException {
 		
 		
@@ -98,8 +103,8 @@ public class DeploymentResourceTest extends BaseResourceTest {
 				target.getRhqBaseUrl(), target.getRhqPort());
 		String groupName = target.getName();
 		
-		//String artifactName = "test-simple2.war";
-		String artifactName = "s-ramp-server.war";
+		String artifactName = "test-simple2.war";
+		//String artifactName = "s-ramp-server.war";
 		//String artifactName = "dtgov-workflows2.jar"; 
 		
 		Integer groupId = rhqDeployUtil.getGroupIdForGroup(groupName);
