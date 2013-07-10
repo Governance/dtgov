@@ -229,7 +229,6 @@
   	 		<groupId>org.jboss.netty</groupId>
   	 	</exclusion>
   	 </exclusions>
-	 <scope>provided</scope>
     </dependency>
     <dependency>
       <artifactId>netty</artifactId>

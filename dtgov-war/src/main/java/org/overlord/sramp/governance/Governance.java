@@ -198,7 +198,7 @@ public class Governance {
         boolean hasErrors = false;
         for (String targetString : targetStrings) {
             String[] info = targetString.split("\\|");
-            if (info.length < 3) {
+            if (info.length != 3) {
                 hasErrors = true;
                 errors.append(targetString).append("\n");
             }
