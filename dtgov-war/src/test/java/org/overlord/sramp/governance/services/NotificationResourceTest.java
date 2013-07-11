@@ -109,7 +109,7 @@ public class NotificationResourceTest extends BaseResourceTest {
 	@Test @Ignore
 	public void testNotify() {
 	    try {
-	        String notificationUrl = "/s-ramp-governance/notify/email/dev/deployed/dev/${uuid}";
+	        String notificationUrl = "/dtgov/notify/email/dev/deployed/dev/${uuid}";
 	        String uuid="3c7bb7f7-a811-4080-82db-5ece86993a11";
 	        URL url = new URL(generateURL(notificationUrl.replace("${uuid}", uuid)));
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();

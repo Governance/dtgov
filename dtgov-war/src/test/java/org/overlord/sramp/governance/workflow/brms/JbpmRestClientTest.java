@@ -56,7 +56,7 @@ public class JbpmRestClientTest {
             jbpmClient.logon("admin", "admin");
             //parameters that will be set in the jBPM context Map
             Map<String,Object> parameters = new HashMap<String,Object>();
-            parameters.put("DevDeploymentUrl", "http://localhost:8080/s-ramp-governance/deploy/copy/dev/${uuid}");
+            parameters.put("DevDeploymentUrl", "http://localhost:8080/dtgov/deploy/copy/dev/${uuid}");
             parameters.put("DevDeploymentUrlMethod", "POST");
             parameters.put("ArtifactUuid", "e67e1b09-1de7-4945-a47f-45646752437a");
             
