@@ -177,7 +177,7 @@ public class Governance {
     }
 
     public String getSrampSamlIssuer() {
-        return configuration.getString(GovernanceConstants.SRAMP_REPO_SAML_ISSUER, "/s-ramp-governance");
+        return configuration.getString(GovernanceConstants.SRAMP_REPO_SAML_ISSUER, "/dtgov");
     }
 
     public String getSrampSamlService() {
@@ -188,7 +188,7 @@ public class Governance {
      * This returns the governance baseURL, which by default is http://localhost:8080/s-ramp-server
      */
     public String getGovernanceUrl() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_URL, "http://localhost:8080/s-ramp-governance");
+        return configuration.getString(GovernanceConstants.GOVERNANCE_URL, "http://localhost:8080/dtgov");
     }
 
     public Map<String,Target> getTargets() throws ConfigException {
