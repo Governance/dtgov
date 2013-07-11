@@ -55,11 +55,9 @@ public class SRAMPMonitor {
 	private Timer timer;
 	
 	public SRAMPMonitor() {
-		log.info("SRAMP Monitor constructing...");
 	}
 	
 	public void init () {
-		log.info("SRAMP Monitor init'ing");
 		TimerConfig timerConfig = new TimerConfig(null, false);
 		this.timer = timerService.createIntervalTimer(interval, interval, timerConfig);
 	}
