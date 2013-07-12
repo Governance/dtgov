@@ -8,6 +8,7 @@ import org.drools.process.core.datatype.impl.type.StringDataType;
       "Method" : new StringDataType(),
       "Uuid" : new StringDataType(),
       "Target" : new StringDataType(),
+      "Type" : new StringDataType(),
     ],
     "displayName" : "Deploy",
     "icon" : "run-build-install.png",
@@ -18,6 +19,7 @@ import org.drools.process.core.datatype.impl.type.StringDataType;
     "name" : "HttpClientNotify",
     "parameters" : [
       "Url" : new StringDataType(),
+      "DTGovUrl" : new StringDataType(),
       "Method" : new StringDataType(),
       "Uuid" : new StringDataType(),
       "Target" : new StringDataType(),

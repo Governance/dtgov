@@ -41,11 +41,13 @@ public class GovernanceServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
+		log.debug("Starting S-RAMP monitor");
 		monitor.init();
 	}
 	
 	@Override
 	public void destroy() {
+		log.debug("Stopping S-RAMP monitor");
 	    monitor.cancel();
 		super.destroy();
 	}
