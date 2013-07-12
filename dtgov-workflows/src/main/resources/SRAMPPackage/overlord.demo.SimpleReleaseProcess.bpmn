@@ -97,56 +97,8 @@
     <bpmn2:property id="UpdateMetaDataUrl" itemSubjectRef="bpmn20:_UpdateMetaDataUrlItem"/>
     <bpmn2:property id="DTGovUrl" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem"/>
     <bpmn2:startEvent id="_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1" drools:bgcolor="#9acd32" drools:selectable="true" name="">
-      <bpmn2:outgoing>bpmn20:_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1-_10396334-5EBF-495F-A2F6-057453889A21</bpmn2:outgoing>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_9</bpmn2:outgoing>
     </bpmn2:startEvent>
-    <bpmn2:task id="_10396334-5EBF-495F-A2F6-057453889A21" drools:selectable="true" drools:taskName="HttpClientDeploy" name="Deploy to Dev">
-      <bpmn2:incoming>bpmn20:_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1-_10396334-5EBF-495F-A2F6-057453889A21</bpmn2:incoming>
-      <bpmn2:outgoing>bpmn20:_51BCA560-9E6E-4B5E-9421-0445629FBFA3</bpmn2:outgoing>
-      <bpmn2:ioSpecification id="_Oi0wYXenEeK6_ZZSVMnKcQ">
-        <bpmn2:dataInput id="_10396334-5EBF-495F-A2F6-057453889A21_TaskNameInput" name="TaskName"/>
-        <bpmn2:dataInput id="_10396334-5EBF-495F-A2F6-057453889A21_UuidInput" name="Uuid"/>
-        <bpmn2:dataInput id="_10396334-5EBF-495F-A2F6-057453889A21_UrlInput" name="Url"/>
-        <bpmn2:dataInput id="_10396334-5EBF-495F-A2F6-057453889A21_MethodInput" name="Method"/>
-        <bpmn2:dataInput id="_10396334-5EBF-495F-A2F6-057453889A21_TargetInput" name="Target"/>
-        <bpmn2:inputSet id="_Oi0wYnenEeK6_ZZSVMnKcQ">
-          <bpmn2:dataInputRefs>_10396334-5EBF-495F-A2F6-057453889A21_UuidInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_10396334-5EBF-495F-A2F6-057453889A21_UrlInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_10396334-5EBF-495F-A2F6-057453889A21_MethodInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_10396334-5EBF-495F-A2F6-057453889A21_TargetInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_10396334-5EBF-495F-A2F6-057453889A21_TaskNameInput</bpmn2:dataInputRefs>
-        </bpmn2:inputSet>
-        <bpmn2:outputSet id="_Oi0wY3enEeK6_ZZSVMnKcQ"/>
-      </bpmn2:ioSpecification>
-      <bpmn2:dataInputAssociation id="_Oi0wZHenEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_10396334-5EBF-495F-A2F6-057453889A21_TaskNameInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi0wZXenEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi0wZnenEeK6_ZZSVMnKcQ">HttpClientDeploy</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi0wZ3enEeK6_ZZSVMnKcQ">_10396334-5EBF-495F-A2F6-057453889A21_TaskNameInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi0waHenEeK6_ZZSVMnKcQ">
-        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
-        <bpmn2:targetRef>_10396334-5EBF-495F-A2F6-057453889A21_UuidInput</bpmn2:targetRef>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi0waXenEeK6_ZZSVMnKcQ">
-        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
-        <bpmn2:targetRef>_10396334-5EBF-495F-A2F6-057453889A21_UrlInput</bpmn2:targetRef>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi0wanenEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_10396334-5EBF-495F-A2F6-057453889A21_MethodInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi0wa3enEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi0wbHenEeK6_ZZSVMnKcQ"><![CDATA[POST]]></bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi0wbXenEeK6_ZZSVMnKcQ">_10396334-5EBF-495F-A2F6-057453889A21_MethodInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi0wbnenEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_10396334-5EBF-495F-A2F6-057453889A21_TargetInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi0wb3enEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi0wcHenEeK6_ZZSVMnKcQ"><![CDATA[dev]]></bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi0wcXenEeK6_ZZSVMnKcQ">_10396334-5EBF-495F-A2F6-057453889A21_TargetInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-    </bpmn2:task>
     <bpmn2:userTask id="_D1229038-83E0-44B7-AB75-8C46C2399E21" drools:selectable="true" drools:taskName="overlord.demo.CheckDeployment" drools:scriptFormat="http://www.java.com/java" name="Test Dev">
       <bpmn2:extensionElements>
         <drools:onEntry-script scriptFormat="http://www.java.com/java">
@@ -198,10 +150,8 @@
         <bpmn2:targetRef>Response</bpmn2:targetRef>
       </bpmn2:dataOutputAssociation>
     </bpmn2:userTask>
-    <bpmn2:sequenceFlow id="_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1-_10396334-5EBF-495F-A2F6-057453889A21" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1" targetRef="_10396334-5EBF-495F-A2F6-057453889A21"/>
-    <bpmn2:sequenceFlow id="_51BCA560-9E6E-4B5E-9421-0445629FBFA3" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_10396334-5EBF-495F-A2F6-057453889A21" targetRef="_9EEA6B8E-5706-473A-923E-D909060F45F3"/>
     <bpmn2:task id="_9EEA6B8E-5706-473A-923E-D909060F45F3" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
-      <bpmn2:incoming>bpmn20:_51BCA560-9E6E-4B5E-9421-0445629FBFA3</bpmn2:incoming>
+      <bpmn2:incoming>bpmn20:SequenceFlow_10</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_1</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi0wl3enEeK6_ZZSVMnKcQ">
         <bpmn2:dataInput id="_9EEA6B8E-5706-473A-923E-D909060F45F3_TaskNameInput" name="TaskName"/>
@@ -316,7 +266,7 @@
     </bpmn2:task>
     <bpmn2:task id="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>bpmn20:_DB71CBE7-ABCF-4BE1-B7E8-C86D8781E73A</bpmn2:incoming>
-      <bpmn2:outgoing>bpmn20:_DE1F8D86-454C-40F1-A8A7-2D8335667704</bpmn2:outgoing>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_11</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi0wwXenEeK6_ZZSVMnKcQ">
         <bpmn2:dataInput id="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6_TaskNameInput" name="TaskName"/>
         <bpmn2:dataInput id="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6_UrlInput" drools:dtype="String" itemSubjectRef="bpmn20:__F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6_UrlInputItem" name="Url"/>
@@ -387,54 +337,6 @@
     <bpmn2:sequenceFlow id="_C8E6A0E5-3830-4180-B06B-8686717870FD" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_82331A90-6BCD-40BD-B614-6910EA87E501" targetRef="_26A2090D-8B65-4D24-AAE9-9796E8DF1D2E">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi0w13enEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:task id="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A" drools:selectable="true" drools:taskName="HttpClientDeploy" name="Deploy to QA">
-      <bpmn2:incoming>bpmn20:_DE1F8D86-454C-40F1-A8A7-2D8335667704</bpmn2:incoming>
-      <bpmn2:outgoing>bpmn20:_D74B847F-E8CF-47C9-90D2-C7CEA732C0FA</bpmn2:outgoing>
-      <bpmn2:ioSpecification id="_Oi0w2HenEeK6_ZZSVMnKcQ">
-        <bpmn2:dataInput id="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_TaskNameInput" name="TaskName"/>
-        <bpmn2:dataInput id="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_UuidInput" name="Uuid"/>
-        <bpmn2:dataInput id="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_UrlInput" name="Url"/>
-        <bpmn2:dataInput id="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_MethodInput" name="Method"/>
-        <bpmn2:dataInput id="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_TargetInput" name="Target"/>
-        <bpmn2:inputSet id="_Oi0w2XenEeK6_ZZSVMnKcQ">
-          <bpmn2:dataInputRefs>_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_UuidInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_UrlInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_MethodInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_TargetInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_TaskNameInput</bpmn2:dataInputRefs>
-        </bpmn2:inputSet>
-        <bpmn2:outputSet id="_Oi0w2nenEeK6_ZZSVMnKcQ"/>
-      </bpmn2:ioSpecification>
-      <bpmn2:dataInputAssociation id="_Oi0w23enEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_TaskNameInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi0w3HenEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi0w3XenEeK6_ZZSVMnKcQ">HttpClientDeploy</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi0w3nenEeK6_ZZSVMnKcQ">_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_TaskNameInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi0w33enEeK6_ZZSVMnKcQ">
-        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
-        <bpmn2:targetRef>_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_UuidInput</bpmn2:targetRef>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi0w4HenEeK6_ZZSVMnKcQ">
-        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
-        <bpmn2:targetRef>_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_UrlInput</bpmn2:targetRef>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi0w4XenEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_MethodInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi0w4nenEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi0w43enEeK6_ZZSVMnKcQ"><![CDATA[POST]]></bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi0w5HenEeK6_ZZSVMnKcQ">_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_MethodInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi0w5XenEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_TargetInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi0w5nenEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi0w53enEeK6_ZZSVMnKcQ"><![CDATA[qa]]></bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi0w6HenEeK6_ZZSVMnKcQ">_E1A4FCA0-739F-4013-905D-3087A2ADFC7A_TargetInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-    </bpmn2:task>
     <bpmn2:userTask id="_6563CD33-BE15-4405-BABF-C9F0E4047D49" drools:selectable="true" drools:taskName="overlord.demo.CheckDeployment" drools:scriptFormat="http://www.java.com/java" name="Test QA">
       <bpmn2:incoming>bpmn20:SequenceFlow_4</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:_4E4874F5-ECB1-483F-8D54-7F8131CDEE04</bpmn2:outgoing>
@@ -478,9 +380,8 @@
         <bpmn2:targetRef>Response</bpmn2:targetRef>
       </bpmn2:dataOutputAssociation>
     </bpmn2:userTask>
-    <bpmn2:sequenceFlow id="_D74B847F-E8CF-47C9-90D2-C7CEA732C0FA" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A" targetRef="_643862C9-5582-4983-8F57-30890E0D6FDE"/>
     <bpmn2:task id="_643862C9-5582-4983-8F57-30890E0D6FDE" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
-      <bpmn2:incoming>bpmn20:_D74B847F-E8CF-47C9-90D2-C7CEA732C0FA</bpmn2:incoming>
+      <bpmn2:incoming>bpmn20:SequenceFlow_12</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_3</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi0xDnenEeK6_ZZSVMnKcQ">
         <bpmn2:dataInput id="_643862C9-5582-4983-8F57-30890E0D6FDE_TaskNameInput" name="TaskName"/>
@@ -609,10 +510,9 @@
     <bpmn2:sequenceFlow id="_3C37B81C-545B-4F59-9770-BC979EE79184" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_006A92F9-95BB-4D04-978B-8EC32634F854" targetRef="_03860FA0-9416-4559-A599-9E11E36563D2">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi0xOXenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="_DE1F8D86-454C-40F1-A8A7-2D8335667704" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6" targetRef="_E1A4FCA0-739F-4013-905D-3087A2ADFC7A"/>
     <bpmn2:task id="_DF064985-DF31-4CCA-8AB5-913B81DF84DB" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>bpmn20:_3F46503A-B3F3-4B66-9C6E-C41D879B8D95</bpmn2:incoming>
-      <bpmn2:outgoing>bpmn20:_6754854B-A1CA-48E6-8FB6-3846FD39E456</bpmn2:outgoing>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_13</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi0xOnenEeK6_ZZSVMnKcQ">
         <bpmn2:dataInput id="_DF064985-DF31-4CCA-8AB5-913B81DF84DB_TaskNameInput" name="TaskName"/>
         <bpmn2:dataInput id="_DF064985-DF31-4CCA-8AB5-913B81DF84DB_UrlInput" drools:dtype="String" itemSubjectRef="bpmn20:__DF064985-DF31-4CCA-8AB5-913B81DF84DB_UrlInputItem" name="Url"/>
@@ -667,54 +567,6 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:task id="_9FCA8369-193F-45A9-AC27-4E492D7ED835" drools:selectable="true" drools:taskName="HttpClientDeploy" name="Deploy to Stage">
-      <bpmn2:incoming>bpmn20:_6754854B-A1CA-48E6-8FB6-3846FD39E456</bpmn2:incoming>
-      <bpmn2:outgoing>bpmn20:_BDFC7CE6-31F3-464A-8546-16825132714F</bpmn2:outgoing>
-      <bpmn2:ioSpecification id="_Oi1XhHenEeK6_ZZSVMnKcQ">
-        <bpmn2:dataInput id="_9FCA8369-193F-45A9-AC27-4E492D7ED835_TaskNameInput" name="TaskName"/>
-        <bpmn2:dataInput id="_9FCA8369-193F-45A9-AC27-4E492D7ED835_UuidInput" name="Uuid"/>
-        <bpmn2:dataInput id="_9FCA8369-193F-45A9-AC27-4E492D7ED835_UrlInput" name="Url"/>
-        <bpmn2:dataInput id="_9FCA8369-193F-45A9-AC27-4E492D7ED835_MethodInput" name="Method"/>
-        <bpmn2:dataInput id="_9FCA8369-193F-45A9-AC27-4E492D7ED835_TargetInput" name="Target"/>
-        <bpmn2:inputSet id="_Oi1XhXenEeK6_ZZSVMnKcQ">
-          <bpmn2:dataInputRefs>_9FCA8369-193F-45A9-AC27-4E492D7ED835_UuidInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_9FCA8369-193F-45A9-AC27-4E492D7ED835_UrlInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_9FCA8369-193F-45A9-AC27-4E492D7ED835_MethodInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_9FCA8369-193F-45A9-AC27-4E492D7ED835_TargetInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_9FCA8369-193F-45A9-AC27-4E492D7ED835_TaskNameInput</bpmn2:dataInputRefs>
-        </bpmn2:inputSet>
-        <bpmn2:outputSet id="_Oi1XhnenEeK6_ZZSVMnKcQ"/>
-      </bpmn2:ioSpecification>
-      <bpmn2:dataInputAssociation id="_Oi1Xh3enEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_9FCA8369-193F-45A9-AC27-4E492D7ED835_TaskNameInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi1XiHenEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi1XiXenEeK6_ZZSVMnKcQ">HttpClientDeploy</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi1XinenEeK6_ZZSVMnKcQ">_9FCA8369-193F-45A9-AC27-4E492D7ED835_TaskNameInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi1Xi3enEeK6_ZZSVMnKcQ">
-        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
-        <bpmn2:targetRef>_9FCA8369-193F-45A9-AC27-4E492D7ED835_UuidInput</bpmn2:targetRef>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi1XjHenEeK6_ZZSVMnKcQ">
-        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
-        <bpmn2:targetRef>_9FCA8369-193F-45A9-AC27-4E492D7ED835_UrlInput</bpmn2:targetRef>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi1XjXenEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_9FCA8369-193F-45A9-AC27-4E492D7ED835_MethodInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi1XjnenEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi1Xj3enEeK6_ZZSVMnKcQ"><![CDATA[POST]]></bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi1XkHenEeK6_ZZSVMnKcQ">_9FCA8369-193F-45A9-AC27-4E492D7ED835_MethodInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi1XkXenEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_9FCA8369-193F-45A9-AC27-4E492D7ED835_TargetInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi1XknenEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi1Xk3enEeK6_ZZSVMnKcQ"><![CDATA[stage]]></bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi1XlHenEeK6_ZZSVMnKcQ">_9FCA8369-193F-45A9-AC27-4E492D7ED835_TargetInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-    </bpmn2:task>
     <bpmn2:userTask id="_84FCDE07-2478-4773-A87C-2DB6C19F8974" drools:selectable="true" drools:taskName="overlord.demo.CheckDeployment" drools:scriptFormat="http://www.java.com/java" name="Test Stage">
       <bpmn2:incoming>bpmn20:SequenceFlow_6</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:_4E7824A3-5694-4C7C-8F75-4E81E98D6955</bpmn2:outgoing>
@@ -758,9 +610,8 @@
         <bpmn2:targetRef>Response</bpmn2:targetRef>
       </bpmn2:dataOutputAssociation>
     </bpmn2:userTask>
-    <bpmn2:sequenceFlow id="_BDFC7CE6-31F3-464A-8546-16825132714F" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_9FCA8369-193F-45A9-AC27-4E492D7ED835" targetRef="_275DAD9E-74F8-4DD7-93A1-BA998A359EAC"/>
     <bpmn2:task id="_275DAD9E-74F8-4DD7-93A1-BA998A359EAC" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
-      <bpmn2:incoming>bpmn20:_BDFC7CE6-31F3-464A-8546-16825132714F</bpmn2:incoming>
+      <bpmn2:incoming>bpmn20:SequenceFlow_14</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_5</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi1XunenEeK6_ZZSVMnKcQ">
         <bpmn2:dataInput id="_275DAD9E-74F8-4DD7-93A1-BA998A359EAC_TaskNameInput" name="TaskName"/>
@@ -889,10 +740,9 @@
     <bpmn2:sequenceFlow id="_7A03BC64-C29F-4460-88BE-EA1B447AFE11" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F" targetRef="_38564A45-65C6-4F5E-A1FF-BD9ED0D827E8">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi1X5XenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="_6754854B-A1CA-48E6-8FB6-3846FD39E456" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_DF064985-DF31-4CCA-8AB5-913B81DF84DB" targetRef="_9FCA8369-193F-45A9-AC27-4E492D7ED835"/>
     <bpmn2:task id="_8481C119-988D-4943-8B3B-CDF9EC64E366" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
       <bpmn2:incoming>bpmn20:_656C46F9-13C1-4078-86CB-0C4453C1E4DD</bpmn2:incoming>
-      <bpmn2:outgoing>bpmn20:_AC071416-29C9-4F97-BC5C-EE8AFD11BF5B</bpmn2:outgoing>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_15</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi1X5nenEeK6_ZZSVMnKcQ">
         <bpmn2:dataInput id="_8481C119-988D-4943-8B3B-CDF9EC64E366_TaskNameInput" name="TaskName"/>
         <bpmn2:dataInput id="_8481C119-988D-4943-8B3B-CDF9EC64E366_UrlInput" drools:dtype="String" itemSubjectRef="bpmn20:__8481C119-988D-4943-8B3B-CDF9EC64E366_UrlInputItem" name="Url"/>
@@ -947,54 +797,6 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:task id="_C658F868-8729-487C-824E-8DEDE5646AC9" drools:selectable="true" drools:taskName="HttpClientDeploy" name="Deploy to Prod">
-      <bpmn2:incoming>bpmn20:_AC071416-29C9-4F97-BC5C-EE8AFD11BF5B</bpmn2:incoming>
-      <bpmn2:outgoing>bpmn20:_3541A42D-FAB4-4D14-8FE6-F4D4F7968948</bpmn2:outgoing>
-      <bpmn2:ioSpecification id="_Oi1X-3enEeK6_ZZSVMnKcQ">
-        <bpmn2:dataInput id="_C658F868-8729-487C-824E-8DEDE5646AC9_TaskNameInput" name="TaskName"/>
-        <bpmn2:dataInput id="_C658F868-8729-487C-824E-8DEDE5646AC9_UuidInput" name="Uuid"/>
-        <bpmn2:dataInput id="_C658F868-8729-487C-824E-8DEDE5646AC9_UrlInput" name="Url"/>
-        <bpmn2:dataInput id="_C658F868-8729-487C-824E-8DEDE5646AC9_MethodInput" name="Method"/>
-        <bpmn2:dataInput id="_C658F868-8729-487C-824E-8DEDE5646AC9_TargetInput" name="Target"/>
-        <bpmn2:inputSet id="_Oi1X_HenEeK6_ZZSVMnKcQ">
-          <bpmn2:dataInputRefs>_C658F868-8729-487C-824E-8DEDE5646AC9_UuidInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_C658F868-8729-487C-824E-8DEDE5646AC9_UrlInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_C658F868-8729-487C-824E-8DEDE5646AC9_MethodInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_C658F868-8729-487C-824E-8DEDE5646AC9_TargetInput</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_C658F868-8729-487C-824E-8DEDE5646AC9_TaskNameInput</bpmn2:dataInputRefs>
-        </bpmn2:inputSet>
-        <bpmn2:outputSet id="_Oi1X_XenEeK6_ZZSVMnKcQ"/>
-      </bpmn2:ioSpecification>
-      <bpmn2:dataInputAssociation id="_Oi1X_nenEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_C658F868-8729-487C-824E-8DEDE5646AC9_TaskNameInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi1X_3enEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi1YAHenEeK6_ZZSVMnKcQ">HttpClientDeploy</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi1YAXenEeK6_ZZSVMnKcQ">_C658F868-8729-487C-824E-8DEDE5646AC9_TaskNameInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi1YAnenEeK6_ZZSVMnKcQ">
-        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
-        <bpmn2:targetRef>_C658F868-8729-487C-824E-8DEDE5646AC9_UuidInput</bpmn2:targetRef>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi1YA3enEeK6_ZZSVMnKcQ">
-        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
-        <bpmn2:targetRef>_C658F868-8729-487C-824E-8DEDE5646AC9_UrlInput</bpmn2:targetRef>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi1YBHenEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_C658F868-8729-487C-824E-8DEDE5646AC9_MethodInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi1YBXenEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi1YBnenEeK6_ZZSVMnKcQ"><![CDATA[POST]]></bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi1YB3enEeK6_ZZSVMnKcQ">_C658F868-8729-487C-824E-8DEDE5646AC9_MethodInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_Oi1YCHenEeK6_ZZSVMnKcQ">
-        <bpmn2:targetRef>_C658F868-8729-487C-824E-8DEDE5646AC9_TargetInput</bpmn2:targetRef>
-        <bpmn2:assignment id="_Oi1YCXenEeK6_ZZSVMnKcQ">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="_Oi1YCnenEeK6_ZZSVMnKcQ"><![CDATA[prod]]></bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="_Oi1YC3enEeK6_ZZSVMnKcQ">_C658F868-8729-487C-824E-8DEDE5646AC9_TargetInput</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-    </bpmn2:task>
     <bpmn2:userTask id="_5D2065CF-8E36-44FF-B443-F31EC22D24C0" drools:selectable="true" drools:taskName="overlord.demo.CheckDeployment" drools:scriptFormat="http://www.java.com/java" name="Test Prod">
       <bpmn2:incoming>bpmn20:SequenceFlow_8</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:_027DA187-2155-4F5B-810B-68F0E8D886F1</bpmn2:outgoing>
@@ -1038,9 +840,8 @@
         <bpmn2:targetRef>Response</bpmn2:targetRef>
       </bpmn2:dataOutputAssociation>
     </bpmn2:userTask>
-    <bpmn2:sequenceFlow id="_3541A42D-FAB4-4D14-8FE6-F4D4F7968948" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_C658F868-8729-487C-824E-8DEDE5646AC9" targetRef="_A3637909-40CE-426D-9D28-8D2B1F44A5A4"/>
     <bpmn2:task id="_A3637909-40CE-426D-9D28-8D2B1F44A5A4" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
-      <bpmn2:incoming>bpmn20:_3541A42D-FAB4-4D14-8FE6-F4D4F7968948</bpmn2:incoming>
+      <bpmn2:incoming>bpmn20:SequenceFlow_16</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_7</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi1YMXenEeK6_ZZSVMnKcQ">
         <bpmn2:dataInput id="_A3637909-40CE-426D-9D28-8D2B1F44A5A4_TaskNameInput" name="TaskName"/>
@@ -1226,7 +1027,6 @@
     <bpmn2:sequenceFlow id="_7586EECA-6EB7-4C9A-98BD-32552BFEB3BD" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_6B5FE858-F9E2-4E8D-B417-676F40E99967" targetRef="_5B21962D-4428-45B5-B5EB-6C03F49897AF">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi1YcXenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:sequenceFlow id="_AC071416-29C9-4F97-BC5C-EE8AFD11BF5B" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_8481C119-988D-4943-8B3B-CDF9EC64E366" targetRef="_C658F868-8729-487C-824E-8DEDE5646AC9"/>
     <bpmn2:endEvent id="_4EF14AA9-6B63-4F2A-84F8-50D1E2005829" drools:bgcolor="#ff6347" drools:selectable="true" name="">
       <bpmn2:incoming>bpmn20:_69483716-CC8C-45C7-828C-167AA3F9CA82</bpmn2:incoming>
     </bpmn2:endEvent>
@@ -1262,7 +1062,7 @@
         <bpmn2:targetRef>_DataInput_25</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_2">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_3">POST</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_25</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_1">_DataInput_25</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_26">
@@ -1273,14 +1073,14 @@
         <bpmn2:targetRef>_DataInput_27</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_3">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_4">dev</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_27</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_2">_DataInput_27</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_28">
         <bpmn2:targetRef>_DataInput_28</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_4">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_5">dev</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_28</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_6">_DataInput_28</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
@@ -1317,7 +1117,7 @@
         <bpmn2:targetRef>_DataInput_31</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_5">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_6">POST</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_31</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_7">_DataInput_31</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_32">
@@ -1328,14 +1128,14 @@
         <bpmn2:targetRef>_DataInput_33</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_6">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_7">qa</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_33</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_8">_DataInput_33</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_34">
         <bpmn2:targetRef>_DataInput_34</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_7">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_8">qa</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_34</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_9">_DataInput_34</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
@@ -1372,7 +1172,7 @@
         <bpmn2:targetRef>_DataInput_37</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_8">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_9">POST</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_37</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_10">_DataInput_37</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_38">
@@ -1383,14 +1183,14 @@
         <bpmn2:targetRef>_DataInput_39</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_9">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_10">stage</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_39</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_11">_DataInput_39</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_40">
         <bpmn2:targetRef>_DataInput_40</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_10">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_11">stage</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_40</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_12">_DataInput_40</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
@@ -1425,7 +1225,7 @@
         <bpmn2:targetRef>_DataInput_43</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_11">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_12">POST</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_43</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_13">_DataInput_43</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_44">
@@ -1436,14 +1236,14 @@
         <bpmn2:targetRef>_DataInput_45</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_12">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_13">prod</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_45</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_14">_DataInput_45</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_46">
         <bpmn2:targetRef>_DataInput_46</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_13">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_14">prod</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_46</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_15">_DataInput_46</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
@@ -1451,26 +1251,211 @@
     <bpmn2:sequenceFlow id="SequenceFlow_6" drools:priority="1" name="" sourceRef="Task_4" targetRef="_84FCDE07-2478-4773-A87C-2DB6C19F8974"/>
     <bpmn2:sequenceFlow id="SequenceFlow_7" drools:priority="1" name="" sourceRef="_A3637909-40CE-426D-9D28-8D2B1F44A5A4" targetRef="Task_5"/>
     <bpmn2:sequenceFlow id="SequenceFlow_8" drools:priority="1" name="" sourceRef="Task_5" targetRef="_5D2065CF-8E36-44FF-B443-F31EC22D24C0"/>
+    <bpmn2:task id="Task_1" drools:taskName="HttpClientDeploy" drools:displayName="Deploy" drools:icon="run-build-install.png" name="Deploy to Dev">
+      <bpmn2:incoming>bpmn20:SequenceFlow_9</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_10</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_10">
+        <bpmn2:dataInput id="_DataInput_47" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_48" name="Method"/>
+        <bpmn2:dataInput id="_DataInput_49" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_50" name="Target"/>
+        <bpmn2:dataInput id="_DataInput_51" name="Type"/>
+        <bpmn2:inputSet id="_InputSet_10" name="Input Set 10">
+          <bpmn2:dataInputRefs>_DataInput_47</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_48</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_49</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_50</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_51</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_47">
+        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_47</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_48">
+        <bpmn2:targetRef>_DataInput_48</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_1">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_16">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_48</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_49">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_49</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_50">
+        <bpmn2:targetRef>_DataInput_50</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_14">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_17">dev</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_50</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_51">
+        <bpmn2:targetRef>_DataInput_51</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_15">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_18">copy</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_51</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_9" drools:priority="1" name="" sourceRef="_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1" targetRef="Task_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_10" drools:priority="1" name="" sourceRef="Task_1" targetRef="_9EEA6B8E-5706-473A-923E-D909060F45F3"/>
+    <bpmn2:task id="Task_6" drools:taskName="HttpClientDeploy" drools:displayName="Deploy" drools:icon="run-build-install.png" name="Deploy to QA">
+      <bpmn2:incoming>bpmn20:SequenceFlow_11</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_12</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_11">
+        <bpmn2:dataInput id="_DataInput_52" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_53" name="Method"/>
+        <bpmn2:dataInput id="_DataInput_54" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_55" name="Target"/>
+        <bpmn2:dataInput id="_DataInput_56" name="Type"/>
+        <bpmn2:inputSet id="_InputSet_11" name="Input Set 11">
+          <bpmn2:dataInputRefs>_DataInput_52</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_53</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_54</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_55</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_56</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_52">
+        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_52</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_53">
+        <bpmn2:targetRef>_DataInput_53</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_16">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_19">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_53</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_54">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_54</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_55">
+        <bpmn2:targetRef>_DataInput_55</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_17">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_20">qa</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_55</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_56">
+        <bpmn2:targetRef>_DataInput_56</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_18">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_21">copy</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_56</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_11" drools:priority="1" name="" sourceRef="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6" targetRef="Task_6"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_12" drools:priority="1" name="" sourceRef="Task_6" targetRef="_643862C9-5582-4983-8F57-30890E0D6FDE"/>
+    <bpmn2:task id="Task_7" drools:taskName="HttpClientDeploy" drools:displayName="Deploy" drools:icon="run-build-install.png" name="Deploy to Stage">
+      <bpmn2:incoming>bpmn20:SequenceFlow_13</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_14</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_12">
+        <bpmn2:dataInput id="_DataInput_57" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_58" name="Method"/>
+        <bpmn2:dataInput id="_DataInput_59" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_60" name="Target"/>
+        <bpmn2:dataInput id="_DataInput_61" name="Type"/>
+        <bpmn2:inputSet id="_InputSet_12" name="Input Set 12">
+          <bpmn2:dataInputRefs>_DataInput_57</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_58</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_59</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_60</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_61</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_57">
+        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_57</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_58">
+        <bpmn2:targetRef>_DataInput_58</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_19">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_22">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_58</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_59">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_59</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_60">
+        <bpmn2:targetRef>_DataInput_60</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_20">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_23">stage</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_60</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_61">
+        <bpmn2:targetRef>_DataInput_61</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_21">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_24">rhq</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_61</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:task id="Task_8" drools:taskName="HttpClientDeploy" drools:displayName="Deploy" drools:icon="run-build-install.png" name="Deploy to Prod">
+      <bpmn2:incoming>bpmn20:SequenceFlow_15</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_16</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_13">
+        <bpmn2:dataInput id="_DataInput_62" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_63" name="Method"/>
+        <bpmn2:dataInput id="_DataInput_64" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_65" name="Target"/>
+        <bpmn2:dataInput id="_DataInput_66" name="Type"/>
+        <bpmn2:inputSet id="_InputSet_13" name="Input Set 13">
+          <bpmn2:dataInputRefs>_DataInput_62</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_63</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_64</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_65</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_66</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_62">
+        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_62</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_63">
+        <bpmn2:targetRef>_DataInput_63</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_22">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_25">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_63</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_64">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_64</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_65">
+        <bpmn2:targetRef>_DataInput_65</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_23">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_26">prod</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_65</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_66">
+        <bpmn2:targetRef>_DataInput_66</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_24">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_27">rhq</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_66</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_13" drools:priority="1" name="" sourceRef="_DF064985-DF31-4CCA-8AB5-913B81DF84DB" targetRef="Task_7"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_14" drools:priority="1" name="" sourceRef="Task_7" targetRef="_275DAD9E-74F8-4DD7-93A1-BA998A359EAC"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_15" drools:priority="1" name="" sourceRef="_8481C119-988D-4943-8B3B-CDF9EC64E366" targetRef="Task_8"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_16" drools:priority="1" name="" sourceRef="Task_8" targetRef="_A3637909-40CE-426D-9D28-8D2B1F44A5A4"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="_Oi1YcnenEeK6_ZZSVMnKcQ">
     <bpmndi:BPMNPlane id="_Oi1Yc3enEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:overlord.demo.SimpleReleaseProcess">
       <bpmndi:BPMNShape id="_Oi1YdHenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1">
         <dc:Bounds height="30.0" width="30.0" x="112.0" y="60.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_Oi1YdXenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_10396334-5EBF-495F-A2F6-057453889A21">
-        <dc:Bounds height="40.0" width="193.0" x="30.0" y="135.0"/>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_Oi1YdnenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_D1229038-83E0-44B7-AB75-8C46C2399E21">
         <dc:Bounds height="40.0" width="193.0" x="30.0" y="360.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="_Oi1Yd3enEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1-_10396334-5EBF-495F-A2F6-057453889A21">
-        <di:waypoint xsi:type="dc:Point" x="127.0" y="75.0"/>
-        <di:waypoint xsi:type="dc:Point" x="126.5" y="155.0"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="_Oi1YeXenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_51BCA560-9E6E-4B5E-9421-0445629FBFA3">
-        <di:waypoint xsi:type="dc:Point" x="126.5" y="155.0"/>
-        <di:waypoint xsi:type="dc:Point" x="126.5" y="230.0"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_Oi1Ye3enEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_9EEA6B8E-5706-473A-923E-D909060F45F3">
         <dc:Bounds height="40.0" width="193.0" x="30.0" y="210.0"/>
       </bpmndi:BPMNShape>
@@ -1504,16 +1489,9 @@
         <di:waypoint xsi:type="dc:Point" x="126.0" y="455.0"/>
         <di:waypoint xsi:type="dc:Point" x="126.5" y="545.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_Oi1YhXenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_E1A4FCA0-739F-4013-905D-3087A2ADFC7A">
-        <dc:Bounds height="40.0" width="193.0" x="285.0" y="135.0"/>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_Oi1YhnenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_6563CD33-BE15-4405-BABF-C9F0E4047D49">
         <dc:Bounds height="40.0" width="193.0" x="285.0" y="360.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="_Oi1YiHenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_D74B847F-E8CF-47C9-90D2-C7CEA732C0FA">
-        <di:waypoint xsi:type="dc:Point" x="381.0" y="175.0"/>
-        <di:waypoint xsi:type="dc:Point" x="381.0" y="210.0"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_Oi1YinenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_643862C9-5582-4983-8F57-30890E0D6FDE">
         <dc:Bounds height="40.0" width="193.0" x="285.0" y="210.0"/>
       </bpmndi:BPMNShape>
@@ -1544,23 +1522,12 @@
         <di:waypoint xsi:type="dc:Point" x="381.0" y="476.0"/>
         <di:waypoint xsi:type="dc:Point" x="381.0" y="525.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="_Oi1Yk3enEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_DE1F8D86-454C-40F1-A8A7-2D8335667704">
-        <di:waypoint xsi:type="dc:Point" x="380.0" y="100.0"/>
-        <di:waypoint xsi:type="dc:Point" x="381.0" y="135.0"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_Oi1YlHenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_DF064985-DF31-4CCA-8AB5-913B81DF84DB">
         <dc:Bounds height="40.0" width="193.0" x="526.0" y="60.0"/>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_Oi1YlXenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_9FCA8369-193F-45A9-AC27-4E492D7ED835">
-        <dc:Bounds height="40.0" width="193.0" x="526.0" y="135.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_Oi1YlnenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_84FCDE07-2478-4773-A87C-2DB6C19F8974">
         <dc:Bounds height="40.0" width="193.0" x="526.0" y="360.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="_Oi1YmHenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_BDFC7CE6-31F3-464A-8546-16825132714F">
-        <di:waypoint xsi:type="dc:Point" x="622.5" y="155.0"/>
-        <di:waypoint xsi:type="dc:Point" x="622.5" y="230.0"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_Oi1YmnenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_275DAD9E-74F8-4DD7-93A1-BA998A359EAC">
         <dc:Bounds height="40.0" width="193.0" x="526.0" y="210.0"/>
       </bpmndi:BPMNShape>
@@ -1591,23 +1558,12 @@
         <di:waypoint xsi:type="dc:Point" x="622.0" y="455.0"/>
         <di:waypoint xsi:type="dc:Point" x="622.5" y="545.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="_Oi1Yo3enEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_6754854B-A1CA-48E6-8FB6-3846FD39E456">
-        <di:waypoint xsi:type="dc:Point" x="622.0" y="100.0"/>
-        <di:waypoint xsi:type="dc:Point" x="622.0" y="135.0"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_Oi1YpHenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_8481C119-988D-4943-8B3B-CDF9EC64E366">
         <dc:Bounds height="40.0" width="190.0" x="781.0" y="60.0"/>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_Oi1YpXenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_C658F868-8729-487C-824E-8DEDE5646AC9">
-        <dc:Bounds height="40.0" width="193.0" x="781.0" y="135.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_Oi1YpnenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_5D2065CF-8E36-44FF-B443-F31EC22D24C0">
         <dc:Bounds height="40.0" width="193.0" x="781.0" y="360.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="_Oi1YqHenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_3541A42D-FAB4-4D14-8FE6-F4D4F7968948">
-        <di:waypoint xsi:type="dc:Point" x="877.5" y="155.0"/>
-        <di:waypoint xsi:type="dc:Point" x="877.5" y="230.0"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_Oi1YqnenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_A3637909-40CE-426D-9D28-8D2B1F44A5A4">
         <dc:Bounds height="40.0" width="193.0" x="781.0" y="210.0"/>
       </bpmndi:BPMNShape>
@@ -1640,10 +1596,6 @@
       <bpmndi:BPMNEdge id="_Oi1Ys3enEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_7586EECA-6EB7-4C9A-98BD-32552BFEB3BD">
         <di:waypoint xsi:type="dc:Point" x="877.0" y="455.0"/>
         <di:waypoint xsi:type="dc:Point" x="877.5" y="545.0"/>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="_Oi1YtHenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_AC071416-29C9-4F97-BC5C-EE8AFD11BF5B">
-        <di:waypoint xsi:type="dc:Point" x="876.0" y="80.0"/>
-        <di:waypoint xsi:type="dc:Point" x="877.5" y="155.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_Oi1YtXenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_4EF14AA9-6B63-4F2A-84F8-50D1E2005829">
         <dc:Bounds height="28.0" width="28.0" x="1115.0" y="139.0"/>
@@ -1695,6 +1647,50 @@
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="bpmn20:SequenceFlow_8" sourceElement="bpmn20:BPMNShape_Task_5" targetElement="bpmn20:_Oi1YpnenEeK6_ZZSVMnKcQ">
         <di:waypoint xsi:type="dc:Point" x="877.0" y="325.0"/>
         <di:waypoint xsi:type="dc:Point" x="877.0" y="360.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_Task_1" bpmnElement="bpmn20:Task_1">
+        <dc:Bounds height="39.0" width="193.0" x="30.0" y="135.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="bpmn20:SequenceFlow_9" sourceElement="bpmn20:_Oi1YdHenEeK6_ZZSVMnKcQ" targetElement="bpmn20:BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="127.0" y="90.0"/>
+        <di:waypoint xsi:type="dc:Point" x="126.0" y="135.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="bpmn20:SequenceFlow_10" sourceElement="bpmn20:BPMNShape_Task_1" targetElement="bpmn20:_Oi1Ye3enEeK6_ZZSVMnKcQ">
+        <di:waypoint xsi:type="dc:Point" x="126.0" y="174.0"/>
+        <di:waypoint xsi:type="dc:Point" x="126.0" y="210.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_Task_6" bpmnElement="bpmn20:Task_6">
+        <dc:Bounds height="40.0" width="190.0" x="285.0" y="135.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_11" bpmnElement="bpmn20:SequenceFlow_11" sourceElement="bpmn20:_Oi1YfnenEeK6_ZZSVMnKcQ" targetElement="bpmn20:BPMNShape_Task_6">
+        <di:waypoint xsi:type="dc:Point" x="380.0" y="100.0"/>
+        <di:waypoint xsi:type="dc:Point" x="380.0" y="135.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_12" bpmnElement="bpmn20:SequenceFlow_12" sourceElement="bpmn20:BPMNShape_Task_6" targetElement="bpmn20:_Oi1YinenEeK6_ZZSVMnKcQ">
+        <di:waypoint xsi:type="dc:Point" x="380.0" y="175.0"/>
+        <di:waypoint xsi:type="dc:Point" x="381.0" y="210.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_Task_7" bpmnElement="bpmn20:Task_7">
+        <dc:Bounds height="40.0" width="193.0" x="526.0" y="135.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_8" bpmnElement="bpmn20:Task_8">
+        <dc:Bounds height="40.0" width="190.0" x="781.0" y="135.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_13" bpmnElement="bpmn20:SequenceFlow_13" sourceElement="bpmn20:_Oi1YlHenEeK6_ZZSVMnKcQ" targetElement="bpmn20:BPMNShape_Task_7">
+        <di:waypoint xsi:type="dc:Point" x="622.0" y="100.0"/>
+        <di:waypoint xsi:type="dc:Point" x="622.0" y="135.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_14" bpmnElement="bpmn20:SequenceFlow_14" sourceElement="bpmn20:BPMNShape_Task_7" targetElement="bpmn20:_Oi1YmnenEeK6_ZZSVMnKcQ">
+        <di:waypoint xsi:type="dc:Point" x="622.0" y="175.0"/>
+        <di:waypoint xsi:type="dc:Point" x="622.0" y="210.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_15" bpmnElement="bpmn20:SequenceFlow_15" sourceElement="bpmn20:_Oi1YpHenEeK6_ZZSVMnKcQ" targetElement="bpmn20:BPMNShape_Task_8">
+        <di:waypoint xsi:type="dc:Point" x="876.0" y="100.0"/>
+        <di:waypoint xsi:type="dc:Point" x="876.0" y="135.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_16" bpmnElement="bpmn20:SequenceFlow_16" sourceElement="bpmn20:BPMNShape_Task_8" targetElement="bpmn20:_Oi1YqnenEeK6_ZZSVMnKcQ">
+        <di:waypoint xsi:type="dc:Point" x="876.0" y="175.0"/>
+        <di:waypoint xsi:type="dc:Point" x="877.0" y="210.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
