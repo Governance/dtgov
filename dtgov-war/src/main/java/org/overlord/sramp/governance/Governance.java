@@ -190,6 +190,13 @@ public class Governance {
     public String getGovernanceUrl() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_URL, "http://localhost:8080/dtgov");
     }
+    
+    /**
+     * This returns the DTGovUiURL, which by default is http://localhost:8080/s-ramp-server
+     */
+    public String getDTGovUiUrl() {
+        return configuration.getString(GovernanceConstants.GOVERNANCE_UI, "http://localhost:8080/dtgov-ui");
+    }
 
     public Map<String,Target> getTargets() throws ConfigException {
         Map<String,Target> targets = new HashMap<String,Target>();
@@ -238,6 +245,7 @@ public class Governance {
             if (!hasErrors) {
                 String params = info[2];
                 params = params.replaceAll("\\{governance.url\\}", getGovernanceUrl());
+                params = params.replaceAll("\\{dtgov.ui.url\\}", getDTGovUiUrl());
                 Query query = new Query(info[0],info[1],params);
                 queries.add(query);
             }
@@ -272,10 +280,6 @@ public class Governance {
 
     public long getQueryInterval() {
         return configuration.getLong(GovernanceConstants.GOVERNANCE_QUERY_INTERVAL, 300000l); //5 min default
-    }
-
-    public long getAcceptableLagtime() {
-        return configuration.getLong(GovernanceConstants.GOVERNANCE_ACCEPTABLE_LAG, 1000l); //1 s
     }
 
     public String getJNDIEmailName() {

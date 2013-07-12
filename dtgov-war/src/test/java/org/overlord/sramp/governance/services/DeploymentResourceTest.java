@@ -24,6 +24,10 @@ import java.net.URL;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.jboss.as.cli.CliInitializationException;
+import org.jboss.as.cli.CommandContext;
+import org.jboss.as.cli.CommandContextFactory;
+import org.jboss.as.cli.CommandLineException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -99,8 +103,8 @@ public class DeploymentResourceTest extends BaseResourceTest {
 		
 		Target target = new Target("stage", "rhqadmin", "rhqadmin", "http://localhost:7080");
 		
-		RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getRhqUser(), target.getRhqPassword(),
-				target.getRhqBaseUrl(), target.getRhqPort());
+		RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getUser(), target.getPassword(),
+				target.getRhqBaseUrl(), target.getPort());
 		String groupName = target.getName();
 		
 		String artifactName = "test-simple2.war";
@@ -121,5 +125,33 @@ public class DeploymentResourceTest extends BaseResourceTest {
 		}
 		
 		System.out.println("complete");
+	}
+	
+	@Test @Ignore
+	public void testCli() {
+		
+		// Initialize the CLI context
+        CommandContext ctx = null;
+        try {
+        	//String username = "";
+        	//char[] password = "".toCharArray();
+            ctx = CommandContextFactory.getInstance().newCommandContext();
+            String host = "localhost";
+            int port = 9999;
+            ctx.connectController(host, port);
+            
+            // execute commands and operations
+            ctx.handle("deploy ~/Desktop/test-simple2.war --force");
+            
+        } catch(CliInitializationException e) {
+            throw new IllegalStateException("Failed to initialize CLI context", e);
+        } catch (CommandLineException e) {
+            e.printStackTrace();
+        } finally {
+            // terminate the session and
+            // close the connection to the controller
+            ctx.terminateSession();
+        } 
+		
 	}
 }

@@ -17,6 +17,7 @@ public class CDIUtil {
 	 * @param qualifiers
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static <B> B getContextualBeanInstance(Class<B> type, Annotation... qualifiers) {
 	    try {
 	        BeanManager beanManager = InitialContext.doLookup("java:comp/BeanManager");

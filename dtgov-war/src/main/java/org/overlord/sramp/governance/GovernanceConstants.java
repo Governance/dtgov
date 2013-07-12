@@ -33,18 +33,17 @@ public interface GovernanceConstants {
     public static final String SRAMP_REPO_SAML_SERVICE  = "sramp.repo.auth.saml.service";
     public static final String GOVERNANCE_URL           = "governance.url";
     public static final String GOVERNANCE_QUERY_INTERVAL= "governance.query.interval";
-    public static final String GOVERNANCE_ACCEPTABLE_LAG= "governance.acceptable.lagtime";
     public static final String GOVERNANCE_JNDI_EMAIL_REF= "governance.jndi.email.reference";
     public static final String GOVERNANCE_EMAIL_DOMAIN  = "governance.email.domain";
     public static final String GOVERNANCE_EMAIL_FROM    = "governance.email.from";
     
 
-    //BPM connection info
+    //RHQ connection info
     public static final String GOVERNANCE_RHQ_USER     = "rhq.rest.user";
     public static final String GOVERNANCE_RHQ_PASSWORD = "rhq.rest.password";
     public static final String GOVERNANCE_RHQ_URL      = "rhq.base.url";
     
-    //RHQ connection info
+    //BPM connection info
     public static final String GOVERNANCE_BPM_USER     = "governance.bpm.user";
     public static final String GOVERNANCE_BPM_PASSWORD = "governance.bpm.password";
     public static final String GOVERNANCE_BPM_URL      = "governance.bpm.url";
@@ -55,6 +54,7 @@ public interface GovernanceConstants {
     public static final String GOVERNANCE_TARGETS       = "governance.targets";
     public static final String GOVERNANCE_QUERIES       = "governance.queries";
     public static final String GOVERNANCE               = "governance.";
+    public static final String GOVERNANCE_UI            = "dtgov.ui.url";
     
     //S-RAMP
     public static final String SRAMP_WAGON_JAR          = "s-ramp-wagon";

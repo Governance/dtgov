@@ -17,7 +17,7 @@ package org.overlord.sramp.governance;
 
 public class Target {
 
-	public enum TYPE {COPY, RHQ, AS7};
+	public enum TYPE {COPY, RHQ, AS_CLI};
 	
     public Target(String name, String deployDir) {
         super();
@@ -26,31 +26,76 @@ public class Target {
         this.deployDir = deployDir;
     }
     
+    /**
+     * Constructs a Target of Type AS_CLI 'Application Server Command Line Interface.
+     * 
+     * @param name - name of the target
+     * @param asUser - AS user with admin rights
+     * @param asPassword - password of the asUser
+     * @param asHost - Application Server Hostname (defaults to localhost)
+     * @param asPort - Application Server Port (defaults to 9999)
+     */
+    public Target(String name, String asUser, String asPassword, String asHost, Integer asPort) {
+        super();
+        this.name = name;
+        this.type = TYPE.AS_CLI;
+        this.user = asUser;
+        this.password = asPassword;
+        if (asHost!=null) {
+        	this.host = asHost;
+        } else {
+        	this.host = "localhost";
+        }
+        if (port!=null && port > 0) {
+        	this.port = asPort;
+        } else {
+        	this.port = 9999;
+        }    		
+    }
+    /**
+     * Constructs a Target of Type RHQ to use it (JON) to deploy archives to a RHQ server
+     * group. The RHQ Server group needs to be prefined and needs to contain Application
+     * Server resources only.
+     * 
+     * @param name - name of the target - which needs to correspond to the RHQ Server Group.
+     * @param rhqUser - username of the RHQ user with rights to deploy to that group.
+     * @param rhqPassword - password of the rhqUser.
+     * @param rhqBaseUrl - baseUrl of the RHQ Server i.e. http://localhost:7080/
+     */
     public Target(String name, String rhqUser, String rhqPassword, String rhqBaseUrl) {
         super();
         this.name = name;
         this.type = TYPE.RHQ;
-        this.rhqUser = rhqUser;
-        this.rhqPassword = rhqPassword;
+        this.user = rhqUser;
+        this.password = rhqPassword;
         int secondColon = rhqBaseUrl.indexOf(":",rhqBaseUrl.indexOf(":")+1);
         if (secondColon > 0) {
         	this.rhqBaseUrl = rhqBaseUrl.substring(0,secondColon);
-        	this.rhqPort = Integer.valueOf(rhqBaseUrl.substring(secondColon + 1));
+        	this.port = Integer.valueOf(rhqBaseUrl.substring(secondColon + 1));
         } else {
         	this.rhqBaseUrl = rhqBaseUrl;
-        	this.rhqPort = 7080;
+        	this.port = 7080;
         }
         
              		
     }
 
-    private String name;
+    public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	private String name;
     private TYPE type;
     private String deployDir;
-    private String rhqUser;
-    private String rhqPassword;
+    private String user;
+    private String password;
     private String rhqBaseUrl;
-    private Integer rhqPort;
+    private String host;
+    private Integer port;
     
     public TYPE getType() {
 		return type;
@@ -60,20 +105,20 @@ public class Target {
 		this.type = type;
 	}
 
-	public String getRhqUser() {
-		return rhqUser;
+	public String getUser() {
+		return user;
 	}
 
-	public void setRhqUser(String rhqUser) {
-		this.rhqUser = rhqUser;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
-	public String getRhqPassword() {
-		return rhqPassword;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setRhqPassword(String rhqPassword) {
-		this.rhqPassword = rhqPassword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getRhqBaseUrl() {
@@ -84,12 +129,12 @@ public class Target {
 		this.rhqBaseUrl = rhqBaseUrl;
 	}
 
-	public Integer getRhqPort() {
-		return rhqPort;
+	public Integer getPort() {
+		return port;
 	}
 
-	public void setRhqPort(Integer rhqPort) {
-		this.rhqPort = rhqPort;
+	public void setPort(Integer port) {
+		this.port = port;
 	}
 
 	public void setName(String name) {
