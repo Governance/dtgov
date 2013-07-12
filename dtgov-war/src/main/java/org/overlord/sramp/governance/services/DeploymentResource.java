@@ -326,7 +326,7 @@ public class DeploymentResource {
         	}
             ctx.connectController(target.getHost(), target.getPort());
             // execute deploy to a servergroup or update if it's already deployed
-            ctx.handle("deploy " + tmpFile.getAbsolutePath()); // + " --force --server-groups=" + target.getName());
+            ctx.handle("deploy " + tmpFile.getAbsolutePath() + " --force --server-groups=" + target.getName());
             tmpFile.delete();
                 	
             InputStream reply = IOUtils.toInputStream("success");

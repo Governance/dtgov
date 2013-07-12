@@ -127,7 +127,7 @@ public class DeploymentResourceTest extends BaseResourceTest {
 		System.out.println("complete");
 	}
 	
-	@Test
+	@Test @Ignore
 	public void testCli() {
 		
 		// Initialize the CLI context
