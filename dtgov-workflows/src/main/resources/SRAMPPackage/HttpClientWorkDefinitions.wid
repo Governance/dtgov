@@ -18,6 +18,7 @@ import org.drools.process.core.datatype.impl.type.StringDataType;
     "name" : "HttpClientNotify",
     "parameters" : [
       "Url" : new StringDataType(),
+      "DTGovUrl" : new StringDataType(),
       "Method" : new StringDataType(),
       "Uuid" : new StringDataType(),
       "Target" : new StringDataType(),
