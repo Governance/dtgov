@@ -264,7 +264,7 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:task id="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
+    <bpmn2:task id="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData (DevPass)">
       <bpmn2:incoming>bpmn20:_DB71CBE7-ABCF-4BE1-B7E8-C86D8781E73A</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_11</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi0wwXenEeK6_ZZSVMnKcQ">
@@ -510,7 +510,7 @@
     <bpmn2:sequenceFlow id="_3C37B81C-545B-4F59-9770-BC979EE79184" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_006A92F9-95BB-4D04-978B-8EC32634F854" targetRef="_03860FA0-9416-4559-A599-9E11E36563D2">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi0xOXenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:task id="_DF064985-DF31-4CCA-8AB5-913B81DF84DB" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
+    <bpmn2:task id="_DF064985-DF31-4CCA-8AB5-913B81DF84DB" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData (QaPass)">
       <bpmn2:incoming>bpmn20:_3F46503A-B3F3-4B66-9C6E-C41D879B8D95</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_13</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi0xOnenEeK6_ZZSVMnKcQ">
@@ -740,7 +740,7 @@
     <bpmn2:sequenceFlow id="_7A03BC64-C29F-4460-88BE-EA1B447AFE11" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_FD3BCD5D-84A8-48FF-B0E1-487D22A6247F" targetRef="_38564A45-65C6-4F5E-A1FF-BD9ED0D827E8">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi1X5XenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:task id="_8481C119-988D-4943-8B3B-CDF9EC64E366" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
+    <bpmn2:task id="_8481C119-988D-4943-8B3B-CDF9EC64E366" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData (StagePass)">
       <bpmn2:incoming>bpmn20:_656C46F9-13C1-4078-86CB-0C4453C1E4DD</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_15</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi1X5nenEeK6_ZZSVMnKcQ">
@@ -954,9 +954,9 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:task id="_02FE2758-2074-41A5-A59E-6FE49BEE8DBF" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData">
+    <bpmn2:task id="_02FE2758-2074-41A5-A59E-6FE49BEE8DBF" drools:selectable="true" drools:taskName="HttpClientUpdateMetaData" name="UpdateMetaData (ProdPass)">
       <bpmn2:incoming>bpmn20:_792E6E7C-D7A3-4506-87BF-DAC1AE33CFD4</bpmn2:incoming>
-      <bpmn2:outgoing>bpmn20:_69483716-CC8C-45C7-828C-167AA3F9CA82</bpmn2:outgoing>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_17</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_Oi1YW3enEeK6_ZZSVMnKcQ">
         <bpmn2:dataInput id="_02FE2758-2074-41A5-A59E-6FE49BEE8DBF_TaskNameInput" name="TaskName"/>
         <bpmn2:dataInput id="_02FE2758-2074-41A5-A59E-6FE49BEE8DBF_UrlInput" drools:dtype="String" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_UrlInputItem" name="Url"/>
@@ -1027,10 +1027,6 @@
     <bpmn2:sequenceFlow id="_7586EECA-6EB7-4C9A-98BD-32552BFEB3BD" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" name="FAIL" sourceRef="_6B5FE858-F9E2-4E8D-B417-676F40E99967" targetRef="_5B21962D-4428-45B5-B5EB-6C03F49897AF">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="_Oi1YcXenEeK6_ZZSVMnKcQ" language="http://www.java.com/java"><![CDATA[return (! Response.toLowerCase().startsWith("ok") && ! Response.toLowerCase().startsWith("pass"));]]></bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:endEvent id="_4EF14AA9-6B63-4F2A-84F8-50D1E2005829" drools:bgcolor="#ff6347" drools:selectable="true" name="">
-      <bpmn2:incoming>bpmn20:_69483716-CC8C-45C7-828C-167AA3F9CA82</bpmn2:incoming>
-    </bpmn2:endEvent>
-    <bpmn2:sequenceFlow id="_69483716-CC8C-45C7-828C-167AA3F9CA82" drools:priority="1" drools:bgcolor="#000000" drools:selectable="true" sourceRef="_02FE2758-2074-41A5-A59E-6FE49BEE8DBF" targetRef="_4EF14AA9-6B63-4F2A-84F8-50D1E2005829"/>
     <bpmn2:task id="Task_2" drools:taskName="HttpClientNotify" drools:displayName="Notify" drools:icon="audio-input-microphone-3.png" name="Notify Dev">
       <bpmn2:incoming>bpmn20:SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_2</bpmn2:outgoing>
@@ -1276,7 +1272,7 @@
         <bpmn2:targetRef>_DataInput_48</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_1">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_16">POST</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_48</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_17">_DataInput_48</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_49">
@@ -1287,14 +1283,14 @@
         <bpmn2:targetRef>_DataInput_50</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_14">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_17">dev</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_50</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_18">_DataInput_50</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_51">
         <bpmn2:targetRef>_DataInput_51</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_15">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_18">copy</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_51</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_19">_DataInput_51</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
@@ -1325,7 +1321,7 @@
         <bpmn2:targetRef>_DataInput_53</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_16">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_19">POST</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_53</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_20">_DataInput_53</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_54">
@@ -1336,14 +1332,14 @@
         <bpmn2:targetRef>_DataInput_55</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_17">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_20">qa</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_55</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_21">_DataInput_55</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_56">
         <bpmn2:targetRef>_DataInput_56</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_18">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_21">copy</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_56</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_22">_DataInput_56</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
@@ -1374,7 +1370,7 @@
         <bpmn2:targetRef>_DataInput_58</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_19">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_22">POST</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_58</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_23">_DataInput_58</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_59">
@@ -1385,14 +1381,14 @@
         <bpmn2:targetRef>_DataInput_60</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_20">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_23">stage</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_60</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_24">_DataInput_60</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_61">
         <bpmn2:targetRef>_DataInput_61</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_21">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_24">rhq</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_61</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_25">_DataInput_61</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
@@ -1421,7 +1417,7 @@
         <bpmn2:targetRef>_DataInput_63</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_22">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_25">POST</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_63</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_26">_DataInput_63</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_64">
@@ -1432,14 +1428,14 @@
         <bpmn2:targetRef>_DataInput_65</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_23">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_26">prod</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_65</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_27">_DataInput_65</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_66">
         <bpmn2:targetRef>_DataInput_66</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_24">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_27">rhq</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_66</bpmn2:to>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_28">_DataInput_66</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
@@ -1447,6 +1443,58 @@
     <bpmn2:sequenceFlow id="SequenceFlow_14" drools:priority="1" name="" sourceRef="Task_7" targetRef="_275DAD9E-74F8-4DD7-93A1-BA998A359EAC"/>
     <bpmn2:sequenceFlow id="SequenceFlow_15" drools:priority="1" name="" sourceRef="_8481C119-988D-4943-8B3B-CDF9EC64E366" targetRef="Task_8"/>
     <bpmn2:sequenceFlow id="SequenceFlow_16" drools:priority="1" name="" sourceRef="Task_8" targetRef="_A3637909-40CE-426D-9D28-8D2B1F44A5A4"/>
+    <bpmn2:task id="Task_9" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="UpdateMetaData (InProd)">
+      <bpmn2:incoming>bpmn20:SequenceFlow_17</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_18</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_14">
+        <bpmn2:dataInput id="_DataInput_67" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_68" name="Method"/>
+        <bpmn2:dataInput id="_DataInput_69" name="Name"/>
+        <bpmn2:dataInput id="_DataInput_70" name="Value"/>
+        <bpmn2:dataInput id="_DataInput_71" name="Uuid"/>
+        <bpmn2:inputSet id="_InputSet_14" name="Input Set 14">
+          <bpmn2:dataInputRefs>_DataInput_67</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_68</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_69</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_70</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_71</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_67">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_67</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_68">
+        <bpmn2:targetRef>_DataInput_68</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_25">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_29">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_68</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_69">
+        <bpmn2:targetRef>_DataInput_69</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_26">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_30">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_69</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_70">
+        <bpmn2:targetRef>_DataInput_70</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_27">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_31">http://www.jboss.org/overlord/deployment-status.owl#InProd</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression">_DataInput_70</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_71">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_71</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_17" drools:priority="1" name="" sourceRef="_02FE2758-2074-41A5-A59E-6FE49BEE8DBF" targetRef="Task_9"/>
+    <bpmn2:endEvent id="EndEvent_1" name="">
+      <bpmn2:incoming>bpmn20:SequenceFlow_18</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_18" drools:priority="1" name="" sourceRef="Task_9" targetRef="EndEvent_1"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="_Oi1YcnenEeK6_ZZSVMnKcQ">
     <bpmndi:BPMNPlane id="_Oi1Yc3enEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:overlord.demo.SimpleReleaseProcess">
@@ -1597,13 +1645,6 @@
         <di:waypoint xsi:type="dc:Point" x="877.0" y="455.0"/>
         <di:waypoint xsi:type="dc:Point" x="877.5" y="545.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_Oi1YtXenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_4EF14AA9-6B63-4F2A-84F8-50D1E2005829">
-        <dc:Bounds height="28.0" width="28.0" x="1115.0" y="139.0"/>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="_Oi1YtnenEeK6_ZZSVMnKcQ" bpmnElement="bpmn20:_69483716-CC8C-45C7-828C-167AA3F9CA82">
-        <di:waypoint xsi:type="dc:Point" x="1131.0" y="80.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1129.0" y="153.0"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="BPMNShape_Task_2" bpmnElement="bpmn20:Task_2">
         <dc:Bounds height="40.0" width="193.0" x="30.0" y="285.0"/>
       </bpmndi:BPMNShape>
@@ -1691,6 +1732,20 @@
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_16" bpmnElement="bpmn20:SequenceFlow_16" sourceElement="bpmn20:BPMNShape_Task_8" targetElement="bpmn20:_Oi1YqnenEeK6_ZZSVMnKcQ">
         <di:waypoint xsi:type="dc:Point" x="876.0" y="175.0"/>
         <di:waypoint xsi:type="dc:Point" x="877.0" y="210.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_Task_9" bpmnElement="bpmn20:Task_9">
+        <dc:Bounds height="39.0" width="190.0" x="1036.0" y="135.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_17" bpmnElement="bpmn20:SequenceFlow_17" sourceElement="bpmn20:_Oi1YrXenEeK6_ZZSVMnKcQ" targetElement="bpmn20:BPMNShape_Task_9">
+        <di:waypoint xsi:type="dc:Point" x="1131.0" y="100.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1131.0" y="135.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_1" bpmnElement="bpmn20:EndEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="1113.0" y="214.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_18" bpmnElement="bpmn20:SequenceFlow_18" sourceElement="bpmn20:BPMNShape_Task_9" targetElement="bpmn20:BPMNShape_EndEvent_1">
+        <di:waypoint xsi:type="dc:Point" x="1131.0" y="174.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1131.0" y="214.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
