@@ -511,3 +511,10 @@ footer hr {
 .history-item-icon-new {
   background-image: url(../images/event-new.png);
 }
+
+div.task-form label {
+  font-weight: bold;
+}
+div.task-form label.checkbox, div.task-form label.radio {
+  font-weight: normal;
+}

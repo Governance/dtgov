@@ -65,6 +65,11 @@ public class TaskFormPanel extends HTML {
         $wnd.jQuery(formRoot).find('input[type=radio][name="'+name+'"][value="'+value+'"]').prop('checked', 'true');
         // Handle select
         $wnd.jQuery(formRoot).find('select[name='+name+']').val(value);
+
+        // Handle read-only fields (span, label, etc)
+        $wnd.jQuery(formRoot).find('div[data-name='+name+']').text(value);
+        $wnd.jQuery(formRoot).find('span[data-name='+name+']').text(value);
+        $wnd.jQuery(formRoot).find('label[data-name='+name+']').text(value);
     }-*/;
 
     /**

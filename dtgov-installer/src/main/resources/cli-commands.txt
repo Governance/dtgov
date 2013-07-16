@@ -1,0 +1,2 @@
+connect http://localhost:8080/s-ramp-server admin overlord
+ontology:upload data/deployment-status.owl

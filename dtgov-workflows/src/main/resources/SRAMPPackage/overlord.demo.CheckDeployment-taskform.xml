@@ -1,7 +1,15 @@
 <form>
-	<fieldset>
-		<label>Status</label>
-		<input type="radio" name="Status" value="pass" checked>Pass</input>
-		<input type="radio" name="Status" value="fail">Fail</input>
-	</fieldSet>
+  <fieldset>
+    <label>Deployment UUID</label>
+    <span data-name="DeploymentUuid" />
+    <label>Status</label>
+    <label class="radio">
+      <input type="radio" name="Status" value="pass"></input>
+      Pass
+    </label>
+    <label class="radio">
+      <input type="radio" name="Status" value="fail"></input>
+      Fail
+    </label>
+  </fieldSet>
 </form>
