@@ -1299,9 +1299,9 @@
       <bpmn2:incoming>bpmn20:SequenceFlow_9</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_10</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_InputOutputSpecification_10">
-        <bpmn2:dataInput id="_DataInput_47" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_47" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Url"/>
         <bpmn2:dataInput id="_DataInput_48" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Method"/>
-        <bpmn2:dataInput id="_DataInput_49" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_49" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Uuid"/>
         <bpmn2:dataInput id="_DataInput_50" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Target"/>
         <bpmn2:dataInput id="_DataInput_51" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Type"/>
         <bpmn2:inputSet id="_InputSet_10" name="Input Set 10">
@@ -1348,9 +1348,9 @@
       <bpmn2:incoming>bpmn20:SequenceFlow_11</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_12</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_InputOutputSpecification_11">
-        <bpmn2:dataInput id="_DataInput_52" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_52" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Url"/>
         <bpmn2:dataInput id="_DataInput_53" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Method"/>
-        <bpmn2:dataInput id="_DataInput_54" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_54" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Uuid"/>
         <bpmn2:dataInput id="_DataInput_55" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Target"/>
         <bpmn2:dataInput id="_DataInput_56" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Type"/>
         <bpmn2:inputSet id="_InputSet_11" name="Input Set 11">
@@ -1397,9 +1397,9 @@
       <bpmn2:incoming>bpmn20:SequenceFlow_13</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_14</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_InputOutputSpecification_12">
-        <bpmn2:dataInput id="_DataInput_57" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_57" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Url"/>
         <bpmn2:dataInput id="_DataInput_58" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Method"/>
-        <bpmn2:dataInput id="_DataInput_59" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_59" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Uuid"/>
         <bpmn2:dataInput id="_DataInput_60" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Target"/>
         <bpmn2:dataInput id="_DataInput_61" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Type"/>
         <bpmn2:inputSet id="_InputSet_12" name="Input Set 12">
@@ -1444,9 +1444,9 @@
       <bpmn2:incoming>bpmn20:SequenceFlow_15</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_16</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_InputOutputSpecification_13">
-        <bpmn2:dataInput id="_DataInput_62" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_62" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Url"/>
         <bpmn2:dataInput id="_DataInput_63" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Method"/>
-        <bpmn2:dataInput id="_DataInput_64" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_64" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Uuid"/>
         <bpmn2:dataInput id="_DataInput_65" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Target"/>
         <bpmn2:dataInput id="_DataInput_66" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Type"/>
         <bpmn2:inputSet id="_InputSet_13" name="Input Set 13">
@@ -1495,11 +1495,11 @@
       <bpmn2:incoming>bpmn20:SequenceFlow_17</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_18</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_InputOutputSpecification_14">
-        <bpmn2:dataInput id="_DataInput_67" name="Url"/>
-        <bpmn2:dataInput id="_DataInput_68" name="Method"/>
+        <bpmn2:dataInput id="_DataInput_67" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_68" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Method"/>
         <bpmn2:dataInput id="_DataInput_69" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Name"/>
         <bpmn2:dataInput id="_DataInput_70" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Value"/>
-        <bpmn2:dataInput id="_DataInput_71" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_71" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Uuid"/>
         <bpmn2:inputSet id="_InputSet_14" name="Input Set 14">
           <bpmn2:dataInputRefs>_DataInput_67</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_68</bpmn2:dataInputRefs>
