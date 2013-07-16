@@ -211,7 +211,7 @@ public class Governance {
             }
             if (!hasErrors) {
             	if (Target.TYPE.COPY.toString().equalsIgnoreCase(info[1])) {
-            		Target target = new Target(info[0],info[1]);
+            		Target target = new Target(info[0],info[2]);
             		targets.put(target.getName(), target);
             	} else if (Target.TYPE.RHQ.toString().equalsIgnoreCase(info[1])) {
             		String rhqConfigStr = info[2].replaceAll("\\{rhq.user\\}",    DEFAULT_RHQ_USER)
