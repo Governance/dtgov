@@ -155,5 +155,56 @@
         </plugins>
       </build>
     </profile>
+
+    <!-- Profile to seed S-RAMP with dtgov data -->
+    <profile>
+      <id>seed</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.overlord.sramp</groupId>
+          <artifactId>s-ramp-distro-assembly-cli</artifactId>
+          <version>${s-ramp.version}</version>
+          <type>zip</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.7</version>
+            <dependencies>
+              <dependency>
+                <groupId>ant</groupId>
+                <artifactId>ant-trax</artifactId>
+                <version>1.6.5</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>seed</id>
+                <phase>install</phase>
+                <configuration>
+                  <tasks>
+                    <property name="appserver.id" value="jboss-as-7.1.1.Final" />
+                    <property file="build.properties" />
+                    <property name="dtgov.s-ramp.cli.zip" value="${maven.dependency.org.overlord.sramp.s-ramp-distro-assembly-cli.zip.path}" />
+                    <unzip src="${dtgov.s-ramp.cli.zip}" dest="${project.build.directory}" overwrite="true" />
+                    <property name="dtgov.s-ramp.cli.jar" value="${project.build.directory}/s-ramp-cli-${s-ramp.version}/bin/s-ramp-shell-${s-ramp.version}.jar" />
+                    <ant dir="${basedir}/src/main/resources" antfile="${basedir}/src/main/resources/build.xml">
+                      <target name="seed" />
+                    </ant>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
   </profiles>
 </project>

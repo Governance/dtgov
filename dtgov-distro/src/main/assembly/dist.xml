@@ -22,6 +22,25 @@
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
         </dependencySet>
+        <!-- The S-RAMP CLI -->
+        <dependencySet>
+            <includes>
+                <include>org.overlord.sramp:s-ramp-distro-assembly-cli:zip</include>
+            </includes>
+            <useProjectArtifact>false</useProjectArtifact>
+            <useProjectAttachments>false</useProjectAttachments>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <useTransitiveFiltering>false</useTransitiveFiltering>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <unpack>true</unpack>
+            <unpackOptions>
+              <excludes>
+                <exclude>**/*.bat</exclude>
+                <exclude>**/*.sh</exclude>
+              </excludes>
+            </unpackOptions>
+        </dependencySet>
 		<!-- All of the DTGov WARs -->
 		<dependencySet>
 			<outputDirectory>bin</outputDirectory>
@@ -36,6 +55,20 @@
 			<directoryMode>0755</directoryMode>
 			<fileMode>0755</fileMode>
 		</dependencySet>
+        <!-- The dtgov-workflows KIE archive -->
+        <dependencySet>
+            <outputDirectory>data</outputDirectory>
+            <includes>
+                <include>org.overlord.dtgov:dtgov-workflows:jar</include>
+            </includes>
+            <outputFileNameMapping>${artifact.artifactId}-${project.version}.${artifact.extension}</outputFileNameMapping>
+            <useProjectArtifact>false</useProjectArtifact>
+            <useProjectAttachments>false</useProjectAttachments>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <useTransitiveFiltering>false</useTransitiveFiltering>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+        </dependencySet>
 		<!-- The source archives for all DTGov modules -->
 		<dependencySet>
 			<outputDirectory>src</outputDirectory>
