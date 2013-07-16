@@ -29,7 +29,6 @@ import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
 import org.kie.scanner.MavenRepository;
 import org.overlord.sramp.governance.ConfigException;
 import org.overlord.sramp.governance.Governance;
@@ -45,17 +44,17 @@ public class KieTest {
 
 	/**
 	 * @throws ConfigException
-	 * @throws ComponentLookupException 
-	 * @throws PlexusContainerException 
-	 * @throws UnknownRepositoryLayoutException 
-	 * @throws MalformedURLException 
+	 * @throws ComponentLookupException
+	 * @throws PlexusContainerException
+	 * @throws UnknownRepositoryLayoutException
+	 * @throws MalformedURLException
 	 */
     @Test
 	public void testKieJar() throws ConfigException, UnknownRepositoryLayoutException, PlexusContainerException, ComponentLookupException, MalformedURLException {
-    	
+
     	boolean isSrampRepo = false; // true reads from S-RAMP, false from m2
     	Governance governance = new Governance();
-    	
+
     	String srampUrl = governance.getSrampUrl().toExternalForm();
     	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":"));
     	try {
@@ -64,38 +63,38 @@ public class KieTest {
 	    	if (isSrampRepo) {
 	    		System.out.println("Reading your S-RAMP repo");
 	    		MavenProject srampProject = KieUtil.getSrampProject(
-	    			governance.getSrampWagonVersion(), 
-	    			srampUrl, 
-	    			governance.getSrampWagonSnapshots(), 
+	    			governance.getSrampWagonVersion(),
+	    			srampUrl,
+	    			governance.getSrampWagonSnapshots(),
 	    			governance.getSrampWagonReleases());
 	    		mavenRepo = getMavenRepository(srampProject);
 	    	} else {
 	    		System.out.println("Reading your .m2 repo");
 	    		mavenRepo = getMavenRepository();
 	    	}
-	    	
+
 	    	ReleaseId releaseId = ks.newReleaseId(
 	    			governance.getGovernanceWorkflowGroup(),
 	    			governance.getGovernanceWorkflowName(),
 	    			governance.getGovernanceWorkflowVersion());
-	    	
+
 	        String name = releaseId.toExternalForm();
 	        Artifact artifact = mavenRepo.resolveArtifact(name);
 	    	System.out.println("artifact=" + artifact);
 	    	Assert.assertNotNull(artifact);
-	    	
+
 	    	KieContainer kieContainer = ks.newKieContainer(releaseId);
 	    	Assert.assertNotNull(kieContainer);
-	        
+
 			KieBase kieBase = kieContainer.getKieBase("SRAMPPackage");
 	        Assert.assertNotNull(kieBase);
-	        
+
 	        System.out.println("KieBase=" + kieBase);
     	} catch (Exception e) {
     		e.printStackTrace();
     		Assert.fail(e.getMessage());
     	}
-        
+
 	}
-   
+
 }
