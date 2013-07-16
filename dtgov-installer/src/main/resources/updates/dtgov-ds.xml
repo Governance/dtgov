@@ -2,7 +2,7 @@
 <datasources>
   <datasource jndi-name="java:jboss/datasources/jbpmDS" pool-name="jbpmDS" enabled="true"
     use-java-context="true">
-    <connection-url>jdbc:h2:~/test;mvcc=true</connection-url>
+    <connection-url>jdbc:h2:${jboss.server.data.dir}${/}h2${/}dtgov;mvcc=true</connection-url>
     <driver>h2</driver>
     <security>
       <user-name>sa</user-name>
