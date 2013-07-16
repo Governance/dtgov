@@ -117,4 +117,32 @@
   <target name="config-appserver" depends="config-jboss-as-7.1.1.Final, config-jboss-eap-6.1">
   </target>
 
+
+  <!-- Seed the s-ramp repository with required data -->
+  <target name="seed" depends="all-properties">
+    <echo message=" " />
+    <echo message="##############################################" />
+    <echo message="# Adding DTGov specific seed data to the     #" />
+    <echo message="# S-RAMP repository.                         #" />
+    <echo message="##############################################" />
+    <echo message=" " />
+
+    <property name="dtgov.s-ramp.cli.jar" value="bin/s-ramp-shell.jar" />
+    <property name="dtgov.s-ramp.cli.commands" value="cli-commands.txt" />
+
+    <echo message="CLI Jar: ${dtgov.s-ramp.cli.jar} " />
+    <echo message="CLI Commands: ${dtgov.s-ramp.cli.commands} " />
+
+    <java jar="${dtgov.s-ramp.cli.jar}" fork="true">
+      <arg value="-f" />
+      <arg value="${dtgov.s-ramp.cli.commands}" />
+    </java>
+    
+    <echo message=" " />
+    <echo message="########" />
+    <echo message="# DONE #" />
+    <echo message="########" />
+    <echo message=" " />
+  </target>
+
 </project>

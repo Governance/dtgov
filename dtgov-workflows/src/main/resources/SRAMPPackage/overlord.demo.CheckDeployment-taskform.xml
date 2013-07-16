@@ -1,7 +1,19 @@
 <form>
 	<fieldset>
+		<label>Summary</label>
+		<div>
+		    You are being asked to validate the status of deployment <span data-name="DeploymentName" />.
+		    This deployment has been deployed to the <span data-name="Environment" /> environment and it's
+		    your job to test it and make sure everything looks good!
+		</div>
 		<label>Status</label>
-		<input type="radio" name="Status" value="pass" checked>Pass</input>
-		<input type="radio" name="Status" value="fail">Fail</input>
+        <label class="radio">
+            <input type="radio" name="Status" value="pass"></input>
+            Pass
+        </label>
+        <label class="radio">
+            <input type="radio" name="Status" value="fail"></input>
+            Fail
+        </label>
 	</fieldSet>
 </form>
