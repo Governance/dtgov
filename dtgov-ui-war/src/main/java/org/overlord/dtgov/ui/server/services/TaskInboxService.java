@@ -126,10 +126,10 @@ public class TaskInboxService implements ITaskInboxService {
      */
     private String getTaskForm(TaskBean task) throws Exception {
     	String taskFormName = null;
-    	if (task.getTaskData()!=null) {
+    	if (task.getTaskData() != null) {
     		taskFormName = task.getTaskData().get("TaskName") + "-taskform.xml";
     	}
-    	if (taskFormName!=null) {
+    	if (taskFormName != null) {
 	        SrampAtomApiClient client = srampClientAccessor.getClient();
 	        QueryResultSet resultSet = client.buildQuery("/s-ramp/core/XmlDocument[@name = ?]")
 	                .parameter(taskFormName)

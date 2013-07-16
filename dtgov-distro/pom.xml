@@ -28,6 +28,14 @@
       <type>war</type>
     </dependency>
     
+    <!-- S-RAMP CLI (used during installation/seeding) -->
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-distro-assembly-cli</artifactId>
+      <version>${s-ramp.version}</version>
+      <type>zip</type>
+    </dependency>
+    
     <!-- DTGov Installer -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
