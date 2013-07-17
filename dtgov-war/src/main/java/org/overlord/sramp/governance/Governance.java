@@ -127,7 +127,7 @@ public class Governance {
     public String getBpmPassword() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
     }
-    
+
     public String getOverlordUser() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_USER, DEFAULT_GOVERNANCE_USER);
     }
@@ -135,7 +135,7 @@ public class Governance {
     public String getOverlordPassword() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
     }
-    
+
     public String getRhqUser() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_RHQ_USER, DEFAULT_RHQ_USER);
     }
@@ -190,7 +190,7 @@ public class Governance {
     public String getGovernanceUrl() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_URL, "http://localhost:8080/dtgov");
     }
-    
+
     /**
      * This returns the DTGovUiURL, which by default is http://localhost:8080/s-ramp-server
      */
@@ -217,9 +217,9 @@ public class Governance {
             		String rhqConfigStr = info[2].replaceAll("\\{rhq.user\\}",    DEFAULT_RHQ_USER)
             									 .replaceAll("\\{rhq.password\\}",DEFAULT_RHQ_PASSWORD)
             									 .replaceAll("\\{rhq.baseUrl\\}", DEFAULT_RHQ_BASEURL);
-            				
+
             		String[] rhqConfig = rhqConfigStr.split("\\:\\:");
-            		
+
             		Target target = new Target(info[0],rhqConfig[0], rhqConfig[1], rhqConfig[2]);
             		targets.put(target.getName(), target);
             	} else if (Target.TYPE.AS_CLI.toString().equalsIgnoreCase(info[1])) {
@@ -301,33 +301,33 @@ public class Governance {
     public String getDefaultEmailFromAddress() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_EMAIL_FROM, DEFAULT_EMAIL_FROM);
     }
-    
+
     public String getSrampWagonVersion() {
         return Release.getVersionFromManifest(GovernanceConstants.SRAMP_WAGON_JAR);
     }
-    
+
     public Boolean getSrampWagonSnapshots() {
         return configuration.getBoolean(GovernanceConstants.SRAMP_WAGON_SNAPSHOTS, true);
     }
-    
+
     public Boolean getSrampWagonReleases() {
         return configuration.getBoolean(GovernanceConstants.SRAMP_WAGON_RELEASES, true);
     }
-    
+
     public String getGovernanceWorkflowGroup() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_GROUP, DEFAULT_GOVERNANCE_WORKFLOW_GROUP);
     }
-    
+
     public String getGovernanceWorkflowName() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_NAME, DEFAULT_GOVERNANCE_WORKFLOW_NAME);
     }
-    
+
     public String getGovernanceWorkflowVersion() {
-    	String defaultDtGovVersion = Release.getVersionFromManifest(GovernanceConstants.GOVERNANCE_DTGOV);
+    	String defaultDtGovVersion = Release.getGovernanceVersion();
     	if (defaultDtGovVersion==null || defaultDtGovVersion.equals("unknown")) defaultDtGovVersion = DEFAULT_GOVERNANCE_WORKFLOW_VERSION;
         return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_VERSION, defaultDtGovVersion);
     }
-    
+
     public String getGovernanceWorkflowPackage() {
         return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_PACKAGE, DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE);
     }
