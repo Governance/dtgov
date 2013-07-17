@@ -154,4 +154,15 @@ public class DeploymentResourceTest extends BaseResourceTest {
         } 
 		
 	}
+	
+	@Test @Ignore
+	public void testMaven() throws Exception {
+		//When given a jar that has maven properties it will try to 
+		//find it's accompanied pom and upload both to the repo.
+		DeploymentResource dr = new DeploymentResource();
+		dr.maven(null, "maven_example", "9c078afe-5c1b-4d9d-842b-d647c4ee848b");
+		
+		
+	}
+	
 }
