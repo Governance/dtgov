@@ -1,8 +1,0 @@
-connect http://localhost:8080/s-ramp-server admin overlord
-ontology:upload data/deployment-status.owl
-upload data/dtgov-workflows-${project.version}.jar
-property set maven.groupId ${project.groupId}
-property set maven.artifactId dtgov-workflows
-property set maven.version ${project.version}
-property set maven.type jar
-updateMetaData
