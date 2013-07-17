@@ -1,4 +1,4 @@
-
+#dtgov.workflows.version=${project.version}
 governance.queries=/s-ramp/ext/SwitchyardApplication|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/rest/deploy/{type}/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}::DTGovUrl={dtgov.ui.url}
 governance.queries=/s-ramp/ext/MavenPom[@maven.artifactId='project']|overlord.demo.ProjectLifeCycle|UpdateMetaDataUrl={governance.url}/rest/update/project/relatedto/{uuid}::DTGovUrl={dtgov.ui.url}
 governance.targets=  dev|copy|/tmp/dev/jbossas7/standalone/deployments
