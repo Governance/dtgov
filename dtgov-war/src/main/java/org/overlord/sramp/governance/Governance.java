@@ -222,6 +222,14 @@ public class Governance {
             		
             		Target target = new Target(info[0],rhqConfig[0], rhqConfig[1], rhqConfig[2]);
             		targets.put(target.getName(), target);
+            	} else if (Target.TYPE.AS_CLI.toString().equalsIgnoreCase(info[1])) {
+            		String[] cliConfig = info[2].split("\\:\\:");
+            		Target target = new Target(info[0],cliConfig[0], cliConfig[1], cliConfig[2], Integer.valueOf(cliConfig[3]));
+            		targets.put(target.getName(), target);
+            	} else if (Target.TYPE.MAVEN.toString().equalsIgnoreCase(info[1])) {
+            		String[] mvnConfig = info[2].split("\\:\\:");
+            		Target target = new Target(info[0],mvnConfig[0], Boolean.parseBoolean(mvnConfig[1]), Boolean.parseBoolean(mvnConfig[2]));
+            		targets.put(target.getName(), target);
             	}
             }
         }
