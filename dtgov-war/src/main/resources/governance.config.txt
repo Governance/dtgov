@@ -5,3 +5,5 @@ governance.targets=  dev|copy|/tmp/dev/jbossas7/standalone/deployments
 governance.targets=   qa|copy|/tmp/qa/jbossas7/standalone/deployments
 governance.targets=stage|rhq|{rhq.user}::{rhq.password}::{rhq.baseUrl}
 governance.targets= prod|rhq|{rhq.user}::{rhq.password}::{rhq.baseUrl}
+#governance.targets= cli_example |cli|asuser::aspassword::ashost::asport
+#governance.targets= maven_example|maven|scp://m2.example.com/m2/snapshot-repository::false::true

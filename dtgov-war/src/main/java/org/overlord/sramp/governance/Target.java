@@ -17,7 +17,7 @@ package org.overlord.sramp.governance;
 
 public class Target {
 
-	public enum TYPE {COPY, RHQ, AS_CLI};
+	public enum TYPE {COPY, RHQ, AS_CLI, MAVEN};
 	
     public Target(String name, String deployDir) {
         super();
@@ -75,9 +75,16 @@ public class Target {
         } else {
         	this.rhqBaseUrl = rhqBaseUrl;
         	this.port = 7080;
-        }
-        
-             		
+        }    		
+    }
+    
+    public Target(String name, String mavenUrl, boolean isReleaseEnabled, boolean isSnapshotEnabled ) {
+        super();
+        this.name = name;
+        this.type = TYPE.MAVEN;
+        this.mavenUrl = mavenUrl;
+        this.setReleaseEnabled(isReleaseEnabled);
+        this.setSnapshotEnabled(isSnapshotEnabled);
     }
 
     public String getHost() {
@@ -96,6 +103,9 @@ public class Target {
     private String rhqBaseUrl;
     private String host;
     private Integer port;
+    private String mavenUrl;
+    private boolean isReleaseEnabled;
+    private boolean isSnapshotEnabled;
     
     public TYPE getType() {
 		return type;
@@ -157,4 +167,30 @@ public class Target {
     public String toString() {
         return "Name=" + name + "\nDeployDir=" + deployDir;
     }
+
+	public String getMavenUrl() {
+		return mavenUrl;
+	}
+
+	public void setMavenUrl(String mavenUrl) {
+		this.mavenUrl = mavenUrl;
+	}
+
+	public boolean isReleaseEnabled() {
+		return isReleaseEnabled;
+	}
+
+	public void setReleaseEnabled(boolean isReleaseEnabled) {
+		this.isReleaseEnabled = isReleaseEnabled;
+	}
+
+	public boolean isSnapshotEnabled() {
+		return isSnapshotEnabled;
+	}
+
+	public void setSnapshotEnabled(boolean isSnapshotEnabled) {
+		this.isSnapshotEnabled = isSnapshotEnabled;
+	}
+
+	
 }
