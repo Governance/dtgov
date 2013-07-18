@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.sramp.governance.workflow.jbpm;
+package org.overlord.dtgov.jbpm.util;
 
 import org.junit.Test;
+import org.overlord.dtgov.jbpm.util.SrampWagonProxy;
 
 /**
  * Simple unit test for the wagon wrapper.
@@ -25,7 +26,7 @@ import org.junit.Test;
 public class SrampWagonProxyTest {
 
     /**
-     * Test method for {@link org.overlord.sramp.governance.workflow.jbpm.SrampWagonProxy#SrampWagonProxy()}.
+     * Test method for {@link org.overlord.dtgov.jbpm.util.SrampWagonProxy#SrampWagonProxy()}.
      */
     @Test
     public void testSrampWagonProxy() {
