@@ -16,7 +16,7 @@
 
 package org.overlord.dtgov.jbpm.util;
 
-import static org.kie.scanner.MavenRepository.getMavenRepository;
+import static org.overlord.dtgov.jbpm.util.MavenRepository.getMavenRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -37,7 +37,6 @@ import org.kie.internal.runtime.manager.cdi.qualifier.PerProcessInstance;
 import org.kie.internal.runtime.manager.cdi.qualifier.PerRequest;
 import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.task.api.UserGroupCallback;
-import org.kie.scanner.MavenRepository;
 import org.overlord.sramp.governance.Governance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,7 +101,7 @@ public class ApplicationScopedProducer {
 	    			governance.getSrampWagonReleases());
 	    	
 	    	//Setup S-RAMP as the Maven Repository
-	    	MavenRepository repo = getMavenRepository(srampProject);
+	    	org.overlord.dtgov.jbpm.util.MavenRepository repo = getMavenRepository(srampProject);
 	    	
 	    	ReleaseId releaseId = ks.newReleaseId(
 	    			governance.getGovernanceWorkflowGroup(),
