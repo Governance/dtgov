@@ -8,7 +8,7 @@ Here are the steps you need to follow to get everything working.  For a more
 detailed set of instructions, see the "Overview" section below.
 
     1) Download JBoss EAP 6.1
-    2) Download the ModeShape EAP distribution
+    2) Download the ModeShape 3.2.0.Final EAP distribution
     3) Download S-RAMP distribution
     4) Unpack S-RAMP distribution
     5) Copy the EAP download into the unpacked S-RAMP distro
@@ -110,3 +110,4 @@ You should be able to log in with the following credentials:
 
     Username: gary
     Password: gary
+
