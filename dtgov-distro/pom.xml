@@ -89,6 +89,14 @@
       <version>${project.version}</version>
       <classifier>sources</classifier>
     </dependency>
+    
+    <!-- DTGov documentation (jdocbook) -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-wiki</artifactId>
+      <version>${project.version}</version>
+      <type>jdocbook</type>
+    </dependency>
   </dependencies>
 
   <build>
