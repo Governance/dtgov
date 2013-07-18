@@ -82,6 +82,25 @@
 			<directoryMode>0755</directoryMode>
 			<fileMode>0755</fileMode>
 		</dependencySet>
+        <!-- The DTGov documentation -->
+        <dependencySet>
+            <outputDirectory>docs</outputDirectory>
+            <includes>
+                <include>org.overlord.dtgov:dtgov-wiki:jdocbook</include>
+            </includes>
+            <useProjectArtifact>false</useProjectArtifact>
+            <useProjectAttachments>false</useProjectAttachments>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <useTransitiveFiltering>false</useTransitiveFiltering>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <unpack>true</unpack>
+            <unpackOptions>
+              <excludes>
+                <exclude>**/META-INF/**</exclude>
+              </excludes>
+            </unpackOptions>
+        </dependencySet>
         <!-- The DTGov Installer -->
         <dependencySet>
             <includes>
