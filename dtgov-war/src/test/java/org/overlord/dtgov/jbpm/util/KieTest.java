@@ -15,7 +15,7 @@
  */
 package org.overlord.dtgov.jbpm.util;
 
-import static org.kie.scanner.MavenRepository.getMavenRepository;
+import static org.overlord.dtgov.jbpm.util.MavenRepository.getMavenRepository;
 
 import java.net.MalformedURLException;
 
@@ -29,7 +29,6 @@ import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
-import org.kie.scanner.MavenRepository;
 import org.overlord.sramp.governance.ConfigException;
 import org.overlord.sramp.governance.Governance;
 import org.sonatype.aether.artifact.Artifact;
@@ -58,7 +57,7 @@ public class KieTest {
     	String srampUrl = governance.getSrampUrl().toExternalForm();
     	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":"));
     	try {
-    		MavenRepository mavenRepo = null;
+    		org.overlord.dtgov.jbpm.util.MavenRepository mavenRepo = null;
 	    	KieServices ks = KieServices.Factory.get();
 	    	if (isSrampRepo) {
 	    		System.out.println("Reading your S-RAMP repo");
@@ -67,6 +66,7 @@ public class KieTest {
 	    			srampUrl,
 	    			governance.getSrampWagonSnapshots(),
 	    			governance.getSrampWagonReleases());
+	    		
 	    		mavenRepo = getMavenRepository(srampProject);
 	    	} else {
 	    		System.out.println("Reading your .m2 repo");
