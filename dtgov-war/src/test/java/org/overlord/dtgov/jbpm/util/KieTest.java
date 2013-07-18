@@ -66,7 +66,7 @@ public class KieTest {
 	    			srampUrl,
 	    			governance.getSrampWagonSnapshots(),
 	    			governance.getSrampWagonReleases());
-	    		
+
 	    		mavenRepo = getMavenRepository(srampProject);
 	    	} else {
 	    		System.out.println("Reading your .m2 repo");

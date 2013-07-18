@@ -1,10 +1,16 @@
 package org.overlord.dtgov.jbpm.util;
 
+import static org.kie.scanner.embedder.MavenProjectLoader.loadMavenProject;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.repository.internal.DefaultServiceLocator;
 import org.apache.maven.repository.internal.MavenRepositorySystemSession;
 import org.apache.maven.wagon.Wagon;
-import org.overlord.sramp.wagon.SrampWagon;
 import org.sonatype.aether.RepositorySystem;
 import org.sonatype.aether.RepositorySystemSession;
 import org.sonatype.aether.connector.file.FileRepositoryConnectorFactory;
@@ -16,18 +22,11 @@ import org.sonatype.aether.spi.connector.RepositoryConnectorFactory;
 import org.sonatype.aether.util.DefaultRepositorySystemSession;
 import org.sonatype.maven.wagon.AhcWagon;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.kie.scanner.embedder.MavenProjectLoader.loadMavenProject;
-
 /**
  * This class contains a fix in the ManualWagonProvider to register the SrampWagon
  * and once the drools team comes up with support for custom Wagons this class
  * will be removed.
- * 
+ *
  * @author kstam
  *
  */
@@ -122,16 +121,18 @@ public class Aether {
 
     private static class ManualWagonProvider implements WagonProvider {
 
+        @Override
         public Wagon lookup( String roleHint ) throws Exception {
             if ( "http".equals( roleHint ) ) {
                 return new AhcWagon();
             }
             if ( "sramp".equals( roleHint ) ) {
-                return new SrampWagon();
+                return new SrampWagonProxy();
             }
             return null;
         }
 
+        @Override
         public void release( Wagon wagon ) { }
     }
 }
