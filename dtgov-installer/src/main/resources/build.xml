@@ -130,9 +130,6 @@
     <property name="dtgov.s-ramp.cli.jar" value="bin/s-ramp-shell.jar" />
     <property name="dtgov.s-ramp.cli.commands" value="cli-commands.txt" />
 
-    <echo message="CLI Jar: ${dtgov.s-ramp.cli.jar} " />
-    <echo message="CLI Commands: ${dtgov.s-ramp.cli.commands} " />
-
     <java jar="${dtgov.s-ramp.cli.jar}" fork="true">
       <arg value="-f" />
       <arg value="${dtgov.s-ramp.cli.commands}" />
