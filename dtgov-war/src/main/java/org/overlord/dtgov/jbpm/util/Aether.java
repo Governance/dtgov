@@ -30,6 +30,7 @@ import org.sonatype.maven.wagon.AhcWagon;
  * @author kstam
  *
  */
+@SuppressWarnings("deprecation")
 public class Aether {
 
     private static final String M2_REPO = System.getProperty( "user.home" ) + "/.m2/repository";
