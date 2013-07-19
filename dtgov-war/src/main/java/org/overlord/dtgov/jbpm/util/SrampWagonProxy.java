@@ -16,9 +16,16 @@
 package org.overlord.dtgov.jbpm.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.StringReader;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.TransferFailedException;
@@ -33,6 +40,7 @@ import org.apache.maven.wagon.proxy.ProxyInfoProvider;
 import org.apache.maven.wagon.repository.Repository;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.logging.console.ConsoleLogger;
+import org.overlord.sramp.governance.Governance;
 import org.overlord.sramp.wagon.SrampWagon;
 
 /**
@@ -45,7 +53,31 @@ import org.overlord.sramp.wagon.SrampWagon;
  */
 public class SrampWagonProxy implements Wagon {
 
+    private static final String MAVEN_META_DATA = "\r\n" +
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
+            "<metadata modelVersion=\"1.1.0\">\r\n" +
+            "  <groupId>GROUP_ID</groupId>\r\n" +
+            "  <artifactId>ARTIFACT_ID</artifactId>\r\n" +
+            "  <version>VERSION</version>\r\n" +
+            "  <versioning>\r\n" +
+            "    <snapshot>\r\n" +
+            "      <timestamp>LAST_MODIFIED_TIME</timestamp>\r\n" +
+            "      <buildNumber>1</buildNumber>\r\n" +
+            "    </snapshot>\r\n" +
+            "    <lastUpdated>20130718220725</lastUpdated>\r\n" +
+            "    <snapshotVersions>\r\n" +
+            "      <snapshotVersion>\r\n" +
+            "        <extension>jar</extension>\r\n" +
+            "        <value>VERSION-1</value>\r\n" +
+            "        <updated>LAST_MODIFIED_TIME</updated>\r\n" +
+            "      </snapshotVersion>\r\n" +
+            "    </snapshotVersions>\r\n" +
+            "  </versioning>\r\n" +
+            "</metadata>\r\n" +
+            "";
+
     private SrampWagon delegate;
+    private Date wagonDate = new Date();
 
     /**
      * Constructor.
@@ -77,6 +109,20 @@ public class SrampWagonProxy implements Wagon {
     @Override
     public void get(String resourceName, File destination) throws TransferFailedException,
             ResourceDoesNotExistException, AuthorizationException {
+        if (resourceName.endsWith("maven-metadata.xml")) {
+            OutputStream out = null;
+            try {
+                out = new FileOutputStream(destination);
+                String xml = generateMavenMetaData();
+                StringReader in = new StringReader(xml);
+                IOUtils.copy(in, out);
+                return;
+            } catch (Exception e) {
+                throw new TransferFailedException(e.getMessage(), e);
+            } finally {
+                IOUtils.closeQuietly(out);
+            }
+        }
         delegate.get(resourceName, destination);
     }
 
@@ -86,6 +132,20 @@ public class SrampWagonProxy implements Wagon {
     @Override
     public boolean getIfNewer(String resourceName, File destination, long timestamp)
             throws TransferFailedException, ResourceDoesNotExistException, AuthorizationException {
+        if (resourceName.endsWith("maven-metadata.xml")) {
+            OutputStream out = null;
+            try {
+                out = new FileOutputStream(destination);
+                String xml = generateMavenMetaData();
+                StringReader in = new StringReader(xml);
+                IOUtils.copy(in, out);
+                return true;
+            } catch (Exception e) {
+                throw new TransferFailedException(e.getMessage(), e);
+            } finally {
+                IOUtils.closeQuietly(out);
+            }
+        }
         return delegate.getIfNewer(resourceName, destination, timestamp);
     }
 
@@ -112,7 +172,7 @@ public class SrampWagonProxy implements Wagon {
      */
     @Override
     public boolean resourceExists(String resourceName) throws TransferFailedException, AuthorizationException {
-        return delegate.resourceExists(resourceName);
+        return true;
     }
 
     /**
@@ -306,4 +366,18 @@ public class SrampWagonProxy implements Wagon {
         delegate.setInteractive(interactive);
     }
 
+    /**
+     * Generates a maven-metadata.xml.
+     */
+    protected String generateMavenMetaData() {
+        Governance governance = new Governance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd.hhmmss");
+        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String tstamp = df.format(wagonDate);
+        return MAVEN_META_DATA
+                .replace("VERSION", governance.getGovernanceWorkflowVersion())
+                .replace("ARTIFACT_ID", governance.getGovernanceWorkflowName())
+                .replace("GROUP_ID", governance.getGovernanceWorkflowGroup())
+                .replace("LAST_MODIFIED_TIME", tstamp);
+    }
 }
