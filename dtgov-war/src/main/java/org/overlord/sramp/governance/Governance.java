@@ -15,6 +15,7 @@
  */
 package org.overlord.sramp.governance;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import java.util.Set;
 
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
@@ -50,37 +52,92 @@ public class Governance {
     public static String DEFAULT_RHQ_PASSWORD = "rhqadmin";
     public static String DEFAULT_RHQ_BASEURL = "http://localhost:7080";
 
-    public Governance() {
-        super();
-        if (configuration == null) {
-            read();
-        }
-    }
-
-    private Configuration configuration = null;
-
-    protected synchronized void read() {
+    private static CompositeConfiguration configuration;
+    static {
+        configuration = new CompositeConfiguration();
+        configuration.addConfiguration(new SystemConfiguration());
+        String configFile = configuration.getString(GovernanceConstants.GOVERNANCE_FILE_NAME);
+        Long refreshDelay = configuration.getLong(GovernanceConstants.GOVERNANCE_FILE_REFRESH, 30000l);
+        URL url = findDtgovConfig(configFile);
         try {
-            CompositeConfiguration config = new CompositeConfiguration();
-            config.addConfiguration(new SystemConfiguration());
-            //config.addConfiguration(new JNDIConfiguration("java:comp/env/overlord/s-ramp"));
-            String configFile = config.getString(GovernanceConstants.GOVERNANCE_FILE_NAME, "governance.config.txt");
-            Long refreshDelay = config.getLong(GovernanceConstants.GOVERNANCE_FILE_REFRESH, 5000l);
-            URL url = Governance.class.getClassLoader().getResource(configFile);
-            if (url==null) {
-                log.warn("Cannot find " + configFile);
-            } else {
+            if (url != null) {
                 PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration(url);
                 FileChangedReloadingStrategy fileChangedReloadingStrategy = new FileChangedReloadingStrategy();
                 fileChangedReloadingStrategy.setRefreshDelay(refreshDelay);
                 propertiesConfiguration.setReloadingStrategy(fileChangedReloadingStrategy);
-                config.addConfiguration(propertiesConfiguration);
+                configuration.addConfiguration(propertiesConfiguration);
             }
-            configuration = config;
-        } catch (Exception e) {
-            e.printStackTrace();
+            configuration.addConfiguration(new PropertiesConfiguration(Governance.class.getClassLoader().getResource("governance.config.txt")));
+        } catch (ConfigurationException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Try to find the dtgov-ui.properties configuration file.  This will look for the
+     * config file in a number of places, depending on the value for 'config file'
+     * found on the system properties.
+     * @param configFile
+     * @throws MalformedURLException
+     */
+    private static URL findDtgovConfig(String configFile) {
+        try {
+            // If a config file was given (via system properties) then try to
+            // find it.  If not, then look for a 'standard' config file.
+            if (configFile != null) {
+                // Check on the classpath
+                URL fromClasspath = Governance.class.getClassLoader().getResource(configFile);
+                if (fromClasspath != null)
+                    return fromClasspath;
+
+                // Check on the file system
+                File file = new File(configFile);
+                if (file.isFile())
+                    return file.toURI().toURL();
+            } else {
+                // Check the current user's home directory
+                String userHomeDir = System.getProperty("user.home");
+                if (userHomeDir != null) {
+                    File dirFile = new File(userHomeDir);
+                    if (dirFile.isDirectory()) {
+                        File cfile = new File(dirFile, "dtgov.properties");
+                        if (cfile.isFile())
+                            return cfile.toURI().toURL();
+                    }
+                }
+
+                // Next, check for JBoss
+                String jbossConfigDir = System.getProperty("jboss.server.config.dir");
+                if (jbossConfigDir != null) {
+                    File dirFile = new File(jbossConfigDir);
+                    if (dirFile.isDirectory()) {
+                        File cfile = new File(dirFile, "dtgov.properties");
+                        if (cfile.isFile())
+                            return cfile.toURI().toURL();
+                    }
+                }
+                String jbossConfigUrl = System.getProperty("jboss.server.config.url");
+                if (jbossConfigUrl != null) {
+                    File dirFile = new File(jbossConfigUrl);
+                    if (dirFile.isDirectory()) {
+                        File cfile = new File(dirFile, "dtgov.properties");
+                        if (cfile.isFile())
+                            return cfile.toURI().toURL();
+                    }
+                }
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public Governance() {
+        super();
+    }
+
+    protected Configuration getConfiguration() {
+        return configuration;
     }
 
     public String validate() throws ConfigException {
@@ -121,50 +178,50 @@ public class Governance {
     }
 
     public String getBpmUser() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_USER, DEFAULT_GOVERNANCE_USER);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_BPM_USER, DEFAULT_GOVERNANCE_USER);
     }
 
     public String getBpmPassword() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_BPM_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_BPM_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
     }
 
     public String getOverlordUser() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_USER, DEFAULT_GOVERNANCE_USER);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_USER, DEFAULT_GOVERNANCE_USER);
     }
 
     public String getOverlordPassword() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
     }
 
     public String getRhqUser() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_RHQ_USER, DEFAULT_RHQ_USER);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_RHQ_USER, DEFAULT_RHQ_USER);
     }
 
     public String getRhqPassword() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_RHQ_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_RHQ_PASSWORD, DEFAULT_GOVERNANCE_PASSWORD);
     }
 
     public URL getBpmUrl() throws MalformedURLException {
-        return new URL(configuration.getString(GovernanceConstants.GOVERNANCE_BPM_URL, "http://localhost:8080/gwt-console-server"));
+        return new URL(getConfiguration().getString(GovernanceConstants.GOVERNANCE_BPM_URL, "http://localhost:8080/gwt-console-server"));
     }
 
     /**
      * This returns the baseURL, which by default is http://localhost:8080/s-ramp-server
      */
     public URL getSrampUrl() throws MalformedURLException {
-        return new URL(configuration.getString(GovernanceConstants.SRAMP_REPO_URL, "http://localhost:8080/s-ramp-server"));
+        return new URL(getConfiguration().getString(GovernanceConstants.SRAMP_REPO_URL, "http://localhost:8080/s-ramp-server"));
     }
 
     public String getSrampUser() {
-        return configuration.getString(GovernanceConstants.SRAMP_REPO_USER, "admin");
+        return getConfiguration().getString(GovernanceConstants.SRAMP_REPO_USER, "admin");
     }
 
     public String getSrampPassword() {
-        return configuration.getString(GovernanceConstants.SRAMP_REPO_PASSWORD, "overlord");
+        return getConfiguration().getString(GovernanceConstants.SRAMP_REPO_PASSWORD, "overlord");
     }
 
     public Class<?> getSrampAuthProvider() throws Exception {
-        String authProviderClassName = configuration.getString(
+        String authProviderClassName = getConfiguration().getString(
                 GovernanceConstants.SRAMP_REPO_AUTH_PROVIDER,
                 org.overlord.sramp.governance.auth.BasicAuthenticationProvider.class.getName());
         if (authProviderClassName == null)
@@ -173,34 +230,34 @@ public class Governance {
     }
 
     public boolean getSrampValidating() throws Exception {
-        return "true".equals(configuration.getString(GovernanceConstants.SRAMP_REPO_VALIDATING, "false"));
+        return "true".equals(getConfiguration().getString(GovernanceConstants.SRAMP_REPO_VALIDATING, "false"));
     }
 
     public String getSrampSamlIssuer() {
-        return configuration.getString(GovernanceConstants.SRAMP_REPO_SAML_ISSUER, "/dtgov");
+        return getConfiguration().getString(GovernanceConstants.SRAMP_REPO_SAML_ISSUER, "/dtgov");
     }
 
     public String getSrampSamlService() {
-        return configuration.getString(GovernanceConstants.SRAMP_REPO_SAML_SERVICE, "/s-ramp-server");
+        return getConfiguration().getString(GovernanceConstants.SRAMP_REPO_SAML_SERVICE, "/s-ramp-server");
     }
 
     /**
      * This returns the governance baseURL, which by default is http://localhost:8080/s-ramp-server
      */
     public String getGovernanceUrl() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_URL, "http://localhost:8080/dtgov");
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_URL, "http://localhost:8080/dtgov");
     }
 
     /**
      * This returns the DTGovUiURL, which by default is http://localhost:8080/s-ramp-server
      */
     public String getDTGovUiUrl() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_UI, "http://localhost:8080/dtgov-ui");
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_UI, "http://localhost:8080/dtgov-ui");
     }
 
     public Map<String,Target> getTargets() throws ConfigException {
         Map<String,Target> targets = new HashMap<String,Target>();
-        String[] targetStrings = configuration.getStringArray(GovernanceConstants.GOVERNANCE_TARGETS);
+        String[] targetStrings = getConfiguration().getStringArray(GovernanceConstants.GOVERNANCE_TARGETS);
         StringBuffer errors = new StringBuffer(TARGET_ERROR);
         boolean hasErrors = false;
         for (String targetString : targetStrings) {
@@ -241,7 +298,7 @@ public class Governance {
 
     public Set<Query> getQueries() throws ConfigException {
         Set<Query> queries = new HashSet<Query>();
-        String[] queryStrings = configuration.getStringArray(GovernanceConstants.GOVERNANCE_QUERIES);
+        String[] queryStrings = getConfiguration().getStringArray(GovernanceConstants.GOVERNANCE_QUERIES);
         StringBuffer errors = new StringBuffer(QUERY_ERROR);
         boolean hasErrors = false;
         for (String queryString : queryStrings) {
@@ -266,7 +323,7 @@ public class Governance {
 
     public Map<String,NotificationDestinations> getNotificationDestinations(String channel) throws ConfigException {
         Map<String,NotificationDestinations> destinationMap = new HashMap<String,NotificationDestinations>();
-        String[] destinationStrings = configuration.getStringArray(GovernanceConstants.GOVERNANCE + channel);
+        String[] destinationStrings = getConfiguration().getStringArray(GovernanceConstants.GOVERNANCE + channel);
         StringBuffer errors = new StringBuffer(NOTIFICATION_ERROR);
         boolean hasErrors = false;
         for (String destinationString : destinationStrings) {
@@ -287,19 +344,19 @@ public class Governance {
     }
 
     public long getQueryInterval() {
-        return configuration.getLong(GovernanceConstants.GOVERNANCE_QUERY_INTERVAL, 300000l); //5 min default
+        return getConfiguration().getLong(GovernanceConstants.GOVERNANCE_QUERY_INTERVAL, 300000l); //5 min default
     }
 
     public String getJNDIEmailName() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_JNDI_EMAIL_REF, DEFAULT_JNDI_EMAIL_REF);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_JNDI_EMAIL_REF, DEFAULT_JNDI_EMAIL_REF);
     }
 
     public String getDefaultEmailDomain() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_EMAIL_DOMAIN, DEFAULT_EMAIL_DOMAIN);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_EMAIL_DOMAIN, DEFAULT_EMAIL_DOMAIN);
     }
 
     public String getDefaultEmailFromAddress() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_EMAIL_FROM, DEFAULT_EMAIL_FROM);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_EMAIL_FROM, DEFAULT_EMAIL_FROM);
     }
 
     public String getSrampWagonVersion() {
@@ -307,28 +364,28 @@ public class Governance {
     }
 
     public Boolean getSrampWagonSnapshots() {
-        return configuration.getBoolean(GovernanceConstants.SRAMP_WAGON_SNAPSHOTS, true);
+        return getConfiguration().getBoolean(GovernanceConstants.SRAMP_WAGON_SNAPSHOTS, true);
     }
 
     public Boolean getSrampWagonReleases() {
-        return configuration.getBoolean(GovernanceConstants.SRAMP_WAGON_RELEASES, true);
+        return getConfiguration().getBoolean(GovernanceConstants.SRAMP_WAGON_RELEASES, true);
     }
 
     public String getGovernanceWorkflowGroup() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_GROUP, DEFAULT_GOVERNANCE_WORKFLOW_GROUP);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_GROUP, DEFAULT_GOVERNANCE_WORKFLOW_GROUP);
     }
 
     public String getGovernanceWorkflowName() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_NAME, DEFAULT_GOVERNANCE_WORKFLOW_NAME);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_NAME, DEFAULT_GOVERNANCE_WORKFLOW_NAME);
     }
 
     public String getGovernanceWorkflowVersion() {
     	String defaultDtGovVersion = Release.getGovernanceVersion();
     	if (defaultDtGovVersion==null || defaultDtGovVersion.equals("unknown")) defaultDtGovVersion = DEFAULT_GOVERNANCE_WORKFLOW_VERSION;
-        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_VERSION, defaultDtGovVersion);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_VERSION, defaultDtGovVersion);
     }
 
     public String getGovernanceWorkflowPackage() {
-        return configuration.getString(GovernanceConstants.GOVERNANCE_WORKFLOW_PACKAGE, DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE);
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_PACKAGE, DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE);
     }
 }

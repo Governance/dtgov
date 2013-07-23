@@ -18,6 +18,9 @@ package org.overlord.sramp.governance;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -44,22 +47,7 @@ public class ConfigurationTest {
 	    Assert.assertTrue(queries.size() > 0);
 	    System.out.println(governance.validate());
 	}
-    /**
-     * Add a malformed url
-     * @throws ConfigException
-     */
-    @Test
-    public void testBad1UrlConfiguration() throws ConfigException {
-        System.setProperty(GovernanceConstants.GOVERNANCE_FILE_NAME, "bad1-governance.config.txt");
-        Governance governance = new Governance();
-        governance.read();
-        try {
-            System.out.println(governance.validate());
-            Assert.fail("Expecting exception");
-        } catch (ConfigException e) {
-            Assert.assertEquals("java.net.MalformedURLException: no protocol: http//localhost:8080/s-ramp-server",e.getMessage());
-        }
-    }
+
     /**
      * Add a bad query
      *
@@ -67,9 +55,19 @@ public class ConfigurationTest {
      */
     @Test()
     public void testBad2QueryConfiguration() throws ConfigException {
-        System.setProperty(GovernanceConstants.GOVERNANCE_FILE_NAME, "bad2-governance.config.txt");
-        Governance governance = new Governance();
-        governance.read();
+        Governance governance = new Governance() {
+            /**
+             * @see org.overlord.sramp.governance.Governance#getConfiguration()
+             */
+            @Override
+            protected Configuration getConfiguration() {
+                try {
+                    return new PropertiesConfiguration(ConfigurationTest.class.getClassLoader().getResource("bad2-governance.config.txt"));
+                } catch (ConfigurationException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
         try {
             governance.validate();
             Assert.fail("Expecting exception");
@@ -77,6 +75,7 @@ public class ConfigurationTest {
             Assert.assertTrue(e.getMessage().startsWith(Governance.QUERY_ERROR));
         }
     }
+
     /**
      * Add a bad target
      *
@@ -84,9 +83,19 @@ public class ConfigurationTest {
      */
     @Test()
     public void testBad3TargetConfiguration() throws ConfigException {
-        System.setProperty(GovernanceConstants.GOVERNANCE_FILE_NAME, "bad3-governance.config.txt");
-        Governance governance = new Governance();
-        governance.read();
+        Governance governance = new Governance() {
+            /**
+             * @see org.overlord.sramp.governance.Governance#getConfiguration()
+             */
+            @Override
+            protected Configuration getConfiguration() {
+                try {
+                    return new PropertiesConfiguration(ConfigurationTest.class.getClassLoader().getResource("bad3-governance.config.txt"));
+                } catch (ConfigurationException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
         try {
             governance.validate();
             Assert.fail("Expecting exception");
