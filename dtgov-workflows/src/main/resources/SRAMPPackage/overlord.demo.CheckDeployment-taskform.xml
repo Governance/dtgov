@@ -1,7 +1,7 @@
 <form>
   <fieldset>
     <label>Deployment UUID</label>
-    <span data-name="DeploymentUuid" />
+    <span data-name="DeploymentUuid">Unknown</span>
     <label>Status</label>
     <label class="radio">
       <input type="radio" name="Status" value="pass"></input>
