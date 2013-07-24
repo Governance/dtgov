@@ -41,7 +41,6 @@ import org.overlord.dtgov.ui.client.local.util.DOMUtil;
 import org.overlord.dtgov.ui.client.local.util.DataBindingDateConverter;
 import org.overlord.dtgov.ui.client.local.util.DataBindingIntegerConverter;
 import org.overlord.dtgov.ui.client.local.widgets.common.DescriptionInlineLabel;
-import org.overlord.dtgov.ui.client.local.widgets.common.EditableInlineLabel;
 import org.overlord.dtgov.ui.client.shared.beans.NotificationBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskActionEnum;
 import org.overlord.dtgov.ui.client.shared.beans.TaskBean;
@@ -90,7 +89,7 @@ public class TaskDetailsPage extends AbstractPage {
     @Inject @DataField("task-owner") @Bound(property="owner")
     InlineLabel owner;
     @Inject @DataField("task-priority") @Bound(property="priority", converter=DataBindingIntegerConverter.class)
-    EditableInlineLabel priority;
+    InlineLabel priority;
     @Inject @DataField("task-dueDate") @Bound(property="dueDate", converter=DataBindingDateConverter.class)
     InlineLabel dueOn;
     @Inject @DataField("task-description") @Bound(property="description")
@@ -134,7 +133,9 @@ public class TaskDetailsPage extends AbstractPage {
         task.addPropertyChangeHandler(new PropertyChangeHandler<Object>() {
             @Override
             public void onPropertyChange(PropertyChangeEvent<Object> event) {
-                pushModelToServer();
+                if ("description".equals(event.getPropertyName())) {
+                    pushModelToServer();
+                }
             }
         });
     }
@@ -297,7 +298,7 @@ public class TaskDetailsPage extends AbstractPage {
                 notificationService.completeProgressNotification(notificationBean.getUuid(), successTitle,
                         successDescription);
                 data.setTaskForm(model.getTaskForm());
-                data.setTaskData(taskFormWrapper.getData());
+                data.getTaskData().putAll(taskFormWrapper.getData());
                 updateTaskMetaData(data);
                 updateActionStates(data);
             }
