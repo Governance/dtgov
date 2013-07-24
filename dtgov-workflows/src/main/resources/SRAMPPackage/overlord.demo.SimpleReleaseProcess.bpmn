@@ -1303,13 +1303,11 @@
         <bpmn2:dataInput id="_DataInput_48" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Method"/>
         <bpmn2:dataInput id="_DataInput_49" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Uuid"/>
         <bpmn2:dataInput id="_DataInput_50" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Target"/>
-        <bpmn2:dataInput id="_DataInput_51" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Type"/>
         <bpmn2:inputSet id="_InputSet_10" name="Input Set 10">
           <bpmn2:dataInputRefs>_DataInput_47</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_48</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_49</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_50</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_DataInput_51</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
       </bpmn2:ioSpecification>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_47">
@@ -1334,13 +1332,6 @@
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_18">_DataInput_50</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_DataInputAssociation_51">
-        <bpmn2:targetRef>_DataInput_51</bpmn2:targetRef>
-        <bpmn2:assignment id="Assignment_15">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_18">copy</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_19">_DataInput_51</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
     </bpmn2:task>
     <bpmn2:sequenceFlow id="SequenceFlow_9" drools:priority="1" name="" sourceRef="_FBD0F29F-58E4-4EDA-BC25-B62D2603ECB1" targetRef="Task_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_10" drools:priority="1" name="" sourceRef="Task_1" targetRef="_9EEA6B8E-5706-473A-923E-D909060F45F3"/>
@@ -1352,13 +1343,11 @@
         <bpmn2:dataInput id="_DataInput_53" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Method"/>
         <bpmn2:dataInput id="_DataInput_54" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Uuid"/>
         <bpmn2:dataInput id="_DataInput_55" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Target"/>
-        <bpmn2:dataInput id="_DataInput_56" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Type"/>
         <bpmn2:inputSet id="_InputSet_11" name="Input Set 11">
           <bpmn2:dataInputRefs>_DataInput_52</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_53</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_54</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_55</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_DataInput_56</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
       </bpmn2:ioSpecification>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_52">
@@ -1383,13 +1372,6 @@
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_21">_DataInput_55</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_DataInputAssociation_56">
-        <bpmn2:targetRef>_DataInput_56</bpmn2:targetRef>
-        <bpmn2:assignment id="Assignment_18">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_21">copy</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_22">_DataInput_56</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
     </bpmn2:task>
     <bpmn2:sequenceFlow id="SequenceFlow_11" drools:priority="1" name="" sourceRef="_F439BC65-E6B0-4B2A-BE20-BF19BB21F2F6" targetRef="Task_6"/>
     <bpmn2:sequenceFlow id="SequenceFlow_12" drools:priority="1" name="" sourceRef="Task_6" targetRef="_643862C9-5582-4983-8F57-30890E0D6FDE"/>
@@ -1401,13 +1383,11 @@
         <bpmn2:dataInput id="_DataInput_58" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Method"/>
         <bpmn2:dataInput id="_DataInput_59" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Uuid"/>
         <bpmn2:dataInput id="_DataInput_60" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Target"/>
-        <bpmn2:dataInput id="_DataInput_61" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Type"/>
         <bpmn2:inputSet id="_InputSet_12" name="Input Set 12">
           <bpmn2:dataInputRefs>_DataInput_57</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_58</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_59</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_60</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_DataInput_61</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
       </bpmn2:ioSpecification>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_57">
@@ -1432,13 +1412,6 @@
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_24">_DataInput_60</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_DataInputAssociation_61">
-        <bpmn2:targetRef>_DataInput_61</bpmn2:targetRef>
-        <bpmn2:assignment id="Assignment_21">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_24">rhq</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_25">_DataInput_61</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
     </bpmn2:task>
     <bpmn2:task id="Task_8" drools:taskName="HttpClientDeploy" drools:displayName="Deploy" drools:icon="run-build-install.png" name="Deploy to Prod">
       <bpmn2:incoming>bpmn20:SequenceFlow_15</bpmn2:incoming>
@@ -1448,13 +1421,11 @@
         <bpmn2:dataInput id="_DataInput_63" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Method"/>
         <bpmn2:dataInput id="_DataInput_64" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Uuid"/>
         <bpmn2:dataInput id="_DataInput_65" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Target"/>
-        <bpmn2:dataInput id="_DataInput_66" itemSubjectRef="bpmn20:__02FE2758-2074-41A5-A59E-6FE49BEE8DBF_NameInputItem" name="Type"/>
         <bpmn2:inputSet id="_InputSet_13" name="Input Set 13">
           <bpmn2:dataInputRefs>_DataInput_62</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_63</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_64</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_DataInput_65</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_DataInput_66</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
       </bpmn2:ioSpecification>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_62">
@@ -1477,13 +1448,6 @@
         <bpmn2:assignment id="Assignment_23">
           <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_26">prod</bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_27">_DataInput_65</bpmn2:to>
-        </bpmn2:assignment>
-      </bpmn2:dataInputAssociation>
-      <bpmn2:dataInputAssociation id="_DataInputAssociation_66">
-        <bpmn2:targetRef>_DataInput_66</bpmn2:targetRef>
-        <bpmn2:assignment id="Assignment_24">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_27">rhq</bpmn2:from>
-          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_28">_DataInput_66</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
