@@ -49,20 +49,20 @@ public class DeploymentResourceTest extends BaseResourceTest {
 	public static void setUpBrms() throws Exception {
 		dispatcher.getRegistry().addPerRequestResource(DeploymentResource.class);
 	}
-	
+
 	/**
 	 * This is an integration test, and only works if artifact 'e67e1b09-1de7-4945-a47f-45646752437a'
      * exists in the repo; check the following urls to find out:
-     * 
+     *
 	 * http://localhost:8080/s-ramp-server/s-ramp?query=/s-ramp[@uuid%3D'e67e1b09-1de7-4945-a47f-45646752437a']
 	 * http://localhost:8080/s-ramp-server/s-ramp/user/BpmnDocument/e67e1b09-1de7-4945-a47f-45646752437a
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test @Ignore
 	public void testDeployCopy() {
 	    try {
-	        
+
 	        URL url = new URL(generateURL("/deploy/copy/dev/e67e1b09-1de7-4945-a47f-45646752437a"));
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	        connection.setRequestMethod("POST");
@@ -78,58 +78,58 @@ public class DeploymentResourceTest extends BaseResourceTest {
 	            System.err.println("endpoint could not be reached");
 	            Assert.fail();
 	        }
-	        
+
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        Assert.fail();
-	    } 
+	    }
 	}
-	
+
 	@Test @Ignore
 	public void testDeployMaven() {
-		
-		
+
+
 	}
-	
+
 	@Test @Ignore
 	/**
 	 * Only works with a running RHQ Server.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws ConfigException
 	 */
 	public void testDeployRHQ() throws IOException, ConfigException {
-		
-		
+
+
 		Target target = new Target("stage", "rhqadmin", "rhqadmin", "http://localhost:7080");
-		
+
 		RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getUser(), target.getPassword(),
 				target.getRhqBaseUrl(), target.getPort());
 		String groupName = target.getName();
-		
+
 		String artifactName = "test-simple2.war";
 		//String artifactName = "s-ramp-server.war";
-		//String artifactName = "dtgov-workflows2.jar"; 
-		
+		//String artifactName = "dtgov-workflows2.jar";
+
 		Integer groupId = rhqDeployUtil.getGroupIdForGroup(groupName);
-		
+
 		rhqDeployUtil.wipeArchiveIfNecessary(artifactName, groupId);
 		List<Integer> resourceIds = rhqDeployUtil.getServerIdsForGroup(groupId);
 		InputStream is = getClass().getClassLoader().getResourceAsStream(artifactName);
 		byte[] fileContent = IOUtils.toByteArray(is);
-		
+
 		IOUtils.closeQuietly(is);
 		for (Integer resourceId : resourceIds) {
 		    System.out.println(String.format("Deploying %1$s to RHQ Server %2$s", artifactName, resourceId));
 			rhqDeployUtil.deploy(resourceId, fileContent, artifactName);
 		}
-		
+
 		System.out.println("complete");
 	}
-	
+
 	@Test @Ignore
 	public void testCli() {
-		
+
 		// Initialize the CLI context
         CommandContext ctx = null;
         try {
@@ -139,10 +139,10 @@ public class DeploymentResourceTest extends BaseResourceTest {
             String host = "localhost";
             int port = 9999;
             ctx.connectController(host, port);
-            
+
             // execute commands and operations
             ctx.handle("deploy ~/Desktop/test-simple2.war --force");
-            
+
         } catch(CliInitializationException e) {
             throw new IllegalStateException("Failed to initialize CLI context", e);
         } catch (CommandLineException e) {
@@ -151,18 +151,16 @@ public class DeploymentResourceTest extends BaseResourceTest {
             // terminate the session and
             // close the connection to the controller
             ctx.terminateSession();
-        } 
-		
+        }
+
 	}
-	
+
 	@Test @Ignore
 	public void testMaven() throws Exception {
-		//When given a jar that has maven properties it will try to 
-		//find it's accompanied pom and upload both to the repo.
-		DeploymentResource dr = new DeploymentResource();
-		dr.maven(null, "maven_example", "9c078afe-5c1b-4d9d-842b-d647c4ee848b");
-		
-		
+		//When given a jar that has maven properties it will try to
+		//find its accompanied pom and upload both to the repo.
+//		DeploymentResource dr = new DeploymentResource();
+//		dr.maven(null, "maven_example", "9c078afe-5c1b-4d9d-842b-d647c4ee848b");
 	}
-	
+
 }

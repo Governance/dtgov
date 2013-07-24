@@ -7,14 +7,13 @@ import org.drools.process.core.datatype.impl.type.StringDataType;
       "Url" : new StringDataType(),
       "Method" : new StringDataType(),
       "Uuid" : new StringDataType(),
-      "Target" : new StringDataType(),
-      "Type" : new StringDataType(),
+      "Target" : new StringDataType()
     ],
     "displayName" : "Deploy",
     "icon" : "run-build-install.png",
   ],
  
-    // the HttpClient work item
+  // the HttpClient work item
   [
     "name" : "HttpClientNotify",
     "parameters" : [
@@ -29,7 +28,7 @@ import org.drools.process.core.datatype.impl.type.StringDataType;
     "icon" : "audio-input-microphone-3.png",
   ],
  
-    // the HttpClient work item
+  // the HttpClient work item
   [
     "name" : "HttpClientUpdateMetaData",
     "parameters" : [
