@@ -15,6 +15,7 @@
  */
 package org.overlord.dtgov.taskapi;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -72,10 +73,10 @@ import org.overlord.dtgov.taskapi.types.TaskType;
 @TransactionManagement(TransactionManagementType.BEAN)
 @Path("/tasks")
 public class TaskApi {
-	
+
 	@Inject
     TaskService taskService;
-	
+
     @Resource
     private UserTransaction ut;
 
@@ -143,7 +144,7 @@ public class TaskApi {
         String currentUser = assertCurrentUser(httpRequest);
 
         FindTasksResponse response = new FindTasksResponse();
-        
+
         // Get all tasks - the ones assigned as potential owner *and* the ones assigned as owner.  If
         // there is overlap we'll deal with that during the sort.
         List<TaskSummary> list = taskService.getTasksAssignedAsPotentialOwner(currentUser, "en-UK");
@@ -193,15 +194,15 @@ public class TaskApi {
     public TaskType getTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
         assertCurrentUser(httpRequest);
-        
+
         Task task = taskService.getTaskById(taskId);
-        
+
         long docId = taskService.getTaskById(taskId).getTaskData().getDocumentContentId();
         Content content = taskService.getContentById(docId);
 
         @SuppressWarnings("unchecked")
 		Map<String,Object> inputParams = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
-        
+
         TaskType rval = new TaskType();
         List<I18NText> descriptions = task.getDescriptions();
         if (descriptions != null && !descriptions.isEmpty()) {
@@ -435,11 +436,11 @@ public class TaskApi {
      * @throws Exception
      */
     protected String assertCurrentUser(HttpServletRequest httpRequest) throws Exception {
-        String currentUser = httpRequest.getRemoteUser();
-        if (currentUser == null) {
+        Principal principal = httpRequest.getUserPrincipal();
+        if (principal == null) {
             throw new Exception("User not authenticated.");
         }
-        return currentUser;
+        return principal.getName();
     }
 
     /**
