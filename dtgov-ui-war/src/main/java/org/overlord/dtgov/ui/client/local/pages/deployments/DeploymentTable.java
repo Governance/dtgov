@@ -55,13 +55,11 @@ public class DeploymentTable extends TemplatedWidgetTable {
         Anchor name = toDetailsPageLinkFactory.get("uuid", deploymentSummaryBean.getUuid());
         name.setText(deploymentSummaryBean.getName());
         InlineLabel type = new InlineLabel(deploymentSummaryBean.getType());
-        InlineLabel stage = new InlineLabel(deploymentSummaryBean.getStage());
         InlineLabel initiatedOn = new InlineLabel(format.format(deploymentSummaryBean.getInitiatedDate()));
 
         add(rowIdx, 0, name);
         add(rowIdx, 1, type);
-        add(rowIdx, 2, stage);
-        add(rowIdx, 3, initiatedOn);
+        add(rowIdx, 2, initiatedOn);
     }
 
 }

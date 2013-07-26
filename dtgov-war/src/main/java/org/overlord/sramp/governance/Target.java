@@ -15,29 +15,44 @@
  */
 package org.overlord.sramp.governance;
 
+/**
+ * A configured deployment target.  These are typically configured in the DTGov configuration
+ * file.
+ *
+ * @author eric.wittmann@redhat.com
+ */
 public class Target {
 
 	public enum TYPE {COPY, RHQ, AS_CLI, MAVEN};
-	
-    public Target(String name, String deployDir) {
+
+	/**
+	 * Constructor.
+     * @param name
+     * @param classifier
+     * @param deployDir
+     */
+    public Target(String name, String classifier, String deployDir) {
         super();
         this.name = name;
+        this.classifier = classifier;
         this.type = TYPE.COPY;
         this.deployDir = deployDir;
     }
-    
+
     /**
      * Constructs a Target of Type AS_CLI 'Application Server Command Line Interface.
-     * 
+     *
      * @param name - name of the target
+     * @param classifier
      * @param asUser - AS user with admin rights
      * @param asPassword - password of the asUser
      * @param asHost - Application Server Hostname (defaults to localhost)
      * @param asPort - Application Server Port (defaults to 9999)
      */
-    public Target(String name, String asUser, String asPassword, String asHost, Integer asPort) {
+    public Target(String name, String classifier, String asUser, String asPassword, String asHost, Integer asPort) {
         super();
         this.name = name;
+        this.classifier = classifier;
         this.type = TYPE.AS_CLI;
         this.user = asUser;
         this.password = asPassword;
@@ -50,21 +65,24 @@ public class Target {
         	this.port = asPort;
         } else {
         	this.port = 9999;
-        }    		
+        }
     }
+
     /**
      * Constructs a Target of Type RHQ to use it (JON) to deploy archives to a RHQ server
      * group. The RHQ Server group needs to be prefined and needs to contain Application
      * Server resources only.
-     * 
+     *
      * @param name - name of the target - which needs to correspond to the RHQ Server Group.
+     * @param classifier
      * @param rhqUser - username of the RHQ user with rights to deploy to that group.
      * @param rhqPassword - password of the rhqUser.
      * @param rhqBaseUrl - baseUrl of the RHQ Server i.e. http://localhost:7080/
      */
-    public Target(String name, String rhqUser, String rhqPassword, String rhqBaseUrl) {
+    public Target(String name, String classifier, String rhqUser, String rhqPassword, String rhqBaseUrl) {
         super();
         this.name = name;
+        this.classifier = classifier;
         this.type = TYPE.RHQ;
         this.user = rhqUser;
         this.password = rhqPassword;
@@ -75,12 +93,21 @@ public class Target {
         } else {
         	this.rhqBaseUrl = rhqBaseUrl;
         	this.port = 7080;
-        }    		
+        }
     }
-    
-    public Target(String name, String mavenUrl, boolean isReleaseEnabled, boolean isSnapshotEnabled ) {
+
+    /**
+     * Constructor a target of type Maven.
+     * @param name
+     * @param classifier
+     * @param mavenUrl
+     * @param isReleaseEnabled
+     * @param isSnapshotEnabled
+     */
+    public Target(String name, String classifier, String mavenUrl, boolean isReleaseEnabled, boolean isSnapshotEnabled ) {
         super();
         this.name = name;
+        this.classifier = classifier;
         this.type = TYPE.MAVEN;
         this.mavenUrl = mavenUrl;
         this.setReleaseEnabled(isReleaseEnabled);
@@ -96,6 +123,7 @@ public class Target {
 	}
 
 	private String name;
+	private String classifier;
     private TYPE type;
     private String deployDir;
     private String user;
@@ -106,7 +134,7 @@ public class Target {
     private String mavenUrl;
     private boolean isReleaseEnabled;
     private boolean isSnapshotEnabled;
-    
+
     public TYPE getType() {
 		return type;
 	}
@@ -150,22 +178,17 @@ public class Target {
 	public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public void setDeployDir(String deployDir) {
         this.deployDir = deployDir;
     }
-    
+
     public String getDeployDir() {
         return deployDir;
-    }
-
-    @Override
-    public String toString() {
-        return "Name=" + name + "\nDeployDir=" + deployDir;
     }
 
 	public String getMavenUrl() {
@@ -192,5 +215,17 @@ public class Target {
 		this.isSnapshotEnabled = isSnapshotEnabled;
 	}
 
-	
+    public String getClassifier() {
+        return classifier;
+    }
+
+    public void setClassifier(String classifier) {
+        this.classifier = classifier;
+    }
+
+    @Override
+    public String toString() {
+        return "Name=" + name + "\nDeployDir=" + deployDir;
+    }
+
 }

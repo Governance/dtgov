@@ -34,7 +34,6 @@ public class DeploymentSummaryBean {
     private String model;
     private String type;
     private String rawType;
-    private String stage;
     private Date initiatedDate;
 
     /**
@@ -85,21 +84,6 @@ public class DeploymentSummaryBean {
      */
     public DeploymentSummaryBean setType(String type) {
         this.type = type;
-        return this;
-    }
-
-    /**
-     * @return the stage
-     */
-    public String getStage() {
-        return stage;
-    }
-
-    /**
-     * @param stage the stage to set
-     */
-    public DeploymentSummaryBean setStage(String stage) {
-        this.stage = stage;
         return this;
     }
 

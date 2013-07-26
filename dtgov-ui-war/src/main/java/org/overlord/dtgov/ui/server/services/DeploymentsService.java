@@ -35,6 +35,7 @@ import org.overlord.dtgov.ui.client.shared.beans.ExpandedArtifactsBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IDeploymentsService;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
+import org.overlord.dtgov.ui.server.DtgovUIConfig.DeploymentStage;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -86,8 +87,6 @@ public class DeploymentsService implements IDeploymentsService {
                 DeploymentSummaryBean bean = new DeploymentSummaryBean();
                 bean.setInitiatedDate(artifactSummary.getCreatedTimestamp());
                 bean.setName(artifactSummary.getName());
-                // TODO where do we get the STAGE information from the artifact summary?
-                bean.setStage("?");
                 bean.setModel(artifactType.getArtifactType().getModel());
                 bean.setType(artifactType.getType());
                 bean.setRawType(artifactType.getArtifactType().getType());
@@ -143,13 +142,8 @@ public class DeploymentsService implements IDeploymentsService {
         // Stage
         criteria.add("classifiedByAnyOf(., ?)");
         if (filters.getStage() == null) {
-            if (filters.isShowCompleted()) {
-                params.add(config.getConfiguration().getString(DtgovUIConfig.DEPLOYMENT_ALL_CLASSIFIER,
-                        "http://www.jboss.org/overlord/deployment-status.owl#Lifecycle"));
-            } else {
-                params.add(config.getConfiguration().getString(DtgovUIConfig.DEPLOYMENT_INPROGRESS_CLASSIFIER,
-                        "http://www.jboss.org/overlord/deployment-status.owl#Deploying"));
-            }
+            params.add(config.getConfiguration().getString(DtgovUIConfig.DEPLOYMENT_ALL_CLASSIFIER,
+                    "http://www.jboss.org/overlord/deployment-status.owl#Lifecycle"));
         } else {
             params.add(filters.getStage());
         }
@@ -170,7 +164,7 @@ public class DeploymentsService implements IDeploymentsService {
             cal.add(Calendar.DAY_OF_YEAR, 1);
             params.add(cal);
         }
-        // Created By
+        // Bundle name
         if (filters.getBundleName() != null && filters.getBundleName().trim().length() > 0) {
             // TODO implement query by bundle name here
         }
@@ -208,8 +202,7 @@ public class DeploymentsService implements IDeploymentsService {
             DeploymentBean bean = new DeploymentBean();
             bean.setInitiatedDate(artifact.getCreatedTimestamp().toGregorianCalendar().getTime());
             bean.setName(artifact.getName());
-            // TODO where do we get the stage?  should we just include all the classifiers and show them?
-            bean.setStage("??");
+            bean.setStage(getStage(artifact));
             bean.setModel(artifactType.getArtifactType().getModel());
             bean.setType(artifactType.getType());
             bean.setRawType(artifactType.getArtifactType().getType());
@@ -226,6 +219,37 @@ public class DeploymentsService implements IDeploymentsService {
         } catch (SrampAtomException e) {
             throw new DtgovUiException(e.getMessage());
         }
+    }
+
+    /**
+     * Gets the stage (comma separated list of classifiers) from the artifact meta-data.
+     * @param artifact
+     */
+    private String getStage(BaseArtifactType artifact) {
+        StringBuilder buff = new StringBuilder();
+        List<DeploymentStage> stages = config.getStages();
+        List<String> classifiedBy = artifact.getClassifiedBy();
+        boolean first = true;
+        boolean found = false;
+        for (DeploymentStage stage : stages) {
+            String classifier = stage.getClassifier();
+            if (classifiedBy.contains(classifier)) {
+                int sharpIdx = classifier.lastIndexOf('#');
+                if (sharpIdx > 0) {
+                    if (first) {
+                        first = false;
+                    } else {
+                        buff.append(", ");
+                    }
+                    buff.append(classifier.substring(sharpIdx+1));
+                    found = true;
+                }
+            }
+        }
+        if (!found) {
+            buff.append("[Not Deployed]");
+        }
+        return buff.toString();
     }
 
     /**

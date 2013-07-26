@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -26,10 +27,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.configuration.Configuration;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
+import org.overlord.dtgov.ui.server.DtgovUIConfig.DeploymentStage;
 
 /**
  * A standard servlet that delivers all of the UI configuration as a handy bunch 'o JSON.
@@ -62,7 +63,7 @@ public class UiConfigurationServlet extends HttpServlet {
         response.setContentType("text/javascript");
 
         try {
-            String json = generateJSONConfig(config.getConfiguration());
+            String json = generateJSONConfig(config);
             response.getOutputStream().write("var OVERLORD_DTGOVUI_CONFIG = ".getBytes("UTF-8"));
             response.getOutputStream().write(json.getBytes("UTF-8"));
             response.getOutputStream().write(";".getBytes("UTF-8"));
@@ -76,7 +77,7 @@ public class UiConfigurationServlet extends HttpServlet {
 	 * @param config
 	 * @throws Exception
 	 */
-	protected static String generateJSONConfig(Configuration config) throws Exception {
+	protected static String generateJSONConfig(DtgovUIConfig config) throws Exception {
         StringWriter json = new StringWriter();
         JsonFactory f = new JsonFactory();
         JsonGenerator g = f.createJsonGenerator(json);
@@ -85,17 +86,17 @@ public class UiConfigurationServlet extends HttpServlet {
 
         // Some s-ramp UI/browser integration settings
         g.writeObjectFieldStart("srampui");
-        g.writeStringField("urlBase", config.getString(DtgovUIConfig.SRAMP_UI_URL_BASE, "http://localhost:8080/s-ramp-ui"));
+        g.writeStringField("urlBase", config.getConfiguration().getString(DtgovUIConfig.SRAMP_UI_URL_BASE, "http://localhost:8080/s-ramp-ui"));
         g.writeEndObject();
 
         g.writeObjectFieldStart("deployments");
         // Pull in any configured deployment types.
-        Iterator<String> typeKeys = config.getKeys(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX);
+        Iterator<String> typeKeys = config.getConfiguration().getKeys(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX);
         int count = 0;
         g.writeObjectFieldStart("types");
         while (typeKeys.hasNext()) {
             String typeKey = typeKeys.next();
-            String value = config.getString(typeKey);
+            String value = config.getConfiguration().getString(typeKey);
             if (value.contains(":")) {
                 int idx = value.indexOf(':');
                 String label = value.substring(0, idx);
@@ -110,27 +111,21 @@ public class UiConfigurationServlet extends HttpServlet {
             g.writeStringField("J2EE Application", "ext/JavaEnterpriseApplication");
         }
         g.writeEndObject();
-        // Pull in any configured deployment types.
-        Iterator<String> stageKeys = config.getKeys(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX);
-        count = 0;
+
+        // Pull in any configured deployment stages.
+        List<DeploymentStage> stages = config.getStages();
         g.writeObjectFieldStart("stages");
-        while (stageKeys.hasNext()) {
-            String stageKey = stageKeys.next();
-            String value = config.getString(stageKey);
-            if (value.contains(":")) {
-                int idx = value.indexOf(':');
-                String label = value.substring(0, idx);
-                String classifier = value.substring(idx+1);
-                g.writeStringField(label, classifier);
-                count++;
-            }
-        }
-        if (count == 0) {
+        if (stages.isEmpty()) {
             g.writeStringField("Development", "http://www.jboss.org/overlord/deployment-status.owl#Dev");
             g.writeStringField("QA", "http://www.jboss.org/overlord/deployment-status.owl#Qa");
             g.writeStringField("Production", "http://www.jboss.org/overlord/deployment-status.owl#Prod");
+        } else {
+            for (DeploymentStage deploymentStage : stages) {
+                g.writeStringField(deploymentStage.getLabel(), deploymentStage.getClassifier());
+            }
         }
         g.writeEndObject();
+
         g.writeEndObject();
         g.flush();
         g.close();

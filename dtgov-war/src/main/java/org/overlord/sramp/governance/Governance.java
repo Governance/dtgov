@@ -262,30 +262,33 @@ public class Governance {
         boolean hasErrors = false;
         for (String targetString : targetStrings) {
             String[] info = targetString.split("\\|");
-            if (info.length != 3) {
+            if (info.length != 4) {
                 hasErrors = true;
                 errors.append(targetString).append("\n");
             }
             if (!hasErrors) {
-            	if (Target.TYPE.COPY.toString().equalsIgnoreCase(info[1])) {
-            		Target target = new Target(info[0],info[2]);
+            	String name = info[0];
+                String classifier = info[1];
+                String type = info[2];
+                if (Target.TYPE.COPY.toString().equalsIgnoreCase(type)) {
+            		Target target = new Target(name, classifier, info[3]);
             		targets.put(target.getName(), target);
-            	} else if (Target.TYPE.RHQ.toString().equalsIgnoreCase(info[1])) {
-            		String rhqConfigStr = info[2].replaceAll("\\{rhq.user\\}",    DEFAULT_RHQ_USER)
+            	} else if (Target.TYPE.RHQ.toString().equalsIgnoreCase(type)) {
+            		String rhqConfigStr = info[3].replaceAll("\\{rhq.user\\}",    DEFAULT_RHQ_USER)
             									 .replaceAll("\\{rhq.password\\}",DEFAULT_RHQ_PASSWORD)
             									 .replaceAll("\\{rhq.baseUrl\\}", DEFAULT_RHQ_BASEURL);
 
             		String[] rhqConfig = rhqConfigStr.split("\\:\\:");
 
-            		Target target = new Target(info[0],rhqConfig[0], rhqConfig[1], rhqConfig[2]);
+            		Target target = new Target(name, classifier, rhqConfig[0], rhqConfig[1], rhqConfig[2]);
             		targets.put(target.getName(), target);
-            	} else if (Target.TYPE.AS_CLI.toString().equalsIgnoreCase(info[1])) {
-            		String[] cliConfig = info[2].split("\\:\\:");
-            		Target target = new Target(info[0],cliConfig[0], cliConfig[1], cliConfig[2], Integer.valueOf(cliConfig[3]));
+            	} else if (Target.TYPE.AS_CLI.toString().equalsIgnoreCase(type)) {
+            		String[] cliConfig = info[3].split("\\:\\:");
+            		Target target = new Target(name, classifier, cliConfig[0], cliConfig[1], cliConfig[2], Integer.valueOf(cliConfig[3]));
             		targets.put(target.getName(), target);
-            	} else if (Target.TYPE.MAVEN.toString().equalsIgnoreCase(info[1])) {
-            		String[] mvnConfig = info[2].split("\\:\\:");
-            		Target target = new Target(info[0],mvnConfig[0], Boolean.parseBoolean(mvnConfig[1]), Boolean.parseBoolean(mvnConfig[2]));
+            	} else if (Target.TYPE.MAVEN.toString().equalsIgnoreCase(type)) {
+            		String[] mvnConfig = info[3].split("\\:\\:");
+            		Target target = new Target(name, classifier, mvnConfig[0], Boolean.parseBoolean(mvnConfig[1]), Boolean.parseBoolean(mvnConfig[2]));
             		targets.put(target.getName(), target);
             	}
             }

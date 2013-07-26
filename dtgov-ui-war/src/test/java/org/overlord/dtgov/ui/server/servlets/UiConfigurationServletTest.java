@@ -15,6 +15,7 @@
  */
 package org.overlord.dtgov.ui.server.servlets;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
@@ -66,12 +67,17 @@ public class UiConfigurationServletTest {
      */
     @Test
     public void testGenerateJSONConfig_Configured() throws Exception {
-        PropertiesConfiguration config = new PropertiesConfiguration();
+        final PropertiesConfiguration config = new PropertiesConfiguration();
         config.addProperty(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX + ".switchyard", "SwitchYard Application:ext/SwitchYardApplication");
         config.addProperty(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX + ".war", "Web Application:ext/JavaWebApplication");
         config.addProperty(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX + ".dev", "Development:http://www.jboss.org/overlord/deployment-status.owl#Dev");
         config.addProperty(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX + ".prod", "Production:http://www.jboss.org/overlord/deployment-status.owl#Prod");
-        String rval = UiConfigurationServlet.generateJSONConfig(config);
+        String rval = UiConfigurationServlet.generateJSONConfig(new DtgovUIConfig() {
+            @Override
+            public Configuration getConfiguration() {
+                return config;
+            }
+        });
         Assert.assertNotNull(rval);
         // TODO re-enable this assertion but make it cross-platform :(
 //        Assert.assertEquals(EXPECTED_CONFIGURED, rval);
@@ -82,8 +88,13 @@ public class UiConfigurationServletTest {
      */
     @Test
     public void testGenerateJSONConfig_Default() throws Exception {
-        PropertiesConfiguration config = new PropertiesConfiguration();
-        String rval = UiConfigurationServlet.generateJSONConfig(config);
+        final PropertiesConfiguration config = new PropertiesConfiguration();
+        String rval = UiConfigurationServlet.generateJSONConfig(new DtgovUIConfig() {
+            @Override
+            public Configuration getConfiguration() {
+                return config;
+            }
+        });
         Assert.assertNotNull(rval);
         // TODO re-enable this assertion but make it cross-platform :(
 //        Assert.assertEquals(EXPECTED_DEFAULT, rval);
