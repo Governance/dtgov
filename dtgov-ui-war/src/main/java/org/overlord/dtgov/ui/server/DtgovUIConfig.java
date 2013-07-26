@@ -18,6 +18,9 @@ package org.overlord.dtgov.ui.server;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -58,6 +61,7 @@ public class DtgovUIConfig {
     public static final String TASK_API_SAML_SERVICE = "dtgov-ui.task-api.authentication.saml.service";
 
     // Deployment Lifecycle UI properties
+    public static final String DEPLOYMENT_CLASSIFIER_BASE = "dtgov-ui.deployment-lifecycle.classifiers.base";
     public static final String DEPLOYMENT_INITIAL_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.initial";
     public static final String DEPLOYMENT_ALL_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.all";
     public static final String DEPLOYMENT_INPROGRESS_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.in-progress";
@@ -166,4 +170,55 @@ public class DtgovUIConfig {
         return config;
     }
 
+    /**
+     * Gets a list of the configured deployment stages.
+     */
+    public List<DeploymentStage> getStages() {
+        List<DeploymentStage> stages = new ArrayList<DeploymentStage>();
+
+        Iterator<String> stageKeys = config.getKeys(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX);
+        while (stageKeys.hasNext()) {
+            String stageKey = stageKeys.next();
+            String value = config.getString(stageKey);
+            if (value.contains(":")) {
+                int idx = value.indexOf(':');
+                String label = value.substring(0, idx);
+                String classifier = value.substring(idx+1);
+                stages.add(new DeploymentStage(label, classifier));
+            }
+        }
+
+        return stages;
+    }
+
+    /**
+     * A stage configured in the config file.
+     * @author eric.wittmann@redhat.com
+     */
+    public static class DeploymentStage {
+        private final String label;
+        private final String classifier;
+
+        /**
+         * Constructor.
+         */
+        public DeploymentStage(String label, String classifier) {
+            this.label = label;
+            this.classifier = classifier;
+        }
+
+        /**
+         * @return the label
+         */
+        public String getLabel() {
+            return label;
+        }
+
+        /**
+         * @return the classifier
+         */
+        public String getClassifier() {
+            return classifier;
+        }
+    }
 }

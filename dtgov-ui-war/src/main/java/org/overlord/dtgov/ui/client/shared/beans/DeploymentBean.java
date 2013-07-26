@@ -37,11 +37,27 @@ public class DeploymentBean extends DeploymentSummaryBean implements Serializabl
     private String mavenId;
     private String mavenVersion;
     private String description;
+    private String stage;
 
     /**
      * Constructor.
      */
     public DeploymentBean() {
+    }
+
+    /**
+     * @return the stage
+     */
+    public String getStage() {
+        return stage;
+    }
+
+    /**
+     * @param stage the stage to set
+     */
+    public DeploymentSummaryBean setStage(String stage) {
+        this.stage = stage;
+        return this;
     }
 
     /**

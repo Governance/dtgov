@@ -62,7 +62,6 @@ public class DeploymentResourceTest extends BaseResourceTest {
 	@Test @Ignore
 	public void testDeployCopy() {
 	    try {
-
 	        URL url = new URL(generateURL("/deploy/copy/dev/e67e1b09-1de7-4945-a47f-45646752437a"));
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	        connection.setRequestMethod("POST");
@@ -87,21 +86,18 @@ public class DeploymentResourceTest extends BaseResourceTest {
 
 	@Test @Ignore
 	public void testDeployMaven() {
-
-
 	}
 
-	@Test @Ignore
 	/**
 	 * Only works with a running RHQ Server.
 	 *
 	 * @throws IOException
 	 * @throws ConfigException
 	 */
+    @Test @Ignore
 	public void testDeployRHQ() throws IOException, ConfigException {
-
-
-		Target target = new Target("stage", "rhqadmin", "rhqadmin", "http://localhost:7080");
+		Target target = new Target("stage", "http://www.jboss.org/overlord/deployment-status.owl#InDev",
+		        "rhqadmin", "rhqadmin", "http://localhost:7080");
 
 		RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getUser(), target.getPassword(),
 				target.getRhqBaseUrl(), target.getPort());
