@@ -109,11 +109,26 @@
     <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Prod" />
     <rdfs:label>prodfail</rdfs:label>
     <rdfs:comment>Artifact failed testing in the Production Environment.</rdfs:comment>
-  </owl:Class> 
+  </owl:Class>
 
+  <owl:Class rdf:ID="InDev">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Deployed" />
+    <rdfs:label>In Production</rdfs:label>
+    <rdfs:comment>Artifact has been deployed to the Development Environment.</rdfs:comment>
+  </owl:Class> 
+  <owl:Class rdf:ID="InQa">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Deployed" />
+    <rdfs:label>In Test</rdfs:label>
+    <rdfs:comment>Artifact has been deployed to the Test Environment.</rdfs:comment>
+  </owl:Class> 
+  <owl:Class rdf:ID="InStage">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Deployed" />
+    <rdfs:label>In Staging</rdfs:label>
+    <rdfs:comment>Artifact has been deployed to the Staging Environment.</rdfs:comment>
+  </owl:Class> 
   <owl:Class rdf:ID="InProd">
     <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Deployed" />
-    <rdfs:label>inprod</rdfs:label>
+    <rdfs:label>In Production</rdfs:label>
     <rdfs:comment>Artifact has been deployed to the Production Environment.</rdfs:comment>
   </owl:Class> 
 

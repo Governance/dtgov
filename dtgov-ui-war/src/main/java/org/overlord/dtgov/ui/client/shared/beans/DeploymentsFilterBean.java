@@ -33,7 +33,6 @@ public class DeploymentsFilterBean {
     private String bundleName;
     private Date dateInitiatedFrom;
     private Date dateInitiatedTo;
-    private boolean showCompleted;
 
     /**
      * Constructor.
@@ -117,21 +116,6 @@ public class DeploymentsFilterBean {
     }
 
     /**
-     * @return the showCompleted
-     */
-    public boolean isShowCompleted() {
-        return showCompleted;
-    }
-
-    /**
-     * @param showCompleted the showCompleted to set
-     */
-    public DeploymentsFilterBean setShowCompleted(boolean showCompleted) {
-        this.showCompleted = showCompleted;
-        return this;
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -141,7 +125,6 @@ public class DeploymentsFilterBean {
         result = prime * result + ((bundleName == null) ? 0 : bundleName.hashCode());
         result = prime * result + ((dateInitiatedFrom == null) ? 0 : dateInitiatedFrom.hashCode());
         result = prime * result + ((dateInitiatedTo == null) ? 0 : dateInitiatedTo.hashCode());
-        result = prime * result + (showCompleted ? 1231 : 1237);
         result = prime * result + ((stage == null) ? 0 : stage.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
@@ -173,8 +156,6 @@ public class DeploymentsFilterBean {
             if (other.dateInitiatedTo != null)
                 return false;
         } else if (!dateInitiatedTo.equals(other.dateInitiatedTo))
-            return false;
-        if (showCompleted != other.showCompleted)
             return false;
         if (stage == null) {
             if (other.stage != null)

@@ -36,7 +36,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -67,9 +66,6 @@ public class DeploymentFilters extends Composite implements HasValueChangeHandle
     protected DateBox dateInitiatedFrom;
     @Inject @DataField
     protected DateBox dateInitiatedTo;
-
-    @Inject @DataField
-    protected SimpleCheckBox showCompleted;
 
     @Inject @DataField
     protected Anchor clearFilters;
@@ -106,12 +102,6 @@ public class DeploymentFilters extends Composite implements HasValueChangeHandle
         bundleName.addValueChangeHandler(valueChangeHandler);
         dateInitiatedFrom.addValueChangeHandler(valueChangeHandler);
         dateInitiatedTo.addValueChangeHandler(valueChangeHandler);
-        showCompleted.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                onFilterValueChange();
-            }
-        });
     }
 
     /**
@@ -123,8 +113,7 @@ public class DeploymentFilters extends Composite implements HasValueChangeHandle
             .setStage(stage.getValue())
             .setBundleName(bundleName.getValue())
             .setDateInitiatedFrom(dateInitiatedFrom.getDateValue())
-            .setDateInitiatedTo(dateInitiatedTo.getDateValue())
-            .setShowCompleted(showCompleted.getValue());
+            .setDateInitiatedTo(dateInitiatedTo.getDateValue());
 
         DeploymentsFilterBean oldState = this.currentState;
         this.currentState = newState;
@@ -148,7 +137,6 @@ public class DeploymentFilters extends Composite implements HasValueChangeHandle
         bundleName.setValue(value.getType() == null ? "" : value.getBundleName());
         dateInitiatedFrom.setDateValue(value.getDateInitiatedFrom() == null ? null : value.getDateInitiatedFrom());
         dateInitiatedTo.setDateValue(value.getDateInitiatedTo() == null ? null : value.getDateInitiatedTo());
-        showCompleted.setValue(value.isShowCompleted());
         onFilterValueChange();
     }
 

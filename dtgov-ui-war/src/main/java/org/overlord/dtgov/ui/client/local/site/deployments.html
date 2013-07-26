@@ -65,13 +65,7 @@
                         <option value="http://www.jboss.org/overlord/deployment-status.owl#Prod">Production</option>
                       </select>
                     </div>
-                    <div class="controls controls-row controls-checkbox">
-                      <label class="filter-checkbox">
-                        <input data-field="showCompleted" class="pull-left" type="checkbox" value="completed" style="margin-left: 15px"></input>
-                        <span class="pull-left" style="">Show completed deployments</span>
-                      </label>
-                    </div>
-                    <div class="controls controls-row">
+                    <div class="controls controls-row hide">
                       <label class="filter-label">Bundle Name</label>
                       <input data-field="bundleName" class="span12" type="text" placeholder="Any"></input>
                     </div>
@@ -117,7 +111,6 @@
                 <tr>
                   <th>Deployment</th>
                   <th class="desktop-only">Type</th>
-                  <th>Stage</th>
                   <th>Initiated On</th>
                 </tr>
               </thead>
@@ -125,25 +118,21 @@
                 <tr>
                   <td><a href="deploymentDetails.html">switchyard-demo-multiApp-artifacts.jar</a></td>
                   <td class="desktop-only">SwitchYardApplication</td>
-                  <td>Qa</td>
                   <td>03/10/2012</td>
                 </tr>
                 <tr>
                   <td><a href="deploymentDetails.html">switchyard-demo-multiApp-order-service.jar</a></td>
                   <td class="desktop-only">SwitchYardApplication</td>
-                  <td>Dev</td>
                   <td>03/12/2012</td>
                 </tr>
                 <tr>
                   <td><a href="deploymentDetails.html">switchyard-demo-multiApp-order-consumer.jar</a></td>
                   <td class="desktop-only">SwitchYardApplication</td>
-                  <td>Dev</td>
                   <td>03/12/2012</td>
                 </tr>
                 <tr>
                   <td><a href="deploymentDetails.html">switchyard-demo-multiApp-web.jar</a></td>
                   <td class="desktop-only">SwitchYardApplication</td>
-                  <td>Dev</td>
                   <td>05/19/2012</td>
                 </tr>
               </tbody>
