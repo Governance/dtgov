@@ -59,8 +59,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The JAX-RS resource that handles deployment specific tasks.
- *
- *
  */
 @Path("/deploy")
 public class DeploymentResource {
