@@ -25,6 +25,7 @@ import org.codehaus.plexus.PlexusContainerException;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
@@ -48,7 +49,7 @@ public class KieTest {
 	 * @throws UnknownRepositoryLayoutException
 	 * @throws MalformedURLException
 	 */
-    @Test
+    @Test @Ignore
 	public void testKieJar() throws ConfigException, UnknownRepositoryLayoutException, PlexusContainerException, ComponentLookupException, MalformedURLException {
 
     	boolean isSrampRepo = false; // true reads from S-RAMP, false from m2
