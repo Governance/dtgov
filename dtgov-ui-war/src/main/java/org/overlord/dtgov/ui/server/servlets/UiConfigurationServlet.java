@@ -31,6 +31,7 @@ import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.DtgovUIConfig.DeploymentStage;
+import org.overlord.dtgov.ui.server.i18n.Messages;
 
 /**
  * A standard servlet that delivers all of the UI configuration as a handy bunch 'o JSON.
@@ -60,13 +61,13 @@ public class UiConfigurationServlet extends HttpServlet {
         noCache(response);
 
         // Now generate the JavaScript data (JSON)
-        response.setContentType("text/javascript");
+        response.setContentType("text/javascript"); //$NON-NLS-1$
 
         try {
             String json = generateJSONConfig(config);
-            response.getOutputStream().write("var OVERLORD_DTGOVUI_CONFIG = ".getBytes("UTF-8"));
-            response.getOutputStream().write(json.getBytes("UTF-8"));
-            response.getOutputStream().write(";".getBytes("UTF-8"));
+            response.getOutputStream().write("var OVERLORD_DTGOVUI_CONFIG = ".getBytes("UTF-8")); //$NON-NLS-1$ //$NON-NLS-2$
+            response.getOutputStream().write(json.getBytes("UTF-8")); //$NON-NLS-1$
+            response.getOutputStream().write(";".getBytes("UTF-8")); //$NON-NLS-1$ //$NON-NLS-2$
         } catch (Exception e) {
             throw new ServletException(e);
         }
@@ -85,19 +86,19 @@ public class UiConfigurationServlet extends HttpServlet {
         g.writeStartObject();
 
         // Some s-ramp UI/browser integration settings
-        g.writeObjectFieldStart("srampui");
-        g.writeStringField("urlBase", config.getConfiguration().getString(DtgovUIConfig.SRAMP_UI_URL_BASE, "http://localhost:8080/s-ramp-ui"));
+        g.writeObjectFieldStart("srampui"); //$NON-NLS-1$
+        g.writeStringField("urlBase", config.getConfiguration().getString(DtgovUIConfig.SRAMP_UI_URL_BASE, "http://localhost:8080/s-ramp-ui")); //$NON-NLS-1$ //$NON-NLS-2$
         g.writeEndObject();
 
-        g.writeObjectFieldStart("deployments");
+        g.writeObjectFieldStart("deployments"); //$NON-NLS-1$
         // Pull in any configured deployment types.
         Iterator<String> typeKeys = config.getConfiguration().getKeys(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX);
         int count = 0;
-        g.writeObjectFieldStart("types");
+        g.writeObjectFieldStart("types"); //$NON-NLS-1$
         while (typeKeys.hasNext()) {
             String typeKey = typeKeys.next();
             String value = config.getConfiguration().getString(typeKey);
-            if (value.contains(":")) {
+            if (value.contains(":")) { //$NON-NLS-1$
                 int idx = value.indexOf(':');
                 String label = value.substring(0, idx);
                 String type = value.substring(idx+1);
@@ -106,19 +107,19 @@ public class UiConfigurationServlet extends HttpServlet {
             }
         }
         if (count == 0) {
-            g.writeStringField("SwitchYard Application", "ext/SwitchYardApplication");
-            g.writeStringField("Web Application", "ext/JavaWebApplication");
-            g.writeStringField("J2EE Application", "ext/JavaEnterpriseApplication");
+            g.writeStringField(Messages.i18n.format("UiConfigurationServlet.TypeSwitchYard"), "ext/SwitchYardApplication"); //$NON-NLS-1$ //$NON-NLS-2$
+            g.writeStringField(Messages.i18n.format("UiConfigurationServlet.TypeWebApp"), "ext/JavaWebApplication"); //$NON-NLS-1$ //$NON-NLS-2$
+            g.writeStringField(Messages.i18n.format("UiConfigurationServlet.TypeJ2EEApp"), "ext/JavaEnterpriseApplication"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         g.writeEndObject();
 
         // Pull in any configured deployment stages.
         List<DeploymentStage> stages = config.getStages();
-        g.writeObjectFieldStart("stages");
+        g.writeObjectFieldStart("stages"); //$NON-NLS-1$
         if (stages.isEmpty()) {
-            g.writeStringField("Development", "http://www.jboss.org/overlord/deployment-status.owl#Dev");
-            g.writeStringField("QA", "http://www.jboss.org/overlord/deployment-status.owl#Qa");
-            g.writeStringField("Production", "http://www.jboss.org/overlord/deployment-status.owl#Prod");
+            g.writeStringField(Messages.i18n.format("UiConfigurationServlet.StageDevelopment"), "http://www.jboss.org/overlord/deployment-status.owl#Dev"); //$NON-NLS-1$ //$NON-NLS-2$
+            g.writeStringField(Messages.i18n.format("UiConfigurationServlet.StageQA"), "http://www.jboss.org/overlord/deployment-status.owl#Qa"); //$NON-NLS-1$ //$NON-NLS-2$
+            g.writeStringField(Messages.i18n.format("UiConfigurationServlet.StageProd"), "http://www.jboss.org/overlord/deployment-status.owl#Prod"); //$NON-NLS-1$ //$NON-NLS-2$
         } else {
             for (DeploymentStage deploymentStage : stages) {
                 g.writeStringField(deploymentStage.getLabel(), deploymentStage.getClassifier());
@@ -140,10 +141,10 @@ public class UiConfigurationServlet extends HttpServlet {
      */
     private void noCache(HttpServletResponse response) {
         Date now = new Date();
-        response.setDateHeader("Date", now.getTime());
+        response.setDateHeader("Date", now.getTime()); //$NON-NLS-1$
         // one day old
-        response.setDateHeader("Expires", now.getTime() - 86400000L);
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-control", "no-cache, no-store, must-revalidate");
+        response.setDateHeader("Expires", now.getTime() - 86400000L); //$NON-NLS-1$
+        response.setHeader("Pragma", "no-cache"); //$NON-NLS-1$ //$NON-NLS-2$
+        response.setHeader("Cache-control", "no-cache, no-store, must-revalidate"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 }

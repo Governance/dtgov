@@ -27,6 +27,7 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.services.HistoryRpcService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
@@ -56,6 +57,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 @Dependent
 public class HistoryEventItem extends Composite implements HasValue<HistoryEventSummaryBean> {
 
+    @Inject
+    protected ClientMessages i18n;
     @Inject
     protected HistoryRpcService historyService;
     @Inject
@@ -142,15 +145,15 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
     private void setIcon(HistoryEventSummaryBean value) {
         String type = value.getType();
         if (type != null) {
-            if (type.contains("add")) {
-                this.icon.getElement().removeClassName("history-item-icon-none");
-                this.icon.getElement().addClassName("history-item-icon-new");
-            } else if (type.contains("update")) {
-                this.icon.getElement().removeClassName("history-item-icon-none");
-                this.icon.getElement().addClassName("history-item-icon-edit");
-            } else if (type.contains("delete")) {
-                this.icon.getElement().removeClassName("history-item-icon-none");
-                this.icon.getElement().addClassName("history-item-icon-delete");
+            if (type.contains("add")) { //$NON-NLS-1$
+                this.icon.getElement().removeClassName("history-item-icon-none"); //$NON-NLS-1$
+                this.icon.getElement().addClassName("history-item-icon-new"); //$NON-NLS-1$
+            } else if (type.contains("update")) { //$NON-NLS-1$
+                this.icon.getElement().removeClassName("history-item-icon-none"); //$NON-NLS-1$
+                this.icon.getElement().addClassName("history-item-icon-edit"); //$NON-NLS-1$
+            } else if (type.contains("delete")) { //$NON-NLS-1$
+                this.icon.getElement().removeClassName("history-item-icon-none"); //$NON-NLS-1$
+                this.icon.getElement().addClassName("history-item-icon-delete"); //$NON-NLS-1$
             }
         }
     }
@@ -171,7 +174,7 @@ public class HistoryEventItem extends Composite implements HasValue<HistoryEvent
                 @Override
                 public void onError(Throwable error) {
                     detailsPanel.clear();
-                    notificationService.sendErrorNotification("Error Getting History Event", error);
+                    notificationService.sendErrorNotification(i18n.format("history-event-item.error-loading"), error); //$NON-NLS-1$
                 }
             });
             detailsPanel.clear();

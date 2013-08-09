@@ -34,6 +34,7 @@ import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.task.TaskService;
 import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.runtime.manager.context.EmptyContext;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,9 +57,10 @@ public class ProcessBean implements ProcessLocal {
 	/**
 	 * Starts up a new ProcessInstance with the given ProcessId. The
 	 * parameters Map is set into the context of the workflow.
-	 * 
+	 *
 	 */
-	public long startProcess(String processId, Map<String, Object> parameters)
+	@Override
+    public long startProcess(String processId, Map<String, Object> parameters)
 			throws Exception {
 
 		RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
@@ -71,8 +73,7 @@ public class ProcessBean implements ProcessLocal {
 			ProcessInstance processInstance = ksession.startProcess(processId,
 					parameters);
 			processInstanceId = processInstance.getId();
-			logger.info("Process started ... : processInstanceId = "
-					+ processInstanceId);
+			logger.info(Messages.i18n.format("ProcessBean.Started", processInstanceId)); //$NON-NLS-1$
 			ut.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,7 +85,8 @@ public class ProcessBean implements ProcessLocal {
 		return processInstanceId;
 	}
 
-	public Collection<ProcessInstance> listProcessInstances() throws Exception {
+	@Override
+    public Collection<ProcessInstance> listProcessInstances() throws Exception {
 
 		RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext
 				.get());
@@ -99,7 +101,7 @@ public class ProcessBean implements ProcessLocal {
 			for (ProcessInstance processInstance : processInstances) {
 				logger.info(processInstance.getProcess().getName());
 
-				System.out.println("..");
+				System.out.println(".."); //$NON-NLS-1$
 			}
 			ut.commit();
 		} catch (Exception e) {
@@ -115,12 +117,13 @@ public class ProcessBean implements ProcessLocal {
 
 	}
 
-	public void listProcessInstanceDetail(long processId) throws Exception {
+	@Override
+    public void listProcessInstanceDetail(long processId) throws Exception {
 
 		RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext
 				.get());
 		KieSession ksession = runtime.getKieSession();
-		logger.info("ksession=" + ksession);
+		logger.info("ksession=" + ksession); //$NON-NLS-1$
 
 		ut.begin();
 
@@ -131,7 +134,7 @@ public class ProcessBean implements ProcessLocal {
 				System.out.println(processInstance.getProcess().getName());
 				System.out.println(processInstance.getState());
 
-				System.out.println("..");
+				System.out.println(".."); //$NON-NLS-1$
 			}
 			ut.commit();
 		} catch (Exception e) {

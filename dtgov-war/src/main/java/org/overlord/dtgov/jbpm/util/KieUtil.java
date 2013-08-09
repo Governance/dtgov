@@ -35,8 +35,8 @@ public class KieUtil {
     	MavenProject project = new MavenProject();
     	Build build = new Build();
     	Extension extension = new Extension();
-    	extension.setArtifactId("s-ramp-wagon");
-    	extension.setGroupId("org.overlord.sramp");
+    	extension.setArtifactId("s-ramp-wagon"); //$NON-NLS-1$
+    	extension.setGroupId("org.overlord.sramp"); //$NON-NLS-1$
     	extension.setVersion(wagonVersion);
     	build.addExtension(extension);
     	project.setBuild(build);
@@ -44,9 +44,9 @@ public class KieUtil {
     	PlexusContainer container = new DefaultPlexusContainer();
     	ArtifactRepositoryFactory artifactRepoFactory = container.lookup(ArtifactRepositoryFactory.class);
     			
-    	ArtifactRepository srampRepo = artifactRepoFactory.createArtifactRepository("central", 
+    	ArtifactRepository srampRepo = artifactRepoFactory.createArtifactRepository("central",  //$NON-NLS-1$
     			srampUrl,
-    			"default",
+    			"default", //$NON-NLS-1$
     			new ArtifactRepositoryPolicy( isSnapshotEnabled, ArtifactRepositoryPolicy.UPDATE_POLICY_ALWAYS, ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE ),
     			new ArtifactRepositoryPolicy( isReleaseEnabled,  ArtifactRepositoryPolicy.UPDATE_POLICY_ALWAYS, ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE ));
     	

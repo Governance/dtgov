@@ -32,7 +32,7 @@ public class WorkflowFactoryTest {
 
     @Test
     public void testFindServiceConfig() {
-        URL url = this.getClass().getClassLoader().getResource("META-INF/services/org.overlord.sramp.governance.workflow.BpmManager");
+        URL url = this.getClass().getClassLoader().getResource("META-INF/services/org.overlord.sramp.governance.workflow.BpmManager"); //$NON-NLS-1$
 //        System.out.println("URL=" + url);
         Assert.assertNotNull(url);
     }
@@ -46,11 +46,11 @@ public class WorkflowFactoryTest {
     @Test @Ignore  //the BPM engine needs to be running for this test to pass
     public void testNewProcessInstance() throws Exception {
         BpmManager bpmManager = WorkflowFactory.newInstance();
-        String processId = "com.sample.evaluation";
+        String processId = "com.sample.evaluation"; //$NON-NLS-1$
         Map<String,Object> parameters = new HashMap<String,Object>();
-        parameters.put("employee", "krisv");
-        parameters.put("reason", "just bc");
-        parameters.put("uuid", "some-uuid-" + new Date());
+        parameters.put("employee", "krisv"); //$NON-NLS-1$ //$NON-NLS-2$
+        parameters.put("reason", "just bc"); //$NON-NLS-1$ //$NON-NLS-2$
+        parameters.put("uuid", "some-uuid-" + new Date()); //$NON-NLS-1$ //$NON-NLS-2$
         bpmManager.newProcessInstance(processId, parameters);
     }
 }

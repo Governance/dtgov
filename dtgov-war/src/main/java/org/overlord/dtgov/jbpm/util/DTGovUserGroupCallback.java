@@ -28,11 +28,12 @@ import javax.security.auth.Subject;
 import javax.security.jacc.PolicyContext;
 
 import org.kie.internal.task.api.UserGroupCallback;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
  * Loosely based on org.jbpm.task.identity.JAASUserGroupCallbackImpl
- * 
+ *
  * @author kstam
  *
  */
@@ -40,37 +41,40 @@ import org.slf4j.LoggerFactory;
 public class DTGovUserGroupCallback implements UserGroupCallback {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
+    @Override
     public boolean existsUser(String userId) {
     	// allow everything as there is no way to ask JAAS/JACC for users in the domain
         return true;
     }
 
+    @Override
     public boolean existsGroup(String groupId) {
     	// allow everything as there is no way to ask JAAS/JACC for groups in the domain
     	return true;
     }
 
+    @Override
     public List<String> getGroupsForUser(String userId,
-            List<String> groupIds, List<String> allExistingGroupIds) 
+            List<String> groupIds, List<String> allExistingGroupIds)
     {
     	List<String> roles = null;
         try {
-            Subject subject = (Subject) PolicyContext.getContext("javax.security.auth.Subject.container");
-    
+            Subject subject = (Subject) PolicyContext.getContext("javax.security.auth.Subject.container"); //$NON-NLS-1$
+
             if (subject != null) {
                 Set<Principal> principals = subject.getPrincipals();
-    
+
                 if (principals != null) {
                     roles = new ArrayList<String>();
                     for (Principal principal : principals) {
                         if (principal instanceof Group) { //&& rolePrincipleName.equalsIgnoreCase(principal.getName())) {
                             Enumeration<? extends Principal> groups = ((Group) principal).members();
-                            
+
                             while (groups.hasMoreElements()) {
-                                Principal groupPrincipal = (Principal) groups.nextElement();
+                                Principal groupPrincipal = groups.nextElement();
                                 roles.add(groupPrincipal.getName());
-                               
+
                             }
                             break;
                         }
@@ -78,8 +82,8 @@ public class DTGovUserGroupCallback implements UserGroupCallback {
                 }
             }
         } catch (Exception e) {
-            logger.error("Error when getting user roles, userid:" + userId, e);
-        }    
+            logger.error(Messages.i18n.format("DTGovUserGroupCallback.ErrorGettingRoles", userId), e); //$NON-NLS-1$
+        }
         return roles;
     }
 }

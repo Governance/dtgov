@@ -40,7 +40,7 @@ import com.google.gwt.user.client.ui.Button;
  * file is typically a binary artifact like a WAR or EAR.
  * @author eric.wittmann@redhat.com
  */
-@Templated("/org/overlord/dtgov/ui/client/local/site/deployment_dialogs.html#add-deployment-dialog")
+@Templated("/org/overlord/dtgov/ui/client/local/site/dialogs/add-deployment-dialog.html#add-deployment-dialog")
 @Dependent
 public class AddDeploymentDialog extends ModalDialog {
 
@@ -78,7 +78,7 @@ public class AddDeploymentDialog extends ModalDialog {
      */
     @Override
     public void show() {
-        form.setAction(GWT.getModuleBaseURL() + "services/deploymentUpload");
+        form.setAction(GWT.getModuleBaseURL() + "services/deploymentUpload"); //$NON-NLS-1$
         UiConfiguration uiConfig = configService.getUiConfig();
 
         // Update the items in the deployment type drop-down

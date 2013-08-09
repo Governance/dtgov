@@ -35,6 +35,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.MediaType;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -70,7 +71,7 @@ public class NotificationResource {
             context = new InitialContext();
             mailSession = (Session) context.lookup(jndiEmailRef);
             if (mailSession==null) {
-                logger.error("The JNDI lookup for mailSession '" + jndiEmailRef + "' failed.");
+                logger.error(Messages.i18n.format("NotificationResource.JndiLookupFailed", jndiEmailRef)); //$NON-NLS-1$
             }
         } catch (NamingException e) {
             logger.error(e.getMessage(),e);
@@ -103,7 +104,7 @@ public class NotificationResource {
 
             // 1. get the artifact from the repo
             SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-            String query = String.format("/s-ramp[@uuid='%s']", uuid);
+            String query = String.format("/s-ramp[@uuid='%s']", uuid); //$NON-NLS-1$
             QueryResultSet queryResultSet = client.query(query);
             if (queryResultSet.size() == 0) {
                 return Response.serverError().status(0).build();
@@ -111,11 +112,11 @@ public class NotificationResource {
             ArtifactSummary artifactSummary = queryResultSet.iterator().next();
 
             // 2. get the destinations for this group
-            NotificationDestinations destinations = governance.getNotificationDestinations("email").get(group);
+            NotificationDestinations destinations = governance.getNotificationDestinations("email").get(group); //$NON-NLS-1$
             if (destinations==null) {
                 destinations = new NotificationDestinations(group,
                         governance.getDefaultEmailFromAddress(),
-                        group + "@" + governance.getDefaultEmailDomain());
+                        group + "@" + governance.getDefaultEmailDomain()); //$NON-NLS-1$
             }
 
             // 3. send the email notification
@@ -129,32 +130,32 @@ public class NotificationResource {
                 m.setFrom(from);
                 m.setRecipients(Message.RecipientType.TO, to);
 
-                String subject = "/governance-email-templates/" + template  + ".subject.tmpl";
+                String subject = "/governance-email-templates/" + template  + ".subject.tmpl"; //$NON-NLS-1$ //$NON-NLS-2$
                 URL subjectUrl = Governance.class.getClassLoader().getResource(subject);
                 if (subjectUrl!=null) subject=IOUtils.toString(subjectUrl);
-                subject = subject.replaceAll("\\$\\{uuid}", uuid);
-                subject = subject.replaceAll("\\$\\{name}", artifactSummary.getName());
-                subject = subject.replaceAll("\\$\\{target}", target);
+                subject = subject.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
+                subject = subject.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
+                subject = subject.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
                 m.setSubject(subject);
 
                 m.setSentDate(new java.util.Date());
-                String content = "/governance-email-templates/" + template + ".body.tmpl";
+                String content = "/governance-email-templates/" + template + ".body.tmpl"; //$NON-NLS-1$ //$NON-NLS-2$
                 URL contentUrl = Governance.class.getClassLoader().getResource(content);
                 if (contentUrl!=null) content=IOUtils.toString(contentUrl);
-                content = content.replaceAll("\\$\\{uuid}", uuid);
-                content = content.replaceAll("\\$\\{name}", artifactSummary.getName());
-                content = content.replaceAll("\\$\\{target}", target);
-                m.setContent(content,"text/plain");
+                content = content.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
+                content = content.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
+                content = content.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
+                m.setContent(content,"text/plain"); //$NON-NLS-1$
                 Transport.send(m);
             } catch (javax.mail.MessagingException e) {
                 logger.error(e.getMessage(),e);
             }
 
             // 4. build the response
-            InputStream reply = IOUtils.toInputStream("success");
+            InputStream reply = IOUtils.toInputStream("success"); //$NON-NLS-1$
             return Response.ok(reply, MediaType.APPLICATION_OCTET_STREAM).build();
         } catch (Exception e) {
-            logger.error("Error sending a notification email. " + e.getMessage(), e);
+            logger.error(Messages.i18n.format("NotificationResource.EmailError", e.getMessage(), e)); //$NON-NLS-1$
             throw new SrampAtomException(e);
         }
     }

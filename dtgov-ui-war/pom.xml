@@ -9,6 +9,12 @@
   <packaging>war</packaging>
   <name>Design Time Governance: UI</name>
   <dependencies>
+    <!-- DTGov Common -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <!-- DTGov Task API Client -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>

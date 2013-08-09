@@ -46,7 +46,7 @@ public class DataBindingListCountConverter implements Converter<List<?>, String>
     @Override
     public String toWidgetValue(List<?> modelValue) {
         if (modelValue == null)
-            return "0";
+            return "0"; //$NON-NLS-1$
         else
             return String.valueOf(modelValue.size());
     }

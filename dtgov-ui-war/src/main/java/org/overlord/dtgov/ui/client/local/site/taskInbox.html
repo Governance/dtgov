@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>DTGov - Task Inbox</title>
+    <title data-role="dummy">DTGov - Task Inbox</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
     <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
     <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen"></link>
@@ -30,8 +30,8 @@
         <!-- Breadcrumbs -->
         <div class="row-fluid">
           <ul class="breadcrumb">
-            <li><a data-field="back-to-dashboard" href="dashboard.html">DTGov Dashboard</a> <span class="divider">/</span></li>
-            <li class="active">Task Inbox</li>
+            <li><a data-field="back-to-dashboard" href="dashboard.html" data-i18n-key="breadcrumb.dashboard">DTGov Dashboard</a> <span class="divider">/<span data-role="dummy" /></span></li>
+            <li class="active" data-i18n-key="breadcrumb.task-inbox">Task Inbox</li>
           </ul>
         </div>
       
@@ -40,7 +40,7 @@
           <!-- The Task Filter Sidebar -->
           <div id="tasks-filter-sidebar" data-field="tasks-filter-sidebar" class="span3 filter-sidebar">
             <div class="row-fluid filter-header">
-              <a class="span12" data-toggle="slide" data-target="#task-filters">Task Filters <span class="mobile-only caret pull-right"></span></a>
+              <a class="span12" data-toggle="slide" data-target="#task-filters"><span data-i18n-key="task-filters">Task Filters</span> <span class="mobile-only caret pull-right"></span></a>
             </div>
             <!-- The actual Task Filters -->
             <div id="task-filters" class="row-fluid close-on-mobile closed-on-mobile open-on-desktop">
@@ -48,36 +48,36 @@
                 <div class="filter-inner">
                   <form class="" onSubmit="return false;">
                     <div class="controls controls-row">
-                      <label class="filter-label">Owner</label>
+                      <label class="filter-label" data-i18n-key="owner">Owner</label>
                       <label class="radio offset1">
                         <input data-field="ownerAny" type="radio" name="owner" id="owner-any" value="">
-                        Any
+                        <span data-i18n-key="any">Any</span>
                       </label>
                       <label class="radio offset1">
                         <input data-field="ownerMine" type="radio" name="owner" id="owner-mine" value="mine" checked="checked">
-                        My Tasks
+                        <span data-i18n-key="my-tasks">My Tasks</span>
                       </label>
                       <label class="radio offset1">
                         <input data-field="ownerActive" type="radio" name="owner" id="owner-active" value="primary">
-                        Active Tasks
+                        <span data-i18n-key="active-tasks">Active Tasks</span>
                       </label>
                       <label class="radio offset1">
                         <input data-field="ownerGroup" type="radio" name="owner" id="owner-group" value="derived">
-                        Group Tasks
+                        <span data-i18n-key="group-tasks">Group Tasks</span>
                       </label>
                     </div>
                     <div class="controls">
-                      <label class="filter-label">Priority</label>
+                      <label class="filter-label" data-i18n-key="priority">Priority</label>
                       <input data-field="priority" class="span12" type="text" placeholder="Any">
                     </div>
                     <div class="controls controls-row">
-                      <label class="filter-label">Date Due</label>
+                      <label class="filter-label" data-i18n-key="due-date">Date Due</label>
                       <input data-field="dateDueFrom" class="span5 filter-date" type="text" placeholder="Any" readonly="readonly"></input>
-                      <span class="span2 desktop-only" style="padding-top: 4px; text-align: center">to</span>
+                      <span class="span2 desktop-only" style="padding-top: 4px; text-align: center" data-i18n-key="to">to</span>
                       <input data-field="dateDueTo" class="span5 filter-date" type="text" placeholder="Any" readonly="readonly"></input>
                     </div>
                     <div class="controls">
-                      <button data-field="clearFilters" class="btn btn-focus btn-clear">Clear All Filters</button>
+                      <button data-field="clearFilters" class="btn btn-focus btn-clear" data-i18n-key="clear-all-filters">Clear All Filters</button>
                     </div>
                   </form>
                 </div>
@@ -92,26 +92,29 @@
                 <a class="btn spacer" style="visibility:hidden"><i class="icon-refresh"></i></a>
                 <a data-field="btn-refresh" class="btn pull-right"><i class="icon-refresh"></i></a>
                 <div class="pull-right sp4n-label">
-                  Displaying <span data-field="tasks-range">1-11</span> of <span data-field="tasks-total">37</span>
+                  <span data-i18n-key="displaying">Displaying</span>
+                  <span data-field="tasks-range" data-role="dummy">1-11</span>
+                  <span data-i18n-key="of">of</span>
+                  <span data-field="tasks-total" data-role="dummy">37</span>
                 </div>
               </div>
               <div data-field="tasks-none" style="display:none" class="tasks-none">
-                <span>No tasks found.</span>
+                <span data-i18n-key="no-tasks-found">No tasks found.</span>
               </div>
               <div data-field="tasks-searching" style="display:none" class="tasks-searching">
-                <span class="spinner">Loading tasks, please wait...</span>
+                <span class="spinner" data-i18n-key="loading-tasks">Loading tasks, please wait...</span>
               </div>
               <table data-i18n-skip="true" data-field="tasks-table" class="tasks-table table table-striped table-condensed table-hover">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Priority</th>
-                  <th class="desktop-only">Owner</th>
-                  <th class="desktop-only">Status</th>
-                  <th>Due On</th>
+                  <th data-i18n-key="name">Name</th>
+                  <th data-i18n-key="priority">Priority</th>
+                  <th data-i18n-key="owner" class="desktop-only">Owner</th>
+                  <th data-i18n-key="status" class="desktop-only">Status</th>
+                  <th data-i18n-key="due-on">Due On</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody data-role="dummy">
                 <tr>
                   <td><a href="taskDetails.html">Task 1</a></td>
                   <td>1</td>
@@ -149,7 +152,7 @@
                 </tr>
               </tbody>
               </table>
-              <div data-field="tasks-pager" class="pagination tasks-pager">
+              <div data-field="tasks-pager" class="pagination tasks-pager" data-role="dummy">
                 <ul>
                   <li class="disabled"><a>&#x00AB;</a></li>
                   <li class="active"><a>1</a></li>
@@ -166,7 +169,7 @@
         <!-- Footer -->
         <footer>
           <hr />
-          <p>&copy; JBoss Overlord 2013</p>
+          <p data-i18n-key="footer">&copy; JBoss Overlord 2013</p>
         </footer>
       </div> <!-- /container -->
       

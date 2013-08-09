@@ -59,7 +59,7 @@ public class Target {
         if (asHost!=null) {
         	this.host = asHost;
         } else {
-        	this.host = "localhost";
+        	this.host = "localhost"; //$NON-NLS-1$
         }
         if (port!=null && port > 0) {
         	this.port = asPort;
@@ -86,7 +86,7 @@ public class Target {
         this.type = TYPE.RHQ;
         this.user = rhqUser;
         this.password = rhqPassword;
-        int secondColon = rhqBaseUrl.indexOf(":",rhqBaseUrl.indexOf(":")+1);
+        int secondColon = rhqBaseUrl.indexOf(":",rhqBaseUrl.indexOf(":")+1); //$NON-NLS-1$ //$NON-NLS-2$
         if (secondColon > 0) {
         	this.rhqBaseUrl = rhqBaseUrl.substring(0,secondColon);
         	this.port = Integer.valueOf(rhqBaseUrl.substring(secondColon + 1));
@@ -225,7 +225,7 @@ public class Target {
 
     @Override
     public String toString() {
-        return "Name=" + name + "\nDeployDir=" + deployDir;
+        return "Name=" + name + "\nDeployDir=" + deployDir; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
 }

@@ -25,12 +25,13 @@ import org.kie.api.runtime.process.WorkItemHandler;
 public class SimpleWorkItemHandlerProducer implements WorkItemHandlerProducer {
 
     //@Override
+    @Override
     public Map<String, WorkItemHandler> getWorkItemHandlers(String s, Map<String, Object> stringObjectMap) {
         // add any WorkItemHandlers that should be registered on the session
     	Map<String, WorkItemHandler> workItemHandlers = new HashMap<String, WorkItemHandler>();
-    	workItemHandlers.put("HttpClientDeploy", (WorkItemHandler) new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
-    	workItemHandlers.put("HttpClientNotify", (WorkItemHandler) new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
-    	workItemHandlers.put("HttpClientUpdateMetaData", (WorkItemHandler) new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler());
+    	workItemHandlers.put("HttpClientDeploy", new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler()); //$NON-NLS-1$
+    	workItemHandlers.put("HttpClientNotify", new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler()); //$NON-NLS-1$
+    	workItemHandlers.put("HttpClientUpdateMetaData", new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler()); //$NON-NLS-1$
         return workItemHandlers;
     }
 }

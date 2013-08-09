@@ -15,6 +15,9 @@
  */
 package org.overlord.dtgov.ui.client.local.pages.deployments;
 
+import javax.inject.Inject;
+
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.widgets.common.AbstractFilterListBox;
 
 /**
@@ -22,6 +25,9 @@ import org.overlord.dtgov.ui.client.local.widgets.common.AbstractFilterListBox;
  * @author eric.wittmann@redhat.com
  */
 public class DeploymentTypeListBox extends AbstractFilterListBox {
+
+    @Inject
+    protected ClientMessages i18n;
 
     /**
      * Constructor.
@@ -34,7 +40,7 @@ public class DeploymentTypeListBox extends AbstractFilterListBox {
      */
     @Override
     protected void configureItems() {
-        this.addItem("Any", "");
+        this.addItem(i18n.format("any"), ""); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -43,7 +49,7 @@ public class DeploymentTypeListBox extends AbstractFilterListBox {
     @Override
     public void clear() {
         super.clear();
-        this.addItem("Any", "");
+        this.addItem(i18n.format("any"), ""); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
 }

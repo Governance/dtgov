@@ -22,6 +22,7 @@ import javax.inject.Singleton;
 
 import org.apache.commons.configuration.Configuration;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
+import org.overlord.dtgov.ui.server.i18n.Messages;
 
 /**
  * The class used whenever a request to a task server needs to be made.
@@ -53,11 +54,11 @@ public class TaskClientAccessor {
                     client = (ITaskClient) constructor.newInstance();
                 } catch (NoSuchMethodException e) {}
             } catch (Exception e) {
-                throw new RuntimeException("Error creating the Task Inbox client.", e);
+                throw new RuntimeException(Messages.i18n.format("TaskClientAccessor.ErrorCreatingClient"), e); //$NON-NLS-1$
             }
 		}
 		if (client == null) {
-		    throw new RuntimeException("Failed to create the Task Inbox client from: " + clientClassname);
+		    throw new RuntimeException(Messages.i18n.format("TaskClientAccessor.FailedTocreateClientFrom", clientClassname)); //$NON-NLS-1$
 		}
 	}
 

@@ -40,42 +40,42 @@ import org.overlord.dtgov.ui.server.services.tasks.TaskClientAccessor;
 @ApplicationScoped
 public class DtgovUIConfig {
 
-    public static final String DTGOV_UI_CONFIG_FILE_NAME     = "dtgov-ui.config.file.name";
-    public static final String DTGOV_UI_CONFIG_FILE_REFRESH  = "dtgov-ui.config.file.refresh";
+    public static final String DTGOV_UI_CONFIG_FILE_NAME     = "dtgov-ui.config.file.name"; //$NON-NLS-1$
+    public static final String DTGOV_UI_CONFIG_FILE_REFRESH  = "dtgov-ui.config.file.refresh"; //$NON-NLS-1$
 
     // S-RAMP related properties
-    public static final String SRAMP_ATOM_API_ENDPOINT = "dtgov-ui.s-ramp.atom-api.endpoint";
-    public static final String SRAMP_ATOM_API_AUTH_PROVIDER = "dtgov-ui.s-ramp.atom-api.authentication.provider";
-    public static final String SRAMP_ATOM_API_BASIC_AUTH_USER = "dtgov-ui.s-ramp.atom-api.authentication.basic.username";
-    public static final String SRAMP_ATOM_API_BASIC_AUTH_PASS = "dtgov-ui.s-ramp.atom-api.authentication.basic.password";
-    public static final String SRAMP_ATOM_API_SAML_ISSUER = "dtgov-ui.s-ramp.atom-api.authentication.saml.issuer";
-    public static final String SRAMP_ATOM_API_SAML_SERVICE = "dtgov-ui.s-ramp.atom-api.authentication.saml.service";
-    public static final String SRAMP_ATOM_API_VALIDATING = "dtgov-ui.s-ramp.atom-api.validating";
+    public static final String SRAMP_ATOM_API_ENDPOINT = "dtgov-ui.s-ramp.atom-api.endpoint"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_AUTH_PROVIDER = "dtgov-ui.s-ramp.atom-api.authentication.provider"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_BASIC_AUTH_USER = "dtgov-ui.s-ramp.atom-api.authentication.basic.username"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_BASIC_AUTH_PASS = "dtgov-ui.s-ramp.atom-api.authentication.basic.password"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_SAML_ISSUER = "dtgov-ui.s-ramp.atom-api.authentication.saml.issuer"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_SAML_SERVICE = "dtgov-ui.s-ramp.atom-api.authentication.saml.service"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_VALIDATING = "dtgov-ui.s-ramp.atom-api.validating"; //$NON-NLS-1$
     // Task API related properties
-    public static final String TASK_API_ENDPOINT = "dtgov-ui.task-api.endpoint";
-    public static final String TASK_CLIENT_CLASS = "dtgov-ui.task-client.class";
-    public static final String TASK_API_AUTH_PROVIDER = "dtgov-ui.task-api.authentication.provider";
-    public static final String TASK_API_BASIC_AUTH_USER = "dtgov-ui.task-api.authentication.basic.username";
-    public static final String TASK_API_BASIC_AUTH_PASS = "dtgov-ui.task-api.authentication.basic.password";
-    public static final String TASK_API_SAML_ISSUER = "dtgov-ui.task-api.authentication.saml.issuer";
-    public static final String TASK_API_SAML_SERVICE = "dtgov-ui.task-api.authentication.saml.service";
+    public static final String TASK_API_ENDPOINT = "dtgov-ui.task-api.endpoint"; //$NON-NLS-1$
+    public static final String TASK_CLIENT_CLASS = "dtgov-ui.task-client.class"; //$NON-NLS-1$
+    public static final String TASK_API_AUTH_PROVIDER = "dtgov-ui.task-api.authentication.provider"; //$NON-NLS-1$
+    public static final String TASK_API_BASIC_AUTH_USER = "dtgov-ui.task-api.authentication.basic.username"; //$NON-NLS-1$
+    public static final String TASK_API_BASIC_AUTH_PASS = "dtgov-ui.task-api.authentication.basic.password"; //$NON-NLS-1$
+    public static final String TASK_API_SAML_ISSUER = "dtgov-ui.task-api.authentication.saml.issuer"; //$NON-NLS-1$
+    public static final String TASK_API_SAML_SERVICE = "dtgov-ui.task-api.authentication.saml.service"; //$NON-NLS-1$
 
     // Deployment Lifecycle UI properties
-    public static final String DEPLOYMENT_CLASSIFIER_BASE = "dtgov-ui.deployment-lifecycle.classifiers.base";
-    public static final String DEPLOYMENT_INITIAL_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.initial";
-    public static final String DEPLOYMENT_ALL_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.all";
-    public static final String DEPLOYMENT_INPROGRESS_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.in-progress";
+    public static final String DEPLOYMENT_CLASSIFIER_BASE = "dtgov-ui.deployment-lifecycle.classifiers.base"; //$NON-NLS-1$
+    public static final String DEPLOYMENT_INITIAL_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.initial"; //$NON-NLS-1$
+    public static final String DEPLOYMENT_ALL_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.all"; //$NON-NLS-1$
+    public static final String DEPLOYMENT_INPROGRESS_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.in-progress"; //$NON-NLS-1$
     // This next one is a prefix for any property that will indicate a possible classifier stage that
     // should be displayed in the UI.  In the dtgov ui configuration file, multiple properties would
     // be specified that begin with this prefix and have a value of the format  {label}:{classifier}
-    public static final String DEPLOYMENT_CLASSIFIER_STAGE_PREFIX = "dtgov-ui.deployment-lifecycle.classifiers.stage";
+    public static final String DEPLOYMENT_CLASSIFIER_STAGE_PREFIX = "dtgov-ui.deployment-lifecycle.classifiers.stage"; //$NON-NLS-1$
     // And another one that is a prefix for any property that will indicate a possible deployment type
     // that should be displayed in the UI.  In the dtgov ui configuration file, multiple properties would
     // be specified that begin with this prefix and have a value of the format  {label}:{type}
-    public static final String DEPLOYMENT_TYPE_PREFIX = "dtgov-ui.deployment-lifecycle.types";
+    public static final String DEPLOYMENT_TYPE_PREFIX = "dtgov-ui.deployment-lifecycle.types"; //$NON-NLS-1$
 
     // S-RAMP UI integration properties
-    public static final String SRAMP_UI_URL_BASE = "dtgov-ui.s-ramp-browser.url-base";
+    public static final String SRAMP_UI_URL_BASE = "dtgov-ui.s-ramp-browser.url-base"; //$NON-NLS-1$
 
     private static CompositeConfiguration config;
     static {
@@ -92,7 +92,7 @@ public class DtgovUIConfig {
                 propertiesConfiguration.setReloadingStrategy(fileChangedReloadingStrategy);
                 config.addConfiguration(propertiesConfiguration);
             }
-            config.addConfiguration(new PropertiesConfiguration(TaskClientAccessor.class.getResource("/META-INF/config/org.overlord.dtgov.ui.server.api.properties")));
+            config.addConfiguration(new PropertiesConfiguration(TaskClientAccessor.class.getResource("/META-INF/config/org.overlord.dtgov.ui.server.api.properties"))); //$NON-NLS-1$
         } catch (ConfigurationException e) {
             e.printStackTrace();
         }
@@ -121,31 +121,31 @@ public class DtgovUIConfig {
                     return file.toURI().toURL();
             } else {
                 // Check the current user's home directory
-                String userHomeDir = System.getProperty("user.home");
+                String userHomeDir = System.getProperty("user.home"); //$NON-NLS-1$
                 if (userHomeDir != null) {
                     File dirFile = new File(userHomeDir);
                     if (dirFile.isDirectory()) {
-                        File cfile = new File(dirFile, "dtgov-ui.properties");
+                        File cfile = new File(dirFile, "dtgov-ui.properties"); //$NON-NLS-1$
                         if (cfile.isFile())
                             return cfile.toURI().toURL();
                     }
                 }
 
                 // Next, check for JBoss
-                String jbossConfigDir = System.getProperty("jboss.server.config.dir");
+                String jbossConfigDir = System.getProperty("jboss.server.config.dir"); //$NON-NLS-1$
                 if (jbossConfigDir != null) {
                     File dirFile = new File(jbossConfigDir);
                     if (dirFile.isDirectory()) {
-                        File cfile = new File(dirFile, "dtgov-ui.properties");
+                        File cfile = new File(dirFile, "dtgov-ui.properties"); //$NON-NLS-1$
                         if (cfile.isFile())
                             return cfile.toURI().toURL();
                     }
                 }
-                String jbossConfigUrl = System.getProperty("jboss.server.config.url");
+                String jbossConfigUrl = System.getProperty("jboss.server.config.url"); //$NON-NLS-1$
                 if (jbossConfigUrl != null) {
                     File dirFile = new File(jbossConfigUrl);
                     if (dirFile.isDirectory()) {
-                        File cfile = new File(dirFile, "dtgov-ui.properties");
+                        File cfile = new File(dirFile, "dtgov-ui.properties"); //$NON-NLS-1$
                         if (cfile.isFile())
                             return cfile.toURI().toURL();
                     }
@@ -180,7 +180,7 @@ public class DtgovUIConfig {
         while (stageKeys.hasNext()) {
             String stageKey = stageKeys.next();
             String value = config.getString(stageKey);
-            if (value.contains(":")) {
+            if (value.contains(":")) { //$NON-NLS-1$
                 int idx = value.indexOf(':');
                 String label = value.substring(0, idx);
                 String classifier = value.substring(idx+1);
