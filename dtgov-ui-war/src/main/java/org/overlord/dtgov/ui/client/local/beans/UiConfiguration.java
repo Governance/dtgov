@@ -63,7 +63,7 @@ public class UiConfiguration {
      */
     public String createSrampUiUrl(String pageName, Multimap<String, String> state) {
         HistoryToken token = HistoryToken.of(pageName, state);
-        String href = srampUiUrlBase + "#" + token.toString();
+        String href = srampUiUrlBase + "#" + token.toString(); //$NON-NLS-1$
         return href;
     }
 
@@ -122,7 +122,7 @@ public class UiConfiguration {
      */
     private void addDeploymentType(String label, String type) {
         this.getDeploymentTypes().put(label, type);
-        GWT.log("[UiConfig] - Registered Deployment Type: " + label + "=" + type);
+        GWT.log("[UiConfig] - Registered Deployment Type: " + label + "=" + type); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -132,7 +132,7 @@ public class UiConfiguration {
      */
     private void addDeploymentStage(String label, String classifier) {
         this.getDeploymentStages().put(label, classifier);
-        GWT.log("[UiConfig] - Registered Deployment Stage: " + label + "=" + classifier);
+        GWT.log("[UiConfig] - Registered Deployment Stage: " + label + "=" + classifier); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**

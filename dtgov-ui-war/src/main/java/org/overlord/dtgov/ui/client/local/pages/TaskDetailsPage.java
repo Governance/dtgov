@@ -33,6 +33,7 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.taskInbox.TaskFormPanel;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.TaskInboxRpcService;
@@ -61,6 +62,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 @Dependent
 public class TaskDetailsPage extends AbstractPage {
 
+    @Inject
+    protected ClientMessages i18n;
     @Inject
     protected TaskInboxRpcService taskInboxService;
     @Inject
@@ -129,11 +132,11 @@ public class TaskDetailsPage extends AbstractPage {
      */
     @PostConstruct
     protected void onPostConstruct() {
-        pageContent = DOMUtil.findElementById(getElement(), "task-details-content-wrapper");
+        pageContent = DOMUtil.findElementById(getElement(), "task-details-content-wrapper"); //$NON-NLS-1$
         task.addPropertyChangeHandler(new PropertyChangeHandler<Object>() {
             @Override
             public void onPropertyChange(PropertyChangeEvent<Object> event) {
-                if ("description".equals(event.getPropertyName())) {
+                if ("description".equals(event.getPropertyName())) { //$NON-NLS-1$
                     pushModelToServer();
                 }
             }
@@ -143,21 +146,21 @@ public class TaskDetailsPage extends AbstractPage {
     /**
      * Sends the model back up to the server (saves local changes).
      */
-    // TODO i18n
     protected void pushModelToServer() {
         final NotificationBean notificationBean = notificationService.startProgressNotification(
-                "Updating Task", "Updating task '" + task.getModel().getName() + "', please wait...");
+                i18n.format("task-details.updating-task"), //$NON-NLS-1$
+                i18n.format("task-details.updating-task-msg", task.getModel().getName())); //$NON-NLS-1$
         taskInboxService.update(task.getModel(), new IRpcServiceInvocationHandler<Void>() {
             @Override
             public void onReturn(Void data) {
                 notificationService.completeProgressNotification(notificationBean.getUuid(),
-                        "Update Complete",
-                        "You have successfully updated task '" + task.getModel().getName() + "'.");
+                        i18n.format("task-details.update-complete"), //$NON-NLS-1$
+                        i18n.format("task-details.update-complete-msg", task.getModel().getName())); //$NON-NLS-1$
             }
             @Override
             public void onError(Throwable error) {
                 notificationService.completeProgressNotification(notificationBean.getUuid(),
-                        "Error Updating Task",
+                        i18n.format("task-details.error-updating-task"), //$NON-NLS-1$
                         error);
             }
         });
@@ -169,8 +172,8 @@ public class TaskDetailsPage extends AbstractPage {
     @Override
     protected void onPageShowing() {
         currentTask = null;
-        pageContent.addClassName("hide");
-        taskLoading.getElement().removeClassName("hide");
+        pageContent.addClassName("hide"); //$NON-NLS-1$
+        taskLoading.getElement().removeClassName("hide"); //$NON-NLS-1$
         taskInboxService.get(id, new IRpcServiceInvocationHandler<TaskBean>() {
             @Override
             public void onReturn(TaskBean data) {
@@ -180,7 +183,7 @@ public class TaskDetailsPage extends AbstractPage {
             }
             @Override
             public void onError(Throwable error) {
-                notificationService.sendErrorNotification("Error getting task details.", error);
+                notificationService.sendErrorNotification(i18n.format("task-details.error-getting-details"), error); //$NON-NLS-1$
             }
         });
     }
@@ -191,13 +194,13 @@ public class TaskDetailsPage extends AbstractPage {
      */
     protected void updateTaskMetaData(TaskBean task) {
         this.task.setModel(task, InitialState.FROM_MODEL);
-        taskLoading.getElement().addClassName("hide");
-        pageContent.removeClassName("hide");
+        taskLoading.getElement().addClassName("hide"); //$NON-NLS-1$
+        pageContent.removeClassName("hide"); //$NON-NLS-1$
         if (task.getTaskForm() != null) {
             taskFormWrapper.setHTML(task.getTaskForm());
             taskFormWrapper.setData(task.getTaskData());
         } else {
-            taskFormWrapper.setHTML("");
+            taskFormWrapper.setHTML(""); //$NON-NLS-1$
             taskFormWrapper.setData(new HashMap<String, String>());
         }
     }
@@ -224,8 +227,11 @@ public class TaskDetailsPage extends AbstractPage {
      */
     @EventHandler("action-claim")
     public void onClaimClick(ClickEvent event) {
-        doTaskAction(TaskActionEnum.claim, "Claiming Task", "Claiming task '" + task.getModel().getName() + "', please wait...",
-                "Task Claimed", "You have successfully claimed task '" + task.getModel().getName() + "'.");
+        doTaskAction(TaskActionEnum.claim,
+                i18n.format("task-details.claiming-task"), //$NON-NLS-1$
+                i18n.format("task-details.claiming-task-msg", task.getModel().getName()), //$NON-NLS-1$
+                i18n.format("task-details.task-claimed"), //$NON-NLS-1$
+                i18n.format("task-details.task-claimed-msg", task.getModel().getName())); //$NON-NLS-1$
     }
 
     /**
@@ -234,8 +240,11 @@ public class TaskDetailsPage extends AbstractPage {
      */
     @EventHandler("action-release")
     public void onReleaseClick(ClickEvent event) {
-        doTaskAction(TaskActionEnum.release, "Releasing Task", "Releasing task '" + task.getModel().getName() + "', please wait...",
-                "Task Released", "You have successfully released task '" + task.getModel().getName() + "'.");
+        doTaskAction(TaskActionEnum.release,
+                i18n.format("task-details.releasing-task"), //$NON-NLS-1$
+                i18n.format("task-details.releasing-task-msg", task.getModel().getName()), //$NON-NLS-1$
+                i18n.format("task-details.task-released"), //$NON-NLS-1$
+                i18n.format("task-details.task-released-msg", task.getModel().getName())); //$NON-NLS-1$
     }
 
     /**
@@ -244,8 +253,11 @@ public class TaskDetailsPage extends AbstractPage {
      */
     @EventHandler("action-start")
     public void onStartClick(ClickEvent event) {
-        doTaskAction(TaskActionEnum.start, "Starting Task", "Starting task '" + task.getModel().getName() + "', please wait...",
-                "Task Started", "You have successfully started task '" + task.getModel().getName() + "'.");
+        doTaskAction(TaskActionEnum.start,
+                i18n.format("task-details.starting-task"), //$NON-NLS-1$
+                i18n.format("task-details.starting-task-msg", task.getModel().getName()), //$NON-NLS-1$
+                i18n.format("task-details.task-started"), //$NON-NLS-1$
+                i18n.format("task-details.task-started-msg", task.getModel().getName())); //$NON-NLS-1$
     }
 
     /**
@@ -254,8 +266,11 @@ public class TaskDetailsPage extends AbstractPage {
      */
     @EventHandler("action-stop")
     public void onStopClick(ClickEvent event) {
-        doTaskAction(TaskActionEnum.stop, "Stopping Task", "Stopping task '" + task.getModel().getName() + "', please wait...",
-                "Task Stopped", "You have successfully stopped task '" + task.getModel().getName() + "'.");
+        doTaskAction(TaskActionEnum.stop,
+                i18n.format("task-details.stopping-task"), //$NON-NLS-1$
+                i18n.format("task-details.stopping-task-msg", task.getModel().getName()), //$NON-NLS-1$
+                i18n.format("task-details.task-stopped"), //$NON-NLS-1$
+                i18n.format("task-details.task-stopped-msg", task.getModel().getName())); //$NON-NLS-1$
     }
 
     /**
@@ -264,8 +279,11 @@ public class TaskDetailsPage extends AbstractPage {
      */
     @EventHandler("action-complete")
     public void onCompleteClick(ClickEvent event) {
-        doTaskAction(TaskActionEnum.complete, "Completing Task", "Completing task '" + task.getModel().getName() + "', please wait...",
-                "Task Completed", "You have successfully completed task '" + task.getModel().getName() + "'.");
+        doTaskAction(TaskActionEnum.complete,
+                i18n.format("task-details.completing-task"), //$NON-NLS-1$
+                i18n.format("task-details.completing-task-msg", task.getModel().getName()), //$NON-NLS-1$
+                i18n.format("task-details.task-comleted"), //$NON-NLS-1$
+                i18n.format("task-details.task-comleted-msg", task.getModel().getName())); //$NON-NLS-1$
     }
 
     /**
@@ -274,8 +292,11 @@ public class TaskDetailsPage extends AbstractPage {
      */
     @EventHandler("action-fail")
     public void onFailClick(ClickEvent event) {
-        doTaskAction(TaskActionEnum.fail, "Failing Task", "Failing task '" + task.getModel().getName() + "', please wait...",
-                "Task Failed", "You have successfully failed task '" + task.getModel().getName() + "'.");
+        doTaskAction(TaskActionEnum.fail,
+                i18n.format("task-details.failing-task"), //$NON-NLS-1$
+                i18n.format("task-details.failing-task-msg", task.getModel().getName()), //$NON-NLS-1$
+                i18n.format("task-details.task-failed"), //$NON-NLS-1$
+                i18n.format("task-details.task-failed-msg", task.getModel().getName())); //$NON-NLS-1$
     }
 
     /**
@@ -305,7 +326,7 @@ public class TaskDetailsPage extends AbstractPage {
             @Override
             public void onError(Throwable error) {
                 notificationService.completeProgressNotification(notificationBean.getUuid(),
-                        "Error " + inProgressTitle, error);
+                        i18n.format("task-details.error", inProgressTitle), error); //$NON-NLS-1$
             }
         });
     }

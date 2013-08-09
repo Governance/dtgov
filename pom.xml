@@ -388,6 +388,7 @@
     <module>dtgov-workflows</module>
     <module>dtgov-installer</module>
     <module>dtgov-distro</module>
+    <module>dtgov-common</module>
   </modules>
 </project>
 

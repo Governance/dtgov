@@ -36,6 +36,7 @@ import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IDeploymentsService;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.DtgovUIConfig.DeploymentStage;
+import org.overlord.dtgov.ui.server.i18n.Messages;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -78,7 +79,7 @@ public class DeploymentsService implements IDeploymentsService {
             int req_startIndex = (page - 1) * pageSize;
             SrampClientQuery query = null;
             query = createQuery(filters, searchText);
-            QueryResultSet resultSet = query.startIndex(req_startIndex).orderBy("name").ascending().count(pageSize + 1).query();
+            QueryResultSet resultSet = query.startIndex(req_startIndex).orderBy("name").ascending().count(pageSize + 1).query(); //$NON-NLS-1$
 
             DeploymentResultSetBean rval = new DeploymentResultSetBean();
             ArrayList<DeploymentSummaryBean> deployments = new ArrayList<DeploymentSummaryBean>();
@@ -126,38 +127,38 @@ public class DeploymentsService implements IDeploymentsService {
         StringBuilder queryBuilder = new StringBuilder();
         // Initial query
         if (filters.getType() == null) {
-            queryBuilder.append("/s-ramp");
+            queryBuilder.append("/s-ramp"); //$NON-NLS-1$
         } else {
-            queryBuilder.append("/s-ramp/" + filters.getType());
+            queryBuilder.append("/s-ramp/" + filters.getType()); //$NON-NLS-1$
         }
         List<String> criteria = new ArrayList<String>();
         List<Object> params = new ArrayList<Object>();
 
         // Search Text
         if (searchText != null && searchText.trim().length() > 0) {
-            criteria.add("fn:matches(@name, ?)");
-            params.add(searchText.replace("*", ".*"));
+            criteria.add("fn:matches(@name, ?)"); //$NON-NLS-1$
+            params.add(searchText.replace("*", ".*")); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // Stage
-        criteria.add("classifiedByAnyOf(., ?)");
+        criteria.add("classifiedByAnyOf(., ?)"); //$NON-NLS-1$
         if (filters.getStage() == null) {
             params.add(config.getConfiguration().getString(DtgovUIConfig.DEPLOYMENT_ALL_CLASSIFIER,
-                    "http://www.jboss.org/overlord/deployment-status.owl#Lifecycle"));
+                    "http://www.jboss.org/overlord/deployment-status.owl#Lifecycle")); //$NON-NLS-1$
         } else {
             params.add(filters.getStage());
         }
 
         // Created on
         if (filters.getDateInitiatedFrom() != null) {
-            criteria.add("@createdTimestamp >= ?");
+            criteria.add("@createdTimestamp >= ?"); //$NON-NLS-1$
             Calendar cal = Calendar.getInstance();
             cal.setTime(filters.getDateInitiatedFrom());
             zeroOutTime(cal);
             params.add(cal);
         }
         if (filters.getDateInitiatedTo() != null) {
-            criteria.add("@createdTimestamp < ?");
+            criteria.add("@createdTimestamp < ?"); //$NON-NLS-1$
             Calendar cal = Calendar.getInstance();
             cal.setTime(filters.getDateInitiatedTo());
             zeroOutTime(cal);
@@ -171,9 +172,9 @@ public class DeploymentsService implements IDeploymentsService {
 
         // Now create the query predicate from the generated criteria
         if (criteria.size() > 0) {
-            queryBuilder.append("[");
-            queryBuilder.append(StringUtils.join(criteria, " and "));
-            queryBuilder.append("]");
+            queryBuilder.append("["); //$NON-NLS-1$
+            queryBuilder.append(StringUtils.join(criteria, " and ")); //$NON-NLS-1$
+            queryBuilder.append("]"); //$NON-NLS-1$
         }
 
         // Create the query, and parameterize it
@@ -209,9 +210,9 @@ public class DeploymentsService implements IDeploymentsService {
             bean.setUuid(artifact.getUuid());
             bean.setVersion(artifact.getVersion());
             bean.setInitiatedBy(artifact.getCreatedBy());
-            bean.setMavenId(SrampModelUtils.getCustomProperty(artifact, "maven.artifactId"));
-            bean.setMavenGroup(SrampModelUtils.getCustomProperty(artifact, "maven.groupId"));
-            bean.setMavenVersion(SrampModelUtils.getCustomProperty(artifact, "maven.version"));
+            bean.setMavenId(SrampModelUtils.getCustomProperty(artifact, "maven.artifactId")); //$NON-NLS-1$
+            bean.setMavenGroup(SrampModelUtils.getCustomProperty(artifact, "maven.groupId")); //$NON-NLS-1$
+            bean.setMavenVersion(SrampModelUtils.getCustomProperty(artifact, "maven.version")); //$NON-NLS-1$
             bean.setDescription(artifact.getDescription());
             return bean;
         } catch (SrampClientException e) {
@@ -239,7 +240,7 @@ public class DeploymentsService implements IDeploymentsService {
                     if (first) {
                         first = false;
                     } else {
-                        buff.append(", ");
+                        buff.append(", "); //$NON-NLS-1$
                     }
                     buff.append(classifier.substring(sharpIdx+1));
                     found = true;
@@ -247,7 +248,7 @@ public class DeploymentsService implements IDeploymentsService {
             }
         }
         if (!found) {
-            buff.append("[Not Deployed]");
+            buff.append(Messages.i18n.format("DeploymentsService.NotDeployed")); //$NON-NLS-1$
         }
         return buff.toString();
     }
@@ -286,8 +287,8 @@ public class DeploymentsService implements IDeploymentsService {
             rval.setArtifactUuid(uuid);
             rval.setArtifactVersion(artifact.getVersion());
 
-            SrampClientQuery query = srampClientAccessor.getClient().buildQuery("/s-ramp[expandedFromDocument[@uuid = ?]]");
-            QueryResultSet results = query.parameter(uuid).orderBy("name").ascending().query();
+            SrampClientQuery query = srampClientAccessor.getClient().buildQuery("/s-ramp[expandedFromDocument[@uuid = ?]]"); //$NON-NLS-1$
+            QueryResultSet results = query.parameter(uuid).orderBy("name").ascending().query(); //$NON-NLS-1$
             for (ArtifactSummary artifactSummary : results) {
                 ArtifactType at = artifactSummary.getType();
                 ExpandedArtifactSummaryBean easBean = new ExpandedArtifactSummaryBean();
@@ -316,8 +317,8 @@ public class DeploymentsService implements IDeploymentsService {
             rval.setArtifactName(artifact.getName());
             rval.setArtifactUuid(uuid);
 
-            SrampClientQuery query = srampClientAccessor.getClient().buildQuery("/s-ramp[relatedDocument[@uuid = ?]]");
-            QueryResultSet results = query.parameter(uuid).orderBy("name").ascending().query();
+            SrampClientQuery query = srampClientAccessor.getClient().buildQuery("/s-ramp[relatedDocument[@uuid = ?]]"); //$NON-NLS-1$
+            QueryResultSet results = query.parameter(uuid).orderBy("name").ascending().query(); //$NON-NLS-1$
             for (ArtifactSummary artifactSummary : results) {
                 ArtifactType at = artifactSummary.getType();
                 DerivedArtifactSummaryBean dasBean = new DerivedArtifactSummaryBean();

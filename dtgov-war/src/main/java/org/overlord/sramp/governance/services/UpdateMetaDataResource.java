@@ -32,6 +32,7 @@ import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactEnum;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.ExtendedArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Property;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.MediaType;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -81,7 +82,7 @@ public class UpdateMetaDataResource {
 
             // 1. get the artifact from the repo
             SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-            String query = String.format("/s-ramp[@uuid='%s']", uuid);
+            String query = String.format("/s-ramp[@uuid='%s']", uuid); //$NON-NLS-1$
             QueryResultSet queryResultSet = client.query(query);
             if (queryResultSet.size() == 0) {
                 return Response.serverError().status(0).build();
@@ -94,16 +95,16 @@ public class UpdateMetaDataResource {
             client.updateArtifactMetaData(artifact);
 
             // 3. build the response
-            InputStream reply = IOUtils.toInputStream("success");
+            InputStream reply = IOUtils.toInputStream("success"); //$NON-NLS-1$
             return Response.ok(reply, MediaType.APPLICATION_OCTET_STREAM).build();
         } catch (Exception e) {
-            logger.error("Error updating metadata for artifact. " + e.getMessage(), e);
+            logger.error(Messages.i18n.format("UpdateMetaDataResource.ErrorUpdating", e.getMessage()), e); //$NON-NLS-1$
             throw new SrampAtomException(e);
         } finally {
             IOUtils.closeQuietly(os);
         }
     }
-    
+
     /**
      * Governance POST to create a ExtendedArtifactType with
      * given ExtentedType, related to the artifact uuid passed in.
@@ -118,35 +119,35 @@ public class UpdateMetaDataResource {
     @Produces(MediaType.APPLICATION_XML)
     public Response create(@PathParam("extendedType") String extendedType,
                            @PathParam("uuid") String uuid) throws Exception {
-        
+
         try {
             uuid  = SlashDecoder.decode(uuid);
-            
+
             // 1. get the artifact from the repo
             SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-            String query = String.format("/s-ramp[@uuid='%s']", uuid);
+            String query = String.format("/s-ramp[@uuid='%s']", uuid); //$NON-NLS-1$
             QueryResultSet queryResultSet = client.query(query);
             if (queryResultSet.size() == 0) {
                 return Response.serverError().status(0).build();
             }
             ArtifactSummary artifactSummary = queryResultSet.iterator().next();
             BaseArtifactType artifact = client.getArtifactMetaData(artifactSummary.getType(), uuid);
-            
+
             // 2. create a projectArtifactType
             ExtendedArtifactType extendedArtifactType = new ExtendedArtifactType();
             extendedArtifactType.setArtifactType(BaseArtifactEnum.EXTENDED_ARTIFACT_TYPE);
             extendedArtifactType.setExtendedType(extendedType);
-            
+
             for (Property property : artifact.getProperty()) {
-                if ("maven.groupId".equals(property.getPropertyName())) {
+                if ("maven.groupId".equals(property.getPropertyName())) { //$NON-NLS-1$
                     extendedArtifactType.getProperty().add(property);
                 }
             }
             client.createArtifact(extendedArtifactType);
-            InputStream reply = IOUtils.toInputStream("success");
+            InputStream reply = IOUtils.toInputStream("success"); //$NON-NLS-1$
             return Response.ok(reply, MediaType.APPLICATION_OCTET_STREAM).build();
         } catch (Exception e) {
-            logger.error("Error creating artifact. " + e.getMessage(), e);
+            logger.error(Messages.i18n.format("UpdateMetaDataResource.ErrorCreatingArtifact", e.getMessage()), e); //$NON-NLS-1$
             throw new SrampAtomException(e);
         }
     }

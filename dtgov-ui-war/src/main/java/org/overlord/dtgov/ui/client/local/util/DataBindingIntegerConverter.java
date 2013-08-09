@@ -48,7 +48,7 @@ public class DataBindingIntegerConverter implements Converter<Integer, String> {
     @Override
     public String toWidgetValue(Integer modelValue) {
         if (modelValue == -1)
-            return "";
+            return ""; //$NON-NLS-1$
         else
             return String.valueOf(modelValue);
     }

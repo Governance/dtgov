@@ -27,6 +27,7 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
 import org.overlord.dtgov.ui.client.local.services.DeploymentsRpcService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
@@ -57,6 +58,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 @Dependent
 public class ExpandedArtifactItem extends Composite implements HasValue<ExpandedArtifactSummaryBean> {
 
+    @Inject
+    protected ClientMessages i18n;
     @Inject
     protected DeploymentsRpcService deploymentsService;
     @Inject
@@ -137,7 +140,7 @@ public class ExpandedArtifactItem extends Composite implements HasValue<Expanded
     @Override
     public void setValue(ExpandedArtifactSummaryBean value, boolean fireEvents) {
         this.value.setModel(value, InitialState.FROM_MODEL);
-        this.browseButton.setHref(configService.getUiConfig().createSrampUiUrl("details", "uuid", value.getUuid()));
+        this.browseButton.setHref(configService.getUiConfig().createSrampUiUrl("details", "uuid", value.getUuid())); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -156,7 +159,7 @@ public class ExpandedArtifactItem extends Composite implements HasValue<Expanded
                 @Override
                 public void onError(Throwable error) {
                     detailsPanel.clear();
-                    notificationService.sendErrorNotification("Error Getting Derived Artifacts", error);
+                    notificationService.sendErrorNotification(i18n.format("expanded-artifact-item.error-fetching"), error); //$NON-NLS-1$
                 }
             });
             detailsPanel.clear();
@@ -189,7 +192,7 @@ public class ExpandedArtifactItem extends Composite implements HasValue<Expanded
     protected void showDetails(DerivedArtifactsBean data) {
         detailsPanel.clear();
         if (data.getDerivedArtifacts().isEmpty()) {
-            InlineLabel label = new InlineLabel("No derived artifacts found.");
+            InlineLabel label = new InlineLabel(i18n.format("expanded-artifact-item.none-found")); //$NON-NLS-1$
             detailsPanel.add(label);
         } else {
             ExpandedArtifactSummary summaryInfo = summaryFactory.get();

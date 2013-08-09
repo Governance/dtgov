@@ -17,6 +17,8 @@ package org.overlord.sramp.governance.workflow;
 
 import java.util.ServiceLoader;
 
+import org.overlord.dtgov.server.i18n.Messages;
+
 public class WorkflowFactory {
     /**
      * Return a new instance of the persistence manager.
@@ -25,6 +27,6 @@ public class WorkflowFactory {
         for (BpmManager manager : ServiceLoader.load(BpmManager.class)) {
             return manager;
         }
-        throw new RuntimeException("Failed to find a BPM provider.");
+        throw new RuntimeException(Messages.i18n.format("WorkflowFactory.MissingBPMProvider")); //$NON-NLS-1$
     }
 }

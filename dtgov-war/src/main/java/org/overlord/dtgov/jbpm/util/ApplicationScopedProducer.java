@@ -37,6 +37,7 @@ import org.kie.internal.runtime.manager.cdi.qualifier.PerProcessInstance;
 import org.kie.internal.runtime.manager.cdi.qualifier.PerRequest;
 import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.task.api.UserGroupCallback;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.governance.Governance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,14 +45,14 @@ import org.sonatype.aether.artifact.Artifact;
 
 @ApplicationScoped
 public class ApplicationScopedProducer {
-	
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
     @Inject
     private InjectableRegisterableItemsFactory factory;
     @Inject
     private UserGroupCallback usergroupCallback;
-    
+
     @PersistenceUnit(unitName = "org.overlord.dtgov.jbpm")
     private EntityManagerFactory emf;
 
@@ -64,7 +65,7 @@ public class ApplicationScopedProducer {
     public EntityManagerFactory produceEntityManagerFactory() {
         if (this.emf == null) {
             this.emf = Persistence
-                    .createEntityManagerFactory("org.overlord.dtgov.jbpm");
+                    .createEntityManagerFactory("org.overlord.dtgov.jbpm"); //$NON-NLS-1$
         }
         return this.emf;
     }
@@ -74,59 +75,59 @@ public class ApplicationScopedProducer {
     @PerProcessInstance
     @PerRequest
     public RuntimeEnvironment produceEnvironment(EntityManagerFactory emf) {
-    	
-    	
+
+
         RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder
                 .getDefault()
                 .entityManagerFactory(emf)
                 .userGroupCallback(usergroupCallback)
                 .registerableItemsFactory(factory);
-        
+
         KieBase kbase = getKieBase();
-        if (kbase!=null) builder.knowledgeBase(getKieBase());        
+        if (kbase!=null) builder.knowledgeBase(getKieBase());
         return builder.get();
     }
-    
+
     private KieBase getKieBase() {
     	Governance governance = new Governance();
     	try {
     		String srampUrl = governance.getSrampUrl().toExternalForm();
-        	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":"));
-        	
+        	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":")); //$NON-NLS-1$ //$NON-NLS-2$
+
 	    	KieServices ks = KieServices.Factory.get();
 	    	MavenProject srampProject = KieUtil.getSrampProject(
-	    			governance.getSrampWagonVersion(), 
-	    			srampUrl, 
-	    			governance.getSrampWagonSnapshots(), 
+	    			governance.getSrampWagonVersion(),
+	    			srampUrl,
+	    			governance.getSrampWagonSnapshots(),
 	    			governance.getSrampWagonReleases());
-	    	
+
 	    	//Setup S-RAMP as the Maven Repository
 	    	org.overlord.dtgov.jbpm.util.MavenRepository repo = getMavenRepository(srampProject);
-	    	
+
 	    	ReleaseId releaseId = ks.newReleaseId(
 	    			governance.getGovernanceWorkflowGroup(),
 	    			governance.getGovernanceWorkflowName(),
 	    			governance.getGovernanceWorkflowVersion());
-	    	
+
 	        //Resolving the workflow package in the S-RAMP repo
 	        Artifact artifact = repo.resolveArtifact(releaseId.toExternalForm());
-	        
-	        logger.info("Creating KIE container with workflows from " + artifact);
+
+	        logger.info(Messages.i18n.format("ApplicationScopedProducer.CreatingKieContainer", artifact)); //$NON-NLS-1$
 	    	KieContainer kieContainer = ks.newKieContainer(releaseId);
-	    	
+
 	    	//Creating the KieBase for the SRAMPPackage
-	    	logger.info("Looking for KieBase named " + governance.getGovernanceWorkflowPackage());
+	    	logger.info(Messages.i18n.format("ApplicationScopedProducer.FindKieBase", governance.getGovernanceWorkflowPackage())); //$NON-NLS-1$
 	    	KieBase kbase = kieContainer.getKieBase(governance.getGovernanceWorkflowPackage());
-	    	
+
 	    	return kbase;
     	} catch (Exception e) {
-    		logger.error("Could not find or read the " + governance.getGovernanceWorkflowPackage());
+    		logger.error(Messages.i18n.format("ApplicationScopedProducer.ErrorNotFound", governance.getGovernanceWorkflowPackage())); //$NON-NLS-1$
     		logger.error(e.getMessage(),e);
     	}
     	return null;
     }
-    
-	
+
+
 
 
 }

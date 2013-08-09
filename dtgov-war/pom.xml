@@ -13,6 +13,13 @@
   <description>Design Time Governance with BPMN2 workflow support.</description>
 
   <dependencies>
+    <!-- Project Dependencies -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>org.codehaus.btm</groupId>
       <artifactId>btm</artifactId>

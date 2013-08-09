@@ -64,17 +64,17 @@ public class NotificationResourceTest extends BaseResourceTest {
         try {
         	mailServer = SimpleSmtpServer.start(smtpPort);
             Properties properties = new Properties();
-            properties.setProperty("mail.smtp.host", "localhost");
-            properties.setProperty("mail.smtp.port", String.valueOf(smtpPort));
+            properties.setProperty("mail.smtp.host", "localhost"); //$NON-NLS-1$ //$NON-NLS-2$
+            properties.setProperty("mail.smtp.port", String.valueOf(smtpPort)); //$NON-NLS-1$
             Session mailSession = Session.getDefaultInstance(properties);
             MimeMessage m = new MimeMessage(mailSession);
-            Address from = new InternetAddress("me@gmail.com");
+            Address from = new InternetAddress("me@gmail.com"); //$NON-NLS-1$
             Address[] to = new InternetAddress[1];
-            to[0] = new InternetAddress("dev@mailinator.com");
+            to[0] = new InternetAddress("dev@mailinator.com"); //$NON-NLS-1$
             m.setFrom(from);
             m.setRecipients(Message.RecipientType.TO, to);
-            m.setSubject("test");
-            m.setContent("test","text/plain");
+            m.setSubject("test"); //$NON-NLS-1$
+            m.setContent("test","text/plain"); //$NON-NLS-1$ //$NON-NLS-2$
             Transport.send(m);
             
             Assert.assertTrue(mailServer.getReceivedEmailSize() > 0);
@@ -83,7 +83,7 @@ public class NotificationResourceTest extends BaseResourceTest {
             while (iter.hasNext()) {
             	SmtpMessage email = (SmtpMessage) iter.next();
             	System.out.println(email.getBody());
-            	Assert.assertEquals("test",email.getBody());
+            	Assert.assertEquals("test",email.getBody()); //$NON-NLS-1$
 			}
             
         } catch (AddressException e) {
@@ -109,11 +109,11 @@ public class NotificationResourceTest extends BaseResourceTest {
 	@Test @Ignore
 	public void testNotify() {
 	    try {
-	        String notificationUrl = "/dtgov/notify/email/dev/deployed/dev/${uuid}";
-	        String uuid="3c7bb7f7-a811-4080-82db-5ece86993a11";
-	        URL url = new URL(generateURL(notificationUrl.replace("${uuid}", uuid)));
+	        String notificationUrl = "/dtgov/notify/email/dev/deployed/dev/${uuid}"; //$NON-NLS-1$
+	        String uuid="3c7bb7f7-a811-4080-82db-5ece86993a11"; //$NON-NLS-1$
+	        URL url = new URL(generateURL(notificationUrl.replace("${uuid}", uuid))); //$NON-NLS-1$
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-	        connection.setRequestMethod("POST");
+	        connection.setRequestMethod("POST"); //$NON-NLS-1$
 	        connection.setConnectTimeout(10000);
 	        connection.setReadTimeout(10000);
 	        connection.connect();
@@ -121,9 +121,9 @@ public class NotificationResourceTest extends BaseResourceTest {
 	        if (responseCode == 200) {
 	             InputStream is = (InputStream) connection.getContent();
 	             String reply = IOUtils.toString(is);
-	             System.out.println("reply=" + reply);
+	             System.out.println("reply=" + reply); //$NON-NLS-1$
 	        } else {
-	            System.err.println("endpoint could not be reached");
+	            System.err.println("endpoint could not be reached"); //$NON-NLS-1$
 	            Assert.fail();
 	        }
 	        

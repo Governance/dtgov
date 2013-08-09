@@ -12,6 +12,6 @@ public class SlashDecoder {
      * @throws UnsupportedEncodingException
      */
     public static String decode(String param) throws UnsupportedEncodingException {
-        return param.replaceAll("\\*2F", "/");
+        return param.replaceAll("\\*2F", "/"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 }

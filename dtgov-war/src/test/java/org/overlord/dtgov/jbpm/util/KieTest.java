@@ -56,12 +56,12 @@ public class KieTest {
     	Governance governance = new Governance();
 
     	String srampUrl = governance.getSrampUrl().toExternalForm();
-    	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":"));
+    	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":")); //$NON-NLS-1$ //$NON-NLS-2$
     	try {
     		org.overlord.dtgov.jbpm.util.MavenRepository mavenRepo = null;
 	    	KieServices ks = KieServices.Factory.get();
 	    	if (isSrampRepo) {
-	    		System.out.println("Reading your S-RAMP repo");
+	    		System.out.println("Reading your S-RAMP repo"); //$NON-NLS-1$
 	    		MavenProject srampProject = KieUtil.getSrampProject(
 	    			governance.getSrampWagonVersion(),
 	    			srampUrl,
@@ -70,7 +70,7 @@ public class KieTest {
 
 	    		mavenRepo = getMavenRepository(srampProject);
 	    	} else {
-	    		System.out.println("Reading your .m2 repo");
+	    		System.out.println("Reading your .m2 repo"); //$NON-NLS-1$
 	    		mavenRepo = getMavenRepository();
 	    	}
 
@@ -81,16 +81,16 @@ public class KieTest {
 
 	        String name = releaseId.toExternalForm();
 	        Artifact artifact = mavenRepo.resolveArtifact(name);
-	    	System.out.println("artifact=" + artifact);
+	    	System.out.println("artifact=" + artifact); //$NON-NLS-1$
 	    	Assert.assertNotNull(artifact);
 
 	    	KieContainer kieContainer = ks.newKieContainer(releaseId);
 	    	Assert.assertNotNull(kieContainer);
 
-			KieBase kieBase = kieContainer.getKieBase("SRAMPPackage");
+			KieBase kieBase = kieContainer.getKieBase("SRAMPPackage"); //$NON-NLS-1$
 	        Assert.assertNotNull(kieBase);
 
-	        System.out.println("KieBase=" + kieBase);
+	        System.out.println("KieBase=" + kieBase); //$NON-NLS-1$
     	} catch (Exception e) {
     		e.printStackTrace();
     		Assert.fail(e.getMessage());

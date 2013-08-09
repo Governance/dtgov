@@ -132,9 +132,9 @@ public class DeploymentFilters extends Composite implements HasValueChangeHandle
      * @param value the new filter settings
      */
     public void setValue(DeploymentsFilterBean value) {
-        type.setValue(value.getType() == null ? "" : value.getType());
-        stage.setValue(value.getType() == null ? "" : value.getStage());
-        bundleName.setValue(value.getType() == null ? "" : value.getBundleName());
+        type.setValue(value.getType() == null ? "" : value.getType()); //$NON-NLS-1$
+        stage.setValue(value.getType() == null ? "" : value.getStage()); //$NON-NLS-1$
+        bundleName.setValue(value.getType() == null ? "" : value.getBundleName()); //$NON-NLS-1$
         dateInitiatedFrom.setDateValue(value.getDateInitiatedFrom() == null ? null : value.getDateInitiatedFrom());
         dateInitiatedTo.setDateValue(value.getDateInitiatedTo() == null ? null : value.getDateInitiatedTo());
         onFilterValueChange();

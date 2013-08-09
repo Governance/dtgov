@@ -15,9 +15,11 @@
  */
 package org.overlord.dtgov.ui.client.local.pages.deployments;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
 import org.overlord.dtgov.ui.client.shared.beans.DerivedArtifactSummaryBean;
 import org.overlord.sramp.ui.client.local.widgets.common.WidgetTable;
@@ -36,6 +38,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 public class DerivedArtifactsTable extends WidgetTable {
 
     @Inject
+    protected ClientMessages i18n;
+    @Inject
     protected ConfigurationService configService;
 
     /**
@@ -50,8 +54,12 @@ public class DerivedArtifactsTable extends WidgetTable {
     @Override
     protected void init() {
         super.init();
-        getElement().setClassName("table table-striped table-condensed table-hover");
-        setColumnLabels("Name", "Type");
+        getElement().setClassName("table table-striped table-condensed table-hover"); //$NON-NLS-1$
+    }
+
+    @PostConstruct
+    protected void postConstruct() {
+        setColumnLabels(i18n.format("derived-artifacts.name"), i18n.format("derived-artifacts.type")); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -62,7 +70,7 @@ public class DerivedArtifactsTable extends WidgetTable {
         int rowIdx = this.rowElements.size();
 
         Anchor name = new Anchor();
-        String href = configService.getUiConfig().createSrampUiUrl("details", "uuid", summaryBean.getUuid());
+        String href = configService.getUiConfig().createSrampUiUrl("details", "uuid", summaryBean.getUuid()); //$NON-NLS-1$ //$NON-NLS-2$
         name.setHref(href);
         name.setText(summaryBean.getName());
         name.addClickHandler(new ClickHandler() {

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>DTGov - Deployments</title>
+    <title data-role="dummy">DTGov - Deployments</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
     <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
     <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen"></link>
@@ -30,8 +30,8 @@
         <!-- Breadcrumbs -->
         <div class="row-fluid">
           <ul class="breadcrumb">
-            <li><a data-field="back-to-dashboard" href="dashboard.html">DTGov Dashboard</a> <span class="divider">/</span></li>
-            <li class="active">Deployments</li>
+            <li><a data-field="back-to-dashboard" href="dashboard.html" data-i18n-key="breadcrumb.dashboard">DTGov Dashboard</a> <span class="divider">/<span data-role="dummy" /></span></li>
+            <li class="active" data-i18n-key="breadcrumb.deployments">Deployments</li>
           </ul>
         </div>
 
@@ -40,7 +40,7 @@
           <!-- The Deployment Filter Sidebar -->
           <div id="deployments-filter-sidebar" data-field="deployments-filter-sidebar" class="span3 filter-sidebar">
             <div class="row-fluid filter-header">
-              <a class="span12" data-toggle="slide" data-target="#deployment-filters">Deployment Filters <span class="mobile-only caret pull-right"></span></a>
+              <a class="span12" data-toggle="slide" data-target="#deployment-filters"><span data-i18n-key="deployment-filters">Deployment Filters</span> <span class="mobile-only caret pull-right"></span></a>
             </div>
             <!-- The Deployment Filters -->
             <div id="deployment-filters" class="row-fluid close-on-mobile closed-on-mobile open-on-desktop">
@@ -48,8 +48,8 @@
                 <div class="filter-inner">
                   <form class="" onSubmit="return false;">
                     <div class="controls controls-row">
-                      <label class="filter-label">Type</label>
-                      <select data-field="type" class="selectpicker span12">
+                      <label class="filter-label" data-i18n-key="type">Type</label>
+                      <select data-field="type" class="selectpicker span12" data-role="dummy">
                         <option value="">Any</option>
                         <option value="ext/SwitchYardApplication">SwitchYard Application</option>
                         <option value="ext/JavaApplication">Java Application</option>
@@ -57,8 +57,8 @@
                       </select>
                     </div>
                     <div class="controls controls-row">
-                      <label class="filter-label">Stage</label>
-                      <select data-field="stage" class="selectpicker span12">
+                      <label class="filter-label" data-i18n-key="environment">Environment</label>
+                      <select data-field="stage" class="selectpicker span12" data-role="dummy">
                         <option value="">Any</option>
                         <option value="http://www.jboss.org/overlord/deployment-status.owl#Dev">Dev</option>
                         <option value="http://www.jboss.org/overlord/deployment-status.owl#Qa">QA</option>
@@ -66,17 +66,17 @@
                       </select>
                     </div>
                     <div class="controls controls-row hide">
-                      <label class="filter-label">Bundle Name</label>
+                      <label class="filter-label" data-i18n-key="bundle-name">Bundle Name</label>
                       <input data-field="bundleName" class="span12" type="text" placeholder="Any"></input>
                     </div>
                     <div class="controls controls-row">
-                      <label class="filter-label">Date Initiated</label>
+                      <label class="filter-label" data-i18n-key="date-initiated">Date Initiated</label>
                       <input data-field="dateInitiatedFrom" class="span5 filter-date" type="text" placeholder="Any" readonly="readonly"></input>
-                      <span class="span2 desktop-only" style="padding-top: 4px; text-align: center">to</span>
+                      <span class="span2 desktop-only" style="padding-top: 4px; text-align: center" data-i18n-key="to">to</span>
                       <input data-field="dateInitiatedTo" class="span5 filter-date" type="text" placeholder="Any" readonly="readonly"></input>
                     </div>
                     <div class="controls">
-                      <button data-field="clearFilters" class="btn btn-focus btn-clear">Clear All Filters</button>
+                      <button data-field="clearFilters" class="btn btn-focus btn-clear" data-i18n-key="clear-all-filters">Clear All Filters</button>
                     </div>
                   </form>
                 </div>
@@ -93,28 +93,31 @@
             </div>
             <div class="row-fluid deployments">
               <div class="span12 deployments-actions">
-                <button data-field="btn-add" id="btn-add" class="btn btn-focus requires-fileupload desktop-only">Add Deployment</button>
+                <button data-field="btn-add" id="btn-add" class="btn btn-focus requires-fileupload desktop-only" data-i18n-key="add-deployment">Add Deployment</button>
                 <button class="btn spacer" style="visibility:hidden"><i class="icon-refresh"></i></button>
                 <button data-field="btn-refresh" class="btn pull-right"><i class="icon-refresh"></i></button>
                 <div class="pull-right sp4n-label">
-                  Displaying <span data-field="deployments-range">1-11</span> of <span data-field="deployments-total">37</span>
+                  <span data-i18n-key="displaying">Displaying</span>
+                  <span data-field="deployments-range" data-role="dummy">1-11</span>
+                  <span data-i18n-key="of">of</span>
+                  <span data-field="deployments-total" data-role="dummy">37</span>
                 </div>
               </div>
               <div data-field="deployments-none" style="display:none" class="deployments-none">
-                <span>No deployments found.</span>
+                <span data-i18n-key="none-found">No deployments found.</span>
               </div>
               <div data-field="deployments-searching" style="display:none" class="deployments-searching">
-                <span class="spinner">Finding deployments, please wait...</span>
+                <span class="spinner" data-i18n-key="finding-deployments">Finding deployments, please wait...</span>
               </div>
-              <table data-i18n-skip="true" data-field="deployments-table" class="deployments-table table table-striped table-condensed table-hover">
+              <table data-field="deployments-table" class="deployments-table table table-striped table-condensed table-hover">
               <thead>
                 <tr>
-                  <th>Deployment</th>
-                  <th class="desktop-only">Type</th>
-                  <th>Initiated On</th>
+                  <th data-i18n-key="deployment">Deployment</th>
+                  <th class="desktop-only" data-i18n-key="type">Type</th>
+                  <th data-i18n-key="initiated-on">Initiated On</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody data-role="dummy">
                 <tr>
                   <td><a href="deploymentDetails.html">switchyard-demo-multiApp-artifacts.jar</a></td>
                   <td class="desktop-only">SwitchYardApplication</td>
@@ -137,7 +140,7 @@
                 </tr>
               </tbody>
               </table>
-              <div data-field="deployments-pager" class="pagination deployments-pager">
+              <div data-field="deployments-pager" class="pagination deployments-pager" data-role="dummy">
                 <ul>
                   <li class="disabled"><a>&#x00AB;</a></li>
                   <li class="active"><a>1</a></li>
@@ -154,7 +157,7 @@
         <!-- Footer -->
         <footer>
           <hr />
-          <p>&copy; JBoss Overlord 2013</p>
+          <p data-i18n-key="footer">&copy; JBoss Overlord 2013</p>
         </footer>
       </div> <!-- /container -->
       

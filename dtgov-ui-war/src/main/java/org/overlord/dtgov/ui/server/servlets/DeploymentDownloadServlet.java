@@ -60,8 +60,8 @@ public class DeploymentDownloadServlet extends HttpServlet {
         HttpServletResponse httpResponse = resp;
 		try {
 			SrampAtomApiClient client = clientAccessor.getClient();
-			String uuid = req.getParameter("uuid");
-            String type = req.getParameter("type");
+			String uuid = req.getParameter("uuid"); //$NON-NLS-1$
+            String type = req.getParameter("type"); //$NON-NLS-1$
 
             ArtifactType artyType = ArtifactType.valueOf(type);
             BaseArtifactType artifact = client.getArtifactMetaData(artyType, uuid);
@@ -87,30 +87,30 @@ public class DeploymentDownloadServlet extends HttpServlet {
         try {
             // Set the content-disposition
             String artifactName = artifact.getName();
-            String disposition = String.format("attachment; filename=\"%1$s\"", artifactName);
-            httpResponse.setHeader("Content-Disposition", disposition);
+            String disposition = String.format("attachment; filename=\"%1$s\"", artifactName); //$NON-NLS-1$
+            httpResponse.setHeader("Content-Disposition", disposition); //$NON-NLS-1$
 
             // Set the content-type
             ArtifactContentTypeVisitor ctVizzy = new ArtifactContentTypeVisitor();
             ArtifactVisitorHelper.visitArtifact(ctVizzy, artifact);
             String contentType = ctVizzy.getContentType().toString();
-            httpResponse.setHeader("Content-Type", contentType);
+            httpResponse.setHeader("Content-Type", contentType); //$NON-NLS-1$
 
             // Set the content-size (if possible)
             if (artifact instanceof DocumentArtifactType) {
             	DocumentArtifactType d = (DocumentArtifactType) artifact;
             	long size = d.getContentSize();
             	if (size != -1) {
-            		httpResponse.setHeader("Content-Size", String.valueOf(size));
+            		httpResponse.setHeader("Content-Size", String.valueOf(size)); //$NON-NLS-1$
             	}
             }
 
             // Make sure the browser doesn't cache it
             Date now = new Date();
-            httpResponse.setDateHeader("Date", now.getTime());
-            httpResponse.setDateHeader("Expires", now.getTime() - 86400000L);
-            httpResponse.setHeader("Pragma", "no-cache");
-            httpResponse.setHeader("Cache-control", "no-cache, no-store, must-revalidate");
+            httpResponse.setDateHeader("Date", now.getTime()); //$NON-NLS-1$
+            httpResponse.setDateHeader("Expires", now.getTime() - 86400000L); //$NON-NLS-1$
+            httpResponse.setHeader("Pragma", "no-cache"); //$NON-NLS-1$ //$NON-NLS-2$
+            httpResponse.setHeader("Cache-control", "no-cache, no-store, must-revalidate"); //$NON-NLS-1$ //$NON-NLS-2$
 
             artifactContent = client.getArtifactContent(artyType, artifact.getUuid());
             IOUtils.copy(artifactContent, httpResponse.getOutputStream());

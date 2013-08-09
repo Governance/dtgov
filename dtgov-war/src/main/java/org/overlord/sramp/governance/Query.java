@@ -23,7 +23,7 @@ public class Query {
     private String srampQuery;
     private String workflowId;
     private String parameters;
-    
+
     public Query(String srampQuery, String workflowId,  String parameters) {
         super();
         this.workflowId = workflowId;
@@ -38,7 +38,7 @@ public class Query {
     public String getSrampQuery() {
         return srampQuery;
     }
-    
+
     public void setWorkflowId(String workflowId) {
         this.workflowId = workflowId;
     }
@@ -46,12 +46,12 @@ public class Query {
     public String getWorkflowId() {
         return workflowId;
     }
-    
+
     public Map<String,Object> getParsedParameters() {
         Map<String,Object> params = new HashMap<String,Object>();
-        String[] paramStrs = parameters.split("\\:\\:");
+        String[] paramStrs = parameters.split("\\:\\:"); //$NON-NLS-1$
         for (String paramStr : paramStrs) {
-            String[] param = paramStr.split("=");
+            String[] param = paramStr.split("="); //$NON-NLS-1$
             params.put(param[0], param[1]);
         }
         return params;
@@ -64,10 +64,10 @@ public class Query {
     public String getParameters() {
         return parameters;
     }
-    
+
     @Override
     public String toString() {
-        return "srampQuery=" + srampQuery + "\nworkflowId=" + workflowId + "\nparameters=" + getParsedParameters();
+        return "srampQuery=" + srampQuery + "\nworkflowId=" + workflowId + "\nparameters=" + getParsedParameters(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
 

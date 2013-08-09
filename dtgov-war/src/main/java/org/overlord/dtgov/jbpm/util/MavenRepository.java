@@ -66,7 +66,7 @@ public class MavenRepository {
     public List<DependencyDescriptor> getArtifactDependecies(String artifactName) {
         Artifact artifact = new DefaultArtifact( artifactName );
         CollectRequest collectRequest = new CollectRequest();
-        Dependency root = new Dependency( artifact, "" );
+        Dependency root = new Dependency( artifact, "" ); //$NON-NLS-1$
         collectRequest.setRoot( root );
         for (RemoteRepository repo : aether.getRepositories()) {
             collectRequest.addRepository(repo);
@@ -117,7 +117,7 @@ public class MavenRepository {
   
 
     public void deployArtifact(ReleaseId releaseId, InternalKieModule kieModule, File pomfile) {
-        File jarFile = new File( System.getProperty( "java.io.tmpdir" ), toFileName(releaseId, null) + ".jar");
+        File jarFile = new File( System.getProperty( "java.io.tmpdir" ), toFileName(releaseId, null) + ".jar"); //$NON-NLS-1$ //$NON-NLS-2$
         try {
             FileOutputStream fos = new FileOutputStream(jarFile);
             fos.write(kieModule.getBytes());
@@ -130,10 +130,10 @@ public class MavenRepository {
     }
 
     public void deployArtifact(ReleaseId releaseId, File jar, File pomfile) {
-        Artifact jarArtifact = new DefaultArtifact( releaseId.getGroupId(), releaseId.getArtifactId(), "jar", releaseId.getVersion() );
+        Artifact jarArtifact = new DefaultArtifact( releaseId.getGroupId(), releaseId.getArtifactId(), "jar", releaseId.getVersion() ); //$NON-NLS-1$
         jarArtifact = jarArtifact.setFile( jar );
 
-        Artifact pomArtifact = new SubArtifact( jarArtifact, "", "pom" );
+        Artifact pomArtifact = new SubArtifact( jarArtifact, "", "pom" ); //$NON-NLS-1$ //$NON-NLS-2$
         pomArtifact = pomArtifact.setFile( pomfile );
 
         DeployRequest deployRequest = new DeployRequest();
@@ -150,7 +150,7 @@ public class MavenRepository {
     }
 
     public void deployPomArtifact(String groupId, String artifactId, String version, File pomfile) {
-        Artifact pomArtifact = new DefaultArtifact( groupId, artifactId, "pom", version );
+        Artifact pomArtifact = new DefaultArtifact( groupId, artifactId, "pom", version ); //$NON-NLS-1$
         pomArtifact = pomArtifact.setFile( pomfile );
 
         DeployRequest deployRequest = new DeployRequest();
@@ -185,9 +185,9 @@ public class MavenRepository {
     
     public static String toFileName(ReleaseId releaseId, String classifier) {
         if (classifier != null) {
-            return releaseId.getArtifactId() + "-" + releaseId.getVersion() + "-" + classifier;
+            return releaseId.getArtifactId() + "-" + releaseId.getVersion() + "-" + classifier; //$NON-NLS-1$ //$NON-NLS-2$
         }
 
-        return releaseId.getArtifactId() + "-" + releaseId.getVersion();
+        return releaseId.getArtifactId() + "-" + releaseId.getVersion(); //$NON-NLS-1$
     }
 }

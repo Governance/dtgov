@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.governance.Governance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,38 +38,38 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
 
         try {
             // extract required parameters
-            String urlStr = (String) workItem.getParameter("Url");
-            String method = (String) workItem.getParameter("Method");
+            String urlStr = (String) workItem.getParameter("Url"); //$NON-NLS-1$
+            String method = (String) workItem.getParameter("Method"); //$NON-NLS-1$
             if (urlStr==null || method==null) {
-                throw new Exception("Url and Method are required parameters");
+                throw new Exception(Messages.i18n.format("HttpClientWorkItemHandler.MissingParams")); //$NON-NLS-1$
             }
             urlStr = urlStr.toLowerCase();
             Map<String,Object> params = workItem.getParameters();
 
             // optional timeout config parameters, defaulted to 60 seconds
-            Integer connectTimeout = (Integer) params.get("ConnectTimeout");
+            Integer connectTimeout = (Integer) params.get("ConnectTimeout"); //$NON-NLS-1$
             if (connectTimeout==null) connectTimeout = 60000;
-            Integer readTimeout = (Integer) params.get("ReadTimeout");
+            Integer readTimeout = (Integer) params.get("ReadTimeout"); //$NON-NLS-1$
             if (readTimeout==null) readTimeout = 60000;
 
             // replace tokens in the urlStr, the replacement value of the token
             // should be set in the parameters Map
             for (String key : params.keySet()) {
                 // break out if there are no (more) tokens in the urlStr
-                if (! urlStr.contains("{")) break;
+                if (! urlStr.contains("{")) break; //$NON-NLS-1$
                 // replace the token if it is referenced in the urlStr
-                String variable = "{" + key.toLowerCase() + "}";
+                String variable = "{" + key.toLowerCase() + "}"; //$NON-NLS-1$ //$NON-NLS-2$
                 if (urlStr.contains(variable)) {
-                    String escapedVariable = "\\{" + key.toLowerCase() + "\\}";
-                    String urlEncodedParam = URLEncoder.encode((String) params.get(key), "UTF-8").replaceAll("%2F","*2F");
+                    String escapedVariable = "\\{" + key.toLowerCase() + "\\}"; //$NON-NLS-1$ //$NON-NLS-2$
+                    String urlEncodedParam = URLEncoder.encode((String) params.get(key), "UTF-8").replaceAll("%2F","*2F"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     urlStr = urlStr.replaceAll(escapedVariable, urlEncodedParam);
                 }
             }
-            if (urlStr.contains("{")) throw new Exception("Url contains more tokens, " +
-            		"please check the workflow and pass in the correct parameters. Url=" + urlStr);
+            if (urlStr.contains("{"))  //$NON-NLS-1$
+                throw new Exception(Messages.i18n.format("HttpClientWorkItemHandler.IncorrectParams", urlStr)); //$NON-NLS-1$
 
             // call http endpoint
-            log.info("Calling " + method + " TO: " + urlStr );
+            log.info(Messages.i18n.format("HttpClientWorkItemHandler.CallingTo", method, urlStr)); //$NON-NLS-1$
             URL url = new URL(urlStr);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
@@ -80,11 +81,11 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
             if (responseCode >= 200 && responseCode < 300) {
                 InputStream is = (InputStream) connection.getContent();
                 String reply = IOUtils.toString(is);
-                log.info("reply=" + reply);
+                log.info("reply=" + reply); //$NON-NLS-1$
             } else {
-                workItem.getParameters().put("Status", "ERROR " + responseCode);
-                workItem.getParameters().put("StatusMsg", "endpoint " + urlStr + " could not be reached");
-                log.error("endpoint could not be reached");
+                workItem.getParameters().put("Status", "ERROR " + responseCode); //$NON-NLS-1$ //$NON-NLS-2$
+                workItem.getParameters().put("StatusMsg", Messages.i18n.format("HttpClientWorkItemHandler.UnreachableEndpoint", urlStr)); //$NON-NLS-1$ //$NON-NLS-2$
+                log.error(Messages.i18n.format("HttpClientWorkItemHandler.UnreachableEndpoint", urlStr)); //$NON-NLS-1$
             }
 
         } catch (Exception e) {
@@ -105,12 +106,12 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
     	Governance governance = new Governance();
     	String username = governance.getOverlordUser();
     	String password = governance.getOverlordPassword();
-    	
+
         if (username != null && password != null) {
-            String b64Auth = Base64.encodeBase64String((username + ":" + password).getBytes()).trim();
-            connection.setRequestProperty("Authorization", "Basic " + b64Auth);
+            String b64Auth = Base64.encodeBase64String((username + ":" + password).getBytes()).trim(); //$NON-NLS-1$
+            connection.setRequestProperty("Authorization", "Basic " + b64Auth); //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            log.warn("No username (guvnor.usr) and/or password (guvnor.pwd) found in the jbpm console properties file.");
+            log.warn(Messages.i18n.format("HttpClientWorkItemHandler.MissingCreds")); //$NON-NLS-1$
         }
     }
 

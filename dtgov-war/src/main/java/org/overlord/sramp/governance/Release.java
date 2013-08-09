@@ -27,7 +27,7 @@ import java.util.jar.Manifest;
  */
 public class Release {
 
-	private static final String JAR_NAME = "dtgov-task-api";
+	private static final String JAR_NAME = "dtgov-task-api"; //$NON-NLS-1$
 	private static String governanceVersion = null;
 
 	private Release () {
@@ -53,7 +53,7 @@ public class Release {
                         if (is != null) {
                             Manifest manifest = new Manifest(is);
                             Attributes mainAttribs = manifest.getMainAttributes();
-                            String version = mainAttribs.getValue("Implementation-Version");
+                            String version = mainAttribs.getValue("Implementation-Version"); //$NON-NLS-1$
                             if (version != null) {
                                 return (version);
                             }
@@ -66,6 +66,6 @@ public class Release {
          } catch (IOException e1) {
             // Silently ignore wrong manifests on classpath?
          }
-         return "unknown";
+         return "unknown"; //$NON-NLS-1$
 	}
 }

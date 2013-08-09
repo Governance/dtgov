@@ -32,15 +32,15 @@ public class JbpmRestClientTest {
     @Test @Ignore//the BPM engine needs to be running for this test to pass
     public void testNewEvaluationProcessInstance() throws Exception {
         HttpClient httpclient = new DefaultHttpClient();
-        JbpmRestClient jbpmClient = new JbpmRestClient(httpclient, "http://localhost:8080/gwt-console-server");
+        JbpmRestClient jbpmClient = new JbpmRestClient(httpclient, "http://localhost:8080/gwt-console-server"); //$NON-NLS-1$
         try {
-            jbpmClient.logon("krisv", "krisv");
+            jbpmClient.logon("krisv", "krisv"); //$NON-NLS-1$ //$NON-NLS-2$
             //parameters that will be set in the jBPM context Map
             Map<String,Object> parameters = new HashMap<String,Object>();
-            parameters.put("employee", "krisv");
-            parameters.put("reason", "annual review 3");
+            parameters.put("employee", "krisv"); //$NON-NLS-1$ //$NON-NLS-2$
+            parameters.put("reason", "annual review 3"); //$NON-NLS-1$ //$NON-NLS-2$
             
-            jbpmClient.newProcessInstanceAndCompleteFirstTask("com.sample.evaluation",parameters);
+            jbpmClient.newProcessInstanceAndCompleteFirstTask("com.sample.evaluation",parameters); //$NON-NLS-1$
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -51,16 +51,16 @@ public class JbpmRestClientTest {
     @Test @Ignore//the BPM engine needs to be running for this test to pass
     public void testNewProcessInstance() throws Exception {
         HttpClient httpclient = new DefaultHttpClient();
-        JbpmRestClient jbpmClient = new JbpmRestClient(httpclient, "http://localhost:8080/gwt-console-server");
+        JbpmRestClient jbpmClient = new JbpmRestClient(httpclient, "http://localhost:8080/gwt-console-server"); //$NON-NLS-1$
         try {
-            jbpmClient.logon("admin", "admin");
+            jbpmClient.logon("admin", "admin"); //$NON-NLS-1$ //$NON-NLS-2$
             //parameters that will be set in the jBPM context Map
             Map<String,Object> parameters = new HashMap<String,Object>();
-            parameters.put("DevDeploymentUrl", "http://localhost:8080/dtgov/deploy/copy/dev/${uuid}");
-            parameters.put("DevDeploymentUrlMethod", "POST");
-            parameters.put("ArtifactUuid", "e67e1b09-1de7-4945-a47f-45646752437a");
+            parameters.put("DevDeploymentUrl", "http://localhost:8080/dtgov/deploy/copy/dev/${uuid}"); //$NON-NLS-1$ //$NON-NLS-2$
+            parameters.put("DevDeploymentUrlMethod", "POST"); //$NON-NLS-1$ //$NON-NLS-2$
+            parameters.put("ArtifactUuid", "e67e1b09-1de7-4945-a47f-45646752437a"); //$NON-NLS-1$ //$NON-NLS-2$
             
-            jbpmClient.newProcessInstanceAndCompleteFirstTask("overlord.demo.SimpleReleaseProcess",parameters);
+            jbpmClient.newProcessInstanceAndCompleteFirstTask("overlord.demo.SimpleReleaseProcess",parameters); //$NON-NLS-1$
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

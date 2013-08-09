@@ -12,7 +12,7 @@ import javax.naming.NamingException;
 public class CDIUtil {
 	/**
 	 * Provides a simple API to programatically lookup a CDI bean (possibly from a non-CDI context)
-	 * 
+	 *
 	 * @param type
 	 * @param qualifiers
 	 * @return
@@ -20,13 +20,13 @@ public class CDIUtil {
 	@SuppressWarnings("unchecked")
 	public static <B> B getContextualBeanInstance(Class<B> type, Annotation... qualifiers) {
 	    try {
-	        BeanManager beanManager = InitialContext.doLookup("java:comp/BeanManager");
+	        BeanManager beanManager = InitialContext.doLookup("java:comp/BeanManager"); //$NON-NLS-1$
 	        Set<Bean<?>> beans = beanManager.getBeans(type, qualifiers);
 	        Bean<?> bean = beanManager.resolve(beans);
 	        CreationalContext<?> cc = beanManager.createCreationalContext(bean);
 	        return (B) beanManager.getReference(bean, type, cc);
 	    } catch (NamingException e) {
-	        throw new RuntimeException("", e);
+	        throw new RuntimeException("", e); //$NON-NLS-1$
 	    }
 	}
 }

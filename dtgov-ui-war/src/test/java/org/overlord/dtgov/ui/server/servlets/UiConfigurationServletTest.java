@@ -28,39 +28,39 @@ import org.overlord.dtgov.ui.server.DtgovUIConfig;
 public class UiConfigurationServletTest {
 
     @SuppressWarnings("unused")
-    private static final Object EXPECTED_CONFIGURED = "{\r\n" +
-            "  \"srampui\" : {\r\n" +
-            "    \"urlBase\" : \"http://localhost:8080/s-ramp-ui\"\r\n" +
-            "  },\r\n" +
-            "  \"deployments\" : {\r\n" +
-            "    \"types\" : {\r\n" +
-            "      \"SwitchYard Application\" : \"ext/SwitchYardApplication\",\r\n" +
-            "      \"Web Application\" : \"ext/JavaWebApplication\"\r\n" +
-            "    },\r\n" +
-            "    \"stages\" : {\r\n" +
-            "      \"Development\" : \"http://www.jboss.org/overlord/deployment-status.owl#Dev\",\r\n" +
-            "      \"Production\" : \"http://www.jboss.org/overlord/deployment-status.owl#Prod\"\r\n" +
-            "    }\r\n" +
-            "  }\r\n" +
-            "}";
+    private static final Object EXPECTED_CONFIGURED = "{\r\n" + //$NON-NLS-1$
+            "  \"srampui\" : {\r\n" + //$NON-NLS-1$
+            "    \"urlBase\" : \"http://localhost:8080/s-ramp-ui\"\r\n" + //$NON-NLS-1$
+            "  },\r\n" + //$NON-NLS-1$
+            "  \"deployments\" : {\r\n" + //$NON-NLS-1$
+            "    \"types\" : {\r\n" + //$NON-NLS-1$
+            "      \"SwitchYard Application\" : \"ext/SwitchYardApplication\",\r\n" + //$NON-NLS-1$
+            "      \"Web Application\" : \"ext/JavaWebApplication\"\r\n" + //$NON-NLS-1$
+            "    },\r\n" + //$NON-NLS-1$
+            "    \"stages\" : {\r\n" + //$NON-NLS-1$
+            "      \"Development\" : \"http://www.jboss.org/overlord/deployment-status.owl#Dev\",\r\n" + //$NON-NLS-1$
+            "      \"Production\" : \"http://www.jboss.org/overlord/deployment-status.owl#Prod\"\r\n" + //$NON-NLS-1$
+            "    }\r\n" + //$NON-NLS-1$
+            "  }\r\n" + //$NON-NLS-1$
+            "}"; //$NON-NLS-1$
     @SuppressWarnings("unused")
-    private static final Object EXPECTED_DEFAULT = "{\r\n" +
-            "  \"srampui\" : {\r\n" +
-            "    \"urlBase\" : \"http://localhost:8080/s-ramp-ui\"\r\n" +
-            "  },\r\n" +
-            "  \"deployments\" : {\r\n" +
-            "    \"types\" : {\r\n" +
-            "      \"SwitchYard Application\" : \"ext/SwitchYardApplication\",\r\n" +
-            "      \"Web Application\" : \"ext/JavaWebApplication\",\r\n" +
-            "      \"J2EE Application\" : \"ext/JavaEnterpriseApplication\"\r\n" +
-            "    },\r\n" +
-            "    \"stages\" : {\r\n" +
-            "      \"Development\" : \"http://www.jboss.org/overlord/deployment-status.owl#Dev\",\r\n" +
-            "      \"QA\" : \"http://www.jboss.org/overlord/deployment-status.owl#Qa\",\r\n" +
-            "      \"Production\" : \"http://www.jboss.org/overlord/deployment-status.owl#Prod\"\r\n" +
-            "    }\r\n" +
-            "  }\r\n" +
-            "}";
+    private static final Object EXPECTED_DEFAULT = "{\r\n" + //$NON-NLS-1$
+            "  \"srampui\" : {\r\n" + //$NON-NLS-1$
+            "    \"urlBase\" : \"http://localhost:8080/s-ramp-ui\"\r\n" + //$NON-NLS-1$
+            "  },\r\n" + //$NON-NLS-1$
+            "  \"deployments\" : {\r\n" + //$NON-NLS-1$
+            "    \"types\" : {\r\n" + //$NON-NLS-1$
+            "      \"SwitchYard Application\" : \"ext/SwitchYardApplication\",\r\n" + //$NON-NLS-1$
+            "      \"Web Application\" : \"ext/JavaWebApplication\",\r\n" + //$NON-NLS-1$
+            "      \"J2EE Application\" : \"ext/JavaEnterpriseApplication\"\r\n" + //$NON-NLS-1$
+            "    },\r\n" + //$NON-NLS-1$
+            "    \"stages\" : {\r\n" + //$NON-NLS-1$
+            "      \"Development\" : \"http://www.jboss.org/overlord/deployment-status.owl#Dev\",\r\n" + //$NON-NLS-1$
+            "      \"QA\" : \"http://www.jboss.org/overlord/deployment-status.owl#Qa\",\r\n" + //$NON-NLS-1$
+            "      \"Production\" : \"http://www.jboss.org/overlord/deployment-status.owl#Prod\"\r\n" + //$NON-NLS-1$
+            "    }\r\n" + //$NON-NLS-1$
+            "  }\r\n" + //$NON-NLS-1$
+            "}"; //$NON-NLS-1$
 
     /**
      * Test method for {@link org.overlord.dtgov.ui.server.servlets.UiConfigurationServlet#generateJSONConfig(org.apache.commons.configuration.Configuration)}.
@@ -68,10 +68,10 @@ public class UiConfigurationServletTest {
     @Test
     public void testGenerateJSONConfig_Configured() throws Exception {
         final PropertiesConfiguration config = new PropertiesConfiguration();
-        config.addProperty(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX + ".switchyard", "SwitchYard Application:ext/SwitchYardApplication");
-        config.addProperty(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX + ".war", "Web Application:ext/JavaWebApplication");
-        config.addProperty(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX + ".dev", "Development:http://www.jboss.org/overlord/deployment-status.owl#Dev");
-        config.addProperty(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX + ".prod", "Production:http://www.jboss.org/overlord/deployment-status.owl#Prod");
+        config.addProperty(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX + ".switchyard", "SwitchYard Application:ext/SwitchYardApplication"); //$NON-NLS-1$ //$NON-NLS-2$
+        config.addProperty(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX + ".war", "Web Application:ext/JavaWebApplication"); //$NON-NLS-1$ //$NON-NLS-2$
+        config.addProperty(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX + ".dev", "Development:http://www.jboss.org/overlord/deployment-status.owl#Dev"); //$NON-NLS-1$ //$NON-NLS-2$
+        config.addProperty(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX + ".prod", "Production:http://www.jboss.org/overlord/deployment-status.owl#Prod"); //$NON-NLS-1$ //$NON-NLS-2$
         String rval = UiConfigurationServlet.generateJSONConfig(new DtgovUIConfig() {
             @Override
             public Configuration getConfiguration() {

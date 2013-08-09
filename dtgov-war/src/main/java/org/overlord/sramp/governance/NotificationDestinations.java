@@ -21,21 +21,21 @@ public class NotificationDestinations {
         super();
         this.name = name;
         this.setFromAddress(fromAddress);
-        if (toAddresses!=null) this.toAddresses = toAddresses.split("\\:\\:");
+        if (toAddresses!=null) this.toAddresses = toAddresses.split("\\:\\:"); //$NON-NLS-1$
     }
 
     private String name;
     private String fromAddress;
     private String[] toAddresses;
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public void setFromAddress(String fromAddress) {
         this.fromAddress = fromAddress;
     }
@@ -43,18 +43,18 @@ public class NotificationDestinations {
     public String getFromAddress() {
         return fromAddress;
     }
-    
+
     public void setToAddresses(String[] toAddresses) {
         this.toAddresses = toAddresses;
     }
-    
+
     public String[] getToAddresses() {
         return toAddresses;
     }
 
     @Override
     public String toString() {
-        return "Name=" + name + "\nFromAddress=" + fromAddress + "\nToAddresses=" + toAddresses;
+        return "Name=" + name + "\nFromAddress=" + fromAddress + "\nToAddresses=" + toAddresses; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
 

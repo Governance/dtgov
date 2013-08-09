@@ -62,7 +62,7 @@ public class ConfigurationTest {
             @Override
             protected Configuration getConfiguration() {
                 try {
-                    return new PropertiesConfiguration(ConfigurationTest.class.getClassLoader().getResource("bad2-governance.config.txt"));
+                    return new PropertiesConfiguration(ConfigurationTest.class.getClassLoader().getResource("bad2-governance.config.txt")); //$NON-NLS-1$
                 } catch (ConfigurationException e) {
                     throw new RuntimeException(e);
                 }
@@ -70,7 +70,7 @@ public class ConfigurationTest {
         };
         try {
             governance.validate();
-            Assert.fail("Expecting exception");
+            Assert.fail("Expecting exception"); //$NON-NLS-1$
         } catch (ConfigException e) {
             Assert.assertTrue(e.getMessage().startsWith(Governance.QUERY_ERROR));
         }
@@ -90,7 +90,7 @@ public class ConfigurationTest {
             @Override
             protected Configuration getConfiguration() {
                 try {
-                    return new PropertiesConfiguration(ConfigurationTest.class.getClassLoader().getResource("bad3-governance.config.txt"));
+                    return new PropertiesConfiguration(ConfigurationTest.class.getClassLoader().getResource("bad3-governance.config.txt")); //$NON-NLS-1$
                 } catch (ConfigurationException e) {
                     throw new RuntimeException(e);
                 }
@@ -98,7 +98,7 @@ public class ConfigurationTest {
         };
         try {
             governance.validate();
-            Assert.fail("Expecting exception");
+            Assert.fail("Expecting exception"); //$NON-NLS-1$
         } catch (ConfigException e) {
             Assert.assertTrue(e.getMessage().startsWith(Governance.TARGET_ERROR));
         }

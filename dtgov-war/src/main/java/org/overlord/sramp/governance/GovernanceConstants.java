@@ -22,49 +22,49 @@ package org.overlord.sramp.governance;
 public interface GovernanceConstants {
 
     //Configuration constants
-    public static final String GOVERNANCE_FILE_NAME     = "governance.file.name";
-    public static final String GOVERNANCE_FILE_REFRESH  = "governance.file.refresh";
-    public static final String SRAMP_REPO_URL           = "sramp.repo.url";
-    public static final String SRAMP_REPO_AUTH_PROVIDER = "sramp.repo.auth.provider";
-    public static final String SRAMP_REPO_USER          = "sramp.repo.user";
-    public static final String SRAMP_REPO_PASSWORD      = "sramp.repo.password";
-    public static final String SRAMP_REPO_VALIDATING    = "sramp.repo.validating";
-    public static final String SRAMP_REPO_SAML_ISSUER   = "sramp.repo.auth.saml.issuer";
-    public static final String SRAMP_REPO_SAML_SERVICE  = "sramp.repo.auth.saml.service";
-    public static final String GOVERNANCE_URL           = "governance.url";
-    public static final String GOVERNANCE_QUERY_INTERVAL= "governance.query.interval";
-    public static final String GOVERNANCE_JNDI_EMAIL_REF= "governance.jndi.email.reference";
-    public static final String GOVERNANCE_EMAIL_DOMAIN  = "governance.email.domain";
-    public static final String GOVERNANCE_EMAIL_FROM    = "governance.email.from";
+    public static final String GOVERNANCE_FILE_NAME     = "governance.file.name"; //$NON-NLS-1$
+    public static final String GOVERNANCE_FILE_REFRESH  = "governance.file.refresh"; //$NON-NLS-1$
+    public static final String SRAMP_REPO_URL           = "sramp.repo.url"; //$NON-NLS-1$
+    public static final String SRAMP_REPO_AUTH_PROVIDER = "sramp.repo.auth.provider"; //$NON-NLS-1$
+    public static final String SRAMP_REPO_USER          = "sramp.repo.user"; //$NON-NLS-1$
+    public static final String SRAMP_REPO_PASSWORD      = "sramp.repo.password"; //$NON-NLS-1$
+    public static final String SRAMP_REPO_VALIDATING    = "sramp.repo.validating"; //$NON-NLS-1$
+    public static final String SRAMP_REPO_SAML_ISSUER   = "sramp.repo.auth.saml.issuer"; //$NON-NLS-1$
+    public static final String SRAMP_REPO_SAML_SERVICE  = "sramp.repo.auth.saml.service"; //$NON-NLS-1$
+    public static final String GOVERNANCE_URL           = "governance.url"; //$NON-NLS-1$
+    public static final String GOVERNANCE_QUERY_INTERVAL= "governance.query.interval"; //$NON-NLS-1$
+    public static final String GOVERNANCE_JNDI_EMAIL_REF= "governance.jndi.email.reference"; //$NON-NLS-1$
+    public static final String GOVERNANCE_EMAIL_DOMAIN  = "governance.email.domain"; //$NON-NLS-1$
+    public static final String GOVERNANCE_EMAIL_FROM    = "governance.email.from"; //$NON-NLS-1$
     
 
     //RHQ connection info
-    public static final String GOVERNANCE_RHQ_USER     = "rhq.rest.user";
-    public static final String GOVERNANCE_RHQ_PASSWORD = "rhq.rest.password";
-    public static final String GOVERNANCE_RHQ_URL      = "rhq.base.url";
+    public static final String GOVERNANCE_RHQ_USER     = "rhq.rest.user"; //$NON-NLS-1$
+    public static final String GOVERNANCE_RHQ_PASSWORD = "rhq.rest.password"; //$NON-NLS-1$
+    public static final String GOVERNANCE_RHQ_URL      = "rhq.base.url"; //$NON-NLS-1$
     
     //BPM connection info
-    public static final String GOVERNANCE_BPM_USER     = "governance.bpm.user";
-    public static final String GOVERNANCE_BPM_PASSWORD = "governance.bpm.password";
-    public static final String GOVERNANCE_BPM_URL      = "governance.bpm.url";
+    public static final String GOVERNANCE_BPM_USER     = "governance.bpm.user"; //$NON-NLS-1$
+    public static final String GOVERNANCE_BPM_PASSWORD = "governance.bpm.password"; //$NON-NLS-1$
+    public static final String GOVERNANCE_BPM_URL      = "governance.bpm.url"; //$NON-NLS-1$
 
     //governance resource configuration
-    public static final String GOVERNANCE_USER          = "governance.user";
-    public static final String GOVERNANCE_PASSWORD      = "governance.password";
-    public static final String GOVERNANCE_TARGETS       = "governance.targets";
-    public static final String GOVERNANCE_QUERIES       = "governance.queries";
-    public static final String GOVERNANCE               = "governance.";
-    public static final String GOVERNANCE_UI            = "dtgov.ui.url";
+    public static final String GOVERNANCE_USER          = "governance.user"; //$NON-NLS-1$
+    public static final String GOVERNANCE_PASSWORD      = "governance.password"; //$NON-NLS-1$
+    public static final String GOVERNANCE_TARGETS       = "governance.targets"; //$NON-NLS-1$
+    public static final String GOVERNANCE_QUERIES       = "governance.queries"; //$NON-NLS-1$
+    public static final String GOVERNANCE               = "governance."; //$NON-NLS-1$
+    public static final String GOVERNANCE_UI            = "dtgov.ui.url"; //$NON-NLS-1$
     
     //S-RAMP
-    public static final String SRAMP_WAGON_JAR          = "s-ramp-wagon";
-    public static final String SRAMP_WAGON_SNAPSHOTS    = "dtgov.s-ramp-wagon.snapshots";
-    public static final String SRAMP_WAGON_RELEASES     = "dtgov.s-ramp-wagon.releases";
+    public static final String SRAMP_WAGON_JAR          = "s-ramp-wagon"; //$NON-NLS-1$
+    public static final String SRAMP_WAGON_SNAPSHOTS    = "dtgov.s-ramp-wagon.snapshots"; //$NON-NLS-1$
+    public static final String SRAMP_WAGON_RELEASES     = "dtgov.s-ramp-wagon.releases"; //$NON-NLS-1$
     
     //Workflow config
-    public static final String GOVERNANCE_DTGOV            = "dtgov";
-    public static final String GOVERNANCE_WORKFLOW_GROUP   = "dtgov.workflows.group";
-    public static final String GOVERNANCE_WORKFLOW_NAME    = "dtgov.workflows.name";
-    public static final String GOVERNANCE_WORKFLOW_VERSION = "dtgov.workflows.version";
-    public static final String GOVERNANCE_WORKFLOW_PACKAGE = "dtgov.workflows.package";
+    public static final String GOVERNANCE_DTGOV            = "dtgov"; //$NON-NLS-1$
+    public static final String GOVERNANCE_WORKFLOW_GROUP   = "dtgov.workflows.group"; //$NON-NLS-1$
+    public static final String GOVERNANCE_WORKFLOW_NAME    = "dtgov.workflows.name"; //$NON-NLS-1$
+    public static final String GOVERNANCE_WORKFLOW_VERSION = "dtgov.workflows.version"; //$NON-NLS-1$
+    public static final String GOVERNANCE_WORKFLOW_PACKAGE = "dtgov.workflows.package"; //$NON-NLS-1$
 }
