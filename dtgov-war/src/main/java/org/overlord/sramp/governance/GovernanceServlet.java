@@ -20,18 +20,19 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+import org.overlord.dtgov.server.i18n.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * This servlet is used to initialize SRAMP monitor.
- * 
+ *
  */
 public class GovernanceServlet extends HttpServlet {
-	
+
     private static final long serialVersionUID = -2902363450855487818L;
     private Logger log = LoggerFactory.getLogger(this.getClass());
-    
+
     @EJB
 	private SRAMPMonitor monitor;
 
@@ -41,13 +42,13 @@ public class GovernanceServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		log.debug("Starting S-RAMP monitor");
+		log.debug(Messages.i18n.format("GovernanceServlet.Starting")); //$NON-NLS-1$
 		monitor.init();
 	}
-	
+
 	@Override
 	public void destroy() {
-		log.debug("Stopping S-RAMP monitor");
+		log.debug(Messages.i18n.format("GovernanceServlet.Stopping")); //$NON-NLS-1$
 	    monitor.cancel();
 		super.destroy();
 	}

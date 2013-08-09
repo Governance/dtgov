@@ -57,6 +57,7 @@ import org.kie.api.task.model.TaskData;
 import org.kie.api.task.model.TaskSummary;
 import org.kie.api.task.model.User;
 import org.overlord.dtgov.jbpm.ejb.ProcessOperationException;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.dtgov.taskapi.types.FindTasksRequest;
 import org.overlord.dtgov.taskapi.types.FindTasksResponse;
 import org.overlord.dtgov.taskapi.types.StatusType;
@@ -110,7 +111,7 @@ public class TaskApi {
         if (endIndex != null) {
             findTasksReq.setEndIndex(endIndex);
         }
-        findTasksReq.setOrderBy("priority");
+        findTasksReq.setOrderBy("priority"); //$NON-NLS-1$
         if (orderBy != null) {
             findTasksReq.setOrderBy(orderBy);
         }
@@ -147,10 +148,10 @@ public class TaskApi {
 
         // Get all tasks - the ones assigned as potential owner *and* the ones assigned as owner.  If
         // there is overlap we'll deal with that during the sort.
-        List<TaskSummary> list = taskService.getTasksAssignedAsPotentialOwner(currentUser, "en-UK");
-        list.addAll(taskService.getTasksOwned(currentUser, "en-UK"));
+        List<TaskSummary> list = taskService.getTasksAssignedAsPotentialOwner(currentUser, "en-UK"); //$NON-NLS-1$
+        list.addAll(taskService.getTasksOwned(currentUser, "en-UK")); //$NON-NLS-1$
 
-        final String orderBy = findTasksRequest.getOrderBy() == null ? "priority" : findTasksRequest.getOrderBy();
+        final String orderBy = findTasksRequest.getOrderBy() == null ? "priority" : findTasksRequest.getOrderBy(); //$NON-NLS-1$
         final boolean ascending = findTasksRequest.isOrderAscending();
         TreeSet<TaskSummary> sortedFiltered = new TreeSet<TaskSummary>(new TaskSummaryComparator(orderBy, ascending));
 
@@ -411,7 +412,7 @@ public class TaskApi {
             Throwable cause = error.getCause();
             if (cause != null && cause instanceof OptimisticLockException) {
                 // Concurrent access to the same process instance
-                throw new ProcessOperationException("The same task instance has likely been accessed concurrently", error);
+                throw new ProcessOperationException(Messages.i18n.format("TaskApi.ConcurrentTaskAccessError"), error); //$NON-NLS-1$
             }
             throw error;
         }
@@ -421,7 +422,7 @@ public class TaskApi {
                 ut.rollback();
             }
             // Probably the task has already been started by other users
-            throw new ProcessOperationException("The task has likely been claimed/started by another user.", error);
+            throw new ProcessOperationException(Messages.i18n.format("TaskApi.AlreadyClaimed"), error); //$NON-NLS-1$
         }
         // Transaction might be already rolled back by TaskServiceSession
         if (ut.getStatus() == Status.STATUS_ACTIVE) {
@@ -438,7 +439,7 @@ public class TaskApi {
     protected String assertCurrentUser(HttpServletRequest httpRequest) throws Exception {
         Principal principal = httpRequest.getUserPrincipal();
         if (principal == null) {
-            throw new Exception("User not authenticated.");
+            throw new Exception(Messages.i18n.format("TaskApi.NoAuthError")); //$NON-NLS-1$
         }
         return principal.getName();
     }

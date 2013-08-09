@@ -47,9 +47,9 @@ public class DataBindingParentheticalConverter implements Converter<String, Stri
     @Override
     public String toWidgetValue(String modelValue) {
         if (modelValue == null)
-            return "";
+            return ""; //$NON-NLS-1$
         else
-            return "(" + modelValue + ")";
+            return "(" + modelValue + ")"; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
 }

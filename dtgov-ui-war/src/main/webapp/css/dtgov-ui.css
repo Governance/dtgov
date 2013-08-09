@@ -66,6 +66,7 @@ a:hover {
 
 input.filter-date {
     cursor: pointer;
+    background-color: white;
 }
 
 .sp4n-label {

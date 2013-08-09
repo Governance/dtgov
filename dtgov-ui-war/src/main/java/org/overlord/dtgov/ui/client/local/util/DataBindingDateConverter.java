@@ -18,6 +18,7 @@ package org.overlord.dtgov.ui.client.local.util;
 import java.util.Date;
 
 import org.jboss.errai.databinding.client.api.Converter;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 
@@ -27,12 +28,6 @@ import com.google.gwt.i18n.client.DateTimeFormat;
  * @author eric.wittmann@redhat.com
  */
 public class DataBindingDateConverter implements Converter<Date, String> {
-
-    private static DateTimeFormat dateFormat;
-    static {
-        String dFormat = "yyyy-MM-dd";
-        dateFormat = DateTimeFormat.getFormat(dFormat);
-    }
 
     /**
      * Constructor.
@@ -46,6 +41,7 @@ public class DataBindingDateConverter implements Converter<Date, String> {
     @Override
     public Date toModelValue(String widgetValue) {
         try {
+            DateTimeFormat dateFormat = ClientMessages.getDateFormat();
             return dateFormat.parse(widgetValue);
         } catch (IllegalArgumentException e) {
             return null;
@@ -58,9 +54,11 @@ public class DataBindingDateConverter implements Converter<Date, String> {
     @Override
     public String toWidgetValue(Date modelValue) {
         if (modelValue == null)
-            return "";
-        else
+            return ""; //$NON-NLS-1$
+        else {
+            DateTimeFormat dateFormat = ClientMessages.getDateFormat();
             return dateFormat.format(modelValue);
+        }
     }
 
 }

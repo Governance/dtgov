@@ -52,7 +52,7 @@ public class TaskApiClient {
 	 */
 	public TaskApiClient(String endpoint) {
 		this.endpoint = endpoint;
-		if (this.endpoint.endsWith("/")) {
+		if (this.endpoint.endsWith("/")) { //$NON-NLS-1$
 			this.endpoint = this.endpoint.substring(0, this.endpoint.length()-1);
 		}
 	}
@@ -94,7 +94,7 @@ public class TaskApiClient {
 	 */
 	public FindTasksResponse findTasks(FindTasksRequest findTasksRequest) throws TaskApiClientException {
         try {
-            String url = String.format("%1$s/find", this.endpoint);
+            String url = String.format("%1$s/find", this.endpoint); //$NON-NLS-1$
             ClientRequest request = createClientRequest(url);
             request.body(MediaType.APPLICATION_XML_TYPE, findTasksRequest);
             ClientResponse<FindTasksResponse> response = request.post(FindTasksResponse.class);
@@ -111,7 +111,7 @@ public class TaskApiClient {
 	 */
 	public TaskType getTask(String taskId) throws TaskApiClientException {
 		try {
-			String url = String.format("%1$s/get/%2$s", this.endpoint, taskId);
+			String url = String.format("%1$s/get/%2$s", this.endpoint, taskId); //$NON-NLS-1$
 			ClientRequest request = createClientRequest(url);
 			ClientResponse<TaskType> response = request.get(TaskType.class);
 			return response.getEntity();
@@ -126,7 +126,7 @@ public class TaskApiClient {
      */
     public TaskType claimTask(String taskId) throws TaskApiClientException {
         try {
-            String url = String.format("%1$s/claim/%2$s", this.endpoint, taskId);
+            String url = String.format("%1$s/claim/%2$s", this.endpoint, taskId); //$NON-NLS-1$
             ClientRequest request = createClientRequest(url);
             ClientResponse<TaskType> response = request.get(TaskType.class);
             return response.getEntity();
@@ -141,7 +141,7 @@ public class TaskApiClient {
      */
     public TaskType releaseTask(String taskId) throws TaskApiClientException {
         try {
-            String url = String.format("%1$s/release/%2$s", this.endpoint, taskId);
+            String url = String.format("%1$s/release/%2$s", this.endpoint, taskId); //$NON-NLS-1$
             ClientRequest request = createClientRequest(url);
             ClientResponse<TaskType> response = request.get(TaskType.class);
             return response.getEntity();
@@ -156,7 +156,7 @@ public class TaskApiClient {
      */
     public TaskType startTask(String taskId) throws TaskApiClientException {
         try {
-            String url = String.format("%1$s/start/%2$s", this.endpoint, taskId);
+            String url = String.format("%1$s/start/%2$s", this.endpoint, taskId); //$NON-NLS-1$
             ClientRequest request = createClientRequest(url);
             ClientResponse<TaskType> response = request.get(TaskType.class);
             return response.getEntity();
@@ -171,7 +171,7 @@ public class TaskApiClient {
      */
     public TaskType stopTask(String taskId) throws TaskApiClientException {
         try {
-            String url = String.format("%1$s/stop/%2$s", this.endpoint, taskId);
+            String url = String.format("%1$s/stop/%2$s", this.endpoint, taskId); //$NON-NLS-1$
             ClientRequest request = createClientRequest(url);
             ClientResponse<TaskType> response = request.get(TaskType.class);
             return response.getEntity();
@@ -187,7 +187,7 @@ public class TaskApiClient {
     public TaskType completeTask(String taskId, Map<String, String> taskData) throws TaskApiClientException {
         try {
             TaskDataType data = convertMapToTaskData(taskData);
-            String url = String.format("%1$s/complete/%2$s", this.endpoint, taskId);
+            String url = String.format("%1$s/complete/%2$s", this.endpoint, taskId); //$NON-NLS-1$
             ClientRequest request = createClientRequest(url);
             request.body(MediaType.APPLICATION_XML_TYPE, data);
             ClientResponse<TaskType> response = request.post(TaskType.class);
@@ -204,7 +204,7 @@ public class TaskApiClient {
     public TaskType failTask(String taskId, Map<String, String> taskData) throws TaskApiClientException {
         try {
             TaskDataType data = convertMapToTaskData(taskData);
-            String url = String.format("%1$s/fail/%2$s", this.endpoint, taskId);
+            String url = String.format("%1$s/fail/%2$s", this.endpoint, taskId); //$NON-NLS-1$
             ClientRequest request = createClientRequest(url);
             request.body(MediaType.APPLICATION_XML_TYPE, data);
             ClientResponse<TaskType> response = request.post(TaskType.class);

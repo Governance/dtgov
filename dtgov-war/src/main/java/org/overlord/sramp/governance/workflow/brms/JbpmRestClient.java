@@ -51,17 +51,17 @@ public class JbpmRestClient {
 
     public void logon(String username, String password) throws ClientProtocolException, IOException {
 
-        HttpGet getMethod = new HttpGet(jbpmUrl + "/rs/process/definitions");
+        HttpGet getMethod = new HttpGet(jbpmUrl + "/rs/process/definitions"); //$NON-NLS-1$
         HttpResponse response = httpclient.execute(getMethod);
         InputStream is = response.getEntity().getContent();
         String responseStr = IOUtils.toString(is);
         is.close();
-        if (responseStr.contains("j_security_check")) {
-            HttpPost authMethod = new HttpPost(jbpmUrl + "/rs/process/j_security_check");
+        if (responseStr.contains("j_security_check")) { //$NON-NLS-1$
+            HttpPost authMethod = new HttpPost(jbpmUrl + "/rs/process/j_security_check"); //$NON-NLS-1$
             List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
-            parameters.add(new BasicNameValuePair("j_username", username));
-            parameters.add(new BasicNameValuePair("j_password", password));
-            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
+            parameters.add(new BasicNameValuePair("j_username", username)); //$NON-NLS-1$
+            parameters.add(new BasicNameValuePair("j_password", password)); //$NON-NLS-1$
+            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8"); //$NON-NLS-1$
             authMethod.setEntity(entity);
             response = httpclient.execute(authMethod);
             response.getEntity().getContent().close();
@@ -76,7 +76,7 @@ public class JbpmRestClient {
 
     public void newProcessInstanceAndCompleteFirstTask(String processId, Map<String,Object> params) throws IOException, URISyntaxException, WorkflowException {
         //"http://localhost:8080/gwt-console-server/rs/form/process/com.sample.evaluation/complete"
-        URI sendTaskFormUrl = new URL(jbpmUrl + "/rs/form/process/" + processId + "/complete").toURI();
+        URI sendTaskFormUrl = new URL(jbpmUrl + "/rs/form/process/" + processId + "/complete").toURI(); //$NON-NLS-1$ //$NON-NLS-2$
         new Multipart().post(httpclient, sendTaskFormUrl, params);
     }
     /**
@@ -88,7 +88,7 @@ public class JbpmRestClient {
      */
     public void newProcessInstance(String processId) throws URISyntaxException, IOException {
         //"http://localhost:8080/gwt-console-server/rs/process/definition/{id}/new_instance"
-        URI startProcessUrl = new URL(jbpmUrl + "/rs/process/definition/" + processId + "/new_instance").toURI();
+        URI startProcessUrl = new URL(jbpmUrl + "/rs/process/definition/" + processId + "/new_instance").toURI(); //$NON-NLS-1$ //$NON-NLS-2$
         HttpPost newInstance = new HttpPost(startProcessUrl);
         httpclient.execute(newInstance);
     }

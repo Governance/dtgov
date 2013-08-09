@@ -4,21 +4,23 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.overlord.dtgov.server.i18n.Messages;
+
 /**
  * Only here to satisfy the Aether class. Will be deleted once the Aether call gets deleted.
- * 
+ *
  * @author kstam
  *
  */
 class IoUtils {
 
     public static File getTmpDirectory() {
-        File tmp = new File( System.getProperty( "java.io.tmpdir" ) );
-        File f = new File( tmp, "_kie_repo_" + UUID.randomUUID().toString() );
+        File tmp = new File( System.getProperty( "java.io.tmpdir" ) ); //$NON-NLS-1$
+        File f = new File( tmp, "_kie_repo_" + UUID.randomUUID().toString() ); //$NON-NLS-1$
         //files.add( f );
         if ( f.exists() ) {
             if ( f.isFile() ) {
-                throw new IllegalStateException( "The temp directory exists as a file. Nuke it now !" );
+                throw new IllegalStateException(Messages.i18n.format("IoUtils.TempDirExists")); //$NON-NLS-1$
             }
             deleteDir( f );
             f.mkdir();
@@ -55,16 +57,16 @@ class IoUtils {
                 try {
                     Thread.sleep( 250 );
                 } catch ( InterruptedException e ) {
-                    throw new RuntimeException( "This should never happen" );
+                    throw new RuntimeException( "This should never happen" ); //$NON-NLS-1$
                 }
             }
         }
 
         if ( file.exists() ) {
             try {
-                throw new RuntimeException( "Unable to delete file:" + file.getCanonicalPath() );
+                throw new RuntimeException( Messages.i18n.format("IoUtils.FileDeleteFail", file.getCanonicalPath()) ); //$NON-NLS-1$
             } catch ( IOException e ) {
-                throw new RuntimeException( "Unable to delete file", e);
+                throw new RuntimeException(e);
             }
         }
     }

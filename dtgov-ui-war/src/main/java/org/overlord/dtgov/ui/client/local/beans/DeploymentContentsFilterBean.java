@@ -72,17 +72,17 @@ public class DeploymentContentsFilterBean {
         String nameCriteria = getName();
         if (nameCriteria != null && nameCriteria.trim().length() > 0) {
             String beanName = bean.getName().toLowerCase();
-            if (nameCriteria.startsWith("*") && nameCriteria.endsWith("*")) {
+            if (nameCriteria.startsWith("*") && nameCriteria.endsWith("*")) { //$NON-NLS-1$ //$NON-NLS-2$
                 String criteria = nameCriteria.substring(1, nameCriteria.length() - 1).toLowerCase();
                 if (!beanName.contains(criteria)) {
                     return false;
                 }
-            } else if (nameCriteria.endsWith("*")) {
+            } else if (nameCriteria.endsWith("*")) { //$NON-NLS-1$
                 String criteria = nameCriteria.substring(0, nameCriteria.length() - 1).toLowerCase();
                 if (!beanName.startsWith(criteria)) {
                     return false;
                 }
-            } else if (nameCriteria.startsWith("*")) {
+            } else if (nameCriteria.startsWith("*")) { //$NON-NLS-1$
                 String criteria = nameCriteria.substring(1).toLowerCase();
                 if (!beanName.toLowerCase().endsWith(criteria)) {
                     return false;

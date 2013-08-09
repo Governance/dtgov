@@ -24,6 +24,7 @@ import org.jboss.errai.ui.nav.client.local.TransitionAnchor;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.taskInbox.TaskInboxFilters;
 import org.overlord.dtgov.ui.client.local.pages.taskInbox.TasksTable;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
@@ -52,6 +53,8 @@ import com.google.gwt.user.client.ui.Anchor;
 @Dependent
 public class TaskInboxPage extends AbstractPage {
 
+    @Inject
+    protected ClientMessages i18n;
     @Inject
     protected TaskInboxRpcService inboxService;
     @Inject
@@ -108,11 +111,11 @@ public class TaskInboxPage extends AbstractPage {
         });
 
         // Hide columns 2-3 when in mobile mode.
-        tasksTable.setColumnClasses(2, "desktop-only");
-        tasksTable.setColumnClasses(3, "desktop-only");
+        tasksTable.setColumnClasses(2, "desktop-only"); //$NON-NLS-1$
+        tasksTable.setColumnClasses(3, "desktop-only"); //$NON-NLS-1$
 
-        this.rangeSpan.setInnerText("?");
-        this.totalSpan.setInnerText("?");
+        this.rangeSpan.setInnerText("?"); //$NON-NLS-1$
+        this.totalSpan.setInnerText("?"); //$NON-NLS-1$
     }
 
     /**
@@ -158,7 +161,7 @@ public class TaskInboxPage extends AbstractPage {
             }
             @Override
             public void onError(Throwable error) {
-                notificationService.sendErrorNotification("Error loading tasks.", error);
+                notificationService.sendErrorNotification(i18n.format("task-inbox.error-loading"), error); //$NON-NLS-1$
                 noDataMessage.setVisible(true);
                 searchInProgressMessage.setVisible(false);
             }
@@ -173,8 +176,8 @@ public class TaskInboxPage extends AbstractPage {
         this.searchInProgressMessage.setVisible(true);
         this.tasksTable.setVisible(false);
         this.noDataMessage.setVisible(false);
-        this.rangeSpan.setInnerText("?");
-        this.totalSpan.setInnerText("?");
+        this.rangeSpan.setInnerText("?"); //$NON-NLS-1$
+        this.totalSpan.setInnerText("?"); //$NON-NLS-1$
     }
 
     /**
@@ -208,7 +211,7 @@ public class TaskInboxPage extends AbstractPage {
 
         int startIndex = data.getStartIndex() + 1;
         int endIndex = startIndex + data.getTasks().size() - 1;
-        String rangeText = "" + startIndex + "-" + endIndex;
+        String rangeText = "" + startIndex + "-" + endIndex; //$NON-NLS-1$ //$NON-NLS-2$
         String totalText = String.valueOf(data.getTotalResults());
         this.rangeSpan.setInnerText(rangeText);
         this.totalSpan.setInnerText(totalText);

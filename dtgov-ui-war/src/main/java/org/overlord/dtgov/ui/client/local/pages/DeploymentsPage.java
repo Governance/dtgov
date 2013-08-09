@@ -25,6 +25,7 @@ import org.jboss.errai.ui.nav.client.local.TransitionAnchor;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.deployments.AddDeploymentDialog;
 import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentFilters;
 import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentTable;
@@ -55,6 +56,8 @@ import com.google.gwt.user.client.ui.TextBox;
 @Dependent
 public class DeploymentsPage extends AbstractPage {
 
+    @Inject
+    protected ClientMessages i18n;
     @Inject
     protected DeploymentsRpcService deploymentsService;
     @Inject
@@ -123,10 +126,10 @@ public class DeploymentsPage extends AbstractPage {
         });
 
         // Hide column 1 when in mobile mode.
-        deploymentsTable.setColumnClasses(1, "desktop-only");
+        deploymentsTable.setColumnClasses(1, "desktop-only"); //$NON-NLS-1$
 
-        this.rangeSpan.setInnerText("?");
-        this.totalSpan.setInnerText("?");
+        this.rangeSpan.setInnerText("?"); //$NON-NLS-1$
+        this.totalSpan.setInnerText("?"); //$NON-NLS-1$
     }
 
     /**
@@ -181,7 +184,7 @@ public class DeploymentsPage extends AbstractPage {
             }
             @Override
             public void onError(Throwable error) {
-                notificationService.sendErrorNotification("Error loading deployments.", error);
+                notificationService.sendErrorNotification(i18n.format("deployments.error-loading"), error); //$NON-NLS-1$
                 noDataMessage.setVisible(true);
                 searchInProgressMessage.setVisible(false);
             }
@@ -196,8 +199,8 @@ public class DeploymentsPage extends AbstractPage {
         this.searchInProgressMessage.setVisible(true);
         this.deploymentsTable.setVisible(false);
         this.noDataMessage.setVisible(false);
-        this.rangeSpan.setInnerText("?");
-        this.totalSpan.setInnerText("?");
+        this.rangeSpan.setInnerText("?"); //$NON-NLS-1$
+        this.totalSpan.setInnerText("?"); //$NON-NLS-1$
     }
 
     /**
@@ -231,7 +234,7 @@ public class DeploymentsPage extends AbstractPage {
 
         int startIndex = data.getStartIndex() + 1;
         int endIndex = startIndex + data.getDeployments().size() - 1;
-        String rangeText = "" + startIndex + "-" + endIndex;
+        String rangeText = "" + startIndex + "-" + endIndex; //$NON-NLS-1$ //$NON-NLS-2$
         String totalText = String.valueOf(data.getTotalResults());
         this.rangeSpan.setInnerText(rangeText);
         this.totalSpan.setInnerText(totalText);

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>DTGov - Deployment Details</title>
+    <title data-role="dummy">DTGov - Deployment Details</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
     <meta name="description" content=""></meta>
     <meta name="author" content=""></meta>
@@ -28,28 +28,28 @@
         <!-- Breadcrumbs -->
         <div class="row-fluid">
           <ul class="breadcrumb">
-            <li><a data-field="back-to-dashboard" href="dashboard.html">DTGov Dashboard</a> <span class="divider">/</span></li>
-            <li><a data-field="back-to-deployments" href="deployments.html">Deployments</a> <span class="divider">/</span></li>
-            <li class="active">Deployment Details</li>
+            <li><a data-field="back-to-dashboard" href="dashboard.html" data-i18n-key="breadcrumb.dashboard">DTGov Dashboard</a> <span class="divider">/<span data-role="dummy" /></span></li>
+            <li><a data-field="back-to-deployments" href="deployments.html" data-i18n-key="breadcrumb.deployments">Deployments</a> <span class="divider">/<span data-role="dummy" /></span></li>
+            <li class="active" data-i18n-key="breadcrumb.deployment-details">Deployment Details</li>
           </ul>
         </div>
 
         <!-- Loading spinner -->
-        <div data-field="deployment-details-loading-spinner" class="spinner deployment-details-loading hide">Loading deployment, please wait...</div>
+        <div data-field="deployment-details-loading-spinner" class="spinner deployment-details-loading hide" data-i18n-key="loading-deployments">Loading deployment, please wait...</div>
 
         <div id="deployment-details-content-wrapper">
         <!-- Action bar -->
         <div class="row-fluid deployment-actions">
           <div class="span12">
             <span class="sp4n-label">
-              <span class="deployment-details-title" data-field="deployment-name">switchyard-demos-multiApp-artifacts</span>
-              <span class="deployment-details-type" data-field="deployment-type">(SwitchYardApplication)</span>
+              <span class="deployment-details-title" data-field="deployment-name" data-role="dummy">switchyard-demos-multiApp-artifacts</span>
+              <span class="deployment-details-type" data-field="deployment-type" data-role="dummy">(SwitchYardApplication)</span>
             </span>
             <div class="sp4n-label pull-right">
-              <span data-field="deployment-version" class="deployment-details-version">(1.0.3)</span>
+              <span data-field="deployment-version" class="deployment-details-version" data-role="dummy">(1.0.3)</span>
             </div>
             <div class="btn-group" style="visibility:hidden">
-              <button class="btn" disabled="true">Spacer</button>
+              <button class="btn" disabled="true">Spacer<span data-role="dummy" /></button>
             </div>
           </div>
         </div>
@@ -60,42 +60,44 @@
             <div class="row-fluid">
               <!-- Deployment Properties (left half) -->
               <div class="span6 details-meta-data-section">
-                <div class="details-meta-data-section-header">Deployment Properties</div>
+                <div class="details-meta-data-section-header" data-i18n-key="header.deployment-properties">Deployment Properties</div>
                 <div class="clearfix"></div>
-                <div class="details-meta-data-section-label">UUID:</div>
-                <div data-field="deploymentUuid" class="details-meta-data-section-value">22143-2134982-23782-3782</div>
+                <div class="details-meta-data-section-label" data-i18n-key="uuid">UUID:</div>
+                <div data-field="deploymentUuid" class="details-meta-data-section-value" data-role="dummy">22143-2134982-23782-3782</div>
                 <div class="clearfix"></div>
-                <div class="details-meta-data-section-label">Deployment Status:</div>
-                <div data-field="stage" class="details-meta-data-section-value" style="font-weight: bold">InDev</div>
+                <div class="details-meta-data-section-label" data-i18n-key="status">Deployment Status:</div>
+                <div data-field="stage" class="details-meta-data-section-value" style="font-weight: bold" data-role="dummy">InDev</div>
                 <div class="clearfix"></div>
-                <div class="details-meta-data-section-label">Version:</div>
-                <div data-field="version" class="details-meta-data-section-value">1.0.7</div>
+                <div class="details-meta-data-section-label" data-i18n-key="version">Version:</div>
+                <div data-field="version" class="details-meta-data-section-value" data-role="dummy">1.0.7</div>
                 <div class="clearfix"></div>
-                <div class="details-meta-data-section-label">Type:</div>
-                <div data-field="deploymentType" class="details-meta-data-section-value">SwitchYardApplication</div>
+                <div class="details-meta-data-section-label" data-i18n-key="type">Type:</div>
+                <div data-field="deploymentType" class="details-meta-data-section-value" data-role="dummy">SwitchYardApplication</div>
                 <div class="clearfix"></div>
-                <div class="details-meta-data-section-label">Initiated:</div>
+                <div class="details-meta-data-section-label" data-i18n-key="initiated">Initiated:</div>
                 <div class="details-meta-data-section-value">
-                  <span class="deployment-details-emphasis" data-field="initiatedDate">12/07/2012</span> by <span class="deployment-details-emphasis" data-field="initiatedBy">ewittman</span>
+                  <span class="deployment-details-emphasis" data-field="initiatedDate" data-role="dummy">12/07/2012</span>
+                  <span data-i18n-key="by">by</span>
+                  <span class="deployment-details-emphasis" data-field="initiatedBy" data-role="dummy">ewittman</span>
                 </div>
                 <div id="maven-details" class="maven-details">
                   <div class="clearfix"></div>
-                  <div class="details-meta-data-section-label">Maven Group:</div>
-                  <div data-field="mavenGroupId" class="details-meta-data-section-value">org.switchyard.demos.multiApp</div>
+                  <div class="details-meta-data-section-label" data-i18n-key="maven.group">Maven Group:</div>
+                  <div data-field="mavenGroupId" class="details-meta-data-section-value" data-role="dummy">org.switchyard.demos.multiApp</div>
                   <div class="clearfix"></div>
-                  <div class="details-meta-data-section-label">Maven Id:</div>
-                  <div data-field="mavenArtifactId" class="details-meta-data-section-value">switchyard-demos-multiApp-artifacts</div>
+                  <div class="details-meta-data-section-label" data-i18n-key="maven.id">Maven Id:</div>
+                  <div data-field="mavenArtifactId" class="details-meta-data-section-value" data-role="dummy">switchyard-demos-multiApp-artifacts</div>
                   <div class="clearfix"></div>
-                  <div class="details-meta-data-section-label">Maven Version:</div>
-                  <div data-field="mavenVersion" class="details-meta-data-section-value">1.0.7</div>
+                  <div class="details-meta-data-section-label" data-i18n-key="maven.version">Maven Version:</div>
+                  <div data-field="mavenVersion" class="details-meta-data-section-value" data-role="dummy">1.0.7</div>
                 </div>
                 <div class="clearfix"></div>
               </div>
               <!-- Description -->
               <div class="span6 details-meta-data-section">
-                <div class="details-meta-data-section-header">Description</div>
+                <div class="details-meta-data-section-header" data-i18n-key="description">Description</div>
                 <div class="clearfix"></div>
-                <span data-field="deployment-description" class="core-property-description">
+                <span data-field="deployment-description" class="core-property-description" data-role="dummy">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent 
                   libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum 
                   imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper 
@@ -111,42 +113,42 @@
               <div id="deployment-nav-history" class="span4 deployment-nav-panel">
                 <div class="description">
                   <span class="deployment-details-icon deployment-history-icon"></span>
-                  <span>
+                  <span data-i18n-key="nav.history-description">
                     Click to see the history of this deployment, from the time it was added to the system
                     until now.  The history includes its transitions within the Deployment Lifecycle.
                   </span>
                 </div>
                 <div class="label-bar">
-                  <a data-field="to-deploymentHistory-page" class="btn btn-mini btn-focus btn-hover pull-right" href="deploymentHistory.html">Go &raquo;</a>
-                  <span>Deployment History</span>
+                  <a data-field="to-deploymentHistory-page" class="btn btn-mini btn-focus btn-hover pull-right" href="deploymentHistory.html"><span data-i18n-key="go">Go</span> &raquo;</a>
+                  <span data-i18n-key="nav.history">Deployment History</span>
                 </div>
               </div>
               
               <div id="deployment-nav-contents" class="span4 deployment-nav-panel">
                 <div class="description">
                   <span class="deployment-details-icon deployment-contents-icon"></span>
-                  <span>
+                  <span data-i18n-key="nav.contents-description">
                     Here you can view a list of the interesting artifacts that the system located within
                     the deployment.  This often includes artifacts such as XML files, WSDLs, and Schemas.
                   </span>
                 </div>
                 <div class="label-bar">
-                  <a data-field="to-deploymentContents-page" class="btn btn-mini btn-focus btn-hover pull-right" href="deploymentContents.html">Go &raquo;</a>
-                  <span>Deployment Contents</span>
+                  <a data-field="to-deploymentContents-page" class="btn btn-mini btn-focus btn-hover pull-right" href="deploymentContents.html"><span data-i18n-key="go">Go</span> &raquo;</a>
+                  <span data-i18n-key="nav.contents">Deployment Contents</span>
                 </div>
               </div>
               
               <div id="deployment-nav-browse" class="span4 deployment-nav-panel">
                 <div class="description">
                   <span class="deployment-details-icon deployment-browse-icon"></span>
-                  <span>
+                  <span data-i18n-key="nav.browse-description">
                     Click here to browse this deployment artifact in the S-RAMP browser interface.  This
                     may allow you to view and modify all aspects of the artifact.
                   </span>
                 </div>
                 <div class="label-bar">
-                  <a data-field="to-sramp" class="btn btn-mini btn-focus btn-hover pull-right" href="#">Go &raquo;</a>
-                  <span>Browse in S-RAMP</span>
+                  <a data-field="to-sramp" class="btn btn-mini btn-focus btn-hover pull-right" href="#"><span data-i18n-key="go">Go</span> &raquo;</a>
+                  <span data-i18n-key="nav.browse">Browse in S-RAMP</span>
                 </div>
               </div>
             </div>
@@ -158,7 +160,7 @@
         <!-- Footer -->
         <footer>
           <hr />
-          <p>&copy; JBoss Overlord 2013</p>
+          <p data-i18n-key="footer">&copy; JBoss Overlord 2013</p>
         </footer>
       </div> <!-- /container -->
       

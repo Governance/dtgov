@@ -155,7 +155,7 @@ public class TaskInboxFilters extends Composite implements HasValueChangeHandler
         } else if (value.getOwner() == TaskOwnerEnum.group) {
             ownerGroup.setValue(true);
         }
-        priority.setValue(value.getPriority() == -1 ? "" : String.valueOf(value.getPriority()));
+        priority.setValue(value.getPriority() == -1 ? "" : String.valueOf(value.getPriority())); //$NON-NLS-1$
         dateDueFrom.setDateValue(value.getDateDueFrom() == null ? null : value.getDateDueFrom());
         dateDueTo.setDateValue(value.getDateDueTo() == null ? null : value.getDateDueTo());
         onFilterValueChange();

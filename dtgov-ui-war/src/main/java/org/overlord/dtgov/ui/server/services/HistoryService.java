@@ -29,6 +29,7 @@ import org.overlord.dtgov.ui.client.shared.beans.HistoryEventBean;
 import org.overlord.dtgov.ui.client.shared.beans.HistoryEventSummaryBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IHistoryService;
+import org.overlord.dtgov.ui.server.i18n.Messages;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampClientException;
@@ -100,13 +101,13 @@ public class HistoryService implements IHistoryService {
      */
     private String generateEventSummary(AuditEntrySummary entry) {
         if (AuditEntryTypes.ARTIFACT_ADD.equals(entry.getType())) {
-            return "Added/imported the artifact to the repository.";
+            return Messages.i18n.format("HistoryService.AddedArtifactToRepo"); //$NON-NLS-1$
         } else if (AuditEntryTypes.ARTIFACT_UPDATE.equals(entry.getType())) {
-            return "Updated some information (meta-data) about the artifact.";
+            return Messages.i18n.format("HistoryService.UpdatedInfoOnArty"); //$NON-NLS-1$
         } else if (AuditEntryTypes.ARTIFACT_DELETE.equals(entry.getType())) {
-            return "Deleted the artifact!";
+            return Messages.i18n.format("HistoryService.DeletedArty"); //$NON-NLS-1$
         }
-        return "Performed an unrecognized (but audited) action: " + entry.getType();
+        return Messages.i18n.format("HistoryService.UnrecognizedAction", entry.getType()); //$NON-NLS-1$
     }
 
     /**
@@ -134,11 +135,11 @@ public class HistoryService implements IHistoryService {
      */
     private String generateEventDetails(AuditEntry auditEntry) {
         if (AuditEntryTypes.ARTIFACT_ADD.equals(auditEntry.getType())) {
-            return "No additional information.";
+            return Messages.i18n.format("HistoryService.NoAdditionalInfo"); //$NON-NLS-1$
         } else if (AuditEntryTypes.ARTIFACT_UPDATE.equals(auditEntry.getType())) {
             List<AuditItemType> auditItem = auditEntry.getAuditItem();
             if (auditItem.isEmpty()) {
-                return "No additional information.";
+                return Messages.i18n.format("HistoryService.NoAdditionalInfo"); //$NON-NLS-1$
             }
             StringBuilder buffer = new StringBuilder();
             for (AuditItemType auditItemType : auditItem) {
@@ -146,9 +147,9 @@ public class HistoryService implements IHistoryService {
             }
             return buffer.toString();
         } else if (AuditEntryTypes.ARTIFACT_DELETE.equals(auditEntry.getType())) {
-            return "No additional information.";
+            return Messages.i18n.format("HistoryService.NoAdditionalInfo"); //$NON-NLS-1$
         }
-        return "Performed an unrecognized (but audited) action: " + auditEntry.getType();
+        return Messages.i18n.format("HistoryService.UnrecognizedAction", auditEntry.getType()); //$NON-NLS-1$
     }
 
     /**
@@ -156,42 +157,54 @@ public class HistoryService implements IHistoryService {
      * @param buffer
      */
     private void generateAuditItemSummary(AuditItemType auditItemType, StringBuilder buffer) {
+        // TODO lots of injection possible here!
+        // TODO this needs to be re-thought.  should the server generate the HTML?
         String type = auditItemType.getType();
         if (AuditItemTypes.PROPERTY_ADDED.equals(type)) {
             List<Property> properties = auditItemType.getProperty();
                 if (!properties.isEmpty()) {
-                buffer.append("<p>The following properties were <span class='underline'>added</span>:</p>");
-                buffer.append("<ul>");
+                buffer.append("<p>"); //$NON-NLS-1$
+                buffer.append(Messages.i18n.format("HistoryService.PropertiesWereAdded")); //$NON-NLS-1$
+                buffer.append(":</p>"); //$NON-NLS-1$
+                buffer.append("<ul>"); //$NON-NLS-1$
                 for (Property property : properties) {
-                    buffer.append("<li>");
-                    buffer.append("Property <span class='emphasis'>"+property.getName()+"</span> with value <span class='italic'>\""+property.getValue()+"\"</span>");
-                    buffer.append("</li>");
+                    buffer.append("<li>"); //$NON-NLS-1$
+                    buffer.append(
+                            Messages.i18n.format("HistoryService.PropertyWithValue", //$NON-NLS-1$
+                                    property.getName(), property.getValue()));
+                    buffer.append("</li>"); //$NON-NLS-1$
                 }
-                buffer.append("</ul>");
+                buffer.append("</ul>"); //$NON-NLS-1$
             }
         } else if (AuditItemTypes.PROPERTY_CHANGED.equals(type)) {
             List<Property> properties = auditItemType.getProperty();
             if (!properties.isEmpty()) {
-                buffer.append("<p>The following properties were <span class='underline'>modified</span>:</p>");
-                buffer.append("<ul>");
+                buffer.append("<p>"); //$NON-NLS-1$
+                buffer.append(Messages.i18n.format("HistoryService.PropertiesWereModified")); //$NON-NLS-1$
+                buffer.append(":</p>"); //$NON-NLS-1$
+                buffer.append("<ul>"); //$NON-NLS-1$
                 for (Property property : properties) {
-                    buffer.append("<li>");
-                    buffer.append("Property <span class='emphasis'>"+property.getName()+"</span> with new value <span class='italic'>\""+property.getValue()+"\"</span>");
-                    buffer.append("</li>");
+                    buffer.append("<li>"); //$NON-NLS-1$
+                    buffer.append(
+                            Messages.i18n.format("HistoryService.PropertyWithNewValue", //$NON-NLS-1$
+                            property.getName(), property.getValue()));
+                    buffer.append("</li>"); //$NON-NLS-1$
                 }
-                buffer.append("</ul>");
+                buffer.append("</ul>"); //$NON-NLS-1$
             }
         } else if (AuditItemTypes.PROPERTY_REMOVED.equals(type)) {
             List<Property> properties = auditItemType.getProperty();
             if (!properties.isEmpty()) {
-                buffer.append("<p>The following properties were <span class='underline'>removed</span>:</p>");
-                buffer.append("<ul>");
+                buffer.append("<p>"); //$NON-NLS-1$
+                buffer.append(Messages.i18n.format("HistoryService.PropertiesWereRemoved")); //$NON-NLS-1$
+                buffer.append(":</p>"); //$NON-NLS-1$
+                buffer.append("<ul>"); //$NON-NLS-1$
                 for (Property property : properties) {
-                    buffer.append("<li>");
-                    buffer.append("Property <span class='emphasis'>"+property.getName()+"</span>");
-                    buffer.append("</li>");
+                    buffer.append("<li>"); //$NON-NLS-1$
+                    buffer.append(Messages.i18n.format("HistoryService.Property", property.getName())); //$NON-NLS-1$
+                    buffer.append("</li>"); //$NON-NLS-1$
                 }
-                buffer.append("</ul>");
+                buffer.append("</ul>"); //$NON-NLS-1$
             }
         }
     }

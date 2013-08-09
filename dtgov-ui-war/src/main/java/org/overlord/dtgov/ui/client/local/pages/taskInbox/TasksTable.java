@@ -19,6 +19,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.jboss.errai.ui.nav.client.local.TransitionAnchorFactory;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.TaskDetailsPage;
 import org.overlord.dtgov.ui.client.shared.beans.TaskSummaryBean;
 import org.overlord.sramp.ui.client.local.widgets.common.TemplatedWidgetTable;
@@ -36,6 +37,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 public class TasksTable extends TemplatedWidgetTable {
 
     @Inject
+    protected ClientMessages i18n;
+    @Inject
     protected TransitionAnchorFactory<TaskDetailsPage> toDetailsPageLinkFactory;
 
     /**
@@ -50,14 +53,14 @@ public class TasksTable extends TemplatedWidgetTable {
      */
     public void addRow(final TaskSummaryBean taskSummaryBean) {
         int rowIdx = this.rowElements.size();
-        DateTimeFormat format = DateTimeFormat.getFormat("MM/dd/yyyy");
+        DateTimeFormat format = DateTimeFormat.getFormat(i18n.format("date-format")); //$NON-NLS-1$
 
-        Anchor name = toDetailsPageLinkFactory.get("id", taskSummaryBean.getId());
+        Anchor name = toDetailsPageLinkFactory.get("id", taskSummaryBean.getId()); //$NON-NLS-1$
         name.setText(taskSummaryBean.getName());
         InlineLabel priority = new InlineLabel(String.valueOf(taskSummaryBean.getPriority()));
         InlineLabel owner = new InlineLabel(taskSummaryBean.getOwner());
         InlineLabel status = new InlineLabel(taskSummaryBean.getStatus());
-        InlineLabel dueOn = new InlineLabel(taskSummaryBean.getDueDate() != null ? format.format(taskSummaryBean.getDueDate()) : "");
+        InlineLabel dueOn = new InlineLabel(taskSummaryBean.getDueDate() != null ? format.format(taskSummaryBean.getDueDate()) : ""); //$NON-NLS-1$
 
         add(rowIdx, 0, name);
         add(rowIdx, 1, priority);

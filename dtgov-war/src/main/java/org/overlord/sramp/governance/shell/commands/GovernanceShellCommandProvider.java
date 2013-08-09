@@ -38,7 +38,7 @@ public class GovernanceShellCommandProvider implements ShellCommandProvider {
      */
     @Override
     public String getNamespace() {
-        return "brms";
+        return "brms"; //$NON-NLS-1$
     }
 
     /**
@@ -47,8 +47,8 @@ public class GovernanceShellCommandProvider implements ShellCommandProvider {
     @Override
     public Map<String, Class<? extends ShellCommand>> provideCommands() {
         Map<String, Class<? extends ShellCommand>> rval = new HashMap<String, Class<? extends ShellCommand>>();
-        rval.put("dir2brms", Dir2BrmsCommand.class);
-        rval.put("pkg2sramp", Pkg2SrampCommand.class);
+        rval.put("dir2brms", Dir2BrmsCommand.class); //$NON-NLS-1$
+        rval.put("pkg2sramp", Pkg2SrampCommand.class); //$NON-NLS-1$
         return rval;
     }
 

@@ -30,6 +30,7 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.beans.DeploymentHistoryFilterBean;
 import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentHistoryFilters;
 import org.overlord.dtgov.ui.client.local.pages.deployments.HistoryEventsList;
@@ -60,6 +61,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 @Dependent
 public class DeploymentHistoryPage extends AbstractPage {
 
+    @Inject
+    protected ClientMessages i18n;
     @Inject
     protected HistoryRpcService historyService;
     @Inject
@@ -118,8 +121,8 @@ public class DeploymentHistoryPage extends AbstractPage {
      */
     @PostConstruct
     protected void onPostConstruct() {
-        pageContent = DOMUtil.findElementById(getElement(), "deployment-history-content-wrapper");
-        pageContent.addClassName("hide");
+        pageContent = DOMUtil.findElementById(getElement(), "deployment-history-content-wrapper"); //$NON-NLS-1$
+        pageContent.addClassName("hide"); //$NON-NLS-1$
         filtersPanel.addValueChangeHandler(new ValueChangeHandler<DeploymentHistoryFilterBean>() {
             @Override
             public void onValueChange(ValueChangeEvent<DeploymentHistoryFilterBean> event) {
@@ -134,8 +137,8 @@ public class DeploymentHistoryPage extends AbstractPage {
      */
     @Override
     protected void onPageShowing() {
-        pageContent.addClassName("hide");
-        historyLoading.getElement().removeClassName("hide");
+        pageContent.addClassName("hide"); //$NON-NLS-1$
+        historyLoading.getElement().removeClassName("hide"); //$NON-NLS-1$
         historyService.listEvents(uuid, new IRpcServiceInvocationHandler<ArtifactHistoryBean>() {
             @Override
             public void onReturn(ArtifactHistoryBean data) {
@@ -143,10 +146,10 @@ public class DeploymentHistoryPage extends AbstractPage {
             }
             @Override
             public void onError(Throwable error) {
-                notificationService.sendErrorNotification("Error Getting Deployment History.", error);
+                notificationService.sendErrorNotification(i18n.format("deployment-history.error"), error); //$NON-NLS-1$
             }
         });
-        backToDeployment.setHref(createPageHref("deploymentDetails", "uuid", uuid));
+        backToDeployment.setHref(createPageHref("deploymentDetails", "uuid", uuid)); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -155,8 +158,8 @@ public class DeploymentHistoryPage extends AbstractPage {
      */
     protected void update(ArtifactHistoryBean bean) {
         this.historyBean.setModel(bean, InitialState.FROM_MODEL);
-        historyLoading.getElement().addClassName("hide");
-        pageContent.removeClassName("hide");
+        historyLoading.getElement().addClassName("hide"); //$NON-NLS-1$
+        pageContent.removeClassName("hide"); //$NON-NLS-1$
     }
 
     /**
@@ -166,7 +169,7 @@ public class DeploymentHistoryPage extends AbstractPage {
     @EventHandler("back-to-deployment")
     protected void onBackToDeployment(ClickEvent event) {
         Multimap<String, String> state = HashMultimap.create();
-        state.put("uuid", uuid);
+        state.put("uuid", uuid); //$NON-NLS-1$
         goToDeploymentDetails.go(state);
         event.stopPropagation();
         event.preventDefault();

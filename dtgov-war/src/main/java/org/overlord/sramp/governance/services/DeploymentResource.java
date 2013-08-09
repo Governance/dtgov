@@ -40,6 +40,7 @@ import org.kie.scanner.MavenRepository;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactEnum;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.ExtendedArtifactType;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.MediaType;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -99,8 +100,8 @@ public class DeploymentResource {
         ////////////////////////////////////////////
         Target target = governance.getTargets().get(targetRef);
         if (target == null) {
-            logger.error("No target could be found for target '"+ targetRef + "'");
-            throw new SrampAtomException("No target could be found for target '"+ targetRef + "'");
+            logger.error(Messages.i18n.format("DeploymentResource.NoTarget", targetRef)); //$NON-NLS-1$
+            throw new SrampAtomException(Messages.i18n.format("DeploymentResource.NoTarget", targetRef)); //$NON-NLS-1$
         }
 
         // get the previous version of the deployment (so we can undeploy it)
@@ -122,7 +123,7 @@ public class DeploymentResource {
             } else if (target.getType() == TYPE.RHQ) {
                 deployRHQ(artifact, target, client);
             } else {
-                throw new Exception("Deployment target type not supported: " + target.getType());
+                throw new Exception(Messages.i18n.format("DeploymentResource.TargetTypeNotFound", target.getType())); //$NON-NLS-1$
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -141,7 +142,7 @@ public class DeploymentResource {
             logger.error(e.getMessage(), e);
         }
 
-        InputStream reply = IOUtils.toInputStream("success");
+        InputStream reply = IOUtils.toInputStream("success"); //$NON-NLS-1$
         return Response.ok(reply, MediaType.APPLICATION_OCTET_STREAM).build();
     }
 
@@ -163,13 +164,13 @@ public class DeploymentResource {
         String classifier = target.getClassifier();
 
         // Try to find a currently deployed version of this artifact based on maven information.
-        String mavenArtifactId = SrampModelUtils.getCustomProperty(artifact, "maven.artifactId");
-        String mavenGroupId = SrampModelUtils.getCustomProperty(artifact, "maven.groupId");
+        String mavenArtifactId = SrampModelUtils.getCustomProperty(artifact, "maven.artifactId"); //$NON-NLS-1$
+        String mavenGroupId = SrampModelUtils.getCustomProperty(artifact, "maven.groupId"); //$NON-NLS-1$
         if (mavenArtifactId != null && mavenGroupId != null) {
-            QueryResultSet resultSet = client.buildQuery("/s-ramp[@maven.artifactId = ? and @maven.groupId = ? and s-ramp:exactlyClassifiedByAllOf(., ?)]")
+            QueryResultSet resultSet = client.buildQuery("/s-ramp[@maven.artifactId = ? and @maven.groupId = ? and s-ramp:exactlyClassifiedByAllOf(., ?)]") //$NON-NLS-1$
                     .parameter(mavenArtifactId).parameter(mavenGroupId).parameter(classifier).count(2).query();
             if (resultSet.size() == 2) {
-                throw new Exception("Found multiple (maven) 'current' deployments in " + target.getName() + " for " + artifact.getName());
+                throw new Exception(Messages.i18n.format("DeploymentResource.MultipleMavenDeployments", target.getName(), artifact.getName())); //$NON-NLS-1$
             }
             if (resultSet.size() == 1) {
                 // Found a previous maven version deployed to the target
@@ -180,10 +181,10 @@ public class DeploymentResource {
         // Try to find a currently deployed version of this artifact based on a simple deployment name match.
         if (currentVersionArtifact == null) {
             String name = artifact.getName();
-            QueryResultSet resultSet = client.buildQuery("/s-ramp[@name = ? and s-ramp:exactlyClassifiedByAllOf(., ?)]")
+            QueryResultSet resultSet = client.buildQuery("/s-ramp[@name = ? and s-ramp:exactlyClassifiedByAllOf(., ?)]") //$NON-NLS-1$
                     .parameter(name).parameter(classifier).count(2).query();
             if (resultSet.size() == 2) {
-                throw new Exception("Found multiple (simple name) 'current' deployments in " + target.getName() + " for " + artifact.getName());
+                throw new Exception(Messages.i18n.format("DeploymentResource.MultipleSimpleDeployments", target.getName(), artifact.getName())); //$NON-NLS-1$
             }
             if (resultSet.size() == 1) {
                 // Found a previous maven version deployed to the target
@@ -210,12 +211,12 @@ public class DeploymentResource {
     protected void undeploy(SrampAtomApiClient client, BaseArtifactType prevVersionArtifact, Target target)
             throws Exception {
         // Find the undeployment information for the artifact
-        QueryResultSet resultSet = client.buildQuery("/s-ramp/ext/UndeploymentInformation[describesDeployment[@uuid = ?] and @deploy.target = ?]")
+        QueryResultSet resultSet = client.buildQuery("/s-ramp/ext/UndeploymentInformation[describesDeployment[@uuid = ?] and @deploy.target = ?]") //$NON-NLS-1$
                 .parameter(prevVersionArtifact.getUuid()).parameter(target.getName()).count(2).query();
         if (resultSet.size() == 1) {
             // Found it
             BaseArtifactType undeployInfo = client.getArtifactMetaData(resultSet.get(0));
-            Target.TYPE type = Target.TYPE.valueOf(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.type"));
+            Target.TYPE type = Target.TYPE.valueOf(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.type")); //$NON-NLS-1$
             switch (type) {
                 case AS_CLI:
                     undeployCLI(client, prevVersionArtifact, undeployInfo, target);
@@ -232,7 +233,7 @@ public class DeploymentResource {
                 default:
                     break;
             }
-            String deploymentClassifier = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.classifier");
+            String deploymentClassifier = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.classifier"); //$NON-NLS-1$
             // re-fetch the artifact to get the latest meta-data
             prevVersionArtifact = client.getArtifactMetaData(ArtifactType.valueOf(prevVersionArtifact), prevVersionArtifact.getUuid());
             // remove the deployment classifier from the deployment
@@ -241,7 +242,7 @@ public class DeploymentResource {
             // remove the undeployment information (no longer needed)
             client.deleteArtifact(undeployInfo.getUuid(), ArtifactType.valueOf(undeployInfo));
         } else {
-            logger.warn("Failed to find undeployment information for " + prevVersionArtifact.getName());
+            logger.warn(Messages.i18n.format("DeploymentResource.UndeploymentInfoNotFound", prevVersionArtifact.getName())); //$NON-NLS-1$
         }
     }
 
@@ -262,12 +263,12 @@ public class DeploymentResource {
 
             File deployDir = new File(target.getDeployDir());
             if (!deployDir.exists()) {
-                logger.info("creating " + deployDir);
+                logger.info(Messages.i18n.format("DeploymentResource.CreatingDeployDir", deployDir)); //$NON-NLS-1$
                 deployDir.mkdirs();
             }
 
             // deploy the artifact
-            File file = new File(deployDir + "/" + artifact.getName());
+            File file = new File(deployDir + "/" + artifact.getName()); //$NON-NLS-1$
             if (file.exists())
                 file.delete();
             file.createNewFile();
@@ -276,7 +277,7 @@ public class DeploymentResource {
 
             // record (un)deployment information
             Map<String, String> props = new HashMap<String, String>();
-            props.put("deploy.copy.file", file.getCanonicalPath());
+            props.put("deploy.copy.file", file.getCanonicalPath()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
         } finally {
             IOUtils.closeQuietly(os);
@@ -306,25 +307,26 @@ public class DeploymentResource {
         InputStream isPom2 = null;
         try {
             // make sure we have maven properties
-            String mavenArtifactId = SrampModelUtils.getCustomProperty(artifact, "maven.artifactId");
-            String mavenGroupId    = SrampModelUtils.getCustomProperty(artifact, "maven.groupId");
-            String mavenVersion    = SrampModelUtils.getCustomProperty(artifact, "maven.version");
+            String mavenArtifactId = SrampModelUtils.getCustomProperty(artifact, "maven.artifactId"); //$NON-NLS-1$
+            String mavenGroupId    = SrampModelUtils.getCustomProperty(artifact, "maven.groupId"); //$NON-NLS-1$
+            String mavenVersion    = SrampModelUtils.getCustomProperty(artifact, "maven.version"); //$NON-NLS-1$
             if (mavenArtifactId == null || mavenGroupId == null || mavenVersion == null) {
-            	throw new Exception("MavenDeployment requires artifact " + artifact.getUuid() + " to have maven properties set.");
+            	throw new Exception(Messages.i18n.format("DeploymentResource.MissingMavenProps", artifact.getUuid())); //$NON-NLS-1$
             }
             // find the pom that goes with this artifact
-            String pomName = artifact.getName().substring(0, artifact.getName().lastIndexOf(".")) + ".pom";
-            QueryResultSet queryResultSet = client.buildQuery("/s-ramp[@name = ?]").parameter(pomName).query();
+            String pomName = artifact.getName().substring(0, artifact.getName().lastIndexOf(".")) + ".pom"; //$NON-NLS-1$ //$NON-NLS-2$
+            QueryResultSet queryResultSet = client.buildQuery("/s-ramp[@name = ?]").parameter(pomName).query(); //$NON-NLS-1$
             if (queryResultSet.size() == 0) {
-                throw new Exception("MavenDeployment requires artifact " + artifact.getUuid()
-            			+ " to have an accompanied pom with name " + pomName);
+                throw new Exception(Messages.i18n.format(
+                        "DeploymentResource.MissingPom", //$NON-NLS-1$
+                        artifact.getUuid(), pomName));
             }
             BaseArtifactType pomArtifact = null;
             for (ArtifactSummary artifactSummary2 : queryResultSet) {
                 pomArtifact = client.getArtifactMetaData(artifactSummary2);
-                String pomMavenArtifactId = SrampModelUtils.getCustomProperty(pomArtifact, "maven.artifactId");
-                String pomMavenGroupId    = SrampModelUtils.getCustomProperty(pomArtifact, "maven.groupId");
-                String pomMavenVersion    = SrampModelUtils.getCustomProperty(pomArtifact, "maven.version");
+                String pomMavenArtifactId = SrampModelUtils.getCustomProperty(pomArtifact, "maven.artifactId"); //$NON-NLS-1$
+                String pomMavenGroupId    = SrampModelUtils.getCustomProperty(pomArtifact, "maven.groupId"); //$NON-NLS-1$
+                String pomMavenVersion    = SrampModelUtils.getCustomProperty(pomArtifact, "maven.version"); //$NON-NLS-1$
                 if (mavenArtifactId.equals(pomMavenArtifactId) && mavenGroupId.equals(pomMavenGroupId)
                         && mavenVersion.equals(pomMavenVersion)) {
                     break;
@@ -332,16 +334,16 @@ public class DeploymentResource {
                 pomArtifact = null;
 			}
             if (pomArtifact == null) {
-                throw new Exception("MavenDeployment requires artifact " + artifact.getUuid()
-            			+ " to have an accompanied pom with name " + pomName
-            			+ " with identical maven properties");
+                throw new Exception(Messages.i18n.format(
+                        "DeploymentResource.IncorrectPom", //$NON-NLS-1$
+                        artifact.getUuid(), pomName));
             }
 
             ArtifactType pomType = ArtifactType.valueOf(pomArtifact);
             isPom = client.getArtifactContent(pomType, pomArtifact.getUuid());
             String name = pomArtifact.getName();
 
-            File pomFile = new File(System.getProperty("java.io.tmpdir") + "/" + name);
+            File pomFile = new File(System.getProperty("java.io.tmpdir") + "/" + name); //$NON-NLS-1$ //$NON-NLS-2$
             osPom = new FileOutputStream(pomFile);
             IOUtils.copy(isPom, osPom);
             IOUtils.closeQuietly(isPom);
@@ -349,7 +351,7 @@ public class DeploymentResource {
 
             isJar = client.getArtifactContent(ArtifactType.valueOf(artifact), artifact.getUuid());
             name = artifact.getName();
-            File jarFile = new File(System.getProperty("java.io.tmpdir") + "/" + name);
+            File jarFile = new File(System.getProperty("java.io.tmpdir") + "/" + name); //$NON-NLS-1$ //$NON-NLS-2$
             osJar = new FileOutputStream(jarFile);
             IOUtils.copy(isJar, osJar);
             IOUtils.closeQuietly(isJar);
@@ -397,16 +399,16 @@ public class DeploymentResource {
     		is = client.getArtifactContent(ArtifactType.valueOf(artifact), artifact.getUuid());
     		byte[] fileContent = IOUtils.toByteArray(is);
     		for (Integer resourceId : resourceIds) {
-    		    logger.info(String.format("Deploying %1$s to RHQ Server %2$s", artifact.getName(), resourceId));
+    		    logger.info(Messages.i18n.format("DeploymentResource.DeployingToRHQ", artifact.getName(), resourceId)); //$NON-NLS-1$
     			rhqDeployUtil.deploy(resourceId, fileContent, artifact.getName());
     		}
 
             // record (un)deployment information
             Map<String, String> props = new HashMap<String, String>();
-            props.put("deploy.rhq.groupId", String.valueOf(rhqGroupId));
-            props.put("deploy.rhq.baseUrl", target.getRhqBaseUrl());
-            props.put("deploy.rhq.port", String.valueOf(target.getPort()));
-            props.put("deploy.rhq.name", artifact.getName());
+            props.put("deploy.rhq.groupId", String.valueOf(rhqGroupId)); //$NON-NLS-1$
+            props.put("deploy.rhq.baseUrl", target.getRhqBaseUrl()); //$NON-NLS-1$
+            props.put("deploy.rhq.port", String.valueOf(target.getPort())); //$NON-NLS-1$
+            props.put("deploy.rhq.name", artifact.getName()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
         } finally {
         	IOUtils.closeQuietly(is);
@@ -433,7 +435,7 @@ public class DeploymentResource {
             ArtifactType type = ArtifactType.valueOf(artifact);
             is = client.getArtifactContent(type, artifact.getUuid());
             String name = artifact.getName();
-            int dot = name.lastIndexOf(".");
+            int dot = name.lastIndexOf("."); //$NON-NLS-1$
             // Save artifact content to a temp location
             File tmpFile = File.createTempFile(name.substring(0,dot), name.substring(dot+1));
             os = new FileOutputStream(tmpFile);
@@ -450,15 +452,15 @@ public class DeploymentResource {
         	}
             ctx.connectController(target.getHost(), target.getPort());
             // execute deploy to a servergroup or update if it's already deployed
-            ctx.handle("deploy " + tmpFile.getAbsolutePath() + " --force --server-groups=" + target.getName());
+            ctx.handle("deploy " + tmpFile.getAbsolutePath() + " --force --server-groups=" + target.getName()); //$NON-NLS-1$ //$NON-NLS-2$
             tmpFile.delete();
 
             // record (un)deployment information
             Map<String, String> props = new HashMap<String, String>();
-            props.put("deploy.cli.serverGroups", target.getName());
-            props.put("deploy.cli.host", target.getHost());
-            props.put("deploy.cli.port", String.valueOf(target.getPort()));
-            props.put("deploy.cli.name", tmpFile.getName());
+            props.put("deploy.cli.serverGroups", target.getName()); //$NON-NLS-1$
+            props.put("deploy.cli.host", target.getHost()); //$NON-NLS-1$
+            props.put("deploy.cli.port", String.valueOf(target.getPort())); //$NON-NLS-1$
+            props.put("deploy.cli.name", tmpFile.getName()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
         } finally {
         	if (ctx != null) ctx.terminateSession();
@@ -480,20 +482,19 @@ public class DeploymentResource {
             SrampAtomApiClient client) throws SrampClientException, SrampAtomException {
         ExtendedArtifactType undeploymentArtifact = new ExtendedArtifactType();
         undeploymentArtifact.setArtifactType(BaseArtifactEnum.EXTENDED_ARTIFACT_TYPE);
-        undeploymentArtifact.setExtendedType("UndeploymentInformation");
-        undeploymentArtifact.setName(artifact.getName() + ".undeploy");
-        undeploymentArtifact.setDescription("Contains undeployment information for deployment '"
-                + artifact.getName() + "'");
-        SrampModelUtils.setCustomProperty(undeploymentArtifact, "deploy.target", target.getName());
-        SrampModelUtils.setCustomProperty(undeploymentArtifact, "deploy.type", target.getType().name());
-        SrampModelUtils.setCustomProperty(undeploymentArtifact, "deploy.classifier", target.getClassifier());
+        undeploymentArtifact.setExtendedType("UndeploymentInformation"); //$NON-NLS-1$
+        undeploymentArtifact.setName(artifact.getName() + ".undeploy"); //$NON-NLS-1$
+        undeploymentArtifact.setDescription(Messages.i18n.format("DeploymentResource.UndeploymentInfoDescription", artifact.getName())); //$NON-NLS-1$
+        SrampModelUtils.setCustomProperty(undeploymentArtifact, "deploy.target", target.getName()); //$NON-NLS-1$
+        SrampModelUtils.setCustomProperty(undeploymentArtifact, "deploy.type", target.getType().name()); //$NON-NLS-1$
+        SrampModelUtils.setCustomProperty(undeploymentArtifact, "deploy.classifier", target.getClassifier()); //$NON-NLS-1$
         if (props != null) {
             for (String propKey : props.keySet()) {
                 String propVal = props.get(propKey);
                 SrampModelUtils.setCustomProperty(undeploymentArtifact, propKey, propVal);
             }
         }
-        SrampModelUtils.addGenericRelationship(undeploymentArtifact, "describesDeployment", artifact.getUuid());
+        SrampModelUtils.addGenericRelationship(undeploymentArtifact, "describesDeployment", artifact.getUuid()); //$NON-NLS-1$
         client.createArtifact(undeploymentArtifact);
     }
 
@@ -510,9 +511,9 @@ public class DeploymentResource {
             BaseArtifactType undeployInfo, Target target) throws Exception {
         CommandContext ctx = null;
         try {
-            String deploymentName = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.cli.name");
-            String cliHost = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.cli.host");
-            Integer cliPort = new Integer(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.cli.port"));
+            String deploymentName = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.cli.name"); //$NON-NLS-1$
+            String cliHost = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.cli.host"); //$NON-NLS-1$
+            Integer cliPort = new Integer(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.cli.port")); //$NON-NLS-1$
 
             // Deploy using AS CLI.
             // TODO CLI creds should probably be separate from the configuration of the target so they can be used here
@@ -523,7 +524,7 @@ public class DeploymentResource {
                         target.getPassword().toCharArray());
             }
             ctx.connectController(cliHost, cliPort);
-            ctx.handle("undeploy " + deploymentName);
+            ctx.handle("undeploy " + deploymentName); //$NON-NLS-1$
         } finally {
             if (ctx != null) ctx.terminateSession();
         }
@@ -538,7 +539,7 @@ public class DeploymentResource {
      */
     protected void undeployCopy(SrampAtomApiClient client, BaseArtifactType prevVersionArtifact,
             BaseArtifactType undeployInfo, Target target) {
-        String deployedFile = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.copy.file");
+        String deployedFile = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.copy.file"); //$NON-NLS-1$
         File file = new File(deployedFile);
         if (file.exists() && file.isFile()) {
             file.delete();
@@ -556,12 +557,12 @@ public class DeploymentResource {
     protected void undeployRHQ(SrampAtomApiClient client, BaseArtifactType prevVersionArtifact,
             BaseArtifactType undeployInfo, Target target) throws Exception {
         if (target.getUser() == null || target.getPassword() == null || target.getUser().isEmpty() || target.getPassword().isEmpty()) {
-            throw new Exception("Cannot find user/pass for target '" + target.getName() + "' during undeployment.  Improvements needed (store RHQ creds separately from targets).");
+            throw new Exception(Messages.i18n.format("DeploymentResource.MissingTargetCreds", target.getName())); //$NON-NLS-1$
         }
-        String baseUrl = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.baseUrl");
-        Integer port = new Integer(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.port"));
-        Integer rhqGroupId = new Integer(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.groupId"));
-        String artifactName = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.name");
+        String baseUrl = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.baseUrl"); //$NON-NLS-1$
+        Integer port = new Integer(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.port")); //$NON-NLS-1$
+        Integer rhqGroupId = new Integer(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.groupId")); //$NON-NLS-1$
+        String artifactName = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.name"); //$NON-NLS-1$
 
         RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getUser(), target.getPassword(),
                 baseUrl, port);

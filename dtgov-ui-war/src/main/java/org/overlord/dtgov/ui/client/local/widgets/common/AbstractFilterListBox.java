@@ -15,6 +15,8 @@
  */
 package org.overlord.dtgov.ui.client.local.widgets.common;
 
+import javax.annotation.PostConstruct;
+
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -33,13 +35,17 @@ public abstract class AbstractFilterListBox extends ListBox implements HasValue<
      * Constructor.
      */
     public AbstractFilterListBox() {
-        configureItems();
         this.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent event) {
                 fireValueChangeEvent();
             }
         });
+    }
+
+    @PostConstruct
+    protected void postConstruct() {
+        configureItems();
     }
 
     /**

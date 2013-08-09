@@ -47,11 +47,11 @@ public class TaskSummaryComparator implements Comparator<TaskSummary> {
             return 0;
         }
         int order = 0;
-        if (orderBy.equals("priority")) {
+        if (orderBy.equals("priority")) { //$NON-NLS-1$
             order = new Integer(task1.getPriority()).compareTo(task2.getPriority());
-        } else if (orderBy.equals("name")) {
+        } else if (orderBy.equals("name")) { //$NON-NLS-1$
             order = task1.getName().compareTo(task2.getName());
-        } else if (orderBy.equals("owner")) {
+        } else if (orderBy.equals("owner")) { //$NON-NLS-1$
             User owner1 = task1.getActualOwner();
             User owner2 = task2.getActualOwner();
             if (owner1 == null && owner2 == null) {
@@ -63,9 +63,9 @@ public class TaskSummaryComparator implements Comparator<TaskSummary> {
             } else {
                 order = owner1.getId().compareTo(owner2.getId());
             }
-        } else if (orderBy.equals("status")) {
+        } else if (orderBy.equals("status")) { //$NON-NLS-1$
             order = task1.getStatus().toString().compareTo(task2.getStatus().toString());
-        } else if (orderBy.equals("expirationDate")) {
+        } else if (orderBy.equals("expirationDate")) { //$NON-NLS-1$
             Date date1 = task1.getExpirationTime();
             Date date2 = task2.getExpirationTime();
             if (date1 == null && date2 == null) {

@@ -53,28 +53,28 @@ import org.overlord.sramp.wagon.SrampWagon;
  */
 public class SrampWagonProxy implements Wagon {
 
-    private static final String MAVEN_META_DATA = "\r\n" +
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
-            "<metadata modelVersion=\"1.1.0\">\r\n" +
-            "  <groupId>GROUP_ID</groupId>\r\n" +
-            "  <artifactId>ARTIFACT_ID</artifactId>\r\n" +
-            "  <version>VERSION</version>\r\n" +
-            "  <versioning>\r\n" +
-            "    <snapshot>\r\n" +
-            "      <timestamp>LAST_MODIFIED_TIME</timestamp>\r\n" +
-            "      <buildNumber>1</buildNumber>\r\n" +
-            "    </snapshot>\r\n" +
-            "    <lastUpdated>20130718220725</lastUpdated>\r\n" +
-            "    <snapshotVersions>\r\n" +
-            "      <snapshotVersion>\r\n" +
-            "        <extension>jar</extension>\r\n" +
-            "        <value>VERSION-1</value>\r\n" +
-            "        <updated>LAST_MODIFIED_TIME</updated>\r\n" +
-            "      </snapshotVersion>\r\n" +
-            "    </snapshotVersions>\r\n" +
-            "  </versioning>\r\n" +
-            "</metadata>\r\n" +
-            "";
+    private static final String MAVEN_META_DATA = "\r\n" + //$NON-NLS-1$
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + //$NON-NLS-1$
+            "<metadata modelVersion=\"1.1.0\">\r\n" + //$NON-NLS-1$
+            "  <groupId>GROUP_ID</groupId>\r\n" + //$NON-NLS-1$
+            "  <artifactId>ARTIFACT_ID</artifactId>\r\n" + //$NON-NLS-1$
+            "  <version>VERSION</version>\r\n" + //$NON-NLS-1$
+            "  <versioning>\r\n" + //$NON-NLS-1$
+            "    <snapshot>\r\n" + //$NON-NLS-1$
+            "      <timestamp>LAST_MODIFIED_TIME</timestamp>\r\n" + //$NON-NLS-1$
+            "      <buildNumber>1</buildNumber>\r\n" + //$NON-NLS-1$
+            "    </snapshot>\r\n" + //$NON-NLS-1$
+            "    <lastUpdated>20130718220725</lastUpdated>\r\n" + //$NON-NLS-1$
+            "    <snapshotVersions>\r\n" + //$NON-NLS-1$
+            "      <snapshotVersion>\r\n" + //$NON-NLS-1$
+            "        <extension>jar</extension>\r\n" + //$NON-NLS-1$
+            "        <value>VERSION-1</value>\r\n" + //$NON-NLS-1$
+            "        <updated>LAST_MODIFIED_TIME</updated>\r\n" + //$NON-NLS-1$
+            "      </snapshotVersion>\r\n" + //$NON-NLS-1$
+            "    </snapshotVersions>\r\n" + //$NON-NLS-1$
+            "  </versioning>\r\n" + //$NON-NLS-1$
+            "</metadata>\r\n" + //$NON-NLS-1$
+            ""; //$NON-NLS-1$
 
     private SrampWagon delegate;
     private Date wagonDate = new Date();
@@ -95,7 +95,7 @@ public class SrampWagonProxy implements Wagon {
     private void injectLoggerInto(SrampWagon wagon) {
         Logger logger = new ConsoleLogger();
         try {
-            Field field = SrampWagon.class.getDeclaredField("logger");
+            Field field = SrampWagon.class.getDeclaredField("logger"); //$NON-NLS-1$
             field.setAccessible(true);
             field.set(wagon, logger);
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public class SrampWagonProxy implements Wagon {
     @Override
     public void get(String resourceName, File destination) throws TransferFailedException,
             ResourceDoesNotExistException, AuthorizationException {
-        if (resourceName.endsWith("maven-metadata.xml")) {
+        if (resourceName.endsWith("maven-metadata.xml")) { //$NON-NLS-1$
             OutputStream out = null;
             try {
                 out = new FileOutputStream(destination);
@@ -132,7 +132,7 @@ public class SrampWagonProxy implements Wagon {
     @Override
     public boolean getIfNewer(String resourceName, File destination, long timestamp)
             throws TransferFailedException, ResourceDoesNotExistException, AuthorizationException {
-        if (resourceName.endsWith("maven-metadata.xml")) {
+        if (resourceName.endsWith("maven-metadata.xml")) { //$NON-NLS-1$
             OutputStream out = null;
             try {
                 out = new FileOutputStream(destination);
@@ -371,13 +371,13 @@ public class SrampWagonProxy implements Wagon {
      */
     protected String generateMavenMetaData() {
         Governance governance = new Governance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd.hhmmss");
-        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd.hhmmss"); //$NON-NLS-1$
+        df.setTimeZone(TimeZone.getTimeZone("UTC")); //$NON-NLS-1$
         String tstamp = df.format(wagonDate);
         return MAVEN_META_DATA
-                .replace("VERSION", governance.getGovernanceWorkflowVersion())
-                .replace("ARTIFACT_ID", governance.getGovernanceWorkflowName())
-                .replace("GROUP_ID", governance.getGovernanceWorkflowGroup())
-                .replace("LAST_MODIFIED_TIME", tstamp);
+                .replace("VERSION", governance.getGovernanceWorkflowVersion()) //$NON-NLS-1$
+                .replace("ARTIFACT_ID", governance.getGovernanceWorkflowName()) //$NON-NLS-1$
+                .replace("GROUP_ID", governance.getGovernanceWorkflowGroup()) //$NON-NLS-1$
+                .replace("LAST_MODIFIED_TIME", tstamp); //$NON-NLS-1$
     }
 }

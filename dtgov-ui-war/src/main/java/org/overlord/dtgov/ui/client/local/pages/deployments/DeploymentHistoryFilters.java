@@ -115,7 +115,7 @@ public class DeploymentHistoryFilters extends Composite implements HasValueChang
      * @param value the new filter settings
      */
     public void setValue(DeploymentHistoryFilterBean value) {
-        user.setValue(value.getUser() == null ? "" : value.getUser());
+        user.setValue(value.getUser() == null ? "" : value.getUser()); //$NON-NLS-1$
         dateFrom.setDateValue(value.getDateFrom() == null ? null : value.getDateFrom());
         dateTo.setDateValue(value.getDateTo() == null ? null : value.getDateTo());
         onFilterValueChange();

@@ -28,6 +28,7 @@ import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxResultSetBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.ITaskInboxService;
+import org.overlord.dtgov.ui.server.i18n.Messages;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.dtgov.ui.server.services.tasks.ITaskClient;
 import org.overlord.dtgov.ui.server.services.tasks.TaskClientAccessor;
@@ -127,13 +128,13 @@ public class TaskInboxService implements ITaskInboxService {
     private String getTaskForm(TaskBean task) throws Exception {
     	String taskFormName = null;
     	if (task.getTaskData() != null) {
-    		taskFormName = task.getTaskData().get("TaskName") + "-taskform.xml";
+    		taskFormName = task.getTaskData().get("TaskName") + "-taskform.xml"; //$NON-NLS-1$ //$NON-NLS-2$
     	}
     	if (taskFormName != null) {
 	        SrampAtomApiClient client = srampClientAccessor.getClient();
-	        QueryResultSet resultSet = client.buildQuery("/s-ramp/core/XmlDocument[@name = ?]")
+	        QueryResultSet resultSet = client.buildQuery("/s-ramp/core/XmlDocument[@name = ?]") //$NON-NLS-1$
 	                .parameter(taskFormName)
-	                .count(1).orderBy("createdTimestamp").descending().query();
+	                .count(1).orderBy("createdTimestamp").descending().query(); //$NON-NLS-1$
 	        if (resultSet.size() == 1) {
 	            ArtifactSummary artifact = resultSet.get(0);
 	            InputStream inputStream = null;
@@ -147,7 +148,7 @@ public class TaskInboxService implements ITaskInboxService {
 	            }
 	        }
     	}
-        throw new Exception("No task form found with name: " + taskFormName);
+        throw new Exception(Messages.i18n.format("TaskInboxService.MissingTaskForm", taskFormName)); //$NON-NLS-1$
     }
 
 }

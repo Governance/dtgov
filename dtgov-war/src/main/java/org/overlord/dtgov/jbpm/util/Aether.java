@@ -33,7 +33,7 @@ import org.sonatype.maven.wagon.AhcWagon;
 @SuppressWarnings("deprecation")
 public class Aether {
 
-    private static final String M2_REPO = System.getProperty( "user.home" ) + "/.m2/repository";
+    private static final String M2_REPO = System.getProperty( "user.home" ) + "/.m2/repository"; //$NON-NLS-1$ //$NON-NLS-2$
     private String localRepoDir = M2_REPO;
 
     public static final Aether DEFUALT_AETHER = new Aether();
@@ -89,7 +89,7 @@ public class Aether {
     }
 
     private RemoteRepository newCentralRepository() {
-        return new RemoteRepository( "central", "default", "http://repo1.maven.org/maven2/" );
+        return new RemoteRepository( "central", "default", "http://repo1.maven.org/maven2/" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
     private RemoteRepository newLocalRepository() {
@@ -99,7 +99,7 @@ public class Aether {
         }
         try {
             String localRepositoryUrl = m2RepoDir.toURI().toURL().toExternalForm();
-            return new RemoteRepository( "local", "default", localRepositoryUrl );
+            return new RemoteRepository( "local", "default", localRepositoryUrl ); //$NON-NLS-1$ //$NON-NLS-2$
         } catch (MalformedURLException e) { }
         return null;
     }
@@ -124,10 +124,10 @@ public class Aether {
 
         @Override
         public Wagon lookup( String roleHint ) throws Exception {
-            if ( "http".equals( roleHint ) ) {
+            if ( "http".equals( roleHint ) ) { //$NON-NLS-1$
                 return new AhcWagon();
             }
-            if ( "sramp".equals( roleHint ) ) {
+            if ( "sramp".equals( roleHint ) ) { //$NON-NLS-1$
                 return new SrampWagonProxy();
             }
             return null;

@@ -32,6 +32,7 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
 import org.overlord.dtgov.ui.client.local.services.DeploymentsRpcService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
@@ -63,6 +64,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 @Dependent
 public class DeploymentDetailsPage extends AbstractPage {
 
+    @Inject
+    protected ClientMessages i18n;
     @Inject
     protected ConfigurationService configurationService;
     @Inject
@@ -143,9 +146,9 @@ public class DeploymentDetailsPage extends AbstractPage {
      */
     @PostConstruct
     protected void onPostConstruct() {
-        pageContent = DOMUtil.findElementById(getElement(), "deployment-details-content-wrapper");
-        pageContent.addClassName("hide");
-        mavenPropsWrapper = DOMUtil.findElementById(getElement(), "maven-details");
+        pageContent = DOMUtil.findElementById(getElement(), "deployment-details-content-wrapper"); //$NON-NLS-1$
+        pageContent.addClassName("hide"); //$NON-NLS-1$
+        mavenPropsWrapper = DOMUtil.findElementById(getElement(), "maven-details"); //$NON-NLS-1$
         deployment.addPropertyChangeHandler(new PropertyChangeHandler<Object>() {
             @Override
             public void onPropertyChange(PropertyChangeEvent<Object> event) {
@@ -153,21 +156,21 @@ public class DeploymentDetailsPage extends AbstractPage {
             }
         });
 
-        Element navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-history");
+        Element navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-history"); //$NON-NLS-1$
         DOMUtil.addClickHandlerToElement(navPanel, new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 onDeploymentHistoryNav(event);
             }
         });
-        navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-contents");
+        navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-contents"); //$NON-NLS-1$
         DOMUtil.addClickHandlerToElement(navPanel, new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 onDeploymentContentsNav(event);
             }
         });
-        navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-browse");
+        navPanel = DOMUtil.findElementById(getElement(), "deployment-nav-browse"); //$NON-NLS-1$
         DOMUtil.addClickHandlerToElement(navPanel, new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -179,21 +182,21 @@ public class DeploymentDetailsPage extends AbstractPage {
     /**
      * Sends the model back up to the server (saves local changes).
      */
-    // TODO i18n
     protected void pushModelToServer() {
         final NotificationBean notificationBean = notificationService.startProgressNotification(
-                "Updating Deployment", "Updating deployment '" + deployment.getModel().getName() + "', please wait...");
+                i18n.format("deployment-details.updating-deployment"), //$NON-NLS-1$
+                i18n.format("deployment-details.updating-deployment-msg", deployment.getModel().getName())); //$NON-NLS-1$
         deploymentsService.update(deployment.getModel(), new IRpcServiceInvocationHandler<Void>() {
             @Override
             public void onReturn(Void data) {
                 notificationService.completeProgressNotification(notificationBean.getUuid(),
-                        "Update Complete",
-                        "You have successfully updated deployment '" + deployment.getModel().getName() + "'.");
+                        i18n.format("deployment-details.update-complete"), //$NON-NLS-1$
+                        i18n.format("deployment-details.update-complete-msg", deployment.getModel().getName())); //$NON-NLS-1$
             }
             @Override
             public void onError(Throwable error) {
                 notificationService.completeProgressNotification(notificationBean.getUuid(),
-                        "Error Updating Deployment",
+                        i18n.format("deployment-details.error-updating"), //$NON-NLS-1$
                         error);
             }
         });
@@ -204,8 +207,8 @@ public class DeploymentDetailsPage extends AbstractPage {
      */
     @Override
     protected void onPageShowing() {
-        pageContent.addClassName("hide");
-        deploymentLoading.getElement().removeClassName("hide");
+        pageContent.addClassName("hide"); //$NON-NLS-1$
+        deploymentLoading.getElement().removeClassName("hide"); //$NON-NLS-1$
         deploymentsService.get(uuid, new IRpcServiceInvocationHandler<DeploymentBean>() {
             @Override
             public void onReturn(DeploymentBean data) {
@@ -213,13 +216,13 @@ public class DeploymentDetailsPage extends AbstractPage {
             }
             @Override
             public void onError(Throwable error) {
-                notificationService.sendErrorNotification("Error getting deployment details.", error);
+                notificationService.sendErrorNotification(i18n.format("deployment-details.error-fetching-details"), error); //$NON-NLS-1$
             }
         });
 
-        toDeploymentHistory.setHref(createPageHref("deploymentDetails", "uuid", uuid));
-        toDeploymentContents.setHref(createPageHref("deploymentContents", "uuid", uuid));
-        toSramp.setHref(configurationService.getUiConfig().createSrampUiUrl("details", "uuid", uuid));
+        toDeploymentHistory.setHref(createPageHref("deploymentDetails", "uuid", uuid)); //$NON-NLS-1$ //$NON-NLS-2$
+        toDeploymentContents.setHref(createPageHref("deploymentContents", "uuid", uuid)); //$NON-NLS-1$ //$NON-NLS-2$
+        toSramp.setHref(configurationService.getUiConfig().createSrampUiUrl("details", "uuid", uuid)); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -228,13 +231,13 @@ public class DeploymentDetailsPage extends AbstractPage {
      */
     protected void updateMetaData(DeploymentBean deployment) {
         this.deployment.setModel(deployment, InitialState.FROM_MODEL);
-        deploymentLoading.getElement().addClassName("hide");
+        deploymentLoading.getElement().addClassName("hide"); //$NON-NLS-1$
         if (deployment.hasMavenInfo()) {
-            mavenPropsWrapper.removeClassName("hide");
+            mavenPropsWrapper.removeClassName("hide"); //$NON-NLS-1$
         } else {
-            mavenPropsWrapper.addClassName("hide");
+            mavenPropsWrapper.addClassName("hide"); //$NON-NLS-1$
         }
-        pageContent.removeClassName("hide");
+        pageContent.removeClassName("hide"); //$NON-NLS-1$
     }
 
     /**
@@ -244,7 +247,7 @@ public class DeploymentDetailsPage extends AbstractPage {
     @EventHandler("to-deploymentHistory-page")
     protected void onDeploymentHistoryNav(ClickEvent event) {
         Multimap<String, String> state = HashMultimap.create();
-        state.put("uuid", uuid);
+        state.put("uuid", uuid); //$NON-NLS-1$
         goToDeploymentHistory.go(state);
         if (event != null) {
             event.stopPropagation();
@@ -259,7 +262,7 @@ public class DeploymentDetailsPage extends AbstractPage {
     @EventHandler("to-deploymentContents-page")
     protected void onDeploymentContentsNav(ClickEvent event) {
         Multimap<String, String> state = HashMultimap.create();
-        state.put("uuid", uuid);
+        state.put("uuid", uuid); //$NON-NLS-1$
         goToDeploymentContents.go(state);
         if (event != null) {
             event.stopPropagation();
@@ -273,7 +276,7 @@ public class DeploymentDetailsPage extends AbstractPage {
      */
     @EventHandler("to-sramp")
     protected void onBrowseToSrampNav(ClickEvent event) {
-        String srampUrl = configurationService.getUiConfig().createSrampUiUrl("details", "uuid", uuid);
+        String srampUrl = configurationService.getUiConfig().createSrampUiUrl("details", "uuid", uuid); //$NON-NLS-1$ //$NON-NLS-2$
         Window.Location.assign(srampUrl);
         if (event != null) {
             event.stopPropagation();

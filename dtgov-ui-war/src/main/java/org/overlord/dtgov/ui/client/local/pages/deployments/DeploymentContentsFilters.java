@@ -110,8 +110,8 @@ public class DeploymentContentsFilters extends Composite implements HasValueChan
      * @param value the new filter settings
      */
     public void setValue(DeploymentContentsFilterBean value) {
-        name.setValue(value.getName() == null ? "" : value.getName());
-        type.setValue(value.getType() == null ? "" : value.getType());
+        name.setValue(value.getName() == null ? "" : value.getName()); //$NON-NLS-1$
+        type.setValue(value.getType() == null ? "" : value.getType()); //$NON-NLS-1$
         onFilterValueChange();
     }
 

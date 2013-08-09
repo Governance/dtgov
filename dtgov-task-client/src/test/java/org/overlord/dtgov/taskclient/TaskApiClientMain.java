@@ -26,16 +26,16 @@ import org.overlord.dtgov.taskapi.types.TaskSummaryType;
 public class TaskApiClientMain {
 
     public static void main(String [] args) throws Exception {
-        TaskApiClient client = new TaskApiClient("http://localhost:8080/dtgov/rest/tasks", "eric", "eric");
+        TaskApiClient client = new TaskApiClient("http://localhost:8080/dtgov/rest/tasks", "eric", "eric"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         FindTasksRequest ftReq = new FindTasksRequest();
         ftReq.setStartIndex(0);
         ftReq.setEndIndex(19);
-        ftReq.setOrderBy("taskId");
+        ftReq.setOrderBy("taskId"); //$NON-NLS-1$
         ftReq.setOrderAscending(true);
         FindTasksResponse tasksResponse = client.findTasks(ftReq);
         for (TaskSummaryType task : tasksResponse.getTaskSummary()) {
-            System.out.println(task.getId() + " - Task: " + task.getName() + " (" + task.getStatus() + ")");
-            if (task.getStatus().equals("Reserved")) {
+            System.out.println(task.getId() + " - Task: " + task.getName() + " (" + task.getStatus() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            if (task.getStatus().equals("Reserved")) { //$NON-NLS-1$
                 client.startTask(task.getId());
             }
         }

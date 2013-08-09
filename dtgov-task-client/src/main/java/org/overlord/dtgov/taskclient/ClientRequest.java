@@ -22,6 +22,7 @@ import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.specimpl.UriBuilderImpl;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.overlord.dtgov.taskclient.i18n.Messages;
 
 /**
  * Extends the RESTEasy {@link org.jboss.resteasy.client.ClientRequest} class in order to provide a
@@ -156,19 +157,19 @@ public class ClientRequest extends org.jboss.resteasy.client.ClientRequest {
 	 */
 	private <T> void handlePotentialServerError(ClientResponse<T> response) throws Exception {
 		if (response.getStatus() == 500) {
-			Exception error = new TaskApiClientException("An unexpected (and unknown) error was sent by the Task Server.");
+			Exception error = new TaskApiClientException(Messages.i18n.format("ClientRequest.UnexpectedError")); //$NON-NLS-1$
 			throw error;
 		}
 		if (response.getStatus() == 404) {
-		    Exception error = new TaskApiClientException("The endpoint and/or method could not be found.");
+		    Exception error = new TaskApiClientException(Messages.i18n.format("ClientRequest.NotFound")); //$NON-NLS-1$
 			throw error;
 		}
 		if (response.getStatus() == 403) {
-		    Exception error = new TaskApiClientException("Authorization (permission) failure while attempting to access the Task API.");
+		    Exception error = new TaskApiClientException(Messages.i18n.format("ClientRequest.AuthorizationError")); //$NON-NLS-1$
 			throw error;
 		}
 		if (response.getStatus() == 401) {
-		    Exception error = new TaskApiClientException("Authentication failure while attempting to access the Task API.");
+		    Exception error = new TaskApiClientException(Messages.i18n.format("ClientRequest.AuthenticationError")); //$NON-NLS-1$
             throw error;
 		}
 	}

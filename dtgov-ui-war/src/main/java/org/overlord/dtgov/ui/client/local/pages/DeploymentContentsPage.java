@@ -30,6 +30,7 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.beans.DeploymentContentsFilterBean;
 import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentContentsFilters;
 import org.overlord.dtgov.ui.client.local.pages.deployments.ExpandedArtifactList;
@@ -61,6 +62,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 @Dependent
 public class DeploymentContentsPage extends AbstractPage {
 
+    @Inject
+    protected ClientMessages i18n;
     @Inject
     protected DeploymentsRpcService deploymentsService;
     @Inject
@@ -119,8 +122,8 @@ public class DeploymentContentsPage extends AbstractPage {
      */
     @PostConstruct
     protected void onPostConstruct() {
-        pageContent = DOMUtil.findElementById(getElement(), "deployment-contents-content-wrapper");
-        pageContent.addClassName("hide");
+        pageContent = DOMUtil.findElementById(getElement(), "deployment-contents-content-wrapper"); //$NON-NLS-1$
+        pageContent.addClassName("hide"); //$NON-NLS-1$
         filtersPanel.addValueChangeHandler(new ValueChangeHandler<DeploymentContentsFilterBean>() {
             @Override
             public void onValueChange(ValueChangeEvent<DeploymentContentsFilterBean> event) {
@@ -135,8 +138,8 @@ public class DeploymentContentsPage extends AbstractPage {
      */
     @Override
     protected void onPageShowing() {
-        pageContent.addClassName("hide");
-        loading.getElement().removeClassName("hide");
+        pageContent.addClassName("hide"); //$NON-NLS-1$
+        loading.getElement().removeClassName("hide"); //$NON-NLS-1$
         deploymentsService.listExpandedArtifacts(uuid, new IRpcServiceInvocationHandler<ExpandedArtifactsBean>() {
             @Override
             public void onReturn(ExpandedArtifactsBean data) {
@@ -144,10 +147,10 @@ public class DeploymentContentsPage extends AbstractPage {
             }
             @Override
             public void onError(Throwable error) {
-                notificationService.sendErrorNotification("Error Getting Expanded Artifacts", error);
+                notificationService.sendErrorNotification(i18n.format("deployment-contents.error-expanding"), error); //$NON-NLS-1$
             }
         });
-        backToDeployment.setHref(createPageHref("deploymentDetails", "uuid", uuid));
+        backToDeployment.setHref(createPageHref("deploymentDetails", "uuid", uuid)); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -155,8 +158,8 @@ public class DeploymentContentsPage extends AbstractPage {
      * @param deployment
      */
     protected void update(ExpandedArtifactsBean bean) {
-        loading.getElement().addClassName("hide");
-        pageContent.removeClassName("hide");
+        loading.getElement().addClassName("hide"); //$NON-NLS-1$
+        pageContent.removeClassName("hide"); //$NON-NLS-1$
         this.deploymentContentsBean.setModel(bean, InitialState.FROM_MODEL);
     }
 
@@ -167,7 +170,7 @@ public class DeploymentContentsPage extends AbstractPage {
     @EventHandler("back-to-deployment")
     protected void onBackToDeployment(ClickEvent event) {
         Multimap<String, String> state = HashMultimap.create();
-        state.put("uuid", uuid);
+        state.put("uuid", uuid); //$NON-NLS-1$
         goToDeploymentDetails.go(state);
         event.stopPropagation();
         event.preventDefault();

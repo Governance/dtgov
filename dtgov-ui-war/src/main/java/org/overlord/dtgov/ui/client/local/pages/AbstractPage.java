@@ -85,7 +85,7 @@ public abstract class AbstractPage extends Composite {
      */
     protected String createPageHref(String pageName, Multimap<String, String> state) {
         HistoryToken token = HistoryToken.of(pageName, state);
-        String href = "#" + token.toString();
+        String href = "#" + token.toString(); //$NON-NLS-1$
         return href;
     }
 

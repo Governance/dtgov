@@ -28,6 +28,7 @@ import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 
 import org.apache.commons.codec.binary.Base64;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.client.SrampClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,10 +48,10 @@ public class SRAMPMonitor {
 	@Resource
 	private TimerService timerService;
 	private Timer timer;
-	
+
 	public SRAMPMonitor() {
 	}
-	
+
 	public void init () {
 		TimerConfig timerConfig = new TimerConfig(null, false);
 		this.timer = timerService.createIntervalTimer(interval, interval, timerConfig);
@@ -74,14 +75,13 @@ public class SRAMPMonitor {
                 long endTime   = System.currentTimeMillis();
 
                 if ((endTime-startTime) > interval) {
-                	log.debug("Notification background task duration exceeds the JUDDI_NOTIFICATION_INTERVAL" +
-                			" of " + interval + ". Notification background task took "
-                			+ (endTime - startTime) + " milliseconds.");
+                    log.debug(Messages.i18n.format("SRAMPMonitor.IntervalExceeded", //$NON-NLS-1$
+                                    interval, (endTime - startTime)));
                 } else {
-                	log.debug("Notification background task took " + (endTime - startTime) + " milliseconds.");
+                	log.debug(Messages.i18n.format("SRAMPMonitor.TaskTiming", (endTime - startTime))); //$NON-NLS-1$
                 }
     		} else {
-    			log.debug("Skipping current notification cycle because app server is not ready.");
+    			log.debug(Messages.i18n.format("SRAMPMonitor.NotReady")); //$NON-NLS-1$
     		}
 	    } catch (ConfigException confEx) {
 	        log.error(confEx.getMessage());
@@ -102,9 +102,9 @@ public class SRAMPMonitor {
 	 */
 	private boolean isAppserverReady() throws MalformedURLException {
 	    boolean isReady = true;
-	    String serviceDocumentUrl = governance.getSrampUrl().toExternalForm() + "/s-ramp/servicedocument";
+	    String serviceDocumentUrl = governance.getSrampUrl().toExternalForm() + "/s-ramp/servicedocument"; //$NON-NLS-1$
 	    isReady =  urlExists(serviceDocumentUrl);
-	    if (!isReady) log.debug("Cannot yet connect to the S-RAMP repo at: " + governance.getSrampUrl().toExternalForm());
+	    if (!isReady) log.debug(Messages.i18n.format("SRAMPMonitor.CannotConnect", governance.getSrampUrl().toExternalForm())); //$NON-NLS-1$
 	    return isReady;
 	}
 
@@ -117,7 +117,7 @@ public class SRAMPMonitor {
         try {
             URL checkURL = new URL(checkUrl);
             checkConnection = (HttpURLConnection) checkURL.openConnection();
-            checkConnection.setRequestMethod("HEAD");
+            checkConnection.setRequestMethod("HEAD"); //$NON-NLS-1$
             checkConnection.setConnectTimeout(10000);
             checkConnection.setReadTimeout(10000);
             addAuthorization(checkConnection);
@@ -129,7 +129,7 @@ public class SRAMPMonitor {
         	if (checkConnection!=null) checkConnection.disconnect();
         }
     }
-    
+
     /**
      * Adds Authorization config to the connection prior to the request
      * being sent to the server.
@@ -139,12 +139,12 @@ public class SRAMPMonitor {
     	Governance governance = new Governance();
     	String username = governance.getSrampUser();
     	String password = governance.getSrampPassword();
-    	
+
         if (username != null && password != null) {
-            String b64Auth = Base64.encodeBase64String((username + ":" + password).getBytes()).trim();
-            connection.setRequestProperty("Authorization", "Basic " + b64Auth);
+            String b64Auth = Base64.encodeBase64String((username + ":" + password).getBytes()).trim(); //$NON-NLS-1$
+            connection.setRequestProperty("Authorization", "Basic " + b64Auth); //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            log.warn("No username (governance.user) and/or password (governance.password) found in the dtgov properties file.");
+            log.warn(Messages.i18n.format("SRAMPMonitor.MissingCreds")); //$NON-NLS-1$
         }
     }
 

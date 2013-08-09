@@ -40,6 +40,7 @@ import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
+import org.overlord.dtgov.ui.server.i18n.Messages;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.dtgov.ui.server.util.ExceptionUtils;
 import org.overlord.sramp.atom.archive.SrampArchive;
@@ -89,7 +90,7 @@ public class DeploymentUploadServlet extends HttpServlet {
 				List<FileItem> items = upload.parseRequest(req);
 				for (FileItem item : items) {
 					if (item.isFormField()) {
-						if (item.getFieldName().equals("deploymentType")) {
+						if (item.getFieldName().equals("deploymentType")) { //$NON-NLS-1$
 							deploymentType = item.getString();
 						}
 					} else {
@@ -104,21 +105,21 @@ public class DeploymentUploadServlet extends HttpServlet {
 				responseMap = uploadArtifact(deploymentType, fileName, artifactContent);
 			} catch (SrampAtomException e) {
 				responseMap = new HashMap<String, String>();
-				responseMap.put("exception", "true");
-				responseMap.put("exception-message", e.getMessage());
-				responseMap.put("exception-stack", ExceptionUtils.getRootStackTrace(e));
+				responseMap.put("exception", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+				responseMap.put("exception-message", e.getMessage()); //$NON-NLS-1$
+				responseMap.put("exception-stack", ExceptionUtils.getRootStackTrace(e)); //$NON-NLS-1$
 			} catch (Throwable e) {
 				responseMap = new HashMap<String, String>();
-				responseMap.put("exception", "true");
-				responseMap.put("exception-message", e.getMessage());
-				responseMap.put("exception-stack", ExceptionUtils.getRootStackTrace(e));
+				responseMap.put("exception", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+				responseMap.put("exception-message", e.getMessage()); //$NON-NLS-1$
+				responseMap.put("exception-stack", ExceptionUtils.getRootStackTrace(e)); //$NON-NLS-1$
 			} finally {
 				IOUtils.closeQuietly(artifactContent);
 			}
 			writeToResponse(responseMap, response);
 		} else {
 			response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
-					"Request contents type is not supported by the servlet.");
+			        Messages.i18n.format("DeploymentUploadServlet.ContentTypeInvalid")); //$NON-NLS-1$
 		}
 	}
 
@@ -132,7 +133,7 @@ public class DeploymentUploadServlet extends HttpServlet {
 	private Map<String, String> uploadArtifact(String deploymentType, String fileName,
 			InputStream deploymentContent) throws Exception {
 	    if (deploymentContent == null)
-	        throw new Exception("No deployment file specified.");
+	        throw new Exception(Messages.i18n.format("DeploymentUploadServlet.NoDeploymentFile")); //$NON-NLS-1$
 		File tempFile = stashResourceContent(deploymentContent);
 		Map<String, String> responseParams = new HashMap<String, String>();
 
@@ -141,7 +142,7 @@ public class DeploymentUploadServlet extends HttpServlet {
 		}
 
 		try {
-		    if ("DeploymentBundle".equals(deploymentType)) {
+		    if ("DeploymentBundle".equals(deploymentType)) { //$NON-NLS-1$
 		        uploadBundle(tempFile, responseParams);
 		    } else {
 		        uploadSingleDeployment(deploymentType, fileName, tempFile, responseParams);
@@ -175,10 +176,10 @@ public class DeploymentUploadServlet extends HttpServlet {
                 }
             }
             // TODO turn these things into constants
-            responseParams.put("batch", "true");
-            responseParams.put("batchTotal", String.valueOf(numSuccess + numFailed));
-            responseParams.put("batchNumSuccess", String.valueOf(numSuccess));
-            responseParams.put("batchNumFailed", String.valueOf(numFailed));
+            responseParams.put("batch", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+            responseParams.put("batchTotal", String.valueOf(numSuccess + numFailed)); //$NON-NLS-1$
+            responseParams.put("batchNumSuccess", String.valueOf(numSuccess)); //$NON-NLS-1$
+            responseParams.put("batchNumFailed", String.valueOf(numFailed)); //$NON-NLS-1$
         } finally {
             SrampArchive.closeQuietly(archive);
         }
@@ -205,9 +206,9 @@ public class DeploymentUploadServlet extends HttpServlet {
 			BaseArtifactType artifact = at.newArtifactInstance();
 			artifact.setName(fileName);
 			artifact = clientAccessor.getClient().uploadArtifact(artifact, contentStream);
-			responseParams.put("model", at.getArtifactType().getModel());
-			responseParams.put("type", at.getArtifactType().getType());
-			responseParams.put("uuid", artifact.getUuid());
+			responseParams.put("model", at.getArtifactType().getModel()); //$NON-NLS-1$
+			responseParams.put("type", at.getArtifactType().getType()); //$NON-NLS-1$
+			responseParams.put("uuid", artifact.getUuid()); //$NON-NLS-1$
 			uuid = artifact.getUuid();
 		} finally {
 			IOUtils.closeQuietly(contentStream);
@@ -238,7 +239,7 @@ public class DeploymentUploadServlet extends HttpServlet {
 		File resourceTempFile = null;
 		OutputStream oStream = null;
 		try {
-			resourceTempFile = File.createTempFile("dtgov-ui-upload", ".tmp");
+			resourceTempFile = File.createTempFile("dtgov-ui-upload", ".tmp"); //$NON-NLS-1$ //$NON-NLS-2$
 			oStream = FileUtils.openOutputStream(resourceTempFile);
             IOUtils.copy(resourceInputStream, oStream);
             return resourceTempFile;
@@ -260,7 +261,7 @@ public class DeploymentUploadServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	private void writeToResponse(Map<String, String> responseMap, HttpServletResponse response) throws IOException {
-		response.setContentType("application/json; charset=UTF8");
+		response.setContentType("application/json; charset=UTF8"); //$NON-NLS-1$
         JsonFactory f = new JsonFactory();
         JsonGenerator g = f.createJsonGenerator(response.getOutputStream(), JsonEncoding.UTF8);
         g.useDefaultPrettyPrinter();

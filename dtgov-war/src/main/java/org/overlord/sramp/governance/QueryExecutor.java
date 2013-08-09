@@ -26,6 +26,7 @@ import javax.inject.Named;
 
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Property;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.SrampClientException;
 import org.overlord.sramp.client.query.ArtifactSummary;
@@ -45,11 +46,11 @@ import org.slf4j.LoggerFactory;
 @RequestScoped
 public class QueryExecutor {
 
-    private static String WORKFLOW_PROCESS_ID = "workflowProcessId=";
-    private static String WORKFLOW_PARAMETERS = "workflowParameters=";
+    private static String WORKFLOW_PROCESS_ID = "workflowProcessId="; //$NON-NLS-1$
+    private static String WORKFLOW_PARAMETERS = "workflowParameters="; //$NON-NLS-1$
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private Governance governance = new Governance();
-    
+
     private BpmManager bpmManager = WorkflowFactory.newInstance();
 
     public synchronized void execute() throws SrampClientException, MalformedURLException, ConfigException {
@@ -79,11 +80,12 @@ public class QueryExecutor {
                             }
                         }
                         if (hasPropertyName) {
-                            if (logger.isDebugEnabled()) logger.debug("Artifact " + artifact.getUuid()
-                                    + " has existing workflow: " + query.getWorkflowId()
-                                    + " with parameters: "       + query.getParameters());
+                            if (logger.isDebugEnabled())
+                                logger.debug(Messages.i18n.format(
+                                        "QueryExecutor.ExistingWorkflowError", //$NON-NLS-1$
+                                        artifact.getUuid(), query.getWorkflowId(), query.getParameters()));
                         } else {
-                            propertyName = WORKFLOW_PROCESS_ID + query.getWorkflowId() + "_";
+                            propertyName = WORKFLOW_PROCESS_ID + query.getWorkflowId() + "_"; //$NON-NLS-1$
                             // set this process as a property
                             int i=0;
                             while (propertyMap.keySet().contains(propertyName + i)) {
@@ -95,15 +97,15 @@ public class QueryExecutor {
                             artifact.getProperty().add(property);
                             client.updateArtifactMetaData(artifact);
                             //start workflow for this artifact
-                            logger.info("Starting workflow " + query.getWorkflowId() + " for artifact " + artifact.getUuid());
+                            logger.info(Messages.i18n.format("QueryExecutor.StartingWorkflow", query.getWorkflowId(), artifact.getUuid())); //$NON-NLS-1$
                             Map<String,Object> parameters = query.getParsedParameters();
-                            parameters.put("ArtifactUuid", artifact.getUuid());
+                            parameters.put("ArtifactUuid", artifact.getUuid()); //$NON-NLS-1$
                             bpmManager.newProcessInstance(query.getWorkflowId(), parameters);
                         }
                     }
                 }
             } catch (Exception e) {
-                logger.error("Exception for " + query.getSrampQuery() + ". " + e.getMessage(),e);
+                logger.error(Messages.i18n.format("QueryExecutor.ExceptionFor", query.getSrampQuery(), e.getMessage()), e); //$NON-NLS-1$
             }
         }
     }

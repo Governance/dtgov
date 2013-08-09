@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>DTGov - Deployment History</title>
+    <title data-role="dummy">DTGov - Deployment History</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
     <meta name="description" content=""></meta>
     <meta name="author" content=""></meta>
@@ -30,29 +30,29 @@
         <!-- Breadcrumbs -->
         <div class="row-fluid">
           <ul class="breadcrumb">
-            <li><a data-field="back-to-dashboard" href="dashboard.html">DTGov Dashboard</a> <span class="divider">/</span></li>
-            <li><a data-field="back-to-deployments" href="deployments.html">Deployments</a> <span class="divider">/</span></li>
-            <li><a data-field="back-to-deployment" href="deploymentDetails.html">Deployment Details</a> <span class="divider">/</span></li>
-            <li class="active">Deployment History</li>
+            <li><a data-field="back-to-dashboard" href="dashboard.html" data-i18n-key="breadcrumb.dashboard">DTGov Dashboard</a> <span class="divider">/<span data-role="dummy" /></span></li>
+            <li><a data-field="back-to-deployments" href="deployments.html" data-i18n-key="breadcrumb.deployments">Deployments</a> <span class="divider">/<span data-role="dummy" /></span></li>
+            <li><a data-field="back-to-deployment" href="deploymentDetails.html" data-i18n-key="breadcrumb.deployment-details">Deployment Details</a> <span class="divider">/<span data-role="dummy" /></span></li>
+            <li class="active" data-i18n-key="breadcrumb.history">Deployment History</li>
           </ul>
         </div>
 
         <!-- Loading spinner -->
-        <div data-field="deployment-history-loading-spinner" class="spinner deployment-history-loading hide">Loading deployment history, please wait...</div>
+        <div data-field="deployment-history-loading-spinner" class="spinner deployment-history-loading hide" data-i18n-key="loading-history">Loading deployment history, please wait...</div>
 
         <div id="deployment-history-content-wrapper">
         <!-- Action bar -->
         <div class="row-fluid deployment-actions">
           <div class="span12">
             <span class="sp4n-label">
-              <span class="deployment-history-title" data-field="deployment-name">switchyard-demos-multiApp-artifacts</span>
-              <span class="deployment-history-type" data-field="deployment-type">(SwitchYardApplication)</span>
+              <span class="deployment-history-title" data-field="deployment-name" data-role="dummy">switchyard-demos-multiApp-artifacts</span>
+              <span class="deployment-history-type" data-field="deployment-type" data-role="dummy">(SwitchYardApplication)</span>
             </span>
             <div class="sp4n-label pull-right">
-              <span class="deployment-history-version" data-field="deployment-version">(1.0.3)</span>
+              <span class="deployment-history-version" data-field="deployment-version" data-role="dummy">(1.0.3)</span>
             </div>
             <div class="btn-group" style="visibility:hidden">
-              <button class="btn" disabled="true">Spacer</button>
+              <button class="btn" disabled="true">Spacer<span data-role="dummy" /></button>
             </div>
           </div>
         </div>
@@ -68,9 +68,10 @@
                   <div class="row-fluid">
                     <div class="span12">
                       <p>
-                        <span>Below is a list of all historical events related to deployment</span>
-                        <span data-field="deployment-name-2" class="deployment-details-emphasis">switchyard-demos-multiApp-artifacts</span><span>, version</span>
-                        <span data-field="deployment-version-2" class="deployment-details-bold">1.0.3</span><span>.  Click on an individual event to see details about it.</span>
+                        <span data-i18n-key="history-description-1">Below is a list of all historical events related to deployment</span>
+                        <span data-field="deployment-name-2" class="deployment-details-emphasis" data-role="dummy">switchyard-demos-multiApp-artifacts</span><span data-i18n-key="_version">, version</span>
+                        <span data-field="deployment-version-2" class="deployment-details-bold" data-role="dummy">1.0.3</span><span data-i18n-key="period">.</span>
+                        <span data-i18n-key="history-description-2">Click on an individual event to see details about it.</span>
                       </p>
                     </div>
                   </div>
@@ -80,20 +81,20 @@
                        <div class="span12 deployment-history-item">
                          <div>
                            <span data-field="icon" class="history-item-icon history-item-icon-none"></span>
-                           <span data-field="who" class="bold">ewittman</span>
-                           <span>on</span>
-                           <span data-field="whenDay" class="italic">12/24/2012</span>
-                           <span>at</span>
-                           <span data-field="whenTime" class="italic">1:55PM</span>
-                           <button data-field="btn-details" class="btn btn-small btn-hover btn-focus pull-right">Details</button>
+                           <span data-field="who" class="bold" data-role="dummy">ewittman</span>
+                           <span data-i18n-key="on">on</span>
+                           <span data-field="whenDay" class="italic" data-role="dummy">12/24/2012</span>
+                           <span data-i18n-key="at">at</span>
+                           <span data-field="whenTime" class="italic" data-role="dummy">1:55PM</span>
+                           <button data-field="btn-details" class="btn btn-small btn-hover btn-focus pull-right" data-i18n-key="details">Details</button>
                          </div>
-                         <div data-field="summary">Updated the deployment's meta-data.</div>
+                         <div data-field="summary" data-role="dummy">Updated the deployment's meta-data.</div>
                          <div data-field="deployment-history-item-details" class="details">
-                           <div data-field="deployment-history-item-loading-spinner" class="spinner deployment-history-item-loading">Loading event details, please wait...</div>
+                           <div data-field="deployment-history-item-loading-spinner" class="spinner deployment-history-item-loading" data-i18n-key="loading-details">Loading event details, please wait...</div>
                          </div>
                        </div>
                     </div>
-                    <div class="row-fluid deployment-history-row">
+                    <div class="row-fluid deployment-history-row" data-role="dummy">
                        <div class="span12 deployment-history-item">
                          <div>
                            <span class="history-item-icon history-item-icon-edit"></span>
@@ -103,7 +104,7 @@
                          <div>Updated the deployment's meta-data.</div>
                        </div>
                     </div>
-                    <div class="row-fluid deployment-history-row">
+                    <div class="row-fluid deployment-history-row" data-role="dummy">
                        <div class="span12 deployment-history-item">
                          <div>
                            <span class="history-item-icon history-item-icon-edit"></span>
@@ -113,7 +114,7 @@
                          <div>Updated the deployment's meta-data.</div>
                        </div>
                     </div>
-                    <div class="row-fluid deployment-history-row">
+                    <div class="row-fluid deployment-history-row" data-role="dummy">
                        <div class="span12 deployment-history-item">
                          <div>
                            <span class="history-item-icon history-item-icon-none"></span>
@@ -123,7 +124,7 @@
                          <div>Updated the deployment's meta-data.</div>
                        </div>
                     </div>
-                    <div class="row-fluid deployment-history-row">
+                    <div class="row-fluid deployment-history-row" data-role="dummy">
                        <div class="span12 deployment-history-item">
                          <div>
                            <span class="history-item-icon history-item-icon-new"></span>
@@ -139,24 +140,24 @@
               <!-- Right-hand column (filters) -->
               <div data-field="deployment-history-filters" class="span4 filter-sidebar desktop-only">
                 <div class="row-fluid filter-header">
-                  <a class="span12">History Filters</a>
+                  <a class="span12" data-i18n-key="history-filters">History Filters</a>
                 </div>
                 <div class="row-fluid filter-body">
                   <div class="span12">
                     <div class="filter-inner">
                       <form class="" onsubmit="return false;">
                         <div class="controls controls-row">
-                          <label class="filter-label">User</label>
+                          <label class="filter-label" data-i18n-key="user">User</label>
                           <input data-field="user" class="span12" placeholder="Any" type="text"></input>
                         </div>
                         <div class="controls controls-row">
-                          <label class="filter-label">Date</label>
+                          <label class="filter-label" data-i18n-key="date">Date</label>
                           <input data-field="dateFrom" class="span5 filter-date" placeholder="Any" readonly="readonly" type="text">
-                          <span class="span2 desktop-only" style="padding-top: 4px; text-align: center">to</span>
+                          <span class="span2 desktop-only" style="padding-top: 4px; text-align: center" data-i18n-key="to">to</span>
                           <input data-field="dateTo" class="span5 filter-date" placeholder="Any" readonly="readonly" type="text">
                         </div>
                         <div class="controls">
-                          <button data-field="clearFilters" class="btn btn-focus btn-clear">Clear All Filters</button>
+                          <button data-field="clearFilters" class="btn btn-focus btn-clear" data-i18n-key="clear-all-filters">Clear All Filters</button>
                         </div>
                       </form>
                     </div>
@@ -172,7 +173,7 @@
         <!-- Footer -->
         <footer>
           <hr />
-          <p>&copy; JBoss Overlord 2013</p>
+          <p data-i18n-key="footer">&copy; JBoss Overlord 2013</p>
         </footer>
       </div> <!-- /container -->
       

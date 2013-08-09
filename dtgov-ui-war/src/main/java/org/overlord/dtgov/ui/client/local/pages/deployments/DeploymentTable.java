@@ -19,6 +19,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.jboss.errai.ui.nav.client.local.TransitionAnchorFactory;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.DeploymentDetailsPage;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentSummaryBean;
 import org.overlord.sramp.ui.client.local.widgets.common.TemplatedWidgetTable;
@@ -36,6 +37,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 public class DeploymentTable extends TemplatedWidgetTable {
 
     @Inject
+    protected ClientMessages i18n;
+    @Inject
     protected TransitionAnchorFactory<DeploymentDetailsPage> toDetailsPageLinkFactory;
 
     /**
@@ -50,9 +53,9 @@ public class DeploymentTable extends TemplatedWidgetTable {
      */
     public void addRow(final DeploymentSummaryBean deploymentSummaryBean) {
         int rowIdx = this.rowElements.size();
-        DateTimeFormat format = DateTimeFormat.getFormat("MM/dd/yyyy");
+        DateTimeFormat format = DateTimeFormat.getFormat(i18n.format("date-format")); //$NON-NLS-1$
 
-        Anchor name = toDetailsPageLinkFactory.get("uuid", deploymentSummaryBean.getUuid());
+        Anchor name = toDetailsPageLinkFactory.get("uuid", deploymentSummaryBean.getUuid()); //$NON-NLS-1$
         name.setText(deploymentSummaryBean.getName());
         InlineLabel type = new InlineLabel(deploymentSummaryBean.getType());
         InlineLabel initiatedOn = new InlineLabel(format.format(deploymentSummaryBean.getInitiatedDate()));
