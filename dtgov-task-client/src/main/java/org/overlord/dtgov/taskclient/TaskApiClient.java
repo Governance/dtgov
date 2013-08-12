@@ -16,6 +16,7 @@
 package org.overlord.dtgov.taskclient;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
@@ -37,7 +38,7 @@ import org.overlord.dtgov.taskclient.auth.AuthenticationProvider;
 import org.overlord.dtgov.taskclient.auth.BasicAuthenticationProvider;
 
 /**
- * Class used to communicate with the S-RAMP server via the S-RAMP Atom API.
+ * Class used to communicate with the DTGov Human Task REST API (Task Inbox API).
  *
  * @author eric.wittmann@redhat.com
  */
@@ -45,6 +46,7 @@ public class TaskApiClient {
 
 	private String endpoint;
 	private AuthenticationProvider authProvider;
+    private Locale locale;
 
 	/**
 	 * Constructor.
@@ -246,6 +248,16 @@ public class TaskApiClient {
     private ClientExecutor createClientExecutor() {
         // TODO I think the http client is thread safe - so let's try to create just one of these
         DefaultHttpClient httpClient = new DefaultHttpClient();
+        httpClient.addRequestInterceptor(new HttpRequestInterceptor() {
+            @Override
+            public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+                Locale l = getLocale();
+                if (l == null) {
+                    l = Locale.getDefault();
+                }
+                request.addHeader("Accept-Language", l.toString()); //$NON-NLS-1$
+            }
+        });
         if (this.authProvider != null) {
             httpClient.addRequestInterceptor(new HttpRequestInterceptor() {
                 @Override
@@ -255,5 +267,19 @@ public class TaskApiClient {
             });
         }
         return new ApacheHttpClient4Executor(httpClient);
+    }
+
+    /**
+     * @return the locale
+     */
+    public Locale getLocale() {
+        return locale;
+    }
+
+    /**
+     * @param locale the locale to set
+     */
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 }

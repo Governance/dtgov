@@ -148,8 +148,12 @@ public class TaskApi {
 
         // Get all tasks - the ones assigned as potential owner *and* the ones assigned as owner.  If
         // there is overlap we'll deal with that during the sort.
-        List<TaskSummary> list = taskService.getTasksAssignedAsPotentialOwner(currentUser, "en-UK"); //$NON-NLS-1$
-        list.addAll(taskService.getTasksOwned(currentUser, "en-UK")); //$NON-NLS-1$
+        String language = "en-UK"; //$NON-NLS-1$
+//        if (httpRequest.getLocale() != null) {
+//            language = httpRequest.getLocale().toString();
+//        }
+        List<TaskSummary> list = taskService.getTasksAssignedAsPotentialOwner(currentUser, language);
+        list.addAll(taskService.getTasksOwned(currentUser, language));
 
         final String orderBy = findTasksRequest.getOrderBy() == null ? "priority" : findTasksRequest.getOrderBy(); //$NON-NLS-1$
         final boolean ascending = findTasksRequest.isOrderAscending();

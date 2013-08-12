@@ -3,7 +3,16 @@
   xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
   version="2.5">
 
-  <display-name>rewards-basic</display-name>
+  <display-name>dtgov</display-name>
+  
+  <filter>
+    <filter-name>LocaleFilter</filter-name>
+    <filter-class>org.overlord.dtgov.server.filters.LocaleFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LocaleFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
   <servlet>
     <servlet-name>GovernanceServlet</servlet-name>
