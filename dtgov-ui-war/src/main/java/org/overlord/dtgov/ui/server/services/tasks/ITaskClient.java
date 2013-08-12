@@ -15,6 +15,8 @@
  */
 package org.overlord.dtgov.ui.server.services.tasks;
 
+import java.util.Locale;
+
 import org.overlord.dtgov.ui.client.shared.beans.TaskActionEnum;
 import org.overlord.dtgov.ui.client.shared.beans.TaskBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
@@ -55,5 +57,11 @@ public interface ITaskClient {
      * @param action
      */
     public TaskBean executeAction(TaskBean task, TaskActionEnum action) throws Exception;
+
+    /**
+     * Sets the currently locale for the task client.
+     * @param locale
+     */
+    public void setLocale(Locale locale);
 
 }
