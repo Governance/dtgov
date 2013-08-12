@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -259,6 +260,14 @@ public class DtGovTaskApiClient implements ITaskClient {
             request.getStatus().add(StatusType.READY);
         }
         return request;
+    }
+
+    /**
+     * @see org.overlord.dtgov.ui.server.services.tasks.ITaskClient#setLocale(java.util.Locale)
+     */
+    @Override
+    public void setLocale(Locale locale) {
+        client.setLocale(locale);
     }
 
 }

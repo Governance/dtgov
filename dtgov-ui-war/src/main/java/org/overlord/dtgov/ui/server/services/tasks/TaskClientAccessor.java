@@ -16,6 +16,7 @@
 package org.overlord.dtgov.ui.server.services.tasks;
 
 import java.lang.reflect.Constructor;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -32,7 +33,17 @@ import org.overlord.dtgov.ui.server.i18n.Messages;
 @Singleton
 public class TaskClientAccessor {
 
-    private transient ITaskClient client;
+    private transient static ThreadLocal<ITaskClient> client = new ThreadLocal<ITaskClient>();
+    private transient static ThreadLocal<Locale> tlocale = new ThreadLocal<Locale>();
+    public static void setLocale(Locale locale) {
+        tlocale.set(locale);
+    }
+    public static void clearLocale() {
+        tlocale.set(null);
+    }
+
+    @Inject
+    protected DtgovUIConfig config;
 
     /**
      * Constructor.
@@ -40,6 +51,12 @@ public class TaskClientAccessor {
      */
     @Inject
 	public TaskClientAccessor(DtgovUIConfig config) {
+    }
+
+    /**
+     * Creates an instance of the task client.
+     */
+    public ITaskClient createClient() {
 		String clientClassname = (String) config.getConfiguration().getProperty(DtgovUIConfig.TASK_CLIENT_CLASS);
 		if (clientClassname != null) {
 		    try {
@@ -47,26 +64,28 @@ public class TaskClientAccessor {
                 Constructor<?> constructor = null;
                 try {
                     constructor = clientClass.getConstructor(Configuration.class);
-                    client = (ITaskClient) constructor.newInstance(config.getConfiguration());
+                    return (ITaskClient) constructor.newInstance(config.getConfiguration());
                 } catch (NoSuchMethodException e) {}
                 try {
                     constructor = clientClass.getConstructor();
-                    client = (ITaskClient) constructor.newInstance();
+                    return (ITaskClient) constructor.newInstance();
                 } catch (NoSuchMethodException e) {}
             } catch (Exception e) {
                 throw new RuntimeException(Messages.i18n.format("TaskClientAccessor.ErrorCreatingClient"), e); //$NON-NLS-1$
             }
 		}
-		if (client == null) {
-		    throw new RuntimeException(Messages.i18n.format("TaskClientAccessor.FailedTocreateClientFrom", clientClassname)); //$NON-NLS-1$
-		}
+	    throw new RuntimeException(Messages.i18n.format("TaskClientAccessor.FailedTocreateClientFrom", clientClassname)); //$NON-NLS-1$
 	}
 
 	/**
 	 * @return the atom api client
 	 */
 	public ITaskClient getClient() {
-	    return client;
+        if (client.get() == null) {
+            client.set(createClient());
+        }
+        client.get().setLocale(tlocale.get());
+        return client.get();
 	}
 
 }

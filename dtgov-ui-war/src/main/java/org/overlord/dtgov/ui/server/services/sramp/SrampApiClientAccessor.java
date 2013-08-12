@@ -16,6 +16,7 @@
 package org.overlord.dtgov.ui.server.services.sramp;
 
 import java.lang.reflect.Constructor;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -33,14 +34,29 @@ import org.overlord.sramp.client.auth.AuthenticationProvider;
 @Singleton
 public class SrampApiClientAccessor {
 
-    private transient SrampAtomApiClient client;
+    private transient static ThreadLocal<SrampAtomApiClient> client = new ThreadLocal<SrampAtomApiClient>();
+    private transient static ThreadLocal<Locale> tlocale = new ThreadLocal<Locale>();
+    public static void setLocale(Locale locale) {
+        tlocale.set(locale);
+    }
+    public static void clearLocale() {
+        tlocale.set(null);
+    }
+
+    @Inject
+    protected DtgovUIConfig config;
 
 	/**
 	 * C'tor.
 	 */
-    @Inject
-	public SrampApiClientAccessor(DtgovUIConfig config) {
-		String endpoint = (String) config.getConfiguration().getProperty(DtgovUIConfig.SRAMP_ATOM_API_ENDPOINT);
+	public SrampApiClientAccessor() {
+	}
+
+	/**
+	 * Creates a new instance of an S-RAMP client.
+	 */
+	protected SrampAtomApiClient createClient() {
+        String endpoint = (String) config.getConfiguration().getProperty(DtgovUIConfig.SRAMP_ATOM_API_ENDPOINT);
         boolean validating = "true".equals(config.getConfiguration().getProperty(DtgovUIConfig.SRAMP_ATOM_API_VALIDATING)); //$NON-NLS-1$
         AuthenticationProvider authProvider = null;
         String authProviderClass = (String) config.getConfiguration().getProperty(DtgovUIConfig.SRAMP_ATOM_API_AUTH_PROVIDER);
@@ -57,7 +73,7 @@ public class SrampApiClientAccessor {
                     authProvider = (AuthenticationProvider) constructor.newInstance();
                 } catch (NoSuchMethodException e) {}
             }
-            client = new SrampAtomApiClient(endpoint, authProvider, validating);
+            return new SrampAtomApiClient(endpoint, authProvider, validating);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -67,7 +83,11 @@ public class SrampApiClientAccessor {
 	 * @return the atom api client
 	 */
 	public SrampAtomApiClient getClient() {
-	    return client;
+        if (client.get() == null) {
+            client.set(createClient());
+        }
+        client.get().setLocale(tlocale.get());
+        return client.get();
 	}
 
 }
