@@ -105,7 +105,7 @@ public class Dir2BrmsCommand extends AbstractShellCommand {
      * @see org.overlord.sramp.shell.api.shell.ShellCommand#execute()
      */
     @Override
-    public void execute() throws Exception {
+    public boolean execute() throws Exception {
         try {
             String brmsPackageName = optionalArgument(0, "SRAMPPackage"); //$NON-NLS-1$
             String brmsBaseUrl     = optionalArgument(1, "http://localhost:8080/drools-guvnor"); //$NON-NLS-1$
@@ -124,7 +124,7 @@ public class Dir2BrmsCommand extends AbstractShellCommand {
             boolean brmsExists = urlExists(brmsURLStr, brmsUserId, brmsPassword);
             if (! brmsExists) {
                 print("Can't find BRMS endpoint: " + brmsURLStr); //$NON-NLS-1$
-                return;
+                return false;
             }
             //create the package if it does not exist
             if (! urlExists(brmsURLStr + brmsPackageName, brmsUserId, brmsPassword)) {
@@ -134,8 +134,10 @@ public class Dir2BrmsCommand extends AbstractShellCommand {
             addAssetsToPackageToBRMS(brmsBaseUrl, brmsPackageName, brmsUserId, brmsPassword, packagePath);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         print("**********************************************************************"); //$NON-NLS-1$
+        return true;
     }
 
     /**

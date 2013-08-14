@@ -122,12 +122,12 @@ public class Pkg2SrampCommand extends AbstractShellCommand {
      * @see org.overlord.sramp.shell.api.shell.ShellCommand#execute()
      */
     @Override
-    public void execute() throws Exception {
+    public boolean execute() throws Exception {
         QName clientVarName = new QName("s-ramp", "client"); //$NON-NLS-1$ //$NON-NLS-2$
         SrampAtomApiClient client = (SrampAtomApiClient) getContext().getVariable(clientVarName);
         if (client == null) {
             print("No S-RAMP repository connection is currently open."); //$NON-NLS-1$
-            return;
+            return false;
         }
 
         String brmsPackageName = optionalArgument(0, "SRAMPPackage"); //$NON-NLS-1$
@@ -147,7 +147,7 @@ public class Pkg2SrampCommand extends AbstractShellCommand {
         boolean brmsExists = urlExists(brmsURLStr, brmsUserId, brmsPassword);
         if (!brmsExists) {
             print("Can't find BRMS endpoint: " + brmsURLStr); //$NON-NLS-1$
-            return;
+            return false;
         }
 
         try {
@@ -155,8 +155,10 @@ public class Pkg2SrampCommand extends AbstractShellCommand {
         } catch (Exception e) {
             print("FAILED to copy the BRMS package."); //$NON-NLS-1$
             print("\t" + e.getMessage()); //$NON-NLS-1$
+            return false;
         }
         print("**********************************************************************"); //$NON-NLS-1$
+        return true;
     }
 
     /**
