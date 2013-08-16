@@ -86,7 +86,7 @@
 
     <!-- Dependency versions -->
     <resteasy.version>2.3.6.Final</resteasy.version>
-    <overlord-commons.version>1.0.9</overlord-commons.version>
+    <overlord-commons.version>2.0.0-SNAPSHOT</overlord-commons.version>
     <commons-io.version>2.4</commons-io.version>
     <commons-lang3.version>3.1</commons-lang3.version>
     <commons-config.version>1.8</commons-config.version>
