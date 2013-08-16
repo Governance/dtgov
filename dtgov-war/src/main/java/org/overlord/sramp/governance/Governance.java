@@ -15,7 +15,6 @@
  */
 package org.overlord.sramp.governance;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -23,12 +22,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.configuration.SystemConfiguration;
-import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
+import org.overlord.commons.config.ConfigurationFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,90 +47,33 @@ public class Governance {
     public static String DEFAULT_RHQ_PASSWORD = "rhqadmin"; //$NON-NLS-1$
     public static String DEFAULT_RHQ_BASEURL = "http://localhost:7080"; //$NON-NLS-1$
 
-    private static CompositeConfiguration configuration;
+    protected static Configuration configuration;
     static {
-        configuration = new CompositeConfiguration();
-        configuration.addConfiguration(new SystemConfiguration());
-        String configFile = configuration.getString(GovernanceConstants.GOVERNANCE_FILE_NAME);
-        Long refreshDelay = configuration.getLong(GovernanceConstants.GOVERNANCE_FILE_REFRESH, 30000l);
-        URL url = findDtgovConfig(configFile);
-        try {
-            if (url != null) {
-                PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration(url);
-                FileChangedReloadingStrategy fileChangedReloadingStrategy = new FileChangedReloadingStrategy();
-                fileChangedReloadingStrategy.setRefreshDelay(refreshDelay);
-                propertiesConfiguration.setReloadingStrategy(fileChangedReloadingStrategy);
-                configuration.addConfiguration(propertiesConfiguration);
-            }
-            configuration.addConfiguration(new PropertiesConfiguration(Governance.class.getClassLoader().getResource("governance.config.txt"))); //$NON-NLS-1$
-        } catch (ConfigurationException e) {
-            throw new RuntimeException(e);
+        String configFile = System.getProperty(GovernanceConstants.GOVERNANCE_FILE_NAME);
+        String refreshDelayStr = System.getProperty(GovernanceConstants.GOVERNANCE_FILE_REFRESH);
+        Long refreshDelay = 5000l;
+        if (refreshDelayStr != null) {
+            refreshDelay = new Long(refreshDelayStr);
         }
+
+        configuration = ConfigurationFactory.createConfig(
+                configFile,
+                "dtgov.properties", //$NON-NLS-1$
+                refreshDelay,
+                "/governance.config.txt", //$NON-NLS-1$
+                Governance.class);
     }
 
     /**
-     * Try to find the dtgov-ui.properties configuration file.  This will look for the
-     * config file in a number of places, depending on the value for 'config file'
-     * found on the system properties.
-     * @param configFile
-     * @throws MalformedURLException
+     * Constructor.
      */
-    private static URL findDtgovConfig(String configFile) {
-        try {
-            // If a config file was given (via system properties) then try to
-            // find it.  If not, then look for a 'standard' config file.
-            if (configFile != null) {
-                // Check on the classpath
-                URL fromClasspath = Governance.class.getClassLoader().getResource(configFile);
-                if (fromClasspath != null)
-                    return fromClasspath;
-
-                // Check on the file system
-                File file = new File(configFile);
-                if (file.isFile())
-                    return file.toURI().toURL();
-            } else {
-                // Check the current user's home directory
-                String userHomeDir = System.getProperty("user.home"); //$NON-NLS-1$
-                if (userHomeDir != null) {
-                    File dirFile = new File(userHomeDir);
-                    if (dirFile.isDirectory()) {
-                        File cfile = new File(dirFile, "dtgov.properties"); //$NON-NLS-1$
-                        if (cfile.isFile())
-                            return cfile.toURI().toURL();
-                    }
-                }
-
-                // Next, check for JBoss
-                String jbossConfigDir = System.getProperty("jboss.server.config.dir"); //$NON-NLS-1$
-                if (jbossConfigDir != null) {
-                    File dirFile = new File(jbossConfigDir);
-                    if (dirFile.isDirectory()) {
-                        File cfile = new File(dirFile, "dtgov.properties"); //$NON-NLS-1$
-                        if (cfile.isFile())
-                            return cfile.toURI().toURL();
-                    }
-                }
-                String jbossConfigUrl = System.getProperty("jboss.server.config.url"); //$NON-NLS-1$
-                if (jbossConfigUrl != null) {
-                    File dirFile = new File(jbossConfigUrl);
-                    if (dirFile.isDirectory()) {
-                        File cfile = new File(dirFile, "dtgov.properties"); //$NON-NLS-1$
-                        if (cfile.isFile())
-                            return cfile.toURI().toURL();
-                    }
-                }
-            }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
     public Governance() {
         super();
     }
 
+    /**
+     * @return the current configuration
+     */
     protected Configuration getConfiguration() {
         return configuration;
     }

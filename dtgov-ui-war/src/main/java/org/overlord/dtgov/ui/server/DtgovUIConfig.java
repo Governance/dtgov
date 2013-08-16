@@ -15,21 +15,14 @@
  */
 package org.overlord.dtgov.ui.server;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.configuration.SystemConfiguration;
-import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
+import org.overlord.commons.config.ConfigurationFactory;
 import org.overlord.dtgov.ui.server.services.tasks.TaskClientAccessor;
 
 /**
@@ -77,84 +70,21 @@ public class DtgovUIConfig {
     // S-RAMP UI integration properties
     public static final String SRAMP_UI_URL_BASE = "dtgov-ui.s-ramp-browser.url-base"; //$NON-NLS-1$
 
-    private static CompositeConfiguration config;
+    private static Configuration config;
     static {
-        config = new CompositeConfiguration();
-        config.addConfiguration(new SystemConfiguration());
-        String configFile = config.getString(DTGOV_UI_CONFIG_FILE_NAME);
-        Long refreshDelay = config.getLong(DTGOV_UI_CONFIG_FILE_REFRESH, 30000l);
-        URL url = findDtgovUiConfig(configFile);
-        try {
-            if (url != null) {
-                PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration(url);
-                FileChangedReloadingStrategy fileChangedReloadingStrategy = new FileChangedReloadingStrategy();
-                fileChangedReloadingStrategy.setRefreshDelay(refreshDelay);
-                propertiesConfiguration.setReloadingStrategy(fileChangedReloadingStrategy);
-                config.addConfiguration(propertiesConfiguration);
-            }
-            config.addConfiguration(new PropertiesConfiguration(TaskClientAccessor.class.getResource("/META-INF/config/org.overlord.dtgov.ui.server.api.properties"))); //$NON-NLS-1$
-        } catch (ConfigurationException e) {
-            e.printStackTrace();
+        String configFile = System.getProperty(DTGOV_UI_CONFIG_FILE_NAME);
+        String refreshDelayStr = System.getProperty(DTGOV_UI_CONFIG_FILE_REFRESH);
+        Long refreshDelay = 5000l;
+        if (refreshDelayStr != null) {
+            refreshDelay = new Long(refreshDelayStr);
         }
-    }
 
-    /**
-     * Try to find the dtgov-ui.properties configuration file.  This will look for the
-     * config file in a number of places, depending on the value for 'config file'
-     * found on the system properties.
-     * @param configFile
-     * @throws MalformedURLException
-     */
-    private static URL findDtgovUiConfig(String configFile) {
-        try {
-            // If a config file was given (via system properties) then try to
-            // find it.  If not, then look for a 'standard' config file.
-            if (configFile != null) {
-                // Check on the classpath
-                URL fromClasspath = DtgovUIConfig.class.getClassLoader().getResource(configFile);
-                if (fromClasspath != null)
-                    return fromClasspath;
-
-                // Check on the file system
-                File file = new File(configFile);
-                if (file.isFile())
-                    return file.toURI().toURL();
-            } else {
-                // Check the current user's home directory
-                String userHomeDir = System.getProperty("user.home"); //$NON-NLS-1$
-                if (userHomeDir != null) {
-                    File dirFile = new File(userHomeDir);
-                    if (dirFile.isDirectory()) {
-                        File cfile = new File(dirFile, "dtgov-ui.properties"); //$NON-NLS-1$
-                        if (cfile.isFile())
-                            return cfile.toURI().toURL();
-                    }
-                }
-
-                // Next, check for JBoss
-                String jbossConfigDir = System.getProperty("jboss.server.config.dir"); //$NON-NLS-1$
-                if (jbossConfigDir != null) {
-                    File dirFile = new File(jbossConfigDir);
-                    if (dirFile.isDirectory()) {
-                        File cfile = new File(dirFile, "dtgov-ui.properties"); //$NON-NLS-1$
-                        if (cfile.isFile())
-                            return cfile.toURI().toURL();
-                    }
-                }
-                String jbossConfigUrl = System.getProperty("jboss.server.config.url"); //$NON-NLS-1$
-                if (jbossConfigUrl != null) {
-                    File dirFile = new File(jbossConfigUrl);
-                    if (dirFile.isDirectory()) {
-                        File cfile = new File(dirFile, "dtgov-ui.properties"); //$NON-NLS-1$
-                        if (cfile.isFile())
-                            return cfile.toURI().toURL();
-                    }
-                }
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        config = ConfigurationFactory.createConfig(
+                configFile,
+                "dtgov-ui.properties", //$NON-NLS-1$
+                refreshDelay,
+                "/META-INF/config/org.overlord.dtgov.ui.server.api.properties", //$NON-NLS-1$
+                TaskClientAccessor.class);
     }
 
     /**
