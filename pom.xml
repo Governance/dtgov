@@ -394,6 +394,7 @@
     <module>dtgov-installer</module>
     <module>dtgov-distro</module>
     <module>dtgov-common</module>
+    <module>dtgov-ui-war-eap61</module>
   </modules>
 </project>
 
