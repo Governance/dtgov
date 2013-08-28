@@ -56,6 +56,12 @@
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-ui-war-eap61</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
     
     <!-- DTGov Sources -->
     <dependency>

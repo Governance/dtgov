@@ -36,7 +36,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <warName>dtgov-ui</warName>
+          <warName>dtgov-ui-jboss7</warName>
           <overlays>
             <overlay>
               <groupId>${project.groupId}</groupId>
