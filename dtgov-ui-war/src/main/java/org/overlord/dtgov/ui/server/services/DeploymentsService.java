@@ -259,7 +259,7 @@ public class DeploymentsService implements IDeploymentsService {
     @Override
     public void update(DeploymentBean bean) throws DtgovUiException {
         try {
-            ArtifactType artifactType = ArtifactType.valueOf(bean.getModel(), bean.getRawType());
+            ArtifactType artifactType = ArtifactType.valueOf(bean.getModel(), bean.getRawType(), true);
             // Grab the latest from the server
             BaseArtifactType artifact = srampClientAccessor.getClient().getArtifactMetaData(artifactType, bean.getUuid());
             // Update it with new data from the bean
