@@ -33,7 +33,12 @@
             <li><a data-field="back-to-dashboard" href="dashboard.html" data-i18n-key="breadcrumb.dashboard">DTGov Dashboard</a> <span class="divider">/<span data-role="dummy" /></span></li>
             <li><a data-field="back-to-deployments" href="deployments.html" data-i18n-key="breadcrumb.deployments">Deployments</a> <span class="divider">/<span data-role="dummy" /></span></li>
             <li><a data-field="back-to-deployment" href="deploymentDetails.html" data-i18n-key="breadcrumb.deployment-details">Deployment Details</a> <span class="divider">/<span data-role="dummy" /></span></li>
-            <li class="active" data-i18n-key="breadcrumb.history">Deployment History</li>
+            <li class="active dropdown">
+                <a class="dropdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#">Deployment History <b class="caret"></b></a>
+                <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Deployment Contents</a></li>
+                </ul>
+              </li>
           </ul>
         </div>
 
