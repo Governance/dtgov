@@ -28,6 +28,7 @@ import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.overlord.dtgov.ui.client.local.beans.UiConfiguration;
 import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
+import org.overlord.sramp.integration.java.model.JavaModel;
 import org.overlord.sramp.ui.client.local.widgets.bootstrap.ModalDialog;
 import org.overlord.sramp.ui.client.local.widgets.common.TemplatedFormPanel;
 
@@ -82,10 +83,13 @@ public class AddDeploymentDialog extends ModalDialog {
         UiConfiguration uiConfig = configService.getUiConfig();
 
         // Update the items in the deployment type drop-down
-        this.deploymentType.clear();
+        this.deploymentType.clearAll();
         Map<String, String> deploymentTypes = uiConfig.getDeploymentTypes();
         for (Entry<String, String> entry : deploymentTypes.entrySet()) {
             this.deploymentType.addItem(entry.getKey(), entry.getValue());
+        }
+        if (deploymentTypes.isEmpty()) {
+            this.deploymentType.addItem("Java Web Application", JavaModel.TYPE_WEB_APPLICATION); //$NON-NLS-1$
         }
 
         super.show();
