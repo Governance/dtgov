@@ -499,6 +499,8 @@ footer hr {
   margin-right: 10px;
   width: 24px;
   height: 24px;
+  background-position: 1px 1px;
+  background-repeat: no-repeat;
 }
 .history-item-icon-none {
   display: none;
