@@ -145,6 +145,7 @@ public class NotificationResource {
                 content = content.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
                 content = content.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
                 content = content.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
+                content = content.replaceAll("\\$\\{dtgovurl}", governance.getDTGovUiUrl()); //$NON-NLS-1$
                 m.setContent(content,"text/plain"); //$NON-NLS-1$
                 Transport.send(m);
             } catch (javax.mail.MessagingException e) {
