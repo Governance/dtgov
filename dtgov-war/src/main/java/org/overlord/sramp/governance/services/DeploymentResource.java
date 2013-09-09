@@ -268,7 +268,29 @@ public class DeploymentResource {
             }
 
             // deploy the artifact
-            File file = new File(deployDir + "/" + artifact.getName()); //$NON-NLS-1$
+            String deploymentName = artifact.getName();
+
+            // use the maven info for the deployment name if we have it
+            String mavenId = SrampModelUtils.getCustomProperty(artifact, "maven.artifactId"); //$NON-NLS-1$
+            String version = SrampModelUtils.getCustomProperty(artifact, "maven.version"); //$NON-NLS-1$
+            String classifier = SrampModelUtils.getCustomProperty(artifact, "maven.classifier"); //$NON-NLS-1$
+            String type = SrampModelUtils.getCustomProperty(artifact, "maven.type"); //$NON-NLS-1$
+            if (mavenId != null) {
+                StringBuilder nameBuilder = new StringBuilder();
+                nameBuilder.append(mavenId);
+                nameBuilder.append("-"); //$NON-NLS-1$
+                nameBuilder.append(version);
+                if (classifier != null) {
+                    nameBuilder.append("-"); //$NON-NLS-1$
+                    nameBuilder.append(classifier);
+                }
+                nameBuilder.append("."); //$NON-NLS-1$
+                nameBuilder.append(type);
+                deploymentName = nameBuilder.toString();
+            }
+
+            // now actually deploy it by copying it to the right (configured) directory
+            File file = new File(deployDir + "/" + deploymentName); //$NON-NLS-1$
             if (file.exists())
                 file.delete();
             file.createNewFile();
@@ -543,6 +565,16 @@ public class DeploymentResource {
         File file = new File(deployedFile);
         if (file.exists() && file.isFile()) {
             file.delete();
+        }
+
+        // Delete any JBoss AS 7/EAP 6.1 deployment files.
+        File deployFile = new File(deployedFile + ".deployed"); //$NON-NLS-1$
+        if (deployFile.isFile()) {
+            deployFile.delete();
+        }
+        File failedFile = new File(deployedFile + ".failed"); //$NON-NLS-1$
+        if (failedFile.isFile()) {
+            failedFile.delete();
         }
     }
 
