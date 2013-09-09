@@ -15,6 +15,8 @@
  */
 package org.overlord.dtgov.ui.server.servlets;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.junit.Assert;
@@ -72,13 +74,15 @@ public class UiConfigurationServletTest {
         config.addProperty(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX + ".war", "Web Application:ext/JavaWebApplication"); //$NON-NLS-1$ //$NON-NLS-2$
         config.addProperty(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX + ".dev", "Development:http://www.jboss.org/overlord/deployment-status.owl#Dev"); //$NON-NLS-1$ //$NON-NLS-2$
         config.addProperty(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX + ".prod", "Production:http://www.jboss.org/overlord/deployment-status.owl#Prod"); //$NON-NLS-1$ //$NON-NLS-2$
-        String rval = UiConfigurationServlet.generateJSONConfig(new DtgovUIConfig() {
+        HttpServletRequest request = new MockHttpServletRequest();
+        String rval = UiConfigurationServlet.generateJSONConfig(request, new DtgovUIConfig() {
             @Override
             public Configuration getConfiguration() {
                 return config;
             }
         });
         Assert.assertNotNull(rval);
+        Assert.assertTrue(rval.contains("http://test.overlord.org:8080/s-ramp-ui")); //$NON-NLS-1$
         // TODO re-enable this assertion but make it cross-platform :(
 //        Assert.assertEquals(EXPECTED_CONFIGURED, rval);
     }
@@ -89,7 +93,8 @@ public class UiConfigurationServletTest {
     @Test
     public void testGenerateJSONConfig_Default() throws Exception {
         final PropertiesConfiguration config = new PropertiesConfiguration();
-        String rval = UiConfigurationServlet.generateJSONConfig(new DtgovUIConfig() {
+        HttpServletRequest request = new MockHttpServletRequest();
+        String rval = UiConfigurationServlet.generateJSONConfig(request, new DtgovUIConfig() {
             @Override
             public Configuration getConfiguration() {
                 return config;

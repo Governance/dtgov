@@ -64,7 +64,7 @@ public class UiConfigurationServlet extends HttpServlet {
         response.setContentType("text/javascript"); //$NON-NLS-1$
 
         try {
-            String json = generateJSONConfig(config);
+            String json = generateJSONConfig(req, config);
             response.getOutputStream().write("var OVERLORD_DTGOVUI_CONFIG = ".getBytes("UTF-8")); //$NON-NLS-1$ //$NON-NLS-2$
             response.getOutputStream().write(json.getBytes("UTF-8")); //$NON-NLS-1$
             response.getOutputStream().write(";".getBytes("UTF-8")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -75,10 +75,11 @@ public class UiConfigurationServlet extends HttpServlet {
 
 	/**
 	 * Called to generate the JSON.
+	 * @param request
 	 * @param config
 	 * @throws Exception
 	 */
-	protected static String generateJSONConfig(DtgovUIConfig config) throws Exception {
+	protected static String generateJSONConfig(HttpServletRequest request, DtgovUIConfig config) throws Exception {
         StringWriter json = new StringWriter();
         JsonFactory f = new JsonFactory();
         JsonGenerator g = f.createJsonGenerator(json);
@@ -87,7 +88,7 @@ public class UiConfigurationServlet extends HttpServlet {
 
         // Some s-ramp UI/browser integration settings
         g.writeObjectFieldStart("srampui"); //$NON-NLS-1$
-        g.writeStringField("urlBase", config.getConfiguration().getString(DtgovUIConfig.SRAMP_UI_URL_BASE, "http://localhost:8080/s-ramp-ui")); //$NON-NLS-1$ //$NON-NLS-2$
+        g.writeStringField("urlBase", config.getConfiguration().getString(DtgovUIConfig.SRAMP_UI_URL_BASE, autoGenerateSrampUiUrlBase(request))); //$NON-NLS-1$
         g.writeEndObject();
 
         g.writeObjectFieldStart("deployments"); //$NON-NLS-1$
@@ -133,6 +134,16 @@ public class UiConfigurationServlet extends HttpServlet {
 
         return json.toString();
 	}
+
+    /**
+     * @param request
+     */
+    private static String autoGenerateSrampUiUrlBase(HttpServletRequest request) {
+        String scheme = request.getScheme();
+        String host = request.getServerName();
+        String port = String.valueOf(request.getServerPort());
+        return String.format("%1$s://%2$s:%3$s/s-ramp-ui", scheme, host, port); //$NON-NLS-1$
+    }
 
     /**
      * Make sure to tell the browser not to cache it.
