@@ -84,6 +84,7 @@ public class DeploymentUploadServlet extends HttpServlet {
 
 			// Parse the request
 			String deploymentType = null;
+			String version = null;
 			String fileName = null;
 			InputStream artifactContent = null;
 			try {
@@ -92,6 +93,8 @@ public class DeploymentUploadServlet extends HttpServlet {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("deploymentType")) { //$NON-NLS-1$
 							deploymentType = item.getString();
+						} else if (item.getFieldName().equals("version")) { //$NON-NLS-1$
+						    version = item.getString();
 						}
 					} else {
 						fileName = item.getName();
@@ -101,8 +104,13 @@ public class DeploymentUploadServlet extends HttpServlet {
 					}
 				}
 
+				// Default version is 1.0
+                if (version == null || version.trim().length() == 0) {
+                    version = "1.0"; //$NON-NLS-1$
+                }
+
 				// Now that the content has been extracted, process it (upload the artifact to the s-ramp repo).
-				responseMap = uploadArtifact(deploymentType, fileName, artifactContent);
+				responseMap = uploadArtifact(deploymentType, fileName, version, artifactContent);
 			} catch (SrampAtomException e) {
 				responseMap = new HashMap<String, String>();
 				responseMap.put("exception", "true"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -127,11 +135,12 @@ public class DeploymentUploadServlet extends HttpServlet {
 	 * Upload the artifact to the S-RAMP repository.
 	 * @param deploymentType the type of the deployment (from the UI form)
 	 * @param fileName the file name of the deployment being uploaded
+	 * @param version the artifact version
 	 * @param deploymentContent the content of the deployment
 	 * @throws Exception
 	 */
 	private Map<String, String> uploadArtifact(String deploymentType, String fileName,
-			InputStream deploymentContent) throws Exception {
+			String version, InputStream deploymentContent) throws Exception {
 	    if (deploymentContent == null)
 	        throw new Exception(Messages.i18n.format("DeploymentUploadServlet.NoDeploymentFile")); //$NON-NLS-1$
 		File tempFile = stashResourceContent(deploymentContent);
@@ -145,7 +154,7 @@ public class DeploymentUploadServlet extends HttpServlet {
 		    if ("DeploymentBundle".equals(deploymentType)) { //$NON-NLS-1$
 		        uploadBundle(tempFile, responseParams);
 		    } else {
-		        uploadSingleDeployment(deploymentType, fileName, tempFile, responseParams);
+		        uploadSingleDeployment(deploymentType, fileName, tempFile, responseParams, version);
 		    }
         } finally {
             FileUtils.deleteQuietly(tempFile);
@@ -193,10 +202,11 @@ public class DeploymentUploadServlet extends HttpServlet {
      * @param client
      * @param tempFile
      * @param responseParams
+     * @param version
      * @throws Exception
      */
     private void uploadSingleDeployment(String deploymentType, String fileName,
-            File tempFile, Map<String, String> responseParams) throws Exception {
+            File tempFile, Map<String, String> responseParams, String version) throws Exception {
         ArtifactType at = ArtifactType.valueOf(deploymentType);
         String uuid = null;
 		// First, upload the deployment
@@ -205,6 +215,7 @@ public class DeploymentUploadServlet extends HttpServlet {
 			contentStream = FileUtils.openInputStream(tempFile);
 			BaseArtifactType artifact = at.newArtifactInstance();
 			artifact.setName(fileName);
+			artifact.setVersion(version);
 			artifact = clientAccessor.getClient().uploadArtifact(artifact, contentStream);
 			responseParams.put("model", at.getArtifactType().getModel()); //$NON-NLS-1$
 			responseParams.put("type", at.getArtifactType().getType()); //$NON-NLS-1$
