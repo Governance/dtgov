@@ -448,6 +448,7 @@ footer hr {
   border: 1px solid rgb(211, 211, 211);
   margin-top: 5px;
   padding: 10px;
+  overflow: auto;
 }
 .deployment-history-item:hover {
   border: 1px solid rgb(201, 201, 201);
