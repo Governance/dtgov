@@ -19,8 +19,9 @@ package org.overlord.dtgov.jbpm.ejb;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.ejb.Stateless;
+import javax.ejb.Startup;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
@@ -38,7 +39,8 @@ import org.overlord.dtgov.server.i18n.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Stateless
+@Startup
+@javax.ejb.Singleton
 @TransactionManagement(TransactionManagementType.BEAN)
 public class ProcessBean implements ProcessLocal {
 
@@ -49,8 +51,14 @@ public class ProcessBean implements ProcessLocal {
 
 	@Inject
 	@Singleton
-	RuntimeManager singletonManager;
-
+	private RuntimeManager singletonManager;
+  
+	@PostConstruct
+	public void configure() {
+	// use toString to make sure CDI initializes the bean
+		singletonManager.toString();
+	} 
+	
 	@Inject
 	TaskService taskService;
 
