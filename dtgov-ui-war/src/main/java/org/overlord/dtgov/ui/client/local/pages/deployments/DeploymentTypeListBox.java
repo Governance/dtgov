@@ -52,4 +52,11 @@ public class DeploymentTypeListBox extends AbstractFilterListBox {
         this.addItem(i18n.format("any"), ""); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
+    /**
+     * Clears all items - doesn't add the "Any" item back in.
+     */
+    public void clearAll() {
+        super.clear();
+    }
+
 }
