@@ -29,9 +29,12 @@ import java.util.List;
 /**
  * Only here to satisfy the Aether class. Will be deleted once the Aether call gets deleted.
  * 
+ * last synced with commit d2e8b0815383e5e17ae023a57705c983b173bb21 (6.0.0-CR3)
+ * 
  * @author kstam
  *
  */
+
 public class MavenRepository {
 
     private static final MavenRepository DEFAUL_MAVEN_REPOSITORY = new MavenRepository(Aether.DEFUALT_AETHER);
@@ -66,7 +69,7 @@ public class MavenRepository {
     public List<DependencyDescriptor> getArtifactDependecies(String artifactName) {
         Artifact artifact = new DefaultArtifact( artifactName );
         CollectRequest collectRequest = new CollectRequest();
-        Dependency root = new Dependency( artifact, "" ); //$NON-NLS-1$
+        Dependency root = new Dependency( artifact, "" );
         collectRequest.setRoot( root );
         for (RemoteRepository repo : aether.getRepositories()) {
             collectRequest.addRepository(repo);
@@ -117,7 +120,7 @@ public class MavenRepository {
   
 
     public void deployArtifact(ReleaseId releaseId, InternalKieModule kieModule, File pomfile) {
-        File jarFile = new File( System.getProperty( "java.io.tmpdir" ), toFileName(releaseId, null) + ".jar"); //$NON-NLS-1$ //$NON-NLS-2$
+        File jarFile = new File( System.getProperty( "java.io.tmpdir" ), toFileName(releaseId, null) + ".jar");
         try {
             FileOutputStream fos = new FileOutputStream(jarFile);
             fos.write(kieModule.getBytes());
@@ -129,11 +132,33 @@ public class MavenRepository {
         deployArtifact(releaseId, jarFile, pomfile);
     }
 
+    public void deployArtifact(ReleaseId releaseId, byte[] jarContent, byte[] pomContent ) {
+        File jarFile = new File( System.getProperty( "java.io.tmpdir" ), toFileName(releaseId, null) + ".jar");
+        try {
+            FileOutputStream fos = new FileOutputStream(jarFile);
+            fos.write(jarContent);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        File pomFile = new File( System.getProperty( "java.io.tmpdir" ), toFileName(releaseId, null) + ".pom");
+        try {
+            FileOutputStream fos = new FileOutputStream(pomFile);
+            fos.write(pomContent);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        deployArtifact(releaseId, jarFile, pomFile);
+    }
+
     public void deployArtifact(ReleaseId releaseId, File jar, File pomfile) {
-        Artifact jarArtifact = new DefaultArtifact( releaseId.getGroupId(), releaseId.getArtifactId(), "jar", releaseId.getVersion() ); //$NON-NLS-1$
+        Artifact jarArtifact = new DefaultArtifact( releaseId.getGroupId(), releaseId.getArtifactId(), "jar", releaseId.getVersion() );
         jarArtifact = jarArtifact.setFile( jar );
 
-        Artifact pomArtifact = new SubArtifact( jarArtifact, "", "pom" ); //$NON-NLS-1$ //$NON-NLS-2$
+        Artifact pomArtifact = new SubArtifact( jarArtifact, "", "pom" );
         pomArtifact = pomArtifact.setFile( pomfile );
 
         DeployRequest deployRequest = new DeployRequest();
@@ -150,7 +175,7 @@ public class MavenRepository {
     }
 
     public void deployPomArtifact(String groupId, String artifactId, String version, File pomfile) {
-        Artifact pomArtifact = new DefaultArtifact( groupId, artifactId, "pom", version ); //$NON-NLS-1$
+        Artifact pomArtifact = new DefaultArtifact( groupId, artifactId, "pom", version );
         pomArtifact = pomArtifact.setFile( pomfile );
 
         DeployRequest deployRequest = new DeployRequest();
@@ -185,9 +210,10 @@ public class MavenRepository {
     
     public static String toFileName(ReleaseId releaseId, String classifier) {
         if (classifier != null) {
-            return releaseId.getArtifactId() + "-" + releaseId.getVersion() + "-" + classifier; //$NON-NLS-1$ //$NON-NLS-2$
+            return releaseId.getArtifactId() + "-" + releaseId.getVersion() + "-" + classifier;
         }
 
-        return releaseId.getArtifactId() + "-" + releaseId.getVersion(); //$NON-NLS-1$
+        return releaseId.getArtifactId() + "-" + releaseId.getVersion();
     }
 }
+
