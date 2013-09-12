@@ -29,9 +29,12 @@ import java.util.List;
 /**
  * Only here to satisfy the Aether class. Will be deleted once the Aether call gets deleted.
  * 
+ * last synced with commit d2e8b0815383e5e17ae023a57705c983b173bb21 (6.0.0-CR3)
+ * 
  * @author kstam
  *
  */
+
 public class MavenRepository {
 
     private static final MavenRepository DEFAUL_MAVEN_REPOSITORY = new MavenRepository(Aether.DEFUALT_AETHER);
@@ -129,6 +132,28 @@ public class MavenRepository {
         deployArtifact(releaseId, jarFile, pomfile);
     }
 
+    public void deployArtifact(ReleaseId releaseId, byte[] jarContent, byte[] pomContent ) {
+        File jarFile = new File( System.getProperty( "java.io.tmpdir" ), toFileName(releaseId, null) + ".jar"); //$NON-NLS-1$ //$NON-NLS-2$
+        try {
+            FileOutputStream fos = new FileOutputStream(jarFile);
+            fos.write(jarContent);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        File pomFile = new File( System.getProperty( "java.io.tmpdir" ), toFileName(releaseId, null) + ".pom"); //$NON-NLS-1$ //$NON-NLS-2$
+        try {
+            FileOutputStream fos = new FileOutputStream(pomFile);
+            fos.write(pomContent);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        deployArtifact(releaseId, jarFile, pomFile);
+    }
+
     public void deployArtifact(ReleaseId releaseId, File jar, File pomfile) {
         Artifact jarArtifact = new DefaultArtifact( releaseId.getGroupId(), releaseId.getArtifactId(), "jar", releaseId.getVersion() ); //$NON-NLS-1$
         jarArtifact = jarArtifact.setFile( jar );
@@ -191,3 +216,4 @@ public class MavenRepository {
         return releaseId.getArtifactId() + "-" + releaseId.getVersion(); //$NON-NLS-1$
     }
 }
+
