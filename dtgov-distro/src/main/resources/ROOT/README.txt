@@ -44,7 +44,7 @@ Here is some pseudo-bash that accomplishes the above:
     # Start JBoss (target/jboss-eap-6.1/bin/standalone.sh) - wait for startup to complete
     ant seed
     cd data
-    mvn package
+    mvn install
     
 
 == Overview ==
