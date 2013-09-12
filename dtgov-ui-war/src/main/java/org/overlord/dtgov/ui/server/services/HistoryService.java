@@ -134,7 +134,7 @@ public class HistoryService implements IHistoryService {
      * @param auditEntry
      */
     private String generateEventDetails(AuditEntry auditEntry) {
-        if (AuditEntryTypes.ARTIFACT_ADD.equals(auditEntry.getType())) {
+        if (AuditEntryTypes.ARTIFACT_ADD.equals(auditEntry.getType()) || AuditEntryTypes.ARTIFACT_DELETE.equals(auditEntry.getType())) {
             return Messages.i18n.format("HistoryService.NoAdditionalInfo"); //$NON-NLS-1$
         } else if (AuditEntryTypes.ARTIFACT_UPDATE.equals(auditEntry.getType())) {
             List<AuditItemType> auditItem = auditEntry.getAuditItem();
@@ -145,9 +145,10 @@ public class HistoryService implements IHistoryService {
             for (AuditItemType auditItemType : auditItem) {
                 generateAuditItemSummary(auditItemType, buffer);
             }
+            if (buffer.length() == 0) {
+                return Messages.i18n.format("HistoryService.NoAdditionalInfo"); //$NON-NLS-1$
+            }
             return buffer.toString();
-        } else if (AuditEntryTypes.ARTIFACT_DELETE.equals(auditEntry.getType())) {
-            return Messages.i18n.format("HistoryService.NoAdditionalInfo"); //$NON-NLS-1$
         }
         return Messages.i18n.format("HistoryService.UnrecognizedAction", auditEntry.getType()); //$NON-NLS-1$
     }
@@ -202,6 +203,34 @@ public class HistoryService implements IHistoryService {
                 for (Property property : properties) {
                     buffer.append("<li>"); //$NON-NLS-1$
                     buffer.append(Messages.i18n.format("HistoryService.Property", property.getName())); //$NON-NLS-1$
+                    buffer.append("</li>"); //$NON-NLS-1$
+                }
+                buffer.append("</ul>"); //$NON-NLS-1$
+            }
+        } else if (AuditItemTypes.CLASSIFIERS_ADDED.equals(type)) {
+            List<Property> properties = auditItemType.getProperty();
+            if (!properties.isEmpty()) {
+                buffer.append("<p>"); //$NON-NLS-1$
+                buffer.append(Messages.i18n.format("HistoryService.ClassifiersWereAdded")); //$NON-NLS-1$
+                buffer.append(":</p>"); //$NON-NLS-1$
+                buffer.append("<ul>"); //$NON-NLS-1$
+                for (Property property : properties) {
+                    buffer.append("<li>"); //$NON-NLS-1$
+                    buffer.append(Messages.i18n.format("HistoryService.Classifier", property.getValue())); //$NON-NLS-1$
+                    buffer.append("</li>"); //$NON-NLS-1$
+                }
+                buffer.append("</ul>"); //$NON-NLS-1$
+            }
+        } else if (AuditItemTypes.CLASSIFIERS_REMOVED.equals(type)) {
+            List<Property> properties = auditItemType.getProperty();
+            if (!properties.isEmpty()) {
+                buffer.append("<p>"); //$NON-NLS-1$
+                buffer.append(Messages.i18n.format("HistoryService.ClassifiersWereRemoved")); //$NON-NLS-1$
+                buffer.append(":</p>"); //$NON-NLS-1$
+                buffer.append("<ul>"); //$NON-NLS-1$
+                for (Property property : properties) {
+                    buffer.append("<li>"); //$NON-NLS-1$
+                    buffer.append(Messages.i18n.format("HistoryService.Classifier", property.getValue())); //$NON-NLS-1$
                     buffer.append("</li>"); //$NON-NLS-1$
                 }
                 buffer.append("</ul>"); //$NON-NLS-1$
