@@ -21,28 +21,51 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.overlord.dtgov.demos</groupId>
-    <artifactId>dtgov-demos-project</artifactId>
+    <artifactId>dtgov-demos</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>dtgov-demos-project</artifactId>
-  <groupId>org.overlord.sramp.demos.project</groupId>
-  <name>S-RAMP Demos: Project Lifecycle Management</name>
+  <groupId>org.overlord.dtgov.demos.project</groupId>
+  <name>DTGov Demos Project: Project Lifecycle Management</name>
   <packaging>pom</packaging>
 
   <modules>
     <module>project</module>
-    <module>service</module>
+    <module>hello-world-service-api</module>
   </modules>
 
   <build>
+    <plugins>
+    <plugin>
+    	<groupId>org.asciidoctor</groupId>
+    	<artifactId>asciidoctor-maven-plugin</artifactId>
+    	<version>${asciidoctor.version}</version>
+    	<executions>
+           <execution>
+           <id>output-html</id>
+           <phase>generate-resources</phase>
+           <goals>
+              <goal>process-asciidoc</goal>
+          </goals>
+          <configuration>
+          	<sourceDirectory>${basedir}</sourceDirectory>
+            <outputDirectory>${project.build.directory}</outputDirectory>
+          	<backend>html</backend>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+    </plugins>
     <extensions>
       <extension>
         <groupId>org.overlord.sramp</groupId>
         <artifactId>s-ramp-wagon</artifactId>
+        <version>${s-ramp.version}</version>
       </extension>
     </extensions>
   </build>
+  
 
   <profiles>
     <profile>
@@ -65,6 +88,15 @@
     </profile>
     <profile>
       <id>demo</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>2.7</version>
+          </plugin>
+        </plugins>
+      </build>
       <distributionManagement>
         <repository>
           <id>local-sramp-repo</id>

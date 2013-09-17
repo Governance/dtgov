@@ -26,6 +26,6 @@
     </parent>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
-    <name>DTGov Demos: Project - Project</name>
+    <name>DTGov Demos Project: Project</name>
  
 </project>

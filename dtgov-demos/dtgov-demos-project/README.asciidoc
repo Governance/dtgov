@@ -1,28 +1,32 @@
-# S-RAMP Demos: Maven Integration
+S-RAMP Demos: Maven Project Workflow Integration
+------------------------------------------------
 
-## Summary
+Summary
+~~~~~~~
 
-This demo shows how S-RAMP can be integrated with a simple Maven build.  This demo contains two
-projects:
+This demo shows how DTGov can start a Project Workflow via a simple Maven build.  
+This demo contains two projects:
 
-* s-ramp-demos-mvn-integration-artifacts: a very simple schema-first JAXB project, containing two XSD files from which Java code is generated via a Maven JAXB plugin
-* s-ramp-demos-mvn-integration-app: a simple Java project that depends on the generated Java code from the above 'artifacts' project
+* project: a very simple maven module with artifactId of "project".
+* service: a maven module containing the Hello World Service API, expressed in WSDL.
 
-The goal is to show that the 'artifacts' project can be built and deployed directly to the S-RAMP 
-repository using just Maven.  Once the 'artifacts' project is deployed to the S-RAMP repository, the
-'app' project can be successfully built (it will download the 'artifacts' dependency from the S-RAMP
-repo).
+The goal is to show that an upload of a pom.xml with artifactId of "project" 
+ - creates a Project 
+kick
+of a workflow of type overlord.demo.ProjectLifeCycle.bpmn2. 
 
-## How It Works
 
-# Deploying the 'artifacts' JAR to S-RAMP
+How It Works
+~~~~~~~~~~~~
 
-To get this demo working you must be running the S-RAMP repository (see documentation for the S-RAMP
-project to learn how to run the S-RAMP repository).
+Deploying the 'artifacts' JAR to S-RAMP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The first step is to build and deploy the 'artifacts' project to S-RAMP using Maven:
+To get this demo working you must be running the DTGov server and the S-RAMP repository (see documentation 
+for the DTGov and S-RAMP projects to learn how to run the S-RAMP repository).
 
-	$ cd s-ramp-demos-mvn-integration-artifacts
+The first step is to build and deploy all artifacts to S-RAMP using Maven:
+
 	$ mvn -Pdemo clean deploy
 
 That will enable the 'demo' profile, which will configure the Maven **distributionManagement** to
