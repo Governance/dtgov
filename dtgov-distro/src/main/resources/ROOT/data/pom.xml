@@ -24,26 +24,21 @@
         <version>${drools.version}</version>
         <extensions>true</extensions>
       </plugin>
-      <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.7</version>
-        <executions>
-          <execution>
-            <id>deploy-cli</id>
-            <phase>install</phase>
-            <goals>
-              <goal>deploy-file</goal>
-            </goals>
-            <configuration>
-              <file>\${basedir}/target/dtgov-workflows-${project.version}.jar</file>
-              <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
-              <pomFile>\${basedir}/pom.xml</pomFile>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
+
+  <distributionManagement>
+    <repository>
+      <id>local-sramp-repo</id>
+      <name>S-RAMP Releases Repository</name>
+      <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
+    </repository>
+    <snapshotRepository>
+      <id>local-sramp-repo-snapshots</id>
+      <name>S-RAMP Snapshots Repository</name>
+      <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
+    </snapshotRepository>
+  </distributionManagement>
 
   <repositories>
     <repository>
@@ -78,3 +73,4 @@
   </pluginRepositories>
 
 </project>
+
