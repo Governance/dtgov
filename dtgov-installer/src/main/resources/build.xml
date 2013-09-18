@@ -94,9 +94,7 @@
     <copy file="updates/dtgovui-overlordapp.properties" todir="${overlord-apps.dir}" overwrite="true" />
     <copy file="updates/dtgov-ui.properties" todir="${dtgov.appserver.config.dir}" overwrite="true" />
     <copy file="updates/dtgov.properties" todir="${dtgov.appserver.config.dir}" overwrite="true" />
-    <propertyfile file="${dtgov.appserver.config.dir}/dtgov.properties" comment="Overlord DTGov Properties">
-      <entry key="dtgov.workflows.version" value="${dtgov.version}"/>
-    </propertyfile>
+    <concat destfile="${dtgov.appserver.config.dir}/dtgov.properties" append="true">dtgov.workflows.version=${dtgov.version}</concat>
 
     <echo message=" " />
     <echo message="########" />
