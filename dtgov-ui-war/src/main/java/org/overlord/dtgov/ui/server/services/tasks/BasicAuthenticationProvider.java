@@ -30,8 +30,8 @@ public class BasicAuthenticationProvider extends org.overlord.dtgov.taskclient.a
      * Constructor.
      */
     public BasicAuthenticationProvider(Configuration config) {
-        super((String) config.getProperty(DtgovUIConfig.TASK_API_BASIC_AUTH_USER),
-                (String) config.getProperty(DtgovUIConfig.TASK_API_BASIC_AUTH_PASS));
+        super(config.getString(DtgovUIConfig.TASK_API_BASIC_AUTH_USER),
+                config.getString(DtgovUIConfig.TASK_API_BASIC_AUTH_PASS));
     }
 
 }

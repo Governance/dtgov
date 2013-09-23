@@ -30,8 +30,8 @@ public class BasicAuthenticationProvider extends org.overlord.sramp.client.auth.
      * Constructor.
      */
     public BasicAuthenticationProvider(Configuration config) {
-        super((String) config.getProperty(DtgovUIConfig.SRAMP_ATOM_API_BASIC_AUTH_USER),
-                (String) config.getProperty(DtgovUIConfig.SRAMP_ATOM_API_BASIC_AUTH_PASS));
+        super(config.getString(DtgovUIConfig.SRAMP_ATOM_API_BASIC_AUTH_USER),
+                config.getString(DtgovUIConfig.SRAMP_ATOM_API_BASIC_AUTH_PASS));
     }
 
 }

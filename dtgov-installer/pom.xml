@@ -73,6 +73,7 @@
                 <configuration>
                   <tasks>
                     <property name="appserver.id" value="jboss-eap-6.1" />
+                    <property name="dtgov.version" value="${project.version}" />
 
                     <!-- Overlord Commons Installer and Dependencies -->
                     <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
@@ -124,6 +125,7 @@
                 <configuration>
                   <tasks>
                     <property name="appserver.id" value="jboss-as-7.1.1.Final" />
+                    <property name="dtgov.version" value="${project.version}" />
 
                     <!-- Overlord Commons Installer and Dependencies -->
                     <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
