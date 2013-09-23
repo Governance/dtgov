@@ -89,12 +89,79 @@
     <echo>----------------------------------</echo>
     <echo>Configuring Overlord Apps</echo>
     <echo>----------------------------------</echo>
+    <property name="dtgov.appserver.module-path" location="${dtgov.appserver.dir}/modules" />
+    <property name="dtgov.vault.password" value="vault22" />
+    <property name="dtgov.tmp.file" location="${dtgov.install.dir}/_tmp_vault.properties" />
+    
     <property name="overlord-apps.dir" location="${dtgov.appserver.config.dir}/overlord-apps" />
     <mkdir dir="${overlord-apps.dir}" />
     <copy file="updates/dtgovui-overlordapp.properties" todir="${overlord-apps.dir}" overwrite="true" />
     <copy file="updates/dtgov-ui.properties" todir="${dtgov.appserver.config.dir}" overwrite="true" />
     <copy file="updates/dtgov.properties" todir="${dtgov.appserver.config.dir}" overwrite="true" />
-    <concat destfile="${dtgov.appserver.config.dir}/dtgov.properties" append="true">dtgov.workflows.version=${dtgov.version}</concat>
+
+    <!-- Create DTGov workflow user -->
+    <genguid property="dtgov.users.workflow.password" />
+    <echo message="Generated password for dtgov_workflow user: ${dtgov.users.workflow.password}" />
+    <java jar="${dtgov.appserver.dir}/jboss-modules.jar"
+          fork="true" dir="${dtgov.appserver.dir}"
+          failonerror="true" maxmemory="128m">
+      <arg value="-mp"/>
+      <arg value="${dtgov.appserver.module-path}"/>
+      <arg value="org.overlord.commons.overlord-commons-auth-tool"/>
+      <arg value="adduser"/>
+      <arg value="-configdir"/>
+      <arg value="${dtgov.appserver.config.dir}"/>
+      <arg value="-vaultdir"/>
+      <arg value="${dtgov.appserver.dir}/vault/"/>
+      <arg value="-keystore"/>
+      <arg value="${dtgov.appserver.config.dir}/vault.keystore"/>
+      <arg value="-storepass"/>
+      <arg value="${dtgov.vault.password}"/>
+      <arg value="-alias"/>
+      <arg value="vault"/>
+      <arg value="-salt"/>
+      <arg value="8675309K"/>
+      <arg value="-count"/>
+      <arg value="50"/>
+      <arg value="-user"/>
+      <arg value="dtgov_workflow"/>
+      <arg value="-password"/>
+      <arg value="${dtgov.users.workflow.password}"/>
+      <arg value="-propertyfile"/>
+      <arg value="${dtgov.tmp.file}"/>
+      <arg value="-property"/>
+      <arg value="dtgov.users.workflow.password.hash"/>
+    </java>
+    <property file="${dtgov.tmp.file}" />
+    <delete file="${dtgov.tmp.file}" />
+    <echo message="Vault key for vault password: ${dtgov.users.workflow.password.hash}" />
+
+    <!-- Set the dtgov_workflow user credentials in dtgov.properties -->
+    <concat destfile="${dtgov.appserver.config.dir}/dtgov.properties" append="true">
+dtgov.workflows.version=${dtgov.version}
+
+# Governance BPM credentials
+governance.bpm.user=dtgov_workflow
+governance.bpm.password=$${vault:${dtgov.users.workflow.password.hash}}
+
+# S-RAMP Repository credentials
+sramp.repo.user=dtgov_workflow
+sramp.repo.password=$${vault:${dtgov.users.workflow.password.hash}}
+
+# Overlord governance credentials
+#  (used by the workflows to invoke DTGov services)
+governance.user=dtgov_workflow
+governance.password=$${vault:${dtgov.users.workflow.password.hash}}
+    </concat>
+
+    <!-- Set the SAML keystore and alias password in the dtgov-ui config -->
+    <property file="${dtgov.appserver.config.dir}/overlord-vault-keys.properties" />
+    <propertyfile file="${dtgov.appserver.config.dir}/dtgov-ui.properties">
+      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.vault.password.hash}}" />
+      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />
+      <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.vault.password.hash}}" />
+      <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />
+    </propertyfile>
 
     <echo message=" " />
     <echo message="########" />
@@ -105,7 +172,6 @@
 
   <!-- Configure JBoss -->
   <target name="config-jboss-common">
-    <copy file="updates/layers.conf" todir="${dtgov.appserver.dir}/modules" overwrite="false" />
     <copy file="updates/dtgov-ds.xml" todir="${dtgov.appserver.deploy.dir}" overwrite="false" />
   </target>
 
@@ -151,5 +217,13 @@
     <echo message="########" />
     <echo message=" " />
   </target>
+
+  <scriptdef name="genguid" language="javascript">
+      <attribute name="property" />
+      <![CDATA[
+      importClass( java.util.UUID );
+      project.setProperty( attributes.get( "property" ), UUID.randomUUID() );
+      ]]>
+  </scriptdef>
 
 </project>

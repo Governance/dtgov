@@ -56,10 +56,10 @@ public class SrampApiClientAccessor {
 	 * Creates a new instance of an S-RAMP client.
 	 */
 	protected SrampAtomApiClient createClient() {
-        String endpoint = (String) config.getConfiguration().getProperty(DtgovUIConfig.SRAMP_ATOM_API_ENDPOINT);
-        boolean validating = "true".equals(config.getConfiguration().getProperty(DtgovUIConfig.SRAMP_ATOM_API_VALIDATING)); //$NON-NLS-1$
+        String endpoint = config.getConfiguration().getString(DtgovUIConfig.SRAMP_ATOM_API_ENDPOINT);
+        boolean validating = "true".equals(config.getConfiguration().getString(DtgovUIConfig.SRAMP_ATOM_API_VALIDATING)); //$NON-NLS-1$
         AuthenticationProvider authProvider = null;
-        String authProviderClass = (String) config.getConfiguration().getProperty(DtgovUIConfig.SRAMP_ATOM_API_AUTH_PROVIDER);
+        String authProviderClass = config.getConfiguration().getString(DtgovUIConfig.SRAMP_ATOM_API_AUTH_PROVIDER);
         try {
             if (authProviderClass != null && authProviderClass.trim().length() > 0) {
                 Class<?> c = Class.forName(authProviderClass);
