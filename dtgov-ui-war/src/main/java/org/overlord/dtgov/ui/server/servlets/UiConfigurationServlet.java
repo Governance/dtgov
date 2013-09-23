@@ -93,6 +93,7 @@ public class UiConfigurationServlet extends HttpServlet {
 
         g.writeObjectFieldStart("deployments"); //$NON-NLS-1$
         // Pull in any configured deployment types.
+        @SuppressWarnings("unchecked")
         Iterator<String> typeKeys = config.getConfiguration().getKeys(DtgovUIConfig.DEPLOYMENT_TYPE_PREFIX);
         int count = 0;
         g.writeObjectFieldStart("types"); //$NON-NLS-1$

@@ -91,8 +91,6 @@ public class Governance {
             configuration.append(GovernanceConstants.SRAMP_REPO_PASSWORD      + ": " + getSrampPassword()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
             configuration.append(GovernanceConstants.SRAMP_REPO_VALIDATING    + ": " + getSrampValidating()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
             configuration.append(GovernanceConstants.SRAMP_REPO_AUTH_PROVIDER + ": " + getSrampAuthProvider()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
-            configuration.append(GovernanceConstants.SRAMP_REPO_SAML_ISSUER   + ": " + getSrampAuthProvider()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
-            configuration.append(GovernanceConstants.SRAMP_REPO_SAML_SERVICE  + ": " + getSrampAuthProvider()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
             int i=1;
             for (Query query : getQueries()) {
@@ -169,14 +167,6 @@ public class Governance {
 
     public boolean getSrampValidating() throws Exception {
         return "true".equals(getConfiguration().getString(GovernanceConstants.SRAMP_REPO_VALIDATING, "false")); //$NON-NLS-1$ //$NON-NLS-2$
-    }
-
-    public String getSrampSamlIssuer() {
-        return getConfiguration().getString(GovernanceConstants.SRAMP_REPO_SAML_ISSUER, "/dtgov"); //$NON-NLS-1$
-    }
-
-    public String getSrampSamlService() {
-        return getConfiguration().getString(GovernanceConstants.SRAMP_REPO_SAML_SERVICE, "/s-ramp-server"); //$NON-NLS-1$
     }
 
     /**

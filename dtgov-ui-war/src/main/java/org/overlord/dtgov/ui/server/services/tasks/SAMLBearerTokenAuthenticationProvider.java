@@ -15,6 +15,9 @@
  */
 package org.overlord.dtgov.ui.server.services.tasks;
 
+import java.security.KeyPair;
+import java.security.KeyStore;
+
 import org.apache.commons.configuration.Configuration;
 import org.apache.http.HttpRequest;
 import org.overlord.commons.auth.jboss7.SAMLBearerTokenLoginModule;
@@ -53,9 +56,24 @@ public class SAMLBearerTokenAuthenticationProvider implements AuthenticationProv
      * S-RAMP Atom API.
      */
     private String createSAMLBearerTokenAssertion() {
-        String issuer = (String) config.getProperty(DtgovUIConfig.TASK_API_SAML_ISSUER);
-        String service = (String) config.getProperty(DtgovUIConfig.TASK_API_SAML_SERVICE);
-        return SAMLBearerTokenUtil.createSAMLAssertion(issuer, service);
+        String issuer = config.getString(DtgovUIConfig.TASK_API_SAML_ISSUER);
+        String service = config.getString(DtgovUIConfig.TASK_API_SAML_SERVICE);
+        String samlAssertion = SAMLBearerTokenUtil.createSAMLAssertion(issuer, service);
+        boolean signAssertion = "true".equals(config.getString(DtgovUIConfig.TASK_API_SAML_AUTH_SIGN_ASSERTIONS)); //$NON-NLS-1$
+        if (signAssertion) {
+            String keystorePath = config.getString(DtgovUIConfig.TASK_API_SAML_AUTH_KEYSTORE);
+            String keystorePassword = config.getString(DtgovUIConfig.TASK_API_SAML_AUTH_KEYSTORE_PASSWORD);
+            String keyAlias = config.getString(DtgovUIConfig.TASK_API_SAML_AUTH_KEY_ALIAS);
+            String keyAliasPassword = config.getString(DtgovUIConfig.TASK_API_SAML_AUTH_KEY_PASSWORD);
+            try {
+                KeyStore keystore = SAMLBearerTokenUtil.loadKeystore(keystorePath, keystorePassword);
+                KeyPair keyPair = SAMLBearerTokenUtil.getKeyPair(keystore, keyAlias, keyAliasPassword);
+                samlAssertion = SAMLBearerTokenUtil.signSAMLAssertion(samlAssertion, keyPair);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return samlAssertion;
     }
 
 }

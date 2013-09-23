@@ -57,7 +57,7 @@ public class TaskClientAccessor {
      * Creates an instance of the task client.
      */
     public ITaskClient createClient() {
-		String clientClassname = (String) config.getConfiguration().getProperty(DtgovUIConfig.TASK_CLIENT_CLASS);
+		String clientClassname = config.getConfiguration().getString(DtgovUIConfig.TASK_CLIENT_CLASS);
 		if (clientClassname != null) {
 		    try {
                 Class<?> clientClass = Class.forName(clientClassname);

@@ -57,9 +57,9 @@ public class DtGovTaskApiClient implements ITaskClient {
      * Constructor.
      */
     public DtGovTaskApiClient(Configuration config) {
-        String endpoint = (String) config.getProperty(DtgovUIConfig.TASK_API_ENDPOINT);
+        String endpoint = config.getString(DtgovUIConfig.TASK_API_ENDPOINT);
         AuthenticationProvider authProvider = null;
-        String authProviderClass = (String) config.getProperty(DtgovUIConfig.TASK_API_AUTH_PROVIDER);
+        String authProviderClass = config.getString(DtgovUIConfig.TASK_API_AUTH_PROVIDER);
         try {
             if (authProviderClass != null && authProviderClass.trim().length() > 0) {
                 Class<?> c = Class.forName(authProviderClass);
