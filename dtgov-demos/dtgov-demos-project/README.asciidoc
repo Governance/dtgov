@@ -1,0 +1,78 @@
+For an html version of this readme run 'asciidoc README.asciidoc'.
+
+DTGov Demos: Maven Project Workflow Integration
+------------------------------------------------
+
+Summary
+~~~~~~~
+
+This demo shows how DTGov can start a Project Workflow via a simple Maven build.  
+This demo contains two projects:
+
+* project: a very simple maven module with artifactId of "project".
+* service: a maven module containing the Hello World Service API, expressed in WSDL.
+
+The goal is to show that an upload of a pom.xml with artifactId of "project" 
+kicks of a workflow of type overlord.demo.ProjectLifeCycle.bpmn2. 
+ 
+[[figure-project-workflow]]
+.Project Workflow.
+image::projectworkflow.png[Project Workflow]
+
+
+How It Works
+~~~~~~~~~~~~
+
+Deploying the 'artifacts' JAR to S-RAMP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To get this demo working you must be running the DTGov server and the S-RAMP repository (see documentation 
+for the DTGov and S-RAMP projects to learn how to run the S-RAMP repository).
+
+The first step is to build and deploy all artifacts to S-RAMP using Maven.
+The demo is configured to run against the default security settings found in
+the distribution.  If you change the security configuration you may need to set the 
+username and password when running the demo.  You can use the following -D properties:
+
+* sramp.auth.username - sets the BASIC auth username to use during the demo
+* sramp.auth.password - sets the BASIC auth password to use during the demo
+....
+$ mvn -Pdemo clean deploy
+....
+
+That will enable the 'demo' profile, which will configure the Maven **distributionManagement** to
+point to a local S-RAMP repository (http://localhost:8080/s-ramp-server/).  Therefore you need to
+be running S-RAMP on port 8080 and deployed as the 's-ramp-atom' context.
+
+The build should complete successfully.
+
+At this point there should be a number of artifacts stored in the S-RAMP repository.  You can verify
+that by deploying the "s-ramp-ui" project and then navigating to http://localhost:8080/s-ramp-ui (or
+the appropriate URL for you).
+
+You should see the following artifacts in the S-RAMP repository:
+
+* hello-world-service-api-VERSION.jar
+* hello-world-service-api-VERSION.pom
+* project-VERSION.pom
+
+when looking at the details for the project-VERSION.pom you should see that it contains
+a custom property of 'maven.artifactId:project'. And with the query defined in the 
+governance.config:
+....
+governance.queries=/s-ramp/ext/MavenPom[@maven.artifactId='project']|overlord.demo.ProjectLifeCycle|UpdateMetaDataUrl={governance.url}/rest/update/project/relatedto/{uuid}::DTGovUrl={dtgov.ui.url}
+....
+it will start a ProjectLifeCycle workflow when a MavenPom with artifactId of 'pom'
+lands in the repository. You should see another custom property getting created which should
+look similar to 
+....
+workflowProcessId=overlord.demo.ProjectLifeCycle_0:workflowParameters=UpdateMetaDataUrl=http://localhost:8080/dtgov
+....
+
+Note that the definition of the 'overlord.demo.ProjectLifeCycle' lives in the
+SRAMPPackage in the dtgov-workflow.jar. If you want to update the workflow you
+need to use eclipse tooling to modify the bpmn, build and upload a new dtgov-worflow.jar
+to S-RAMP. The GAV settings are defined in the governance.config file.
+
+
+
