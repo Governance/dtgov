@@ -36,27 +36,6 @@
   </modules>
 
   <build>
-    <plugins>
-    <plugin>
-    	<groupId>org.asciidoctor</groupId>
-    	<artifactId>asciidoctor-maven-plugin</artifactId>
-    	<version>${asciidoctor.version}</version>
-    	<executions>
-           <execution>
-           <id>output-html</id>
-           <phase>generate-resources</phase>
-           <goals>
-              <goal>process-asciidoc</goal>
-          </goals>
-          <configuration>
-          	<sourceDirectory>${basedir}</sourceDirectory>
-            <outputDirectory>${project.build.directory}</outputDirectory>
-          	<backend>html</backend>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
-    </plugins>
     <extensions>
       <extension>
         <groupId>org.overlord.sramp</groupId>
@@ -94,6 +73,9 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-deploy-plugin</artifactId>
             <version>2.7</version>
+             <configuration>
+              <skip>false</skip>
+            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -101,12 +83,12 @@
         <repository>
           <id>local-sramp-repo</id>
           <name>S-RAMP Releases Repository</name>
-          <url>sramp://localhost:8080/s-ramp-server</url>
+          <url>sramp://localhost:8080/s-ramp-server/?artifactGrouping=${project.groupId}</url>
         </repository>
         <snapshotRepository>
           <id>local-sramp-repo-snapshots</id>
           <name>S-RAMP Snapshots Repository</name>
-          <url>sramp://localhost:8080/s-ramp-server</url>
+          <url>sramp://localhost:8080/s-ramp-server/?artifactGrouping=${project.groupId}</url>
         </snapshotRepository>
       </distributionManagement>
     </profile>

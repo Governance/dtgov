@@ -12,7 +12,6 @@
 		<fileSet>
 			<useDefaultExcludes>true</useDefaultExcludes>
 			<excludes>
-			    <exclude>pom.xml</exclude>
 			    <exclude>src/</exclude>
 				<exclude>**/.settings/**</exclude>
 				<exclude>**/.classpath</exclude>

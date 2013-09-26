@@ -24,7 +24,7 @@
         <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>service</artifactId>
-    <name>DTGov Demos: Project - Service</name>
+    <artifactId>hello-world-service-api</artifactId>
+    <name>DTGov Demos: Project - Service API</name>
  
 </project>
