@@ -386,17 +386,17 @@
 
   <!-- modules in alphabetical order -->
   <modules>
+    <module>dtgov-common</module>
     <module>dtgov-task-api</module>
     <module>dtgov-task-client</module>
+    <module>dtgov-war</module>
     <module>dtgov-ui-war</module>
     <module>dtgov-ui-war-jboss7</module>
-    <module>dtgov-war</module>
+    <module>dtgov-ui-war-eap61</module>
     <module>dtgov-workflows</module>
+    <module>dtgov-demos</module>
     <module>dtgov-installer</module>
     <module>dtgov-distro</module>
-    <module>dtgov-common</module>
-    <module>dtgov-ui-war-eap61</module>
-    <module>dtgov-demos</module>
   </modules>
 </project>
 
