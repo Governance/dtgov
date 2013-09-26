@@ -147,24 +147,8 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.7</version>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <inherited>false</inherited>
-        <dependencies>
-          <dependency>
-            <!-- Entry needed to enable jdocbook unzipping -->
-            <groupId>org.jboss.maven.plugins</groupId>
-            <artifactId>maven-jdocbook-plugin</artifactId>
-            <version>2.3.8</version>
-          </dependency>
-        </dependencies>
         <executions>
           <execution>
             <id>make-dist</id>
@@ -174,6 +158,7 @@
             </goals>
             <configuration>
               <escapeString>\</escapeString>
+              <attach>true</attach>
               <descriptors>
                 <descriptor>src/main/assembly/dist.xml</descriptor>
               </descriptors>
@@ -182,7 +167,7 @@
               <archiverConfig>
                 <defaultDirectoryMode>0755</defaultDirectoryMode>
               </archiverConfig>
-              <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+              <runOnlyAtExecutionRoot>false</runOnlyAtExecutionRoot>
             </configuration>
           </execution>
         </executions>
