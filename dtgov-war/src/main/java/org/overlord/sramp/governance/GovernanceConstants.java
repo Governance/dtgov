@@ -29,20 +29,19 @@ public interface GovernanceConstants {
     public static final String SRAMP_REPO_USER          = "sramp.repo.user"; //$NON-NLS-1$
     public static final String SRAMP_REPO_PASSWORD      = "sramp.repo.password"; //$NON-NLS-1$
     public static final String SRAMP_REPO_VALIDATING    = "sramp.repo.validating"; //$NON-NLS-1$
-    public static final String SRAMP_REPO_SAML_ISSUER   = "sramp.repo.auth.saml.issuer"; //$NON-NLS-1$
-    public static final String SRAMP_REPO_SAML_SERVICE  = "sramp.repo.auth.saml.service"; //$NON-NLS-1$
+
     public static final String GOVERNANCE_URL           = "governance.url"; //$NON-NLS-1$
     public static final String GOVERNANCE_QUERY_INTERVAL= "governance.query.interval"; //$NON-NLS-1$
     public static final String GOVERNANCE_JNDI_EMAIL_REF= "governance.jndi.email.reference"; //$NON-NLS-1$
     public static final String GOVERNANCE_EMAIL_DOMAIN  = "governance.email.domain"; //$NON-NLS-1$
     public static final String GOVERNANCE_EMAIL_FROM    = "governance.email.from"; //$NON-NLS-1$
-    
+
 
     //RHQ connection info
     public static final String GOVERNANCE_RHQ_USER     = "rhq.rest.user"; //$NON-NLS-1$
     public static final String GOVERNANCE_RHQ_PASSWORD = "rhq.rest.password"; //$NON-NLS-1$
     public static final String GOVERNANCE_RHQ_URL      = "rhq.base.url"; //$NON-NLS-1$
-    
+
     //BPM connection info
     public static final String GOVERNANCE_BPM_USER     = "governance.bpm.user"; //$NON-NLS-1$
     public static final String GOVERNANCE_BPM_PASSWORD = "governance.bpm.password"; //$NON-NLS-1$
@@ -55,12 +54,12 @@ public interface GovernanceConstants {
     public static final String GOVERNANCE_QUERIES       = "governance.queries"; //$NON-NLS-1$
     public static final String GOVERNANCE               = "governance."; //$NON-NLS-1$
     public static final String GOVERNANCE_UI            = "dtgov.ui.url"; //$NON-NLS-1$
-    
+
     //S-RAMP
     public static final String SRAMP_WAGON_JAR          = "s-ramp-wagon"; //$NON-NLS-1$
     public static final String SRAMP_WAGON_SNAPSHOTS    = "dtgov.s-ramp-wagon.snapshots"; //$NON-NLS-1$
     public static final String SRAMP_WAGON_RELEASES     = "dtgov.s-ramp-wagon.releases"; //$NON-NLS-1$
-    
+
     //Workflow config
     public static final String GOVERNANCE_DTGOV            = "dtgov"; //$NON-NLS-1$
     public static final String GOVERNANCE_WORKFLOW_GROUP   = "dtgov.workflows.group"; //$NON-NLS-1$

@@ -43,6 +43,11 @@ public class DtgovUIConfig {
     public static final String SRAMP_ATOM_API_BASIC_AUTH_PASS = "dtgov-ui.s-ramp.atom-api.authentication.basic.password"; //$NON-NLS-1$
     public static final String SRAMP_ATOM_API_SAML_ISSUER = "dtgov-ui.s-ramp.atom-api.authentication.saml.issuer"; //$NON-NLS-1$
     public static final String SRAMP_ATOM_API_SAML_SERVICE = "dtgov-ui.s-ramp.atom-api.authentication.saml.service"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_SAML_AUTH_SIGN_ASSERTIONS = "dtgov-ui.s-ramp.atom-api.authentication.saml.sign-assertions"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_SAML_AUTH_KEYSTORE = "dtgov-ui.s-ramp.atom-api.authentication.saml.keystore"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_SAML_AUTH_KEYSTORE_PASSWORD = "dtgov-ui.s-ramp.atom-api.authentication.saml.keystore-password"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_SAML_AUTH_KEY_ALIAS = "dtgov-ui.s-ramp.atom-api.authentication.saml.key-alias"; //$NON-NLS-1$
+    public static final String SRAMP_ATOM_API_SAML_AUTH_KEY_PASSWORD = "dtgov-ui.s-ramp.atom-api.authentication.saml.key-password"; //$NON-NLS-1$
     public static final String SRAMP_ATOM_API_VALIDATING = "dtgov-ui.s-ramp.atom-api.validating"; //$NON-NLS-1$
     // Task API related properties
     public static final String TASK_API_ENDPOINT = "dtgov-ui.task-api.endpoint"; //$NON-NLS-1$
@@ -52,6 +57,11 @@ public class DtgovUIConfig {
     public static final String TASK_API_BASIC_AUTH_PASS = "dtgov-ui.task-api.authentication.basic.password"; //$NON-NLS-1$
     public static final String TASK_API_SAML_ISSUER = "dtgov-ui.task-api.authentication.saml.issuer"; //$NON-NLS-1$
     public static final String TASK_API_SAML_SERVICE = "dtgov-ui.task-api.authentication.saml.service"; //$NON-NLS-1$
+    public static final String TASK_API_SAML_AUTH_SIGN_ASSERTIONS = "dtgov-ui.task-api.authentication.saml.sign-assertions"; //$NON-NLS-1$
+    public static final String TASK_API_SAML_AUTH_KEYSTORE = "dtgov-ui.task-api.authentication.saml.keystore"; //$NON-NLS-1$
+    public static final String TASK_API_SAML_AUTH_KEYSTORE_PASSWORD = "dtgov-ui.task-api.authentication.saml.keystore-password"; //$NON-NLS-1$
+    public static final String TASK_API_SAML_AUTH_KEY_ALIAS = "dtgov-ui.task-api.authentication.saml.key-alias"; //$NON-NLS-1$
+    public static final String TASK_API_SAML_AUTH_KEY_PASSWORD = "dtgov-ui.task-api.authentication.saml.key-password"; //$NON-NLS-1$
 
     // Deployment Lifecycle UI properties
     public static final String DEPLOYMENT_CLASSIFIER_BASE = "dtgov-ui.deployment-lifecycle.classifiers.base"; //$NON-NLS-1$
@@ -106,6 +116,7 @@ public class DtgovUIConfig {
     public List<DeploymentStage> getStages() {
         List<DeploymentStage> stages = new ArrayList<DeploymentStage>();
 
+        @SuppressWarnings("unchecked")
         Iterator<String> stageKeys = config.getKeys(DtgovUIConfig.DEPLOYMENT_CLASSIFIER_STAGE_PREFIX);
         while (stageKeys.hasNext()) {
             String stageKey = stageKeys.next();
