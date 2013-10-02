@@ -43,7 +43,7 @@ Here is some pseudo-bash that accomplishes the above:
     ant install
     # Start JBoss (target/jboss-eap-6.1/bin/standalone.sh) - wait for startup to complete
     ant seed
-    cd data
+    cd dtgov-data
     mvn install
     
 
