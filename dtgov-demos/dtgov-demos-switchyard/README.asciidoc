@@ -1,7 +1,7 @@
 For an html version of this readme run 'asciidoc README.asciidoc'.
 
 DTGov Demos: Release Workflow
-------------------------------------------------
+-----------------------------
 
 Summary
 ~~~~~~~
