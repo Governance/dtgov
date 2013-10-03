@@ -63,6 +63,7 @@
 
   "add-deployment-dialog.add" : "Add",
   "add-deployment-dialog.artifact-type-msg" : " Also make sure to specify what type of artifact it is: ",
+  "add-deployment-dialog.artifact-version-msg" : " And give it a version: ",
   "add-deployment-dialog.cancel" : "Cancel",
   "add-deployment-dialog.change" : "Change",
   "add-deployment-dialog.message" : " Choose a deployment file to upload. This is typically a binary artifact (e.g. web application .war) whose lifecycle you would like to govern. ",
