@@ -10,6 +10,14 @@
   <packaging>war</packaging>
   <name>Design Time Governance: UI</name>
   <dependencies>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-gwt</artifactId>
+      <version>14.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- DTGov Common -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
