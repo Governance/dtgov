@@ -116,6 +116,7 @@
     <slf4j-nop.version>1.5.11</slf4j-nop.version>
     <jbpm.version>6.0.0.CR3</jbpm.version>
     <drools.version>6.0.0.CR3</drools.version>
+    <maven.version>3.0.5</maven.version> <!--  inline with drools-kie -->
   </properties>
 
   <build>

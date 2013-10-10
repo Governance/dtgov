@@ -37,4 +37,11 @@ public class EmbeddedJbpmManager implements BpmManager {
     	}
     }
     
+    @Override
+    public void signalProcess(long processInstanceId, String signalType, Object event) {
+    	
+		ProcessService processService = CDIUtil.getContextualBeanInstance(ProcessService.class);
+		processService.signalProcess(processInstanceId, signalType, event);
+    }
+    
 }

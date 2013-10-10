@@ -43,4 +43,10 @@ public class JbpmManager implements BpmManager {
 		}
     }
     
+	@Override
+	public void signalProcess(long processId, String signalType, Object event) {
+		//Not implemented
+		
+	}
+    
 }
