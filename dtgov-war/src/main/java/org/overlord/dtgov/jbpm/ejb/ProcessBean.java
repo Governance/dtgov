@@ -36,6 +36,12 @@ import org.kie.api.task.TaskService;
 import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.runtime.manager.context.EmptyContext;
 import org.overlord.dtgov.server.i18n.Messages;
+import org.overlord.sramp.atom.err.SrampAtomException;
+import org.overlord.sramp.client.SrampAtomApiClient;
+import org.overlord.sramp.client.SrampClientException;
+import org.overlord.sramp.client.query.QueryResultSet;
+import org.overlord.sramp.governance.Governance;
+import org.overlord.sramp.governance.SrampAtomApiClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +51,11 @@ import org.slf4j.LoggerFactory;
 public class ProcessBean implements ProcessLocal {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static Boolean hasSRAMPPackageDeployed = Boolean.FALSE;
+	private static String SRAMP_KIE_JAR_QUERY_FORMAT="/s-ramp/ext/KieJarArchive["
+			+ "@maven.groupId='%s' and "
+			+ "@maven.artifactId = '%s' and "
+			+ "@maven.version = '%s']";
 
 	@Resource
 	private UserTransaction ut;
@@ -55,8 +66,33 @@ public class ProcessBean implements ProcessLocal {
   
 	@PostConstruct
 	public void configure() {
-	// use toString to make sure CDI initializes the bean
-		singletonManager.toString();
+		//we need it to start to startup task management - however
+		//we don't want it to start before we have te workflow
+		//definitions deployed (on first time boot)
+		synchronized(hasSRAMPPackageDeployed) {
+			try {
+				SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient(); 
+				
+				Governance governance = new Governance();
+				String srampQuery = String.format(SRAMP_KIE_JAR_QUERY_FORMAT,
+						governance.getGovernanceWorkflowGroup(),
+						governance.getGovernanceWorkflowName(),
+						governance.getGovernanceWorkflowVersion());
+				
+				QueryResultSet results = client.query(srampQuery);
+				if (results.size() > 0) hasSRAMPPackageDeployed = Boolean.TRUE;
+				
+				if (hasSRAMPPackageDeployed) {
+					// use toString to make sure CDI initializes the bean
+					singletonManager.toString();
+				}
+			} catch (SrampClientException e) {
+				logger.error(e.getMessage(),e);
+			} catch (SrampAtomException e) {
+				logger.error(e.getMessage(),e);
+			}
+			
+		}
 	} 
 	
 	@Inject
