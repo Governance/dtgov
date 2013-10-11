@@ -1,15 +1,16 @@
 #governance.query.interval=10000
 #dtgov.workflows.version=${project.version}
-governance.queries=/s-ramp/ext/SwitchYardApplication|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}::DTGovUrl={dtgov.ui.url}
-governance.queries=/s-ramp/ext/JavaArchive|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}::DTGovUrl={dtgov.ui.url}
-governance.queries=/s-ramp/ext/JavaWebApplication|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}::DTGovUrl={dtgov.ui.url}
-governance.queries=/s-ramp/ext/JavaEnterpriseApplication|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}::DTGovUrl={dtgov.ui.url}
-governance.queries=/s-ramp/ext/MavenPom[@maven.artifactId='project']|overlord.demo.ProjectLifeCycle|UpdateMetaDataUrl={governance.url}/rest/update/project/relatedto/{uuid}::DTGovUrl={dtgov.ui.url}
+governance.queries=/s-ramp/ext/SwitchYardApplication|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}
+governance.queries=/s-ramp/ext/JavaArchive|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}
+governance.queries=/s-ramp/ext/JavaWebApplication|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}
+governance.queries=/s-ramp/ext/JavaEnterpriseApplication|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}}
+governance.queries=/s-ramp/ext/MavenPom[@maven.artifactId='project']|overlord.demo.ProjectLifeCycle|UpdateMetaDataUrl={governance.url}
+#
 governance.targets=  dev|http://www.jboss.org/overlord/deployment-status.owl#InDev|copy|/tmp/dev/jbossas7/standalone/deployments
 governance.targets=   qa|http://www.jboss.org/overlord/deployment-status.owl#InQa|copy|/tmp/qa/jbossas7/standalone/deployments
 governance.targets=stage|http://www.jboss.org/overlord/deployment-status.owl#InStage|copy|/tmp/stage/jbossas7/standalone/deployments
 governance.targets= prod|http://www.jboss.org/overlord/deployment-status.owl#InProd|copy|/tmp/prod/jbossas7/standalone/deployments
-
+#
 #governance.targets= rhq_example  |http://www.jboss.org/overlord/deployment-status.owl#InDev|rhq|{rhq.user}::{rhq.password}::{rhq.baseUrl}
 #governance.targets= cli_example  |http://www.jboss.org/overlord/deployment-status.owl#InDev|cli|asuser::aspassword::ashost::asport
 #governance.targets= maven_example|http://www.jboss.org/overlord/deployment-status.owl#InDev|maven|scp://m2.example.com/m2/snapshot-repository::false::true

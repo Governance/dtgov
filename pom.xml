@@ -114,8 +114,8 @@
     <slf4j-api.version>1.5.11</slf4j-api.version>
     <slf4j-log4j.version>1.5.11</slf4j-log4j.version>
     <slf4j-nop.version>1.5.11</slf4j-nop.version>
-    <jbpm.version>6.0.0.CR3</jbpm.version>
-    <drools.version>6.0.0.CR3</drools.version>
+    <jbpm.version>6.0.0.CR4</jbpm.version>
+    <drools.version>6.0.0.CR4</drools.version>
   </properties>
 
   <build>
