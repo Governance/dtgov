@@ -56,7 +56,7 @@ You should see the following artifacts in the S-RAMP repository:
 
 when looking at the details for the project-VERSION.pom you should see that it contains
 a custom property of 'maven.artifactId:project'. And with the query defined in the 
-governance.config:
+dtgov.properties:
 ....
 governance.queries=/s-ramp/ext/SwitchYardApplication|overlord.demo.SimpleReleaseProcess|DeploymentUrl={governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}::DTGovUrl={dtgov.ui.url}
 ....
@@ -70,7 +70,7 @@ workflowProcessId=overlord.demo.SimpleReleaseProcess_0:workflowParameters=Deploy
 Note that the definition of the 'overlord.demo.SimpleReleaseProcess' lives in the
 SRAMPPackage in the dtgov-workflow.jar. If you want to update the workflow you
 need to use eclipse tooling to modify the bpmn, build and upload a new dtgov-worflow.jar
-to S-RAMP. The GAV settings are defined in the governance.config file.
+to S-RAMP. The GAV settings are defined in the dtgov.properties file.
 
 TODO: take the user through the motions of notification, signoff with taskmanagement and deploy.
 
