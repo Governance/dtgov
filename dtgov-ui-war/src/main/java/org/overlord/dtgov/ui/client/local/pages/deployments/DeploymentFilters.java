@@ -17,6 +17,7 @@ package org.overlord.dtgov.ui.client.local.pages.deployments;
 
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -30,12 +31,12 @@ import org.overlord.sramp.ui.client.local.widgets.bootstrap.DateBox;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -46,7 +47,7 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 @Templated("/org/overlord/dtgov/ui/client/local/site/deployments.html#deployments-filter-sidebar")
 @Dependent
-public class DeploymentFilters extends Composite implements HasValueChangeHandlers<DeploymentsFilterBean> {
+public class DeploymentFilters extends Composite implements HasValue<DeploymentsFilterBean> {
 
     @Inject
     private ConfigurationService configService;
@@ -85,8 +86,7 @@ public class DeploymentFilters extends Composite implements HasValueChangeHandle
         ClickHandler clearFilterHandler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                setValue(new DeploymentsFilterBean());
-                onFilterValueChange();
+                setValue(new DeploymentsFilterBean(), true);
             }
         };
         clearFilters.addClickHandler(clearFilterHandler);
@@ -132,12 +132,24 @@ public class DeploymentFilters extends Composite implements HasValueChangeHandle
      * @param value the new filter settings
      */
     public void setValue(DeploymentsFilterBean value) {
+        setValue(value, false);
+    }
+    
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
+     */
+    @Override
+    public void setValue(DeploymentsFilterBean value, boolean fireEvents) {
         type.setValue(value.getType() == null ? "" : value.getType()); //$NON-NLS-1$
         stage.setValue(value.getType() == null ? "" : value.getStage()); //$NON-NLS-1$
         bundleName.setValue(value.getType() == null ? "" : value.getBundleName()); //$NON-NLS-1$
         dateInitiatedFrom.setDateValue(value.getDateInitiatedFrom() == null ? null : value.getDateInitiatedFrom());
         dateInitiatedTo.setDateValue(value.getDateInitiatedTo() == null ? null : value.getDateInitiatedTo());
-        onFilterValueChange();
+        DeploymentsFilterBean oldState = this.currentState;
+        currentState = value;
+        if (fireEvents) {
+            ValueChangeEvent.fireIfNotEqual(this, oldState, currentState);
+        }
     }
 
     /**
