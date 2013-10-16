@@ -29,6 +29,8 @@ import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.deployments.AddDeploymentDialog;
 import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentFilters;
 import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentTable;
+import org.overlord.dtgov.ui.client.local.services.ApplicationStateKeys;
+import org.overlord.dtgov.ui.client.local.services.ApplicationStateService;
 import org.overlord.dtgov.ui.client.local.services.DeploymentsRpcService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
@@ -62,6 +64,8 @@ public class DeploymentsPage extends AbstractPage {
     protected DeploymentsRpcService deploymentsService;
     @Inject
     protected NotificationService notificationService;
+    @Inject
+    protected ApplicationStateService stateService;
 
     // Breadcrumbs
     @Inject @DataField("back-to-dashboard")
@@ -156,10 +160,17 @@ public class DeploymentsPage extends AbstractPage {
      */
     @Override
     protected void onPageShowing() {
-        // Kick off an artifact search
-        doSearch();
-        // Refresh the artifact filters
+        // Refresh the filters
         filtersPanel.refresh();
+
+        DeploymentsFilterBean filterBean = (DeploymentsFilterBean) stateService.get(ApplicationStateKeys.DEPLOYMENTS_FILTER, new DeploymentsFilterBean());
+        String searchText = (String) stateService.get(ApplicationStateKeys.DEPLOYMENTS_SEARCH_TEXT, ""); //$NON-NLS-1$
+        Integer page = (Integer) stateService.get(ApplicationStateKeys.DEPLOYMENTS_PAGE, 1);
+        this.filtersPanel.setValue(filterBean);
+        this.searchBox.setValue(searchText);
+        
+        // Kick off a search
+        doSearch(page);
     }
 
     /**
@@ -176,7 +187,15 @@ public class DeploymentsPage extends AbstractPage {
     protected void doSearch(int page) {
         onSearchStarting();
         currentPage = page;
-        deploymentsService.search(filtersPanel.getValue(), searchBox.getValue(), page, new IRpcServiceInvocationHandler<DeploymentResultSetBean>() {
+
+        final DeploymentsFilterBean filterBean = filtersPanel.getValue();
+        final String searchText = this.searchBox.getValue();
+        
+        stateService.put(ApplicationStateKeys.DEPLOYMENTS_FILTER, filterBean);
+        stateService.put(ApplicationStateKeys.DEPLOYMENTS_SEARCH_TEXT, searchText);
+        stateService.put(ApplicationStateKeys.DEPLOYMENTS_PAGE, currentPage);
+
+        deploymentsService.search(filterBean, searchText, page, new IRpcServiceInvocationHandler<DeploymentResultSetBean>() {
             @Override
             public void onReturn(DeploymentResultSetBean data) {
                 updateTable(data);
