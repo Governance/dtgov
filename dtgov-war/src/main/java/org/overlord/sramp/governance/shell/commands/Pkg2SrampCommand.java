@@ -234,6 +234,7 @@ public class Pkg2SrampCommand extends AbstractShellCommand {
         print("   Description .....: " + brmsPkg.getDescription()); //$NON-NLS-1$
 
         // now uploading this into s-ramp
+        @SuppressWarnings("deprecation")
         ExtendedArtifactType extendedArtifactType =
             (ExtendedArtifactType) ArtifactType.fromFileExtension("pkg").newArtifactInstance(); //$NON-NLS-1$
         extendedArtifactType.setUuid(brmsPkg.getMetadata().getUuid());
@@ -274,6 +275,7 @@ public class Pkg2SrampCommand extends AbstractShellCommand {
                 InputStream assetInputStream = assetResponse.getEntity();
 
                 //upload the asset using the uuid
+                @SuppressWarnings("deprecation")
                 ArtifactType artifactType = ArtifactType.fromFileExtension(asset.getMetadata().getFormat());
                 BaseArtifactType baseArtifactType = artifactType.newArtifactInstance();
                 baseArtifactType.setName(fileName);

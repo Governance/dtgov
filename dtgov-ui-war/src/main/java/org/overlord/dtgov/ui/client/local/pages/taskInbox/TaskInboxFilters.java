@@ -28,12 +28,12 @@ import org.overlord.sramp.ui.client.local.widgets.common.RadioButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -44,7 +44,7 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 @Templated("/org/overlord/dtgov/ui/client/local/site/taskInbox.html#tasks-filter-sidebar")
 @Dependent
-public class TaskInboxFilters extends Composite implements HasValueChangeHandlers<TaskInboxFilterBean> {
+public class TaskInboxFilters extends Composite implements HasValue<TaskInboxFilterBean> {
 
     private TaskInboxFilterBean currentState = new TaskInboxFilterBean();
 
@@ -87,8 +87,7 @@ public class TaskInboxFilters extends Composite implements HasValueChangeHandler
         ClickHandler clearFilterHandler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                setValue(new TaskInboxFilterBean());
-                onFilterValueChange();
+                setValue(new TaskInboxFilterBean(), true);
             }
         };
         clearFilters.addClickHandler(clearFilterHandler);
@@ -146,6 +145,14 @@ public class TaskInboxFilters extends Composite implements HasValueChangeHandler
      * @param value the new filter settings
      */
     public void setValue(TaskInboxFilterBean value) {
+        setValue(value, false);
+    }
+    
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
+     */
+    @Override
+    public void setValue(TaskInboxFilterBean value, boolean fireEvents) {
         if (value.getOwner() == TaskOwnerEnum.any) {
             ownerAny.setValue(true);
         } else if (value.getOwner() == TaskOwnerEnum.mine) {
@@ -158,7 +165,11 @@ public class TaskInboxFilters extends Composite implements HasValueChangeHandler
         priority.setValue(value.getPriority() == -1 ? "" : String.valueOf(value.getPriority())); //$NON-NLS-1$
         dateDueFrom.setDateValue(value.getDateDueFrom() == null ? null : value.getDateDueFrom());
         dateDueTo.setDateValue(value.getDateDueTo() == null ? null : value.getDateDueTo());
-        onFilterValueChange();
+        TaskInboxFilterBean oldState = this.currentState;
+        currentState = value;
+        if (fireEvents) {
+            ValueChangeEvent.fireIfNotEqual(this, oldState, currentState);
+        }
     }
 
     /**
