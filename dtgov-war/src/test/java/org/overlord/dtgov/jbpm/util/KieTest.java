@@ -15,24 +15,17 @@
  */
 package org.overlord.dtgov.jbpm.util;
 
-import static org.overlord.dtgov.jbpm.util.MavenRepository.getMavenRepository;
+import java.io.InputStream;
 
-import java.net.MalformedURLException;
-
-import org.apache.maven.artifact.UnknownRepositoryLayoutException;
-import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.PlexusContainerException;
-import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
+import org.kie.api.builder.KieModule;
+import org.kie.api.builder.KieRepository;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
-import org.overlord.sramp.governance.ConfigException;
-import org.overlord.sramp.governance.Governance;
-import org.sonatype.aether.artifact.Artifact;
 
 
 /**
@@ -41,61 +34,27 @@ import org.sonatype.aether.artifact.Artifact;
  * @author kurt.stam@redhat.com
  */
 public class KieTest {
-
-	/**
-	 * @throws ConfigException
-	 * @throws ComponentLookupException
-	 * @throws PlexusContainerException
-	 * @throws UnknownRepositoryLayoutException
-	 * @throws MalformedURLException
-	 */
+    
     @Test @Ignore
-	public void testKieJar() throws ConfigException, UnknownRepositoryLayoutException, PlexusContainerException, ComponentLookupException, MalformedURLException {
+    public void getKieFromFile() {
+    	KieServices ks = KieServices.Factory.get();
+    	
+    	KieRepository repo = ks.getRepository();
+    	
+    	InputStream is = this.getClass().getResourceAsStream("/dtgov-workflows.jar");
+    	
+    	KieModule kModule = repo.addKieModule(ks.getResources().newInputStreamResource(is));
+    	
+    	@SuppressWarnings("unused")
+		ReleaseId releaseId = kModule.getReleaseId();
+    	KieContainer kContainer = ks.newKieContainer(kModule.getReleaseId());
+    	
+    	Assert.assertNotNull(kContainer);
 
-    	boolean isSrampRepo = false; // true reads from S-RAMP, false from m2
-    	Governance governance = new Governance();
+		KieBase kieBase = kContainer.getKieBase("SRAMPPackage"); //$NON-NLS-1$
+        Assert.assertNotNull(kieBase);
 
-    	String srampUrl = governance.getSrampUrl().toExternalForm();
-    	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":")); //$NON-NLS-1$ //$NON-NLS-2$
-    	try {
-    		org.overlord.dtgov.jbpm.util.MavenRepository mavenRepo = null;
-	    	KieServices ks = KieServices.Factory.get();
-	    	if (isSrampRepo) {
-	    		System.out.println("Reading your S-RAMP repo"); //$NON-NLS-1$
-	    		MavenProject srampProject = KieUtil.getSrampProject(
-	    			governance.getSrampWagonVersion(),
-	    			srampUrl,
-	    			governance.getSrampWagonSnapshots(),
-	    			governance.getSrampWagonReleases());
-
-	    		mavenRepo = getMavenRepository(srampProject);
-	    	} else {
-	    		System.out.println("Reading your .m2 repo"); //$NON-NLS-1$
-	    		mavenRepo = getMavenRepository();
-	    	}
-
-	    	ReleaseId releaseId = ks.newReleaseId(
-	    			governance.getGovernanceWorkflowGroup(),
-	    			governance.getGovernanceWorkflowName(),
-	    			governance.getGovernanceWorkflowVersion());
-
-	        String name = releaseId.toExternalForm();
-	        Artifact artifact = mavenRepo.resolveArtifact(name);
-	    	System.out.println("artifact=" + artifact); //$NON-NLS-1$
-	    	Assert.assertNotNull(artifact);
-
-	    	KieContainer kieContainer = ks.newKieContainer(releaseId);
-	    	Assert.assertNotNull(kieContainer);
-
-			KieBase kieBase = kieContainer.getKieBase("SRAMPPackage"); //$NON-NLS-1$
-	        Assert.assertNotNull(kieBase);
-
-	        System.out.println("KieBase=" + kieBase); //$NON-NLS-1$
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		Assert.fail(e.getMessage());
-    	}
-
-	}
+        System.out.println("KieBase=" + kieBase); //$NON-NLS-1$
+    }
 
 }

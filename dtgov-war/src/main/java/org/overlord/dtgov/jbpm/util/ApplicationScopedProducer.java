@@ -16,8 +16,6 @@
 
 package org.overlord.dtgov.jbpm.util;
 
-import static org.overlord.dtgov.jbpm.util.MavenRepository.getMavenRepository;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -25,13 +23,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 
-import org.apache.maven.project.MavenProject;
 import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
 import org.jbpm.runtime.manager.impl.cdi.InjectableRegisterableItemsFactory;
 import org.kie.api.KieBase;
-import org.kie.api.KieServices;
-import org.kie.api.builder.ReleaseId;
-import org.kie.api.runtime.KieContainer;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;
 import org.kie.internal.runtime.manager.cdi.qualifier.PerProcessInstance;
 import org.kie.internal.runtime.manager.cdi.qualifier.PerRequest;
@@ -41,7 +35,6 @@ import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.governance.Governance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonatype.aether.artifact.Artifact;
 
 @ApplicationScoped
 public class ApplicationScopedProducer {
@@ -91,35 +84,8 @@ public class ApplicationScopedProducer {
     private KieBase getKieBase() {
     	Governance governance = new Governance();
     	try {
-    		String srampUrl = governance.getSrampUrl().toExternalForm();
-        	srampUrl = "sramp" + srampUrl.substring(srampUrl.indexOf(":")); //$NON-NLS-1$ //$NON-NLS-2$
-
-	    	KieServices ks = KieServices.Factory.get();
-	    	MavenProject srampProject = KieUtil.getSrampProject(
-	    			governance.getSrampWagonVersion(),
-	    			srampUrl,
-	    			governance.getSrampWagonSnapshots(),
-	    			governance.getSrampWagonReleases());
-
-	    	//Setup S-RAMP as the Maven Repository
-	    	org.overlord.dtgov.jbpm.util.MavenRepository repo = getMavenRepository(srampProject);
-
-	    	ReleaseId releaseId = ks.newReleaseId(
-	    			governance.getGovernanceWorkflowGroup(),
-	    			governance.getGovernanceWorkflowName(),
-	    			governance.getGovernanceWorkflowVersion());
-
-	        //Resolving the workflow package in the S-RAMP repo
-	        Artifact artifact = repo.resolveArtifact(releaseId.toExternalForm());
-
-	        logger.info(Messages.i18n.format("ApplicationScopedProducer.CreatingKieContainer", artifact)); //$NON-NLS-1$
-	    	KieContainer kieContainer = ks.newKieContainer(releaseId);
-
-	    	//Creating the KieBase for the SRAMPPackage
-	    	logger.info(Messages.i18n.format("ApplicationScopedProducer.FindKieBase", governance.getGovernanceWorkflowPackage())); //$NON-NLS-1$
-	    	KieBase kbase = kieContainer.getKieBase(governance.getGovernanceWorkflowPackage());
-
-	    	return kbase;
+    		KieSrampUtil kieSrampUtil = new KieSrampUtil();
+	    	return kieSrampUtil.getKieBase();
     	} catch (Exception e) {
     		logger.error(Messages.i18n.format("ApplicationScopedProducer.ErrorNotFound", governance.getGovernanceWorkflowPackage())); //$NON-NLS-1$
     		logger.error(e.getMessage(),e);
