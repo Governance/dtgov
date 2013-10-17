@@ -21,4 +21,5 @@ public interface BpmManager {
 
     public void newProcessInstance(String processId, Map<String,Object> context) throws WorkflowException;
     
+    
 }
