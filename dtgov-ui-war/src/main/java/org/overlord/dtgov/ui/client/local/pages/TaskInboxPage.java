@@ -27,6 +27,8 @@ import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.taskInbox.TaskInboxFilters;
 import org.overlord.dtgov.ui.client.local.pages.taskInbox.TasksTable;
+import org.overlord.dtgov.ui.client.local.services.ApplicationStateKeys;
+import org.overlord.dtgov.ui.client.local.services.ApplicationStateService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.TaskInboxRpcService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
@@ -59,6 +61,8 @@ public class TaskInboxPage extends AbstractPage {
     protected TaskInboxRpcService inboxService;
     @Inject
     protected NotificationService notificationService;
+    @Inject
+    protected ApplicationStateService stateService;
 
     // Breadcrumbs
     @Inject @DataField("back-to-dashboard")
@@ -100,13 +104,13 @@ public class TaskInboxPage extends AbstractPage {
         filtersPanel.addValueChangeHandler(new ValueChangeHandler<TaskInboxFilterBean>() {
             @Override
             public void onValueChange(ValueChangeEvent<TaskInboxFilterBean> event) {
-                doTaskSearch();
+                doSearch();
             }
         });
         pager.addValueChangeHandler(new ValueChangeHandler<Integer>() {
             @Override
             public void onValueChange(ValueChangeEvent<Integer> event) {
-                doTaskSearch(event.getValue());
+                doSearch(event.getValue());
             }
         });
 
@@ -124,7 +128,7 @@ public class TaskInboxPage extends AbstractPage {
      */
     @EventHandler("btn-refresh")
     public void onRefreshClick(ClickEvent event) {
-        doTaskSearch(currentPage);
+        doSearch(currentPage);
     }
 
     /**
@@ -133,27 +137,38 @@ public class TaskInboxPage extends AbstractPage {
      */
     @Override
     protected void onPageShowing() {
-        // Kick off a search
-        doTaskSearch();
         // Refresh the filters
         filtersPanel.refresh();
+
+        TaskInboxFilterBean filterBean = (TaskInboxFilterBean) stateService.get(ApplicationStateKeys.TASK_INBOX_FILTER, new TaskInboxFilterBean());
+        Integer page = (Integer) stateService.get(ApplicationStateKeys.TASK_INBOX_PAGE, 1);
+        this.filtersPanel.setValue(filterBean);
+
+        // Kick off a search
+        doSearch(page);
     }
 
     /**
      * Search for tasks based on the current filter settings and search text.
      */
-    protected void doTaskSearch() {
-        doTaskSearch(1);
+    protected void doSearch() {
+        doSearch(1);
     }
 
     /**
      * Search for tasks based on the current filter settings.
      * @param page
      */
-    protected void doTaskSearch(int page) {
+    protected void doSearch(int page) {
         onSearchStarting();
         currentPage = page;
-        inboxService.search(filtersPanel.getValue(), page, new IRpcServiceInvocationHandler<TaskInboxResultSetBean>() {
+
+        final TaskInboxFilterBean filterBean = filtersPanel.getValue();
+        
+        stateService.put(ApplicationStateKeys.TASK_INBOX_FILTER, filterBean);
+        stateService.put(ApplicationStateKeys.TASK_INBOX_PAGE, currentPage);
+
+        inboxService.search(filterBean, page, new IRpcServiceInvocationHandler<TaskInboxResultSetBean>() {
             @Override
             public void onReturn(TaskInboxResultSetBean data) {
                 updateTasksTable(data);
