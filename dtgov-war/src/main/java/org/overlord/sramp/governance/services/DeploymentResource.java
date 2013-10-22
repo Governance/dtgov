@@ -29,7 +29,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
 import org.drools.compiler.kproject.ReleaseIdImpl;
@@ -41,7 +40,6 @@ import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactEnum;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.ExtendedArtifactType;
 import org.overlord.dtgov.server.i18n.Messages;
-import org.overlord.sramp.atom.MediaType;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.SrampClientException;
@@ -50,10 +48,12 @@ import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.common.ArtifactType;
 import org.overlord.sramp.common.SrampModelUtils;
 import org.overlord.sramp.governance.Governance;
+import org.overlord.sramp.governance.GovernanceConstants;
 import org.overlord.sramp.governance.SlashDecoder;
 import org.overlord.sramp.governance.SrampAtomApiClientFactory;
 import org.overlord.sramp.governance.Target;
 import org.overlord.sramp.governance.Target.TYPE;
+import org.overlord.sramp.governance.ValueEntity;
 import org.overlord.sramp.governance.services.rhq.RHQDeployUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +65,6 @@ import org.slf4j.LoggerFactory;
 public class DeploymentResource {
 
     private static Logger logger = LoggerFactory.getLogger(DeploymentResource.class);
-    private Governance governance = new Governance();
 
     /**
      * Constructor.
@@ -83,10 +82,14 @@ public class DeploymentResource {
      */
     @POST
     @Path("{target}/{uuid}")
-    @Produces(MediaType.APPLICATION_XML)
-    public Response deploy(@Context HttpServletRequest request,
+    @Produces("application/xml")
+    public Map<String,ValueEntity> deploy(@Context HttpServletRequest request,
             @PathParam("target") String targetRef,
             @PathParam("uuid") String uuid) throws Exception {
+    	
+    	Governance governance = new Governance();
+    	Map<String, ValueEntity> results = new HashMap<String,ValueEntity>();
+    	
         // 0. run the decoder on the arguments
         targetRef = SlashDecoder.decode(targetRef);
         uuid = SlashDecoder.decode(uuid);
@@ -113,21 +116,24 @@ public class DeploymentResource {
 
         // deploy the artifact (delegate based on target type)
         ////////////////////////////////////////////
+        String deploymentTarget = target.getType().toString() + ":";
         try {
             if (target.getType() == TYPE.COPY) {
-                deployCopy(artifact, target, client);
+            	deploymentTarget += deployCopy(artifact, target, client);
             } else if (target.getType() == TYPE.AS_CLI) {
-                deployCLI(artifact, target, client);
+            	deploymentTarget += deployCLI(artifact, target, client);
             } else if (target.getType() == TYPE.MAVEN) {
-                deployMaven(artifact, target, client);
+            	deploymentTarget += deployMaven(artifact, target, client);
             } else if (target.getType() == TYPE.RHQ) {
-                deployRHQ(artifact, target, client);
+            	deploymentTarget += deployRHQ(artifact, target, client);
             } else {
                 throw new Exception(Messages.i18n.format("DeploymentResource.TargetTypeNotFound", target.getType())); //$NON-NLS-1$
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return Response.serverError().status(0).build();
+            results.put(GovernanceConstants.STATUS, new ValueEntity("fail"));
+        	results.put(GovernanceConstants.MESSAGE, new ValueEntity(e.getMessage()));
+        	return results;
         }
 
         // update the artifact meta-data to set the classifier
@@ -141,9 +147,11 @@ public class DeploymentResource {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-
-        InputStream reply = IOUtils.toInputStream("success"); //$NON-NLS-1$
-        return Response.ok(reply, MediaType.APPLICATION_OCTET_STREAM).build();
+ 
+        results.put(GovernanceConstants.STATUS, new ValueEntity("success")); //$NON-NLS-1$
+        results.put(GovernanceConstants.TARGET, new ValueEntity(deploymentTarget));
+        
+        return results;
     }
 
     /**
@@ -254,7 +262,7 @@ public class DeploymentResource {
      * @param client
      * @throws Exception
      */
-    protected void deployCopy(BaseArtifactType artifact, Target target, SrampAtomApiClient client) throws Exception {
+    protected String deployCopy(BaseArtifactType artifact, Target target, SrampAtomApiClient client) throws Exception {
         InputStream is = null;
         OutputStream os = null;
         try {
@@ -301,10 +309,12 @@ public class DeploymentResource {
             Map<String, String> props = new HashMap<String, String>();
             props.put("deploy.copy.file", file.getCanonicalPath()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
+            return file.getAbsolutePath();
         } finally {
             IOUtils.closeQuietly(os);
             IOUtils.closeQuietly(is);
         }
+  
     }
 
     /**
@@ -321,7 +331,7 @@ public class DeploymentResource {
      * @param client
      * @throws Exception
      */
-    protected void deployMaven(BaseArtifactType artifact, Target target, SrampAtomApiClient client) throws Exception {
+    protected String deployMaven(BaseArtifactType artifact, Target target, SrampAtomApiClient client) throws Exception {
         InputStream isJar = null;
         InputStream isPom = null;
         OutputStream osJar = null;
@@ -392,6 +402,9 @@ public class DeploymentResource {
             repo.deployArtifact(releaseId, jarFile, pomFile);
 
             // Don't register undeployment info - we never undeploy from maven
+            
+            //return maven url
+            return target.getMavenUrl();
         } finally {
             IOUtils.closeQuietly(isPom);
             IOUtils.closeQuietly(isPom2);
@@ -408,7 +421,7 @@ public class DeploymentResource {
      * @param uuid
      * @throws SrampAtomException
      */
-    protected void deployRHQ(BaseArtifactType artifact, Target target, SrampAtomApiClient client) throws Exception {
+    protected String deployRHQ(BaseArtifactType artifact, Target target, SrampAtomApiClient client) throws Exception {
     	InputStream is = null;
         try {
             RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getUser(), target.getPassword(),
@@ -432,6 +445,8 @@ public class DeploymentResource {
             props.put("deploy.rhq.port", String.valueOf(target.getPort())); //$NON-NLS-1$
             props.put("deploy.rhq.name", artifact.getName()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
+            
+            return target.getRhqBaseUrl();
         } finally {
         	IOUtils.closeQuietly(is);
         }
@@ -447,7 +462,7 @@ public class DeploymentResource {
      * @param client
      * @throws Exception
      */
-    protected void deployCLI(BaseArtifactType artifact, Target target, SrampAtomApiClient client) throws Exception {
+    protected String deployCLI(BaseArtifactType artifact, Target target, SrampAtomApiClient client) throws Exception {
     	InputStream is = null;
     	OutputStream os = null;
     	CommandContext ctx = null;
@@ -484,6 +499,8 @@ public class DeploymentResource {
             props.put("deploy.cli.port", String.valueOf(target.getPort())); //$NON-NLS-1$
             props.put("deploy.cli.name", tmpFile.getName()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
+            
+            return target.getName() + " " + target.getHost();
         } finally {
         	if (ctx != null) ctx.terminateSession();
         	IOUtils.closeQuietly(is);

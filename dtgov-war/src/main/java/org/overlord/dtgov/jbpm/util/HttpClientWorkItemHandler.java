@@ -1,19 +1,26 @@
 package org.overlord.dtgov.jbpm.util;
 
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.collections.KeyValue;
+import org.apache.commons.collections.keyvalue.DefaultKeyValue;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.jboss.resteasy.client.ClientRequest;
+import org.jboss.resteasy.client.ClientResponse;
+import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
+import org.jboss.resteasy.util.GenericType;
 import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.governance.Governance;
+import org.overlord.sramp.governance.ValueEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,9 +40,12 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
      * this parameters 'Url' as well as the method 'Method' are required
      * parameters.
      */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
 
+    	ClientResponse<?> response = null;
+    	Map<String,Object> results = new HashMap<String,Object>();
         try {
             // extract required parameters
             String urlStr = (String) workItem.getParameter("Url"); //$NON-NLS-1$
@@ -45,12 +55,6 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
             }
             urlStr = urlStr.toLowerCase();
             Map<String,Object> params = workItem.getParameters();
-
-            // optional timeout config parameters, defaulted to 60 seconds
-            Integer connectTimeout = (Integer) params.get("ConnectTimeout"); //$NON-NLS-1$
-            if (connectTimeout==null) connectTimeout = 60000;
-            Integer readTimeout = (Integer) params.get("ReadTimeout"); //$NON-NLS-1$
-            if (readTimeout==null) readTimeout = 60000;
 
             // replace tokens in the urlStr, the replacement value of the token
             // should be set in the parameters Map
@@ -70,30 +74,40 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
 
             // call http endpoint
             log.info(Messages.i18n.format("HttpClientWorkItemHandler.CallingTo", method, urlStr)); //$NON-NLS-1$
-            URL url = new URL(urlStr);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod(method);
-            connection.setConnectTimeout(connectTimeout);
-            connection.setReadTimeout(readTimeout);
-            addAuthorization(connection);
-            connection.connect();
-            int responseCode = connection.getResponseCode();
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            Governance governance = new Governance();
+        	String username = governance.getOverlordUser();
+        	String password = governance.getOverlordPassword();
+        	httpClient.getCredentialsProvider().setCredentials(AuthScope.ANY, 
+            		new UsernamePasswordCredentials(username, password));
+            ApacheHttpClient4Executor executor = new ApacheHttpClient4Executor(httpClient);
+            
+            ClientRequest request = new ClientRequest(urlStr, executor);
+            request.setHttpMethod(method);
+            response = request.execute();
+            int responseCode = response.getResponseStatus().getStatusCode();
             if (responseCode >= 200 && responseCode < 300) {
-                InputStream is = (InputStream) connection.getContent();
-                String reply = IOUtils.toString(is);
-                log.info("reply=" + reply); //$NON-NLS-1$
+            	Map<String,ValueEntity> map = (Map<String, ValueEntity>) response.getEntity(new
+        				GenericType<HashMap<String,ValueEntity>>() {});
+        		for (String key : map.keySet()) {
+        			if (map.get(key).getValue()!=null) {
+        				results.put(key, map.get(key).getValue());
+        			}
+    			}
+        		log.info("reply=" + results); //$NON-NLS-1$
             } else {
-                workItem.getParameters().put("Status", "ERROR " + responseCode); //$NON-NLS-1$ //$NON-NLS-2$
-                workItem.getParameters().put("StatusMsg", Messages.i18n.format("HttpClientWorkItemHandler.UnreachableEndpoint", urlStr)); //$NON-NLS-1$ //$NON-NLS-2$
+            	results.put("Status", "ERROR " + responseCode); //$NON-NLS-1$ //$NON-NLS-2$
+            	results.put("StatusMsg", Messages.i18n.format("HttpClientWorkItemHandler.UnreachableEndpoint", urlStr)); //$NON-NLS-1$ //$NON-NLS-2$
                 log.error(Messages.i18n.format("HttpClientWorkItemHandler.UnreachableEndpoint", urlStr)); //$NON-NLS-1$
             }
-
         } catch (Exception e) {
             log.error(e.getMessage(),e);
+        } finally {
+        	if (response !=null) response.releaseConnection();
         }
 
         // notify manager that work item has been completed
-        manager.completeWorkItem(workItem.getId(), null);
+        manager.completeWorkItem(workItem.getId(), results);
     }
 
 
@@ -102,16 +116,18 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
      * being sent to the server.
      * @param connection
      */
-    private void addAuthorization(HttpURLConnection connection) {
+    private KeyValue getAuthProperty() {
     	Governance governance = new Governance();
     	String username = governance.getOverlordUser();
     	String password = governance.getOverlordPassword();
 
         if (username != null && password != null) {
             String b64Auth = Base64.encodeBase64String((username + ":" + password).getBytes()).trim(); //$NON-NLS-1$
-            connection.setRequestProperty("Authorization", "Basic " + b64Auth); //$NON-NLS-1$ //$NON-NLS-2$
+            KeyValue keyValue = new DefaultKeyValue("Authorization", "Basic " + b64Auth); //$NON-NLS-1$ //$NON-NLS-2$
+            return keyValue;
         } else {
             log.warn(Messages.i18n.format("HttpClientWorkItemHandler.MissingCreds")); //$NON-NLS-1$
+            return null;
         }
     }
 
