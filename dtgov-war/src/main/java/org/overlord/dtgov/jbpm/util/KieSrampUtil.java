@@ -21,10 +21,10 @@ import org.slf4j.LoggerFactory;
 public class KieSrampUtil {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	private static String SRAMP_KIE_JAR_QUERY_FORMAT="/s-ramp/ext/KieJarArchive["
-			+ "@maven.groupId='%s' and "
-			+ "@maven.artifactId = '%s' and "
-			+ "@maven.version = '%s']";
+	private static String SRAMP_KIE_JAR_QUERY_FORMAT="/s-ramp/ext/KieJarArchive[" //$NON-NLS-1$
+			+ "@maven.groupId='%s' and " //$NON-NLS-1$
+			+ "@maven.artifactId = '%s' and " //$NON-NLS-1$
+			+ "@maven.version = '%s']"; //$NON-NLS-1$
 
 	public boolean isSRAMPPackageDeployed() {
 		try {

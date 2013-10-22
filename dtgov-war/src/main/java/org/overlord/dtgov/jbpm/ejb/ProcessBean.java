@@ -16,7 +16,6 @@
 
 package org.overlord.dtgov.jbpm.ejb;
 
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 
@@ -38,12 +37,6 @@ import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.runtime.manager.context.EmptyContext;
 import org.overlord.dtgov.jbpm.util.KieSrampUtil;
 import org.overlord.dtgov.server.i18n.Messages;
-import org.overlord.sramp.atom.err.SrampAtomException;
-import org.overlord.sramp.client.SrampAtomApiClient;
-import org.overlord.sramp.client.SrampClientException;
-import org.overlord.sramp.client.query.QueryResultSet;
-import org.overlord.sramp.governance.Governance;
-import org.overlord.sramp.governance.SrampAtomApiClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +47,7 @@ public class ProcessBean implements ProcessLocal {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private static Boolean hasSRAMPPackageDeployed = Boolean.FALSE;
-	
+
 	@Resource
 	private UserTransaction ut;
 

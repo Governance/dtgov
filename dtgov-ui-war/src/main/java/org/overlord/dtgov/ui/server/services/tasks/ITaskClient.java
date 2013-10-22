@@ -35,8 +35,12 @@ public interface ITaskClient {
      * @param filters
      * @param startIndex
      * @param endIndex
+     * @param sortColumnId
+     * @param sortAscending
+     * @throws Exception
      */
-    public TaskInboxResultSetBean getTasks(TaskInboxFilterBean filters, int startIndex, int endIndex) throws Exception;
+    public TaskInboxResultSetBean getTasks(TaskInboxFilterBean filters, int startIndex, int endIndex,
+            String sortColumnId, boolean sortAscending) throws Exception;
 
     /**
      * Gets a single task by its ID.

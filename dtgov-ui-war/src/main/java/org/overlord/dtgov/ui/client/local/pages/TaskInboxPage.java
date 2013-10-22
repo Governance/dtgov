@@ -35,8 +35,10 @@ import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHand
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxResultSetBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskSummaryBean;
+import org.overlord.sramp.ui.client.local.events.TableSortEvent;
 import org.overlord.sramp.ui.client.local.widgets.bootstrap.Pager;
 import org.overlord.sramp.ui.client.local.widgets.common.HtmlSnippet;
+import org.overlord.sramp.ui.client.local.widgets.common.SortableTemplatedWidgetTable.SortColumn;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.SpanElement;
@@ -113,6 +115,12 @@ public class TaskInboxPage extends AbstractPage {
                 doSearch(event.getValue());
             }
         });
+        this.tasksTable.addTableSortHandler(new TableSortEvent.Handler() {
+            @Override
+            public void onTableSort(TableSortEvent event) {
+                doSearch(currentPage);
+            }
+        });
 
         // Hide columns 2-3 when in mobile mode.
         tasksTable.setColumnClasses(2, "desktop-only"); //$NON-NLS-1$
@@ -142,7 +150,10 @@ public class TaskInboxPage extends AbstractPage {
 
         TaskInboxFilterBean filterBean = (TaskInboxFilterBean) stateService.get(ApplicationStateKeys.TASK_INBOX_FILTER, new TaskInboxFilterBean());
         Integer page = (Integer) stateService.get(ApplicationStateKeys.TASK_INBOX_PAGE, 1);
+        SortColumn sortColumn = (SortColumn) stateService.get(ApplicationStateKeys.TASK_INBOX_SORT_COLUMN, tasksTable.getDefaultSortColumn());
+
         this.filtersPanel.setValue(filterBean);
+        this.tasksTable.sortBy(sortColumn.columnId, sortColumn.ascending);
 
         // Kick off a search
         doSearch(page);
@@ -164,11 +175,14 @@ public class TaskInboxPage extends AbstractPage {
         currentPage = page;
 
         final TaskInboxFilterBean filterBean = filtersPanel.getValue();
-        
+        final SortColumn currentSortColumn = tasksTable.getCurrentSortColumn();
+
         stateService.put(ApplicationStateKeys.TASK_INBOX_FILTER, filterBean);
         stateService.put(ApplicationStateKeys.TASK_INBOX_PAGE, currentPage);
+        stateService.put(ApplicationStateKeys.TASK_INBOX_SORT_COLUMN, currentSortColumn);
 
-        inboxService.search(filterBean, page, new IRpcServiceInvocationHandler<TaskInboxResultSetBean>() {
+        inboxService.search(filterBean, page, currentSortColumn.columnId, currentSortColumn.ascending, 
+                new IRpcServiceInvocationHandler<TaskInboxResultSetBean>() {
             @Override
             public void onReturn(TaskInboxResultSetBean data) {
                 updateTasksTable(data);

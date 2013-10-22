@@ -91,8 +91,8 @@ public class UpdateMetaDataResource {
             String query = String.format("/s-ramp[@uuid='%s']", uuid); //$NON-NLS-1$
             QueryResultSet queryResultSet = client.query(query);
             if (queryResultSet.size() == 0) {
-            	results.put(GovernanceConstants.STATUS, new ValueEntity("fail"));
-            	results.put(GovernanceConstants.MESSAGE, new ValueEntity("Could not obtain artifact from repository."));
+            	results.put(GovernanceConstants.STATUS, new ValueEntity("fail")); //$NON-NLS-1$
+            	results.put(GovernanceConstants.MESSAGE, new ValueEntity(Messages.i18n.format("UpdateMetaDataResource.ArtifactNotFound"))); //$NON-NLS-1$
                 return results;
             }
             ArtifactSummary artifactSummary = queryResultSet.iterator().next();
@@ -103,7 +103,7 @@ public class UpdateMetaDataResource {
             client.updateArtifactMetaData(artifact);
 
             // 3. build the response
-            results.put(GovernanceConstants.STATUS, new ValueEntity("success"));
+            results.put(GovernanceConstants.STATUS, new ValueEntity("success")); //$NON-NLS-1$
             results.put(GovernanceConstants.ARTIFACT_NAME, new ValueEntity(artifactSummary.getName()));
             results.put(GovernanceConstants.ARTIFACT_CREATED_BY, new ValueEntity(artifactSummary.getCreatedBy()));
             results.put(GovernanceConstants.ARTIFACT_DESCRIPTION, new ValueEntity(artifactSummary.getDescription()));

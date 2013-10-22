@@ -49,9 +49,9 @@ public class TaskInboxRpcService {
     }
 
     /**
-     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#search(TaskInboxFilterBean, int)
+     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#search(TaskInboxFilterBean, int, String, boolean)
      */
-    public void search(TaskInboxFilterBean filters, int page,
+    public void search(TaskInboxFilterBean filters, int page, String sortColumnId, boolean sortAscending,
             final IRpcServiceInvocationHandler<TaskInboxResultSetBean> handler) {
         // TODO only allow one search at a time.  If another search comes in before the previous one
         // finished, cancel the previous one.  In other words, only return the results of the *last*
@@ -59,7 +59,7 @@ public class TaskInboxRpcService {
         RemoteCallback<TaskInboxResultSetBean> successCallback = new DelegatingRemoteCallback<TaskInboxResultSetBean>(handler);
         ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
         try {
-            remoteTaskInboxService.call(successCallback, errorCallback).search(filters, page);
+            remoteTaskInboxService.call(successCallback, errorCallback).search(filters, page, sortColumnId, sortAscending);
         } catch (DtgovUiException e) {
             errorCallback.error(null, e);
         }

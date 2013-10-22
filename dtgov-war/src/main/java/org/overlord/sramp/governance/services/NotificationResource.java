@@ -110,8 +110,8 @@ public class NotificationResource {
             String query = String.format("/s-ramp[@uuid='%s']", uuid); //$NON-NLS-1$
             QueryResultSet queryResultSet = client.query(query);
             if (queryResultSet.size() == 0) {
-            	results.put(GovernanceConstants.STATUS, new ValueEntity("fail"));
-            	results.put(GovernanceConstants.MESSAGE, new ValueEntity("Could not obtain artifact from repository."));
+            	results.put(GovernanceConstants.STATUS, new ValueEntity("fail")); //$NON-NLS-1$
+            	results.put(GovernanceConstants.MESSAGE, new ValueEntity("Could not obtain artifact from repository.")); //$NON-NLS-1$
                 return results;
             }
             ArtifactSummary artifactSummary = queryResultSet.iterator().next();
@@ -158,7 +158,7 @@ public class NotificationResource {
             }
 
             // 4. build the response
-            results.put(GovernanceConstants.STATUS, new ValueEntity("success"));
+            results.put(GovernanceConstants.STATUS, new ValueEntity("success")); //$NON-NLS-1$
             
             return results;
         } catch (Exception e) {

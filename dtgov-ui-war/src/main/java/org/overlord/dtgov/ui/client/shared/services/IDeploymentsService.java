@@ -36,9 +36,12 @@ public interface IDeploymentsService {
      * @param filters
      * @param searchText
      * @param page
+     * @param sortColumnId
+     * @param sortAscending
      * @throws DtgovUiException
      */
-    public DeploymentResultSetBean search(DeploymentsFilterBean filters, String searchText, int page) throws DtgovUiException;
+    public DeploymentResultSetBean search(DeploymentsFilterBean filters, String searchText, int page,
+            String sortColumnId, boolean sortAscending) throws DtgovUiException;
 
     /**
      * Fetches a full deployment by its ID.

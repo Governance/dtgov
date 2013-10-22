@@ -21,8 +21,9 @@ import javax.inject.Inject;
 import org.jboss.errai.ui.nav.client.local.TransitionAnchorFactory;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.TaskDetailsPage;
+import org.overlord.dtgov.ui.client.shared.beans.Constants;
 import org.overlord.dtgov.ui.client.shared.beans.TaskSummaryBean;
-import org.overlord.sramp.ui.client.local.widgets.common.TemplatedWidgetTable;
+import org.overlord.sramp.ui.client.local.widgets.common.SortableTemplatedWidgetTable;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Anchor;
@@ -34,7 +35,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
  * @author eric.wittmann@redhat.com
  */
 @Dependent
-public class TasksTable extends TemplatedWidgetTable {
+public class TasksTable extends SortableTemplatedWidgetTable {
 
     @Inject
     protected ClientMessages i18n;
@@ -45,6 +46,30 @@ public class TasksTable extends TemplatedWidgetTable {
      * Constructor.
      */
     public TasksTable() {
+    }
+
+    /**
+     * @see org.overlord.sramp.ui.client.local.widgets.common.SortableTemplatedWidgetTable#getDefaultSortColumn()
+     */
+    @Override
+    public SortColumn getDefaultSortColumn() {
+        SortColumn sortColumn = new SortColumn();
+        sortColumn.columnId = Constants.SORT_COLID_PRIORITY;
+        sortColumn.ascending = false;
+        return sortColumn;
+    }
+
+    /**
+     * @see org.overlord.monitoring.ui.client.local.widgets.common.SortableTemplatedWidgetTable#configureColumnSorting()
+     */
+    @Override
+    protected void configureColumnSorting() {
+        setColumnSortable(0, Constants.SORT_COLID_NAME);
+        setColumnSortable(1, Constants.SORT_COLID_PRIORITY);
+        setColumnSortable(2, Constants.SORT_COLID_OWNER);
+        setColumnSortable(3, Constants.SORT_COLID_STATUS);
+        setColumnSortable(4, Constants.SORT_COLID_DUE_ON);
+        sortBy(Constants.SORT_COLID_PRIORITY, false);
     }
 
     /**
