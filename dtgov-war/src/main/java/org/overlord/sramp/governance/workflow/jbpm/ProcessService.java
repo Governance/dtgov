@@ -41,4 +41,8 @@ public class ProcessService {
     	}
     }
     
+    public void signalProcess(long processInstanceId, String signalType, Object event) {
+    	processService.signalProcess(processInstanceId, signalType, event);
+    }
+    
 }

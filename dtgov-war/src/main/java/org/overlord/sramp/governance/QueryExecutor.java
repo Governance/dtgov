@@ -26,6 +26,7 @@ import javax.inject.Named;
 
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Property;
+import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Relationship;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.SrampClientException;
@@ -38,7 +39,8 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- *
+ * The Query executor starts workflow instances based on queries in the config.
+ * 
  * @author <a href="mailto:kstam@jboss.com">Kurt T Stam</a>
  *
  */
@@ -48,13 +50,18 @@ public class QueryExecutor {
 
     private static String WORKFLOW_PROCESS_ID = "workflowProcessId="; //$NON-NLS-1$
     private static String WORKFLOW_PARAMETERS = "workflowParameters="; //$NON-NLS-1$
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private Governance governance = new Governance();
+    private static String ARTIFACT_GROUPING = "ArtifactGrouping"; //$NON-NLS-1$
+    //signal query
+    private static String SIGNAL_QUERY = "/s-ramp/ext/MavenPom[@maven.property.signal]"; //$NON-NLS-1$
+	private static String MAVEN_PROPERTY_SIGNAL = "maven.property.signal"; //$NON-NLS-1$
+	
+    private static Logger logger = LoggerFactory.getLogger(QueryExecutor.class);
 
-    private BpmManager bpmManager = WorkflowFactory.newInstance();
-
-    public synchronized void execute() throws SrampClientException, MalformedURLException, ConfigException {
-        SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
+    public static synchronized void execute() throws SrampClientException, MalformedURLException, ConfigException {
+    	
+    	Governance governance = new Governance();
+    	BpmManager bpmManager = WorkflowFactory.newInstance();
+    	SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
         //for all queries defined in the governance.properties file
         Iterator<Query> queryIterator = governance.getQueries().iterator();
         while (queryIterator.hasNext()) {
@@ -108,6 +115,51 @@ public class QueryExecutor {
                 logger.error(Messages.i18n.format("QueryExecutor.ExceptionFor", query.getSrampQuery(), e.getMessage()), e); //$NON-NLS-1$
             }
         }
+        
+        //If a MavenPom gets uploaded, with a property of 'signal', which ends up in
+        //metaData as a custom property of maven.property.signal, then find the
+        //accompanying Application Grouping so we find the workflow instance(s)
+        //associated with this pom and signal it(them).
+        try {
+            QueryResultSet queryResultSet = client.query(SIGNAL_QUERY);
+            if (queryResultSet.size() > 0) {
+                Iterator<ArtifactSummary> queryResultIterator = queryResultSet.iterator();
+                while (queryResultIterator.hasNext()) {
+                	ArtifactSummary artifactSummary = queryResultIterator.next();
+                    BaseArtifactType pomArtifact = client.getArtifactMetaData(artifactSummary.getType(), artifactSummary.getUuid());
+                    for (Relationship relationship: pomArtifact.getRelationship()) {
+                    	if (ARTIFACT_GROUPING.equals(relationship.getRelationshipType())) {
+                    		// there should only be one target, but I guess it's ok if there are more
+                    		for (org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Target target: relationship.getRelationshipTarget()) {
+                    			BaseArtifactType artifactGroup = client.getArtifactMetaData(target.getValue());
+                    			for (Property property: artifactGroup.getProperty()) {
+                    				if (property.getPropertyName().startsWith(WORKFLOW_PROCESS_ID)) {
+                    					String name = property.getPropertyValue();
+                    					logger.info("Signalling Process " + name.substring(name.indexOf("=")));
+                    					long processInstanceId = Long.valueOf(name.substring(name.indexOf("_")+1));
+                    					for (Property signalProperty : pomArtifact.getProperty()) {
+                    						if (signalProperty.getPropertyName().equals(MAVEN_PROPERTY_SIGNAL)) {
+                    							String signalType = signalProperty.getPropertyValue();
+                    							bpmManager.signalProcess(processInstanceId, signalType, pomArtifact.getUuid());
+                    							// change the name of the property on the artifact 
+                    							// so we don't keep on signaling it
+                    							signalProperty.setPropertyName(MAVEN_PROPERTY_SIGNAL + ".sent"); //$NON-NLS-1$
+                    							client.updateArtifactMetaData(pomArtifact);
+                    							break;
+                    						}
+                    					}
+                    				}
+                    			}
+                    		}
+                    	}
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error(Messages.i18n.format("QueryExecutor.ExceptionFor", SIGNAL_QUERY, e.getMessage()), e); //$NON-NLS-1$
+        }
     }
+    
+    
 
 }

@@ -67,11 +67,9 @@ public class SRAMPMonitor {
 	{
 	    try {
     		if (isAppserverReady()) {
+    			
     			long startTime = System.currentTimeMillis();
-
-    			QueryExecutor queryExecutor = new QueryExecutor();
-    			queryExecutor.execute();
-
+    			QueryExecutor.execute();
                 long endTime   = System.currentTimeMillis();
 
                 if ((endTime-startTime) > interval) {
