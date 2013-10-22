@@ -15,8 +15,9 @@
  */
 package org.overlord.sramp.governance.services;
 
-import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -32,19 +33,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
 import org.overlord.dtgov.server.i18n.Messages;
-import org.overlord.sramp.atom.MediaType;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.query.ArtifactSummary;
 import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.governance.Governance;
+import org.overlord.sramp.governance.GovernanceConstants;
 import org.overlord.sramp.governance.NotificationDestinations;
 import org.overlord.sramp.governance.SlashDecoder;
 import org.overlord.sramp.governance.SrampAtomApiClientFactory;
+import org.overlord.sramp.governance.ValueEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,12 +89,14 @@ public class NotificationResource {
      */
     @POST
     @Path("email/{group}/{template}/{target}/{uuid}")
-    @Produces(MediaType.APPLICATION_XML)
-    public Response emailNotification(@Context HttpServletRequest request,
+    @Produces("application/xml")
+    public Map<String,ValueEntity> emailNotification(@Context HttpServletRequest request,
             @PathParam("group") String group,
             @PathParam("template") String template,
             @PathParam("target") String target,
             @PathParam("uuid") String uuid) throws Exception {
+    	
+    	Map<String, ValueEntity> results = new HashMap<String,ValueEntity>();
         try {
             // 0. run the decoder on the arguments, after replacing * by % (this so parameters can
             //    contain slashes (%2F)
@@ -107,7 +110,9 @@ public class NotificationResource {
             String query = String.format("/s-ramp[@uuid='%s']", uuid); //$NON-NLS-1$
             QueryResultSet queryResultSet = client.query(query);
             if (queryResultSet.size() == 0) {
-                return Response.serverError().status(0).build();
+            	results.put(GovernanceConstants.STATUS, new ValueEntity("fail"));
+            	results.put(GovernanceConstants.MESSAGE, new ValueEntity("Could not obtain artifact from repository."));
+                return results;
             }
             ArtifactSummary artifactSummary = queryResultSet.iterator().next();
 
@@ -153,8 +158,9 @@ public class NotificationResource {
             }
 
             // 4. build the response
-            InputStream reply = IOUtils.toInputStream("success"); //$NON-NLS-1$
-            return Response.ok(reply, MediaType.APPLICATION_OCTET_STREAM).build();
+            results.put(GovernanceConstants.STATUS, new ValueEntity("success"));
+            
+            return results;
         } catch (Exception e) {
             logger.error(Messages.i18n.format("NotificationResource.EmailError", e.getMessage(), e)); //$NON-NLS-1$
             throw new SrampAtomException(e);
