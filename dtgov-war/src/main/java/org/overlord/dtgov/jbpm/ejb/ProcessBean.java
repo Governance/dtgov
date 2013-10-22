@@ -104,7 +104,7 @@ public class ProcessBean implements ProcessLocal {
 	}
 	
 	public void signalProcess(long processInstanceId, String signalType, Object event) {
-		
+		logger.info("signalling processInstance " + processInstanceId + " " + signalType);
 		RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
 		KieSession ksession = runtime.getKieSession();
 		ProcessInstance processInstance = ksession.getProcessInstance(processInstanceId);
