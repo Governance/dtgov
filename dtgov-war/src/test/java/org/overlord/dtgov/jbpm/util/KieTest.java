@@ -41,7 +41,7 @@ public class KieTest {
     	
     	KieRepository repo = ks.getRepository();
     	
-    	InputStream is = this.getClass().getResourceAsStream("/dtgov-workflows.jar");
+    	InputStream is = this.getClass().getResourceAsStream("/dtgov-workflows.jar"); //$NON-NLS-1$
     	
     	KieModule kModule = repo.addKieModule(ks.getResources().newInputStreamResource(is));
     	

@@ -50,9 +50,9 @@ public class DeploymentsRpcService {
     }
 
     /**
-     * @see org.overlord.dtgov.ui.client.shared.services.IDeploymentsService#search(org.overlord.dtgov.ui.client.shared.beans.DeploymentsFilterBean, String, int)
+     * @see org.overlord.dtgov.ui.client.shared.services.IDeploymentsService#search(DeploymentsFilterBean, String, int, String, boolean)
      */
-    public void search(DeploymentsFilterBean filters, String searchText, int page,
+    public void search(DeploymentsFilterBean filters, String searchText, int page, String sortColumnId, boolean sortAscending,
             final IRpcServiceInvocationHandler<DeploymentResultSetBean> handler) {
         // TODO only allow one search at a time.  If another search comes in before the previous one
         // finished, cancel the previous one.  In other words, only return the results of the *last*
@@ -60,7 +60,7 @@ public class DeploymentsRpcService {
         RemoteCallback<DeploymentResultSetBean> successCallback = new DelegatingRemoteCallback<DeploymentResultSetBean>(handler);
         ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
         try {
-            remoteDeploymentsService.call(successCallback, errorCallback).search(filters, searchText, page);
+            remoteDeploymentsService.call(successCallback, errorCallback).search(filters, searchText, page, sortColumnId, sortAscending);
         } catch (DtgovUiException e) {
             errorCallback.error(null, e);
         }

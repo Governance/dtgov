@@ -58,18 +58,18 @@ public class TaskInboxService implements ITaskInboxService {
     }
 
     /**
-     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#search(org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean, int)
+     * @see org.overlord.dtgov.ui.client.shared.services.ITaskInboxService#search(org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean, int, java.lang.String, boolean)
      */
     @Override
-    public TaskInboxResultSetBean search(TaskInboxFilterBean filters, int page)
-            throws DtgovUiException {
+    public TaskInboxResultSetBean search(TaskInboxFilterBean filters, int page, String sortColumnId,
+            boolean sortAscending) throws DtgovUiException {
         ITaskClient client = taskClientAccessor.getClient();
 
         int startIndex = (page-1) * PAGE_SIZE;
         int endIndex = (startIndex + PAGE_SIZE) - 1;
 
         try {
-            return client.getTasks(filters, startIndex, endIndex);
+            return client.getTasks(filters, startIndex, endIndex, sortColumnId, sortAscending);
         } catch (Exception e) {
             throw new DtgovUiException(e);
         }

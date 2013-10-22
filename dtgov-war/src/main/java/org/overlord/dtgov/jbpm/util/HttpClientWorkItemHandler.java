@@ -40,7 +40,6 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
      * this parameters 'Url' as well as the method 'Method' are required
      * parameters.
      */
-    @SuppressWarnings("unchecked")
 	@Override
     public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
 
@@ -116,6 +115,7 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
      * being sent to the server.
      * @param connection
      */
+    @SuppressWarnings("unused")
     private KeyValue getAuthProperty() {
     	Governance governance = new Governance();
     	String username = governance.getOverlordUser();

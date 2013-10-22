@@ -25,9 +25,11 @@ public final class ApplicationStateKeys {
 
 	public static final String TASK_INBOX_FILTER = "task-inbox.filter-bean"; //$NON-NLS-1$
 	public static final String TASK_INBOX_PAGE = "task-inbox.page"; //$NON-NLS-1$
+    public static final String TASK_INBOX_SORT_COLUMN = "task-inbox.sort-column"; //$NON-NLS-1$
 
     public static final String DEPLOYMENTS_FILTER = "deployments.filter-bean"; //$NON-NLS-1$
     public static final String DEPLOYMENTS_PAGE = "deployments.page"; //$NON-NLS-1$
     public static final String DEPLOYMENTS_SEARCH_TEXT = "deployments.search-text"; //$NON-NLS-1$
+    public static final String DEPLOYMENTS_SORT_COLUMN = "deployments.sort-column"; //$NON-NLS-1$
 	
 }

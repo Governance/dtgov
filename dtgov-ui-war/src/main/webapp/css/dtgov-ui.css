@@ -80,6 +80,14 @@ input.filter-date {
     cursor: default;
 }
 
+.sortable-column-header {
+  color: rgb(0, 85, 128);
+}
+.sortable-column-icon {
+  font-size: 8px;
+  color: rgb(0, 85, 128);
+}
+
 .propval-editor-popover {
   position: fixed;
 }

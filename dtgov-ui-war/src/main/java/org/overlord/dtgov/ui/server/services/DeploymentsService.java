@@ -67,19 +67,25 @@ public class DeploymentsService implements IDeploymentsService {
      */
     public DeploymentsService() {
     }
-
+    
     /**
-     * @see org.overlord.dtgov.ui.client.shared.services.IDeploymentsService#search(org.overlord.dtgov.ui.client.shared.beans.DeploymentsFilterBean, java.lang.String, int)
+     * @see org.overlord.dtgov.ui.client.shared.services.IDeploymentsService#search(org.overlord.dtgov.ui.client.shared.beans.DeploymentsFilterBean, java.lang.String, int, java.lang.String, boolean)
      */
     @Override
-    public DeploymentResultSetBean search(DeploymentsFilterBean filters, String searchText, int page)
-            throws DtgovUiException {
+    public DeploymentResultSetBean search(DeploymentsFilterBean filters, String searchText, int page,
+            String sortColumnId, boolean sortAscending) throws DtgovUiException {
         int pageSize = PAGE_SIZE;
         try {
             int req_startIndex = (page - 1) * pageSize;
             SrampClientQuery query = null;
             query = createQuery(filters, searchText);
-            QueryResultSet resultSet = query.startIndex(req_startIndex).orderBy("name").ascending().count(pageSize + 1).query(); //$NON-NLS-1$
+            SrampClientQuery scq = query.startIndex(req_startIndex).orderBy(sortColumnId);
+            if (sortAscending) {
+                scq = scq.ascending();
+            } else {
+                scq = scq.descending();
+            }
+            QueryResultSet resultSet = scq.count(pageSize + 1).query();
 
             DeploymentResultSetBean rval = new DeploymentResultSetBean();
             ArrayList<DeploymentSummaryBean> deployments = new ArrayList<DeploymentSummaryBean>();

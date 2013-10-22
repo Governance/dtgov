@@ -80,14 +80,16 @@ public class DtGovTaskApiClient implements ITaskClient {
     }
 
     /**
-     * @see org.overlord.dtgov.ui.server.services.tasks.ITaskClient#getTasks(org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean, int, int)
+     * @see org.overlord.dtgov.ui.server.services.tasks.ITaskClient#getTasks(org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean, int, int, java.lang.String, boolean)
      */
     @Override
-    public TaskInboxResultSetBean getTasks(TaskInboxFilterBean filters, int startIndex, int endIndex)
-            throws Exception {
+    public TaskInboxResultSetBean getTasks(TaskInboxFilterBean filters, int startIndex, int endIndex,
+            String sortColumnId, boolean sortAscending) throws Exception {
         FindTasksRequest request = createFindTasksRequest(filters);
         request.setStartIndex(startIndex);
         request.setEndIndex(endIndex);
+        request.setOrderBy(sortColumnId);
+        request.setOrderAscending(sortAscending);
         FindTasksResponse findTasksResponse = client.findTasks(request);
 
         TaskInboxResultSetBean result = new TaskInboxResultSetBean();

@@ -32,11 +32,14 @@ public interface ITaskInboxService {
 
     /**
      * Search for tasks using the given filters and search text.
-     * @param filtersPanel
+     * @param filters
      * @param page
-     * @throws SrampUiException
+     * @param sortColumnId
+     * @param sortAscending
+     * @throws DtgovUiException
      */
-    public TaskInboxResultSetBean search(TaskInboxFilterBean filters, int page) throws DtgovUiException;
+    public TaskInboxResultSetBean search(TaskInboxFilterBean filters, int page, String sortColumnId,
+            boolean sortAscending) throws DtgovUiException;
 
     /**
      * Fetches a full task by its ID.

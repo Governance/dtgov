@@ -37,8 +37,10 @@ import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHand
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentResultSetBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentSummaryBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentsFilterBean;
+import org.overlord.sramp.ui.client.local.events.TableSortEvent;
 import org.overlord.sramp.ui.client.local.widgets.bootstrap.Pager;
 import org.overlord.sramp.ui.client.local.widgets.common.HtmlSnippet;
+import org.overlord.sramp.ui.client.local.widgets.common.SortableTemplatedWidgetTable.SortColumn;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.SpanElement;
@@ -128,6 +130,12 @@ public class DeploymentsPage extends AbstractPage {
                 doSearch(event.getValue());
             }
         });
+        deploymentsTable.addTableSortHandler(new TableSortEvent.Handler() {
+            @Override
+            public void onTableSort(TableSortEvent event) {
+                doSearch(currentPage);
+            }
+        });
 
         // Hide column 1 when in mobile mode.
         deploymentsTable.setColumnClasses(1, "desktop-only"); //$NON-NLS-1$
@@ -166,8 +174,11 @@ public class DeploymentsPage extends AbstractPage {
         DeploymentsFilterBean filterBean = (DeploymentsFilterBean) stateService.get(ApplicationStateKeys.DEPLOYMENTS_FILTER, new DeploymentsFilterBean());
         String searchText = (String) stateService.get(ApplicationStateKeys.DEPLOYMENTS_SEARCH_TEXT, ""); //$NON-NLS-1$
         Integer page = (Integer) stateService.get(ApplicationStateKeys.DEPLOYMENTS_PAGE, 1);
+        SortColumn sortColumn = (SortColumn) stateService.get(ApplicationStateKeys.DEPLOYMENTS_SORT_COLUMN, this.deploymentsTable.getDefaultSortColumn());
+
         this.filtersPanel.setValue(filterBean);
         this.searchBox.setValue(searchText);
+        this.deploymentsTable.sortBy(sortColumn.columnId, sortColumn.ascending);
         
         // Kick off a search
         doSearch(page);
@@ -190,12 +201,15 @@ public class DeploymentsPage extends AbstractPage {
 
         final DeploymentsFilterBean filterBean = filtersPanel.getValue();
         final String searchText = this.searchBox.getValue();
+        final SortColumn currentSortColumn = this.deploymentsTable.getCurrentSortColumn();
         
         stateService.put(ApplicationStateKeys.DEPLOYMENTS_FILTER, filterBean);
         stateService.put(ApplicationStateKeys.DEPLOYMENTS_SEARCH_TEXT, searchText);
         stateService.put(ApplicationStateKeys.DEPLOYMENTS_PAGE, currentPage);
+        stateService.put(ApplicationStateKeys.DEPLOYMENTS_SORT_COLUMN, currentSortColumn);
 
-        deploymentsService.search(filterBean, searchText, page, new IRpcServiceInvocationHandler<DeploymentResultSetBean>() {
+        deploymentsService.search(filterBean, searchText, page, currentSortColumn.columnId, currentSortColumn.ascending,
+                new IRpcServiceInvocationHandler<DeploymentResultSetBean>() {
             @Override
             public void onReturn(DeploymentResultSetBean data) {
                 updateTable(data);
