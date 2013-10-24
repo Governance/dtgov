@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.overlord.dtgov</groupId>
@@ -49,6 +50,19 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources-filtered</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  </build>
+
   <profiles>
     <!-- Profile to install to EAP 6.1 -->
     <profile>
@@ -76,13 +90,17 @@
                     <property name="dtgov.version" value="${project.version}" />
 
                     <!-- Overlord Commons Installer and Dependencies -->
-                    <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
-                    <property name="overlord-commons.idp.download.url" value="file:///${maven.dependency.org.overlord.overlord-commons-idp.war.path}" />
-                    <property name="overlord-commons.auth.download.url" value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+                    <property name="dtgov.overlord-commons.installer.jar"
+                      value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
+                    <property name="overlord-commons.idp.download.url"
+                      value="file:///${maven.dependency.org.overlord.overlord-commons-idp.war.path}" />
+                    <property name="overlord-commons.auth.download.url"
+                      value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
 
                     <!-- DTGov WARs -->
                     <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war.war.path}" />
-                    <property name="dtgov.dtgov-ui.path" value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-eap61.war.path}" />
+                    <property name="dtgov.dtgov-ui.path"
+                      value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-eap61.war.path}" />
 
                     <property file="build.properties" />
                     <property name="dtgov.install.dir" value="${project.build.directory}" />
@@ -128,13 +146,17 @@
                     <property name="dtgov.version" value="${project.version}" />
 
                     <!-- Overlord Commons Installer and Dependencies -->
-                    <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
-                    <property name="overlord-commons.idp.download.url" value="file:///${maven.dependency.org.overlord.overlord-commons-idp.war.path}" />
-                    <property name="overlord-commons.auth.download.url" value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+                    <property name="dtgov.overlord-commons.installer.jar"
+                      value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
+                    <property name="overlord-commons.idp.download.url"
+                      value="file:///${maven.dependency.org.overlord.overlord-commons-idp.war.path}" />
+                    <property name="overlord-commons.auth.download.url"
+                      value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
 
                     <!-- DTGov WARs -->
                     <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war.war.path}" />
-                    <property name="dtgov.dtgov-ui.path" value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jboss7.war.path}" />
+                    <property name="dtgov.dtgov-ui.path"
+                      value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jboss7.war.path}" />
 
                     <property file="build.properties" />
                     <property name="dtgov.install.dir" value="${project.build.directory}" />
@@ -187,9 +209,11 @@
                   <tasks>
                     <property name="appserver.id" value="jboss-as-7.1.1.Final" />
                     <property file="build.properties" />
-                    <property name="dtgov.s-ramp.cli.zip" value="${maven.dependency.org.overlord.sramp.s-ramp-distro-assembly-cli.zip.path}" />
+                    <property name="dtgov.s-ramp.cli.zip"
+                      value="${maven.dependency.org.overlord.sramp.s-ramp-distro-assembly-cli.zip.path}" />
                     <unzip src="${dtgov.s-ramp.cli.zip}" dest="${project.build.directory}" overwrite="true" />
-                    <property name="dtgov.s-ramp.cli.jar" value="${project.build.directory}/s-ramp-cli-${s-ramp.version}/bin/s-ramp-shell-${s-ramp.version}.jar" />
+                    <property name="dtgov.s-ramp.cli.jar"
+                      value="${project.build.directory}/s-ramp-cli-${s-ramp.version}/bin/s-ramp-shell-${s-ramp.version}.jar" />
                     <ant dir="${basedir}/src/main/resources" antfile="${basedir}/src/main/resources/build.xml">
                       <target name="seed" />
                     </ant>
