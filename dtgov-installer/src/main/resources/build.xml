@@ -138,8 +138,6 @@
 
     <!-- Set the dtgov_workflow user credentials in dtgov.properties -->
     <concat destfile="${dtgov.appserver.config.dir}/dtgov.properties" append="true">
-dtgov.workflows.version=${dtgov.version}
-
 # Governance BPM credentials
 governance.bpm.user=dtgov_workflow
 governance.bpm.password=$${vault:${dtgov.users.workflow.password.hash}}
