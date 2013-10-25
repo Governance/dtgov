@@ -1,0 +1,14 @@
+<form>
+  <fieldset>
+    <label>Review Artifact </label><span data-name="ArtifactName">Unknown</span>&nbsp;(UUID: <span data-name="ArtifactUuid">Unknown</span>)
+    <label>Please record the outcome of the Review Meeting</label>
+    <label class="radio">
+      <input type="radio" name="Status" value="pass"></input>
+      Pass
+    </label>
+    <label class="radio">
+      <input type="radio" name="Status" value="fail"></input>
+      Fail
+    </label>
+  </fieldSet>
+</form>

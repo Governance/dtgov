@@ -189,7 +189,9 @@
   </distributionManagement>
   
   <modules>
+    <!--
     <module>dtgov-demos-project</module>
+    -->
     <module>dtgov-demos-switchyard</module>
   </modules>
 </project>

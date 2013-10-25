@@ -50,7 +50,7 @@ public class QueryExecutor {
 
     private static String WORKFLOW_PROCESS_ID = "workflowProcessId="; //$NON-NLS-1$
     private static String WORKFLOW_PARAMETERS = "workflowParameters="; //$NON-NLS-1$
-    private static String ARTIFACT_GROUPING = "ArtifactGrouping"; //$NON-NLS-1$
+    private static String GROUPED_BY = "groupedBy"; //$NON-NLS-1$
     //signal query
     private static String SIGNAL_QUERY = "/s-ramp/ext/MavenPom[@maven.property.signal]"; //$NON-NLS-1$
 	private static String MAVEN_PROPERTY_SIGNAL = "maven.property.signal"; //$NON-NLS-1$
@@ -92,6 +92,11 @@ public class QueryExecutor {
                                         "QueryExecutor.ExistingWorkflowError", //$NON-NLS-1$
                                         artifact.getUuid(), query.getWorkflowId(), query.getParameters()));
                         } else {
+                        	//start workflow for this artifact
+                        	logger.info(Messages.i18n.format("QueryExecutor.StartingWorkflow", query.getWorkflowId(), artifact.getUuid())); //$NON-NLS-1$
+                            Map<String,Object> parameters = query.getParsedParameters();
+                            parameters.put("ArtifactUuid", artifact.getUuid()); //$NON-NLS-1$
+                            long processInstanceId = bpmManager.newProcessInstance(query.getWorkflowId(), parameters);
                             propertyName = WORKFLOW_PROCESS_ID + query.getWorkflowId() + "_"; //$NON-NLS-1$
                             // set this process as a property
                             int i=0;
@@ -100,14 +105,9 @@ public class QueryExecutor {
                             }
                             Property property = new Property();
                             property.setPropertyName(propertyName + i);
-                            property.setPropertyValue(WORKFLOW_PARAMETERS + query.getParameters());
+                            property.setPropertyValue(processInstanceId + "_" + WORKFLOW_PARAMETERS + query.getParameters());
                             artifact.getProperty().add(property);
                             client.updateArtifactMetaData(artifact);
-                            //start workflow for this artifact
-                            logger.info(Messages.i18n.format("QueryExecutor.StartingWorkflow", query.getWorkflowId(), artifact.getUuid())); //$NON-NLS-1$
-                            Map<String,Object> parameters = query.getParsedParameters();
-                            parameters.put("ArtifactUuid", artifact.getUuid()); //$NON-NLS-1$
-                            bpmManager.newProcessInstance(query.getWorkflowId(), parameters);
                         }
                     }
                 }
@@ -128,15 +128,16 @@ public class QueryExecutor {
                 	ArtifactSummary artifactSummary = queryResultIterator.next();
                     BaseArtifactType pomArtifact = client.getArtifactMetaData(artifactSummary.getType(), artifactSummary.getUuid());
                     for (Relationship relationship: pomArtifact.getRelationship()) {
-                    	if (ARTIFACT_GROUPING.equals(relationship.getRelationshipType())) {
+                    	if (GROUPED_BY.equals(relationship.getRelationshipType())) {
                     		// there should only be one target, but I guess it's ok if there are more
                     		for (org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Target target: relationship.getRelationshipTarget()) {
                     			BaseArtifactType artifactGroup = client.getArtifactMetaData(target.getValue());
                     			for (Property property: artifactGroup.getProperty()) {
                     				if (property.getPropertyName().startsWith(WORKFLOW_PROCESS_ID)) {
-                    					String name = property.getPropertyValue();
-                    					logger.info("Signalling Process " + name.substring(name.indexOf("=")));
-                    					long processInstanceId = Long.valueOf(name.substring(name.indexOf("_")+1));
+                    					String name = property.getPropertyName();
+                    					String value = property.getPropertyValue();
+                    					logger.info("Signalling Process " + name.substring(name.indexOf("=")+1));
+                    					long processInstanceId = Long.valueOf(value.substring(0,value.indexOf("_")));
                     					for (Property signalProperty : pomArtifact.getProperty()) {
                     						if (signalProperty.getPropertyName().equals(MAVEN_PROPERTY_SIGNAL)) {
                     							String signalType = signalProperty.getPropertyValue();
