@@ -108,7 +108,8 @@ public class ProcessBean implements ProcessLocal {
 		RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
 		KieSession ksession = runtime.getKieSession();
 		ProcessInstance processInstance = ksession.getProcessInstance(processInstanceId);
-		processInstance.signalEvent(signalType, event);
+		ksession.signalEvent(signalType, event,processInstance.getId());
+		//processInstance.signalEvent(signalType, event);
 	}
 
 	@Override

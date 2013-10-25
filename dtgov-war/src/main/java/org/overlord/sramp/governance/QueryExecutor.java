@@ -82,8 +82,12 @@ public class QueryExecutor {
                         Map<String,String> propertyMap = new HashMap<String,String>();
                         for (Property property : properties) {
                             propertyMap.put(property.getPropertyName(), property.getPropertyValue());
-                            if (property.getPropertyName().startsWith(name) && property.getPropertyValue().equals(value)) {
+                            if (property.getPropertyName().startsWith(name) && property.getPropertyValue().endsWith(value)) {
+                            	//if BOTH the name AND the value exist then don't start another workflow
+                            	//the idea is that you may want to start two of the same workflows but with
+                            	//different parameters.
                                 hasPropertyName = true;
+                                break;
                             }
                         }
                         if (hasPropertyName) {
@@ -97,8 +101,9 @@ public class QueryExecutor {
                             Map<String,Object> parameters = query.getParsedParameters();
                             parameters.put("ArtifactUuid", artifact.getUuid()); //$NON-NLS-1$
                             long processInstanceId = bpmManager.newProcessInstance(query.getWorkflowId(), parameters);
+                            
                             propertyName = WORKFLOW_PROCESS_ID + query.getWorkflowId() + "_"; //$NON-NLS-1$
-                            // set this process as a property
+                            // set this process as a property, so we don't start another
                             int i=0;
                             while (propertyMap.keySet().contains(propertyName + i)) {
                                 i++;

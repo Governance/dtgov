@@ -24,10 +24,23 @@
         <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>project-service-api</artifactId>
-    <name>DTGov Demos: Project - Service API</name>
+    <artifactId>project-service-impl</artifactId>
+    <name>DTGov Demos: Project - Service Implementation</name>
     <properties>
-    	<signal>ArchitectureArtifactsComplete</signal>
+    	<signal>ServiceImplArtifactComplete</signal>
     </properties>
+    
+    <dependencies>
+    	<dependency>
+    		<groupId>org.overlord.dtgov.demos.project</groupId>
+    		<artifactId>project-service-api</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+    	 <dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <scope>test</scope>
+		 </dependency>
+    </dependencies>
  
 </project>

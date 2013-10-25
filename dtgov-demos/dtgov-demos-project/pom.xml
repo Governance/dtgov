@@ -33,6 +33,7 @@
   <modules>
     <module>project-requirements</module>
     <module>project-service-api</module>
+    <module>project-service-impl</module>
   </modules>
 
   <build>
