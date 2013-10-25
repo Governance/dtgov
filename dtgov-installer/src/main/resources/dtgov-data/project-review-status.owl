@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xml:base="http://www.jboss.org/overlord/project-review-status.owl">
+  
+  <owl:Ontology rdf:ID="ProjectReviewStatus">
+    <rdfs:label>Project Review Status</rdfs:label>
+    <rdfs:comment>Project Review Status Ontology</rdfs:comment>
+  </owl:Ontology>
+
+  <owl:Class rdf:ID="ProjectReviewLifecycle">
+    <rdfs:label>project review lifecycle</rdfs:label>
+    <rdfs:comment>Root status - participating in Simplified Project Lifecycle Workflow.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:ID="BusinessAnalysis">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#ProjectReviewLifecycle" />
+    <rdfs:label>ba</rdfs:label>
+    <rdfs:comment>Business Analysis Review Status</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="ArchitecturalDesign">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#ProjectReviewLifecycle" />
+    <rdfs:label>design</rdfs:label>
+    <rdfs:comment>Design Review Status</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="ServiceImplementation">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#ProjectReviewLifecycle" />
+    <rdfs:label>impl</rdfs:label>
+    <rdfs:comment>Implementation Review Status</rdfs:comment>
+  </owl:Class>
+  
+  <owl:Class rdf:ID="BaInReview">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#BusinessAnalysis" />
+    <rdfs:label>ba_inreview</rdfs:label>
+    <rdfs:comment>Business Requirement Artifact is undergoing Review.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="BaReviewPass">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#BusinessAnalysis" />
+    <rdfs:label>ba_reviewpass</rdfs:label>
+    <rdfs:comment>Business Requirement Artifact passed the review meeting.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="BaReviewFail">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#BusinessAnalysis" />
+    <rdfs:label>ba_reviewfail</rdfs:label>
+    <rdfs:comment>Business Requirement Artifact failed the review meeting.</rdfs:comment>
+  </owl:Class>
+  
+  <owl:Class rdf:ID="DesignInReview">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#ArchitecturalDesign" />
+    <rdfs:label>design_inreview</rdfs:label>
+    <rdfs:comment>Design Artifact is undergoing Review.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="DesignPass">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#ArchitecturalDesign" />
+    <rdfs:label>design_reviewpass</rdfs:label>
+    <rdfs:comment>Design Artifact passed the review meeting.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="DesignFail">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#ArchitecturalDesign" />
+    <rdfs:label>design_reviewfail</rdfs:label>
+    <rdfs:comment>Business Requirement Artifact failed the review meeting.</rdfs:comment>
+  </owl:Class>
+  
+  <owl:Class rdf:ID="ImplInReview">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#ServiceImplementation" />
+    <rdfs:label>impl_inreview</rdfs:label>
+    <rdfs:comment>Service Implementation Artifact is undergoing Review.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="ImplPass">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#ServiceImplementation" />
+    <rdfs:label>impl_reviewpass</rdfs:label>
+    <rdfs:comment>Service Implementation Artifact passed the review meeting.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="ImplFail">
+    <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/project-review-status.owl#ServiceImplementation" />
+    <rdfs:label>impl_reviewfail</rdfs:label>
+    <rdfs:comment>Service Implementation Artifact failed the review meeting.</rdfs:comment>
+  </owl:Class>
+
+</rdf:RDF>

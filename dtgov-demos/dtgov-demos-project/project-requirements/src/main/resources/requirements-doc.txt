@@ -1,0 +1,8 @@
+Requirements Document
+---------------------
+
+We have a pressing need for an Hello World Service.
+Please develop one that can print "Hello World" when invoked.
+
+
+

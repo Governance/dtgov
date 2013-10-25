@@ -5,9 +5,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.collections.KeyValue;
-import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -108,29 +105,6 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
         // notify manager that work item has been completed
         manager.completeWorkItem(workItem.getId(), results);
     }
-
-
-    /**
-     * Adds Authorization config to the connection prior to the request
-     * being sent to the server.
-     * @param connection
-     */
-    @SuppressWarnings("unused")
-    private KeyValue getAuthProperty() {
-    	Governance governance = new Governance();
-    	String username = governance.getOverlordUser();
-    	String password = governance.getOverlordPassword();
-
-        if (username != null && password != null) {
-            String b64Auth = Base64.encodeBase64String((username + ":" + password).getBytes()).trim(); //$NON-NLS-1$
-            KeyValue keyValue = new DefaultKeyValue("Authorization", "Basic " + b64Auth); //$NON-NLS-1$ //$NON-NLS-2$
-            return keyValue;
-        } else {
-            log.warn(Messages.i18n.format("HttpClientWorkItemHandler.MissingCreds")); //$NON-NLS-1$
-            return null;
-        }
-    }
-
 
     @Override
     public void abortWorkItem(WorkItem workItem, WorkItemManager manager) {

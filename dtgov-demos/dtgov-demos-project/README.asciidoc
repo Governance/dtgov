@@ -6,39 +6,85 @@ DTGov Demos: Maven Project Workflow Integration
 Summary
 ~~~~~~~
 
-This demo shows how DTGov can start a Project Workflow via a simple Maven build.  
-This demo contains two projects:
+This demo shows how teams can collaborate using a ProjectLifeCycle Workflow.
+In this example we have a simplified Project workflow with only three phases with
+their respective teams. Each team delivers a set of deliverables which are uploaded
+to the repository. Each upload triggers a review of the artifacts. The artifacts
+are 'groupedBy' an 'ArtifactGrouping' which is represented as a parent in S-RAMP.
 
-* project: a very simple maven module with artifactId of "project".
-* service: a maven module containing the Hello World Service API, expressed in WSDL.
+This demo contains three submodules:
 
-The goal is to show that an upload of a pom.xml with artifactId of "project" 
-kicks of a workflow of type overlord.demo.ProjectLifeCycle.bpmn. 
+* project-requirements: a requirements doc created a Business Analyst.
+* project-service-api:  a service design created by a SOA-Architect.
+* project-service-impl: the service implementation created by a SOA Developer.
+
+The overlord.demo.ProjectLifeCycle.bpmn resides in the dtgov-workflow.jar in the SRAMPPackage
+and this should already be deployed. Also the classification ontologies should already
+have been installed as part of the data seeding process during install of DTGov. 
+In the s-ramp-ui artifacts screen you can click on 'Classifiers' to check that the
+Project Review Status is present.
+
+[[figure-project-review-ontology]]
+.Project Review Status Ontology.
+image::project-review-status-ontology.png[Project Review Status Ontology]
  
+These classifications will be applied by the 'Classify' nodes in the workflow
+as the project moves through its lifecycle. 
+
 [[figure-project-workflow]]
 .Project Workflow.
 image::projectworkflow.png[Project Workflow]
 
+You can create and update workflows using the Eclipse BPMN Editor, which can be installed
+from http://download.eclipse.org/bpmn2-modeler/updates/kepler/0.2.7.
+The project starts with a business analyst creating a requirements document, which is then
+reviewed and approved. On a successful approval a SOA-Architect creates a design, followed
+with another review meeting and finally a SOA-Developer creates an implementation of the design.
+When the implementation is reviewed the Service Implementation can be released into a formal
+QA process. The 'Deployment Process' of an Artifact is covered in the dtgov-switchard demo.
 
 How It Works
 ~~~~~~~~~~~~
 
-Deploying the 'artifacts' JAR to S-RAMP
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Starting the Simplified ProjectLifeCycle Workflow
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To get this demo working you must be running the DTGov server and the S-RAMP repository (see documentation 
 for the DTGov and S-RAMP projects to learn how to run the S-RAMP repository).
 
-The first step is to build and deploy all artifacts to S-RAMP using Maven.
-The demo is configured to run against the default security settings found in
-the distribution.  If you change the security configuration you may need to set the 
-username and password when running the demo.  You can use the following -D properties:
+When the Business Analyst finishes the requirement doc
+_project-requirments/src/main/resources/requirements-doc.txt_. 
+The next step is to build and deploy the 'requirements' archive to S-RAMP using Maven:
 
-* sramp.auth.username - sets the BASIC auth username to use during the demo
-* sramp.auth.password - sets the BASIC auth password to use during the demo
 ....
-$ mvn -Pdemo clean deploy
+	$ cd project-requirements
+	$ mvn -Pdemo clean deploy
 ....
+
+IMPORTANT: Note About Authentication
+
+Be aware that you must supply the maven build with credentials for your S-RAMP repository.  This
+can be done by adding a section to your settings.xml file (or by providing a custom settings.xml
+on the mvn command line using the '-s' argument).
+
+For more information see:  http://maven.apache.org/settings.html
+
+Your settings.xml file should contain two additional server entries in the servers section:
+....
+    <server>
+      <id>local-sramp-repo</id>
+      <username>admin</username>
+      <password>PASSWORD</password>
+    </server>
+    <server>
+      <id>local-sramp-repo-snapshots</id>
+      <username>admin</username>
+      <password>PASSWORD</password>
+    </server>
+....
+
+Results of the Deploy
++++++++++++++++++++++
 
 That will enable the 'demo' profile, which will configure the Maven **distributionManagement** to
 point to a local S-RAMP repository (http://localhost:8080/s-ramp-server/).  Therefore you need to
@@ -52,27 +98,152 @@ the appropriate URL for you).
 
 You should see the following artifacts in the S-RAMP repository:
 
-* hello-world-service-api-VERSION.jar
-* hello-world-service-api-VERSION.pom
-* project-VERSION.pom
+* project-requirements-<version>.jar
+* project-requirements-<version>.pom
+* Project-org.overlord.dtgov.demos.project.<version>
 
-when looking at the details for the project-VERSION.pom you should see that it contains
-a custom property of 'maven.artifactId:project'. And with the query defined in the 
-dtgov.properties:
+The requirements-doc.txt is shipped in the requirements-<version>.jar. Note that you
+can use other formats if you like. You may have expected the jar and the pom, but 
+what created the 'Project-org.overlord.dtgov.demos.project.<version>'
+artifact? In the dtgov-demos-project/pom.xml you may have noticed the following section:
+
 ....
-governance.queries=/s-ramp/ext/MavenPom[@maven.artifactId='project']|overlord.demo.ProjectLifeCycle|UpdateMetaDataUrl={governance.url}/rest/update/project/relatedto/{uuid}::DTGovUrl={dtgov.ui.url}
-....
-it will start a ProjectLifeCycle workflow when a MavenPom with artifactId of 'pom'
-lands in the repository. You should see another custom property getting created which should
-look similar to 
-....
-workflowProcessId=overlord.demo.ProjectLifeCycle_0:workflowParameters=UpdateMetaDataUrl=http://localhost:8080/dtgov
+  <distributionManagement>
+    <repository>
+      <id>local-sramp-repo</id>
+      <name>S-RAMP Releases Repository</name>
+      <url>sramp://localhost:8080/s-ramp-server/?artifactGrouping=Project-${project.groupId}.${project.version}</url>
+    </repository>
+    <snapshotRepository>
+      <id>local-sramp-repo-snapshots</id>
+      <name>S-RAMP Snapshots Repository</name>
+      <url>sramp://localhost:8080/s-ramp-server/?artifactGrouping=Project-${project.groupId}.${project.version}</url>
+    </snapshotRepository>
+  </distributionManagement>
 ....
 
-Note that the definition of the 'overlord.demo.ProjectLifeCycle' lives in the
-SRAMPPackage in the dtgov-workflow.jar. If you want to update the workflow you
-need to use eclipse tooling to modify the bpmn, build and upload a new dtgov-worflow.jar
-to S-RAMP. The GAV settings are defined in the dtgov.properties file.
+This section is active when using the 'demo' profile, and in it we specified an artifact grouping
+_artifactGrouping=Project-${project.groupId}.${project.version}_. During the upload this ArtifactGrouping
+artifact is created along with groupBy relationships to this parent artifacts. The  
+dtgov.properties file defines the following :
+....
+governance.queries=/s-ramp/ext/ArtifactGrouping[xp2:matches(@name\, 'Project.*')]|overlord.demo.SimplifiedProjectLifeCycle|UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}
+....
+
+This starts a overlord.demo.SimplifiedProjectLifeCycle workflow when a ArtifactGrouping with a name that starts with
+'Project' lands in the repository. When the workflow is created you should see a new custom property on this
+artifact which should look like
+....
+workflowProcessId=overlord.demo.SimplifiedProjectLifeCycle_0:4_workflowParameters=UpdateMetaDataUrl=http://localhost:8080/dtgov/rest/update/{name}/{value}/{uuid}
+....
+If you where to delete this property then a new workflow will be started, and a new property will be recreated.
 
 
+Signaling 'Analysis Docs Complete'
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The upload of the requirements also triggered an _AnalysisArtifactsComplete_ _signal_ to the newly created workflow, to 
+signal the workflow that the requirements docs are ready for review. This signal was trigger by upload of the 
+project-requirements/pom.xml. Note that in this pom we have the following properties section
+
+....
+<properties>
+   <signal>AnalysisArtifactsComplete</signal>
+</properties>
+....
+
+During a MavenPom upload all properties are extracted and added as custom properties, prefixed with _maven.property._; so
+the signal property end up as _maven.property.signal_ with value _AnalysisArtifactsComplete_. When DTGov discovers
+this signal property it looks up the accompanying workflow referenced in the Project* ApplicationGroup artifact signals
+this process instance. After sending the signal the name of the property changes to __maven.property.signal.sent_.
+When the signal is 'caught' by the workflow, it will classify the Project* ApplicationGroup artifact
+with the #BaInReview classification, and start a _Business Analysis Review Meeting_ task. This task is assigned
+to the _ba_ role. You can defined roles in the _standalone/configuration/overlord-idp-roles.properties_. These
+roles can be referenced in the human task definition as the 'groupId'. 
+
+By default the _standalone/configuration/overlord-idp-roles.properties_ look like
+....
+admin=overlorduser,admin.sramp,dev,qa,stage,prod,ba,arch
+....
+The _admin_ user has all roles. So when logged in as admin you can work on ALL tasks. For this example 
+the _ba_, _arch_, and _dev_ roles in use. More roles can be created as needed.
+
+You can work on your tasks by navigating to http://localhost:8080/dtgov-ui#taskInbox. After you've reviewed the
+requirements documents with all stakeholders, you go here to Claim, Start and record the Pass/Fail verdict. 
+For the 'Business Analysis Review Meeting' task you will need the 'ba' role. On a Fail the workflow records the fail and loops back 
+so that a new version can be submitted. On a Pass the workflow records the pass and enters the 'waiting for
+_architecture docs complete_' state.
+
+
+Signaling 'Architecture Docs Complete'
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The architect can now take the detailed and approved requirements:
+....
+Requirements Document
+---------------------
+We have a pressing need for an Hello World Service.
+Please develop one that can print "Hello World" when invoked.
+....
+and turn them into a design. At a minimum, for this webservice an annotated interface or a WSDL should be created.
+Both of these can be found in the _project-service-api_ module. Since these are ready to go, proceed with deploying
+them to S-RAMP using:
+
+....
+	$ cd project-service-api
+	$ mvn -Pdemo clean deploy
+....
+
+Results of the Deploy
++++++++++++++++++++++
+The build should complete successfully.
+
+You should see the following newly created artifacts in the S-RAMP repository:
+
+* project-service-api-<version>.jar
+* project-service-api-<version>.pom
+
+In this pom the signal property
+....
+<properties>
+   <signal>ArchitectureArtifactsComplete</signal>
+</properties>
+....
+
+will cause a _ArchitectureArtifactsComplete_ signal to be send to the project workflow signalling that the
+design documents are ready for review. A review meeting should be called and someone with the 'arch' role
+can pick up the 'Design Review Meeting' task in the http://localhost:8080/dtgov-ui#taskInbox.
+
+
+Signaling 'Service implementation Complete'
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Finally, when the SOA-Developer has finished the implementation, it can be uploaded to the repository using
+
+....
+	$ cd project-service-impl
+	$ mvn -Pdemo clean deploy
+....
+
+Results of the Service Deploy
++++++++++++++++++++++++++++++
+The build should complete successfully.
+
+You should see the following newly created artifacts in the S-RAMP repository:
+
+* project-service-impl-<version>.jar
+* project-service-impl-<version>.pom
+
+In this pom the signal property
+....
+<properties>
+   <signal>ServiceImplArtifactComplete</signal>
+</properties>
+....
+
+will cause a _ServiceImplArtifactComplete_ signal to be send to the project workflow signalling that the
+design documents are ready for review. A review meeting should be called and someone with the 'dev' role
+can pick up the 'Service Implementation Review Meeting' task in the http://localhost:8080/dtgov-ui#taskInbox.
+
+This completes this demo.
 

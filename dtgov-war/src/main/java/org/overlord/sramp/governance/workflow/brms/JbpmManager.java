@@ -29,18 +29,25 @@ public class JbpmManager implements BpmManager {
 
     Governance governance = new Governance();
     @Override
-    public void newProcessInstance(String processId, Map<String, Object> context) throws WorkflowException {
+    public long newProcessInstance(String processId, Map<String, Object> context) throws WorkflowException {
         try {
 	    	HttpClient httpclient = new DefaultHttpClient();
 	        JbpmRestClient jbpmClient = new JbpmRestClient(httpclient, governance.getBpmUrl().toExternalForm());
 	        jbpmClient.logon(governance.getBpmUser(), governance.getBpmPassword());
 	        jbpmClient.newProcessInstanceAndCompleteFirstTask(processId, context);
 	        httpclient.getConnectionManager().shutdown();
+	        return 0;
         } catch (IOException e) {
         	throw new WorkflowException(e);
         } catch (URISyntaxException e) {
         	throw new WorkflowException(e);
 		}
     }
+    
+	@Override
+	public void signalProcess(long processId, String signalType, Object event) {
+		//Not implemented
+		
+	}
     
 }

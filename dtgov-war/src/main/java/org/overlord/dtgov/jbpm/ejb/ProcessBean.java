@@ -102,6 +102,15 @@ public class ProcessBean implements ProcessLocal {
 		}
 		return processInstanceId;
 	}
+	
+	public void signalProcess(long processInstanceId, String signalType, Object event) {
+		logger.info("signalling processInstance " + processInstanceId + " " + signalType);
+		RuntimeEngine runtime = singletonManager.getRuntimeEngine(EmptyContext.get());
+		KieSession ksession = runtime.getKieSession();
+		ProcessInstance processInstance = ksession.getProcessInstance(processInstanceId);
+		ksession.signalEvent(signalType, event,processInstance.getId());
+		//processInstance.signalEvent(signalType, event);
+	}
 
 	@Override
     public Collection<ProcessInstance> listProcessInstances() throws Exception {

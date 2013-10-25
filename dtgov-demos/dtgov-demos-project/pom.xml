@@ -31,8 +31,9 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>project</module>
-    <module>hello-world-service-api</module>
+    <module>project-requirements</module>
+    <module>project-service-api</module>
+    <module>project-service-impl</module>
   </modules>
 
   <build>
@@ -83,12 +84,12 @@
         <repository>
           <id>local-sramp-repo</id>
           <name>S-RAMP Releases Repository</name>
-          <url>sramp://localhost:8080/s-ramp-server/?artifactGrouping=${project.groupId}</url>
+          <url>sramp://localhost:8080/s-ramp-server/?artifactGrouping=Project-${project.groupId}.${project.version}</url>
         </repository>
         <snapshotRepository>
           <id>local-sramp-repo-snapshots</id>
           <name>S-RAMP Snapshots Repository</name>
-          <url>sramp://localhost:8080/s-ramp-server/?artifactGrouping=${project.groupId}</url>
+          <url>sramp://localhost:8080/s-ramp-server/?artifactGrouping=Project-${project.groupId}.${project.version}</url>
         </snapshotRepository>
       </distributionManagement>
     </profile>

@@ -1,0 +1,1233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.jboss.org/drools" xmlns="http://www.jboss.org/drools" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd" id="Definition" expressionLanguage="http://www.mvel.org/2.0" targetNamespace="http://www.jboss.org/drools" typeLanguage="http://www.java.com/javaTypes">
+  <bpmn2:itemDefinition id="_String" structureRef="String"/>
+  <bpmn2:itemDefinition id="ItemDefinition_1" structureRef="Integer"/>
+  <bpmn2:itemDefinition id="ItemDefinition_2" structureRef="Boolean"/>
+  <bpmn2:itemDefinition id="ItemDefinition_3" structureRef="StringDataType"/>
+  <bpmn2:signal id="AnalysisArtifactsComplete" name="analysis artifacts complete"/>
+  <bpmn2:signal id="ArchitectureArtifactsComplete" name="architecture artifacts complete"/>
+  <bpmn2:signal id="ServiceImplArtifactComplete" name="service impl artifacts complete"/>
+  <bpmn2:process id="overlord.demo.SimplifiedProjectLifeCycle" tns:version="1" tns:packageName="SRAMPPackage" tns:adHoc="false" name="Simplified ProjectLifeCycle Demo" isExecutable="true" processType="Private">
+    <bpmn2:extensionElements/>
+    <bpmn2:property id="statusBaReview" itemSubjectRef="_String"/>
+    <bpmn2:property id="statusDesignReview" itemSubjectRef="_String"/>
+    <bpmn2:property id="statusImplReview" itemSubjectRef="_String"/>
+    <bpmn2:property id="artifactName" itemSubjectRef="_String"/>
+    <bpmn2:property id="ArtifactUuid" itemSubjectRef="_String"/>
+    <bpmn2:property id="artifactCreatedBy" itemSubjectRef="_String"/>
+    <bpmn2:property id="artifactDescription" itemSubjectRef="_String"/>
+    <bpmn2:property id="UpdateMetaDataUrl" itemSubjectRef="_String"/>
+    <bpmn2:property id="NotificationUrl" itemSubjectRef="_String"/>
+    <bpmn2:property id="SignalValue" itemSubjectRef="_String"/>
+    <bpmn2:userTask id="UserTask_1" name="Business Analysis Review Meeting">
+      <bpmn2:documentation id="Documentation_10">Review of the requirment docs</bpmn2:documentation>
+      <bpmn2:extensionElements>
+        <tns:onEntry-script scriptFormat="http://www.java.com/java">
+          <tns:script></tns:script>
+        </tns:onEntry-script>
+        <tns:onExit-script scriptFormat="http://www.java.com/java">
+          <tns:script></tns:script>
+        </tns:onExit-script>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_3">
+        <bpmn2:dataInput id="_DataInput_10" itemSubjectRef="ItemDefinition_1" name="Priority"/>
+        <bpmn2:dataInput id="_DataInput_11" itemSubjectRef="_String" name="Comment"/>
+        <bpmn2:dataInput id="_DataInput_12" itemSubjectRef="_String" name="GroupId"/>
+        <bpmn2:dataInput id="_DataInput_13" itemSubjectRef="ItemDefinition_2" name="Skippable"/>
+        <bpmn2:dataInput id="_DataInput_14" itemSubjectRef="_String" name="Content"/>
+        <bpmn2:dataInput id="_DataInput_15" itemSubjectRef="_String" name="Locale"/>
+        <bpmn2:dataInput id="DataInput_1" itemSubjectRef="_String" name="ArtifactUuid"/>
+        <bpmn2:dataInput id="DataInput_2" itemSubjectRef="_String" name="ArtifactName"/>
+        <bpmn2:dataInput id="DataInput_28" name="TaskName"/>
+        <bpmn2:dataOutput id="DataOutput_4" itemSubjectRef="_String" name="Status"/>
+        <bpmn2:inputSet id="_InputSet_3" name="New Input Set">
+          <bpmn2:dataInputRefs>_DataInput_10</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_11</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_12</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_13</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_14</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_15</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_1</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_2</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_28</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="_OutputSet_3" name="Output Set">
+          <bpmn2:dataOutputRefs>DataOutput_4</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_10">
+        <bpmn2:targetRef>_DataInput_10</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_2">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_10">3</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_9">_DataInput_10</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_11">
+        <bpmn2:targetRef>_DataInput_11</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_3">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_12">Please Claim &amp; Start this task, then meeting with the intested parties to review these requirement docs, and record to outcome of the meeting.</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_11">_DataInput_11</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_12">
+        <bpmn2:targetRef>_DataInput_12</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_4">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_14">ba</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_13">_DataInput_12</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_13">
+        <bpmn2:targetRef>_DataInput_13</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_14">
+        <bpmn2:targetRef>_DataInput_14</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_15">
+        <bpmn2:targetRef>_DataInput_15</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_1">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_1</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_2">
+        <bpmn2:sourceRef>artifactName</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_2</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_28">
+        <bpmn2:targetRef>DataInput_28</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_18">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_42">overlord.demo.ReviewMeeting</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_41">DataInput_28</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_4">
+        <bpmn2:sourceRef>DataOutput_4</bpmn2:sourceRef>
+        <bpmn2:targetRef>statusBaReview</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" tns:priority="1" name="" sourceRef="UserTask_1" targetRef="ExclusiveGateway_1"/>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_4" name="" gatewayDirection="Converging" default="SequenceFlow_1">
+      <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_18</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" tns:priority="1" name="" sourceRef="ExclusiveGateway_4" targetRef="IntermediateCatchEvent_1"/>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_5" name="" gatewayDirection="Converging" default="SequenceFlow_6">
+      <bpmn2:incoming>SequenceFlow_19</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_21</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_6" tns:priority="1" name="" sourceRef="ExclusiveGateway_5" targetRef="IntermediateCatchEvent_3"/>
+    <bpmn2:task id="Task_1" tns:taskName="HttpClientUpdateMetaData" tns:displayName="UpdateMetaData" tns:icon="user-properties.png" name="Classify #BaInReview">
+      <bpmn2:documentation id="Documentation_18">Classifies this artifact as inReview.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_4">
+        <bpmn2:dataInput id="_DataInput_16" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_17" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="_DataInput_18" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="_DataInput_19" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="_DataInput_20" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_1" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_2" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_15" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="_InputSet_4" name="New Input Set">
+          <bpmn2:dataInputRefs>_DataInput_16</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_17</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_18</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_19</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_20</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_1" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_1</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_2</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_15</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_16">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_16</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_17">
+        <bpmn2:targetRef>_DataInput_17</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_11">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_28">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_27">_DataInput_17</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_18">
+        <bpmn2:targetRef>_DataInput_18</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_13">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_32">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_31">_DataInput_18</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_19">
+        <bpmn2:targetRef>_DataInput_19</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_14">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_34">http://www.jboss.org/overlord/project-review-status.owl#BaInReview</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_33">_DataInput_19</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_20">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_20</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_1">
+        <bpmn2:sourceRef>DataOutput_1</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_2">
+        <bpmn2:sourceRef>DataOutput_2</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_15">
+        <bpmn2:sourceRef>DataOutput_15</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_10" tns:priority="1" name="" sourceRef="Task_1" targetRef="UserTask_1"/>
+    <bpmn2:task id="Task_3" tns:taskName="HttpClientUpdateMetaData" tns:displayName="UpdateMetaData" tns:icon="user-properties.png" name="Classify #BaReviewPass">
+      <bpmn2:documentation id="Documentation_60">Classifies this artifact as ReviewPass.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_19</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_2">
+        <bpmn2:dataInput id="DataInput_8" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_9" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_10" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_11" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_12" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_8" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_9" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_10" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="InputSet_2" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_8</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_9</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_10</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_11</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_12</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_3" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_8</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_9</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_10</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_8">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_8</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_9">
+        <bpmn2:targetRef>DataInput_9</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_27">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_59">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_60">_DataInput_17</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_10">
+        <bpmn2:targetRef>DataInput_10</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_28">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_61">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_62">_DataInput_18</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_11">
+        <bpmn2:targetRef>DataInput_11</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_29">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_63">http://www.jboss.org/overlord/project-review-status.owl#BaReviewPass</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_64">_DataInput_19</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_12">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_12</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_8">
+        <bpmn2:sourceRef>DataOutput_8</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_9">
+        <bpmn2:sourceRef>DataOutput_9</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_10">
+        <bpmn2:sourceRef>DataOutput_10</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_19" tns:priority="1" name="" sourceRef="Task_3" targetRef="ExclusiveGateway_5"/>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_1" name="BA Review Passed?" gatewayDirection="Diverging">
+      <bpmn2:documentation id="Documentation_69">Check if the Review meeting approved this artifact</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" tns:priority="2" name="Fail" sourceRef="ExclusiveGateway_1" targetRef="Task_2">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_2" language="http://www.java.com/java">return (! statusBaReview.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_11" tns:priority="1" name="Pass" sourceRef="ExclusiveGateway_1" targetRef="Task_3">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_3" language="http://www.java.com/java">return (statusBaReview.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:startEvent id="StartEvent_1" name="StartProcess">
+      <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_4" tns:priority="1" name="" sourceRef="StartEvent_1" targetRef="ExclusiveGateway_4"/>
+    <bpmn2:task id="Task_2" tns:taskName="HttpClientUpdateMetaData" tns:displayName="UpdateMetaData" tns:icon="user-properties.png" name="Classify #BaReviewFail">
+      <bpmn2:documentation id="Documentation_59">Classifies this artifact as ReviewFail.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_18</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_1">
+        <bpmn2:dataInput id="DataInput_3" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_4" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_5" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_6" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_7" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_5" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_6" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_7" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="InputSet_1" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_3</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_4</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_5</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_6</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_7</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_2" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_5</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_6</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_7</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_3">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_3</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_4">
+        <bpmn2:targetRef>DataInput_4</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_24">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_53">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_54">_DataInput_17</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_5">
+        <bpmn2:targetRef>DataInput_5</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_25">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_55">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_56">_DataInput_18</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_6">
+        <bpmn2:targetRef>DataInput_6</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_26">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_57">http://www.jboss.org/overlord/project-review-status.owl#BaReviewFail</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_58">_DataInput_19</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_7">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_7</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_5">
+        <bpmn2:sourceRef>DataOutput_5</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_6">
+        <bpmn2:sourceRef>DataOutput_6</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_7">
+        <bpmn2:sourceRef>DataOutput_7</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_18" tns:priority="1" name="" sourceRef="Task_2" targetRef="ExclusiveGateway_4"/>
+    <bpmn2:task id="Task_4" tns:taskName="HttpClientUpdateMetaData" tns:displayName="UpdateMetaData" tns:icon="user-properties.png" name="Classify #DesignInReview">
+      <bpmn2:documentation id="Documentation_83">Classifies this artifact as inReview.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_20</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_3">
+        <bpmn2:dataInput id="DataInput_13" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_14" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_15" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_16" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_17" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_11" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_12" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_13" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="InputSet_3" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_13</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_14</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_15</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_16</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_17</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_4" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_11</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_12</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_13</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_13">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_13</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_14">
+        <bpmn2:targetRef>DataInput_14</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_30">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_65">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_66">_DataInput_17</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_15">
+        <bpmn2:targetRef>DataInput_15</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_31">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_67">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_68">_DataInput_18</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_16">
+        <bpmn2:targetRef>DataInput_16</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_32">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_69">http://www.jboss.org/overlord/project-review-status.owl#DesignInReview</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_70">_DataInput_19</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_17">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_17</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_11">
+        <bpmn2:sourceRef>DataOutput_11</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_12">
+        <bpmn2:sourceRef>DataOutput_12</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_13">
+        <bpmn2:sourceRef>DataOutput_13</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_20" tns:priority="1" name="" sourceRef="Task_4" targetRef="UserTask_2"/>
+    <bpmn2:userTask id="UserTask_2" name="Design Review Meeting">
+      <bpmn2:documentation id="Documentation_84">Review of the design docs</bpmn2:documentation>
+      <bpmn2:extensionElements>
+        <tns:onEntry-script scriptFormat="http://www.java.com/java">
+          <tns:script></tns:script>
+        </tns:onEntry-script>
+        <tns:onExit-script scriptFormat="http://www.java.com/java">
+          <tns:script></tns:script>
+        </tns:onExit-script>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_20</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_4">
+        <bpmn2:dataInput id="DataInput_18" itemSubjectRef="_String" name="TaskName"/>
+        <bpmn2:dataInput id="DataInput_19" itemSubjectRef="ItemDefinition_1" name="Priority"/>
+        <bpmn2:dataInput id="DataInput_20" itemSubjectRef="_String" name="Comment"/>
+        <bpmn2:dataInput id="DataInput_21" itemSubjectRef="_String" name="GroupId"/>
+        <bpmn2:dataInput id="DataInput_22" itemSubjectRef="ItemDefinition_2" name="Skippable"/>
+        <bpmn2:dataInput id="DataInput_23" itemSubjectRef="_String" name="Content"/>
+        <bpmn2:dataInput id="DataInput_24" itemSubjectRef="_String" name="Locale"/>
+        <bpmn2:dataInput id="DataInput_25" itemSubjectRef="_String" name="ArtifactUuid"/>
+        <bpmn2:dataInput id="DataInput_26" itemSubjectRef="_String" name="ArtifactName"/>
+        <bpmn2:dataOutput id="DataOutput_14" itemSubjectRef="_String" name="Status"/>
+        <bpmn2:inputSet id="InputSet_4" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_18</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_19</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_20</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_21</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_22</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_23</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_24</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_25</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_26</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_5" name="Output Set">
+          <bpmn2:dataOutputRefs>DataOutput_14</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_18">
+        <bpmn2:targetRef>DataInput_18</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_33">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_71">overlord.demo.ReviewMeeting</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_72">_DataInput_9</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_19">
+        <bpmn2:targetRef>DataInput_19</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_34">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_73">3</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_74">_DataInput_10</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_20">
+        <bpmn2:targetRef>DataInput_20</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_35">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_75">Please Claim &amp; Start this task, then meeting with the intested parties to review these design docs, and record to outcome of the meeting.</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_76">_DataInput_11</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_21">
+        <bpmn2:targetRef>DataInput_21</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_36">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_77">arch</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_78">_DataInput_12</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_22">
+        <bpmn2:targetRef>DataInput_22</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_23">
+        <bpmn2:targetRef>DataInput_23</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_24">
+        <bpmn2:targetRef>DataInput_24</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_25">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_25</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_26">
+        <bpmn2:sourceRef>artifactName</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_26</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_14">
+        <bpmn2:sourceRef>DataOutput_14</bpmn2:sourceRef>
+        <bpmn2:targetRef>statusDesignReview</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_8" tns:priority="1" name="" sourceRef="UserTask_2" targetRef="ExclusiveGateway_2"/>
+    <bpmn2:task id="Task_6" tns:taskName="HttpClientUpdateMetaData" tns:displayName="UpdateMetaData" tns:icon="user-properties.png" name="Classify #DesignPass">
+      <bpmn2:documentation id="Documentation_87">Classifies this artifact as DesignPass.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_12</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_22</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_6">
+        <bpmn2:dataInput id="DataInput_32" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_33" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_34" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_35" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_36" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_18" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_19" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_20" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="InputSet_6" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_32</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_33</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_34</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_35</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_36</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_7" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_18</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_19</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_20</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_32">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_32</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_33">
+        <bpmn2:targetRef>DataInput_33</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_46">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_97">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_98">_DataInput_17</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_34">
+        <bpmn2:targetRef>DataInput_34</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_47">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_99">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_100">_DataInput_18</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_35">
+        <bpmn2:targetRef>DataInput_35</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_48">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_101">http://www.jboss.org/overlord/project-review-status.owl#DesignPass</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_102">_DataInput_19</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_36">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_36</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_18">
+        <bpmn2:sourceRef>DataOutput_18</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_19">
+        <bpmn2:sourceRef>DataOutput_19</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_20">
+        <bpmn2:sourceRef>DataOutput_20</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:task id="Task_7" tns:taskName="HttpClientUpdateMetaData" tns:displayName="UpdateMetaData" tns:icon="user-properties.png" name="Classify #DesignFail">
+      <bpmn2:documentation id="Documentation_88">Classifies this artifact as DesignFail.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_16</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_21</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_7">
+        <bpmn2:dataInput id="DataInput_37" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_38" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_39" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_40" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_41" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_21" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_22" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_23" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="InputSet_7" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_37</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_38</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_39</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_40</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_41</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_8" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_21</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_22</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_23</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_37">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_37</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_38">
+        <bpmn2:targetRef>DataInput_38</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_49">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_103">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_104">_DataInput_17</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_39">
+        <bpmn2:targetRef>DataInput_39</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_50">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_105">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_106">_DataInput_18</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_40">
+        <bpmn2:targetRef>DataInput_40</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_51">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_107">http://www.jboss.org/overlord/project-review-status.owl#DesignFail</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_108">_DataInput_19</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_41">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_41</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_21">
+        <bpmn2:sourceRef>DataOutput_21</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_22">
+        <bpmn2:sourceRef>DataOutput_22</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_23">
+        <bpmn2:sourceRef>DataOutput_23</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_21" tns:priority="1" name="" sourceRef="Task_7" targetRef="ExclusiveGateway_5"/>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_6" name="" gatewayDirection="Converging" default="SequenceFlow_9">
+      <bpmn2:incoming>SequenceFlow_22</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_23</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_9</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_9" tns:priority="1" name="" sourceRef="ExclusiveGateway_6" targetRef="IntermediateCatchEvent_4"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_22" tns:priority="1" name="" sourceRef="Task_6" targetRef="ExclusiveGateway_6"/>
+    <bpmn2:task id="Task_8" tns:taskName="HttpClientUpdateMetaData" tns:displayName="UpdateMetaData" tns:icon="user-properties.png" name="Classify #ImplInReview">
+      <bpmn2:documentation id="Documentation_90">Classifies this artifact as inReview.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_13</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_14</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_8">
+        <bpmn2:dataInput id="DataInput_42" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_43" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_44" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_45" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_46" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_24" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_25" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_26" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="InputSet_8" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_42</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_43</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_44</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_45</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_46</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_9" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_24</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_25</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_26</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_42">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_42</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_43">
+        <bpmn2:targetRef>DataInput_43</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_52">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_109">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_110">_DataInput_17</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_44">
+        <bpmn2:targetRef>DataInput_44</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_53">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_111">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_112">_DataInput_18</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_45">
+        <bpmn2:targetRef>DataInput_45</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_54">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_113">http://www.jboss.org/overlord/project-review-status.owl#ImplInReview</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_114">_DataInput_19</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_46">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_46</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_24">
+        <bpmn2:sourceRef>DataOutput_24</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_25">
+        <bpmn2:sourceRef>DataOutput_25</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_26">
+        <bpmn2:sourceRef>DataOutput_26</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_14" tns:priority="1" name="" sourceRef="Task_8" targetRef="UserTask_3"/>
+    <bpmn2:userTask id="UserTask_3" name="Implementation Review Meeting">
+      <bpmn2:documentation id="Documentation_91">Review of the service implementation</bpmn2:documentation>
+      <bpmn2:extensionElements>
+        <tns:onEntry-script scriptFormat="http://www.java.com/java">
+          <tns:script></tns:script>
+        </tns:onEntry-script>
+        <tns:onExit-script scriptFormat="http://www.java.com/java">
+          <tns:script></tns:script>
+        </tns:onExit-script>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_14</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_24</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_9">
+        <bpmn2:dataInput id="DataInput_47" itemSubjectRef="_String" name="TaskName"/>
+        <bpmn2:dataInput id="DataInput_48" itemSubjectRef="ItemDefinition_1" name="Priority"/>
+        <bpmn2:dataInput id="DataInput_49" itemSubjectRef="_String" name="Comment"/>
+        <bpmn2:dataInput id="DataInput_50" itemSubjectRef="_String" name="GroupId"/>
+        <bpmn2:dataInput id="DataInput_51" itemSubjectRef="ItemDefinition_2" name="Skippable"/>
+        <bpmn2:dataInput id="DataInput_52" itemSubjectRef="_String" name="Content"/>
+        <bpmn2:dataInput id="DataInput_53" itemSubjectRef="_String" name="Locale"/>
+        <bpmn2:dataInput id="DataInput_54" itemSubjectRef="_String" name="ArtifactUuid"/>
+        <bpmn2:dataInput id="DataInput_55" itemSubjectRef="_String" name="ArtifactName"/>
+        <bpmn2:dataOutput id="DataOutput_27" itemSubjectRef="_String" name="Status"/>
+        <bpmn2:inputSet id="InputSet_9" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_47</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_48</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_49</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_50</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_51</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_52</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_53</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_54</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_55</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_10" name="Output Set">
+          <bpmn2:dataOutputRefs>DataOutput_27</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_47">
+        <bpmn2:targetRef>DataInput_47</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_55">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_115">overlord.demo.ReviewMeeting</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_116">_DataInput_9</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_48">
+        <bpmn2:targetRef>DataInput_48</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_56">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_117">3</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_118">_DataInput_10</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_49">
+        <bpmn2:targetRef>DataInput_49</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_57">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_119">Please Claim &amp; Start this task, then meeting with the intested parties to review the service implementation, and record to outcome of the meeting.</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_120">_DataInput_11</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_50">
+        <bpmn2:targetRef>DataInput_50</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_58">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_121">dev</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_122">_DataInput_12</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_51">
+        <bpmn2:targetRef>DataInput_51</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_52">
+        <bpmn2:targetRef>DataInput_52</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_53">
+        <bpmn2:targetRef>DataInput_53</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_54">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_54</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_55">
+        <bpmn2:sourceRef>artifactName</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_55</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_27">
+        <bpmn2:sourceRef>DataOutput_27</bpmn2:sourceRef>
+        <bpmn2:targetRef>statusImplReview</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:userTask>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_2" name="Design Review Passed?" gatewayDirection="Diverging">
+      <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_12</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_16</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_12" tns:priority="1" name="Pass" sourceRef="ExclusiveGateway_2" targetRef="Task_6">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_4" language="http://www.java.com/java">return (statusDesignReview.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_16" tns:priority="1" name="Fail" sourceRef="ExclusiveGateway_2" targetRef="Task_7">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_5" language="http://www.java.com/java">return (! statusDesignReview.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:task id="Task_9" tns:taskName="HttpClientUpdateMetaData" tns:displayName="UpdateMetaData" tns:icon="user-properties.png" name="Classify #ImplPass">
+      <bpmn2:documentation id="Documentation_92">Classifies this artifact as ImplPass.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_15</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_25</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_10">
+        <bpmn2:dataInput id="DataInput_56" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_57" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_58" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_59" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_60" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_28" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_29" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_30" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="InputSet_10" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_56</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_57</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_58</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_59</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_60</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_11" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_28</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_29</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_30</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_56">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_56</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_57">
+        <bpmn2:targetRef>DataInput_57</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_62">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_129">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_130">_DataInput_17</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_58">
+        <bpmn2:targetRef>DataInput_58</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_63">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_131">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_132">_DataInput_18</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_59">
+        <bpmn2:targetRef>DataInput_59</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_64">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_133">http://www.jboss.org/overlord/project-review-status.owl#ImplPass</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_134">_DataInput_19</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_60">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_60</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_28">
+        <bpmn2:sourceRef>DataOutput_28</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_29">
+        <bpmn2:sourceRef>DataOutput_29</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_30">
+        <bpmn2:sourceRef>DataOutput_30</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:task id="Task_10" tns:taskName="HttpClientUpdateMetaData" tns:displayName="UpdateMetaData" tns:icon="user-properties.png" name="Classify #ImplFail">
+      <bpmn2:documentation id="Documentation_93">Classifies this artifact as ImplFail.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_17</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_23</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_11">
+        <bpmn2:dataInput id="DataInput_61" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_62" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_63" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_64" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_65" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_31" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_32" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_33" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="InputSet_11" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_61</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_62</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_63</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_64</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_65</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_12" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_31</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_32</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_33</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_61">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_61</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_62">
+        <bpmn2:targetRef>DataInput_62</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_65">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_135">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_136">_DataInput_17</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_63">
+        <bpmn2:targetRef>DataInput_63</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_66">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_137">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_138">_DataInput_18</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_64">
+        <bpmn2:targetRef>DataInput_64</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_67">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_139">http://www.jboss.org/overlord/project-review-status.owl#ImplFail</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_140">_DataInput_19</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_65">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_65</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_31">
+        <bpmn2:sourceRef>DataOutput_31</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_32">
+        <bpmn2:sourceRef>DataOutput_32</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_33">
+        <bpmn2:sourceRef>DataOutput_33</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_23" tns:priority="1" name="" sourceRef="Task_10" targetRef="ExclusiveGateway_6"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_24" tns:priority="1" name="" sourceRef="UserTask_3" targetRef="ExclusiveGateway_3"/>
+    <bpmn2:endEvent id="EndEvent_1" name="">
+      <bpmn2:incoming>SequenceFlow_25</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_25" tns:priority="1" name="" sourceRef="Task_9" targetRef="EndEvent_1"/>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_3" name="Service Implementation Review Passed?" gatewayDirection="Diverging">
+      <bpmn2:incoming>SequenceFlow_24</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_15</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_17</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_15" tns:priority="1" name="Pass" sourceRef="ExclusiveGateway_3" targetRef="Task_9">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_6" language="http://www.java.com/java">return (statusImplReview.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_17" tns:priority="1" name="Fail" sourceRef="ExclusiveGateway_3" targetRef="Task_10">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_7" language="http://www.java.com/java">return (! statusImplReview.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1" name="analysis docs complete">
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
+      <bpmn2:dataOutput id="DataOutput_34" name="Signal_3_Output"/>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_34">
+        <bpmn2:sourceRef>DataOutput_34</bpmn2:sourceRef>
+        <bpmn2:targetRef>SignalValue</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:outputSet id="OutputSet_13" name="Output Set 13">
+        <bpmn2:dataOutputRefs>DataOutput_34</bpmn2:dataOutputRefs>
+      </bpmn2:outputSet>
+      <bpmn2:signalEventDefinition id="SignalEventDefinition_3" signalRef="AnalysisArtifactsComplete"/>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_5" tns:priority="1" name="" sourceRef="IntermediateCatchEvent_1" targetRef="Task_1"/>
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_3" name="architecture docs complete">
+      <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
+      <bpmn2:dataOutput id="DataOutput_36" name="Signal_6_Output"/>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_36">
+        <bpmn2:sourceRef>DataOutput_36</bpmn2:sourceRef>
+        <bpmn2:targetRef>SignalValue</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:outputSet id="OutputSet_15" name="Output Set 15">
+        <bpmn2:dataOutputRefs>DataOutput_36</bpmn2:dataOutputRefs>
+      </bpmn2:outputSet>
+      <bpmn2:signalEventDefinition id="SignalEventDefinition_6" signalRef="ArchitectureArtifactsComplete"/>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_7" tns:priority="1" name="" sourceRef="IntermediateCatchEvent_3" targetRef="Task_4"/>
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_4" name="service implementation complete">
+      <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_13</bpmn2:outgoing>
+      <bpmn2:dataOutput id="DataOutput_37" name="Signal_7_Output"/>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_37">
+        <bpmn2:sourceRef>DataOutput_37</bpmn2:sourceRef>
+        <bpmn2:targetRef>SignalValue</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:outputSet id="OutputSet_16" name="Output Set 16">
+        <bpmn2:dataOutputRefs>DataOutput_37</bpmn2:dataOutputRefs>
+      </bpmn2:outputSet>
+      <bpmn2:signalEventDefinition id="SignalEventDefinition_7" signalRef="ServiceImplArtifactComplete"/>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_13" tns:priority="1" name="" sourceRef="IntermediateCatchEvent_4" targetRef="Task_8"/>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Simplified ProjectLifeCycle Demo">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="overlord.demo.SimplifiedProjectLifeCycle">
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="StartEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="10.0" y="85.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_1" bpmnElement="ExclusiveGateway_1" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="81.0" y="410.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_2" bpmnElement="ExclusiveGateway_2" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="305.0" y="410.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_3" bpmnElement="ExclusiveGateway_3" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="536.0" y="410.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_1" bpmnElement="EndEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="690.0" y="497.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_4" bpmnElement="ExclusiveGateway_4" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="81.0" y="78.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_5" bpmnElement="ExclusiveGateway_5" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="306.0" y="78.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_6" bpmnElement="ExclusiveGateway_6" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="536.0" y="79.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_1" bpmnElement="UserTask_1">
+        <dc:Bounds height="50.0" width="110.0" x="51.0" y="318.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_1" bpmnElement="Task_1">
+        <dc:Bounds height="50.0" width="110.0" x="51.0" y="233.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_3" bpmnElement="Task_3">
+        <dc:Bounds height="50.0" width="110.0" x="51.0" y="490.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_2" bpmnElement="Task_2">
+        <dc:Bounds height="50.0" width="110.0" x="51.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_4" bpmnElement="Task_4">
+        <dc:Bounds height="50.0" width="110.0" x="275.0" y="233.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_2" bpmnElement="UserTask_2">
+        <dc:Bounds height="50.0" width="110.0" x="275.0" y="318.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_6" bpmnElement="Task_6">
+        <dc:Bounds height="50.0" width="110.0" x="275.0" y="490.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_7" bpmnElement="Task_7">
+        <dc:Bounds height="50.0" width="110.0" x="275.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_8" bpmnElement="Task_8">
+        <dc:Bounds height="50.0" width="110.0" x="506.0" y="233.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_3" bpmnElement="UserTask_3">
+        <dc:Bounds height="50.0" width="110.0" x="506.0" y="318.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_9" bpmnElement="Task_9">
+        <dc:Bounds height="50.0" width="110.0" x="507.0" y="490.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_10" bpmnElement="Task_10">
+        <dc:Bounds height="50.0" width="110.0" x="506.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_1" bpmnElement="IntermediateCatchEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="88.0" y="156.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_3" bpmnElement="IntermediateCatchEvent_3">
+        <dc:Bounds height="36.0" width="36.0" x="312.0" y="156.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_IntermediateCatchEvent_4" bpmnElement="IntermediateCatchEvent_4">
+        <dc:Bounds height="36.0" width="36.0" x="543.0" y="156.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_UserTask_1" targetElement="BPMNShape_ExclusiveGateway_1">
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="368.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="386.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="386.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="410.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_Task_2">
+        <di:waypoint xsi:type="dc:Point" x="132.0" y="435.0"/>
+        <di:waypoint xsi:type="dc:Point" x="182.0" y="435.0"/>
+        <di:waypoint xsi:type="dc:Point" x="182.0" y="25.0"/>
+        <di:waypoint xsi:type="dc:Point" x="161.0" y="25.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="SequenceFlow_4" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_ExclusiveGateway_4">
+        <di:waypoint xsi:type="dc:Point" x="46.0" y="103.0"/>
+        <di:waypoint xsi:type="dc:Point" x="61.0" y="103.0"/>
+        <di:waypoint xsi:type="dc:Point" x="61.0" y="103.0"/>
+        <di:waypoint xsi:type="dc:Point" x="81.0" y="103.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="SequenceFlow_5" sourceElement="BPMNShape_IntermediateCatchEvent_1" targetElement="BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="192.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="210.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="210.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="233.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_11" bpmnElement="SequenceFlow_11" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_Task_3">
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="461.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="474.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="474.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="490.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_12" bpmnElement="SequenceFlow_12" sourceElement="BPMNShape_ExclusiveGateway_2" targetElement="BPMNShape_Task_6">
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="461.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="474.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="474.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="490.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_15" bpmnElement="SequenceFlow_15" sourceElement="BPMNShape_ExclusiveGateway_3" targetElement="BPMNShape_Task_9">
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="461.0"/>
+        <di:waypoint xsi:type="dc:Point" x="562.0" y="490.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_16" bpmnElement="SequenceFlow_16" sourceElement="BPMNShape_ExclusiveGateway_2" targetElement="BPMNShape_Task_7">
+        <di:waypoint xsi:type="dc:Point" x="356.0" y="435.0"/>
+        <di:waypoint xsi:type="dc:Point" x="404.0" y="435.0"/>
+        <di:waypoint xsi:type="dc:Point" x="404.0" y="25.0"/>
+        <di:waypoint xsi:type="dc:Point" x="385.0" y="25.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_17" bpmnElement="SequenceFlow_17" sourceElement="BPMNShape_ExclusiveGateway_3" targetElement="BPMNShape_Task_10">
+        <di:waypoint xsi:type="dc:Point" x="587.0" y="435.0"/>
+        <di:waypoint xsi:type="dc:Point" x="630.0" y="435.0"/>
+        <di:waypoint xsi:type="dc:Point" x="630.0" y="25.0"/>
+        <di:waypoint xsi:type="dc:Point" x="616.0" y="25.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_IntermediateCatchEvent_3" targetElement="BPMNShape_Task_4">
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="192.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="210.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="210.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="233.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="SequenceFlow_8" sourceElement="BPMNShape_UserTask_2" targetElement="BPMNShape_ExclusiveGateway_2">
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="368.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="386.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="386.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="410.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_13" bpmnElement="SequenceFlow_13" sourceElement="BPMNShape_IntermediateCatchEvent_4" targetElement="BPMNShape_Task_8">
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="192.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="210.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="210.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="233.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_14" bpmnElement="SequenceFlow_14" sourceElement="BPMNShape_Task_8" targetElement="BPMNShape_UserTask_3">
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="283.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="298.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="298.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="318.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_ExclusiveGateway_4" targetElement="BPMNShape_IntermediateCatchEvent_1">
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="129.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="141.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="141.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="156.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_6" sourceElement="BPMNShape_ExclusiveGateway_5" targetElement="BPMNShape_IntermediateCatchEvent_3">
+        <di:waypoint xsi:type="dc:Point" x="331.0" y="129.0"/>
+        <di:waypoint xsi:type="dc:Point" x="331.0" y="141.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="141.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="156.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="SequenceFlow_9" sourceElement="BPMNShape_ExclusiveGateway_6" targetElement="BPMNShape_IntermediateCatchEvent_4">
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="130.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="141.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="141.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="156.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_10" sourceElement="BPMNShape_Task_1" targetElement="BPMNShape_UserTask_1">
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="283.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="298.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="298.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="318.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_18" bpmnElement="SequenceFlow_18" sourceElement="BPMNShape_Task_2" targetElement="BPMNShape_ExclusiveGateway_4">
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="50.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="62.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="62.0"/>
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="78.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_19" bpmnElement="SequenceFlow_19" sourceElement="BPMNShape_Task_3" targetElement="BPMNShape_ExclusiveGateway_5">
+        <di:waypoint xsi:type="dc:Point" x="161.0" y="515.0"/>
+        <di:waypoint xsi:type="dc:Point" x="234.0" y="515.0"/>
+        <di:waypoint xsi:type="dc:Point" x="234.0" y="103.0"/>
+        <di:waypoint xsi:type="dc:Point" x="306.0" y="103.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_20" bpmnElement="SequenceFlow_20" sourceElement="BPMNShape_Task_4" targetElement="BPMNShape_UserTask_2">
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="283.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="298.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="298.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="318.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_21" bpmnElement="SequenceFlow_21" sourceElement="BPMNShape_Task_7" targetElement="BPMNShape_ExclusiveGateway_5">
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="50.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="62.0"/>
+        <di:waypoint xsi:type="dc:Point" x="331.0" y="62.0"/>
+        <di:waypoint xsi:type="dc:Point" x="331.0" y="78.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_22" bpmnElement="SequenceFlow_22" sourceElement="BPMNShape_Task_6" targetElement="BPMNShape_ExclusiveGateway_6">
+        <di:waypoint xsi:type="dc:Point" x="385.0" y="515.0"/>
+        <di:waypoint xsi:type="dc:Point" x="474.0" y="515.0"/>
+        <di:waypoint xsi:type="dc:Point" x="474.0" y="104.0"/>
+        <di:waypoint xsi:type="dc:Point" x="536.0" y="104.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_23" bpmnElement="SequenceFlow_23" sourceElement="BPMNShape_Task_10" targetElement="BPMNShape_ExclusiveGateway_6">
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="50.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="63.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="63.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="79.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_24" bpmnElement="SequenceFlow_24" sourceElement="BPMNShape_UserTask_3" targetElement="BPMNShape_ExclusiveGateway_3">
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="368.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="386.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="386.0"/>
+        <di:waypoint xsi:type="dc:Point" x="561.0" y="410.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_25" bpmnElement="SequenceFlow_25" sourceElement="BPMNShape_Task_9" targetElement="BPMNShape_EndEvent_1">
+        <di:waypoint xsi:type="dc:Point" x="617.0" y="515.0"/>
+        <di:waypoint xsi:type="dc:Point" x="649.0" y="515.0"/>
+        <di:waypoint xsi:type="dc:Point" x="649.0" y="515.0"/>
+        <di:waypoint xsi:type="dc:Point" x="690.0" y="515.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

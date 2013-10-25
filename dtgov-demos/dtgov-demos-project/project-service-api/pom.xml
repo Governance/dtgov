@@ -24,8 +24,10 @@
         <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>project</artifactId>
-    <packaging>pom</packaging>
-    <name>DTGov Demos Project: Project</name>
+    <artifactId>project-service-api</artifactId>
+    <name>DTGov Demos: Project - Service API</name>
+    <properties>
+    	<signal>ArchitectureArtifactsComplete</signal>
+    </properties>
  
 </project>

@@ -6,7 +6,7 @@
   xml:base="http://www.jboss.org/overlord/deployment-status.owl">
   
   <owl:Ontology rdf:ID="Status">
-    <rdfs:label>Status</rdfs:label>
+    <rdfs:label>Deployment Status</rdfs:label>
     <rdfs:comment>Deployment Status Ontology</rdfs:comment>
   </owl:Ontology>
 
