@@ -116,7 +116,7 @@ public class DeploymentResource {
 
         // deploy the artifact (delegate based on target type)
         ////////////////////////////////////////////
-        String deploymentTarget = target.getType().toString() + ":";
+        String deploymentTarget = target.getType().toString() + ":"; //$NON-NLS-1$
         try {
             if (target.getType() == TYPE.COPY) {
             	deploymentTarget += deployCopy(artifact, target, client);
@@ -131,7 +131,7 @@ public class DeploymentResource {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            results.put(GovernanceConstants.STATUS, new ValueEntity("fail"));
+            results.put(GovernanceConstants.STATUS, new ValueEntity("fail")); //$NON-NLS-1$
         	results.put(GovernanceConstants.MESSAGE, new ValueEntity(e.getMessage()));
         	return results;
         }
@@ -500,7 +500,7 @@ public class DeploymentResource {
             props.put("deploy.cli.name", tmpFile.getName()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
             
-            return target.getName() + " " + target.getHost();
+            return target.getName() + " " + target.getHost(); //$NON-NLS-1$
         } finally {
         	if (ctx != null) ctx.terminateSession();
         	IOUtils.closeQuietly(is);

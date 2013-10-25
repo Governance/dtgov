@@ -47,7 +47,7 @@ public class ProcessBean implements ProcessLocal {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private static Boolean hasSRAMPPackageDeployed = Boolean.FALSE;
-	
+
 	@Resource
 	private UserTransaction ut;
 
