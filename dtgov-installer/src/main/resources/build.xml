@@ -101,16 +101,35 @@
 
     <!-- Create DTGov workflow user -->
     <genguid property="dtgov.users.workflow.password" />
-    <echo message="Generated password for dtgov_workflow user: ${dtgov.users.workflow.password}" />
+    <echo message="Generated password for dtgovworkflow user: ${dtgov.users.workflow.password}" />
+    <java jar="${dtgov.appserver.dir}/jboss-modules.jar"
+          fork="true" dir="${dtgov.appserver.dir}"
+          failonerror="true" maxmemory="128m">
+      <env key="JBOSS_HOME" value="${dtgov.appserver.dir}" />
+      <arg value="-mp"/>
+      <arg value="${dtgov.appserver.module-path}"/>
+      <arg value="org.jboss.as.domain-add-user"/>
+      <arg value="-a"/>
+      <arg value="-s"/>
+      <arg value="-u"/>
+      <arg value="dtgovworkflow"/>
+      <arg value="-p"/>
+      <arg value="${dtgov.users.workflow.password}"/>
+      <arg value="-r"/>
+      <arg value="ApplicationRealm"/>
+      <arg value="-ro"/>
+      <arg value="overlorduser,admin.sramp"/>
+    </java>
+    <echo message="Created dtgovworkflow user in Application Realm" />
+
+    <!-- Store dtgovworkflow password in vault -->
     <java jar="${dtgov.appserver.dir}/jboss-modules.jar"
           fork="true" dir="${dtgov.appserver.dir}"
           failonerror="true" maxmemory="128m">
       <arg value="-mp"/>
       <arg value="${dtgov.appserver.module-path}"/>
       <arg value="org.overlord.commons.overlord-commons-auth-tool"/>
-      <arg value="adduser"/>
-      <arg value="-configdir"/>
-      <arg value="${dtgov.appserver.config.dir}"/>
+      <arg value="storepassword"/>
       <arg value="-vaultdir"/>
       <arg value="${dtgov.appserver.dir}/vault/"/>
       <arg value="-keystore"/>
@@ -123,10 +142,12 @@
       <arg value="8675309K"/>
       <arg value="-count"/>
       <arg value="50"/>
-      <arg value="-user"/>
-      <arg value="dtgov_workflow"/>
+      <arg value="-name"/>
+      <arg value="dtgovworkflow.password"/>
       <arg value="-password"/>
       <arg value="${dtgov.users.workflow.password}"/>
+      <arg value="-block"/>
+      <arg value="dtgov"/>
       <arg value="-propertyfile"/>
       <arg value="${dtgov.tmp.file}"/>
       <arg value="-property"/>
@@ -134,30 +155,30 @@
     </java>
     <property file="${dtgov.tmp.file}" />
     <delete file="${dtgov.tmp.file}" />
-    <echo message="Vault key for vault password: ${dtgov.users.workflow.password.hash}" />
+    <echo message="Vault key for dtgovworkflow password: ${dtgov.users.workflow.password.hash}" />
 
-    <!-- Set the dtgov_workflow user credentials in dtgov.properties -->
+    <!-- Set the dtgovworkflow user credentials in dtgov.properties -->
     <concat destfile="${dtgov.appserver.config.dir}/dtgov.properties" append="true">
 # Governance BPM credentials
-governance.bpm.user=dtgov_workflow
+governance.bpm.user=dtgovworkflow
 governance.bpm.password=$${vault:${dtgov.users.workflow.password.hash}}
 
 # S-RAMP Repository credentials
-sramp.repo.user=dtgov_workflow
+sramp.repo.user=dtgovworkflow
 sramp.repo.password=$${vault:${dtgov.users.workflow.password.hash}}
 
 # Overlord governance credentials
 #  (used by the workflows to invoke DTGov services)
-governance.user=dtgov_workflow
+governance.user=dtgovworkflow
 governance.password=$${vault:${dtgov.users.workflow.password.hash}}
     </concat>
 
     <!-- Set the SAML keystore and alias password in the dtgov-ui config -->
     <property file="${dtgov.appserver.config.dir}/overlord-vault-keys.properties" />
     <propertyfile file="${dtgov.appserver.config.dir}/dtgov-ui.properties">
-      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.vault.password.hash}}" />
+      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.saml-keystore.password.hash}}" />
       <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />
-      <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.vault.password.hash}}" />
+      <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.saml-keystore.password.hash}}" />
       <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />
     </propertyfile>
 
