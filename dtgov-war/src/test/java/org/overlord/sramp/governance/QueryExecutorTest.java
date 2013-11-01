@@ -35,8 +35,7 @@ public class QueryExecutorTest {
 
     @Test @Ignore
 	public void testMonitor() throws ConfigException, SrampClientException, SrampAtomException, URISyntaxException, IOException {
-        QueryExecutor queryExecutor = new QueryExecutor();
-        queryExecutor.execute();
+        QueryExecutor.execute();
     }
 	
 }
