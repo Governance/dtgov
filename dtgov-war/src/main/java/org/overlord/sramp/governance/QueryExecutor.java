@@ -110,7 +110,7 @@ public class QueryExecutor {
                             }
                             Property property = new Property();
                             property.setPropertyName(propertyName + i);
-                            property.setPropertyValue(processInstanceId + "_" + WORKFLOW_PARAMETERS + query.getParameters());
+                            property.setPropertyValue(processInstanceId + "_" + WORKFLOW_PARAMETERS + query.getParameters()); //$NON-NLS-1$
                             artifact.getProperty().add(property);
                             client.updateArtifactMetaData(artifact);
                         }
@@ -141,8 +141,8 @@ public class QueryExecutor {
                     				if (property.getPropertyName().startsWith(WORKFLOW_PROCESS_ID)) {
                     					String name = property.getPropertyName();
                     					String value = property.getPropertyValue();
-                    					logger.info("Signalling Process " + name.substring(name.indexOf("=")+1));
-                    					long processInstanceId = Long.valueOf(value.substring(0,value.indexOf("_")));
+                    					logger.info("Signalling Process " + name.substring(name.indexOf("=")+1)); //$NON-NLS-1$ //$NON-NLS-2$
+                    					long processInstanceId = Long.valueOf(value.substring(0,value.indexOf("_"))); //$NON-NLS-1$
                     					for (Property signalProperty : pomArtifact.getProperty()) {
                     						if (signalProperty.getPropertyName().equals(MAVEN_PROPERTY_SIGNAL)) {
                     							String signalType = signalProperty.getPropertyValue();

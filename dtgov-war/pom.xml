@@ -24,12 +24,10 @@
     <dependency>
       <groupId>org.codehaus.btm</groupId>
       <artifactId>btm</artifactId>
-      <version>2.1.3</version>
     </dependency>
     <dependency>
       <groupId>com.jayway.restassured</groupId>
       <artifactId>rest-assured</artifactId>
-      <version>1.7.2</version>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
@@ -65,7 +63,6 @@
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-auth</artifactId>
-      <version>${overlord-commons.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -81,13 +78,11 @@
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jaxrs</artifactId>
-      <version>${resteasy.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-multipart-provider</artifactId>
-      <version>${resteasy.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>servlet-api</artifactId>
@@ -99,7 +94,6 @@
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>jaxrs-api</artifactId>
-      <version>${resteasy.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -118,7 +112,6 @@
     <dependency>
       <groupId>org.jboss.as</groupId>
       <artifactId>jboss-as-cli</artifactId>
-      <version>7.2.0.Final</version>
     </dependency>
     <!-- Provided libraries -->
     <dependency>
@@ -129,19 +122,9 @@
 
     <!-- Testing (note the scope) -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>xmlunit</groupId>
-      <artifactId>xmlunit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>tjws</artifactId>
-      <version>${resteasy.version}</version>
+      <version>${version.org.jboss.resteasy}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -154,28 +137,23 @@
     <dependency>
       <groupId>dumbster</groupId>
       <artifactId>dumbster</artifactId>
-      <version>1.5</version>
       <scope>test</scope>
     </dependency>
-
     
     <!-- Java EE dependencies -->
     <dependency>
       <groupId>org.jboss.spec.javax.ejb</groupId>
       <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-      <version>1.0.2.Final</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.hibernate.javax.persistence</groupId>
       <artifactId>hibernate-jpa-2.0-api</artifactId>
-      <version>1.0.1.Final</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.transaction</groupId>
       <artifactId>jta</artifactId>
-      <version>1.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -210,17 +188,14 @@
     <dependency>
       <groupId>org.jboss.seam.persistence</groupId>
       <artifactId>seam-persistence</artifactId>
-      <version>3.1.0.Final</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.seam.transaction</groupId>
       <artifactId>seam-transaction</artifactId>
-      <version>3.1.0.Final</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.spec.javax.security.jacc</groupId>
       <artifactId>jboss-jacc-api_1.4_spec</artifactId>
-      <version>1.0.2.Final</version>
     </dependency>
     <!-- Drools KIE dependencies -->
     <dependency>
@@ -252,23 +227,19 @@
     <dependency>
       <artifactId>netty</artifactId>
       <groupId>org.jboss.netty</groupId>
-      <version>3.2.5.Final</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
-      <version>${maven.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-model</artifactId>
-      <version>${maven.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-compat</artifactId>
-      <version>${maven.version}</version>
     </dependency>
   </dependencies>
 
