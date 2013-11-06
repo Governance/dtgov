@@ -449,9 +449,11 @@
     <module>dtgov-task-api</module>
     <module>dtgov-task-client</module>
     <module>dtgov-war</module>
+    <module>dtgov-war-eap61</module>
+    <module>dtgov-war-jboss7</module>
     <module>dtgov-ui-war</module>
-    <module>dtgov-ui-war-jboss7</module>
     <module>dtgov-ui-war-eap61</module>
+    <module>dtgov-ui-war-jboss7</module>
     <module>dtgov-workflows</module>
     <module>dtgov-demos</module>
     <module>dtgov-installer</module>
