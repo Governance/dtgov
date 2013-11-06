@@ -23,7 +23,6 @@
     <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/${appserver.id}" />
     <property name="dtgov.overlord-commons.installer.jar" location="overlord-commons-installer.jar" />
     <property name="dtgov.overlord-commons.installer.dir" location="${dtgov.install.dir}/overlord-commons-installer" />
-    <property name="dtgov.dtgov-war.path" location="dtgov-war.war" />
   </target>
 
   <!-- Configure properties common to all JBoss install targets -->
@@ -36,12 +35,14 @@
   <!-- Configure properties specific to JBoss EAP 6.1 -->
   <target name="properties-jboss-eap-6.1" depends="properties-jboss-common" if="jboss-eap-6.1">
     <property name="dtgov.appserver.zip" location="jboss-eap-6.1.0.zip" />
+    <property name="dtgov.dtgov-war.path" location="bin/dtgov-war-eap61-${dtgov.version}.war" />
     <property name="dtgov.dtgov-ui.path" location="bin/dtgov-ui-war-eap61-${dtgov.version}.war" />
   </target>
 
   <!-- Configure properties specific to JBoss AS 7.1.1.Final -->
   <target name="properties-jboss-as-7.1.1.Final" depends="properties-jboss-common" if="jboss-as-7.1.1.Final">
     <property name="dtgov.appserver.zip" location="jboss-as-7.1.1.Final.zip" />
+    <property name="dtgov.dtgov-war.path" location="bin/dtgov-war-jboss7-${dtgov.version}.war" />
     <property name="dtgov.dtgov-ui.path" location="bin/dtgov-ui-war-jboss7-${dtgov.version}.war" />
   </target>
 

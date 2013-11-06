@@ -97,7 +97,7 @@
                       value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
 
                     <!-- DTGov WARs -->
-                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war.war.path}" />
+                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war-eap61.war.path}" />
                     <property name="dtgov.dtgov-ui.path"
                       value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-eap61.war.path}" />
 
@@ -153,7 +153,7 @@
                       value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
 
                     <!-- DTGov WARs -->
-                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war.war.path}" />
+                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war-jboss7.war.path}" />
                     <property name="dtgov.dtgov-ui.path"
                       value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jboss7.war.path}" />
 
