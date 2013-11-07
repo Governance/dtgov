@@ -143,7 +143,7 @@ Signaling 'Analysis Docs Complete'
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The upload of the requirements also triggered an _AnalysisArtifactsComplete_ _signal_ to the newly created workflow, to 
-signal the workflow that the requirements docs are ready for review. This signal was trigger by upload of the 
+signal the workflow that the requirements docs are ready for review. This signal was triggered by upload of the 
 project-requirements/pom.xml. Note that in this pom we have the following properties section
 
 ....
@@ -161,7 +161,7 @@ with the #BaInReview classification, and start a _Business Analysis Review Meeti
 to the _ba_ role. You can defined roles in the _standalone/configuration/overlord-idp-roles.properties_. These
 roles can be referenced in the human task definition as the 'groupId'. 
 
-By default the _standalone/configuration/overlord-idp-roles.properties_ look like
+By default the _standalone/configuration/overlord-idp-roles.properties_ looks like
 ....
 admin=overlorduser,admin.sramp,dev,qa,stage,prod,ba,arch
 ....
