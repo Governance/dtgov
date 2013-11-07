@@ -36,7 +36,7 @@ public class Governance {
     public static String NOTIFICATION_ERROR  = GovernanceConstants.GOVERNANCE + ".<email|..> should be of the format <groupName>|<fromAddress>|<destination1>,<destination2>\nCheck\n"; //$NON-NLS-1$
     public static String DEFAULT_JNDI_EMAIL_REF = "java:jboss/mail/Default"; //$NON-NLS-1$
     public static String DEFAULT_EMAIL_DOMAIN = "example.com"; //$NON-NLS-1$
-    public static String DEFAULT_EMAIL_FROM = "overlord@example.org"; //$NON-NLS-1$
+    public static String DEFAULT_EMAIL_FROM = "overlord@example.com"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_WORKFLOW_GROUP   = "org.overlord.dtgov"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_WORKFLOW_NAME    = "dtgov-workflows"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_WORKFLOW_VERSION = "1.0.0"; //$NON-NLS-1$
