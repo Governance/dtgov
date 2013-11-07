@@ -19,7 +19,6 @@
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-auth</artifactId>
-      <version>${overlord-commons.version}</version>
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
@@ -46,7 +45,13 @@
     <!-- DTGov WARs -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-war</artifactId>
+      <artifactId>dtgov-war-jboss7</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-war-eap61</artifactId>
       <version>${project.version}</version>
       <type>war</type>
     </dependency>

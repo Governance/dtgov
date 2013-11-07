@@ -20,22 +20,13 @@
       <artifactId>dtgov-common</artifactId>
       <version>${project.version}</version>
     </dependency>
-
-    <dependency>
-      <groupId>org.codehaus.btm</groupId>
-      <artifactId>btm</artifactId>
-      <version>2.1.3</version>
-    </dependency>
-    <dependency>
-      <groupId>com.jayway.restassured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <version>1.7.2</version>
-    </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-task-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+    <!-- S-RAMP -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-api</artifactId>
@@ -62,32 +53,39 @@
       <artifactId>s-ramp-wagon</artifactId>
       <version>${s-ramp.version}</version>
     </dependency>
+    
+    <!-- Overlord Commons -->
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-auth</artifactId>
-      <version>${overlord-commons.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-config</artifactId>
     </dependency>
+    
     <dependency>
-      <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-workflows</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
+      <groupId>org.codehaus.btm</groupId>
+      <artifactId>btm</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.jayway.restassured</groupId>
+      <artifactId>rest-assured</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <version>1.3</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jaxrs</artifactId>
-      <version>${resteasy.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-multipart-provider</artifactId>
-      <version>${resteasy.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>servlet-api</artifactId>
@@ -99,83 +97,37 @@
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>jaxrs-api</artifactId>
-      <version>${resteasy.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
-    <!-- this is now brought in by rest-assured too
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpmime</artifactId>
-      <version>4.1.2</version>
-      <scope>provided</scope>
-    </dependency>
-     -->
-     <!--  jboss cli -->
+    <!-- jboss cli -->
     <dependency>
       <groupId>org.jboss.as</groupId>
       <artifactId>jboss-as-cli</artifactId>
-      <version>7.2.0.Final</version>
     </dependency>
-    <!-- Provided libraries -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
 
-    <!-- Testing (note the scope) -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>xmlunit</groupId>
-      <artifactId>xmlunit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.resteasy</groupId>
-      <artifactId>tjws</artifactId>
-      <version>${resteasy.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.overlord.sramp</groupId>
-      <artifactId>s-ramp-common</artifactId>
-      <version>${s-ramp.version}</version>
-      <classifier>tests</classifier>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>dumbster</groupId>
-      <artifactId>dumbster</artifactId>
-      <version>1.5</version>
-      <scope>test</scope>
-    </dependency>
-
-    
     <!-- Java EE dependencies -->
     <dependency>
       <groupId>org.jboss.spec.javax.ejb</groupId>
       <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-      <version>1.0.2.Final</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.hibernate.javax.persistence</groupId>
       <artifactId>hibernate-jpa-2.0-api</artifactId>
-      <version>1.0.1.Final</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.transaction</groupId>
       <artifactId>jta</artifactId>
-      <version>1.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -184,6 +136,7 @@
       <version>2.1</version>
       <scope>provided</scope>
     </dependency>
+
     <!-- jBPM 6 dependencies -->
     <dependency>
       <groupId>org.jbpm</groupId>
@@ -205,23 +158,21 @@
       <artifactId>jbpm-runtime-manager</artifactId>
       <version>${jbpm.version}</version>
     </dependency>
-    
+
     <!-- can compile, but cannot deploy without these seam dependencies -->
     <dependency>
       <groupId>org.jboss.seam.persistence</groupId>
       <artifactId>seam-persistence</artifactId>
-      <version>3.1.0.Final</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.seam.transaction</groupId>
       <artifactId>seam-transaction</artifactId>
-      <version>3.1.0.Final</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.spec.javax.security.jacc</groupId>
       <artifactId>jboss-jacc-api_1.4_spec</artifactId>
-      <version>1.0.2.Final</version>
     </dependency>
+
     <!-- Drools KIE dependencies -->
     <dependency>
       <groupId>org.drools</groupId>
@@ -250,25 +201,47 @@
       </exclusions>
     </dependency>
     <dependency>
-      <artifactId>netty</artifactId>
-      <groupId>org.jboss.netty</groupId>
-      <version>3.2.5.Final</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
-      <version>${maven.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-model</artifactId>
-      <version>${maven.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-compat</artifactId>
-      <version>${maven.version}</version>
+    </dependency>
+
+    <!-- Testing (note the scope) -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-workflows</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>tjws</artifactId>
+      <version>${version.org.jboss.resteasy}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-common</artifactId>
+      <version>${s-ramp.version}</version>
+      <classifier>tests</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>dumbster</groupId>
+      <artifactId>dumbster</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <artifactId>netty</artifactId>
+      <groupId>org.jboss.netty</groupId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

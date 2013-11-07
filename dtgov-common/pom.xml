@@ -9,8 +9,4 @@
   <artifactId>dtgov-common</artifactId>
   <name>Design Time Governance: Common</name>
   <description>Contains classes shared across the various DTGov modules.</description>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 </project>

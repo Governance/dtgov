@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.overlord.dtgov</groupId>
@@ -28,24 +29,24 @@
       </plugin>
     </plugins>
   </build>
-   <profiles>
-	  <profile>
-	    <id>sramp</id>
-	    <activation>
-          <activeByDefault>false</activeByDefault>
-        </activation>
-	      <distributionManagement>
-	        <repository>
-	          <id>local-sramp-repo</id>
-	          <name>S-RAMP Releases Repository</name>
-	          <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
-	        </repository>
-	        <snapshotRepository>
-	          <id>local-sramp-repo-snapshots</id>
-	          <name>S-RAMP Snapshots Repository</name>
-	          <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
-	        </snapshotRepository>
-	      </distributionManagement>
-	    </profile>
-    </profiles>
+  <profiles>
+    <profile>
+      <id>sramp</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <distributionManagement>
+        <repository>
+          <id>local-sramp-repo</id>
+          <name>S-RAMP Releases Repository</name>
+          <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
+        </repository>
+        <snapshotRepository>
+          <id>local-sramp-repo-snapshots</id>
+          <name>S-RAMP Snapshots Repository</name>
+          <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+  </profiles>
 </project>

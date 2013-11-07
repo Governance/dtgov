@@ -14,7 +14,6 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-gwt</artifactId>
-      <version>14.0.1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -65,13 +64,11 @@
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-uiheader</artifactId>
-      <version>${overlord-commons.version}</version>
     </dependency>
     <!-- Overlord Commons GWT -->
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-gwt</artifactId>
-      <version>${overlord-commons.version}</version>
     </dependency>
     <!-- Overlord Commons Config -->
     <dependency>
@@ -89,12 +86,10 @@
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-core-asl</artifactId>
-      <version>1.9.9</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.9.9</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -103,7 +98,6 @@
     <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
-      <version>${commons-fileupload.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -113,25 +107,21 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jsp-api</artifactId>
-      <version>${jsp-api.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.ejb3</groupId>
       <artifactId>jboss-ejb3-api</artifactId>
       <scope>provided</scope>
-      <version>${jboss-ejb3-api.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
       <scope>provided</scope>
-      <version>${cdi-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-auth</artifactId>
-      <version>${overlord-commons.version}</version>
       <scope>provided</scope>
     </dependency>
 
@@ -139,7 +129,6 @@
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-bus</artifactId>
-      <version>${errai.version}</version>
       <exclusions>
         <exclusion>
           <groupId>javax.inject</groupId>
@@ -154,7 +143,6 @@
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-ioc</artifactId>
-      <version>${errai.version}</version>
       <exclusions>
         <exclusion>
           <groupId>javax.inject</groupId>
@@ -169,52 +157,46 @@
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-data-binding</artifactId>
-      <version>${errai.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-ui</artifactId>
-      <version>${errai.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-navigation</artifactId>
-      <version>${errai.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-tools</artifactId>
-      <version>${errai.version}</version>
+      <version>${version.org.jboss.errai}</version>
     </dependency>
     <dependency>
       <groupId>org.mvel</groupId>
       <artifactId>mvel2</artifactId>
-      <version>${mvel.version}</version>
     </dependency>
     
     <!-- CDI Integration Modules -->
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-cdi-client</artifactId>
-      <version>${errai.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-javax-enterprise</artifactId>
-      <version>${errai.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-weld-integration</artifactId>
-      <version>${errai.version}</version>
     </dependency>
 
     <!-- Weld -->
     <dependency>
       <groupId>org.jboss.weld.se</groupId>
       <artifactId>weld-se-core</artifactId>
-      <version>${weld.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>el-api</artifactId>
@@ -224,15 +206,13 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.weld.servlet</groupId>
-      <artifactId>weld-servlet</artifactId>
-      <version>${weld.version}</version>
+      <artifactId>weld-servlet-core</artifactId>
     </dependency>
     
     <!-- GWT -->
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
-      <version>${gwt.version}</version>
       <scope>provided</scope>
     </dependency>
     
@@ -244,15 +224,6 @@
     <dependency>
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging</artifactId>
-      <version>${jboss-logging.version}</version>
-    </dependency>
-    
-    <!-- Required for errai-ui to generate i18n reports -->
-    <dependency>
-      <groupId>net.sf.jtidy</groupId>
-      <artifactId>jtidy</artifactId>
-      <version>r938</version>
-      <scope>provided</scope>
     </dependency>
   </dependencies>
 
@@ -272,7 +243,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${gwt.version}</version>
+        <version>${version.com.google.gwt}</version>
         <configuration>
           <logLevel>INFO</logLevel>
           <runTarget>index.html</runTarget>
