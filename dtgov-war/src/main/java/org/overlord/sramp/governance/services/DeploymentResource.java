@@ -489,7 +489,7 @@ public class DeploymentResource {
         	}
             ctx.connectController(target.getHost(), target.getPort());
             // execute deploy to a servergroup or update if it's already deployed
-            ctx.handle("deploy " + tmpFile.getAbsolutePath() + " --force --server-groups=" + target.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+            ctx.handle("deploy " + tmpFile.getAbsolutePath() + " --server-groups=" + target.getName()); //$NON-NLS-1$ //$NON-NLS-2$
             tmpFile.delete();
 
             // record (un)deployment information
