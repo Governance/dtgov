@@ -17,14 +17,6 @@
         <version>${s-ramp.version}</version>
       </extension>
     </extensions>
-    <plugins>
-      <plugin>
-        <groupId>org.drools</groupId>
-        <artifactId>drools-maven-plugin</artifactId>
-        <version>${drools.version}</version>
-        <extensions>true</extensions>
-      </plugin>
-    </plugins>
   </build>
 
   <distributionManagement>
