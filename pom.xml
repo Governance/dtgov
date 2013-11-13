@@ -92,8 +92,8 @@
     <overlord-commons.version>2.0.0-SNAPSHOT</overlord-commons.version>
 
     <!-- jBPM/Drools version -->
-    <jbpm.version>6.0.0.CR4</jbpm.version>
-    <drools.version>6.0.0.CR4</drools.version>
+    <jbpm.version>6.0.0.CR5</jbpm.version>
+    <drools.version>6.0.0.CR5</drools.version>
 
     <!-- DTGov only libraries (not in BOM) -->
     <commons.lang3.version>3.1</commons.lang3.version>
