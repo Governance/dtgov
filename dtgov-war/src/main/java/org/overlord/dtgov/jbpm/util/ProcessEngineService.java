@@ -109,7 +109,7 @@ public class ProcessEngineService {
         
         for (DeployedUnit deployedUnit: deploymentService.getDeployedUnits()) {
         	deployedUnit.getRuntimeManager().close();
-        	deploymentService.undeploy(deployedUnit.getDeploymentUnit());
+        	//deploymentService.undeploy(deployedUnit.getDeploymentUnit());
         }
     }
 }

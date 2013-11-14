@@ -17,24 +17,24 @@ package org.overlord.sramp.governance.workflow.jbpm;
 
 import java.util.Map;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.overlord.dtgov.jbpm.ejb.ProcessLocal;
+import org.overlord.dtgov.jbpm.ejb.ProcessBean;
 import org.overlord.sramp.governance.workflow.WorkflowException;
 
 @Named
 @RequestScoped
 public class ProcessService {
 
-	@EJB
-    private ProcessLocal processService;
+	@Inject
+    private ProcessBean processBean;
 	
     public long newProcessInstance(String deploymentId, String processId, Map<String, Object> context) throws WorkflowException {
         
     	try {
-			long processInstanceId = processService.startProcess(deploymentId, processId, context);
+			long processInstanceId = processBean.startProcess(deploymentId, processId, context);
     		return processInstanceId;
     	} catch (Exception e) {
     		throw new WorkflowException(e);
@@ -42,7 +42,7 @@ public class ProcessService {
     }
     
     public void signalProcess(long processInstanceId, String signalType, Object event) {
-    	processService.signalProcess(processInstanceId, signalType, event);
+    	processBean.signalProcess(processInstanceId, signalType, event);
     }
     
 }

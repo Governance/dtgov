@@ -25,14 +25,14 @@ import javax.annotation.Resource;
 import javax.ejb.Startup;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
-import org.jbpm.kie.services.api.DeploymentUnit.RuntimeStrategy;
+import org.jboss.seam.transaction.Transactional;
 import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
 import org.jbpm.kie.services.impl.model.ProcessInstanceDesc;
-import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeManager;
@@ -47,10 +47,9 @@ import org.overlord.sramp.governance.Governance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Startup
-@javax.ejb.Singleton
-@TransactionManagement(TransactionManagementType.BEAN)
-public class ProcessBean implements ProcessLocal {
+@ApplicationScoped
+@Transactional
+public class ProcessBean {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private static Boolean hasSRAMPPackageDeployed = Boolean.FALSE;
@@ -102,7 +101,6 @@ public class ProcessBean implements ProcessLocal {
 	 * parameters Map is set into the context of the workflow.
 	 *
 	 */
-	@Override
     public long startProcess(String deploymentId, String processId, Map<String, Object> parameters)
 			throws Exception {
 		
@@ -141,7 +139,6 @@ public class ProcessBean implements ProcessLocal {
 		ksession.signalEvent(signalType, event,processInstance.getId());
 	}
 
-	@Override
     public Collection<ProcessInstanceDesc> listProcessInstances() throws Exception {
 
 		Collection<ProcessInstanceDesc> processInstances = null;
@@ -170,7 +167,6 @@ public class ProcessBean implements ProcessLocal {
 
 	}
 
-	@Override
     public void listProcessInstanceDetail(long processInstanceId) throws Exception {
 
 		ut.begin();

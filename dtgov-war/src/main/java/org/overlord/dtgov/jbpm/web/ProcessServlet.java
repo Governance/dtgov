@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -30,15 +31,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kie.api.runtime.process.ProcessInstance;
-import org.overlord.dtgov.jbpm.ejb.ProcessLocal;
+import org.overlord.dtgov.jbpm.ejb.ProcessBean;
 import org.overlord.dtgov.server.i18n.Messages;
 
 public class ProcessServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    @EJB
-    private ProcessLocal processService;
+    @Inject
+    private ProcessBean processBean;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
@@ -62,7 +63,7 @@ public class ProcessServlet extends HttpServlet {
         }
         parameters.put("recipient", recipient); //$NON-NLS-1$
         try {
-            processInstanceId = processService.startProcess(null, processId, parameters);
+            processInstanceId = processBean.startProcess(null, processId, parameters);
             //processInstances = processService.listProcessInstances();
         } catch (Exception e) {
             throw new ServletException(e);
@@ -84,7 +85,7 @@ public class ProcessServlet extends HttpServlet {
 
     	String processId = req.getParameter("processId"); //$NON-NLS-1$
     	try {
-            processService.listProcessInstanceDetail(Long.parseLong(processId));
+            processBean.listProcessInstanceDetail(Long.parseLong(processId));
             //processInstances = processService.listProcessInstances();
         } catch (Exception e) {
             throw new ServletException(e);

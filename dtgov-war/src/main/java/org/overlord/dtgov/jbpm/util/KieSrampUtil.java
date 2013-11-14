@@ -44,37 +44,6 @@ public class KieSrampUtil {
 		return Boolean.FALSE;
 	}
 	
-	public ReleaseId getSRAMPPackageReleaseId() {
-		try {
-			SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient(); 
-			
-			Governance governance = new Governance();
-			String srampQuery = String.format(SRAMP_KIE_JAR_QUERY_FORMAT,
-					governance.getGovernanceWorkflowGroup(),
-					governance.getGovernanceWorkflowName(),
-					governance.getGovernanceWorkflowVersion());
-			
-			QueryResultSet results = client.query(srampQuery);
-			if (results.size() > 0) {
-				KieServices ks = KieServices.Factory.get();
-				ReleaseId releaseId = ks.newReleaseId(
-						governance.getGovernanceWorkflowGroup(),
-						governance.getGovernanceWorkflowName(),
-						governance.getGovernanceWorkflowVersion());
-				return releaseId;
-			}
-			
-			
-		} catch (SrampClientException e) {
-			logger.error(e.getMessage(),e);
-		} catch (SrampAtomException e) {
-			logger.error(e.getMessage(),e);
-		}
-		return null;
-	}
-	
-	
-	
 	/**
 	 * Creating a KieBase from the workflow GAV specified in the config.
 	 * 
