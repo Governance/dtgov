@@ -51,6 +51,6 @@ public class WorkflowFactoryTest {
         parameters.put("employee", "krisv"); //$NON-NLS-1$ //$NON-NLS-2$
         parameters.put("reason", "just bc"); //$NON-NLS-1$ //$NON-NLS-2$
         parameters.put("uuid", "some-uuid-" + new Date()); //$NON-NLS-1$ //$NON-NLS-2$
-        bpmManager.newProcessInstance(processId, parameters);
+        bpmManager.newProcessInstance(null, processId, parameters);
     }
 }

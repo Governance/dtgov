@@ -2,11 +2,14 @@ package org.overlord.dtgov.jbpm.util;
 
 import java.io.InputStream;
 
-import org.kie.api.KieBase;
+import org.jbpm.kie.services.api.DeploymentUnit.RuntimeStrategy;
+import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieModule;
 import org.kie.api.builder.KieRepository;
+import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.manager.RuntimeManager;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -26,7 +29,22 @@ public class KieSrampUtil {
 			+ "@maven.artifactId = '%s' and " //$NON-NLS-1$
 			+ "@maven.version = '%s']"; //$NON-NLS-1$
 
-	public boolean isSRAMPPackageDeployed() {
+	public boolean isSRAMPPackageDeployed(String groupId, String artifactId, String version) {
+		try {
+			SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient(); 
+			String srampQuery = String.format(SRAMP_KIE_JAR_QUERY_FORMAT, groupId, artifactId, version);
+			QueryResultSet results = client.query(srampQuery);
+			if (results.size() > 0) return Boolean.TRUE;
+			
+		} catch (SrampClientException e) {
+			logger.error(e.getMessage(),e);
+		} catch (SrampAtomException e) {
+			logger.error(e.getMessage(),e);
+		}
+		return Boolean.FALSE;
+	}
+	
+	public ReleaseId getSRAMPPackageReleaseId() {
 		try {
 			SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient(); 
 			
@@ -37,7 +55,14 @@ public class KieSrampUtil {
 					governance.getGovernanceWorkflowVersion());
 			
 			QueryResultSet results = client.query(srampQuery);
-			if (results.size() > 0) return Boolean.TRUE;
+			if (results.size() > 0) {
+				KieServices ks = KieServices.Factory.get();
+				ReleaseId releaseId = ks.newReleaseId(
+						governance.getGovernanceWorkflowGroup(),
+						governance.getGovernanceWorkflowName(),
+						governance.getGovernanceWorkflowVersion());
+				return releaseId;
+			}
 			
 			
 		} catch (SrampClientException e) {
@@ -45,8 +70,10 @@ public class KieSrampUtil {
 		} catch (SrampAtomException e) {
 			logger.error(e.getMessage(),e);
 		}
-		return Boolean.FALSE;
+		return null;
 	}
+	
+	
 	
 	/**
 	 * Creating a KieBase from the workflow GAV specified in the config.
@@ -56,7 +83,7 @@ public class KieSrampUtil {
 	 * @throws SrampClientException
 	 * @throws SrampAtomException
 	 */
-	public KieBase getKieBase() throws SrampClientException, SrampAtomException {
+	public KieContainer getKieContainer(ReleaseId releaseId) throws SrampClientException, SrampAtomException {
 		
 		KieServices ks = KieServices.Factory.get();
     	KieRepository repo = ks.getRepository();
@@ -77,11 +104,39 @@ public class KieSrampUtil {
 			KieContainer kContainer = ks.newKieContainer(kModule.getReleaseId());
 			//Creating the KieBase for the SRAMPPackage
 	    	logger.info(Messages.i18n.format("ApplicationScopedProducer.FindKieBase", governance.getGovernanceWorkflowPackage())); //$NON-NLS-1$
-			KieBase kieBase = kContainer.getKieBase("SRAMPPackage"); //$NON-NLS-1$
-			return kieBase;
+			return kContainer;
 		} else {
 			return null;
 		}
+		
+	}
+	
+	public RuntimeManager getRuntimeManager(ProcessEngineService processEngineService, String deploymentId) {
+		String[] deploymentInfo = deploymentId.split(":");
+		if (deploymentInfo.length!=5) {
+			throw new IllegalStateException("The deploymentId needs to be of format groupId:artifactId:version:packageName:ksessionName");
+		}
+		KModuleDeploymentUnit unit = new KModuleDeploymentUnit(
+				deploymentInfo[0], deploymentInfo[1], deploymentInfo[2], deploymentInfo[3], deploymentInfo[4]);
+		return getRuntimeManager(processEngineService, unit);
+	}
+	
+	public RuntimeManager getRuntimeManager(ProcessEngineService processEngineService, KModuleDeploymentUnit unit) {
+		
+		//First see if we have one
+		RuntimeManager runtimeManager = processEngineService.getRuntimeManager(unit.getIdentifier());
+		if (runtimeManager==null) {
+			if (isSRAMPPackageDeployed(unit.getGroupId(), unit.getArtifactId(), unit.getVersion())) {
+				unit.setStrategy(RuntimeStrategy.PER_PROCESS_INSTANCE);
+				processEngineService.deployUnit(unit);
+				runtimeManager = processEngineService.getRuntimeManager(unit.getIdentifier());
+				logger.info("Found and deployed " + unit.getIdentifier() + " to the jBPM runtime");
+			} else {
+				logger.error("Workflow KieJar " + unit.getIdentifier() + " not found in the S-RAMP Repository");
+				throw new IllegalStateException("Workflow KieJar " + unit.getIdentifier() + " not found in the S-RAMP Repository");
+			}
+		}
+		return runtimeManager;
 		
 	}
 	

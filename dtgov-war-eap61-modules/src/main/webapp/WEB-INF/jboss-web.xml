@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+  <security-domain>overlord-jaxrs</security-domain>
+  <context-root>dtgov</context-root>
+  <valve>
+    <class-name>org.overlord.commons.auth.jboss7.HttpRequestThreadLocalValve</class-name>
+  </valve>
+</jboss-web>

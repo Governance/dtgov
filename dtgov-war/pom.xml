@@ -14,7 +14,7 @@
   <description>Design Time Governance with BPMN2 workflow support.</description>
   
   <properties>
-  	<jbpm.scope>compile</jbpm.scope>
+  	<jbpm.scope>provided</jbpm.scope>
   </properties>
 
   <dependencies>
@@ -166,6 +166,12 @@
       <version>${jbpm.version}</version>
       <scope>${jbpm.scope}</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-kie-services</artifactId>
+      <version>${jbpm.version}</version>
+      <scope>${jbpm.scope}</scope>
+    </dependency>
     <!-- adding for task management -->
     <dependency>
       <groupId>org.jbpm</groupId>
@@ -173,6 +179,7 @@
       <version>${jbpm.version}</version>
       <scope>compile</scope>
     </dependency>
+    
      
 
     <!-- can compile, but cannot deploy without these seam dependencies -->

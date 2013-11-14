@@ -62,7 +62,7 @@ public class ProcessServlet extends HttpServlet {
         }
         parameters.put("recipient", recipient); //$NON-NLS-1$
         try {
-            processInstanceId = processService.startProcess(processId, parameters);
+            processInstanceId = processService.startProcess(null, processId, parameters);
             //processInstances = processService.listProcessInstances();
         } catch (Exception e) {
             throw new ServletException(e);

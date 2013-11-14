@@ -21,13 +21,13 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
-import org.kie.api.runtime.process.ProcessInstance;
+import org.jbpm.kie.services.impl.model.ProcessInstanceDesc;
 
 @Local
 public interface ProcessLocal {
 	
-    public long startProcess(String processId, Map<String, Object> parameters) throws Exception;
+    public long startProcess(String deploymentId, String processId, Map<String, Object> parameters) throws Exception;
     public void signalProcess(long processInstanceId, String signalType, Object event);
-    public Collection<ProcessInstance> listProcessInstances() throws Exception;
+    public Collection<ProcessInstanceDesc> listProcessInstances() throws Exception;
     public void listProcessInstanceDetail(long processId) throws Exception;
 }

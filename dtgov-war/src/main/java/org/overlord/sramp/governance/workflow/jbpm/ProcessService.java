@@ -31,10 +31,10 @@ public class ProcessService {
 	@EJB
     private ProcessLocal processService;
 	
-    public long newProcessInstance(String processId, Map<String, Object> context) throws WorkflowException {
+    public long newProcessInstance(String deploymentId, String processId, Map<String, Object> context) throws WorkflowException {
         
     	try {
-			long processInstanceId = processService.startProcess(processId, context);
+			long processInstanceId = processService.startProcess(deploymentId, processId, context);
     		return processInstanceId;
     	} catch (Exception e) {
     		throw new WorkflowException(e);
