@@ -21,6 +21,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -41,6 +43,8 @@ import org.overlord.sramp.governance.Governance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Startup
+@Singleton
 @ApplicationScoped
 @Transactional
 public class ProcessBean {
