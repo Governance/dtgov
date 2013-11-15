@@ -17,7 +17,7 @@ import org.jbpm.kie.services.api.IdentityProvider;
 public class CustomIdentityProvider implements IdentityProvider {
 
     public String getName() {
-        return "dummy";
+        return "dummy"; //$NON-NLS-1$
     }
 
     public List<String> getRoles() {

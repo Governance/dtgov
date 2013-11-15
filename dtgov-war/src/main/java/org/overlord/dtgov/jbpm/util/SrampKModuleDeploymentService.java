@@ -42,7 +42,7 @@ public class SrampKModuleDeploymentService extends AbstractDeploymentService {
 
     private static Logger logger = LoggerFactory.getLogger(SrampKModuleDeploymentService.class);
     
-    private static final String DEFAULT_KBASE_NAME = "SRAMPPackage";
+    private static final String DEFAULT_KBASE_NAME = "SRAMPPackage"; //$NON-NLS-1$
 
     @Inject
     private BeanManager beanManager;
@@ -57,7 +57,7 @@ public class SrampKModuleDeploymentService extends AbstractDeploymentService {
     public void deploy(DeploymentUnit unit) {
         super.deploy(unit);
         if (!(unit instanceof KModuleDeploymentUnit)) {
-            throw new IllegalArgumentException("Invalid deployment unit provided - " + unit.getClass().getName());
+            throw new IllegalArgumentException("Invalid deployment unit provided - " + unit.getClass().getName()); //$NON-NLS-1$
         }
         KModuleDeploymentUnit kmoduleUnit = (KModuleDeploymentUnit) unit;
         DeployedUnitImpl deployedUnit = new DeployedUnitImpl(unit);
@@ -70,7 +70,7 @@ public class SrampKModuleDeploymentService extends AbstractDeploymentService {
 		try {
 			kieContainer = kieSrampUtil.getKieContainer(releaseId);
 		} catch (Exception e) {
-			throw new IllegalStateException("Cannot connect to s-ramp " + e.getMessage());
+			throw new IllegalStateException("Cannot connect to s-ramp " + e.getMessage()); //$NON-NLS-1$
 		}
 
         String kbaseName = kmoduleUnit.getKbaseName();
@@ -84,28 +84,28 @@ public class SrampKModuleDeploymentService extends AbstractDeploymentService {
         }
         InternalKieModule module = (InternalKieModule) ((KieContainerImpl)kieContainer).getKieModuleForKBase(kbaseName);
         if (module == null) {
-            throw new IllegalStateException("Cannot find kbase with name " + kbaseName);
+            throw new IllegalStateException("Cannot find kbase with name " + kbaseName); //$NON-NLS-1$
         }
 
         Map<String, String> formsData = new HashMap<String, String>();
         Collection<String> files = module.getFileNames();
         for (String fileName : files) {
-            if(fileName.matches(".+bpmn[2]?$")) {
+            if(fileName.matches(".+bpmn[2]?$")) { //$NON-NLS-1$
                 ProcessDesc process;
                 try {
-                    String processString = new String(module.getBytes(fileName), "UTF-8");
+                    String processString = new String(module.getBytes(fileName), "UTF-8"); //$NON-NLS-1$
                     process = bpmn2Service.findProcessId(processString, kieContainer.getClassLoader());
                     process.setEncodedProcessSource(Base64.encodeBase64String(processString.getBytes()));
                     process.setDeploymentId(unit.getIdentifier());
                     process.setForms(formsData);
                     deployedUnit.addAssetLocation(process.getId(), process);
                 } catch (UnsupportedEncodingException e) {
-                    logger.warn("Unable to load content for file '{}' : {}", fileName, e);
+                    logger.warn("Unable to load content for file '{}' : {}", fileName, e); //$NON-NLS-1$
                 }
-            } else if (fileName.matches(".+ftl$")) {
+            } else if (fileName.matches(".+ftl$")) { //$NON-NLS-1$
                 try {
-                    String formContent = new String(module.getBytes(fileName), "UTF-8");
-                    Pattern regex = Pattern.compile("(.{0}|.*/)([^/]*?)\\.ftl");
+                    String formContent = new String(module.getBytes(fileName), "UTF-8"); //$NON-NLS-1$
+                    Pattern regex = Pattern.compile("(.{0}|.*/)([^/]*?)\\.ftl"); //$NON-NLS-1$
                     Matcher m = regex.matcher(fileName);
                     String key = fileName;
                     while (m.find()) {
@@ -113,12 +113,12 @@ public class SrampKModuleDeploymentService extends AbstractDeploymentService {
                     }
                     formsData.put(key, formContent);
                 } catch (UnsupportedEncodingException e) {
-                    logger.warn("Unable to load content for form '{}' : {}", fileName, e);
+                    logger.warn("Unable to load content for form '{}' : {}", fileName, e); //$NON-NLS-1$
                 }
             } else if (fileName.matches(".+form$")) {
                 try {
-                    String formContent = new String(module.getBytes(fileName), "UTF-8");
-                    Pattern regex = Pattern.compile("(.{0}|.*/)([^/]*?)\\.form");
+                    String formContent = new String(module.getBytes(fileName), "UTF-8"); //$NON-NLS-1$
+                    Pattern regex = Pattern.compile("(.{0}|.*/)([^/]*?)\\.form"); //$NON-NLS-1$
                     Matcher m = regex.matcher(fileName);
                     String key = fileName;
                     while (m.find()) {
@@ -126,7 +126,7 @@ public class SrampKModuleDeploymentService extends AbstractDeploymentService {
                     }
                     formsData.put(key+".form", formContent);
                 } catch (UnsupportedEncodingException e) {
-                    logger.warn("Unable to load content for form '{}' : {}", fileName, e);
+                    logger.warn("Unable to load content for form '{}' : {}", fileName, e); //$NON-NLS-1$
                 }
             }
         }

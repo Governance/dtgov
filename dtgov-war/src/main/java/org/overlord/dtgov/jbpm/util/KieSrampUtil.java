@@ -1,3 +1,18 @@
+/**
+ * Copyright 2013 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.overlord.dtgov.jbpm.util;
 
 import java.io.InputStream;
@@ -69,31 +84,39 @@ public class KieSrampUtil {
 			ArtifactSummary artifactSummery = results.get(0);
 			InputStream is = client.getArtifactContent(artifactSummery);
 			KieModule kModule = repo.addKieModule(ks.getResources().newInputStreamResource(is));
-			logger.info(Messages.i18n.format("ApplicationScopedProducer.CreatingKieContainer", artifactSummery)); //$NON-NLS-1$
+			logger.info(Messages.i18n.format("KieSrampUtil.CreatingKieContainer", artifactSummery)); //$NON-NLS-1$
 			KieContainer kContainer = ks.newKieContainer(kModule.getReleaseId());
 			//Creating the KieBase for the SRAMPPackage
-	    	logger.info(Messages.i18n.format("ApplicationScopedProducer.FindKieBase", governance.getGovernanceWorkflowPackage())); //$NON-NLS-1$
+	    	logger.info(Messages.i18n.format("KieSrampUtil.FindKieBase", governance.getGovernanceWorkflowPackage())); //$NON-NLS-1$
 			return kContainer;
 		} else {
 			return null;
 		}
 		
 	}
-	
+	/**
+	 * Returns a RuntimeManager from the ProcessEngineService for the given deploymentId. 
+	 * Creates a RuntimeManager if it didn't already exist.
+	 * 
+	 * @param processEngineService
+	 * @param deploymentId
+	 * @return RuntimeManager
+	 */
 	public RuntimeManager getRuntimeManager(ProcessEngineService processEngineService, String deploymentId) {
 		String[] deploymentInfo = deploymentId.split(":");
 		if (deploymentInfo.length!=5) {
-			throw new IllegalStateException("The deploymentId needs to be of format groupId:artifactId:version:packageName:ksessionName");
+			throw new IllegalStateException(Messages.i18n.format("KieSrampUtil.DeploymentIdFormat")); //$NON-NLS-1$
 		}
 		KModuleDeploymentUnit unit = new KModuleDeploymentUnit(
 				deploymentInfo[0], deploymentInfo[1], deploymentInfo[2], deploymentInfo[3], deploymentInfo[4]);
 		return getRuntimeManager(processEngineService, unit);
 	}
 	/**
-	 * Obtains a runtimeManager from the ProcessEngineService
+	 * Returns a RuntimeManager from the ProcessEngineService for the given KModuleDeploymentUnit. 
+	 * Creates a RuntimeManager if it didn't already exist.
 	 * @param processEngineService
 	 * @param unit
-	 * @return
+	 * @return RuntimeManager
 	 */
 	public RuntimeManager getRuntimeManager(ProcessEngineService processEngineService, KModuleDeploymentUnit unit) {
 		
@@ -104,10 +127,10 @@ public class KieSrampUtil {
 				unit.setStrategy(RuntimeStrategy.PER_PROCESS_INSTANCE);
 				processEngineService.deployUnit(unit);
 				runtimeManager = processEngineService.getRuntimeManager(unit.getIdentifier());
-				logger.info("Found and deployed " + unit.getIdentifier() + " to the jBPM runtime");
+				logger.info(Messages.i18n.format("KieSrampUtil.FoundAndDeployed", unit.getIdentifier() )); //$NON-NLS-1$
 			} else {
-				logger.error("Workflow KieJar " + unit.getIdentifier() + " not found in the S-RAMP Repository");
-				throw new IllegalStateException("Workflow KieJar " + unit.getIdentifier() + " not found in the S-RAMP Repository");
+				logger.error(Messages.i18n.format("KieSrampUtil.NotFound", unit.getIdentifier() )); //$NON-NLS-1$
+				throw new IllegalStateException(Messages.i18n.format("KieSrampUtil.NotFound", unit.getIdentifier() )); //$NON-NLS-1$
 			}
 		}
 		return runtimeManager;
