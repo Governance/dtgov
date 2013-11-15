@@ -21,17 +21,14 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.annotation.Resource;
-import javax.ejb.Startup;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.transaction.Status;
-import javax.transaction.UserTransaction;
 
 import org.jboss.seam.transaction.Transactional;
 import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
+import org.jbpm.kie.services.impl.event.DeploymentEvent;
+import org.jbpm.kie.services.impl.event.Undeploy;
 import org.jbpm.kie.services.impl.model.ProcessInstanceDesc;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
@@ -54,10 +51,8 @@ public class ProcessBean {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private static Boolean hasSRAMPPackageDeployed = Boolean.FALSE;
 
-	@Resource
-	private UserTransaction ut;
-
 	@Inject
+	@ApplicationScoped
 	private ProcessEngineService processEngineService;
   
 	@PostConstruct
@@ -90,6 +85,7 @@ public class ProcessBean {
 	
 	@PreDestroy
 	public void cleanup() {
+		logger.info("Cleaning up jBPM Runtime Managers");
 		processEngineService.closeAllRuntimeManagers();
 	}
 	
@@ -104,25 +100,22 @@ public class ProcessBean {
     public long startProcess(String deploymentId, String processId, Map<String, Object> parameters)
 			throws Exception {
 		
-		KieSrampUtil kieSrampUtil = new KieSrampUtil();
-		RuntimeManager runtimeManager = kieSrampUtil.getRuntimeManager(processEngineService, deploymentId);
-		RuntimeEngine runtime = runtimeManager.getRuntimeEngine(EmptyContext.get());
-		KieSession ksession = runtime.getKieSession();
-
+	
 		long processInstanceId = -1;
-		ut.begin();
 		try {
+			KieSrampUtil kieSrampUtil = new KieSrampUtil();
+			RuntimeManager runtimeManager = kieSrampUtil.getRuntimeManager(processEngineService, deploymentId);
+			RuntimeEngine runtime = runtimeManager.getRuntimeEngine(EmptyContext.get());
+			KieSession ksession = runtime.getKieSession();
 			// start a new process instance
 			ProcessInstance processInstance = ksession.startProcess(processId,
 					parameters);
 			processInstanceId = processInstance.getId();
 			logger.info(Messages.i18n.format("ProcessBean.Started", processInstanceId)); //$NON-NLS-1$
-			ut.commit();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (ut.getStatus() == Status.STATUS_ACTIVE) {
-				ut.rollback();
-			}
+			
 			throw e;
 		}
 		return processInstanceId;
@@ -142,7 +135,7 @@ public class ProcessBean {
     public Collection<ProcessInstanceDesc> listProcessInstances() throws Exception {
 
 		Collection<ProcessInstanceDesc> processInstances = null;
-		ut.begin();
+		
 		//note that, if needed, the processEngineService can easily be extended with
 		//methods that can filter by deploymentId and processId
 		try {
@@ -152,15 +145,11 @@ public class ProcessBean {
 							processInstanceDesc.getProcessName() + " " +
 							processInstanceDesc.getId() 
 							);
-
 				System.out.println(".."); //$NON-NLS-1$
 			}
-			ut.commit();
+		
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (ut.getStatus() == Status.STATUS_ACTIVE) {
-				ut.rollback();
-			}
 			throw e;
 		}
 		return processInstances;
@@ -168,8 +157,6 @@ public class ProcessBean {
 	}
 
     public void listProcessInstanceDetail(long processInstanceId) throws Exception {
-
-		ut.begin();
 
 		try {
 			ProcessInstanceDesc processInstanceDesc = processEngineService.getProcessInstance(processInstanceId);
@@ -179,12 +166,10 @@ public class ProcessBean {
 
 				System.out.println(".."); //$NON-NLS-1$
 			}
-			ut.commit();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (ut.getStatus() == Status.STATUS_ACTIVE) {
-				ut.rollback();
-			}
+			
 			throw e;
 		}
 

@@ -75,7 +75,7 @@ public class ApplicationScopedProducer {
     @ApplicationScoped
     public void commitAndClose(@Disposes EntityManager em) {
         try {
-            if (em.isOpen()) em.close();
+            em.close();
         } catch (Exception e) {
 
         }

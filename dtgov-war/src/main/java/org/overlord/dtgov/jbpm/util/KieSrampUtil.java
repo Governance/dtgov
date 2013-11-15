@@ -89,7 +89,12 @@ public class KieSrampUtil {
 				deploymentInfo[0], deploymentInfo[1], deploymentInfo[2], deploymentInfo[3], deploymentInfo[4]);
 		return getRuntimeManager(processEngineService, unit);
 	}
-	
+	/**
+	 * Obtains a runtimeManager from the ProcessEngineService
+	 * @param processEngineService
+	 * @param unit
+	 * @return
+	 */
 	public RuntimeManager getRuntimeManager(ProcessEngineService processEngineService, KModuleDeploymentUnit unit) {
 		
 		//First see if we have one

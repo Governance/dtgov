@@ -14,7 +14,7 @@
   <description>Design Time Governance with BPMN2 workflow support.</description>
   
   <properties>
-  	<jbpm.scope>provided</jbpm.scope>
+  	<jbpm.scope>compile</jbpm.scope>
   </properties>
 
   <dependencies>

@@ -3,6 +3,7 @@ package org.overlord.dtgov.jbpm.util;
 import java.util.Collection;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
@@ -10,6 +11,8 @@ import org.jbpm.kie.services.api.DeployedUnit;
 import org.jbpm.kie.services.api.DeploymentService;
 import org.jbpm.kie.services.api.RuntimeDataService;
 import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
+import org.jbpm.kie.services.impl.event.DeploymentEvent;
+import org.jbpm.kie.services.impl.event.Undeploy;
 import org.jbpm.kie.services.impl.model.ProcessDesc;
 import org.jbpm.kie.services.impl.model.ProcessInstanceDesc;
 import org.kie.api.runtime.manager.RuntimeManager;
@@ -38,6 +41,10 @@ public class ProcessEngineService {
     {  
     	return deploymentService;
     }  
+    
+    @Inject
+	@Undeploy
+	protected Event<DeploymentEvent> undeploymentEvent;
 
 
     /**
@@ -109,6 +116,7 @@ public class ProcessEngineService {
         
         for (DeployedUnit deployedUnit: deploymentService.getDeployedUnits()) {
         	deployedUnit.getRuntimeManager().close();
+        	undeploymentEvent.fire(new DeploymentEvent(deployedUnit.getDeploymentUnit().getIdentifier(), deployedUnit));
         	//deploymentService.undeploy(deployedUnit.getDeploymentUnit());
         }
     }

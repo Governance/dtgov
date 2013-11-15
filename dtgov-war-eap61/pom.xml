@@ -47,8 +47,6 @@
                 <exclude>WEB-INF/lib/log4j-*.jar</exclude>
                 <exclude>WEB-INF/lib/slf4j-api-*.jar</exclude>
                 <exclude>WEB-INF/lib/slf4j-ext-*.jar</exclude>
-                <exclude>WEB-INF/lib/solder-impl-*.jar</exclude>
-                <exclude>WEB-INF/lib/jbpm-human-task-core-*.jar</exclude>
               </excludes>
             </overlay>
           </overlays>
