@@ -25,10 +25,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.OptimisticLockException;
 import javax.servlet.http.HttpServletRequest;
@@ -47,8 +49,11 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
 import org.jbpm.services.task.exception.PermissionDeniedException;
 import org.jbpm.services.task.utils.ContentMarshallerHelper;
+import org.kie.api.runtime.manager.RuntimeEngine;
+import org.kie.api.runtime.manager.RuntimeManager;
 import org.kie.api.task.TaskService;
 import org.kie.api.task.model.Content;
 import org.kie.api.task.model.I18NText;
@@ -56,7 +61,10 @@ import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskData;
 import org.kie.api.task.model.TaskSummary;
 import org.kie.api.task.model.User;
+import org.kie.internal.runtime.manager.context.EmptyContext;
 import org.overlord.dtgov.jbpm.ejb.ProcessOperationException;
+import org.overlord.dtgov.jbpm.util.KieSrampUtil;
+import org.overlord.dtgov.jbpm.util.ProcessEngineService;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.dtgov.taskapi.types.FindTasksRequest;
 import org.overlord.dtgov.taskapi.types.FindTasksResponse;
@@ -65,6 +73,7 @@ import org.overlord.dtgov.taskapi.types.TaskDataType;
 import org.overlord.dtgov.taskapi.types.TaskDataType.Entry;
 import org.overlord.dtgov.taskapi.types.TaskSummaryType;
 import org.overlord.dtgov.taskapi.types.TaskType;
+import org.overlord.sramp.governance.Governance;
 
 /**
  *
@@ -75,8 +84,42 @@ import org.overlord.dtgov.taskapi.types.TaskType;
 @Path("/tasks")
 public class TaskApi {
 
+	private static Boolean hasSRAMPPackageDeployed = Boolean.FALSE;
+	
 	@Inject
     TaskService taskService;
+	
+	@Inject
+	@ApplicationScoped
+	private ProcessEngineService processEngineService;
+  
+	@PostConstruct
+	public void configure() {
+		//we need it to start to startup task management - however
+		//we don't want it to start before we have the workflow are
+		//definitions deployed (on first time boot)
+		synchronized(hasSRAMPPackageDeployed) {
+			KieSrampUtil kieSrampUtil = new KieSrampUtil();
+			Governance governance = new Governance();
+			String groupId = governance.getGovernanceWorkflowGroup();
+			String artifactId = governance.getGovernanceWorkflowName();
+			String version = governance.getGovernanceWorkflowVersion();
+			
+			if (kieSrampUtil.isSRAMPPackageDeployed(groupId, artifactId, version)) {
+				KModuleDeploymentUnit unit = new KModuleDeploymentUnit(
+						groupId, 
+						artifactId,
+						version,
+						Governance.DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE,
+						Governance.DEFAULT_GOVERNANCE_WORKFLOW_KSESSION);
+				RuntimeManager runtimeManager = kieSrampUtil.getRuntimeManager(processEngineService, unit);
+				RuntimeEngine runtime = runtimeManager.getRuntimeEngine(EmptyContext.get());
+				//use toString to make sure CDI initializes the bean
+				//to make sure the task manager starts up on reboot
+				runtime.getTaskService().toString();
+			}
+		}
+	}
 
     @Resource
     private UserTransaction ut;
