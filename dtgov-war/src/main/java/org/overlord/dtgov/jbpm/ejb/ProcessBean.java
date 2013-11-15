@@ -22,13 +22,10 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.jboss.seam.transaction.Transactional;
 import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
-import org.jbpm.kie.services.impl.event.DeploymentEvent;
-import org.jbpm.kie.services.impl.event.Undeploy;
 import org.jbpm.kie.services.impl.model.ProcessInstanceDesc;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
@@ -93,14 +90,13 @@ public class ProcessBean {
 	TaskService taskService;
 
 	/**
-	 * Starts up a new ProcessInstance with the given ProcessId. The
+	 * Starts up a new ProcessInstance with the given deploymentId and ProcessId. The
 	 * parameters Map is set into the context of the workflow.
 	 *
 	 */
     public long startProcess(String deploymentId, String processId, Map<String, Object> parameters)
 			throws Exception {
 		
-	
 		long processInstanceId = -1;
 		try {
 			KieSrampUtil kieSrampUtil = new KieSrampUtil();
@@ -123,7 +119,7 @@ public class ProcessBean {
 	
 	public void signalProcess(long processInstanceId, String signalType, Object event) {
 		KieSrampUtil kieSrampUtil = new KieSrampUtil();
-		logger.info("signalling processInstance " + processInstanceId + " " + signalType); //$NON-NLS-1$ //$NON-NLS-2$
+		logger.info(Messages.i18n.format("ProcessBean.Started", processInstanceId, signalType)); //$NON-NLS-1$
 		String deploymentId = processEngineService.getProcessInstance(processInstanceId).getDeploymentId();
 		RuntimeManager runtimeManager = kieSrampUtil.getRuntimeManager(processEngineService, deploymentId);
 		RuntimeEngine runtime = runtimeManager.getRuntimeEngine(ProcessInstanceIdContext.get());
@@ -141,11 +137,10 @@ public class ProcessBean {
 		try {
 			processInstances = processEngineService.getProcessInstances();
 			for (ProcessInstanceDesc processInstanceDesc : processInstances) {
-				logger.info(processInstanceDesc.getDeploymentId() + " " + 
-							processInstanceDesc.getProcessName() + " " +
+				logger.info(processInstanceDesc.getDeploymentId() + " " + //$NON-NLS-1$
+							processInstanceDesc.getProcessName() + " " +  //$NON-NLS-1$
 							processInstanceDesc.getId() 
 							);
-				System.out.println(".."); //$NON-NLS-1$
 			}
 		
 		} catch (Exception e) {
@@ -161,10 +156,9 @@ public class ProcessBean {
 		try {
 			ProcessInstanceDesc processInstanceDesc = processEngineService.getProcessInstance(processInstanceId);
 			if (processInstanceDesc != null) {
-				System.out.println(processInstanceDesc.getProcessName());
-				System.out.println(processInstanceDesc.getState());
-
-				System.out.println(".."); //$NON-NLS-1$
+				logger.info(processInstanceDesc.getProcessName());
+				logger.info("state=" + processInstanceDesc.getState()); //$NON-NLS-1$
+				logger.info(".."); //$NON-NLS-1$
 			}
 			
 		} catch (Exception e) {

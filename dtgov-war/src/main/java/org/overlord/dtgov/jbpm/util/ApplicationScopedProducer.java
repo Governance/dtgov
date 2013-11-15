@@ -45,7 +45,7 @@ public class ApplicationScopedProducer {
     @Inject
     private UserGroupCallback usergroupCallback;
 
-    @PersistenceUnit(unitName = "org.overlord.dtgov.jbpm")
+    @PersistenceUnit(unitName = "org.overlord.dtgov.jbpm") //$NON-NLS-1$
     private EntityManagerFactory emf;
 
     @ApplicationScoped
@@ -97,7 +97,7 @@ public class ApplicationScopedProducer {
         
         private void joinTransactionIfNeeded() {
             try {
-                UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction");
+                UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction"); //$NON-NLS-1$
                 if (ut.getStatus() == Status.STATUS_ACTIVE) {
                     delegate.joinTransaction();
                 }
