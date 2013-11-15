@@ -19,15 +19,11 @@ package org.overlord.dtgov.jbpm.ejb;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.jboss.seam.transaction.Transactional;
-import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
 import org.jbpm.kie.services.impl.model.ProcessInstanceDesc;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
@@ -39,50 +35,19 @@ import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
 import org.overlord.dtgov.jbpm.util.KieSrampUtil;
 import org.overlord.dtgov.jbpm.util.ProcessEngineService;
 import org.overlord.dtgov.server.i18n.Messages;
-import org.overlord.sramp.governance.Governance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Startup
-@Singleton
 @ApplicationScoped
 @Transactional
 public class ProcessBean {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	private static Boolean hasSRAMPPackageDeployed = Boolean.FALSE;
 
 	@Inject
 	@ApplicationScoped
 	private ProcessEngineService processEngineService;
   
-	@PostConstruct
-	public void configure() {
-		//we need it to start to startup task management - however
-		//we don't want it to start before we have the workflow are
-		//definitions deployed (on first time boot)
-		synchronized(hasSRAMPPackageDeployed) {
-			KieSrampUtil kieSrampUtil = new KieSrampUtil();
-			Governance governance = new Governance();
-			String groupId = governance.getGovernanceWorkflowGroup();
-			String artifactId = governance.getGovernanceWorkflowName();
-			String version = governance.getGovernanceWorkflowVersion();
-			
-			if (kieSrampUtil.isSRAMPPackageDeployed(groupId, artifactId, version)) {
-				KModuleDeploymentUnit unit = new KModuleDeploymentUnit(
-						groupId, 
-						artifactId,
-						version,
-						Governance.DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE,
-						Governance.DEFAULT_GOVERNANCE_WORKFLOW_KSESSION);
-				RuntimeManager runtimeManager = kieSrampUtil.getRuntimeManager(processEngineService, unit);
-				RuntimeEngine runtime = runtimeManager.getRuntimeEngine(EmptyContext.get());
-				//use toString to make sure CDI initializes the bean
-				//to make sure the task manager starts up on reboot
-				runtime.getTaskService().toString();
-			}
-		}
-	}
 	
 	@PreDestroy
 	public void cleanup() {
