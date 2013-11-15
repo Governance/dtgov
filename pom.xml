@@ -92,8 +92,8 @@
     <overlord-commons.version>2.0.0-SNAPSHOT</overlord-commons.version>
 
     <!-- jBPM/Drools version -->
-    <jbpm.version>6.0.0.CR5</jbpm.version>
-    <drools.version>6.0.0.CR5</drools.version>
+    <jbpm.version>6.0.0-SNAPSHOT</jbpm.version>
+    <drools.version>6.0.0-SNAPSHOT</drools.version>
 
     <!-- DTGov only libraries (not in BOM) -->
     <commons.lang3.version>3.1</commons.lang3.version>
@@ -115,6 +115,7 @@
 
     <!-- BOM Overrides -->
     <version.joda-time>2.1</version.joda-time>
+    <version.org.apache.lucene>4.0.0</version.org.apache.lucene>
   </properties>
 
   <build>
@@ -450,6 +451,7 @@
     <module>dtgov-task-client</module>
     <module>dtgov-war</module>
     <module>dtgov-war-eap61</module>
+    <module>dtgov-war-eap61-modules</module>
     <module>dtgov-war-jboss7</module>
     <module>dtgov-ui-war</module>
     <module>dtgov-ui-war-eap61</module>

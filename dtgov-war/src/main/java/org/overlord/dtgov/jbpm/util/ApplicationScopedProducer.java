@@ -16,23 +16,24 @@
 
 package org.overlord.dtgov.jbpm.util;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
+import javax.transaction.Status;
+import javax.transaction.UserTransaction;
 
-import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
-import org.jbpm.runtime.manager.impl.cdi.InjectableRegisterableItemsFactory;
-import org.kie.api.KieBase;
-import org.kie.internal.runtime.manager.RuntimeEnvironment;
-import org.kie.internal.runtime.manager.cdi.qualifier.PerProcessInstance;
-import org.kie.internal.runtime.manager.cdi.qualifier.PerRequest;
-import org.kie.internal.runtime.manager.cdi.qualifier.Singleton;
 import org.kie.internal.task.api.UserGroupCallback;
-import org.overlord.dtgov.server.i18n.Messages;
-import org.overlord.sramp.governance.Governance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,22 +41,21 @@ import org.slf4j.LoggerFactory;
 public class ApplicationScopedProducer {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Inject
-    private InjectableRegisterableItemsFactory factory;
+	
     @Inject
     private UserGroupCallback usergroupCallback;
 
     @PersistenceUnit(unitName = "org.overlord.dtgov.jbpm")
     private EntityManagerFactory emf;
 
+    @ApplicationScoped
     @Produces
     public UserGroupCallback produceUserGroupCallback() {
         return usergroupCallback;
     }
 
     @Produces
-    public EntityManagerFactory produceEntityManagerFactory() {
+    public EntityManagerFactory getEntityManagerFactory() {
         if (this.emf == null) {
             this.emf = Persistence
                     .createEntityManagerFactory("org.overlord.dtgov.jbpm"); //$NON-NLS-1$
@@ -64,36 +64,49 @@ public class ApplicationScopedProducer {
     }
 
     @Produces
-    @Singleton
-    @PerProcessInstance
-    @PerRequest
-    public RuntimeEnvironment produceEnvironment(EntityManagerFactory emf) {
-
-
-        RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder
-                .getDefault()
-                .entityManagerFactory(emf)
-                .userGroupCallback(usergroupCallback)
-                .registerableItemsFactory(factory);
-
-        KieBase kbase = getKieBase();
-        if (kbase!=null) builder.knowledgeBase(getKieBase());
-        return builder.get();
+    @ApplicationScoped
+    public EntityManager getEntityManager() {
+        final EntityManager em = getEntityManagerFactory().createEntityManager();
+        EntityManager emProxy = (EntityManager) 
+                Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[]{EntityManager.class}, new EmInvocationHandler(em));
+        return emProxy;
     }
 
-    private KieBase getKieBase() {
-    	Governance governance = new Governance();
-    	try {
-    		KieSrampUtil kieSrampUtil = new KieSrampUtil();
-	    	return kieSrampUtil.getKieBase();
-    	} catch (Exception e) {
-    		logger.error(Messages.i18n.format("ApplicationScopedProducer.ErrorNotFound", governance.getGovernanceWorkflowPackage())); //$NON-NLS-1$
-    		logger.error(e.getMessage(),e);
-    	}
-    	return null;
+    @ApplicationScoped
+    public void commitAndClose(@Disposes EntityManager em) {
+        try {
+            em.close();
+        } catch (Exception e) {
+
+        }
     }
+    
+    private class EmInvocationHandler implements InvocationHandler {
 
-
-
+        private EntityManager delegate;
+        
+        EmInvocationHandler(EntityManager em) {
+            this.delegate = em;
+        }
+        
+        public Object invoke(Object proxy, Method method, Object[] args)
+                throws Throwable {
+            joinTransactionIfNeeded();
+            return method.invoke(delegate, args);
+        }
+        
+        private void joinTransactionIfNeeded() {
+            try {
+                UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction");
+                if (ut.getStatus() == Status.STATUS_ACTIVE) {
+                    delegate.joinTransaction();
+                }
+            } catch (NamingException e) {
+                logger.debug(e.getMessage(),e);
+            } catch (Exception e) {
+            	logger.error(e.getMessage(),e);
+            }
+        }
+    }
 
 }

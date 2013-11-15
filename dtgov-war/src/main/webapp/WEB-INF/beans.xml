@@ -7,6 +7,9 @@
 http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
     
     <alternatives>
+    <!-- 
+        <class>org.jbpm.services.task.audit.JPATaskLifeCycleEventListener</class>
+         -->
         <class>org.overlord.dtgov.jbpm.util.DTGovUserGroupCallback</class>
     </alternatives>
     <decorators>

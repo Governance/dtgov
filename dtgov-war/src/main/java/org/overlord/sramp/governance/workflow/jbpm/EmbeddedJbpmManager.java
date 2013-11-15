@@ -24,11 +24,11 @@ import org.overlord.sramp.governance.workflow.WorkflowException;
 public class EmbeddedJbpmManager implements BpmManager {
 	
     @Override
-    public long newProcessInstance(String processId, Map<String, Object> context) throws WorkflowException {
+    public long newProcessInstance(String deploymentId, String processId, Map<String, Object> context) throws WorkflowException {
         
     	try {
     		ProcessService processService = CDIUtil.getContextualBeanInstance(ProcessService.class);
-			long processInstanceId = processService.newProcessInstance(processId, context);
+			long processInstanceId = processService.newProcessInstance(deploymentId, processId, context);
     		return processInstanceId;
     		
     	} catch (Exception e) {

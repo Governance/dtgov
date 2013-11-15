@@ -5,7 +5,13 @@
 
 
     <kbase name="SRAMPPackage">
-        <ksession name="ksessionSRAMP"/>
+        <ksession name="ksessionSRAMP" scope="javax.enterprise.context.ApplicationScoped">
+        	<workItemHandlers>
+        		<workItemHandler name="HttpClientDeploy" type="new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler()"/>
+        		<workItemHandler name="HttpClientNotify" type="new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler()"/>
+        		<workItemHandler name="HttpClientUpdateMetaData" type="new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler()"/>
+      		</workItemHandlers>
+        </ksession>
     </kbase>
 
 </kmodule>

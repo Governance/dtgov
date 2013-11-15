@@ -41,6 +41,7 @@ public class Governance {
     public static String DEFAULT_GOVERNANCE_WORKFLOW_NAME    = "dtgov-workflows"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_WORKFLOW_VERSION = "1.0.0"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE = "SRAMPPackage"; //$NON-NLS-1$
+    public static String DEFAULT_GOVERNANCE_WORKFLOW_KSESSION = "ksessionSRAMP"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_USER = "admin"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_PASSWORD = "overlord"; //$NON-NLS-1$
     public static String DEFAULT_RHQ_USER = "rhqadmin"; //$NON-NLS-1$

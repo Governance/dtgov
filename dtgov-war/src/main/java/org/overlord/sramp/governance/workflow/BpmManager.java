@@ -19,6 +19,6 @@ import java.util.Map;
 
 public interface BpmManager {
 
-    public long newProcessInstance(String processId, Map<String,Object> context) throws WorkflowException;
+    public long newProcessInstance(String deploymentId, String processId, Map<String,Object> context) throws WorkflowException;
     public void signalProcess(long processInstanceId, String signalType, Object event);
 }

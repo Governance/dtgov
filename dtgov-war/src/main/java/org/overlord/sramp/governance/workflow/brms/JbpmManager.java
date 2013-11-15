@@ -29,7 +29,7 @@ public class JbpmManager implements BpmManager {
 
     Governance governance = new Governance();
     @Override
-    public long newProcessInstance(String processId, Map<String, Object> context) throws WorkflowException {
+    public long newProcessInstance(String deploymentId, String processId, Map<String, Object> context) throws WorkflowException {
         try {
 	    	HttpClient httpclient = new DefaultHttpClient();
 	        JbpmRestClient jbpmClient = new JbpmRestClient(httpclient, governance.getBpmUrl().toExternalForm());

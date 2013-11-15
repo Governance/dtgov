@@ -60,6 +60,12 @@ public class QueryExecutor {
     public static synchronized void execute() throws SrampClientException, MalformedURLException, ConfigException {
     	
     	Governance governance = new Governance();
+    	String deploymentId = governance.getGovernanceWorkflowGroup() + ":" 
+    			+ governance.getGovernanceWorkflowName() + ":" 
+    			+ governance.getGovernanceWorkflowVersion() + ":"
+    			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE + ":"
+    			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_KSESSION;
+    	
     	BpmManager bpmManager = WorkflowFactory.newInstance();
     	SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
         //for all queries defined in the governance.properties file
@@ -100,7 +106,7 @@ public class QueryExecutor {
                         	logger.info(Messages.i18n.format("QueryExecutor.StartingWorkflow", query.getWorkflowId(), artifact.getUuid())); //$NON-NLS-1$
                             Map<String,Object> parameters = query.getParsedParameters();
                             parameters.put("ArtifactUuid", artifact.getUuid()); //$NON-NLS-1$
-                            long processInstanceId = bpmManager.newProcessInstance(query.getWorkflowId(), parameters);
+                            long processInstanceId = bpmManager.newProcessInstance(deploymentId, query.getWorkflowId(), parameters);
                             
                             propertyName = WORKFLOW_PROCESS_ID + query.getWorkflowId() + "_"; //$NON-NLS-1$
                             // set this process as a property, so we don't start another
