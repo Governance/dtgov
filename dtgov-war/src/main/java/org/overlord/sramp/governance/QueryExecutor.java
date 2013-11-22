@@ -60,10 +60,10 @@ public class QueryExecutor {
     public static synchronized void execute() throws SrampClientException, MalformedURLException, ConfigException {
     	
     	Governance governance = new Governance();
-    	String deploymentId = governance.getGovernanceWorkflowGroup() + ":" 
-    			+ governance.getGovernanceWorkflowName() + ":" 
-    			+ governance.getGovernanceWorkflowVersion() + ":"
-    			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE + ":"
+    	String deploymentId = governance.getGovernanceWorkflowGroup() + ":"  //$NON-NLS-1$
+    			+ governance.getGovernanceWorkflowName() + ":" //$NON-NLS-1$
+    			+ governance.getGovernanceWorkflowVersion() + ":" //$NON-NLS-1$
+    			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE + ":" //$NON-NLS-1$
     			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_KSESSION;
     	
     	BpmManager bpmManager = WorkflowFactory.newInstance();

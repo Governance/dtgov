@@ -15,21 +15,8 @@
  */
 package org.overlord.dtgov.jbpm.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import java.io.InputStream;
-import java.util.Collection;
 
-import javax.inject.Inject;
-
-//import org.jboss.arquillian.container.test.api.Deployment;
-//import org.jboss.shrinkwrap.api.Archive;
-//import org.jboss.shrinkwrap.api.ArchivePaths;
-//import org.jboss.shrinkwrap.api.ShrinkWrap;
-//import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
-import org.jbpm.kie.services.impl.model.ProcessDesc;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -41,6 +28,11 @@ import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+//import org.jboss.arquillian.container.test.api.Deployment;
+//import org.jboss.shrinkwrap.api.Archive;
+//import org.jboss.shrinkwrap.api.ArchivePaths;
+//import org.jboss.shrinkwrap.api.ShrinkWrap;
+//import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 
 /**
@@ -50,7 +42,8 @@ import org.slf4j.LoggerFactory;
  */
 public class KieTest {
     
-	private static final Logger logger = LoggerFactory.getLogger(KieTest.class);
+	@SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(KieTest.class);
 	
 //	@Deployment()
 //    public static Archive<?> createDeployment() {

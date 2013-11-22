@@ -51,7 +51,8 @@ public class ProcessBean {
 	
 	@PreDestroy
 	public void cleanup() {
-		logger.info("Cleaning up jBPM Runtime Managers");
+		logger.info(Messages.i18n.format("ProcessBean.CleaningJBPM")); //$NON-NLS-1$
+
 		processEngineService.closeAllRuntimeManagers();
 	}
 	

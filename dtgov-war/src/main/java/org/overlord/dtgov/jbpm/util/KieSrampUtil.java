@@ -103,7 +103,7 @@ public class KieSrampUtil {
 	 * @return RuntimeManager
 	 */
 	public RuntimeManager getRuntimeManager(ProcessEngineService processEngineService, String deploymentId) {
-		String[] deploymentInfo = deploymentId.split(":");
+		String[] deploymentInfo = deploymentId.split(":"); //$NON-NLS-1$
 		if (deploymentInfo.length!=5) {
 			throw new IllegalStateException(Messages.i18n.format("KieSrampUtil.DeploymentIdFormat")); //$NON-NLS-1$
 		}
