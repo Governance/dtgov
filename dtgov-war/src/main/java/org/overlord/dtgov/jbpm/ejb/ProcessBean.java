@@ -88,10 +88,10 @@ public class ProcessBean {
 	
 	public void signalProcess(long processInstanceId, String signalType, Object event) {
 		KieSrampUtil kieSrampUtil = new KieSrampUtil();
-		logger.info(Messages.i18n.format("ProcessBean.Started", processInstanceId, signalType)); //$NON-NLS-1$
-		String deploymentId = processEngineService.getProcessInstance(processInstanceId).getDeploymentId();
+		logger.info(Messages.i18n.format("ProcessBean.Signalled", processInstanceId, signalType)); //$NON-NLS-1$
+	    String deploymentId = processEngineService.getProcessInstance(processInstanceId).getDeploymentId();
 		RuntimeManager runtimeManager = kieSrampUtil.getRuntimeManager(processEngineService, deploymentId);
-		RuntimeEngine runtime = runtimeManager.getRuntimeEngine(ProcessInstanceIdContext.get());
+		RuntimeEngine runtime = runtimeManager.getRuntimeEngine(ProcessInstanceIdContext.get(processInstanceId));
 		KieSession ksession = runtime.getKieSession();
 		ProcessInstance processInstance = ksession.getProcessInstance(processInstanceId);
 		ksession.signalEvent(signalType, event,processInstance.getId());
