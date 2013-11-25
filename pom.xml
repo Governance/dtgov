@@ -99,9 +99,6 @@
     <commons.lang3.version>3.1</commons.lang3.version>
     <commons.compress.version>1.4.1</commons.compress.version>
     <commons.logging.version>1.1.1</commons.logging.version>
-    <servlet.api.version>2.5</servlet.api.version>
-    <servlet-api.version>3.0.1</servlet-api.version>
-    <jsp-api.version>2.0</jsp-api.version>
     <jboss-ejb3-api.version>3.1.0</jboss-ejb3-api.version>
     <log4j.version>1.2.16</log4j.version>
     <slf4j-log4j.version>1.5.11</slf4j-log4j.version>
@@ -315,7 +312,6 @@
         <artifactId>overlord-commons-config</artifactId>
         <version>${overlord-commons.version}</version>
       </dependency>
-      <!-- S-RAMP -->
 
       <!-- Apache Commons -->
       <dependency>
@@ -363,21 +359,6 @@
         <groupId>com.google.guava</groupId>
         <artifactId>guava-gwt</artifactId>
         <version>${guava-gwt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>${servlet.api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>${servlet-api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>jsp-api</artifactId>
-        <version>${jsp-api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ejb3</groupId>

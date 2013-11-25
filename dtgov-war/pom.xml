@@ -12,9 +12,9 @@
   <name>Design Time Governance: WAR</name>
   <packaging>war</packaging>
   <description>Design Time Governance with BPMN2 workflow support.</description>
-  
+
   <properties>
-  	<jbpm.scope>compile</jbpm.scope>
+    <jbpm.scope>compile</jbpm.scope>
   </properties>
 
   <dependencies>
@@ -29,7 +29,7 @@
       <artifactId>dtgov-task-api</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+
     <!-- S-RAMP -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>
@@ -57,7 +57,7 @@
       <artifactId>s-ramp-wagon</artifactId>
       <version>${s-ramp.version}</version>
     </dependency>
-    
+
     <!-- Overlord Commons -->
     <dependency>
       <groupId>org.overlord</groupId>
@@ -68,7 +68,7 @@
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-config</artifactId>
     </dependency>
-   
+
     <dependency>
       <groupId>org.codehaus.btm</groupId>
       <artifactId>btm</artifactId>
@@ -113,8 +113,8 @@
       <artifactId>jboss-as-cli</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <groupId>org.jboss.spec.javax.servlet</groupId>
+      <artifactId>jboss-servlet-api_3.0_spec</artifactId>
       <scope>provided</scope>
     </dependency>
 
@@ -179,8 +179,8 @@
       <version>${jbpm.version}</version>
       <scope>compile</scope>
     </dependency>
-    
-     
+
+
 
     <!-- can compile, but cannot deploy without these seam dependencies -->
     <dependency>
@@ -189,10 +189,10 @@
       <scope>${jbpm.scope}</scope>
       <!-- only exclude with modules 
       <exclusions>
-      	<exclusion>
-      		<artifactId>solder-impl</artifactId>
-      		<groupId>org.jboss.solder</groupId>
-      	</exclusion>
+        <exclusion>
+          <artifactId>solder-impl</artifactId>
+          <groupId>org.jboss.solder</groupId>
+        </exclusion>
       </exclusions>
       -->
     </dependency>
@@ -201,10 +201,10 @@
       <artifactId>seam-transaction</artifactId>
       <!-- only exclude with modules 
       <exclusions>
-      	<exclusion>
-      		<artifactId>solder-impl</artifactId>
-      		<groupId>org.jboss.solder</groupId>
-      	</exclusion>
+        <exclusion>
+          <artifactId>solder-impl</artifactId>
+          <groupId>org.jboss.solder</groupId>
+        </exclusion>
       </exclusions>
       -->
     </dependency>
@@ -213,7 +213,7 @@
       <artifactId>jboss-jacc-api_1.4_spec</artifactId>
       <scope>${jbpm.scope}</scope>
     </dependency>
-    
+
 
     <!-- Drools KIE dependencies -->
     <dependency>

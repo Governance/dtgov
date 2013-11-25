@@ -81,7 +81,7 @@
       <artifactId>s-ramp-ui-widgets</artifactId>
       <version>${s-ramp-ui.version}</version>
     </dependency>
-    
+
     <!-- Third Party Dependencies -->
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
@@ -100,13 +100,13 @@
       <artifactId>commons-fileupload</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <groupId>org.jboss.spec.javax.servlet</groupId>
+      <artifactId>jboss-servlet-api_3.0_spec</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jsp-api</artifactId>
+      <groupId>org.jboss.spec.javax.servlet.jsp</groupId>
+      <artifactId>jboss-jsp-api_2.2_spec</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -177,7 +177,7 @@
       <groupId>org.mvel</groupId>
       <artifactId>mvel2</artifactId>
     </dependency>
-    
+
     <!-- CDI Integration Modules -->
     <dependency>
       <groupId>org.jboss.errai</groupId>
@@ -208,14 +208,14 @@
       <groupId>org.jboss.weld.servlet</groupId>
       <artifactId>weld-servlet-core</artifactId>
     </dependency>
-    
+
     <!-- GWT -->
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <scope>provided</scope>
     </dependency>
-    
+
     <!-- Runtime / Container dependencies -->
     <dependency>
       <groupId>org.slf4j</groupId>
