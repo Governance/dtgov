@@ -23,7 +23,18 @@
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
-      <artifactId>overlord-commons-idp</artifactId>
+      <artifactId>overlord-commons-auth-tomcat7</artifactId>
+      <version>${overlord-commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-idp-eap61</artifactId>
+      <version>${overlord-commons.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-idp-tomcat7</artifactId>
       <version>${overlord-commons.version}</version>
       <type>war</type>
     </dependency>
@@ -31,13 +42,19 @@
     <!-- DTGov -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-war</artifactId>
+      <artifactId>dtgov-war-eap61</artifactId>
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-ui-war-jboss7</artifactId>
+      <artifactId>dtgov-war-tomcat7</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-ui-war-tomcat7</artifactId>
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
@@ -63,9 +80,11 @@
   </build>
 
   <profiles>
-    <!-- Profile to install to EAP 6.1 -->
+    <!-- ***************************************** -->
+    <!-- Profile to *test* installing into EAP 6.1 -->
+    <!-- ***************************************** -->
     <profile>
-      <id>eap61</id>
+      <id>test-install-eap61</id>
       <build>
         <plugins>
           <plugin>
@@ -86,26 +105,44 @@
                 <configuration>
                   <tasks>
                     <property name="appserver.id" value="jboss-eap-6.1" />
+                    <property name="dtgov.install.dir" value="${project.build.directory}" />
+                    <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/${appserver.id}" />
                     <property name="dtgov.version" value="${project.version}" />
 
                     <!-- Overlord Commons Installer and Dependencies -->
                     <property name="dtgov.overlord-commons.installer.jar"
                       value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
-                    <property name="overlord-commons.idp.download.url"
-                      value="file:///${maven.dependency.org.overlord.overlord-commons-idp.war.path}" />
-                    <property name="overlord-commons.auth.download.url"
-                      value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+                    <property name="overlord-commons.idp.file"
+                      value="${maven.dependency.org.overlord.overlord-commons-idp-eap61.war.path}" />
+                    <property name="overlord-commons.auth.file"
+                      value="${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
 
                     <!-- DTGov WARs -->
-                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war-eap61.war.path}" />
+                    <property name="dtgov.dtgov-war.path" 
+                      value="${maven.dependency.org.overlord.dtgov.dtgov-war-eap61.war.path}" />
                     <property name="dtgov.dtgov-ui.path"
                       value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-eap61.war.path}" />
 
                     <property file="build.properties" />
-                    <property name="dtgov.install.dir" value="${project.build.directory}" />
                     <property name="dtgov.appserver.zip" value="${basedir}/jboss-eap-6.1.0.zip" />
+                    <unzip src="${dtgov.appserver.zip}" dest="${dtgov.install.dir}" overwrite="false" />
+                    <chmod perm="a+x" dir="${dtgov.appserver.dir}/bin">
+                      <include name="*.sh"/>
+                    </chmod>
 
-                    <ant dir="${basedir}/src/main/resources" antfile="${basedir}/src/main/resources/build.xml">
+                    <property name="dtgov.temp-installer-dir" value="${project.build.directory}/test-installer" />
+                    <delete dir="${dtgov.temp-installer-dir}" />
+                    <mkdir dir="${dtgov.temp-installer-dir}" />
+                    <copy todir="${dtgov.temp-installer-dir}">
+                      <fileset dir="${basedir}/src/main/resources"/>
+                    </copy>
+                    <copy todir="${dtgov.temp-installer-dir}">
+                      <fileset dir="${basedir}/src/main/resources-filtered"/>
+                    </copy>
+                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties" value="${project.version}">
+                      <replacetoken><![CDATA[${project.version}]]></replacetoken>
+                    </replace>
+                    <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
                       <target name="install" />
                     </ant>
                   </tasks>
@@ -119,9 +156,11 @@
         </plugins>
       </build>
     </profile>
-    <!-- Profile to install into JBoss AS 7.1.1.Final -->
+    <!-- ****************************************** -->
+    <!-- Profile to *test* installing into Tomcat 7 -->
+    <!-- ****************************************** -->
     <profile>
-      <id>jboss7</id>
+      <id>test-install-tomcat7</id>
       <build>
         <plugins>
           <plugin>
@@ -137,31 +176,53 @@
             </dependencies>
             <executions>
               <execution>
-                <id>install-as711</id>
+                <id>install-tomcat7</id>
                 <phase>install</phase>
                 <configuration>
                   <tasks>
-                    <property name="appserver.id" value="jboss-as-7.1.1.Final" />
+                    <property name="appserver.id" value="tomcat-7" />
+                    <property name="dtgov.install.dir" value="${project.build.directory}" />
+                    <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/apache-tomcat-7.0.47" />
                     <property name="dtgov.version" value="${project.version}" />
 
                     <!-- Overlord Commons Installer and Dependencies -->
                     <property name="dtgov.overlord-commons.installer.jar"
                       value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
-                    <property name="overlord-commons.idp.download.url"
-                      value="file:///${maven.dependency.org.overlord.overlord-commons-idp.war.path}" />
-                    <property name="overlord-commons.auth.download.url"
-                      value="file:///${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+                    <property name="overlord-commons.idp.file"
+                      value="${maven.dependency.org.overlord.overlord-commons-idp-tomcat7.war.path}" />
+                    <property name="overlord-commons.auth.file"
+                      value="${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+                    <property name="overlord-commons.auth-tomcat7.file"
+                      value="${maven.dependency.org.overlord.overlord-commons-auth-tomcat7.jar.path}" />
 
                     <!-- DTGov WARs -->
-                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war-jboss7.war.path}" />
+                    <property name="dtgov.dtgov-war.path" 
+                      value="${maven.dependency.org.overlord.dtgov.dtgov-war-tomcat7.war.path}" />
                     <property name="dtgov.dtgov-ui.path"
-                      value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jboss7.war.path}" />
+                      value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-tomcat7.war.path}" />
 
                     <property file="build.properties" />
-                    <property name="dtgov.install.dir" value="${project.build.directory}" />
-                    <property name="dtgov.appserver.zip" value="${basedir}/jboss-as-7.1.1.Final.zip" />
+                    <property name="dtgov.appserver.zip" value="${basedir}/apache-tomcat-7.0.47.zip" />
+                    <unzip src="${dtgov.appserver.zip}" dest="${dtgov.install.dir}" overwrite="false" />
+                    <chmod perm="a+x" dir="${dtgov.appserver.dir}/bin">
+                      <include name="*.sh"/>
+                    </chmod>
 
-                    <ant dir="${basedir}/src/main/resources" antfile="${basedir}/src/main/resources/build.xml">
+                    <property name="dtgov.temp-installer-dir" value="${project.build.directory}/test-installer" />
+                    <delete dir="${dtgov.temp-installer-dir}" />
+                    <mkdir dir="${dtgov.temp-installer-dir}" />
+                    <copy todir="${dtgov.temp-installer-dir}">
+                      <fileset dir="${basedir}/src/main/resources"/>
+                    </copy>
+                    <copy todir="${dtgov.temp-installer-dir}">
+                      <fileset dir="${basedir}/src/main/resources-filtered"/>
+                    </copy>
+                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties">
+                      <replacetoken><![CDATA[dtgov.workflows.version]]></replacetoken>
+                      <replacevalue><![CDATA[#dtgov.workflows.version]]></replacevalue>
+                    </replace>
+
+                    <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
                       <target name="install" />
                     </ant>
                   </tasks>

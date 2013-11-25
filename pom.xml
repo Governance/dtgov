@@ -273,6 +273,18 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- Override Lucene from BOM -->
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-core</artifactId>
+        <version>${version.org.apache.lucene}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-queryparser</artifactId>
+        <version>${version.org.apache.lucene}</version>
+      </dependency>
+    
       <!-- Integration Platform Imports -->
       <dependency>
         <groupId>org.jboss.integration-platform</groupId>
@@ -420,7 +432,7 @@
       </releases>
       <snapshots>
         <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
+        <updatePolicy>daily</updatePolicy>
       </snapshots>
     </repository>
   </repositories>
@@ -461,10 +473,10 @@
     <module>dtgov-war</module>
     <module>dtgov-war-eap61</module>
     <module>dtgov-war-eap61-modules</module>
-    <module>dtgov-war-jboss7</module>
+    <module>dtgov-war-tomcat7</module>
     <module>dtgov-ui-war</module>
     <module>dtgov-ui-war-eap61</module>
-    <module>dtgov-ui-war-jboss7</module>
+    <module>dtgov-ui-war-tomcat7</module>
     <module>dtgov-workflows</module>
     <module>dtgov-demos</module>
     <module>dtgov-installer</module>

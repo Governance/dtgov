@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.overlord.dtgov</groupId>
+    <artifactId>dtgov</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>dtgov-war-tomcat7</artifactId>
+  <packaging>war</packaging>
+  <name>Design Time Governance: WAR (Tomcat 7)</name>
+  <dependencies>
+    <!-- The base WAR being extended -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-war</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <overlays>
+            <overlay>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>dtgov-war</artifactId>
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

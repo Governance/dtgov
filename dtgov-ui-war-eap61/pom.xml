@@ -13,9 +13,21 @@
     <!-- The base WAR being extended -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-ui-war-jboss7</artifactId>
+      <artifactId>dtgov-ui-war</artifactId>
       <version>${project.version}</version>
       <type>war</type>
+    </dependency>
+    
+    <!-- Other JBoss-only dependencies -->
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-jboss-as-support</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>xml-apis</artifactId>
+          <groupId>xml-apis</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <build>
@@ -28,8 +40,26 @@
           <overlays>
             <overlay>
               <groupId>${project.groupId}</groupId>
-              <artifactId>dtgov-ui-war-jboss7</artifactId>
+              <artifactId>dtgov-ui-war</artifactId>
               <excludes>
+                <exclude>WEB-INF/jetty-env.xml</exclude>
+                <exclude>WEB-INF/lib/jetty*.jar</exclude>
+                <exclude>WEB-INF/lib/weld*.jar</exclude>
+                <exclude>WEB-INF/lib/servlet-api*.jar</exclude>
+                <exclude>WEB-INF/lib/el-api*.jar</exclude>
+                <exclude>WEB-INF/lib/hsqldb*.jar</exclude>
+                <exclude>WEB-INF/lib/cal10n-api*.jar</exclude>
+                <exclude>WEB-INF/lib/errai-cdi-jetty*.jar</exclude>
+                <exclude>WEB-INF/lib/errai-tools*.jar</exclude>
+                <exclude>WEB-INF/lib/geronimo-spec-jta*.jar</exclude>
+                <exclude>WEB-INF/lib/javassist*.jar</exclude>
+                <exclude>WEB-INF/lib/jboss-interceptors-api*.jar</exclude>
+                <exclude>WEB-INF/lib/mail*.jar</exclude>
+                <exclude>WEB-INF/lib/xml-apis*.jar</exclude>
+                <exclude>WEB-INF/lib/resteasy*.jar</exclude>
+                <exclude>WEB-INF/lib/jaxb-*.jar</exclude>
+                <exclude>WEB-INF/lib/netty*.jar</exclude>
+                <exclude>WEB-INF/lib/xercesImpl*.jar</exclude>
               </excludes>
             </overlay>
           </overlays>

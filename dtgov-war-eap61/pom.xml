@@ -7,7 +7,7 @@
   </parent>
   <artifactId>dtgov-war-eap61</artifactId>
   <packaging>war</packaging>
-  <name>Design Time Governance: WAR (eap 6.1)</name>
+  <name>Design Time Governance: WAR (EAP 6.1)</name>
   <dependencies>
     <!-- The base WAR being extended -->
     <dependency>

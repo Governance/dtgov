@@ -4,13 +4,10 @@
 *.jar
 *.war
 *.ear
-/.settings
-/.project
-/target
 .settings
 .project
-.classpath
 target
+.classpath
 .metadata
 .errai
 rebel.xml

@@ -113,7 +113,7 @@
 
   <owl:Class rdf:ID="InDev">
     <rdfs:subClassOf rdf:resource="http://www.jboss.org/overlord/deployment-status.owl#Deployed" />
-    <rdfs:label>In Production</rdfs:label>
+    <rdfs:label>In Development</rdfs:label>
     <rdfs:comment>Artifact has been deployed to the Development Environment.</rdfs:comment>
   </owl:Class> 
   <owl:Class rdf:ID="InQa">

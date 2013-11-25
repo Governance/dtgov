@@ -22,7 +22,18 @@
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
-      <artifactId>overlord-commons-idp</artifactId>
+      <artifactId>overlord-commons-auth-tomcat7</artifactId>
+      <version>${overlord-commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-idp-eap61</artifactId>
+      <version>${overlord-commons.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-idp-tomcat7</artifactId>
       <version>${overlord-commons.version}</version>
       <type>war</type>
     </dependency>
@@ -30,9 +41,10 @@
     <!-- S-RAMP CLI (used during installation/seeding) -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>
-      <artifactId>s-ramp-distro-assembly-cli</artifactId>
+      <artifactId>s-ramp-distro-shell</artifactId>
       <version>${s-ramp.version}</version>
-      <type>zip</type>
+      <classifier>onejar</classifier>
+      <type>jar</type>
     </dependency>
     
     <!-- DTGov Installer -->
@@ -45,25 +57,25 @@
     <!-- DTGov WARs -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-war-jboss7</artifactId>
-      <version>${project.version}</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-war-eap61</artifactId>
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-ui-war-jboss7</artifactId>
+      <artifactId>dtgov-war-tomcat7</artifactId>
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-ui-war-eap61</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-ui-war-tomcat7</artifactId>
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
