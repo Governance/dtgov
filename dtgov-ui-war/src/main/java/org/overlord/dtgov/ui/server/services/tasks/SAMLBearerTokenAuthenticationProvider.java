@@ -21,7 +21,8 @@ import java.security.KeyStore;
 import org.apache.commons.configuration.Configuration;
 import org.apache.http.HttpRequest;
 import org.overlord.commons.auth.jboss7.SAMLBearerTokenLoginModule;
-import org.overlord.commons.auth.jboss7.SAMLBearerTokenUtil;
+import org.overlord.commons.auth.util.SAMLAssertionUtil;
+import org.overlord.commons.auth.util.SAMLBearerTokenUtil;
 import org.overlord.dtgov.taskclient.auth.AuthenticationProvider;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 
@@ -58,7 +59,7 @@ public class SAMLBearerTokenAuthenticationProvider implements AuthenticationProv
     private String createSAMLBearerTokenAssertion() {
         String issuer = config.getString(DtgovUIConfig.TASK_API_SAML_ISSUER);
         String service = config.getString(DtgovUIConfig.TASK_API_SAML_SERVICE);
-        String samlAssertion = SAMLBearerTokenUtil.createSAMLAssertion(issuer, service);
+        String samlAssertion = SAMLAssertionUtil.createSAMLAssertion(issuer, service);
         boolean signAssertion = "true".equals(config.getString(DtgovUIConfig.TASK_API_SAML_AUTH_SIGN_ASSERTIONS)); //$NON-NLS-1$
         if (signAssertion) {
             String keystorePath = config.getString(DtgovUIConfig.TASK_API_SAML_AUTH_KEYSTORE);

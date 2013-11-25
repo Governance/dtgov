@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Install DTGov from distro" default="install">
+
+  <property name="dtgov-distro.build.properties" location="build.properties" />
+  <property file="${dtgov-distro.build.properties}" />
+  <property name="dtgov-distro.tempdir" location=".temp" />
+  <property name="dtgov-distro.rootdir" location="." />
+  <property name="dtgov-distro.bindir" location="${dtgov-distro.rootdir}/bin" />
+  <property name="dtgov-distro.overlord-commons-installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-2.0.0-SNAPSHOT.jar" />
+  <property name="dtgov-distro.dtgov-installer.jar" location="${dtgov-distro.bindir}/dtgov-installer-2.0.0-SNAPSHOT.jar" />
+  <property name="dtgov-distro.dtgov-installer.dir" location="${dtgov-distro.tempdir}/dtgov-installer" />
+
+  <!-- Install DTGov -->
+  <target name="install">
+    <mkdir dir="${dtgov-distro.tempdir}"/>
+
+    <!-- Unpack the dtgov installer into the temp directory -->
+    <unzip src="${dtgov-distro.dtgov-installer.jar}" dest="${dtgov-distro.dtgov-installer.dir}" overwrite="false" />
+    
+    <echo message=" " />
+    <echo message="#######################################################" />
+    <echo message="# Installing DTGov.  Please tell us how you would    #" />
+    <echo message="# like to proceed!                                    #" />
+    <echo message="#######################################################" />
+    <echo message=" " />
+    <echo message=" Choose from one of the following options." />
+    <echo message="    1. Install into JBoss EAP 6.1" />
+    <echo message="    2. Install into Tomcat 7" />
+    <echo message=" " />
+    <input message="Choice: " addproperty="dtgov-distro.choices.platform" />
+
+    <condition property="dtgov-distro.choices.platform.jboss-eap-6.1">
+      <equals arg1="${dtgov-distro.choices.platform}" arg2="1" />
+    </condition>
+    <condition property="dtgov-distro.choices.platform.tomcat-7">
+      <equals arg1="${dtgov-distro.choices.platform}" arg2="2" />
+    </condition>
+
+    <antcall target="install-jboss-eap-6.1" />
+    <antcall target="install-tomcat-7" />
+  </target>
+
+
+  <!-- Install into EAP 6.1 -->
+  <target name="install-jboss-eap-6.1" if="dtgov-distro.choices.platform.jboss-eap-6.1">
+    <echo message=" " />
+    <echo message="#######################################################" />
+    <echo message="# Installing DTGov into EAP 6.1 (great choice!).     #" />
+    <echo message="#######################################################" />
+    <echo message=" " />
+    <echo message=" Please tell us where JBoss EAP 6.1 is located (full path)." />
+    <echo message=" " />
+    <input message="Path to EAP 6.1: " addproperty="dtgov-distro.choices.platform.jboss-eap-6.1.path" />
+    
+    <condition property="dtgov-distro.choices.platform.jboss-eap-6.1.path.valid">
+      <available file="jboss-modules.jar" filepath="${dtgov-distro.choices.platform.jboss-eap-6.1.path}" />
+    </condition>
+    <fail message="Failed to find JBoss EAP 6.1 at: ${dtgov-distro.choices.platform.jboss-eap-6.1.path}" 
+          unless="dtgov-distro.choices.platform.jboss-eap-6.1.path.valid" />
+
+    <echo message="Installing into: ${dtgov-distro.choices.platform.jboss-eap-6.1.path} " />
+
+    <!-- Call the DTGov installer -->
+    <ant antfile="${dtgov-distro.dtgov-installer.dir}/build.xml" inheritall="true" target="install" 
+         dir="${dtgov-distro.dtgov-installer.dir}">
+      <property name="appserver.id" value="jboss-eap-6.1" />
+      <property name="dtgov.install.dir" location="${dtgov-distro.tempdir}" />
+      <property name="dtgov.appserver.dir" location="${dtgov-distro.choices.platform.jboss-eap-6.1.path}" />
+      <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-2.0.0-SNAPSHOT.jar" />
+      <property name="overlord-commons.idp.file" value="${dtgov-distro.bindir}/overlord-commons-idp-eap61-2.0.0-SNAPSHOT.war" />
+      <property name="overlord-commons.auth.file" location="${dtgov-distro.bindir}/overlord-commons-auth-2.0.0-SNAPSHOT.jar" />
+      <property name="dtgov.dtgov-war.path" location="${dtgov-distro.bindir}/dtgov-war-eap61-${dtgov.version}.war" />
+      <property name="dtgov.dtgov-ui.path" location="${dtgov-distro.bindir}/dtgov-ui-war-eap61-${dtgov.version}.war" />
+    </ant>
+  </target>
+
+
+  <!-- Install into Tomcat 7 -->
+  <target name="install-tomcat-7" if="dtgov-distro.choices.platform.tomcat-7">
+    <echo message=" " />
+    <echo message="########################################" />
+    <echo message="# Installing DTGov into Tomcat 7.     #" />
+    <echo message="########################################" />
+    <echo message=" " />
+    <echo message=" Please tell us where Tomcat 7 is located (full path).  Simply" />
+    <echo message=" leave this blank if you want us to download Tomcat 7 for you." />
+    <echo message=" " />
+    <input message="Path to Tomcat 7: " addproperty="dtgov-distro.choices.platform.tomcat-7.path" />
+
+    <!-- If the path is empty, download Tomcat 7 -->
+    <condition property="dtgov-distro.choices.platform.tomcat-7.path.empty">
+      <equals arg1="${dtgov-distro.choices.platform.tomcat-7.path}" arg2="" />
+    </condition>
+
+    <antcall target="install-tomcat-7-into" />
+  </target>
+
+
+  <!-- Download Tomcat 7 for the user -->
+  <target name="install-tomcat-7-download" if="dtgov-distro.choices.platform.tomcat-7.path.empty">
+    <property name="dtgov-distro.tomcat-7.download.url" 
+              value="http://mirror.cc.columbia.edu/pub/software/apache/tomcat/tomcat-7/v7.0.47/bin/apache-tomcat-7.0.47.zip" />
+    
+    <echo message=" " />
+    <echo message="########################################" />
+    <echo message="# Downloading Tomcat 7, please wait... #" />
+    <echo message="########################################" />
+    <get src="${dtgov-distro.tomcat-7.download.url}" dest="${dtgov-distro.tempdir}" usetimestamp="true" />
+    
+    <property name="dtgov-distro.tomcat-7.zip" value="${dtgov-distro.tempdir}/apache-tomcat-7.0.47.zip" />
+    <echo message="########################################" />
+    <echo message="# Unzipping Tomcat 7, please wait...   #" />
+    <echo message="########################################" />
+    <unzip src="${dtgov-distro.tomcat-7.zip}" dest="${dtgov-distro.rootdir}" overwrite="false" />
+    <property name="dtgov-distro.choices.platform.tomcat-7.real-path" location="${dtgov-distro.rootdir}/apache-tomcat-7.0.47" />
+  </target>
+
+
+  <!-- Install into Tomcat 7 -->
+  <target name="install-tomcat-7-into" depends="install-tomcat-7-download">
+    <!-- Now set the real path and install into it -->
+    <property name="dtgov-distro.choices.platform.tomcat-7.real-path" value="${dtgov-distro.choices.platform.tomcat-7.path}" />
+
+    <!-- If the path is invalid, fail -->
+    <condition property="dtgov-distro.choices.platform.tomcat-7.path.valid">
+      <available file="catalina.sh" filepath="${dtgov-distro.choices.platform.tomcat-7.real-path}/bin" />
+    </condition>
+    <fail message="Failed to find Tomcat 7 at: ${dtgov-distro.choices.platform.tomcat-7.real-path}" 
+          unless="dtgov-distro.choices.platform.tomcat-7.path.valid" />
+
+    <echo message="Installing into: ${dtgov-distro.choices.platform.tomcat-7.real-path} " />
+
+    <!-- Call the DTGov installer -->
+    <ant antfile="${dtgov-distro.dtgov-installer.dir}/build.xml" inheritall="true" target="install" 
+         dir="${dtgov-distro.dtgov-installer.dir}">
+      <property name="appserver.id" value="tomcat-7" />
+      <property name="dtgov.install.dir" location="${dtgov-distro.tempdir}" />
+      <property name="dtgov.appserver.dir" location="${dtgov-distro.choices.platform.tomcat-7.real-path}" />
+      <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-2.0.0-SNAPSHOT.jar" />
+      <property name="overlord-commons.idp.file" value="${dtgov-distro.bindir}/overlord-commons-idp-tomcat7-2.0.0-SNAPSHOT.war" />
+      <property name="overlord-commons.auth.file" location="${dtgov-distro.bindir}/overlord-commons-auth-2.0.0-SNAPSHOT.jar" />
+      <property name="overlord-commons.auth-tomcat7.file" location="${dtgov-distro.bindir}/overlord-commons-auth-tomcat7-2.0.0-SNAPSHOT.jar" />
+      <property name="dtgov.dtgov-war.path" location="${dtgov-distro.bindir}/dtgov-war-tomcat7-${dtgov.version}.war" />
+      <property name="dtgov.dtgov-ui.path" location="${dtgov-distro.bindir}/dtgov-ui-war-tomcat7-${dtgov.version}.war" />
+    </ant>
+  </target>
+
+  <!-- Seed the S-RAMP repository with required DTGov data -->
+  <target name="seed">
+    <ant antfile="${dtgov-distro.dtgov-installer.dir}/build.xml" inheritall="true" target="seed" 
+         dir="${dtgov-distro.dtgov-installer.dir}">
+      <property name="dtgov.s-ramp.cli.jar" location="${dtgov-distro.rootdir}/bin/s-ramp-shell-${s-ramp.version}.jar" />
+    </ant>
+
+  </target>
+
+</project>

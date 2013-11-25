@@ -15,6 +15,18 @@
  */
 package org.overlord.dtgov.jbpm.util;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.inject.Inject;
+import javax.persistence.EntityManagerFactory;
+
 import org.apache.commons.codec.binary.Base64;
 import org.drools.compiler.kie.builder.impl.InternalKieModule;
 import org.drools.compiler.kie.builder.impl.KieContainerImpl;
@@ -38,18 +50,6 @@ import org.kie.api.builder.model.KieBaseModel;
 import org.kie.api.runtime.KieContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.inject.Inject;
-import javax.persistence.EntityManagerFactory;
-
-import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @ApplicationScoped
 @Sramp
@@ -130,7 +130,7 @@ public class SrampKModuleDeploymentService extends AbstractDeploymentService {
                 } catch (UnsupportedEncodingException e) {
                     logger.warn("Unable to load content for form '{}' : {}", fileName, e); //$NON-NLS-1$
                 }
-            } else if (fileName.matches(".+form$")) {
+            } else if (fileName.matches(".+form$")) { //$NON-NLS-1$
                 try {
                     String formContent = new String(module.getBytes(fileName), "UTF-8"); //$NON-NLS-1$
                     Pattern regex = Pattern.compile("(.{0}|.*/)([^/]*?)\\.form"); //$NON-NLS-1$
@@ -139,7 +139,7 @@ public class SrampKModuleDeploymentService extends AbstractDeploymentService {
                     while (m.find()) {
                         key = m.group(2);
                     }
-                    formsData.put(key+".form", formContent);
+                    formsData.put(key+".form", formContent); //$NON-NLS-1$
                 } catch (UnsupportedEncodingException e) {
                     logger.warn("Unable to load content for form '{}' : {}", fileName, e); //$NON-NLS-1$
                 }

@@ -45,7 +45,7 @@ public class ApplicationScopedProducer {
     @Inject
     private UserGroupCallback usergroupCallback;
 
-    @PersistenceUnit(unitName = "org.overlord.dtgov.jbpm") //$NON-NLS-1$
+    @PersistenceUnit(unitName = "org.overlord.dtgov.jbpm")
     private EntityManagerFactory emf;
 
     @ApplicationScoped

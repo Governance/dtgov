@@ -1,215 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Install Overlord: DTGov" default="install">
 
-  <property name="build.properties" value="dtgov-build.properties" />
+  <!-- Override properties by putting them in dtgov-build.properties -->
+  <property name="build.properties" location="dtgov-build.properties" />
   <property file="${build.properties}" />
-  <property name="appserver.id" value="jboss-eap-6.1" />
   <property name="dtgov.version" value="" />
-  
-  <!-- Check which app server we're installing into -->
-  <target name="appserver-check">
-    <!-- Set some properties based on the value of appserver.id -->
-    <condition property="jboss-eap-6.1">
-      <equals arg1="${appserver.id}" arg2="jboss-eap-6.1" />
-    </condition>
-    <condition property="jboss-as-7.1.1.Final">
-      <equals arg1="${appserver.id}" arg2="jboss-as-7.1.1.Final" />
-    </condition>
-  </target>
 
-  <!-- Configure properties common to all install targets -->
-  <target name="properties-common">
-    <property name="dtgov.install.dir" location="target" />
-    <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/${appserver.id}" />
-    <property name="dtgov.overlord-commons.installer.jar" location="overlord-commons-installer.jar" />
-    <property name="dtgov.overlord-commons.installer.dir" location="${dtgov.install.dir}/overlord-commons-installer" />
-  </target>
-
-  <!-- Configure properties common to all JBoss install targets -->
-  <target name="properties-jboss-common" depends="properties-common">
-    <property name="dtgov.appserver.bin.dir" location="${dtgov.appserver.dir}/bin" />
-    <property name="dtgov.appserver.deploy.dir" location="${dtgov.appserver.dir}/standalone/deployments/" />
-    <property name="dtgov.appserver.config.dir" location="${dtgov.appserver.dir}/standalone/configuration/" />
-  </target>
-
-  <!-- Configure properties specific to JBoss EAP 6.1 -->
-  <target name="properties-jboss-eap-6.1" depends="properties-jboss-common" if="jboss-eap-6.1">
-    <property name="dtgov.appserver.zip" location="jboss-eap-6.1.0.zip" />
-    <property name="dtgov.dtgov-war.path" location="bin/dtgov-war-eap61-${dtgov.version}.war" />
-    <property name="dtgov.dtgov-ui.path" location="bin/dtgov-ui-war-eap61-${dtgov.version}.war" />
-  </target>
-
-  <!-- Configure properties specific to JBoss AS 7.1.1.Final -->
-  <target name="properties-jboss-as-7.1.1.Final" depends="properties-jboss-common" if="jboss-as-7.1.1.Final">
-    <property name="dtgov.appserver.zip" location="jboss-as-7.1.1.Final.zip" />
-    <property name="dtgov.dtgov-war.path" location="bin/dtgov-war-jboss7-${dtgov.version}.war" />
-    <property name="dtgov.dtgov-ui.path" location="bin/dtgov-ui-war-jboss7-${dtgov.version}.war" />
-  </target>
-
-  <!-- Configure the properties that will drive the installer -->
-  <target name="all-properties" depends="appserver-check, properties-jboss-eap-6.1, properties-jboss-as-7.1.1.Final">
-  </target>
+  <!-- ****************************************************** -->
+  <!-- Customize these properties when calling this installer -->
+  <!-- ****************************************************** -->
+  <property name="appserver.id" value="jboss-eap-6.1" />
+  <property name="dtgov.install.dir" location="target" />
+  <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/${appserver.id}" />
+  <!-- ****************************************************** -->
 
   <!-- Install DTGov -->
-  <target name="install" depends="all-properties">
+  <target name="install">
     <echo message=" " />
-    <echo message="##############################################" />
-    <echo message="# Running the Overlord:DTGov installer. This #" />
-    <echo message="# will install S-RAMP onto ${appserver.id}.  #" />
-    <echo message="##############################################" />
-    <echo message=" " />
+    <echo message="############################################" />
+    <echo message="# Running the DTGov installer.             #" />
+    <echo message="############################################" />
 
-    <echo>----------------------------------</echo>
-    <echo>Unzipping App Server</echo>
-    <echo>---------------------------------- </echo>
-    <unzip src="${dtgov.appserver.zip}" dest="${dtgov.install.dir}" overwrite="false" />
-    <chmod perm="a+x" dir="${dtgov.appserver.bin.dir}">
-      <include name="*.sh"/>
-    </chmod>
-    <antcall target="config-appserver" />
-
-    <echo>----------------------------------</echo>
-    <echo>Installing Overlord Commons</echo>
-    <echo>----------------------------------</echo>
-    <unzip src="${dtgov.overlord-commons.installer.jar}" 
-           dest="${dtgov.overlord-commons.installer.dir}" overwrite="false" />
-    <property name="overlord-commons.install.dir" location="${dtgov.install.dir}" />
-    <property name="overlord-commons.appserver.dir" location="${dtgov.appserver.dir}" />
-    <ant antfile="build.xml" 
-         dir="${dtgov.overlord-commons.installer.dir}"  inheritall="true"
-         target="install" />
-
-    <echo>----------------------------------</echo>
-    <echo>Deploying DTGov and DTGov UI</echo>
-    <echo>----------------------------------</echo>
-    <copy file="${dtgov.dtgov-war.path}" 
-          tofile="${dtgov.appserver.deploy.dir}/dtgov.war" overwrite="true" />
-    <copy file="${dtgov.dtgov-ui.path}" 
-          tofile="${dtgov.appserver.deploy.dir}/dtgov-ui.war" overwrite="true" />
-    
-    <echo>----------------------------------</echo>
-    <echo>Configuring Overlord Apps</echo>
-    <echo>----------------------------------</echo>
-    <property name="dtgov.appserver.module-path" location="${dtgov.appserver.dir}/modules" />
-    <property name="dtgov.vault.password" value="vault22" />
-    <property name="dtgov.tmp.file" location="${dtgov.install.dir}/_tmp_vault.properties" />
-    
-    <property name="overlord-apps.dir" location="${dtgov.appserver.config.dir}/overlord-apps" />
-    <mkdir dir="${overlord-apps.dir}" />
-    <copy file="updates/dtgovui-overlordapp.properties" todir="${overlord-apps.dir}" overwrite="true" />
-    <copy file="updates/dtgov-ui.properties" todir="${dtgov.appserver.config.dir}" overwrite="true" />
-    <copy file="updates/dtgov.properties" todir="${dtgov.appserver.config.dir}" overwrite="true" />
-
-    <!-- Create DTGov workflow user -->
-    <genguid property="dtgov.users.workflow.password" />
-    <echo message="Generated password for dtgovworkflow user: ${dtgov.users.workflow.password}" />
-    <java jar="${dtgov.appserver.dir}/jboss-modules.jar"
-          fork="true" dir="${dtgov.appserver.dir}"
-          failonerror="true" maxmemory="128m">
-      <env key="JBOSS_HOME" value="${dtgov.appserver.dir}" />
-      <arg value="-mp"/>
-      <arg value="${dtgov.appserver.module-path}"/>
-      <arg value="org.jboss.as.domain-add-user"/>
-      <arg value="-a"/>
-      <arg value="-s"/>
-      <arg value="-u"/>
-      <arg value="dtgovworkflow"/>
-      <arg value="-p"/>
-      <arg value="${dtgov.users.workflow.password}"/>
-      <arg value="-r"/>
-      <arg value="ApplicationRealm"/>
-      <arg value="-ro"/>
-      <arg value="overlorduser,admin.sramp"/>
-    </java>
-    <echo message="Created dtgovworkflow user in Application Realm" />
-
-    <!-- Store dtgovworkflow password in vault -->
-    <java jar="${dtgov.appserver.dir}/jboss-modules.jar"
-          fork="true" dir="${dtgov.appserver.dir}"
-          failonerror="true" maxmemory="128m">
-      <arg value="-mp"/>
-      <arg value="${dtgov.appserver.module-path}"/>
-      <arg value="org.overlord.commons.overlord-commons-auth-tool"/>
-      <arg value="storepassword"/>
-      <arg value="-vaultdir"/>
-      <arg value="${dtgov.appserver.dir}/vault/"/>
-      <arg value="-keystore"/>
-      <arg value="${dtgov.appserver.config.dir}/vault.keystore"/>
-      <arg value="-storepass"/>
-      <arg value="${dtgov.vault.password}"/>
-      <arg value="-alias"/>
-      <arg value="vault"/>
-      <arg value="-salt"/>
-      <arg value="8675309K"/>
-      <arg value="-count"/>
-      <arg value="50"/>
-      <arg value="-name"/>
-      <arg value="dtgovworkflow.password"/>
-      <arg value="-password"/>
-      <arg value="${dtgov.users.workflow.password}"/>
-      <arg value="-block"/>
-      <arg value="dtgov"/>
-      <arg value="-propertyfile"/>
-      <arg value="${dtgov.tmp.file}"/>
-      <arg value="-property"/>
-      <arg value="dtgov.users.workflow.password.hash"/>
-    </java>
-    <property file="${dtgov.tmp.file}" />
-    <delete file="${dtgov.tmp.file}" />
-    <echo message="Vault key for dtgovworkflow password: ${dtgov.users.workflow.password.hash}" />
-
-    <!-- Set the dtgovworkflow user credentials in dtgov.properties -->
-    <concat destfile="${dtgov.appserver.config.dir}/dtgov.properties" append="true">
-# Governance BPM credentials
-governance.bpm.user=dtgovworkflow
-governance.bpm.password=$${vault:${dtgov.users.workflow.password.hash}}
-
-# S-RAMP Repository credentials
-sramp.repo.user=dtgovworkflow
-sramp.repo.password=$${vault:${dtgov.users.workflow.password.hash}}
-
-# Overlord governance credentials
-#  (used by the workflows to invoke DTGov services)
-governance.user=dtgovworkflow
-governance.password=$${vault:${dtgov.users.workflow.password.hash}}
-    </concat>
-
-    <!-- Set the SAML keystore and alias password in the dtgov-ui config -->
-    <property file="${dtgov.appserver.config.dir}/overlord-vault-keys.properties" />
-    <propertyfile file="${dtgov.appserver.config.dir}/dtgov-ui.properties">
-      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.saml-keystore.password.hash}}" />
-      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />
-      <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.saml-keystore.password.hash}}" />
-      <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />
-    </propertyfile>
+    <property name="dtgov.script.dir" location="scripts" />
+    <ant antfile="${dtgov.script.dir}/${appserver.id}.xml" inheritall="true" target="install" />
 
     <echo message=" " />
-    <echo message="########" />
-    <echo message="# DONE #" />
-    <echo message="########" />
+    <echo message="############################################" />
+    <echo message="# DTGov installer completed successfully! #" />
+    <echo message="############################################" />
     <echo message=" " />
   </target>
 
-  <!-- Configure JBoss -->
-  <target name="config-jboss-common">
-    <copy file="updates/dtgov-ds.xml" todir="${dtgov.appserver.deploy.dir}" overwrite="false" />
-  </target>
-
-  <!-- Configure JBoss EAP 6.1 -->
-  <target name="config-jboss-eap-6.1" depends="config-jboss-common" if="jboss-eap-6.1">
-  </target>
-
-  <!-- Configure JBoss AS 7.1.1.Final -->
-  <target name="config-jboss-as-7.1.1.Final" depends="config-jboss-common" if="jboss-as-7.1.1.Final">
-  </target>
-
-  <!-- App server specific configuration -->
-  <target name="config-appserver" depends="config-jboss-as-7.1.1.Final, config-jboss-eap-6.1">
-  </target>
-
-
-  <!-- Seed the s-ramp repository with required data -->
-  <target name="seed" depends="all-properties">
+  
+  <!-- Seed the S-RAMP repository with required data -->
+  <target name="seed">
     <echo message=" " />
     <echo message="##############################################" />
     <echo message="# Adding DTGov specific seed data to the     #" />
@@ -217,8 +41,8 @@ governance.password=$${vault:${dtgov.users.workflow.password.hash}}
     <echo message="##############################################" />
     <echo message=" " />
 
-    <property name="dtgov.s-ramp.cli.jar" value="bin/s-ramp-shell.jar" />
-    <property name="dtgov.s-ramp.cli.commands" value="cli-commands.txt" />
+    <property name="dtgov.s-ramp.cli.jar" location="bin/s-ramp-shell-${s-ramp.version}.jar" />
+    <property name="dtgov.s-ramp.cli.commands" location="cli-commands.txt" />
 
     <java jar="${dtgov.s-ramp.cli.jar}" fork="true">
       <arg value="-f" />
@@ -237,13 +61,5 @@ governance.password=$${vault:${dtgov.users.workflow.password.hash}}
     <echo message="########" />
     <echo message=" " />
   </target>
-
-  <scriptdef name="genguid" language="javascript">
-      <attribute name="property" />
-      <![CDATA[
-      importClass( java.util.UUID );
-      project.setProperty( attributes.get( "property" ), UUID.randomUUID() );
-      ]]>
-  </scriptdef>
 
 </project>
