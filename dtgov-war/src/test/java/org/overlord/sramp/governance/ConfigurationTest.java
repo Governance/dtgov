@@ -103,4 +103,32 @@ public class ConfigurationTest {
             Assert.assertTrue(e.getMessage().startsWith(Governance.TARGET_ERROR));
         }
     }
+    
+    /**
+     * Add a bad target
+     *
+     * @throws ConfigException
+     */
+    @Test()
+    public void testRHQTargetConfiguration() throws ConfigException {
+        Governance governance = new Governance() {
+            /**
+             * @see org.overlord.sramp.governance.Governance#getConfiguration()
+             */
+            @Override
+            protected Configuration getConfiguration() {
+                try {
+                    return new PropertiesConfiguration(ConfigurationTest.class.
+                    		getClassLoader().getResource("test-target-governance.config.txt")); //$NON-NLS-1$
+                } catch (ConfigurationException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+        try {
+            governance.validate();
+        } catch (ConfigException e) {
+        	Assert.fail("Not Expecting exception"); //$NON-NLS-1$
+        }
+    }
 }
