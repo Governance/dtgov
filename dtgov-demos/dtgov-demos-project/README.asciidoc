@@ -3,6 +3,8 @@ For an html version of this readme run 'asciidoc README.asciidoc'.
 DTGov Demos: Maven Project Workflow Integration
 ------------------------------------------------
 
+For a short video see: http://jboss-overlord.blogspot.com/2013/11/soa-governance-projects-and.html
+
 Summary
 ~~~~~~~
 
