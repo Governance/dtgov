@@ -3,6 +3,8 @@ For an html version of this readme run 'asciidoc README.asciidoc'.
 DTGov Demos: Release Workflow
 -----------------------------
 
+For a short video see: http://jboss-overlord.blogspot.com/2013/11/managed-deployments-using-dtgov.html
+
 Summary
 ~~~~~~~
 
