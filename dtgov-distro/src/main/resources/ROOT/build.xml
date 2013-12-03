@@ -12,10 +12,6 @@
 
   <!-- Install DTGov -->
   <target name="install">
-    <mkdir dir="${dtgov-distro.tempdir}"/>
-
-    <!-- Unpack the dtgov installer into the temp directory -->
-    <unzip src="${dtgov-distro.dtgov-installer.jar}" dest="${dtgov-distro.dtgov-installer.dir}" overwrite="false" />
     
     <echo message=" " />
     <echo message="#######################################################" />
@@ -36,13 +32,18 @@
       <equals arg1="${dtgov-distro.choices.platform}" arg2="2" />
     </condition>
 
-    <antcall target="install-jboss-eap-6.1" />
-    <antcall target="install-tomcat-7" />
+    <antcall target="install-jboss-eap-6.1-wrapper" />
+    <antcall target="install-tomcat-7-wrapper" />
   </target>
 
+  <target name="extract-installer">
+  	<mkdir dir="${dtgov-distro.tempdir}"/>
+  	<!-- Unpack the dtgov installer into the temp directory -->
+  	<unzip src="${dtgov-distro.dtgov-installer.jar}" dest="${dtgov-distro.dtgov-installer.dir}" overwrite="false" />
+  </target>
 
   <!-- Install into EAP 6.1 -->
-  <target name="install-jboss-eap-6.1" if="dtgov-distro.choices.platform.jboss-eap-6.1">
+  <target name="install-jboss-eap-6.1-wrapper" if="dtgov-distro.choices.platform.jboss-eap-6.1">
     <echo message=" " />
     <echo message="#######################################################" />
     <echo message="# Installing DTGov into EAP 6.1 (great choice!).     #" />
@@ -51,7 +52,9 @@
     <echo message=" Please tell us where JBoss EAP 6.1 is located (full path)." />
     <echo message=" " />
     <input message="Path to EAP 6.1: " addproperty="dtgov-distro.choices.platform.jboss-eap-6.1.path" />
-    
+  </target>
+  	
+  <target name="install-jboss-eap-6.1" depends="extract-installer">
     <condition property="dtgov-distro.choices.platform.jboss-eap-6.1.path.valid">
       <available file="jboss-modules.jar" filepath="${dtgov-distro.choices.platform.jboss-eap-6.1.path}" />
     </condition>
@@ -76,7 +79,7 @@
 
 
   <!-- Install into Tomcat 7 -->
-  <target name="install-tomcat-7" if="dtgov-distro.choices.platform.tomcat-7">
+  <target name="install-tomcat-7-wrapper" if="dtgov-distro.choices.platform.tomcat-7">
     <echo message=" " />
     <echo message="########################################" />
     <echo message="# Installing DTGov into Tomcat 7.     #" />
@@ -87,6 +90,9 @@
     <echo message=" " />
     <input message="Path to Tomcat 7: " addproperty="dtgov-distro.choices.platform.tomcat-7.path" />
 
+  </target>
+	
+  <target name="install-tomcat-7" depends="extract-installer">
     <!-- If the path is empty, download Tomcat 7 -->
     <condition property="dtgov-distro.choices.platform.tomcat-7.path.empty">
       <equals arg1="${dtgov-distro.choices.platform.tomcat-7.path}" arg2="" />
