@@ -28,6 +28,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.configuration.Configuration;
+import org.overlord.commons.config.JBossServer;
 import org.overlord.dtgov.taskapi.types.FindTasksRequest;
 import org.overlord.dtgov.taskapi.types.FindTasksResponse;
 import org.overlord.dtgov.taskapi.types.StatusType;
@@ -57,7 +58,8 @@ public class DtGovTaskApiClient implements ITaskClient {
      * Constructor.
      */
     public DtGovTaskApiClient(Configuration config) {
-        String endpoint = config.getString(DtgovUIConfig.TASK_API_ENDPOINT);
+    	String defaultTaskApiEndpoint = JBossServer.getBaseUrl() + "/dtgov/rest/tasks";
+        String endpoint = config.getString(DtgovUIConfig.TASK_API_ENDPOINT, defaultTaskApiEndpoint);
         AuthenticationProvider authProvider = null;
         String authProviderClass = config.getString(DtgovUIConfig.TASK_API_AUTH_PROVIDER);
         try {
