@@ -134,7 +134,7 @@ workflowProcessId=overlord.demo.SimpleReleaseProcess_0:workflowParameters=Deploy
 ....
 
 Note that the definition of the 'overlord.demo.SimpleReleaseProcess' lives in the
-SRAMPPackage in the dtgov-workflow.jar. If you want to update the workflow you
+SRAMPPackage in the dtgov-workflow-VERSION.jar. If you want to update the workflow you
 need to use eclipse tooling to modify the bpmn, build and upload a new dtgov-worflow.jar
 to S-RAMP. The GAV settings are defined in the dtgov.properties file.
 
