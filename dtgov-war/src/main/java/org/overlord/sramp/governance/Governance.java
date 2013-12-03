@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.apache.commons.configuration.Configuration;
 import org.overlord.commons.config.ConfigurationFactory;
+import org.overlord.commons.config.JBossServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,14 +140,14 @@ public class Governance {
     }
 
     public URL getBpmUrl() throws MalformedURLException {
-        return new URL(getConfiguration().getString(GovernanceConstants.GOVERNANCE_BPM_URL, "http://localhost:8080/gwt-console-server")); //$NON-NLS-1$
+        return new URL(getConfiguration().getString(GovernanceConstants.GOVERNANCE_BPM_URL, JBossServer.getBaseUrl() + "/gwt-console-server")); //$NON-NLS-1$
     }
 
     /**
      * This returns the baseURL, which by default is http://localhost:8080/s-ramp-server
      */
     public URL getSrampUrl() throws MalformedURLException {
-        return new URL(getConfiguration().getString(GovernanceConstants.SRAMP_REPO_URL, "http://localhost:8080/s-ramp-server")); //$NON-NLS-1$
+        return new URL(getConfiguration().getString(GovernanceConstants.SRAMP_REPO_URL, JBossServer.getBaseUrl() + "/s-ramp-server")); //$NON-NLS-1$
     }
 
     public String getSrampUser() {
@@ -174,14 +175,14 @@ public class Governance {
      * This returns the governance baseURL, which by default is http://localhost:8080/s-ramp-server
      */
     public String getGovernanceUrl() {
-        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_URL, "http://localhost:8080/dtgov"); //$NON-NLS-1$
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_URL, JBossServer.getBaseUrl() + "/dtgov"); //$NON-NLS-1$
     }
 
     /**
      * This returns the DTGovUiURL, which by default is http://localhost:8080/s-ramp-server
      */
     public String getDTGovUiUrl() {
-        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_UI, "http://localhost:8080/dtgov-ui"); //$NON-NLS-1$
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_UI, JBossServer.getBaseUrl() + "/dtgov-ui"); //$NON-NLS-1$
     }
 
     public Map<String,Target> getTargets() throws ConfigException {
@@ -320,4 +321,6 @@ public class Governance {
     public String getGovernanceWorkflowPackage() {
         return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_PACKAGE, DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE);
     }
+    
+    
 }

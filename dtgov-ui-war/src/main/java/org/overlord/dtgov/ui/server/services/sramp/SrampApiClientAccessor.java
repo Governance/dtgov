@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.commons.configuration.Configuration;
+import org.overlord.commons.config.JBossServer;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.auth.AuthenticationProvider;
@@ -56,7 +57,8 @@ public class SrampApiClientAccessor {
 	 * Creates a new instance of an S-RAMP client.
 	 */
 	protected SrampAtomApiClient createClient() {
-        String endpoint = config.getConfiguration().getString(DtgovUIConfig.SRAMP_ATOM_API_ENDPOINT);
+		String defaultSrampAtomApiEndpoint = JBossServer.getBaseUrl() + "/s-ramp-server";
+        String endpoint = config.getConfiguration().getString(DtgovUIConfig.SRAMP_ATOM_API_ENDPOINT, defaultSrampAtomApiEndpoint);
         boolean validating = "true".equals(config.getConfiguration().getString(DtgovUIConfig.SRAMP_ATOM_API_VALIDATING)); //$NON-NLS-1$
         AuthenticationProvider authProvider = null;
         String authProviderClass = config.getConfiguration().getString(DtgovUIConfig.SRAMP_ATOM_API_AUTH_PROVIDER);
