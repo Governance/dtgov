@@ -28,6 +28,7 @@
               <groupId>${project.groupId}</groupId>
               <artifactId>dtgov-war</artifactId>
               <excludes>
+                <exclude>WEB-INF/lib/aesh-*.jar</exclude>
                 <exclude>WEB-INF/lib/activation-*.jar</exclude>
                 <exclude>WEB-INF/lib/aether-*.jar</exclude>
                 <exclude>WEB-INF/lib/ant*.jar</exclude>
@@ -44,8 +45,7 @@
                 <exclude>WEB-INF/lib/ecj-*.jar</exclude>
                 <exclude>WEB-INF/lib/freemarker-*.jar</exclude>
                 <exclude>WEB-INF/lib/guava-*.jar</exclude>
-                <exclude>WEB-INF/lib/jboss-el-api_*.jar</exclude>
-                <exclude>WEB-INF/lib/jboss-jacc-api_*.jar</exclude>
+                <exclude>WEB-INF/lib/jboss-*.jar</exclude>
                 <exclude>WEB-INF/lib/jbpm-audit-*.jar</exclude>
                 <exclude>WEB-INF/lib/jbpm-bpmn2-*.jar</exclude>
                 <exclude>WEB-INF/lib/jbpm-flow-*.jar</exclude>
@@ -64,18 +64,22 @@
                 <exclude>WEB-INF/lib/javax.inject-1.jar</exclude>
                 <exclude>WEB-INF/lib/jaxb-impl-*.jar</exclude>
                 <exclude>WEB-INF/lib/jboss-logging-*.jar</exclude>
+                <exclude>WEB-INF/lib/jdeparser-*.jar</exclude>
                 <exclude>WEB-INF/lib/kie-*.jar</exclude>
                 <exclude>WEB-INF/lib/lucene-*.jar</exclude>
                 <exclude>WEB-INF/lib/log4j-*.jar</exclude>
                 <exclude>WEB-INF/lib/maven-*.jar</exclude>
                 <exclude>WEB-INF/lib/plexus-*.jar</exclude>
+                <exclude>WEB-INF/lib/remoting-*.jar</exclude>
                 <exclude>WEB-INF/lib/seam-persistence-*.jar</exclude>
                 <exclude>WEB-INF/lib/sisu-*.jar</exclude>
                 <exclude>WEB-INF/lib/slf4j-api-*.jar</exclude>
                 <exclude>WEB-INF/lib/slf4j-ext-*.jar</exclude>
                 <exclude>WEB-INF/lib/solder-impl-*.jar</exclude>
+                <exclude>WEB-INF/lib/staxmapper-*.jar</exclude>
                 <exclude>WEB-INF/lib/weld-*.jar</exclude>
                 <exclude>WEB-INF/lib/xmlpull-*.jar</exclude>
+                <exclude>WEB-INF/lib/xnio-*.jar</exclude>
                 <exclude>WEB-INF/lib/xstream-*.jar</exclude>
               </excludes>
               <!--  
