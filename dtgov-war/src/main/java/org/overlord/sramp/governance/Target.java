@@ -90,7 +90,7 @@ public class Target {
         if (secondColon > 0) {
         	this.rhqBaseUrl = rhqBaseUrl.substring(0,secondColon);
         	String portStr = rhqBaseUrl.substring(secondColon + 1);
-        	int slashPosition = portStr.indexOf("/") ;
+        	int slashPosition = portStr.indexOf("/") ; //$NON-NLS-1$
         	if (slashPosition > 0) portStr = portStr.substring(0,slashPosition);
         	this.port = Integer.valueOf(portStr);
         	

@@ -32,6 +32,7 @@ import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.SrampClientException;
 import org.overlord.sramp.client.query.ArtifactSummary;
 import org.overlord.sramp.client.query.QueryResultSet;
+import org.overlord.sramp.common.SrampModelUtils;
 import org.overlord.sramp.governance.workflow.BpmManager;
 import org.overlord.sramp.governance.workflow.WorkflowFactory;
 import org.slf4j.Logger;
@@ -114,10 +115,11 @@ public class QueryExecutor {
                             while (propertyMap.keySet().contains(propertyName + i)) {
                                 i++;
                             }
-                            Property property = new Property();
-                            property.setPropertyName(propertyName + i);
-                            property.setPropertyValue(processInstanceId + "_" + WORKFLOW_PARAMETERS + query.getParameters()); //$NON-NLS-1$
-                            artifact.getProperty().add(property);
+                            // Refresh the meta-data - the workflow may have made changes to the artifact
+                            // by now.
+                            artifact = client.getArtifactMetaData(artifactSummary.getType(), artifactSummary.getUuid());
+                            String propValue = processInstanceId + "_" + WORKFLOW_PARAMETERS + query.getParameters(); //$NON-NLS-1$
+                            SrampModelUtils.setCustomProperty(artifact, propertyName + i, propValue);
                             client.updateArtifactMetaData(artifact);
                         }
                     }

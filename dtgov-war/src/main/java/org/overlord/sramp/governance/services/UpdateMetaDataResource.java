@@ -78,8 +78,8 @@ public class UpdateMetaDataResource {
             @PathParam("value") String value,
             @PathParam("uuid") String uuid) throws Exception {
 
-    	Map<String,ValueEntity> results = new HashMap<String, ValueEntity>();
-    	
+        Map<String,ValueEntity> results = new HashMap<String, ValueEntity>();
+        
         OutputStream os = null;
         try {
             // 0. run the decoder on the argument
@@ -88,15 +88,7 @@ public class UpdateMetaDataResource {
 
             // 1. get the artifact from the repo
             SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-            String query = String.format("/s-ramp[@uuid='%s']", uuid); //$NON-NLS-1$
-            QueryResultSet queryResultSet = client.query(query);
-            if (queryResultSet.size() == 0) {
-            	results.put(GovernanceConstants.STATUS, new ValueEntity("fail")); //$NON-NLS-1$
-            	results.put(GovernanceConstants.MESSAGE, new ValueEntity(Messages.i18n.format("UpdateMetaDataResource.ArtifactNotFound"))); //$NON-NLS-1$
-                return results;
-            }
-            ArtifactSummary artifactSummary = queryResultSet.iterator().next();
-            BaseArtifactType artifact = client.getArtifactMetaData(artifactSummary.getType(), uuid);
+            BaseArtifactType artifact = client.getArtifactMetaData(uuid);
 
             // 2. add the classification
             artifact.getClassifiedBy().add(value);
@@ -104,17 +96,17 @@ public class UpdateMetaDataResource {
 
             // 3. build the response
             results.put(GovernanceConstants.STATUS, new ValueEntity("success")); //$NON-NLS-1$
-            results.put(GovernanceConstants.ARTIFACT_NAME, new ValueEntity(artifactSummary.getName()));
-            results.put(GovernanceConstants.ARTIFACT_CREATED_BY, new ValueEntity(artifactSummary.getCreatedBy()));
-            results.put(GovernanceConstants.ARTIFACT_DESCRIPTION, new ValueEntity(artifactSummary.getDescription()));
-            
-            return results;
+            results.put(GovernanceConstants.ARTIFACT_NAME, new ValueEntity(artifact.getName()));
+            results.put(GovernanceConstants.ARTIFACT_CREATED_BY, new ValueEntity(artifact.getCreatedBy()));
+            results.put(GovernanceConstants.ARTIFACT_DESCRIPTION, new ValueEntity(artifact.getDescription()));
         } catch (Exception e) {
             logger.error(Messages.i18n.format("UpdateMetaDataResource.ErrorUpdating", e.getMessage()), e); //$NON-NLS-1$
-            throw new SrampAtomException(e);
+            results.put(GovernanceConstants.STATUS, new ValueEntity("fail")); //$NON-NLS-1$
+            results.put(GovernanceConstants.MESSAGE, new ValueEntity(Messages.i18n.format("UpdateMetaDataResource.ArtifactNotFound"))); //$NON-NLS-1$
         } finally {
             IOUtils.closeQuietly(os);
         }
+        return results;
     }
 
     /**
