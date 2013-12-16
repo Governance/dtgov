@@ -57,7 +57,7 @@ public class SrampApiClientAccessor {
 	 * Creates a new instance of an S-RAMP client.
 	 */
 	protected SrampAtomApiClient createClient() {
-		String defaultSrampAtomApiEndpoint = JBossServer.getBaseUrl() + "/s-ramp-server";
+		String defaultSrampAtomApiEndpoint = JBossServer.getBaseUrl() + "/s-ramp-server"; //$NON-NLS-1$
         String endpoint = config.getConfiguration().getString(DtgovUIConfig.SRAMP_ATOM_API_ENDPOINT, defaultSrampAtomApiEndpoint);
         boolean validating = "true".equals(config.getConfiguration().getString(DtgovUIConfig.SRAMP_ATOM_API_VALIDATING)); //$NON-NLS-1$
         AuthenticationProvider authProvider = null;
