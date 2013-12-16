@@ -99,14 +99,14 @@ public class UpdateMetaDataResource {
             results.put(GovernanceConstants.ARTIFACT_NAME, new ValueEntity(artifact.getName()));
             results.put(GovernanceConstants.ARTIFACT_CREATED_BY, new ValueEntity(artifact.getCreatedBy()));
             results.put(GovernanceConstants.ARTIFACT_DESCRIPTION, new ValueEntity(artifact.getDescription()));
-            
-            return results;
         } catch (Exception e) {
             logger.error(Messages.i18n.format("UpdateMetaDataResource.ErrorUpdating", e.getMessage()), e); //$NON-NLS-1$
-            throw new SrampAtomException(e);
+            results.put(GovernanceConstants.STATUS, new ValueEntity("fail")); //$NON-NLS-1$
+            results.put(GovernanceConstants.MESSAGE, new ValueEntity(Messages.i18n.format("UpdateMetaDataResource.ArtifactNotFound"))); //$NON-NLS-1$
         } finally {
             IOUtils.closeQuietly(os);
         }
+        return results;
     }
 
     /**
