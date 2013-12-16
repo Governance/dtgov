@@ -474,7 +474,7 @@ public class DeploymentResource {
             String name = artifact.getName();
             int dot = name.lastIndexOf("."); //$NON-NLS-1$
             // Save artifact content to a temp location
-            File tmpFile = File.createTempFile(name.substring(0,dot), name.substring(dot+1));
+            File tmpFile = File.createTempFile(name.substring(0,dot), name.substring(dot));
             os = new FileOutputStream(tmpFile);
             IOUtils.copy(is, os);
             IOUtils.closeQuietly(is);
