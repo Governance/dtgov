@@ -10,6 +10,7 @@
 	<fileSets>
 		<!-- The S-RAMP demos -->
 		<fileSet>
+			<directory>..</directory>
 			<useDefaultExcludes>true</useDefaultExcludes>
 			<excludes>
 			    <exclude>src/</exclude>
@@ -18,6 +19,7 @@
 				<exclude>**/.project</exclude>
 				<exclude>**/.gitignore</exclude>
 				<exclude>**/target/**</exclude>
+				<exclude>dtgov-demos-assembly/**</exclude>
 			</excludes>
 			<directoryMode>0755</directoryMode>
 			<fileMode>0755</fileMode>

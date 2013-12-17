@@ -146,32 +146,6 @@
           <showWarnings>false</showWarnings>
         </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <inherited>false</inherited>
-        <executions>
-          <execution>
-            <id>make-dist</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <escapeString>\</escapeString>
-              <attach>true</attach>
-              <descriptors>
-                <descriptor>src/main/assembly/dist.xml</descriptor>
-              </descriptors>
-              <tarLongFileMode>gnu</tarLongFileMode>
-              <appendAssemblyId>false</appendAssemblyId>
-              <archiverConfig>
-                <defaultDirectoryMode>0755</defaultDirectoryMode>
-              </archiverConfig>
-              <runOnlyAtExecutionRoot>false</runOnlyAtExecutionRoot>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 
@@ -192,4 +166,17 @@
     <module>dtgov-demos-project</module>
     <module>dtgov-demos-switchyard</module>
   </modules>
+
+  <profiles>
+    <profile>
+      <activation>
+        <file>
+          <exists>dtgov-demos-assembly</exists>
+        </file>
+      </activation>
+      <modules>
+        <module>dtgov-demos-assembly</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
