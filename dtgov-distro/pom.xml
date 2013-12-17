@@ -123,7 +123,7 @@
     <!-- DTGov Demos -->
     <dependency>
       <groupId>org.overlord.dtgov.demos</groupId>
-      <artifactId>dtgov-demos</artifactId>
+      <artifactId>dtgov-demos-assembly</artifactId>
       <version>${project.version}</version>
       <type>zip</type>
     </dependency>
