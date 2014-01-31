@@ -304,6 +304,16 @@
       </dependency>
       <dependency>
         <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-auth-tomcat7</artifactId>
+        <version>${overlord-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-auth-jboss7</artifactId>
+        <version>${overlord-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
         <artifactId>overlord-commons-uiheader</artifactId>
         <version>${overlord-commons.version}</version>
       </dependency>

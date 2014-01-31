@@ -6,8 +6,8 @@
   <property name="dtgov-distro.tempdir" location=".temp" />
   <property name="dtgov-distro.rootdir" location="." />
   <property name="dtgov-distro.bindir" location="${dtgov-distro.rootdir}/bin" />
-  <property name="dtgov-distro.overlord-commons-installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-2.0.0-SNAPSHOT.jar" />
-  <property name="dtgov-distro.dtgov-installer.jar" location="${dtgov-distro.bindir}/dtgov-installer-2.0.0-SNAPSHOT.jar" />
+  <property name="dtgov-distro.overlord-commons-installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-${overlord-commons.version}.jar" />
+  <property name="dtgov-distro.dtgov-installer.jar" location="${dtgov-distro.bindir}/dtgov-installer-${overlord-commons.version}.jar" />
   <property name="dtgov-distro.dtgov-installer.dir" location="${dtgov-distro.tempdir}/dtgov-installer" />
 
   <!-- Install DTGov -->
@@ -52,8 +52,10 @@
     <echo message=" Please tell us where JBoss EAP 6.1 is located (full path)." />
     <echo message=" " />
     <input message="Path to EAP 6.1: " addproperty="dtgov-distro.choices.platform.jboss-eap-6.1.path" />
+    
+    <antcall target="install-jboss-eap-6.1" />
   </target>
-  	
+  
   <target name="install-jboss-eap-6.1" depends="extract-installer">
     <condition property="dtgov-distro.choices.platform.jboss-eap-6.1.path.valid">
       <available file="jboss-modules.jar" filepath="${dtgov-distro.choices.platform.jboss-eap-6.1.path}" />
@@ -69,9 +71,12 @@
       <property name="appserver.id" value="jboss-eap-6.1" />
       <property name="dtgov.install.dir" location="${dtgov-distro.tempdir}" />
       <property name="dtgov.appserver.dir" location="${dtgov-distro.choices.platform.jboss-eap-6.1.path}" />
-      <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-2.0.0-SNAPSHOT.jar" />
-      <property name="overlord-commons.idp.file" value="${dtgov-distro.bindir}/overlord-commons-idp-eap61-2.0.0-SNAPSHOT.war" />
-      <property name="overlord-commons.auth.file" location="${dtgov-distro.bindir}/overlord-commons-auth-2.0.0-SNAPSHOT.jar" />
+      <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-${overlord-commons.version}.jar" />
+      <property name="overlord-commons.idp.file" value="${dtgov-distro.bindir}/overlord-commons-idp-eap61-${overlord-commons.version}.war" />
+      <property name="overlord-commons.services.file" location="${dtgov-distro.bindir}/overlord-commons-services-${overlord-commons.version}.jar" />
+      <property name="overlord-commons.auth.file" location="${dtgov-distro.bindir}/overlord-commons-auth-${overlord-commons.version}.jar" />
+      <property name="overlord-commons.auth.tomcat7.file" location="${dtgov-distro.bindir}/overlord-commons-auth-tomcat7-${overlord-commons.version}.jar" />
+      <property name="overlord-commons.auth.jboss7.file" location="${dtgov-distro.bindir}/overlord-commons-auth-jboss7-${overlord-commons.version}.jar" />
       <property name="dtgov.dtgov-war.path" location="${dtgov-distro.bindir}/dtgov-war-eap61-${dtgov.version}.war" />
       <property name="dtgov.dtgov-ui.path" location="${dtgov-distro.bindir}/dtgov-ui-war-eap61-${dtgov.version}.war" />
     </ant>
@@ -142,10 +147,11 @@
       <property name="appserver.id" value="tomcat-7" />
       <property name="dtgov.install.dir" location="${dtgov-distro.tempdir}" />
       <property name="dtgov.appserver.dir" location="${dtgov-distro.choices.platform.tomcat-7.real-path}" />
-      <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-2.0.0-SNAPSHOT.jar" />
-      <property name="overlord-commons.idp.file" value="${dtgov-distro.bindir}/overlord-commons-idp-tomcat7-2.0.0-SNAPSHOT.war" />
-      <property name="overlord-commons.auth.file" location="${dtgov-distro.bindir}/overlord-commons-auth-2.0.0-SNAPSHOT.jar" />
-      <property name="overlord-commons.auth-tomcat7.file" location="${dtgov-distro.bindir}/overlord-commons-auth-tomcat7-2.0.0-SNAPSHOT.jar" />
+      <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-${overlord-commons.version}.jar" />
+      <property name="overlord-commons.idp.file" value="${dtgov-distro.bindir}/overlord-commons-idp-tomcat7-${overlord-commons.version}.war" />
+      <property name="overlord-commons.services.file" location="${dtgov-distro.bindir}/overlord-commons-services-${overlord-commons.version}.jar" />
+      <property name="overlord-commons.auth.file" location="${dtgov-distro.bindir}/overlord-commons-auth-${overlord-commons.version}.jar" />
+      <property name="overlord-commons.auth.tomcat7.file" location="${dtgov-distro.bindir}/overlord-commons-auth-tomcat7-${overlord-commons.version}.jar" />
       <property name="dtgov.dtgov-war.path" location="${dtgov-distro.bindir}/dtgov-war-tomcat7-${dtgov.version}.war" />
       <property name="dtgov.dtgov-ui.path" location="${dtgov-distro.bindir}/dtgov-ui-war-tomcat7-${dtgov.version}.war" />
     </ant>
