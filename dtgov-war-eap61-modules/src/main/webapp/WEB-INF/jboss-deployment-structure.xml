@@ -22,6 +22,7 @@
       <module name="org.picketbox" />
       <module name="org.jboss.netty" />
       <module name="org.jboss.resteasy.resteasy-jaxrs" />
+      <module name="org.overlord.commons.overlord-commons-services" />
       <module name="org.overlord.commons.overlord-commons-auth" />
       <module name="org.jboss.as.cli" />
     

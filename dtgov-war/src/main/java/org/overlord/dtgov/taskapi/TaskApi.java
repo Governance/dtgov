@@ -226,7 +226,7 @@ public class TaskApi {
             }
             idx++;
         }
-        response.setTotalResults(response.getTaskSummary().size());
+        response.setTotalResults(sortedFiltered.size());
         return response;
     }
 

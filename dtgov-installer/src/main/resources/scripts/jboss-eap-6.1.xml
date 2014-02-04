@@ -28,11 +28,13 @@
     <echo>----------------------------------</echo>
     <unzip src="${dtgov.overlord-commons.installer.jar}" 
            dest="${dtgov.overlord-commons.installer.dir}" overwrite="false" />
-    <property name="overlord-commons.install.dir" location="${dtgov.install.dir}" />
-    <property name="overlord-commons.appserver.dir" location="${dtgov.appserver.dir}" />
-    <ant antfile="build.xml" 
-         dir="${dtgov.overlord-commons.installer.dir}"  inheritall="true"
-         target="install" />
+    <ant antfile="${dtgov.overlord-commons.installer.dir}/build.xml" target="install"
+         dir="${dtgov.overlord-commons.installer.dir}" 
+         inheritall="true" inheritrefs="false">
+      <property name="appserver.id" value="${appserver.id}" />
+      <property name="overlord-commons.install.dir" location="${dtgov.install.dir}" />
+      <property name="overlord-commons.appserver.dir" location="${dtgov.appserver.dir}" />
+    </ant>
 
     <echo>----------------------------------</echo>
     <echo>Deploying DTGov and DTGov UI</echo>

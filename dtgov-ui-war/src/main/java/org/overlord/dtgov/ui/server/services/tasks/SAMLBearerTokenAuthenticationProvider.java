@@ -20,7 +20,6 @@ import java.security.KeyStore;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.http.HttpRequest;
-import org.overlord.commons.auth.jboss7.SAMLBearerTokenLoginModule;
 import org.overlord.commons.auth.util.SAMLAssertionUtil;
 import org.overlord.commons.auth.util.SAMLBearerTokenUtil;
 import org.overlord.dtgov.taskclient.auth.AuthenticationProvider;
