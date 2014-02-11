@@ -27,9 +27,6 @@ import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.OptimisticLockException;
@@ -49,6 +46,7 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.jboss.seam.transaction.Transactional;
 import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
 import org.jbpm.services.task.exception.PermissionDeniedException;
 import org.jbpm.services.task.utils.ContentMarshallerHelper;
@@ -79,8 +77,8 @@ import org.overlord.sramp.governance.Governance;
  *
  * @author eric.wittmann@redhat.com
  */
-@Stateless
-@TransactionManagement(TransactionManagementType.BEAN)
+@ApplicationScoped
+@Transactional
 @Path("/tasks")
 public class TaskApi {
 

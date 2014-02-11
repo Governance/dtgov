@@ -19,13 +19,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.annotation.Resource;
-import javax.ejb.Singleton;
-import javax.ejb.Timeout;
-import javax.ejb.Timer;
-import javax.ejb.TimerConfig;
-import javax.ejb.TimerService;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.commons.codec.binary.Base64;
 import org.overlord.dtgov.server.i18n.Messages;
@@ -34,39 +29,43 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- *
+ * Singleton. The SRAMPMonitor queries the S-RAMP repository using
+ * XPath2 like queries to find interesting changes in the repository.
  */
-@Singleton
-public class SRAMPMonitor {
+public class SRAMPMonitor extends TimerTask {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
-	Governance governance = new Governance();
+	private static Governance governance = new Governance();
+	private static SRAMPMonitor srampMonitor = null;
+	private static Timer timer = null;
 
-	private long interval = governance.getQueryInterval();
+	private static long interval = governance.getQueryInterval();
+	private long acceptableLagTime = governance.getAcceptableLagtime();
 
-	@Resource
-	private TimerService timerService;
-	private Timer timer;
 
-	public SRAMPMonitor() {
+	private SRAMPMonitor() {
 	}
 
-	public void init () {
-		TimerConfig timerConfig = new TimerConfig(null, false);
-		this.timer = timerService.createIntervalTimer(interval, interval, timerConfig);
+	public static synchronized SRAMPMonitor getInstance () {
+		if (srampMonitor==null) {
+			srampMonitor = new SRAMPMonitor();
+			timer = new Timer(true);
+			timer.scheduleAtFixedRate(srampMonitor, 60000, interval);
+		}
+		return srampMonitor;
 	}
 
+	@Override
 	public boolean cancel() {
-		this.timer.cancel();
-		return true;
+		timer.cancel();
+		return super.cancel();
 	}
 
-	@Timeout
-    public synchronized void executeMonitoring(Timer timer)
+	@Override
+    public synchronized void run()
 	{
 	    try {
-    		if (isAppserverReady()) {
+    		if (firedOnTime(scheduledExecutionTime()) && isAppserverReady()) {
     			
     			long startTime = System.currentTimeMillis();
     			QueryExecutor.execute();
@@ -91,6 +90,28 @@ public class SRAMPMonitor {
             e.printStackTrace();
         }
  	}
+	
+	/**
+	 * Checks to see that the event are fired on time. If they are late this may indicate that the server
+	 * is under load. The acceptableLagTime is configurable using the "juddi.notification.acceptable.lagtime"
+	 * property and is defaulted to 1000ms. A negative value means that you do not care about the lag time
+	 * and you simply always want to go do the notification work.
+	 *
+	 * @param scheduleExecutionTime
+	 * @return true if the server is within the acceptable latency lag.
+	 */
+	private boolean firedOnTime(long scheduleExecutionTime) {
+		long lagTime = System.currentTimeMillis() - scheduleExecutionTime;
+		if (lagTime <= acceptableLagTime || acceptableLagTime < 0) {
+			return true;
+		} else {
+			log.debug("NotificationTimer is lagging " + lagTime + " milli seconds behind. A lag time "
+					+ "which exceeds an acceptable lagtime of " + acceptableLagTime + "ms indicates "
+					+ "that the registry server is under load or was in sleep mode. We are therefore skipping this notification "
+					+ "cycle.");
+			return false;
+		}
+	}
 
 	/**
 	 * Checks if we can ready the S-RAMP repository as well as the BPM API.
