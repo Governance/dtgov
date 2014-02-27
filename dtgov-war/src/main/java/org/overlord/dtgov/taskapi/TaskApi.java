@@ -60,7 +60,7 @@ import org.kie.api.task.model.TaskData;
 import org.kie.api.task.model.TaskSummary;
 import org.kie.api.task.model.User;
 import org.kie.internal.runtime.manager.context.EmptyContext;
-import org.overlord.dtgov.jbpm.ejb.ProcessOperationException;
+import org.overlord.dtgov.jbpm.ProcessOperationException;
 import org.overlord.dtgov.jbpm.util.KieSrampUtil;
 import org.overlord.dtgov.jbpm.util.ProcessEngineService;
 import org.overlord.dtgov.server.i18n.Messages;
@@ -242,14 +242,9 @@ public class TaskApi {
         assertCurrentUser(httpRequest);
 
         Task task = taskService.getTaskById(taskId);
-
-        long docId = taskService.getTaskById(taskId).getTaskData().getDocumentContentId();
-        Content content = taskService.getContentById(docId);
-
-        @SuppressWarnings("unchecked")
-		Map<String,Object> inputParams = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
-
+        
         TaskType rval = new TaskType();
+        
         List<I18NText> descriptions = task.getDescriptions();
         if (descriptions != null && !descriptions.isEmpty()) {
             rval.setDescription(descriptions.iterator().next().getText());
@@ -276,15 +271,24 @@ public class TaskApi {
             }
             rval.setStatus(StatusType.fromValue(taskData.getStatus().toString()));
         }
-        //Set the input params
-        if (inputParams!=null && inputParams.size() > 0) {
-        	if (rval.getTaskData()==null) rval.setTaskData(new TaskDataType());
-        	for ( String key : inputParams.keySet()) {
-        		Entry entry = new Entry();
-        		entry.setKey(key);
-        		entry.setValue(String.valueOf(inputParams.get(key)));
-				rval.getTaskData().getEntry().add(entry);
-			}
+        
+        long docId = taskService.getTaskById(taskId).getTaskData().getDocumentContentId();
+        
+        if (docId > 0) {
+	        //Set the input params
+	        Content content = taskService.getContentById(docId);
+	        @SuppressWarnings("unchecked")
+			Map<String,Object> inputParams = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
+	
+	        if (inputParams!=null && inputParams.size() > 0) {
+	        	if (rval.getTaskData()==null) rval.setTaskData(new TaskDataType());
+	        	for ( String key : inputParams.keySet()) {
+	        		Entry entry = new Entry();
+	        		entry.setKey(key);
+	        		entry.setValue(String.valueOf(inputParams.get(key)));
+					rval.getTaskData().getEntry().add(entry);
+				}
+	        }
         }
 
         return rval;
@@ -302,10 +306,8 @@ public class TaskApi {
     public TaskType claimTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
         String currentUser = assertCurrentUser(httpRequest);
-        ut.begin();
         try {
             taskService.claim(taskId, currentUser);
-            ut.commit();
         } catch (Exception e) {
             handleException(e);
         }
@@ -325,10 +327,8 @@ public class TaskApi {
     public TaskType releaseTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
         String currentUser = assertCurrentUser(httpRequest);
-        ut.begin();
         try {
             taskService.release(taskId, currentUser);
-            ut.commit();
         } catch (Exception e) {
             handleException(e);
         }
@@ -348,10 +348,8 @@ public class TaskApi {
     public TaskType startTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
         String currentUser = assertCurrentUser(httpRequest);
-        ut.begin();
         try {
             taskService.start(taskId, currentUser);
-            ut.commit();
         } catch (Exception e) {
             handleException(e);
         }
@@ -371,10 +369,8 @@ public class TaskApi {
     public TaskType stopTask(@Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
         String currentUser = assertCurrentUser(httpRequest);
-        ut.begin();
         try {
             taskService.stop(taskId, currentUser);
-            ut.commit();
         } catch (Exception e) {
             handleException(e);
         }
@@ -396,11 +392,9 @@ public class TaskApi {
     public TaskType completeTask(final TaskDataType taskData, @Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
         String currentUser = assertCurrentUser(httpRequest);
-        ut.begin();
         try {
             Map<String, Object> data = taskDataAsMap(taskData);
             taskService.complete(taskId, currentUser, data);
-            ut.commit();
         } catch (Exception e) {
             handleException(e);
         }
@@ -421,11 +415,9 @@ public class TaskApi {
     public TaskType failTask(final TaskDataType taskData, @Context HttpServletRequest httpRequest, @PathParam("taskId") long taskId)
             throws Exception {
         String currentUser = assertCurrentUser(httpRequest);
-        ut.begin();
         try {
             Map<String, Object> data = taskDataAsMap(taskData);
             taskService.fail(taskId, currentUser, data);
-            ut.commit();
         } catch (Exception e) {
             handleException(e);
         }
