@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package org.overlord.dtgov.jbpm.ejb;
+package org.overlord.dtgov.jbpm;
 
 import java.util.Collection;
 import java.util.Map;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.jboss.seam.transaction.Transactional;
@@ -38,7 +39,7 @@ import org.overlord.dtgov.server.i18n.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ApplicationScoped
+@RequestScoped
 @Transactional
 public class ProcessBean {
 

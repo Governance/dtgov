@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.overlord.dtgov.jbpm.ejb;
+package org.overlord.dtgov.jbpm;
 
 /**
  * 

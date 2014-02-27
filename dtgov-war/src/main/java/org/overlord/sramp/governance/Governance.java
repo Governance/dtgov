@@ -279,6 +279,10 @@ public class Governance {
     public long getQueryInterval() {
         return getConfiguration().getLong(GovernanceConstants.GOVERNANCE_QUERY_INTERVAL, 300000l); //5 min default
     }
+    
+    public long getAcceptableLagtime() {
+        return configuration.getLong(GovernanceConstants.GOVERNANCE_ACCEPTABLE_LAG, 1000l); //1 s
+    }
 
     public String getJNDIEmailName() {
         return getConfiguration().getString(GovernanceConstants.GOVERNANCE_JNDI_EMAIL_REF, DEFAULT_JNDI_EMAIL_REF);

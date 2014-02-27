@@ -20,16 +20,6 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
-  <servlet>
-    <servlet-name>ProcessServlet</servlet-name>
-    <servlet-class>org.overlord.dtgov.jbpm.web.ProcessServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>ProcessServlet</servlet-name>
-    <url-pattern>/process</url-pattern>
-  </servlet-mapping>
-
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>S-RAMP Governance</web-resource-name>

@@ -32,6 +32,7 @@ public interface GovernanceConstants {
 
     public static final String GOVERNANCE_URL           = "governance.url"; //$NON-NLS-1$
     public static final String GOVERNANCE_QUERY_INTERVAL= "governance.query.interval"; //$NON-NLS-1$
+    public static final String GOVERNANCE_ACCEPTABLE_LAG= "governance.acceptable.lagtime";  //$NON-NLS-1$
     public static final String GOVERNANCE_JNDI_EMAIL_REF= "governance.jndi.email.reference"; //$NON-NLS-1$
     public static final String GOVERNANCE_EMAIL_DOMAIN  = "governance.email.domain"; //$NON-NLS-1$
     public static final String GOVERNANCE_EMAIL_FROM    = "governance.email.from"; //$NON-NLS-1$

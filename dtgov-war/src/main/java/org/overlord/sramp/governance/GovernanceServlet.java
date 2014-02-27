@@ -15,7 +15,6 @@
  */
 package org.overlord.sramp.governance;
 
-import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +32,6 @@ public class GovernanceServlet extends HttpServlet {
     private static final long serialVersionUID = -2902363450855487818L;
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @EJB
 	private SRAMPMonitor monitor;
 
 	/**
@@ -43,7 +41,7 @@ public class GovernanceServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		log.debug(Messages.i18n.format("GovernanceServlet.Starting")); //$NON-NLS-1$
-		monitor.init();
+        monitor = SRAMPMonitor.getInstance();
 	}
 
 	@Override
