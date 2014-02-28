@@ -39,7 +39,7 @@ import org.overlord.dtgov.server.i18n.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@RequestScoped
+@ApplicationScoped
 @Transactional
 public class ProcessBean {
 

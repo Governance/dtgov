@@ -19,7 +19,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.POST;
@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 public class ProcessService {
 
 	@Inject
-	@RequestScoped
+	@ApplicationScoped
     private ProcessBean processBean;
 	
 	private static Logger logger = LoggerFactory.getLogger(ProcessService.class);
