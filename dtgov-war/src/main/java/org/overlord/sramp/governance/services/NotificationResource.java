@@ -61,22 +61,23 @@ public class NotificationResource {
     private static Logger logger = LoggerFactory.getLogger(NotificationResource.class);
     private Governance governance = new Governance();
 
+    //https://issues.jboss.org/browse/DTGOV-107 also support sending mail on tomcat
     /**
      * Constructor.
      * @throws NamingException
      */
     public NotificationResource() {
-        InitialContext context;
-        try {
-            String jndiEmailRef = governance.getJNDIEmailName();
-            context = new InitialContext();
-            mailSession = (Session) context.lookup(jndiEmailRef);
-            if (mailSession==null) {
-                logger.error(Messages.i18n.format("NotificationResource.JndiLookupFailed", jndiEmailRef)); //$NON-NLS-1$
-            }
-        } catch (NamingException e) {
-            logger.error(e.getMessage(),e);
-        }
+//        InitialContext context;
+//        try {
+//            String jndiEmailRef = governance.getJNDIEmailName();
+//            context = new InitialContext();
+//            mailSession = (Session) context.lookup(jndiEmailRef);
+//            if (mailSession==null) {
+//                logger.error(Messages.i18n.format("NotificationResource.JndiLookupFailed", jndiEmailRef)); //$NON-NLS-1$
+//            }
+//        } catch (NamingException e) {
+//            logger.error(e.getMessage(),e);
+//        }
 
     }
 
@@ -96,75 +97,76 @@ public class NotificationResource {
             @PathParam("target") String target,
             @PathParam("uuid") String uuid) throws Exception {
     	
+    	
     	Map<String, ValueEntity> results = new HashMap<String,ValueEntity>();
-        try {
-            // 0. run the decoder on the arguments, after replacing * by % (this so parameters can
-            //    contain slashes (%2F)
-            group = SlashDecoder.decode(group);
-            template = SlashDecoder.decode(template);
-            target = SlashDecoder.decode(target);
-            uuid = SlashDecoder.decode(uuid);
-
-            // 1. get the artifact from the repo
-            SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-            String query = String.format("/s-ramp[@uuid='%s']", uuid); //$NON-NLS-1$
-            QueryResultSet queryResultSet = client.query(query);
-            if (queryResultSet.size() == 0) {
-            	results.put(GovernanceConstants.STATUS, new ValueEntity("fail")); //$NON-NLS-1$
-            	results.put(GovernanceConstants.MESSAGE, new ValueEntity("Could not obtain artifact from repository.")); //$NON-NLS-1$
-                return results;
-            }
-            ArtifactSummary artifactSummary = queryResultSet.iterator().next();
-
-            // 2. get the destinations for this group
-            NotificationDestinations destinations = governance.getNotificationDestinations("email").get(group); //$NON-NLS-1$
-            if (destinations==null) {
-                destinations = new NotificationDestinations(group,
-                        governance.getDefaultEmailFromAddress(),
-                        group + "@" + governance.getDefaultEmailDomain()); //$NON-NLS-1$
-            }
-
-            // 3. send the email notification
-            try {
-                MimeMessage m = new MimeMessage(mailSession);
-                Address from = new InternetAddress(destinations.getFromAddress());
-                Address[] to = new InternetAddress[destinations.getToAddresses().length];
-                for (int i=0; i<destinations.getToAddresses().length;i++) {
-                    to[i] = new InternetAddress(destinations.getToAddresses()[i]);
-                }
-                m.setFrom(from);
-                m.setRecipients(Message.RecipientType.TO, to);
-
-                String subject = "/governance-email-templates/" + template  + ".subject.tmpl"; //$NON-NLS-1$ //$NON-NLS-2$
-                URL subjectUrl = Governance.class.getClassLoader().getResource(subject);
-                if (subjectUrl!=null) subject=IOUtils.toString(subjectUrl);
-                subject = subject.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
-                subject = subject.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
-                subject = subject.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
-                m.setSubject(subject);
-
-                m.setSentDate(new java.util.Date());
-                String content = "/governance-email-templates/" + template + ".body.tmpl"; //$NON-NLS-1$ //$NON-NLS-2$
-                URL contentUrl = Governance.class.getClassLoader().getResource(content);
-                if (contentUrl!=null) content=IOUtils.toString(contentUrl);
-                content = content.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
-                content = content.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
-                content = content.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
-                content = content.replaceAll("\\$\\{dtgovurl}", governance.getDTGovUiUrl()); //$NON-NLS-1$
-                m.setContent(content,"text/plain"); //$NON-NLS-1$
-                Transport.send(m);
-            } catch (javax.mail.MessagingException e) {
-                logger.error(e.getMessage(),e);
-            }
-
-            // 4. build the response
-            results.put(GovernanceConstants.STATUS, new ValueEntity("success")); //$NON-NLS-1$
-            
+//        try {
+//            // 0. run the decoder on the arguments, after replacing * by % (this so parameters can
+//            //    contain slashes (%2F)
+//            group = SlashDecoder.decode(group);
+//            template = SlashDecoder.decode(template);
+//            target = SlashDecoder.decode(target);
+//            uuid = SlashDecoder.decode(uuid);
+//
+//            // 1. get the artifact from the repo
+//            SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
+//            String query = String.format("/s-ramp[@uuid='%s']", uuid); //$NON-NLS-1$
+//            QueryResultSet queryResultSet = client.query(query);
+//            if (queryResultSet.size() == 0) {
+//            	results.put(GovernanceConstants.STATUS, new ValueEntity("fail")); //$NON-NLS-1$
+//            	results.put(GovernanceConstants.MESSAGE, new ValueEntity("Could not obtain artifact from repository.")); //$NON-NLS-1$
+//                return results;
+//            }
+//            ArtifactSummary artifactSummary = queryResultSet.iterator().next();
+//
+//            // 2. get the destinations for this group
+//            NotificationDestinations destinations = governance.getNotificationDestinations("email").get(group); //$NON-NLS-1$
+//            if (destinations==null) {
+//                destinations = new NotificationDestinations(group,
+//                        governance.getDefaultEmailFromAddress(),
+//                        group + "@" + governance.getDefaultEmailDomain()); //$NON-NLS-1$
+//            }
+//
+//            // 3. send the email notification
+//            try {
+//                MimeMessage m = new MimeMessage(mailSession);
+//                Address from = new InternetAddress(destinations.getFromAddress());
+//                Address[] to = new InternetAddress[destinations.getToAddresses().length];
+//                for (int i=0; i<destinations.getToAddresses().length;i++) {
+//                    to[i] = new InternetAddress(destinations.getToAddresses()[i]);
+//                }
+//                m.setFrom(from);
+//                m.setRecipients(Message.RecipientType.TO, to);
+//
+//                String subject = "/governance-email-templates/" + template  + ".subject.tmpl"; //$NON-NLS-1$ //$NON-NLS-2$
+//                URL subjectUrl = Governance.class.getClassLoader().getResource(subject);
+//                if (subjectUrl!=null) subject=IOUtils.toString(subjectUrl);
+//                subject = subject.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
+//                subject = subject.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
+//                subject = subject.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
+//                m.setSubject(subject);
+//
+//                m.setSentDate(new java.util.Date());
+//                String content = "/governance-email-templates/" + template + ".body.tmpl"; //$NON-NLS-1$ //$NON-NLS-2$
+//                URL contentUrl = Governance.class.getClassLoader().getResource(content);
+//                if (contentUrl!=null) content=IOUtils.toString(contentUrl);
+//                content = content.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
+//                content = content.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
+//                content = content.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
+//                content = content.replaceAll("\\$\\{dtgovurl}", governance.getDTGovUiUrl()); //$NON-NLS-1$
+//                m.setContent(content,"text/plain"); //$NON-NLS-1$
+//                Transport.send(m);
+//            } catch (javax.mail.MessagingException e) {
+//                logger.error(e.getMessage(),e);
+//            }
+//
+//            // 4. build the response
+//            results.put(GovernanceConstants.STATUS, new ValueEntity("success")); //$NON-NLS-1$
+//            
             return results;
-        } catch (Exception e) {
-            logger.error(Messages.i18n.format("NotificationResource.EmailError", e.getMessage(), e)); //$NON-NLS-1$
-            throw new SrampAtomException(e);
-        }
+//        } catch (Exception e) {
+//            logger.error(Messages.i18n.format("NotificationResource.EmailError", e.getMessage(), e)); //$NON-NLS-1$
+//            throw new SrampAtomException(e);
+//        }
     }
 
 }

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.POST;
@@ -36,11 +37,13 @@ import org.slf4j.LoggerFactory;
  *
  */
 @Path("/process")
+@RequestScoped
 public class ProcessService {
 
 	@Inject
 	@ApplicationScoped
     private ProcessBean processBean;
+	
 	
 	private static Logger logger = LoggerFactory.getLogger(ProcessService.class);
 	

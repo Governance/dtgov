@@ -119,9 +119,6 @@ public class TaskApi {
 		}
 	}
 
-    @Resource
-    private UserTransaction ut;
-
     /**
      * Constructor.
      */
@@ -454,17 +451,11 @@ public class TaskApi {
             throw error;
         }
         if (error instanceof PermissionDeniedException) {
-            // Transaction might be already rolled back by TaskServiceSession
-            if (ut.getStatus() == Status.STATUS_ACTIVE) {
-                ut.rollback();
-            }
+            
             // Probably the task has already been started by other users
             throw new ProcessOperationException(Messages.i18n.format("TaskApi.AlreadyClaimed"), error); //$NON-NLS-1$
         }
-        // Transaction might be already rolled back by TaskServiceSession
-        if (ut.getStatus() == Status.STATUS_ACTIVE) {
-            ut.rollback();
-        }
+        
         throw error;
     }
 

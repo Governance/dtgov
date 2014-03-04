@@ -70,6 +70,7 @@ public class SRAMPMonitor extends TimerTask {
     			long startTime = System.currentTimeMillis();
     			QueryExecutor.execute();
                 long endTime   = System.currentTimeMillis();
+                log.info("Query run took " + (endTime - startTime) + " ms");
 
                 if ((endTime-startTime) > interval) {
                     log.debug(Messages.i18n.format("SRAMPMonitor.IntervalExceeded", //$NON-NLS-1$

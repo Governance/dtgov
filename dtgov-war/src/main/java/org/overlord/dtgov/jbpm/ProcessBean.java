@@ -21,7 +21,6 @@ import java.util.Map;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.jboss.seam.transaction.Transactional;
