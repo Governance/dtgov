@@ -152,6 +152,7 @@
       <artifactId>jbpm-shared-services</artifactId>
       <version>${jbpm.version}</version>
       <scope>${jbpm.scope}</scope>
+      <classifier>btm</classifier>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
@@ -181,20 +182,21 @@
 
 
 
-    <!-- can compile, but cannot deploy without these seam dependencies -->
+    <!-- can compile, but cannot deploy without these seam dependencies 
     <dependency>
       <groupId>org.jboss.seam.persistence</groupId>
       <artifactId>seam-persistence</artifactId>
       <scope>${jbpm.scope}</scope>
-      <!-- only exclude with modules 
+       only exclude with modules 
       <exclusions>
         <exclusion>
           <artifactId>solder-impl</artifactId>
           <groupId>org.jboss.solder</groupId>
         </exclusion>
       </exclusions>
-      -->
+      
     </dependency>
+    -->
     <dependency>
       <groupId>org.jboss.seam.transaction</groupId>
       <artifactId>seam-transaction</artifactId>

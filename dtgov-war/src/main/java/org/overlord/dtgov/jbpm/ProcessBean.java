@@ -21,7 +21,6 @@ import java.util.Map;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.jboss.seam.transaction.Transactional;
@@ -39,7 +38,7 @@ import org.overlord.dtgov.server.i18n.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@RequestScoped
+@ApplicationScoped
 @Transactional
 public class ProcessBean {
 
