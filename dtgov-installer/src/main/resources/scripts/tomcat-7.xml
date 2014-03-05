@@ -10,6 +10,8 @@
 
     <property name="dtgov.tomcat.deploy.dir" location="${dtgov.appserver.dir}/webapps/" />
     <property name="dtgov.tomcat.config.dir" location="${dtgov.appserver.dir}/conf/" />
+  	<property name="dtgov.tomcat.lib.dir" location="${dtgov.appserver.dir}/lib/" />
+  	<property name="dtgov.tomcat.bin.dir" location="${dtgov.appserver.dir}/bin/" />
 
     <property name="dtgov.dtgov-war.path" location="bin/dtgov-war-tomcat7-${dtgov.version}.war" />
     <property name="dtgov.dtgov-ui.path" location="bin/dtgov-ui-war-tomcat7-${dtgov.version}.war" />
@@ -23,6 +25,25 @@
     <echo message="# will install DTGov into Tomcat 7.          #" />
     <echo message="##############################################" />
     <echo message=" " />
+  	
+  	<echo>------------------------------------</echo>
+  	<echo>Installing DataSource and BMT to lib</echo>
+  	<echo>------------------------------------</echo>
+  	<copy file="${lib.btm.jar}" 
+  	          tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  	<copy file="${lib.btm-tomcat55-lifecycle.jar}" 
+  	  	          tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  	<copy file="${lib.h2.jar}" 
+  	  	          tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  	<copy file="${lib.jta.jar}" 
+  	  	          tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  	<copy file="${lib.slf4j-api.jar}" 
+  	  	          tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  	<copy file="${lib.slf4j-jdk14.jar}" 
+  	  	  	      tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  	<copy file="${dtgov.updates.dir}/setenv.sh" todir="${dtgov.tomcat.bin.dir}" overwrite="false" />
+  	<copy file="${dtgov.updates.dir}/btm-config.properties" todir="${dtgov.tomcat.conf.dir}" overwrite="false" />
+  	<copy file="${dtgov.updates.dir}/resources.properties" todir="${dtgov.tomcat.conf.dir}" overwrite="false" />
 
     <echo>----------------------------------</echo>
     <echo>Installing Overlord Commons</echo>

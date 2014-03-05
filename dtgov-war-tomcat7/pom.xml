@@ -9,25 +9,13 @@
   <packaging>war</packaging>
   <name>Design Time Governance: WAR (Tomcat 7)</name>
   
-  <!--  
-   <dependencyManagement>  
-        <dependencies>  
-            <dependency>  
-                <groupId>org.jboss.seam</groupId>  
-                <artifactId>seam-bom</artifactId>  
-                <version>3.1.0.Final</version>  
-                <type>pom</type>  
-                <scope>import</scope>  
-            </dependency>  
-        </dependencies>  
-    </dependencyManagement>
-  -->
   <dependencies>
   
    <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-auth-tomcat7</artifactId>
-      </dependency>
+      <scope>provided</scope>
+    </dependency>
     <!-- The base WAR being extended -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
@@ -36,10 +24,6 @@
       <type>war</type>
     </dependency>
     
-    <dependency>
-      <groupId>org.overlord</groupId>
-      <artifactId>overlord-commons-auth</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jaxrs</artifactId>
@@ -117,12 +101,7 @@
       <artifactId>log4j</artifactId>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-jdk14</artifactId>
-      <version>1.7.2</version>
-      <scope>runtime</scope>
-    </dependency>
+    
     <dependency>
       <groupId>org.kie</groupId>
       <artifactId>kie-internal</artifactId>
@@ -171,6 +150,8 @@
                 <exclude>WEB-INF/lib/jboss-el-api_*_spec-*.Final.jar</exclude>
                 <exclude>WEB-INF/lib/btm-*.jar</exclude>
                 <exclude>WEB-INF/lib/jboss-transaction-*.jar</exclude>
+                <exclude>WEB-INF/lib/overlord-commons-auth*.jar</exclude>
+                <exclude>WEB-INF/lib/overlord-commons-services*.jar</exclude>
               </excludes>
             </overlay>
           </overlays>
