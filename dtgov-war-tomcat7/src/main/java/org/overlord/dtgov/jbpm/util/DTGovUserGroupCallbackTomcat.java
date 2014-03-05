@@ -18,12 +18,15 @@ package org.overlord.dtgov.jbpm.util;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.inject.Alternative;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.catalina.Role;
 import org.apache.catalina.realm.GenericPrincipal;
+import org.apache.catalina.users.MemoryUser;
 import org.kie.internal.task.api.UserGroupCallback;
 import org.overlord.commons.auth.tomcat7.HttpRequestThreadLocalValve;
 import org.slf4j.Logger;
@@ -67,6 +70,13 @@ public class DTGovUserGroupCallbackTomcat implements UserGroupCallback {
                 for (String role : gpRoles) {
                     roles.add(role);
                 }
+            } else if (principal instanceof MemoryUser) {
+            	MemoryUser mu = (MemoryUser) principal;
+            	Iterator<Role> iter = mu.getRoles();
+            	roles = new ArrayList<String>();
+            	while (iter.hasNext()) {
+            		roles.add(iter.next().getRolename());
+            	}
             }
         } catch (Exception e) {
             logger.error("ErrorGettingRoles for user " + userId, e); //$NON-NLS-1$

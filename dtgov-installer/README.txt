@@ -5,7 +5,7 @@
     that deployed copy the target/jboss-eap-6.1 to a shared folder (eg, /opt)
     and from the dtgov-installer module run
      
-    mvn -Peap61 -Ddtgov.install.dir=/opt install
+    mvn -Pinstall-eap61 -Ddtgov.install.dir=/opt install
      
     This will install dtgov and dtgov-ui as well as the needed configuration.
     You can start the server by going into the /opt/jboss-eap-6.1/bin directory
@@ -18,4 +18,14 @@
 
 2. Installing S-RAMP to Tomcat-7.x
 
-	Not yet implementented.
+	If you don't have S-RAMP already installed then do that first. Once you have
+    that deployed copy the target/apache-tomcat-7.0.52 to a shared folder (eg, /opt)
+    and from the dtgov-installer module run
+     
+    mvn -Pinstall-tomcat7 -Ddtgov.install.dir=/opt install
+     
+    This will install dtgov and dtgov-ui as well as the needed configuration.
+    You can start the server by going into the /opt/apache-tomcat-7/bin directory
+    and by issuing
+     
+    ./standalone.sh.

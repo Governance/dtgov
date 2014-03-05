@@ -71,6 +71,41 @@
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
+    
+    <!-- Data Source and Bean Managed transactions for jBPM, goes into <tomcat>/lib -->
+    <!-- See also the README.md on https://github.com/droolsjbpm/kie-wb-distributions/tree/r6.0.0.Final/kie-wb/kie-wb-distribution-wars/src/main/tomcat7 -->
+    <dependency>
+      <groupId>org.codehaus.btm</groupId>
+      <artifactId>btm</artifactId>
+      <scope>provided</scope>
+    </dependency>
+	<dependency>
+   	  <groupId>org.codehaus.btm</groupId>
+   	  <artifactId>btm-tomcat55-lifecycle</artifactId>
+   	  <version>2.1.4</version>
+   	  <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>provided</scope>
+	</dependency>
+	<dependency>
+      <groupId>javax.transaction</groupId>
+      <artifactId>jta</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>1.7.2</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -88,10 +123,10 @@
 
   <profiles>
     <!-- ***************************************** -->
-    <!-- Profile to *test* installing into EAP 6.1 -->
+    <!-- Profile to install into EAP 6.1 -->
     <!-- ***************************************** -->
     <profile>
-      <id>test-install-eap61</id>
+      <id>install-eap61</id>
       <build>
         <plugins>
           <plugin>
@@ -170,10 +205,10 @@
       </build>
     </profile>
     <!-- ****************************************** -->
-    <!-- Profile to *test* installing into Tomcat 7 -->
+    <!-- Profile to install into Tomcat 7 -->
     <!-- ****************************************** -->
     <profile>
-      <id>test-install-tomcat7</id>
+      <id>install-tomcat7</id>
       <build>
         <plugins>
           <plugin>
@@ -195,9 +230,23 @@
                   <tasks>
                     <property name="appserver.id" value="tomcat-7" />
                     <property name="dtgov.install.dir" value="${project.build.directory}" />
-                    <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/apache-tomcat-7.0.47" />
+                    <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/apache-tomcat-7.0.52" />
                     <property name="dtgov.version" value="${project.version}" />
 
+                    <!-- BMT Dependencies in tomcat/lib -->
+                    <property name="lib.btm.jar"
+                      value="${maven.dependency.org.codehaus.btm.btm.jar.path}" />
+                    <property name="lib.btm-tomcat55-lifecycle.jar"
+                      value="${maven.dependency.org.codehaus.btm.btm-tomcat55-lifecycle.jar.path}" />
+                    <property name="lib.h2.jar"
+                      value="${maven.dependency.com.h2database.h2.jar.path}" />
+                    <property name="lib.jta.jar"
+                      value="${maven.dependency.javax.transaction.jta.jar.path}" />
+                    <property name="lib.slf4j-api.jar"
+                      value="${maven.dependency.org.slf4j.slf4j-api.jar.path}" />
+                    <property name="lib.slf4j-jdk14.jar"
+                      value="${maven.dependency.org.slf4j.slf4j-jdk14.jar.path}" />
+                    
                     <!-- Overlord Commons Installer and Dependencies -->
                     <property name="dtgov.overlord-commons.installer.jar"
                       value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
@@ -217,7 +266,7 @@
                       value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-tomcat7.war.path}" />
 
                     <property file="build.properties" />
-                    <property name="dtgov.appserver.zip" value="${basedir}/apache-tomcat-7.0.47.zip" />
+                    <property name="dtgov.appserver.zip" value="${basedir}/apache-tomcat-7.0.52.zip" />
                     <unzip src="${dtgov.appserver.zip}" dest="${dtgov.install.dir}" overwrite="false" />
                     <chmod perm="a+x" dir="${dtgov.appserver.dir}/bin">
                       <include name="*.sh"/>
