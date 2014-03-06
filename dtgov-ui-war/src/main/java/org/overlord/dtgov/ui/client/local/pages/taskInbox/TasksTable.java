@@ -20,7 +20,6 @@ import javax.inject.Inject;
 
 import org.jboss.errai.ui.nav.client.local.TransitionAnchorFactory;
 import org.overlord.commons.gwt.client.local.widgets.SortableTemplatedWidgetTable;
-import org.overlord.commons.gwt.client.local.widgets.SortableTemplatedWidgetTable.SortColumn;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.TaskDetailsPage;
 import org.overlord.dtgov.ui.client.shared.beans.Constants;
