@@ -25,6 +25,10 @@ import org.jboss.errai.ui.nav.client.local.TransitionAnchor;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.commons.gwt.client.local.events.TableSortEvent;
+import org.overlord.commons.gwt.client.local.widgets.HtmlSnippet;
+import org.overlord.commons.gwt.client.local.widgets.Pager;
+import org.overlord.commons.gwt.client.local.widgets.SortableTemplatedWidgetTable.SortColumn;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.deployments.AddDeploymentDialog;
 import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentFilters;
@@ -37,10 +41,6 @@ import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHand
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentResultSetBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentSummaryBean;
 import org.overlord.dtgov.ui.client.shared.beans.DeploymentsFilterBean;
-import org.overlord.sramp.ui.client.local.events.TableSortEvent;
-import org.overlord.sramp.ui.client.local.widgets.bootstrap.Pager;
-import org.overlord.sramp.ui.client.local.widgets.common.HtmlSnippet;
-import org.overlord.sramp.ui.client.local.widgets.common.SortableTemplatedWidgetTable.SortColumn;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.SpanElement;

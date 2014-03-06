@@ -21,10 +21,10 @@ import javax.inject.Inject;
 
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.commons.gwt.client.local.widgets.DateBox;
+import org.overlord.commons.gwt.client.local.widgets.RadioButton;
 import org.overlord.dtgov.ui.client.shared.beans.TaskInboxFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskOwnerEnum;
-import org.overlord.sramp.ui.client.local.widgets.bootstrap.DateBox;
-import org.overlord.sramp.ui.client.local.widgets.common.RadioButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
