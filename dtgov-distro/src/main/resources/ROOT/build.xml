@@ -11,7 +11,7 @@
   <property name="dtgov-distro.dtgov-installer.jar" location="${dtgov-distro.bindir}/dtgov-installer-${overlord-commons.version}.jar" />
   <property name="dtgov-distro.dtgov-installer.dir" location="${dtgov-distro.tempdir}/dtgov-installer" />
   <property name="lib.btm.jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.btm.jar}" />
-  <property name="lib.btm-tomcat55-lifecycle..jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.btm-tomcat55-lifecycle.jar}" />
+  <property name="lib.btm-tomcat55-lifecycle.jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.btm-tomcat55-lifecycle.jar}" />
   <property name="lib.h2.jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.h2.jar}" />
   <property name="lib.jta.jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.jta.jar}" />
   <property name="lib.slf4j-api.jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.slf4j-api.jar}" />
@@ -160,8 +160,8 @@
       <property name="overlord-commons.services.file" location="${dtgov-distro.bindir}/overlord-commons-services-${overlord-commons.version}.jar" />
       <property name="overlord-commons.auth.file" location="${dtgov-distro.bindir}/overlord-commons-auth-${overlord-commons.version}.jar" />
       <property name="overlord-commons.auth.tomcat7.file" location="${dtgov-distro.bindir}/overlord-commons-auth-tomcat7-${overlord-commons.version}.jar" />
-      <property name="dtgov.dtgov-war.path" location="${dtgov-distro.bindir}/dtgov-war-tomcat7-${dtgov.version}.war" />
-      <property name="dtgov.dtgov-ui.path" location="${dtgov-distro.bindir}/dtgov-ui-war-tomcat7-${dtgov.version}.war" />
+      <property name="dtgov.dtgov-war-tc7.path" location="${dtgov-distro.bindir}/dtgov-war-tomcat7-${dtgov.version}.war" />
+      <property name="dtgov.dtgov-ui-tc7.path" location="${dtgov-distro.bindir}/dtgov-ui-war-tomcat7-${dtgov.version}.war" />
     </ant>
   </target>
 
