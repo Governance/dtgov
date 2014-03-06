@@ -19,4 +19,12 @@
             removeAbandoned="true" factory="bitronix.tm.resource.ResourceObjectFactory" type="javax.sql.DataSource" />
   <Transaction factory="bitronix.tm.BitronixUserTransactionObjectFactory" />
 
+  <Resource name="mail/Default"
+              auth="Container"
+              type="javax.mail.Session"
+              mail.transport.protocol="smtp"
+              mail.smtp.host="localhost"
+              mail.smtp.port="25"
+    />
+    
 </Context>
