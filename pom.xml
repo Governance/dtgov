@@ -109,10 +109,12 @@
     <jboss-jacc-api_1.4_spec.version>1.0.2.Final</jboss-jacc-api_1.4_spec.version>
     <guava-gwt.version>14.0.1</guava-gwt.version>
     <commons.logging.version>1.1.1</commons.logging.version>
+    <tomcat.version>7.0.52</tomcat.version>
 
     <!-- BOM Overrides -->
     <version.joda-time>2.1</version.joda-time>
     <version.org.apache.lucene>4.0.0</version.org.apache.lucene>
+    
   </properties>
 
   <build>

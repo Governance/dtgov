@@ -27,23 +27,24 @@
     <echo message=" " />
   	
   	<echo>------------------------------------</echo>
-  	<echo>Installing DataSource and BMT to lib</echo>
+  	<echo>Installing DataSource, Mail and BMT to lib</echo>
   	<echo>------------------------------------</echo>
-  	<copy file="${lib.btm.jar}" 
-  	          tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  	<copy file="${lib.btm.jar}" todir="${dtgov.tomcat.lib.dir}" overwrite="false" />
   	<copy file="${lib.btm-tomcat55-lifecycle.jar}" 
-  	  	          tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  		todir="${dtgov.tomcat.lib.dir}" overwrite="false" />
   	<copy file="${lib.h2.jar}" 
-  	  	          tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  		todir="${dtgov.tomcat.lib.dir}" overwrite="false" />
   	<copy file="${lib.jta.jar}" 
-  	  	          tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  		todir="${dtgov.tomcat.lib.dir}" overwrite="false" />
   	<copy file="${lib.slf4j-api.jar}" 
-  	  	          tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  		todir="${dtgov.tomcat.lib.dir}" overwrite="false" />
   	<copy file="${lib.slf4j-jdk14.jar}" 
-  	  	  	      tofile="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  		todir="${dtgov.tomcat.lib.dir}" overwrite="false" />
+  	<copy file="${lib.mail.jar}" 
+  		todir="${dtgov.tomcat.lib.dir}" overwrite="false" />
   	<copy file="${dtgov.updates.dir}/setenv.sh" todir="${dtgov.tomcat.bin.dir}" overwrite="false" />
-  	<copy file="${dtgov.updates.dir}/btm-config.properties" todir="${dtgov.tomcat.conf.dir}" overwrite="false" />
-  	<copy file="${dtgov.updates.dir}/resources.properties" todir="${dtgov.tomcat.conf.dir}" overwrite="false" />
+  	<copy file="${dtgov.updates.dir}/btm-config.properties" todir="${dtgov.tomcat.config.dir}" overwrite="false" />
+  	<copy file="${dtgov.updates.dir}/resources.properties" todir="${dtgov.tomcat.config.dir}" overwrite="false" />
 
     <echo>----------------------------------</echo>
     <echo>Installing Overlord Commons</echo>
@@ -59,9 +60,9 @@
     <echo>----------------------------------</echo>
     <echo>Deploying DTGov and DTGov UI</echo>
     <echo>----------------------------------</echo>
-    <copy file="${dtgov.dtgov-war.path}" 
+    <copy file="${dtgov.dtgov-war-tc7.path}" 
           tofile="${dtgov.tomcat.deploy.dir}/dtgov.war" overwrite="true" />
-    <copy file="${dtgov.dtgov-ui.path}" 
+    <copy file="${dtgov.dtgov-ui-tc7.path}" 
           tofile="${dtgov.tomcat.deploy.dir}/dtgov-ui.war" overwrite="true" />
     
     <echo>----------------------------------</echo>
@@ -107,20 +108,37 @@
       <param name="rolename" expression="prod"/>
     </xslt>
     <copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
-    <xslt 
+  	<xslt 
+      style="${dtgov.xslt.dir}/add-tomcat-7-role.xslt"
+      in="${dtgov.tomcat.config.dir}/tomcat-users.xml"
+      out="${dtgov.install.dir}/_tmp_tomcat-users.xml">
+      <param name="rolename" expression="ba"/>
+    </xslt>
+  	<copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
+  	<xslt 
+      style="${dtgov.xslt.dir}/add-tomcat-7-role.xslt"
+      in="${dtgov.tomcat.config.dir}/tomcat-users.xml"
+      out="${dtgov.install.dir}/_tmp_tomcat-users.xml">
+      <param name="rolename" expression="arch"/>
+    </xslt>
+    <copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
+  	<xslt 
       style="${dtgov.xslt.dir}/add-tomcat-7-user.xslt"
       in="${dtgov.tomcat.config.dir}/tomcat-users.xml"
       out="${dtgov.install.dir}/_tmp_tomcat-users.xml">
       <param name="username" expression="dtgovworkflow"/>
       <param name="password" expression="${dtgov.users.workflow.password}"/>
-      <param name="roles" expression="overlorduser,admin.sramp"/>
+      <param name="roles" expression="overlorduser,admin.sramp,dev,qa,stage,prod,ba,prod"/>
     </xslt>
     <copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
-    <delete file="${dtgov.install.dir}/_tmp_tomcat-users.xml" />
+  	<delete file="${dtgov.install.dir}/_tmp_tomcat-users.xml" />
     <echo message="Created dtgovworkflow user in Application Realm" />
 
     <!-- Set the dtgovworkflow user credentials in dtgov.properties -->
     <concat destfile="${dtgov.tomcat.config.dir}/dtgov.properties" append="true">
+# JNDI email reference
+governance.jndi.email.reference=java:comp/env/mail/Default  	
+  
 # Governance BPM credentials
 governance.bpm.user=dtgovworkflow
 governance.bpm.password=${dtgov.users.workflow.password}
