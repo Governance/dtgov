@@ -15,14 +15,8 @@
  */
 package org.overlord.sramp.governance.services;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
-
-import org.overlord.dtgov.taskapi.TaskApi;
-import org.overlord.sramp.governance.workflow.jbpm.ProcessService;
 
 /**
  * The Governance RESTEasy application.  This is essentially the main entry point into a
