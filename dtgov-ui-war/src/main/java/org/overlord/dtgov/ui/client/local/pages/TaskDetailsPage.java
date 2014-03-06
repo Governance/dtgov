@@ -33,6 +33,7 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.commons.gwt.client.local.widgets.HtmlSnippet;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.taskInbox.TaskFormPanel;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
@@ -45,7 +46,6 @@ import org.overlord.dtgov.ui.client.local.widgets.common.DescriptionInlineLabel;
 import org.overlord.dtgov.ui.client.shared.beans.NotificationBean;
 import org.overlord.dtgov.ui.client.shared.beans.TaskActionEnum;
 import org.overlord.dtgov.ui.client.shared.beans.TaskBean;
-import org.overlord.sramp.ui.client.local.widgets.common.HtmlSnippet;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;

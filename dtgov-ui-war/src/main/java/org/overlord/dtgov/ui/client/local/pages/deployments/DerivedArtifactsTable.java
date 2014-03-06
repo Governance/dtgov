@@ -19,10 +19,10 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import org.overlord.commons.gwt.client.local.widgets.WidgetTable;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
 import org.overlord.dtgov.ui.client.shared.beans.DerivedArtifactSummaryBean;
-import org.overlord.sramp.ui.client.local.widgets.common.WidgetTable;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
