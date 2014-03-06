@@ -128,7 +128,7 @@
       out="${dtgov.install.dir}/_tmp_tomcat-users.xml">
       <param name="username" expression="dtgovworkflow"/>
       <param name="password" expression="${dtgov.users.workflow.password}"/>
-      <param name="roles" expression="overlorduser,admin.sramp,dev,qa,stage,prod,ba,prod"/>
+      <param name="roles" expression="overlorduser,admin.sramp"/>
     </xslt>
     <copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
   	<delete file="${dtgov.install.dir}/_tmp_tomcat-users.xml" />
