@@ -8,7 +8,7 @@
   <property name="dtgov-distro.bindir" location="${dtgov-distro.rootdir}/bin" />
   <property name="dtgov-distro.tomcatlibdir" location="${dtgov-distro.rootdir}/tomcatlib" />
   <property name="dtgov-distro.overlord-commons-installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-${overlord-commons.version}.jar" />
-  <property name="dtgov-distro.dtgov-installer.jar" location="${dtgov-distro.bindir}/dtgov-installer-${overlord-commons.version}.jar" />
+  <property name="dtgov-distro.dtgov-installer.jar" location="${dtgov-distro.bindir}/dtgov-installer-${dtgov.version}.jar" />
   <property name="dtgov-distro.dtgov-installer.dir" location="${dtgov-distro.tempdir}/dtgov-installer" />
   <property name="lib.btm.jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.btm.jar}" />
   <property name="lib.btm-tomcat55-lifecycle.jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.btm-tomcat55-lifecycle.jar}" />
