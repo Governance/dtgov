@@ -30,6 +30,7 @@ import org.jboss.errai.ui.shared.api.annotations.Bound;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.commons.gwt.client.local.widgets.HtmlSnippet;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.beans.DeploymentHistoryFilterBean;
 import org.overlord.dtgov.ui.client.local.pages.deployments.DeploymentHistoryFilters;
@@ -40,7 +41,6 @@ import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHand
 import org.overlord.dtgov.ui.client.local.util.DOMUtil;
 import org.overlord.dtgov.ui.client.local.util.DataBindingParentheticalConverter;
 import org.overlord.dtgov.ui.client.shared.beans.ArtifactHistoryBean;
-import org.overlord.sramp.ui.client.local.widgets.common.HtmlSnippet;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;

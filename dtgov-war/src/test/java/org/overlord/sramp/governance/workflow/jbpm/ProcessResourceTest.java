@@ -14,7 +14,6 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.overlord.sramp.common.test.resteasy.BaseResourceTest;
-import org.overlord.sramp.governance.workflow.jbpm.ProcessService;
 
 public class ProcessResourceTest extends BaseResourceTest {
 
@@ -65,7 +64,7 @@ public class ProcessResourceTest extends BaseResourceTest {
 	        connection.setConnectTimeout(1000000);
 	        connection.setReadTimeout(1000000);
 	        connection.connect();
-	        int responseCode = connection.getResponseCode();
+	        /*int responseCode = */connection.getResponseCode();
 	        
 
 	    } catch (Exception e) {

@@ -80,48 +80,6 @@
     
     <!-- Add roles and user to tomcat-users.xml -->
     <property name="dtgov.xslt.dir" location="${basedir}/xslt" />
-    <xslt 
-      style="${dtgov.xslt.dir}/add-tomcat-7-role.xslt"
-      in="${dtgov.tomcat.config.dir}/tomcat-users.xml"
-      out="${dtgov.install.dir}/_tmp_tomcat-users.xml">
-      <param name="rolename" expression="dev"/>
-    </xslt>
-    <copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
-    <xslt 
-      style="${dtgov.xslt.dir}/add-tomcat-7-role.xslt"
-      in="${dtgov.tomcat.config.dir}/tomcat-users.xml"
-      out="${dtgov.install.dir}/_tmp_tomcat-users.xml">
-      <param name="rolename" expression="qa"/>
-    </xslt>
-    <copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
-    <xslt 
-      style="${dtgov.xslt.dir}/add-tomcat-7-role.xslt"
-      in="${dtgov.tomcat.config.dir}/tomcat-users.xml"
-      out="${dtgov.install.dir}/_tmp_tomcat-users.xml">
-      <param name="rolename" expression="stage"/>
-    </xslt>
-    <copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
-    <xslt 
-      style="${dtgov.xslt.dir}/add-tomcat-7-role.xslt"
-      in="${dtgov.tomcat.config.dir}/tomcat-users.xml"
-      out="${dtgov.install.dir}/_tmp_tomcat-users.xml">
-      <param name="rolename" expression="prod"/>
-    </xslt>
-    <copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
-  	<xslt 
-      style="${dtgov.xslt.dir}/add-tomcat-7-role.xslt"
-      in="${dtgov.tomcat.config.dir}/tomcat-users.xml"
-      out="${dtgov.install.dir}/_tmp_tomcat-users.xml">
-      <param name="rolename" expression="ba"/>
-    </xslt>
-  	<copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
-  	<xslt 
-      style="${dtgov.xslt.dir}/add-tomcat-7-role.xslt"
-      in="${dtgov.tomcat.config.dir}/tomcat-users.xml"
-      out="${dtgov.install.dir}/_tmp_tomcat-users.xml">
-      <param name="rolename" expression="arch"/>
-    </xslt>
-    <copy file="${dtgov.install.dir}/_tmp_tomcat-users.xml" tofile="${dtgov.tomcat.config.dir}/tomcat-users.xml" overwrite="true" />
   	<xslt 
       style="${dtgov.xslt.dir}/add-tomcat-7-user.xslt"
       in="${dtgov.tomcat.config.dir}/tomcat-users.xml"
