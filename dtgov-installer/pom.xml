@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.overlord.dtgov</groupId>
     <artifactId>dtgov</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0.Final</version>
   </parent>
   <artifactId>dtgov-installer</artifactId>
   <name>Design Time Governance: Community Installer</name>
@@ -157,40 +156,32 @@
                     <property name="dtgov.version" value="${project.version}" />
 
                     <!-- Overlord Commons Installer and Dependencies -->
-                    <property name="dtgov.overlord-commons.installer.jar"
-                      value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
-                    <property name="overlord-commons.idp.file"
-                      value="${maven.dependency.org.overlord.overlord-commons-idp-eap61.war.path}" />
-                    <property name="overlord-commons.services.file"
-                      value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
-                    <property name="overlord-commons.auth.file"
-                      value="${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
-                    <property name="overlord-commons.auth.tomcat7.file"
-                      value="${maven.dependency.org.overlord.overlord-commons-auth-tomcat7.jar.path}" />
-                    <property name="overlord-commons.auth.jboss7.file"
-                      value="${maven.dependency.org.overlord.overlord-commons-auth-jboss7.jar.path}" />
+                    <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
+                    <property name="overlord-commons.idp.file" value="${maven.dependency.org.overlord.overlord-commons-idp-eap61.war.path}" />
+                    <property name="overlord-commons.services.file" value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
+                    <property name="overlord-commons.auth.file" value="${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+                    <property name="overlord-commons.auth.tomcat7.file" value="${maven.dependency.org.overlord.overlord-commons-auth-tomcat7.jar.path}" />
+                    <property name="overlord-commons.auth.jboss7.file" value="${maven.dependency.org.overlord.overlord-commons-auth-jboss7.jar.path}" />
 
                     <!-- DTGov WARs -->
-                    <property name="dtgov.dtgov-war.path" 
-                      value="${maven.dependency.org.overlord.dtgov.dtgov-war-eap61.war.path}" />
-                    <property name="dtgov.dtgov-ui.path"
-                      value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-eap61.war.path}" />
+                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war-eap61.war.path}" />
+                    <property name="dtgov.dtgov-ui.path" value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-eap61.war.path}" />
 
                     <property file="build.properties" />
                     <property name="dtgov.appserver.zip" value="${basedir}/jboss-eap-6.1.0.zip" />
                     <unzip src="${dtgov.appserver.zip}" dest="${dtgov.install.dir}" overwrite="false" />
                     <chmod perm="a+x" dir="${dtgov.appserver.dir}/bin">
-                      <include name="*.sh"/>
+                      <include name="*.sh" />
                     </chmod>
 
                     <property name="dtgov.temp-installer-dir" value="${project.build.directory}/test-installer" />
                     <delete dir="${dtgov.temp-installer-dir}" />
                     <mkdir dir="${dtgov.temp-installer-dir}" />
                     <copy todir="${dtgov.temp-installer-dir}">
-                      <fileset dir="${basedir}/src/main/resources"/>
+                      <fileset dir="${basedir}/src/main/resources" />
                     </copy>
                     <copy todir="${dtgov.temp-installer-dir}">
-                      <fileset dir="${basedir}/src/main/resources-filtered"/>
+                      <fileset dir="${basedir}/src/main/resources-filtered" />
                     </copy>
                     <replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties" value="${project.version}">
                       <replacetoken><![CDATA[${project.version}]]></replacetoken>
@@ -239,57 +230,43 @@
                     <property name="dtgov.version" value="${project.version}" />
 
                     <!-- BMT Dependencies in tomcat/lib -->
-                    <property name="lib.btm.jar"
-                      value="${maven.dependency.org.codehaus.btm.btm.jar.path}" />
-                    <property name="lib.btm-tomcat55-lifecycle.jar"
-                      value="${maven.dependency.org.codehaus.btm.btm-tomcat55-lifecycle.jar.path}" />
-                    <property name="lib.h2.jar"
-                      value="${maven.dependency.com.h2database.h2.jar.path}" />
-                    <property name="lib.jta.jar"
-                      value="${maven.dependency.javax.transaction.jta.jar.path}" />
-                    <property name="lib.slf4j-api.jar"
-                      value="${maven.dependency.org.slf4j.slf4j-api.jar.path}" />
-                    <property name="lib.slf4j-jdk14.jar"
-                      value="${maven.dependency.org.slf4j.slf4j-jdk14.jar.path}" />
+                    <property name="lib.btm.jar" value="${maven.dependency.org.codehaus.btm.btm.jar.path}" />
+                    <property name="lib.btm-tomcat55-lifecycle.jar" value="${maven.dependency.org.codehaus.btm.btm-tomcat55-lifecycle.jar.path}" />
+                    <property name="lib.h2.jar" value="${maven.dependency.com.h2database.h2.jar.path}" />
+                    <property name="lib.jta.jar" value="${maven.dependency.javax.transaction.jta.jar.path}" />
+                    <property name="lib.slf4j-api.jar" value="${maven.dependency.org.slf4j.slf4j-api.jar.path}" />
+                    <property name="lib.slf4j-jdk14.jar" value="${maven.dependency.org.slf4j.slf4j-jdk14.jar.path}" />
                     <!-- email -->
-					<property name="lib.mail.jar" 
-					  value="${maven.dependency.javax.mail.mail.jar.path}" />
+					<property name="lib.mail.jar" value="${maven.dependency.javax.mail.mail.jar.path}" />
                     
                     <!-- Overlord Commons Installer and Dependencies -->
-                    <property name="dtgov.overlord-commons.installer.jar"
-                      value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
-                    <property name="overlord-commons.idp.file"
-                      value="${maven.dependency.org.overlord.overlord-commons-idp-tomcat7.war.path}" />
-                    <property name="overlord-commons.services.file"
-                      value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
-                    <property name="overlord-commons.auth.file"
-                      value="${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
-                    <property name="overlord-commons.auth.tomcat7.file"
-                      value="${maven.dependency.org.overlord.overlord-commons-auth-tomcat7.jar.path}" />
+                    <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
+                    <property name="overlord-commons.idp.file" value="${maven.dependency.org.overlord.overlord-commons-idp-tomcat7.war.path}" />
+                    <property name="overlord-commons.services.file" value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
+                    <property name="overlord-commons.auth.file" value="${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+                    <property name="overlord-commons.auth.tomcat7.file" value="${maven.dependency.org.overlord.overlord-commons-auth-tomcat7.jar.path}" />
 					
 					
 
                     <!-- DTGov WARs -->
-                    <property name="dtgov.dtgov-war-tc7.path" 
-                      value="${maven.dependency.org.overlord.dtgov.dtgov-war-tomcat7.war.path}" />
-                    <property name="dtgov.dtgov-ui-tc7.path"
-                      value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-tomcat7.war.path}" />
+                    <property name="dtgov.dtgov-war-tc7.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war-tomcat7.war.path}" />
+                    <property name="dtgov.dtgov-ui-tc7.path" value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-tomcat7.war.path}" />
 
                     <property file="build.properties" />
                     <property name="dtgov.appserver.zip" value="${basedir}/apache-tomcat-7.0.52.zip" />
                     <unzip src="${dtgov.appserver.zip}" dest="${dtgov.install.dir}" overwrite="false" />
                     <chmod perm="a+x" dir="${dtgov.appserver.dir}/bin">
-                      <include name="*.sh"/>
+                      <include name="*.sh" />
                     </chmod>
 
                     <property name="dtgov.temp-installer-dir" value="${project.build.directory}/test-installer" />
                     <delete dir="${dtgov.temp-installer-dir}" />
                     <mkdir dir="${dtgov.temp-installer-dir}" />
                     <copy todir="${dtgov.temp-installer-dir}">
-                      <fileset dir="${basedir}/src/main/resources"/>
+                      <fileset dir="${basedir}/src/main/resources" />
                     </copy>
                     <copy todir="${dtgov.temp-installer-dir}">
-                      <fileset dir="${basedir}/src/main/resources-filtered"/>
+                      <fileset dir="${basedir}/src/main/resources-filtered" />
                     </copy>
                     <replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties">
                       <replacetoken><![CDATA[dtgov.workflows.version]]></replacetoken>
@@ -343,11 +320,9 @@
                   <tasks>
                     <property name="appserver.id" value="jboss-as-7.1.1.Final" />
                     <property file="build.properties" />
-                    <property name="dtgov.s-ramp.cli.zip"
-                      value="${maven.dependency.org.overlord.sramp.s-ramp-distro-assembly-cli.zip.path}" />
+                    <property name="dtgov.s-ramp.cli.zip" value="${maven.dependency.org.overlord.sramp.s-ramp-distro-assembly-cli.zip.path}" />
                     <unzip src="${dtgov.s-ramp.cli.zip}" dest="${project.build.directory}" overwrite="true" />
-                    <property name="dtgov.s-ramp.cli.jar"
-                      value="${project.build.directory}/s-ramp-cli-${s-ramp.version}/bin/s-ramp-shell-${s-ramp.version}.jar" />
+                    <property name="dtgov.s-ramp.cli.jar" value="${project.build.directory}/s-ramp-cli-${s-ramp.version}/bin/s-ramp-shell-${s-ramp.version}.jar" />
                     <ant dir="${basedir}/src/main/resources" antfile="${basedir}/src/main/resources/build.xml">
                       <target name="seed" />
                     </ant>
