@@ -9,7 +9,7 @@
 
   <groupId>org.overlord.dtgov</groupId>
   <artifactId>dtgov</artifactId>
-  <version>1.2.0.Final</version>
+  <version>1.2.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Design Time Governance</name>
@@ -39,7 +39,7 @@
     <connection>scm:git:git@github.com:Governance/dtgov.git</connection>
     <developerConnection>scm:git:git@github.com:Governance/dtgov.git</developerConnection>
     <url>scm:git:git@github.com:Governance/dtgov.git</url>
-    <tag>dtgov-1.2.0.Final</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <developers>
