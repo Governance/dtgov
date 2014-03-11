@@ -42,7 +42,7 @@
     <slf4j.api.version>1.6.1</slf4j.api.version>
     <slf4j.log4j.version>1.6.1</slf4j.log4j.version>
     <slf4j.nop.version>1.6.1</slf4j.nop.version>
-    <s-ramp.version>0.4.0-SNAPSHOT</s-ramp.version>
+    <s-ramp.version>0.4.0.Final</s-ramp.version>
   </properties>
 
   <repositories>

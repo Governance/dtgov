@@ -123,7 +123,7 @@
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-wiki</artifactId>
-      <version>${project.version}</version>
+      <version>${dtgov-wiki.version}</version>
       <type>jdocbook</type>
     </dependency>
     

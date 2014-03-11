@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jboss.integration-platform</groupId>
     <artifactId>jboss-integration-platform-parent</artifactId>
-    <version>6.0.0.CR3</version>
+    <version>6.0.0.CR6</version>
   </parent>
 
   <groupId>org.overlord.dtgov</groupId>
@@ -84,12 +84,15 @@
     <maven.antrun.plugin.version>1.7</maven.antrun.plugin.version>
     <maven.plexus-component-metadata.plugin.version>1.5.5</maven.plexus-component-metadata.plugin.version>
 
+    <!-- DTGov Documentation -->
+    <dtgov-wiki.version>1.2.0.Final</dtgov-wiki.version>
+
     <!-- S-RAMP version -->
-    <s-ramp.version>0.4.0-SNAPSHOT</s-ramp.version>
-    <s-ramp-ui.version>0.4.0-SNAPSHOT</s-ramp-ui.version>
+    <s-ramp.version>0.4.0.Final</s-ramp.version>
+    <s-ramp-ui.version>0.4.0.Final</s-ramp-ui.version>
 
     <!-- Overlord Commons version -->
-    <overlord-commons.version>2.0.0-SNAPSHOT</overlord-commons.version>
+    <overlord-commons.version>2.0.0.Final</overlord-commons.version>
 
     <!-- jBPM/Drools version -->
     <jbpm.version>6.0.0.Final</jbpm.version>
@@ -288,7 +291,7 @@
       <dependency>
         <groupId>org.jboss.integration-platform</groupId>
         <artifactId>jboss-integration-platform-bom</artifactId>
-        <version>6.0.0.CR3</version>
+        <version>6.0.0.CR6</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
