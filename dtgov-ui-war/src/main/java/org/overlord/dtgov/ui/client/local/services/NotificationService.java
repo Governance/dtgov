@@ -52,23 +52,23 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A lightweight notification service (client-side).
- *
+ * 
  * @author eric.wittmann@redhat.com
  */
 @ApplicationScoped
 public class NotificationService {
 
+    private final List<Notification> activeNotifications = new ArrayList<Notification>();
     @Inject
     private MessageBus bus;
     @Inject
     private RequestDispatcher dispatcher;
-    @Inject
-    private RootPanel rootPanel;
+    private int notificationCounter = 0;
+
     @Inject
     private Instance<NotificationWidget> notificationWidgetFactory;
-
-    private List<Notification> activeNotifications = new ArrayList<Notification>();
-    private int notificationCounter = 0;
+    @Inject
+    private RootPanel rootPanel;
 
     /**
      * Constructor.
@@ -77,120 +77,8 @@ public class NotificationService {
     }
 
     /**
-     * Called when the service is constructed.
-     */
-    @PostConstruct
-    private void onPostConstruct() {
-        bus.subscribe("NotificationService", new MessageCallback() { //$NON-NLS-1$
-            @Override
-            public void callback(Message message) {
-                NotificationBean notification = message.getValue(NotificationBean.class);
-                doNotify(notification);
-            }
-        });
-    }
-
-    /**
-     * Sends a simple notification to the user.
-     * @param title
-     * @param message
-     */
-    public final void sendNotification(String title, String message) {
-        NotificationBean bean = new NotificationBean();
-        bean.setUuid(String.valueOf(notificationCounter++));
-        bean.setType(NotificationType.notification);
-        bean.setTitle(title);
-        bean.setMessage(message);
-        sendNotification(bean);
-    }
-
-    /**
-     * Sends an error notification to the user.
-     * @param title
-     * @param message
-     * @param exception
-     */
-    public final void sendErrorNotification(String title, String message, DtgovUiException exception) {
-        NotificationBean bean = new NotificationBean();
-        bean.setUuid(String.valueOf(notificationCounter++));
-        bean.setType(NotificationType.error);
-        bean.setTitle(title);
-        bean.setMessage(message);
-        bean.setException(exception);
-        sendNotification(bean);
-    }
-
-    /**
-     * Sends an error notification to the user.
-     * @param title
-     * @param exception
-     */
-    public final void sendErrorNotification(String title, DtgovUiException exception) {
-        sendErrorNotification(title, exception.getMessage(), exception);
-    }
-
-    /**
-     * Sends an error notification to the user.
-     * @param title
-     * @param exception
-     */
-    public final void sendErrorNotification(String title, Throwable exception) {
-        if (exception instanceof DtgovUiException) {
-            sendErrorNotification(title, (DtgovUiException) exception);
-        } else {
-            sendErrorNotification(title, exception.getMessage(), null);
-        }
-    }
-
-    /**
-     * Starts a progress style notification.  This displays the message to the user, along
-     * with displaying a spinner indicating that a background task is running.
-     * @param title
-     * @param message
-     * @param exception
-     */
-    public final NotificationBean startProgressNotification(String title, String message) {
-        NotificationBean bean = new NotificationBean();
-        bean.setUuid(String.valueOf(notificationCounter++));
-        bean.setType(NotificationType.progress);
-        bean.setTitle(title);
-        bean.setMessage(message);
-        sendNotification(bean);
-        return bean;
-    }
-
-    /**
      * Completes an in-progress (progress-style) notification.
-     * @param title
-     * @param message
-     * @param exception
-     */
-    public final void completeProgressNotification(String uuid, String title, String message) {
-        NotificationBean bean = new NotificationBean();
-        bean.setUuid(uuid);
-        bean.setType(NotificationType.progressCompleted);
-        bean.setTitle(title);
-        bean.setMessage(message);
-        sendNotification(bean);
-    }
-
-    /**
-     * Completes an in-progress (progress-style) notification.
-     * @param title
-     * @param widget
-     * @param exception
-     */
-    public final void completeProgressNotification(String uuid, String title, Widget widget) {
-        NotificationBean bean = new NotificationBean();
-        bean.setUuid(uuid);
-        bean.setType(NotificationType.progressCompleted);
-        bean.setTitle(title);
-        bean.setMessageWidget(widget);
-        sendNotification(bean);
-    }
-
-    /**
-     * Completes an in-progress (progress-style) notification.
+     * 
      * @param title
      * @param message
      * @param exception
@@ -206,6 +94,23 @@ public class NotificationService {
 
     /**
      * Completes an in-progress (progress-style) notification.
+     * 
+     * @param title
+     * @param message
+     * @param exception
+     */
+    public final void completeProgressNotification(String uuid, String title, String message) {
+        NotificationBean bean = new NotificationBean();
+        bean.setUuid(uuid);
+        bean.setType(NotificationType.progressCompleted);
+        bean.setTitle(title);
+        bean.setMessage(message);
+        sendNotification(bean);
+    }
+
+    /**
+     * Completes an in-progress (progress-style) notification.
+     * 
      * @param uuid
      * @param title
      * @param error
@@ -219,62 +124,42 @@ public class NotificationService {
     }
 
     /**
-     * Sends a notification (local/client only).
-     * @param notification
+     * Completes an in-progress (progress-style) notification.
+     * 
+     * @param title
+     * @param widget
+     * @param exception
      */
-    protected void sendNotification(NotificationBean notification) {
-        MessageBuilder.createMessage()
-            .toSubject("NotificationService") //$NON-NLS-1$
-            .signalling()
-            .withValue(notification)
-            .noErrorHandling()
-            .sendNowWith(dispatcher);
+    public final void completeProgressNotification(String uuid, String title, Widget widget) {
+        NotificationBean bean = new NotificationBean();
+        bean.setUuid(uuid);
+        bean.setType(NotificationType.progressCompleted);
+        bean.setTitle(title);
+        bean.setMessageWidget(widget);
+        sendNotification(bean);
     }
 
     /**
-     * Notifies the user.
-     * @param notification
+     * Creates a new notification.
+     * 
+     * @param bean
      */
-    private void doNotify(NotificationBean notificationBean) {
-        if (notificationBean.getType() == NotificationType.progressCompleted) {
-            onProgressComplete(notificationBean);
-        } else if (notificationBean.getType() == NotificationType.progressErrored) {
-            onProgressError(notificationBean);
-        } else {
-            final Notification notification = createNotification(notificationBean);
-            createNotificationWidget(notification);
-            createNotificationTimers(notification);
-            createNotificationAnimations(notification);
-
-            positionAndShowNotificationDialog(notification);
-
-            // Schedule the notification to go away automatically.
-            if (notificationBean.getType() == NotificationType.notification)
-                notification.getAliveTimer().schedule(5000);
-        }
-    }
-
-    /**
-     * Creates any timers needed to control the notification.
-     * @param notification
-     */
-    private void createNotificationTimers(final Notification notification) {
-        // Create the timer that will control when the notification automatically goes away.
-        Timer aliveTimer = new Timer() {
-            @Override
-            public void run() {
-                notification.getAutoCloseAnimation().run(1000);
-            }
-        };
-        notification.setAliveTimer(aliveTimer);
+    private Notification createNotification(NotificationBean bean) {
+        Notification notification = new Notification(bean);
+        int notificationIndex = this.activeNotifications.size();
+        notification.setIndex(notificationIndex);
+        this.activeNotifications.add(notification);
+        return notification;
     }
 
     /**
      * Creates any animations needed by the notification.
+     * 
      * @param notification
      */
     private void createNotificationAnimations(final Notification notification) {
-        // Create the animation used to make the notification go away (when the time comes)
+        // Create the animation used to make the notification go away (when the
+        // time comes)
         FadeOutAnimation fadeOut = new FadeOutAnimation(notification.getWidget()) {
             @Override
             protected void doOnComplete() {
@@ -286,67 +171,25 @@ public class NotificationService {
     }
 
     /**
-     * Called when a notification is closed, either by the user clicking on the close button
-     * or the alive timer fires.
+     * Creates any timers needed to control the notification.
+     * 
      * @param notification
      */
-    protected void onNotificationClosed(final Notification notification) {
-        activeNotifications.remove(notification);
-        rootPanel.remove(notification.getWidget());
-        notification.setWidget(null);
-        repositionNotifications();
-    }
-
-    /**
-     * Repositions all of the notifications.
-     */
-    private void repositionNotifications() {
-        int bottom = NotificationConstants.MARGIN;
-        for (int notificationIndex = 0; notificationIndex < activeNotifications.size(); notificationIndex++) {
-            Notification notification = activeNotifications.get(notificationIndex);
-            // Only move a notification if it needs it (if its current index is different
-            // from the index we think it needs to be)
-            if (notification.getIndex() != notificationIndex) {
-                moveNotificationTo(notification.getWidget(), bottom);
-                notification.setIndex(notificationIndex);
+    private void createNotificationTimers(final Notification notification) {
+        // Create the timer that will control when the notification
+        // automatically goes away.
+        Timer aliveTimer = new Timer() {
+            @Override
+            public void run() {
+                notification.getAutoCloseAnimation().run(1000);
             }
-            // Update the desired position for the next notification widget
-            bottom += notification.getWidget().getOffsetHeight() + NotificationConstants.MARGIN;
-        }
-    }
-
-    /**
-     * Repositions the notifications when one is possibly resized.
-     */
-    private void resizeNotification(int startingAtIndex) {
-        int bottom = NotificationConstants.MARGIN;
-        for (int notificationIndex = 0; notificationIndex < activeNotifications.size(); notificationIndex++) {
-            Notification notification = activeNotifications.get(notificationIndex);
-            // Only move a notification if it needs it (if its current index is different
-            // from the index we think it needs to be)
-            if (notification.getIndex() >= startingAtIndex) {
-                moveNotificationTo(notification.getWidget(), bottom);
-                notification.setIndex(notificationIndex);
-            }
-            // Update the desired position for the next notification widget
-            bottom += notification.getWidget().getOffsetHeight() + NotificationConstants.MARGIN;
-        }
-    }
-
-    /**
-     * Moves a notificaton from its current position to the new position provided.
-     * @param widget
-     * @param bottom
-     */
-    private void moveNotificationTo(NotificationWidget widget, int bottom) {
-        int fromBottom = new Integer(widget.getElement().getStyle().getBottom().split("px")[0]).intValue(); //$NON-NLS-1$
-        int toBottom = bottom;
-        MoveAnimation animation = new MoveAnimation(widget, "bottom", fromBottom, toBottom); //$NON-NLS-1$
-        animation.run(200);
+        };
+        notification.setAliveTimer(aliveTimer);
     }
 
     /**
      * Creates the UI widget for the notification.
+     * 
      * @param notification
      */
     private void createNotificationWidget(final Notification notification) {
@@ -366,7 +209,8 @@ public class NotificationService {
             }
             widget.setNotificationMessage(errorDetails);
         } else {
-            widget.setNotificationMessage(notification.getData().getMessage(), notification.getData().getType());
+            widget.setNotificationMessage(notification.getData().getMessage(), notification.getData()
+                    .getType());
         }
         widget.getCloseButton().addClickHandler(new ClickHandler() {
             @Override
@@ -394,7 +238,150 @@ public class NotificationService {
     }
 
     /**
+     * Notifies the user.
+     * 
+     * @param notification
+     */
+    private void doNotify(NotificationBean notificationBean) {
+        if (notificationBean.getType() == NotificationType.progressCompleted) {
+            onProgressComplete(notificationBean);
+        } else if (notificationBean.getType() == NotificationType.progressErrored) {
+            onProgressError(notificationBean);
+        } else {
+            final Notification notification = createNotification(notificationBean);
+            createNotificationWidget(notification);
+            createNotificationTimers(notification);
+            createNotificationAnimations(notification);
+
+            positionAndShowNotificationDialog(notification);
+
+            // Schedule the notification to go away automatically.
+            if (notificationBean.getType() == NotificationType.notification)
+                notification.getAliveTimer().schedule(5000);
+        }
+    }
+
+    /**
+     * Gets a notification by notificationId.
+     * 
+     * @param notificationId
+     */
+    private Notification getNotification(String notificationId) {
+        Notification notification = null;
+        for (Notification n : this.activeNotifications) {
+            if (n.getData().getUuid().equals(notificationId))
+                notification = n;
+        }
+        return notification;
+    }
+
+    /**
+     * Moves a notificaton from its current position to the new position
+     * provided.
+     * 
+     * @param widget
+     * @param bottom
+     */
+    private void moveNotificationTo(NotificationWidget widget, int bottom) {
+        int fromBottom = new Integer(widget.getElement().getStyle().getBottom().split("px")[0]).intValue(); //$NON-NLS-1$
+        int toBottom = bottom;
+        MoveAnimation animation = new MoveAnimation(widget, "bottom", fromBottom, toBottom); //$NON-NLS-1$
+        animation.run(200);
+    }
+
+    /**
+     * Called when a notification is closed, either by the user clicking on the
+     * close button or the alive timer fires.
+     * 
+     * @param notification
+     */
+    protected void onNotificationClosed(final Notification notification) {
+        activeNotifications.remove(notification);
+        rootPanel.remove(notification.getWidget());
+        notification.setWidget(null);
+        repositionNotifications();
+    }
+
+    /**
+     * Called when the service is constructed.
+     */
+    @PostConstruct
+    private void onPostConstruct() {
+        bus.subscribe("NotificationService", new MessageCallback() { //$NON-NLS-1$
+                    @Override
+                    public void callback(Message message) {
+                        NotificationBean notification = message.getValue(NotificationBean.class);
+                        doNotify(notification);
+                    }
+                });
+    }
+
+    /**
+     * Called when a progress style notification should be completed.
+     * 
+     * @param notificationBean
+     */
+    private void onProgressComplete(NotificationBean notificationBean) {
+        Notification notification = getNotification(notificationBean.getUuid());
+        if (notification != null) {
+            notification.getData().setTitle(notificationBean.getTitle());
+            notification.getData().setMessage(notificationBean.getMessage());
+            notification.getData().setMessageWidget(notificationBean.getMessageWidget());
+            notification.getData().setType(NotificationType.notification);
+            notification.getWidget().setNotificationTitle(notificationBean.getTitle());
+            if (notificationBean.getMessageWidget() != null) {
+                notification.getWidget().setNotificationMessage((Widget) notificationBean.getMessageWidget());
+            } else {
+                notification.getWidget().setNotificationMessage(notificationBean.getMessage(),
+                        NotificationType.notification);
+            }
+            notification.getWidget().removeStyleName("growl-dialog-progress"); //$NON-NLS-1$
+            notification.getWidget().addStyleName("growl-dialog-notification"); //$NON-NLS-1$
+            notification.getAliveTimer().schedule(5000);
+
+            resizeNotification(notification.getIndex() + 1);
+        }
+    }
+
+    /**
+     * Called when a progress style notification has error'd out.
+     * 
+     * @param notificationBean
+     */
+    private void onProgressError(NotificationBean notificationBean) {
+        Notification notification = getNotification(notificationBean.getUuid());
+        if (notification != null) {
+            notification.getData().setTitle(notificationBean.getTitle());
+            notification.getData().setMessage(notificationBean.getMessage());
+            notification.getData().setMessageWidget(notificationBean.getMessageWidget());
+            notification.getData().setType(NotificationType.error);
+            notification.getData().setException(notificationBean.getException());
+            notification.getWidget().setNotificationTitle(notificationBean.getTitle());
+            if (notificationBean.getMessageWidget() != null) {
+                notification.getWidget().setNotificationMessage((Widget) notificationBean.getMessageWidget());
+            } else {
+                FlowPanel errorDetails = new FlowPanel();
+                // if (notification.getData().getMessage() != null) {
+                // errorDetails.add(new
+                // InlineLabel(notification.getData().getMessage()));
+                // }
+                if (notification.getData().getException() != null) {
+                    // TODO handle exceptions better - need to create an
+                    // exception dialog
+                    errorDetails.add(new InlineLabel(notification.getData().getException().getMessage()));
+                }
+                notification.getWidget().setNotificationMessage(errorDetails);
+            }
+            notification.getWidget().removeStyleName("growl-dialog-progress"); //$NON-NLS-1$
+            notification.getWidget().addStyleName("growl-dialog-error"); //$NON-NLS-1$
+
+            resizeNotification(notification.getIndex() + 1);
+        }
+    }
+
+    /**
      * Positions the notification widget.
+     * 
      * @param notification
      */
     private void positionAndShowNotificationDialog(Notification notification) {
@@ -402,14 +389,16 @@ public class NotificationService {
         int notificationIndex = notification.getIndex();
         NotificationWidget relativeTo = null;
         if (notificationIndex > 0) {
-            relativeTo = activeNotifications.get(notificationIndex-1).getWidget();
+            relativeTo = activeNotifications.get(notificationIndex - 1).getWidget();
         }
 
-        // Show the widget first, but make it invisible (so GWT can do its absolute positioning mojo)
+        // Show the widget first, but make it invisible (so GWT can do its
+        // absolute positioning mojo)
         widget.getElement().getStyle().setVisibility(Visibility.HIDDEN);
         rootPanel.add(widget);
 
-        // Calculate the notification widget's position, either because this is the only one
+        // Calculate the notification widget's position, either because this is
+        // the only one
         // or relative to the one below it.
         int bottom = NotificationConstants.MARGIN;
         int right = NotificationConstants.MARGIN;
@@ -428,87 +417,134 @@ public class NotificationService {
         widget.getElement().getStyle().setVisibility(Visibility.VISIBLE);
     }
 
-    /**
-     * Creates a new notification.
-     * @param bean
-     */
-    private Notification createNotification(NotificationBean bean) {
-        Notification notification = new Notification(bean);
-        int notificationIndex = this.activeNotifications.size();
-        notification.setIndex(notificationIndex);
-        this.activeNotifications.add(notification);
-        return notification;
-    }
-
-    /**
-     * Gets a notification by notificationId.
-     * @param notificationId
-     */
-    private Notification getNotification(String notificationId) {
-        Notification notification = null;
-        for (Notification n : this.activeNotifications) {
-            if (n.getData().getUuid().equals(notificationId))
-                notification = n;
+    public void removeNotifications() {
+        if (activeNotifications.size() > 0) {
+            onNotificationClosed(activeNotifications.get(0));
+            removeNotifications();
         }
-        return notification;
     }
 
     /**
-     * Called when a progress style notification should be completed.
-     * @param notificationBean
+     * Repositions all of the notifications.
      */
-    private void onProgressComplete(NotificationBean notificationBean) {
-        Notification notification = getNotification(notificationBean.getUuid());
-        if (notification != null) {
-            notification.getData().setTitle(notificationBean.getTitle());
-            notification.getData().setMessage(notificationBean.getMessage());
-            notification.getData().setMessageWidget(notificationBean.getMessageWidget());
-            notification.getData().setType(NotificationType.notification);
-            notification.getWidget().setNotificationTitle(notificationBean.getTitle());
-            if (notificationBean.getMessageWidget() != null) {
-                notification.getWidget().setNotificationMessage((Widget) notificationBean.getMessageWidget());
-            } else {
-                notification.getWidget().setNotificationMessage(notificationBean.getMessage(), NotificationType.notification);
+    private void repositionNotifications() {
+        int bottom = NotificationConstants.MARGIN;
+        for (int notificationIndex = 0; notificationIndex < activeNotifications.size(); notificationIndex++) {
+            Notification notification = activeNotifications.get(notificationIndex);
+            // Only move a notification if it needs it (if its current index is
+            // different
+            // from the index we think it needs to be)
+            if (notification.getIndex() != notificationIndex) {
+                moveNotificationTo(notification.getWidget(), bottom);
+                notification.setIndex(notificationIndex);
             }
-            notification.getWidget().removeStyleName("growl-dialog-progress"); //$NON-NLS-1$
-            notification.getWidget().addStyleName("growl-dialog-notification"); //$NON-NLS-1$
-            notification.getAliveTimer().schedule(5000);
-
-            resizeNotification(notification.getIndex() + 1);
+            // Update the desired position for the next notification widget
+            bottom += notification.getWidget().getOffsetHeight() + NotificationConstants.MARGIN;
         }
     }
 
     /**
-     * Called when a progress style notification has error'd out.
-     * @param notificationBean
+     * Repositions the notifications when one is possibly resized.
      */
-    private void onProgressError(NotificationBean notificationBean) {
-        Notification notification = getNotification(notificationBean.getUuid());
-        if (notification != null) {
-            notification.getData().setTitle(notificationBean.getTitle());
-            notification.getData().setMessage(notificationBean.getMessage());
-            notification.getData().setMessageWidget(notificationBean.getMessageWidget());
-            notification.getData().setType(NotificationType.error);
-            notification.getData().setException(notificationBean.getException());
-            notification.getWidget().setNotificationTitle(notificationBean.getTitle());
-            if (notificationBean.getMessageWidget() != null) {
-                notification.getWidget().setNotificationMessage((Widget) notificationBean.getMessageWidget());
-            } else {
-                FlowPanel errorDetails = new FlowPanel();
-//                if (notification.getData().getMessage() != null) {
-//                    errorDetails.add(new InlineLabel(notification.getData().getMessage()));
-//                }
-                if (notification.getData().getException() != null) {
-                    // TODO handle exceptions better - need to create an exception dialog
-                    errorDetails.add(new InlineLabel(notification.getData().getException().getMessage()));
-                }
-                notification.getWidget().setNotificationMessage(errorDetails);
+    private void resizeNotification(int startingAtIndex) {
+        int bottom = NotificationConstants.MARGIN;
+        for (int notificationIndex = 0; notificationIndex < activeNotifications.size(); notificationIndex++) {
+            Notification notification = activeNotifications.get(notificationIndex);
+            // Only move a notification if it needs it (if its current index is
+            // different
+            // from the index we think it needs to be)
+            if (notification.getIndex() >= startingAtIndex) {
+                moveNotificationTo(notification.getWidget(), bottom);
+                notification.setIndex(notificationIndex);
             }
-            notification.getWidget().removeStyleName("growl-dialog-progress"); //$NON-NLS-1$
-            notification.getWidget().addStyleName("growl-dialog-error"); //$NON-NLS-1$
-
-            resizeNotification(notification.getIndex() + 1);
+            // Update the desired position for the next notification widget
+            bottom += notification.getWidget().getOffsetHeight() + NotificationConstants.MARGIN;
         }
+    }
+
+    /**
+     * Sends an error notification to the user.
+     * 
+     * @param title
+     * @param exception
+     */
+    public final void sendErrorNotification(String title, DtgovUiException exception) {
+        sendErrorNotification(title, exception.getMessage(), exception);
+    }
+
+    /**
+     * Sends an error notification to the user.
+     * 
+     * @param title
+     * @param message
+     * @param exception
+     */
+    public final void sendErrorNotification(String title, String message, DtgovUiException exception) {
+        NotificationBean bean = new NotificationBean();
+        bean.setUuid(String.valueOf(notificationCounter++));
+        bean.setType(NotificationType.error);
+        bean.setTitle(title);
+        bean.setMessage(message);
+        bean.setException(exception);
+        sendNotification(bean);
+    }
+
+    /**
+     * Sends an error notification to the user.
+     * 
+     * @param title
+     * @param exception
+     */
+    public final void sendErrorNotification(String title, Throwable exception) {
+        if (exception instanceof DtgovUiException) {
+            sendErrorNotification(title, (DtgovUiException) exception);
+        } else {
+            sendErrorNotification(title, exception.getMessage(), null);
+        }
+    }
+
+    /**
+     * Sends a notification (local/client only).
+     * 
+     * @param notification
+     */
+    protected void sendNotification(NotificationBean notification) {
+        MessageBuilder.createMessage().toSubject("NotificationService") //$NON-NLS-1$
+                .signalling().withValue(notification).noErrorHandling().sendNowWith(dispatcher);
+    }
+
+    /**
+     * Sends a simple notification to the user.
+     * 
+     * @param title
+     * @param message
+     */
+    public final void sendNotification(String title, String message) {
+        NotificationBean bean = new NotificationBean();
+        bean.setUuid(String.valueOf(notificationCounter++));
+        bean.setType(NotificationType.notification);
+        bean.setTitle(title);
+        bean.setMessage(message);
+        sendNotification(bean);
+    }
+
+    /**
+     * Starts a progress style notification. This displays the message to the
+     * user, along with displaying a spinner indicating that a background task
+     * is running.
+     * 
+     * @param title
+     * @param message
+     * @param exception
+     */
+    public final NotificationBean startProgressNotification(String title, String message) {
+        NotificationBean bean = new NotificationBean();
+        bean.setUuid(String.valueOf(notificationCounter++));
+        bean.setType(NotificationType.progress);
+        bean.setTitle(title);
+        bean.setMessage(message);
+        sendNotification(bean);
+        return bean;
     }
 
 }

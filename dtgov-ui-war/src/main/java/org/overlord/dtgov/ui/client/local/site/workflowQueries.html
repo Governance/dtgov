@@ -13,8 +13,8 @@
     <link href="../../../../../../../../webapp/css/dtgov-ui-responsive.css" rel="stylesheet"></link>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
     <script type="text/javascript" src="../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-datepicker.js"></script>
@@ -49,8 +49,12 @@
                 <div class="filter-inner">
                   <form class="" onSubmit="return false;">
                     <div class="controls controls-row">
-                      <label class="filter-label" data-i18n-key="workflow">Workflow</label>
-                      <select data-field="type" class="selectpicker span12" data-role="dummy">
+                      <label class="filter-label" data-i18n-key="query-filters-name">Name</label>
+                      <input type="text" data-field="name" class="span12" placeholder="Any">
+                    </div>
+                    <div class="controls controls-row">
+                      <label class="filter-label" data-i18n-key="query-filters-workflow">Workflow</label>
+                      <select data-field="workflow" class="selectpicker span12" data-role="dummy">
                         <option value="">Any</option>
                         <option value="DeploymentProcess">DeploymentProcess</option>
                         <option value="ProjectProcess">ProjectProcess</option>
@@ -88,18 +92,25 @@
               <table data-field="queries-table" class="queries-table table table-striped table-condensed table-hover">
               <thead>
                 <tr>
-                  <th data-i18n-key="query">Trigger Query</th>
+                  <th data-i18n-key="name">Name</th>
                   <th data-i18n-key="workflow">Workflow</th>
-                  <th data-i18n-key="actions" class="actions">Actions</th>
+                  <th data-i18n-key="query">Trigger Query</th>
+                  <th data-i18n-key="actions" class="">Actions</th>
                 </tr>
               </thead>
               <tbody data-role="dummy">
                 <tr>
-                  <td style="white-space: nowrap;"><a href="editQuery.html">/s-ramp/ext/SwitchYardApplication</a></td>
+                  <td style="white-space: nowrap;"><a href="editQuery.html">Query Name 1</a></td>
                   <td style="white-space: nowrap;">overlord.demo.SimpleReleaseProcess</td>
-                  <td>
-                    <span><a title="Edit Query" href="./editQuery.html"><img alt="Edit Query" src="../../../../../../../../webapp/images/event-edit.png"></a></span>
-                    <span><a title="Delete Query"><img alt="Delete Query" src="../../../../../../../../webapp/images/event-delete.png" ></a></span> 
+                  <td style="white-space: nowrap;">/s-ramp/ext/SwitchYardApplication</td>
+                  <td class="actions">
+                  	 	<div>
+	                  	 	<a href="workflowQuery.html"><span class="workflow-icon workflow-edit-icon firstAction"></span></a>
+	                  		<span class="workflow-delete-icon workflow-icon"></span>
+	                  	</div>
+                  		
+                   <!-- span><a title="Edit Query" href="./editQuery.html"><img alt="Edit Query" src="../../../../../../../../webapp/images/event-edit.png"></a></span> -->
+                    <!-- span><a title="Delete Query"><img alt="Delete Query" src="../../../../../../../../webapp/images/event-delete.png" ></a></span> -->
                   </td>
                 </tr>
               </tbody>
@@ -131,11 +142,11 @@
     <!-- Some scripting to add functionality to the live template -->
     <script>
       $(document).ready(function() {
-    	  $('.filter-date').datepicker({
-    		  autoclose: true,
-    		  todayBtn: true,
-    		  todayHighlight: true
-    	  });
+     $('.filter-date').datepicker({
+     autoclose: true,
+     todayBtn: true,
+     todayHighlight: true
+     });
       });
     </script>
 

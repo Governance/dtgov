@@ -31,5 +31,9 @@ public final class ApplicationStateKeys {
     public static final String DEPLOYMENTS_PAGE = "deployments.page"; //$NON-NLS-1$
     public static final String DEPLOYMENTS_SEARCH_TEXT = "deployments.search-text"; //$NON-NLS-1$
     public static final String DEPLOYMENTS_SORT_COLUMN = "deployments.sort-column"; //$NON-NLS-1$
+    
+    public static final String WORKFLOW_QUERIES_FILTER = "workflow-queries.filter-bean"; //$NON-NLS-1$
+    public static final String WORKFLOW_QUERIES_PAGE = "workflow-queries.page"; //$NON-NLS-1$
+    public static final String WORKFLOW_QUERIES_SORT_COLUMN = "workflow-queries.sort-column"; //$NON-NLS-1$
 	
 }

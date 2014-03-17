@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <link href="../../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-datepicker.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-fileupload.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../../webapp/css/dtgov-ui.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../../webapp/css/dtgov-ui-responsive.css" rel="stylesheet"></link>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="../../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-fileupload.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../../webapp/js/dtgov-ui-responsive.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Add Deployment modal -->
+    <div data-field="delete-workflow-query-dialog" id="delete-workflow-query-dialog" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;<span data-role="dummy" /></button>
+        <h4 data-i18n-key="title">Delete Workflow Query</h4>
+      </div>
+      <div class="modal-body form-horizontal">
+        <p data-i18n-key="message">
+          Are you sure you want to delete the <span data-field="form-workflow-query-name-input" data-role="dummy">Project Deployment</span> Workflow Query?
+        </p>
+		</div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" data-i18n-key="cancel">Cancel</button>
+        <button data-field="delete-workflow-submit-button" class="btn btn-focus" data-i18n-key="delete">Delete</button>
+      </div>
+    </div>
+
+
+    <!-- Some scripting to add functionality to the live template -->
+    <script>
+        $('#delete-workflow-query-dialog').modal({keyboard:false,backdrop:'static'});
+    </script>
+
+  </body>
+</html>
