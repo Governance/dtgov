@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title data-role="dummy">DTGov - Admin Queries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+        <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-datepicker.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-fileupload.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui-responsive.css" rel="stylesheet"></link>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap-fileupload.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/js/dtgov-ui-responsive.js"></script>
+  </head>
+
+  <body>
+    <div id="page" data-field="page">
+
+      <!-- Content area with footer-->
+      <div id="page-content" class="container-fluid">
+      
+        <!-- Breadcrumbs -->
+        <div class="row-fluid">
+          <ul class="breadcrumb">
+            <li><a data-field="back-to-dashboard" href="dashboard.html" data-i18n-key="breadcrumb.dashboard">DTGov Dashboard</a> <span class="divider">/<span data-role="dummy" /></span></li>
+            <li class="active" data-i18n-key="breadcrumb.admin-queries">Admin Queries</li>
+          </ul>
+        </div>
+      
+        <!-- Page content -->
+        <div class="row-fluid">
+          
+          <!-- The Task table -->
+          <div class="">
+           
+              <div data-field="queries-none" style="display:none" class="tasks-none">
+                <span data-i18n-key="no-queries-found">No queries found.</span>
+              </div>
+              <div data-field="queries-searching" style="display:none" class="queries-searching">
+                <span class="spinner" data-i18n-key="loading-queries">Loading queries, please wait...</span>
+              </div>
+             <div class="row-fluid">
+              <div class="span12 deployments-actions">
+                <button data-field="btn-add" id="btn-add" onclick="location.href='./editQuery.html'" class="btn btn-focus requires-fileupload desktop-only" data-i18n-key="add-query">Add Query</button>
+                <button class="btn spacer" style="visibility:hidden"><i class="icon-refresh"></i></button>
+                <button data-field="btn-refresh" class="btn pull-right"><i class="icon-refresh"></i></button>
+                <div class="pull-right sp4n-label">
+                  <span data-i18n-key="displaying">Displaying</span>
+                  <span data-field="deployments-range" data-role="dummy">1-11</span>
+                  <span data-i18n-key="of">of</span>
+                  <span data-field="deployments-total" data-role="dummy">2</span>
+                </div>
+              </div>
+              <table data-i18n-skip="true" data-field="queries-table" class="queries-table table table-striped table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th data-i18n-key="query">Query</th>
+                  <th data-i18n-key="workflow">Workflow</th>
+                  <th data-i18n-key="properties" class="properties">Properties</th>
+                  <th data-i18n-key="actions" class="actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody data-role="dummy">
+                <tr>
+                  <td style="white-space: nowrap;">/s-ramp/ext/SwitchYardApplication</td>
+                  <td style="white-space: nowrap;">overlord.demo.SimpleReleaseProcess</td>
+                  <td>{governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}</td>
+                  <td>
+                  	<span><a title="Edit Query" href="./editQuery.html"><img alt="Edit Query" src="../../../../../../../../webapp/images/event-edit.png"></a></span>
+                 	<span><a title="Delete Query"><img alt="Delete Query" src="../../../../../../../../webapp/images/event-delete.png" ></a></span> 
+                  </td>
+                </tr>
+                                
+              </tbody>
+              </table>
+              <div data-field="tasks-pager" class="pagination tasks-pager" data-role="dummy">
+                <ul>
+                  <li class="disabled"><a>&#x00AB;</a></li>
+                  <li class="active"><a>1</a></li>
+                  <li><a>2</a></li>
+                  <li><a>3</a></li>
+                  <li><a>4</a></li>
+                  <li><a>&#x00BB;</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+			  
+        </div>
+
+        <!-- Footer -->
+        <footer>
+          <hr />
+          <p data-i18n-key="footer">&copy; JBoss Overlord 2013</p>
+        </footer>
+      </div> <!-- /container -->
+      
+    </div> <!-- /page -->
+
+
+    <!-- Some scripting to add functionality to the live template -->
+    <script>
+      $(document).ready(function() {
+    	  $('.filter-date').datepicker({
+    		  autoclose: true,
+    		  todayBtn: true,
+    		  todayHighlight: true
+    	  });
+      });
+    </script>
+
+  </body>
+</html>
