@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title data-role="dummy">DTGov - Admin Queries</title>
+    <title data-role="dummy">DTGov - Workflow Trigger Queries</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
     <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
         <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.css" rel="stylesheet" media="screen"></link>
@@ -32,57 +32,79 @@
         <div class="row-fluid">
           <ul class="breadcrumb">
             <li><a data-field="back-to-dashboard" href="dashboard.html" data-i18n-key="breadcrumb.dashboard">DTGov Dashboard</a> <span class="divider">/<span data-role="dummy" /></span></li>
-            <li class="active" data-i18n-key="breadcrumb.admin-queries">Admin Queries</li>
+            <li class="active" data-i18n-key="breadcrumb.workflow-queries">Workflow Queries</li>
           </ul>
         </div>
-      
+
         <!-- Page content -->
         <div class="row-fluid">
-          
-          <!-- The Task table -->
-          <div class="">
-           
-              <div data-field="queries-none" style="display:none" class="tasks-none">
-                <span data-i18n-key="no-queries-found">No queries found.</span>
+          <!-- The Query Filter Sidebar -->
+          <div id="queries-filter-sidebar" data-field="queries-filter-sidebar" class="span3 filter-sidebar">
+            <div class="row-fluid filter-header">
+              <a class="span12" data-toggle="slide" data-target="#query-filters"><span data-i18n-key="query-filters">Query Filters</span> <span class="mobile-only caret pull-right"></span></a>
+            </div>
+            <!-- The Query Filters -->
+            <div id="query-filters" class="row-fluid close-on-mobile closed-on-mobile open-on-desktop">
+              <div class="span12">
+                <div class="filter-inner">
+                  <form class="" onSubmit="return false;">
+                    <div class="controls controls-row">
+                      <label class="filter-label" data-i18n-key="workflow">Workflow</label>
+                      <select data-field="type" class="selectpicker span12" data-role="dummy">
+                        <option value="">Any</option>
+                        <option value="DeploymentProcess">DeploymentProcess</option>
+                        <option value="ProjectProcess">ProjectProcess</option>
+                      </select>
+                    </div>
+                    <div class="controls">
+                      <button data-field="clearFilters" class="btn btn-focus btn-clear" data-i18n-key="clear-all-filters">Clear All Filters</button>
+                    </div>
+                  </form>
+                </div>
               </div>
-              <div data-field="queries-searching" style="display:none" class="queries-searching">
-                <span class="spinner" data-i18n-key="loading-queries">Loading queries, please wait...</span>
-              </div>
-             <div class="row-fluid">
-              <div class="span12 deployments-actions">
-                <button data-field="btn-add" id="btn-add" onclick="location.href='./editQuery.html'" class="btn btn-focus requires-fileupload desktop-only" data-i18n-key="add-query">Add Query</button>
+            </div>
+          </div>
+
+          <!-- The Queries table -->
+          <div class="span9">
+            <div class="row-fluid queries">
+              <div class="span12 queries-actions">
+                <button data-field="btn-add" id="btn-add" class="btn btn-focus requires-fileupload desktop-only" data-i18n-key="add-query">Add Query</button>
                 <button class="btn spacer" style="visibility:hidden"><i class="icon-refresh"></i></button>
                 <button data-field="btn-refresh" class="btn pull-right"><i class="icon-refresh"></i></button>
                 <div class="pull-right sp4n-label">
                   <span data-i18n-key="displaying">Displaying</span>
-                  <span data-field="deployments-range" data-role="dummy">1-11</span>
+                  <span data-field="queries-range" data-role="dummy">1-11</span>
                   <span data-i18n-key="of">of</span>
-                  <span data-field="deployments-total" data-role="dummy">2</span>
+                  <span data-field="queries-total" data-role="dummy">37</span>
                 </div>
               </div>
-              <table data-i18n-skip="true" data-field="queries-table" class="queries-table table table-striped table-condensed table-hover">
+              <div data-field="queries-none" style="display:none" class="queries-none">
+                <span data-i18n-key="none-found">No queries found.</span>
+              </div>
+              <div data-field="queries-searching" style="display:none" class="queries-searching">
+                <span class="spinner" data-i18n-key="finding-queries">Finding queries, please wait...</span>
+              </div>
+              <table data-field="queries-table" class="queries-table table table-striped table-condensed table-hover">
               <thead>
                 <tr>
-                  <th data-i18n-key="query">Query</th>
+                  <th data-i18n-key="query">Trigger Query</th>
                   <th data-i18n-key="workflow">Workflow</th>
-                  <th data-i18n-key="properties" class="properties">Properties</th>
                   <th data-i18n-key="actions" class="actions">Actions</th>
                 </tr>
               </thead>
               <tbody data-role="dummy">
                 <tr>
-                  <td style="white-space: nowrap;">/s-ramp/ext/SwitchYardApplication</td>
+                  <td style="white-space: nowrap;"><a href="editQuery.html">/s-ramp/ext/SwitchYardApplication</a></td>
                   <td style="white-space: nowrap;">overlord.demo.SimpleReleaseProcess</td>
-                  <td>{governance.url}/rest/deploy/{target}/{uuid}::NotificationUrl={governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}::UpdateMetaDataUrl={governance.url}/rest/update/{name}/{value}/{uuid}</td>
                   <td>
-                  	<span><a title="Edit Query" href="./editQuery.html"><img alt="Edit Query" src="../../../../../../../../webapp/images/event-edit.png"></a></span>
-                 	<span><a title="Delete Query"><img alt="Delete Query" src="../../../../../../../../webapp/images/event-delete.png" ></a></span> 
+                    <span><a title="Edit Query" href="./editQuery.html"><img alt="Edit Query" src="../../../../../../../../webapp/images/event-edit.png"></a></span>
+                    <span><a title="Delete Query"><img alt="Delete Query" src="../../../../../../../../webapp/images/event-delete.png" ></a></span> 
                   </td>
                 </tr>
-                                
               </tbody>
               </table>
-              <div data-field="tasks-pager" class="pagination tasks-pager" data-role="dummy">
+              <div data-field="queries-pager" class="pagination queries-pager" data-role="dummy">
                 <ul>
                   <li class="disabled"><a>&#x00AB;</a></li>
                   <li class="active"><a>1</a></li>
@@ -94,7 +116,6 @@
               </div>
             </div>
           </div>
-			  
         </div>
 
         <!-- Footer -->

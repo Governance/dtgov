@@ -270,7 +270,7 @@ footer hr {
     padding: 0px;
 }
 
-.tasks-actions, .task-actions, .deployments-actions, .deployment-actions {
+.tasks-actions, .task-actions, .deployments-actions, .deployment-actions, .queries-actions {
     border: 1px solid rgb(211, 211, 211);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -279,10 +279,10 @@ footer hr {
     background-repeat: repeat-x;
     background-color: rgb(242, 242, 242);
 }
-.tasks-actions, .deployments-actions {
+.tasks-actions, .deployments-actions, .queries-actions {
   padding: 10px;
 }
-.task-actions, .deployment-actions {
+.task-actions, .deployment-actions, .query-actions {
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -309,7 +309,7 @@ footer hr {
     font-style: italic;
 }
 
-.tasks-table, .deployments-table {
+.tasks-table, .deployments-table, .queries-table {
     border-left: 1px solid rgb(211, 211, 211);
     border-right: 1px solid rgb(211, 211, 211);
     border-bottom: 1px solid rgb(211, 211, 211);
@@ -324,7 +324,7 @@ footer hr {
 .deployments-table thead th, .deployments-table tbody td {
     border-left: 1px solid rgb(211, 211, 211);
 }
-.deployments-table thead th {
+.deployments-table thead th, .queries-table thead th {
     background-color: white;
 }
 
@@ -529,4 +529,39 @@ div.task-form label {
 }
 div.task-form label.checkbox, div.task-form label.radio {
   font-weight: normal;
+}
+
+.page-explanation {
+  margin-bottom: 15px;
+  padding-left: 5px;
+}
+.page-explanation h2 {
+  margin-top: 0px;
+  color: rgb(102, 102, 102);
+  text-shadow: 0px 1px 0px white;
+  width: 95%;
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 22px;
+  margin-bottom: 0px;
+}
+.page-explanation .message {
+  color: rgb(102, 102, 102);
+  text-shadow: 0px 1px 0px white;
+  width: 95%;
+}
+
+.query-details-form {
+  background-color: white;
+  border: 1px solid rgb(211, 211, 211);
+  padding-top: 10px;
+}
+.query-details-form .query-details {
+  padding: 10px;
+}
+.query-details-form table {
+  width: 95%;
+}
+.query-details-form table th {
+  color: rgb(91, 91, 91);
 }
