@@ -54,6 +54,13 @@ Starting the Simplified ProjectLifeCycle Workflow
 To get this demo working you must be running the DTGov server and the S-RAMP repository (see documentation 
 for the DTGov and S-RAMP projects to learn how to run the S-RAMP repository).
 
+Before starting this demo you need to make sure the project's pom's are in your .m2 repository as one submodule
+depends on another. Please run
+
+....
+mvn install
+....
+
 When the Business Analyst finishes the requirement doc
 _project-requirments/src/main/resources/requirements-doc.txt_. 
 The next step is to build and deploy the 'requirements' archive to S-RAMP using Maven:
@@ -226,6 +233,8 @@ Finally, when the SOA-Developer has finished the implementation, it can be uploa
 	$ cd project-service-impl
 	$ mvn -Pdemo clean deploy
 ....
+
+NOTE: If this step fails you may have forgotten to run 'mvn install', as decribed in the beginning of this reade.
 
 Results of the Service Deploy
 +++++++++++++++++++++++++++++
