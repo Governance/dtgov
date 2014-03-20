@@ -55,6 +55,7 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
 	@Override
     public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
 
+		Governance governance = new Governance();
     	ClientResponse<?> response = null;
     	Map<String,Object> results = new HashMap<String,Object>();
         try {
@@ -65,8 +66,9 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
                 throw new Exception(Messages.i18n.format("HttpClientWorkItemHandler.MissingParams")); //$NON-NLS-1$
             }
             urlStr = urlStr.toLowerCase();
+            urlStr = urlStr.replaceAll("\\{governance.url\\}", governance.getGovernanceUrl());
             Map<String,Object> params = workItem.getParameters();
-
+            
             // replace tokens in the urlStr, the replacement value of the token
             // should be set in the parameters Map
             for (String key : params.keySet()) {
@@ -86,7 +88,7 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
             // call http endpoint
             log.info(Messages.i18n.format("HttpClientWorkItemHandler.CallingTo", method, urlStr)); //$NON-NLS-1$
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            Governance governance = new Governance();
+            
         	String username = governance.getOverlordUser();
         	String password = governance.getOverlordPassword();
         	httpClient.getCredentialsProvider().setCredentials(AuthScope.ANY, 
