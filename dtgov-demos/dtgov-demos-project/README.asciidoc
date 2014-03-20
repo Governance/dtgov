@@ -55,10 +55,11 @@ To get this demo working you must be running the DTGov server and the S-RAMP rep
 for the DTGov and S-RAMP projects to learn how to run the S-RAMP repository).
 
 Before starting this demo you need to make sure the project's poms are in your .m2 repository as one submodule
-depends on another. Please run
+depends on another. From the root of the dtgov-demos run
 
 ....
-mvn install
+        $ cd <dtgov-demos>
+        $ mvn install
 ....
 
 When the Business Analyst finishes the requirement doc
