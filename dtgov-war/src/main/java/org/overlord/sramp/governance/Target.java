@@ -79,7 +79,8 @@ public class Target {
      * @param rhqPassword - password of the rhqUser.
      * @param rhqBaseUrl - baseUrl of the RHQ Server i.e. http://localhost:7080/
      */
-    public Target(String name, String classifier, String rhqUser, String rhqPassword, String rhqBaseUrl) {
+    public Target(String name, String classifier, String rhqUser, String rhqPassword, String rhqBaseUrl,
+    		String rhqPluginName) {
         super();
         this.name = name;
         this.classifier = classifier;
@@ -98,6 +99,7 @@ public class Target {
         	this.rhqBaseUrl = rhqBaseUrl;
         	this.port = 7080;
         }
+        this.rhqPluginName = rhqPluginName;
     }
 
     /**
@@ -133,6 +135,7 @@ public class Target {
     private String user;
     private String password;
     private String rhqBaseUrl;
+    private String rhqPluginName;
     private String host;
     private Integer port;
     private String mavenUrl;
@@ -169,6 +172,14 @@ public class Target {
 
 	public void setRhqBaseUrl(String rhqBaseUrl) {
 		this.rhqBaseUrl = rhqBaseUrl;
+	}
+	
+	public String getRhqPluginName() {
+		return rhqPluginName;
+	}
+
+	public void setRhqPluginName(String rhqPluginName) {
+		this.rhqPluginName = rhqPluginName;
 	}
 
 	public Integer getPort() {

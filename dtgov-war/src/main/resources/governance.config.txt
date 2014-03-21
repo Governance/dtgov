@@ -11,6 +11,6 @@ governance.targets=   qa|http://www.jboss.org/overlord/deployment-status.owl#InQ
 governance.targets=stage|http://www.jboss.org/overlord/deployment-status.owl#InStage|copy|/tmp/stage/jbossas7/standalone/deployments
 governance.targets= prod|http://www.jboss.org/overlord/deployment-status.owl#InProd|copy|/tmp/prod/jbossas7/standalone/deployments
 #
-#governance.targets= rhq_example  |http://www.jboss.org/overlord/deployment-status.owl#InDev|rhq|{rhq.user}::{rhq.password}::{rhq.baseUrl}
+#governance.targets= rhq_example  |http://www.jboss.org/overlord/deployment-status.owl#InDev|rhq|{rhq.user}::{rhq.password}::{rhq.baseUrl}::JBossAS7
 #governance.targets= cli_example  |http://www.jboss.org/overlord/deployment-status.owl#InDev|cli|asuser::aspassword::ashost::asport
 #governance.targets= maven_example|http://www.jboss.org/overlord/deployment-status.owl#InDev|maven|scp://m2.example.com/m2/snapshot-repository::false::true
