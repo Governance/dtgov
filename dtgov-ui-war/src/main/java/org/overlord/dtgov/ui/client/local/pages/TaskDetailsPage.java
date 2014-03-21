@@ -218,7 +218,14 @@ public class TaskDetailsPage extends AbstractPage {
         stopButton.setEnabled(task.isActionAllowed(TaskActionEnum.stop));
 
         completeButton.setEnabled(task.isActionAllowed(TaskActionEnum.complete));
-        failButton.setEnabled(task.isActionAllowed(TaskActionEnum.fail));
+        //only show the failbutton is specified in the data ("FailButtonIsVisible"="true")
+        if (task.getTaskData()!=null && task.getTaskData().containsKey("FailButtonIsVisible") &&
+        		task.getTaskData().get("FailButtonIsVisible").equals("true")) {
+        	failButton.setEnabled(task.isActionAllowed(TaskActionEnum.fail));
+        } else {
+            failButton.setEnabled(false);
+        	failButton.setVisible(false);
+        }
     }
 
     /**
