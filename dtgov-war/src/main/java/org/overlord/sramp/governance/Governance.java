@@ -210,8 +210,18 @@ public class Governance {
 
             		String[] rhqConfig = rhqConfigStr.split("\\:\\:"); //$NON-NLS-1$
 
-            		Target target = new Target(name, classifier, rhqConfig[0], rhqConfig[1], rhqConfig[2]);
-            		targets.put(target.getName(), target);
+            		Target target = null;
+            		if (rhqConfig.length==3) {
+            			target = new Target(name, classifier, rhqConfig[0], rhqConfig[1], rhqConfig[2],"JBossAS7"); //$NON-NLS-1$
+            		} else if (rhqConfig.length==4) {
+            			target = new Target(name, classifier, rhqConfig[0], rhqConfig[1], rhqConfig[2], rhqConfig[3]);
+            		} else {
+            			hasErrors = true;
+            			errors.append(rhqConfigStr).append("\n"); //$NON-NLS-1$
+            		}
+            		if (!hasErrors) {
+            			targets.put(target.getName(), target);
+            		}
             	} else if (Target.TYPE.AS_CLI.toString().equalsIgnoreCase(type)) {
             		String[] cliConfig = info[3].split("\\:\\:"); //$NON-NLS-1$
             		Target target = new Target(name, classifier, cliConfig[0], cliConfig[1], cliConfig[2], Integer.valueOf(cliConfig[3]));

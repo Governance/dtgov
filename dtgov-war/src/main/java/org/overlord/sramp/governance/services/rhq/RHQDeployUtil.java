@@ -26,9 +26,9 @@ public class RHQDeployUtil {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	static final String APPLICATION_JSON = "application/json"; //$NON-NLS-1$
 	static Header acceptJson = new Header("Accept", APPLICATION_JSON); //$NON-NLS-1$
-	String rhqUser, rhqPassword;
+	String rhqUser, rhqPassword, rhqPluginName;
 
-	public RHQDeployUtil(String rhqUser, String rhqPassword, String rhqBaseUrl, Integer rhqPort) {
+	public RHQDeployUtil(String rhqUser, String rhqPassword, String rhqBaseUrl, Integer rhqPort, String rhqPluginname) {
 		super();
 		RestAssured.baseURI = rhqBaseUrl;
         RestAssured.port = rhqPort;
@@ -116,7 +116,7 @@ public class RHQDeployUtil {
 
             // type of the new resource
             resource.setTypeName("Deployment"); //$NON-NLS-1$
-            resource.setPluginName("JBossAS7"); //$NON-NLS-1$
+            resource.setPluginName(rhqPluginName); //$NON-NLS-1$
 
             // set plugin config (path) and deploy config (runtime-name)
             resource.getPluginConfig().put("path","deployment"); //$NON-NLS-1$ //$NON-NLS-2$

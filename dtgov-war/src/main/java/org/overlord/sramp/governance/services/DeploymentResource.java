@@ -425,7 +425,7 @@ public class DeploymentResource {
     	InputStream is = null;
         try {
             RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getUser(), target.getPassword(),
-    				target.getRhqBaseUrl(), target.getPort());
+    				target.getRhqBaseUrl(), target.getPort(), target.getRhqPluginName());
 
             // Deploy the artifact to each server in the preconfigured RHQ Server Group
             Integer rhqGroupId = rhqDeployUtil.getGroupIdForGroup(target.getName());
@@ -444,6 +444,7 @@ public class DeploymentResource {
             props.put("deploy.rhq.baseUrl", target.getRhqBaseUrl()); //$NON-NLS-1$
             props.put("deploy.rhq.port", String.valueOf(target.getPort())); //$NON-NLS-1$
             props.put("deploy.rhq.name", artifact.getName()); //$NON-NLS-1$
+            props.put("deploy.rhq.pluginName", target.getRhqPluginName()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
             
             return target.getRhqBaseUrl();
@@ -612,9 +613,10 @@ public class DeploymentResource {
         Integer port = new Integer(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.port")); //$NON-NLS-1$
         Integer rhqGroupId = new Integer(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.groupId")); //$NON-NLS-1$
         String artifactName = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.name"); //$NON-NLS-1$
+        String rhqPluginName = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.rhq.pluginName"); //$NON-NLS-1$
 
         RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getUser(), target.getPassword(),
-                baseUrl, port);
+                baseUrl, port, rhqPluginName);
 
         // Deploy the artifact to each server in the preconfigured RHQ Server Group
         rhqDeployUtil.wipeArchiveIfNecessary(artifactName, rhqGroupId);
