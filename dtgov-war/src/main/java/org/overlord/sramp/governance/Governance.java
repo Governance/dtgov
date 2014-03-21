@@ -242,8 +242,6 @@ public class Governance {
             }
             if (!hasErrors) {
                 String params = info[2];
-                params = params.replaceAll("\\{governance.url\\}", getGovernanceUrl()); //$NON-NLS-1$
-                params = params.replaceAll("\\{dtgov.ui.url\\}", getDTGovUiUrl()); //$NON-NLS-1$
                 Query query = new Query(info[0],info[1],params);
                 queries.add(query);
             }
