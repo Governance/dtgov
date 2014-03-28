@@ -30,7 +30,7 @@ import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryResultSetBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Client-side service for making RPC calls to the remote workflow queries
  * service.

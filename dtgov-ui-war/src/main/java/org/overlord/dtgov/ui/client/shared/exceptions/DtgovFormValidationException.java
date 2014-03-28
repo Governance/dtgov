@@ -20,7 +20,7 @@ import java.util.List;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DtgovFormValidationException.
  * 
@@ -30,41 +30,41 @@ import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
 @Portable
 public class DtgovFormValidationException extends DtgovUiException{
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 6434832250991091319L;
-	
-	/** The errors. */
-	private List<ValidationError> errors;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 6434832250991091319L;
+    
+    /** The errors. */
+    private List<ValidationError> errors;
 
-	/**
+    /**
      * Gets the errors.
      * 
      * @return the errors
      */
-	public List<ValidationError> getErrors() {
-		return errors;
-	}
+    public List<ValidationError> getErrors() {
+        return errors;
+    }
 
 
-	/**
+    /**
      * Instantiates a new dtgov form validation exception.
      */
-	public DtgovFormValidationException() {
-		super();
-	}
-	
-	/**
+    public DtgovFormValidationException() {
+        super();
+    }
+    
+    /**
      * Instantiates a new dtgov form validation exception.
      * 
      * @param errors
      *            the errors
      */
-	public DtgovFormValidationException(List<ValidationError> errors) {
-		super();
-		this.errors=errors;
-	}
+    public DtgovFormValidationException(List<ValidationError> errors) {
+        super();
+        this.errors=errors;
+    }
 
-	/**
+    /**
      * Instantiates a new dtgov form validation exception.
      * 
      * @param message
@@ -74,12 +74,12 @@ public class DtgovFormValidationException extends DtgovUiException{
      * @param errors
      *            the errors
      */
-	public DtgovFormValidationException(String message, Throwable cause,List<ValidationError> errors) {
-		super(message, cause);
-		this.errors=errors;
-	}
+    public DtgovFormValidationException(String message, Throwable cause,List<ValidationError> errors) {
+        super(message, cause);
+        this.errors=errors;
+    }
 
-	/**
+    /**
      * Instantiates a new dtgov form validation exception.
      * 
      * @param message
@@ -87,12 +87,12 @@ public class DtgovFormValidationException extends DtgovUiException{
      * @param errors
      *            the errors
      */
-	public DtgovFormValidationException(String message,List<ValidationError> errors) {
-		super(message);
-		this.errors=errors;
-	}
+    public DtgovFormValidationException(String message,List<ValidationError> errors) {
+        super(message);
+        this.errors=errors;
+    }
 
-	/**
+    /**
      * Instantiates a new dtgov form validation exception.
      * 
      * @param cause
@@ -100,13 +100,13 @@ public class DtgovFormValidationException extends DtgovUiException{
      * @param errors
      *            the errors
      */
-	public DtgovFormValidationException(Throwable cause,List<ValidationError> errors) {
-		super(cause);
-		this.errors=errors;
-	}
+    public DtgovFormValidationException(Throwable cause,List<ValidationError> errors) {
+        super(cause);
+        this.errors=errors;
+    }
 
 
-	
-	
+    
+    
 
 }

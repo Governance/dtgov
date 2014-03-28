@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.jboss.errai.common.client.api.annotations.Portable;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class WorkflowQueryBean.
  */

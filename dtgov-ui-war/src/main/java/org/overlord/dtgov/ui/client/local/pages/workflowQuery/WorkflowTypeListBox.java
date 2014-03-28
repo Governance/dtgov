@@ -20,7 +20,7 @@ import javax.inject.Inject;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.widgets.common.AbstractFilterListBox;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Select box that store the Workflow Types.
  * 

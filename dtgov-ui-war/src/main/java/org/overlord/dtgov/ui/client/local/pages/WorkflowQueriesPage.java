@@ -55,7 +55,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.Button;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Workflow Queries initial page.
  * 
@@ -414,7 +414,8 @@ public class WorkflowQueriesPage extends AbstractPage {
         });
 
         // Hide column 1 when in mobile mode.
-        //deploymentsTable.setColumnClasses(1, "desktop-only"); //$NON-NLS-1$
+        _workflowQueryTable.setColumnClasses(1, "desktop-only"); //$NON-NLS-1$
+        _workflowQueryTable.setColumnClasses(2, "desktop-only"); //$NON-NLS-1$
 
         this._rangeSpan.setInnerText("?"); //$NON-NLS-1$
         this._totalSpan.setInnerText("?"); //$NON-NLS-1$

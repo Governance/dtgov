@@ -51,7 +51,7 @@ import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.common.ArtifactType;
 import org.overlord.sramp.common.SrampModelUtils;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Concrete implementation of the workflow query service.
  * 

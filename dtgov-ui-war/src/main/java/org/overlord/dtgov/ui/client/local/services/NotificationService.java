@@ -417,10 +417,28 @@ public class NotificationService {
         widget.getElement().getStyle().setVisibility(Visibility.VISIBLE);
     }
 
+    /**
+     * Removes all notifications from the screen, with prejudice.
+     */
     public void removeNotifications() {
         if (activeNotifications.size() > 0) {
-            onNotificationClosed(activeNotifications.get(0));
-            removeNotifications();
+            List<Notification> copy = new ArrayList<Notification>(activeNotifications);
+            for (Notification activeNotification : copy) {
+                onNotificationClosed(activeNotification);
+            }
+        }
+    }
+
+    /**
+     * Removes a single active notification.
+     * @param uuid
+     */
+    public void removeNotification(String uuid) {
+        for (Notification activeNotification : activeNotifications) {
+            if (uuid.equals(activeNotification.getData().getUuid())) {
+                onNotificationClosed(activeNotification);
+                return;
+            }
         }
     }
 

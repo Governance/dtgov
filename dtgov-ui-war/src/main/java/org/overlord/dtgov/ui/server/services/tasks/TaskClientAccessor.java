@@ -50,16 +50,16 @@ public class TaskClientAccessor {
      * @param config
      */
     @Inject
-	public TaskClientAccessor(DtgovUIConfig config) {
+    public TaskClientAccessor(DtgovUIConfig config) {
     }
 
     /**
      * Creates an instance of the task client.
      */
     public ITaskClient createClient() {
-		String clientClassname = config.getConfiguration().getString(DtgovUIConfig.TASK_CLIENT_CLASS);
-		if (clientClassname != null) {
-		    try {
+        String clientClassname = config.getConfiguration().getString(DtgovUIConfig.TASK_CLIENT_CLASS);
+        if (clientClassname != null) {
+            try {
                 Class<?> clientClass = Class.forName(clientClassname);
                 Constructor<?> constructor = null;
                 try {
@@ -73,19 +73,19 @@ public class TaskClientAccessor {
             } catch (Exception e) {
                 throw new RuntimeException(Messages.i18n.format("TaskClientAccessor.ErrorCreatingClient"), e); //$NON-NLS-1$
             }
-		}
-	    throw new RuntimeException(Messages.i18n.format("TaskClientAccessor.FailedTocreateClientFrom", clientClassname)); //$NON-NLS-1$
-	}
+        }
+        throw new RuntimeException(Messages.i18n.format("TaskClientAccessor.FailedTocreateClientFrom", clientClassname)); //$NON-NLS-1$
+    }
 
-	/**
-	 * @return the atom api client
-	 */
-	public ITaskClient getClient() {
+    /**
+     * @return the atom api client
+     */
+    public ITaskClient getClient() {
         if (client.get() == null) {
             client.set(createClient());
         }
         client.get().setLocale(tlocale.get());
         return client.get();
-	}
+    }
 
 }

@@ -25,102 +25,102 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class AbstractAnimation extends Animation {
 
-	private boolean cancelled = false;
-	private boolean running = false;
-	private Widget targetWidget;
+    private boolean cancelled = false;
+    private boolean running = false;
+    private Widget targetWidget;
 
-	/**
-	 * Constructor.
-	 * @param targetWidget
-	 */
-	public AbstractAnimation(Widget targetWidget) {
-		setTargetWidget(targetWidget);
-	}
+    /**
+     * Constructor.
+     * @param targetWidget
+     */
+    public AbstractAnimation(Widget targetWidget) {
+        setTargetWidget(targetWidget);
+    }
 
-	/**
-	 * @return the cancelled
-	 */
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    /**
+     * @return the cancelled
+     */
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
-	/**
-	 * @param cancelled the cancelled to set
-	 */
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
+    /**
+     * @param cancelled the cancelled to set
+     */
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 
-	/**
-	 * @see com.google.gwt.animation.client.Animation#onStart()
-	 */
-	@Override
-	protected final void onStart() {
-		setRunning(true);
-		setCancelled(false);
-		super.onStart();
-	}
+    /**
+     * @see com.google.gwt.animation.client.Animation#onStart()
+     */
+    @Override
+    protected final void onStart() {
+        setRunning(true);
+        setCancelled(false);
+        super.onStart();
+    }
 
-	/**
-	 * @see com.google.gwt.animation.client.Animation#onCancel()
-	 */
-	@Override
-	protected final void onCancel() {
-		setRunning(false);
-		setCancelled(true);
-		doOnCancel();
-	}
+    /**
+     * @see com.google.gwt.animation.client.Animation#onCancel()
+     */
+    @Override
+    protected final void onCancel() {
+        setRunning(false);
+        setCancelled(true);
+        doOnCancel();
+    }
 
-	/**
-	 * Called when the animation is cancelled.
-	 */
-	protected void doOnCancel() {
-	}
+    /**
+     * Called when the animation is cancelled.
+     */
+    protected void doOnCancel() {
+    }
 
-	/**
-	 * @see com.google.gwt.animation.client.Animation#onComplete()
-	 */
-	@Override
-	protected final void onComplete() {
-		super.onComplete();
-		setRunning(false);
-		setCancelled(false);
-		doOnComplete();
-	}
+    /**
+     * @see com.google.gwt.animation.client.Animation#onComplete()
+     */
+    @Override
+    protected final void onComplete() {
+        super.onComplete();
+        setRunning(false);
+        setCancelled(false);
+        doOnComplete();
+    }
 
-	/**
-	 * Called when the animation completes.  This method is *not* called when the
-	 * animation is cancelled.
-	 */
-	protected void doOnComplete() {
-	}
+    /**
+     * Called when the animation completes.  This method is *not* called when the
+     * animation is cancelled.
+     */
+    protected void doOnComplete() {
+    }
 
-	/**
-	 * @return the running
-	 */
-	public boolean isRunning() {
-		return running;
-	}
+    /**
+     * @return the running
+     */
+    public boolean isRunning() {
+        return running;
+    }
 
-	/**
-	 * @param running the running to set
-	 */
-	public void setRunning(boolean running) {
-		this.running = running;
-	}
+    /**
+     * @param running the running to set
+     */
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
 
-	/**
-	 * @return the targetWidget
-	 */
-	public Widget getTargetWidget() {
-		return targetWidget;
-	}
+    /**
+     * @return the targetWidget
+     */
+    public Widget getTargetWidget() {
+        return targetWidget;
+    }
 
-	/**
-	 * @param targetWidget the targetWidget to set
-	 */
-	public void setTargetWidget(Widget targetWidget) {
-		this.targetWidget = targetWidget;
-	}
+    /**
+     * @param targetWidget the targetWidget to set
+     */
+    public void setTargetWidget(Widget targetWidget) {
+        this.targetWidget = targetWidget;
+    }
 
 }

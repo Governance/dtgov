@@ -40,23 +40,23 @@ import org.overlord.dtgov.ui.server.i18n.Messages;
  */
 public class UiConfigurationServlet extends HttpServlet {
 
-	private static final long serialVersionUID = UiConfigurationServlet.class.hashCode();
+    private static final long serialVersionUID = UiConfigurationServlet.class.hashCode();
 
     @Inject
     private DtgovUIConfig config;
 
-	/**
-	 * Constructor.
-	 */
-	public UiConfigurationServlet() {
-	}
+    /**
+     * Constructor.
+     */
+    public UiConfigurationServlet() {
+    }
 
-	/**
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException,
-			IOException {
+    /**
+     * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException,
+            IOException {
         // Tell the browser to never cache this JavaScript
         noCache(response);
 
@@ -71,15 +71,15 @@ public class UiConfigurationServlet extends HttpServlet {
         } catch (Exception e) {
             throw new ServletException(e);
         }
-	}
+    }
 
-	/**
-	 * Called to generate the JSON.
-	 * @param request
-	 * @param config
-	 * @throws Exception
-	 */
-	protected static String generateJSONConfig(HttpServletRequest request, DtgovUIConfig config) throws Exception {
+    /**
+     * Called to generate the JSON.
+     * @param request
+     * @param config
+     * @throws Exception
+     */
+    protected static String generateJSONConfig(HttpServletRequest request, DtgovUIConfig config) throws Exception {
         StringWriter json = new StringWriter();
         JsonFactory f = new JsonFactory();
         JsonGenerator g = f.createJsonGenerator(json);
@@ -182,7 +182,7 @@ public class UiConfigurationServlet extends HttpServlet {
         g.close();
 
         return json.toString();
-	}
+    }
 
     /**
      * @param request

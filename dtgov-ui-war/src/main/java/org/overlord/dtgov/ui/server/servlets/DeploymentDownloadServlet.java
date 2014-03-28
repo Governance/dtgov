@@ -40,38 +40,38 @@ import org.overlord.sramp.common.visitors.ArtifactVisitorHelper;
  */
 public class DeploymentDownloadServlet extends HttpServlet {
 
-	private static final long serialVersionUID = DeploymentDownloadServlet.class.hashCode();
+    private static final long serialVersionUID = DeploymentDownloadServlet.class.hashCode();
 
     @Inject
     private SrampApiClientAccessor clientAccessor;
 
-	/**
-	 * Constructor.
-	 */
-	public DeploymentDownloadServlet() {
-	}
+    /**
+     * Constructor.
+     */
+    public DeploymentDownloadServlet() {
+    }
 
-	/**
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
-			IOException {
+    /**
+     * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+            IOException {
         HttpServletResponse httpResponse = resp;
-		try {
-			SrampAtomApiClient client = clientAccessor.getClient();
-			String uuid = req.getParameter("uuid"); //$NON-NLS-1$
+        try {
+            SrampAtomApiClient client = clientAccessor.getClient();
+            String uuid = req.getParameter("uuid"); //$NON-NLS-1$
             String type = req.getParameter("type"); //$NON-NLS-1$
 
             ArtifactType artyType = ArtifactType.valueOf(type);
             BaseArtifactType artifact = client.getArtifactMetaData(artyType, uuid);
 
             doDownloadContent(httpResponse, client, artyType, artifact);
-		} catch (Exception e) {
-			// TODO throw sensible errors (http responses - 404, 500, etc)
-			throw new ServletException(e);
-		}
-	}
+        } catch (Exception e) {
+            // TODO throw sensible errors (http responses - 404, 500, etc)
+            throw new ServletException(e);
+        }
+    }
 
     /**
      * Downloads the content of the artifact.
@@ -98,11 +98,11 @@ public class DeploymentDownloadServlet extends HttpServlet {
 
             // Set the content-size (if possible)
             if (artifact instanceof DocumentArtifactType) {
-            	DocumentArtifactType d = (DocumentArtifactType) artifact;
-            	long size = d.getContentSize();
-            	if (size != -1) {
-            		httpResponse.setHeader("Content-Size", String.valueOf(size)); //$NON-NLS-1$
-            	}
+                DocumentArtifactType d = (DocumentArtifactType) artifact;
+                long size = d.getContentSize();
+                if (size != -1) {
+                    httpResponse.setHeader("Content-Size", String.valueOf(size)); //$NON-NLS-1$
+                }
             }
 
             // Make sure the browser doesn't cache it

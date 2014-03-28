@@ -126,28 +126,28 @@ public class TaskInboxService implements ITaskInboxService {
      * @param task
      */
     private String getTaskForm(TaskBean task) throws Exception {
-    	String taskFormName = null;
-    	if (task.getTaskData() != null) {
-    		taskFormName = task.getTaskData().get("TaskName") + "-taskform.xml"; //$NON-NLS-1$ //$NON-NLS-2$
-    	}
-    	if (taskFormName != null) {
-	        SrampAtomApiClient client = srampClientAccessor.getClient();
-	        QueryResultSet resultSet = client.buildQuery("/s-ramp/core/XmlDocument[@name = ?]") //$NON-NLS-1$
-	                .parameter(taskFormName)
-	                .count(1).orderBy("createdTimestamp").descending().query(); //$NON-NLS-1$
-	        if (resultSet.size() == 1) {
-	            ArtifactSummary artifact = resultSet.get(0);
-	            InputStream inputStream = null;
-	            try {
-	                inputStream = client.getArtifactContent(artifact);
-	                StringWriter output = new StringWriter();
-	                IOUtils.copy(inputStream, output);
-	                return output.toString();
-	            } finally {
-	                IOUtils.closeQuietly(inputStream);
-	            }
-	        }
-    	}
+        String taskFormName = null;
+        if (task.getTaskData() != null) {
+            taskFormName = task.getTaskData().get("TaskName") + "-taskform.xml"; //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        if (taskFormName != null) {
+            SrampAtomApiClient client = srampClientAccessor.getClient();
+            QueryResultSet resultSet = client.buildQuery("/s-ramp/core/XmlDocument[@name = ?]") //$NON-NLS-1$
+                    .parameter(taskFormName)
+                    .count(1).orderBy("createdTimestamp").descending().query(); //$NON-NLS-1$
+            if (resultSet.size() == 1) {
+                ArtifactSummary artifact = resultSet.get(0);
+                InputStream inputStream = null;
+                try {
+                    inputStream = client.getArtifactContent(artifact);
+                    StringWriter output = new StringWriter();
+                    IOUtils.copy(inputStream, output);
+                    return output.toString();
+                } finally {
+                    IOUtils.closeQuietly(inputStream);
+                }
+            }
+        }
         throw new Exception(Messages.i18n.format("TaskInboxService.MissingTaskForm", taskFormName)); //$NON-NLS-1$
     }
 

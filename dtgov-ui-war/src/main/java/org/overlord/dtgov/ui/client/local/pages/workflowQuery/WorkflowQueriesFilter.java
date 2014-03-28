@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.TextBox;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The workflow queries filtersPanel sidebar. Whenever the user changes any of
  * the settings in the filter sidebar, a ValueChangeEvent will be fired.

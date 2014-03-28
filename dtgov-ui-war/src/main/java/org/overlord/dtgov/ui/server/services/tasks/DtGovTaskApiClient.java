@@ -58,7 +58,7 @@ public class DtGovTaskApiClient implements ITaskClient {
      * Constructor.
      */
     public DtGovTaskApiClient(Configuration config) {
-    	String defaultTaskApiEndpoint = JBossServer.getBaseUrl() + "/dtgov/rest/tasks"; //$NON-NLS-1$
+        String defaultTaskApiEndpoint = JBossServer.getBaseUrl() + "/dtgov/rest/tasks"; //$NON-NLS-1$
         String endpoint = config.getString(DtgovUIConfig.TASK_API_ENDPOINT, defaultTaskApiEndpoint);
         AuthenticationProvider authProvider = null;
         String authProviderClass = config.getString(DtgovUIConfig.TASK_API_AUTH_PROVIDER);

@@ -24,88 +24,88 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class MoveAnimation extends AbstractAnimation {
 
-	private String property;
-	private int from;
-	private int to;
+    private String property;
+    private int from;
+    private int to;
 
-	/**
-	 * Constructor.
-	 * @param targetWidget
-	 */
-	public MoveAnimation(Widget targetWidget, String property, int from, int to) {
-		super(targetWidget);
-		setProperty(property);
-		setFrom(from);
-		setTo(to);
-	}
+    /**
+     * Constructor.
+     * @param targetWidget
+     */
+    public MoveAnimation(Widget targetWidget, String property, int from, int to) {
+        super(targetWidget);
+        setProperty(property);
+        setFrom(from);
+        setTo(to);
+    }
 
-	/**
-	 * @see com.google.gwt.animation.client.Animation#onUpdate(double)
-	 */
-	@Override
-	protected void onUpdate(double progress) {
-		int distance = getTo() - getFrom();
-		int delta = (int) ((distance) * progress);
-		int newPos = getFrom() + delta;
-		getTargetWidget().getElement().getStyle().setProperty(getProperty(), newPos + "px"); //$NON-NLS-1$
-	}
+    /**
+     * @see com.google.gwt.animation.client.Animation#onUpdate(double)
+     */
+    @Override
+    protected void onUpdate(double progress) {
+        int distance = getTo() - getFrom();
+        int delta = (int) ((distance) * progress);
+        int newPos = getFrom() + delta;
+        getTargetWidget().getElement().getStyle().setProperty(getProperty(), newPos + "px"); //$NON-NLS-1$
+    }
 
-	/**
-	 * @see org.overlord.sramp.ui.client.animation.AbstractAnimation#doOnCancel()
-	 */
-	@Override
-	protected void doOnCancel() {
-		getTargetWidget().getElement().getStyle().setProperty(getProperty(), getFrom() + "px"); //$NON-NLS-1$
-	}
+    /**
+     * @see org.overlord.sramp.ui.client.animation.AbstractAnimation#doOnCancel()
+     */
+    @Override
+    protected void doOnCancel() {
+        getTargetWidget().getElement().getStyle().setProperty(getProperty(), getFrom() + "px"); //$NON-NLS-1$
+    }
 
-	/**
-	 * @see org.overlord.sramp.ui.client.animation.AbstractAnimation#doOnComplete()
-	 */
-	@Override
-	protected void doOnComplete() {
-		getTargetWidget().getElement().getStyle().setProperty(getProperty(), getTo() + "px"); //$NON-NLS-1$
-	}
+    /**
+     * @see org.overlord.sramp.ui.client.animation.AbstractAnimation#doOnComplete()
+     */
+    @Override
+    protected void doOnComplete() {
+        getTargetWidget().getElement().getStyle().setProperty(getProperty(), getTo() + "px"); //$NON-NLS-1$
+    }
 
-	/**
-	 * @return the property
-	 */
-	public String getProperty() {
-		return property;
-	}
+    /**
+     * @return the property
+     */
+    public String getProperty() {
+        return property;
+    }
 
-	/**
-	 * @param property the property to set
-	 */
-	public void setProperty(String property) {
-		this.property = property;
-	}
+    /**
+     * @param property the property to set
+     */
+    public void setProperty(String property) {
+        this.property = property;
+    }
 
-	/**
-	 * @return the from
-	 */
-	public int getFrom() {
-		return from;
-	}
+    /**
+     * @return the from
+     */
+    public int getFrom() {
+        return from;
+    }
 
-	/**
-	 * @param from the from to set
-	 */
-	public void setFrom(int from) {
-		this.from = from;
-	}
+    /**
+     * @param from the from to set
+     */
+    public void setFrom(int from) {
+        this.from = from;
+    }
 
-	/**
-	 * @return the to
-	 */
-	public int getTo() {
-		return to;
-	}
+    /**
+     * @return the to
+     */
+    public int getTo() {
+        return to;
+    }
 
-	/**
-	 * @param to the to to set
-	 */
-	public void setTo(int to) {
-		this.to = to;
-	}
+    /**
+     * @param to the to to set
+     */
+    public void setTo(int to) {
+        this.to = to;
+    }
 
 }

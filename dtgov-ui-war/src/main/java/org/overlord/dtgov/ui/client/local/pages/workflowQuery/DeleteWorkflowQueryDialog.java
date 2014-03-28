@@ -35,7 +35,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.InlineLabel;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * 
  * GWT modal form box that allow to delete from s-ramp a workflow query.

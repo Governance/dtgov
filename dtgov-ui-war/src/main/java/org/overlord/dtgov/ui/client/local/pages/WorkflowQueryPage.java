@@ -54,7 +54,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class WorkflowQueryPage.
  */
@@ -96,9 +96,6 @@ public class WorkflowQueryPage extends AbstractPage {
     /** The _i18n. */
     @Inject
     private ClientMessages _i18n;
-
-    /** The _notification. */
-    private NotificationBean _notification;
 
     /** The _notification service. */
     @Inject
@@ -234,15 +231,6 @@ public class WorkflowQueryPage extends AbstractPage {
      */
     public ClientMessages getI18n() {
         return _i18n;
-    }
-
-    /**
-     * Gets the notification.
-     * 
-     * @return the notification
-     */
-    public NotificationBean getNotification() {
-        return _notification;
     }
 
     /**
@@ -431,7 +419,7 @@ public class WorkflowQueryPage extends AbstractPage {
      */
     @EventHandler("btn-save")
     public void onSubmitClick(ClickEvent event) {
-        _notification = _notificationService.startProgressNotification(
+        final NotificationBean notification = _notificationService.startProgressNotification(
                 _i18n.format("workflowQuery-submit.save"), //$NON-NLS-1$
                 _i18n.format("workflowQuery-submit.save-msg"));
 
@@ -442,31 +430,25 @@ public class WorkflowQueryPage extends AbstractPage {
             public void onError(Throwable error) {
                 if (error instanceof DtgovFormValidationException) {
                     List<ValidationError> errors = ((DtgovFormValidationException) error).getErrors();
-                    // validation_errors.setItems(errors);
                     for (ValidationError err : errors) {
                         _validation_errors.add(new InlineLabel(_i18n.format(err.getErrorLabel())));
                     }
 
                     _formValidationErrorDiv.getElement().removeClassName("hide");
-                    /*
-                     * _notificationService.sendErrorNotification(
-                     * _i18n.format("workflowQuery-submit.error-saving"),
-                     * _i18n.format("workflowQuery-submit.error-saving-msg"),
-                     * (DtgovUiException) error); //$NON-NLS-1$
-                     */
+                    _notificationService.removeNotification(notification.getUuid());
+                    Window.scrollTo(0, 0);
+                } else {
+                    _notificationService.completeProgressNotification(notification.getUuid(), 
+                            _i18n.format("workflowQuery-submit.error-saving"),
+                            error);
                 }
-                _notificationService.removeNotifications();
-
-                Window.scrollTo(0, 0);
-
             }
 
             @Override
             public void onReturn(String data) {
-                _notificationService.completeProgressNotification(_notification.getUuid(),
+                _notificationService.completeProgressNotification(notification.getUuid(),
                         _i18n.format("workflowQuery-submit.successfully-saved"),
                         _i18n.format("workflowQuery-submit.successfully-saved-message", query.getName()));
-                _backToQueries.click();
             }
         });
     }
@@ -570,16 +552,6 @@ public class WorkflowQueryPage extends AbstractPage {
      */
     public void setI18n(ClientMessages i18n) {
         this._i18n = i18n;
-    }
-
-    /**
-     * Sets the notification.
-     * 
-     * @param notification
-     *            the new notification
-     */
-    public void setNotification(NotificationBean notification) {
-        this._notification = notification;
     }
 
     /**
