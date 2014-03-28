@@ -531,6 +531,7 @@ div.task-form label.checkbox, div.task-form label.radio {
   font-weight: normal;
 }
 
+
 .page-explanation {
   margin-bottom: 15px;
   padding-left: 5px;
@@ -564,4 +565,143 @@ div.task-form label.checkbox, div.task-form label.radio {
 }
 .query-details-form table th {
   color: rgb(91, 91, 91);
+}
+
+
+.workflow-icon{
+	background-repeat: no-repeat;
+ 	padding-left: 25px;
+   	padding-bottom: 5px;
+}
+
+.workflow-edit-icon {
+  background-image: url(../images/event-edit.png) !important;
+}
+
+.workflow-delete-icon {
+  background-image: url(../images/event-delete.png) !important;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.queries-table .actions{
+	margin:0px;
+	padding: 0px;
+}
+
+.queries-table .actions .firstAction{
+	margin-right: 10px;
+}
+
+.error-validation{
+	margin-top:10px;
+	margin-bottom: 10px;
+}
+
+.error-validation table{
+	margin: 10px;
+	margin-left: 25px;	
+}
+
+
+.gwt-SuggestBoxPopup {
+}
+
+.gwt-SuggestBoxPopup .item {
+  padding: 2px 6px;
+  color: #000;
+  cursor: default;
+  font-size: 110%;
+}
+.gwt-SuggestBoxPopup .item-selected {
+  background: #D5E2FF;
+}
+.gwt-SuggestBoxPopup .suggestPopupContent {
+  background: white;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopCenter {
+  border-top: 1px solid #bbb;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomCenter {
+  border-bottom: 1px solid #bbb;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopCenterInner,
+.gwt-SuggestBoxPopup .suggestPopupBottomCenterInner {
+  height: 1px;
+  line-height: 1px;
+}
+.gwt-SuggestBoxPopup .suggestPopupMiddleLeft {
+  border-left: 1px solid #bbb;
+}
+.gwt-SuggestBoxPopup .suggestPopupMiddleRight {
+  border-right: 1px solid #bbb;
+}
+.gwt-SuggestBoxPopup .suggestPopupMiddleLeftInner,
+.gwt-SuggestBoxPopup .suggestPopupMiddleRightInner {
+  width: 1px;
+  line-height: 1px;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
+  width: 0px;
+  height: 0px;
+  zoom: 1;  
+}
+.gwt-SuggestBoxPopup .suggestPopupTopRightInner {
+  width: 0px;
+  height: 0px;
+  zoom: 1;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
+  width: 0px;
+  height: 0px;
+  zoom: 1;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
+  width: 0px;
+  height: 0px;
+  zoom: 1;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopLeft {
+  background: url(images/circles.png) no-repeat 0px -6px;
+  -background: url(images/circles_ie6.png) no-repeat 0px -6px;
+  width:5px;
+  height:5px;
+}
+.gwt-SuggestBoxPopup .suggestPopupTopRight {
+  background: url(images/circles.png) no-repeat -5px -6px;
+  -background: url(images/circles_ie6.png) no-repeat -5px -6px;
+  width:5px;
+  height:5px;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomLeft {
+  background: url(images/circles.png) no-repeat 0px -11px;
+  -background: url(images/circles_ie6.png) no-repeat 0px -11px;
+  width:5px;
+  height:5px;
+}
+.gwt-SuggestBoxPopup .suggestPopupBottomRight {
+  background: url(images/circles.png) no-repeat -5px -11px;
+  -background: url(images/circles_ie6.png) no-repeat -5px -11px;
+  width:5px;
+  height:5px;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupTopRightInner {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+}
+* html .gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
 }

@@ -36,10 +36,14 @@ import org.jboss.errai.ui.shared.api.annotations.Templated;
 public class DashboardPage extends AbstractPage {
 
     @Inject @DataField("to-taskInbox-page")
-    private TransitionAnchor<TaskInboxPage> toTaskInboxPage;
+    private TransitionAnchor<TaskInboxPage> toTaskInboxPage;																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							
     @Inject @DataField("to-deploymentLifecycle-page")
     private TransitionAnchor<DeploymentsPage> toDeploymentsPage;
 
+    @Inject @DataField("to-adminQueries-page")
+    private TransitionAnchor<WorkflowQueriesPage> toAdminQueriesPage;
+
+    
     /**
      * Constructor.
      */
