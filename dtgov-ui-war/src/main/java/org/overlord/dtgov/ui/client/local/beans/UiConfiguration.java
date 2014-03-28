@@ -43,19 +43,6 @@ public class UiConfiguration {
      */
     public UiConfiguration() {
         read();
-        /*
-         * this.addWorkflowType("overlord.demo.SimpleReleaseProcess",
-         * "overlord.demo.SimpleReleaseProcess");
-         * this.addWorkflowType("overlord.demo.SimplifiedProjectLifeCycle",
-         * "overlord.demo.SimplifiedProjectLifeCycle");
-         * this.addWorkflowPropertyKeyType("DeploymentUrl");
-         * this.addWorkflowPropertyKeyType("NotificationUrl");
-         * this.addWorkflowPropertyKeyType("UpdateMetaDataUrl");
-         */
-        // workflow.addItem(i18n.format("workflowQueries.filter.workflow.select.deploymentProcess.value"),
-        // "DeploymentProcess");
-        // workflow.addItem(i18n.format("workflowQueries.filter.workflow.select.projectProcess.value"),
-        // "ProjectProcess");
     }
 
     /**
@@ -160,57 +147,57 @@ public class UiConfiguration {
      * javascript variable.
      */
     private final native void read() /*-{
-		var dis = this;
-		try {
-			var deploymentConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.deployments;
-			// Read the deployment types
-			var dTypes = deploymentConfig.types;
-			for ( var k in dTypes) {
-				if (dTypes.hasOwnProperty(k)) {
-					var label = k;
-					var type = dTypes[k];
-					dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addDeploymentType(Ljava/lang/String;Ljava/lang/String;)(label, type);
-				}
-			}
+        var dis = this;
+        try {
+            var deploymentConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.deployments;
+            // Read the deployment types
+            var dTypes = deploymentConfig.types;
+            for ( var k in dTypes) {
+                if (dTypes.hasOwnProperty(k)) {
+                    var label = k;
+                    var type = dTypes[k];
+                    dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addDeploymentType(Ljava/lang/String;Ljava/lang/String;)(label, type);
+                }
+            }
 
-			// Read the deployment stages
-			var dStages = deploymentConfig.stages;
-			for ( var k in dStages) {
-				if (dStages.hasOwnProperty(k)) {
-					var label = k;
-					var classifier = dStages[k];
-					dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addDeploymentStage(Ljava/lang/String;Ljava/lang/String;)(label, classifier);
-				}
-			}
+            // Read the deployment stages
+            var dStages = deploymentConfig.stages;
+            for ( var k in dStages) {
+                if (dStages.hasOwnProperty(k)) {
+                    var label = k;
+                    var classifier = dStages[k];
+                    dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addDeploymentStage(Ljava/lang/String;Ljava/lang/String;)(label, classifier);
+                }
+            }
 
-			var workflowConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.workflow;
-			// Read the deployment types
-			var workflowTypes = workflowConfig.types;
-			for ( var k in workflowTypes) {
-				if (workflowTypes.hasOwnProperty(k)) {
-					var label = k;
-					var type = workflowTypes[k];
-					dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addWorkflowType(Ljava/lang/String;Ljava/lang/String;)(label, type);
-				}
-			}
+            var workflowConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.workflow;
+            // Read the deployment types
+            var workflowTypes = workflowConfig.types;
+            for ( var k in workflowTypes) {
+                if (workflowTypes.hasOwnProperty(k)) {
+                    var label = k;
+                    var type = workflowTypes[k];
+                    dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addWorkflowType(Ljava/lang/String;Ljava/lang/String;)(label, type);
+                }
+            }
 
-			// Read the deployment stages
-			var propertyTypes = workflowConfig.propertyTypes;
-			for ( var k in propertyTypes) {
-				if (propertyTypes.hasOwnProperty(k)) {
-					var label = k;
-					var example = propertyTypes[k];
-					dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addWorkflowPropertyKeyType(Ljava/lang/String;Ljava/lang/String;)(label,example);
-				}
-			}
+            // Read the deployment stages
+            var propertyTypes = workflowConfig.propertyTypes;
+            for ( var k in propertyTypes) {
+                if (propertyTypes.hasOwnProperty(k)) {
+                    var label = k;
+                    var example = propertyTypes[k];
+                    dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addWorkflowPropertyKeyType(Ljava/lang/String;Ljava/lang/String;)(label,example);
+                }
+            }
 
-			// Read the s-ramp UI config
-			var srampUiConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.srampui;
-			var urlBase = srampUiConfig.urlBase;
-			dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setSrampUiUrlBase(Ljava/lang/String;)(urlBase);
-		} catch (e) {
-			// TODO do something interesting here?
-		}
+            // Read the s-ramp UI config
+            var srampUiConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.srampui;
+            var urlBase = srampUiConfig.urlBase;
+            dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setSrampUiUrlBase(Ljava/lang/String;)(urlBase);
+        } catch (e) {
+            // TODO do something interesting here?
+        }
     }-*/;
 
     /**

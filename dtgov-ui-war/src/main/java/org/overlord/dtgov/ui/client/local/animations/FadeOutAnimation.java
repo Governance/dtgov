@@ -25,29 +25,29 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class FadeOutAnimation extends AbstractAnimation {
 
-	/**
-	 * Constructor.
-	 * @param targetWidget
-	 */
-	public FadeOutAnimation(Widget targetWidget) {
-		super(targetWidget);
-	}
+    /**
+     * Constructor.
+     * @param targetWidget
+     */
+    public FadeOutAnimation(Widget targetWidget) {
+        super(targetWidget);
+    }
 
-	/**
-	 * @see com.google.gwt.animation.client.Animation#onUpdate(double)
-	 */
-	@Override
-	protected void onUpdate(double progress) {
-		double cssOpacity = 1.0 - progress;
-		getTargetWidget().getElement().getStyle().setOpacity(cssOpacity);
-	}
+    /**
+     * @see com.google.gwt.animation.client.Animation#onUpdate(double)
+     */
+    @Override
+    protected void onUpdate(double progress) {
+        double cssOpacity = 1.0 - progress;
+        getTargetWidget().getElement().getStyle().setOpacity(cssOpacity);
+    }
 
-	/**
-	 * @see org.overlord.sramp.ui.client.animation.AbstractAnimation#doOnCancel()
-	 */
-	@Override
-	protected void doOnCancel() {
-		getTargetWidget().getElement().getStyle().setOpacity(1.0);
-	}
+    /**
+     * @see org.overlord.sramp.ui.client.animation.AbstractAnimation#doOnCancel()
+     */
+    @Override
+    protected void doOnCancel() {
+        getTargetWidget().getElement().getStyle().setOpacity(1.0);
+    }
 
 }

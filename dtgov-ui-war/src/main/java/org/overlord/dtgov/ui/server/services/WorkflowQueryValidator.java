@@ -34,7 +34,7 @@ import org.overlord.sramp.client.SrampClientException;
 import org.overlord.sramp.client.SrampClientQuery;
 import org.overlord.sramp.client.query.QueryResultSet;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Validator class that makes the validation of the workflow query bean that is
  * gonna be saved in s-ramp.

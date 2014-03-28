@@ -49,7 +49,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * A table of workflow queries.
  * 
@@ -95,7 +95,7 @@ public class WorkflowQueryTable extends SortableTemplatedWidgetTable {
     public SortColumn getDefaultSortColumn() {
         SortColumn sortColumn = new SortColumn();
         sortColumn.columnId = Constants.SORT_COLID_WORKFLOW_NAME;
-        sortColumn.ascending = false;
+        sortColumn.ascending = true;
         return sortColumn;
     }
 
@@ -109,7 +109,7 @@ public class WorkflowQueryTable extends SortableTemplatedWidgetTable {
         setColumnSortable(0, Constants.SORT_COLID_WORKFLOW_NAME);
         setColumnSortable(1, Constants.SORT_COLID_WORKFLOW_TYPE);
         setColumnSortable(2, Constants.SORT_COLID_WORKFLOW_QUERY);
-        sortBy(Constants.SORT_COLID_WORKFLOW_NAME, false);
+        sortBy(Constants.SORT_COLID_WORKFLOW_NAME, true);
     }
 
     /**

@@ -27,54 +27,54 @@ import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
  */
 public class ExceptionUtils {
 
-	/**
-	 * Gets the root stack trace as a string.
-	 * @param t
-	 */
-	public static String getRootStackTrace(Throwable t) {
-		StringWriter sw = new StringWriter();
-		PrintWriter writer = new PrintWriter(sw);
-		getRootCause(t).printStackTrace(writer);
-		return sw.getBuffer().toString();
-	}
+    /**
+     * Gets the root stack trace as a string.
+     * @param t
+     */
+    public static String getRootStackTrace(Throwable t) {
+        StringWriter sw = new StringWriter();
+        PrintWriter writer = new PrintWriter(sw);
+        getRootCause(t).printStackTrace(writer);
+        return sw.getBuffer().toString();
+    }
 
-	/**
-	 * Gets the root exception from the given {@link Throwable}.
-	 * @param t
-	 */
-	public static Throwable getRootCause(Throwable t) {
-		Throwable root = t;
-		while (root.getCause() != null && root.getCause() != root)
-			root = root.getCause();
-		return root;
-	}
+    /**
+     * Gets the root exception from the given {@link Throwable}.
+     * @param t
+     */
+    public static Throwable getRootCause(Throwable t) {
+        Throwable root = t;
+        while (root.getCause() != null && root.getCause() != root)
+            root = root.getCause();
+        return root;
+    }
 
-	/**
-	 * Creates a UI exception that can be thrown to the client.
-	 * @param message
-	 * @param root
-	 */
-	public static DtgovUiException createUiException(String message, Throwable root) {
-	    DtgovUiException re = null;
-		if (message != null && root != null) {
-			re = new DtgovUiException(message, root);
-		} else if (root != null) {
-			re = new DtgovUiException(root);
-		} else {
-			re = new DtgovUiException();
-		}
-		// TODO also pass the root stack trace
-//		if (root != null)
-//			re.setRootStackTrace(getRootStackTrace(root));
-		return re;
-	}
+    /**
+     * Creates a UI exception that can be thrown to the client.
+     * @param message
+     * @param root
+     */
+    public static DtgovUiException createUiException(String message, Throwable root) {
+        DtgovUiException re = null;
+        if (message != null && root != null) {
+            re = new DtgovUiException(message, root);
+        } else if (root != null) {
+            re = new DtgovUiException(root);
+        } else {
+            re = new DtgovUiException();
+        }
+        // TODO also pass the root stack trace
+//        if (root != null)
+//            re.setRootStackTrace(getRootStackTrace(root));
+        return re;
+    }
 
-	/**
-	 * Creates a remote exception that can be thrown to the client.
-	 * @param root
-	 */
-	public static DtgovUiException createRemoteException(Throwable root) {
-		return createUiException(null, root);
-	}
+    /**
+     * Creates a remote exception that can be thrown to the client.
+     * @param root
+     */
+    public static DtgovUiException createRemoteException(Throwable root) {
+        return createUiException(null, root);
+    }
 
 }

@@ -23,8 +23,8 @@ package org.overlord.dtgov.ui.client.local.services;
  */
 public final class ApplicationStateKeys {
 
-	public static final String TASK_INBOX_FILTER = "task-inbox.filter-bean"; //$NON-NLS-1$
-	public static final String TASK_INBOX_PAGE = "task-inbox.page"; //$NON-NLS-1$
+    public static final String TASK_INBOX_FILTER = "task-inbox.filter-bean"; //$NON-NLS-1$
+    public static final String TASK_INBOX_PAGE = "task-inbox.page"; //$NON-NLS-1$
     public static final String TASK_INBOX_SORT_COLUMN = "task-inbox.sort-column"; //$NON-NLS-1$
 
     public static final String DEPLOYMENTS_FILTER = "deployments.filter-bean"; //$NON-NLS-1$
@@ -35,5 +35,5 @@ public final class ApplicationStateKeys {
     public static final String WORKFLOW_QUERIES_FILTER = "workflow-queries.filter-bean"; //$NON-NLS-1$
     public static final String WORKFLOW_QUERIES_PAGE = "workflow-queries.page"; //$NON-NLS-1$
     public static final String WORKFLOW_QUERIES_SORT_COLUMN = "workflow-queries.sort-column"; //$NON-NLS-1$
-	
+    
 }

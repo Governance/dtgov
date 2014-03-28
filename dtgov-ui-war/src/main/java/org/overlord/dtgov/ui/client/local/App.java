@@ -41,50 +41,50 @@ import com.google.gwt.user.client.ui.RootPanel;
 @Bundle("messages.json")
 public class App {
 
-	@Inject
-	private RootPanel rootPanel;
-	@Inject
-	private Navigation navigation;
+    @Inject
+    private RootPanel rootPanel;
+    @Inject
+    private Navigation navigation;
     @Inject
     private ClientMessageBus bus;
     @Inject
     LoggedOutDialog loggedOutDialog;
 
-	@PostConstruct
-	public void buildUI() {
-		rootPanel.add(navigation.getContentPanel());
-	      bus.addLifecycleListener(new BusLifecycleAdapter() {
-	            @Override
-	            public void busAssociating(BusLifecycleEvent e) {
-	                GWT.log("Bus is associating"); //$NON-NLS-1$
-	            }
-	            @Override
-	            public void busOnline(BusLifecycleEvent e) {
-	                GWT.log("Bus is now online"); //$NON-NLS-1$
-	                if (loggedOutDialog.isAttached()) {
-	                    Window.Location.reload();
-	                }
-	            }
-	            @Override
-	            public void busDisassociating(BusLifecycleEvent e) {
-	                GWT.log("Bus is disassociating"); //$NON-NLS-1$
-	            }
-	            @Override
-	            public void busOffline(BusLifecycleEvent e) {
-	                GWT.log("Bus is now offline"); //$NON-NLS-1$
-	            }
-	        });
-	        bus.addTransportErrorHandler(new TransportErrorHandler() {
-	            @Override
-	            public void onError(TransportError error) {
-	                GWT.log("Transport error: " + error.getStatusCode()); //$NON-NLS-1$
-	                if (error != null && error.getStatusCode() == 401) {
-	                    if (!loggedOutDialog.isAttached()) {
-	                        loggedOutDialog.show();
-	                    }
-	                }
-	            }
-	        });
-	}
+    @PostConstruct
+    public void buildUI() {
+        rootPanel.add(navigation.getContentPanel());
+          bus.addLifecycleListener(new BusLifecycleAdapter() {
+                @Override
+                public void busAssociating(BusLifecycleEvent e) {
+                    GWT.log("Bus is associating"); //$NON-NLS-1$
+                }
+                @Override
+                public void busOnline(BusLifecycleEvent e) {
+                    GWT.log("Bus is now online"); //$NON-NLS-1$
+                    if (loggedOutDialog.isAttached()) {
+                        Window.Location.reload();
+                    }
+                }
+                @Override
+                public void busDisassociating(BusLifecycleEvent e) {
+                    GWT.log("Bus is disassociating"); //$NON-NLS-1$
+                }
+                @Override
+                public void busOffline(BusLifecycleEvent e) {
+                    GWT.log("Bus is now offline"); //$NON-NLS-1$
+                }
+            });
+            bus.addTransportErrorHandler(new TransportErrorHandler() {
+                @Override
+                public void onError(TransportError error) {
+                    GWT.log("Transport error: " + error.getStatusCode()); //$NON-NLS-1$
+                    if (error != null && error.getStatusCode() == 401) {
+                        if (!loggedOutDialog.isAttached()) {
+                            loggedOutDialog.show();
+                        }
+                    }
+                }
+            });
+    }
 
 }

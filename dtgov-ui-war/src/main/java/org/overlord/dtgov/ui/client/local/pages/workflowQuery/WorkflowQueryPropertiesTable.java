@@ -46,7 +46,7 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBox;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Widget used to create the properties table used in the workflow query page,
  * as part of the form.
