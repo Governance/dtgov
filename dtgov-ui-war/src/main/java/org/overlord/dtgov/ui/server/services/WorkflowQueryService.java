@@ -41,6 +41,7 @@ import org.overlord.dtgov.ui.client.shared.beans.WorkflowQuerySummaryBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovFormValidationException;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService;
+import org.overlord.dtgov.ui.server.i18n.Messages;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -258,7 +259,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
                     BaseArtifactType art = client.createArtifact(toSave);
                     uuid = art.getUuid();
                 } catch (Exception exc) {
-                    throw new DtgovUiException("There is a problem creating the artifact", exc);
+                    throw new DtgovUiException(Messages.i18n.format("WorkflowQueryService.ArtifactCreateFailed", exc)); //$NON-NLS-1$
                 }
             } else {
                 uuid = workflowQuery.getUuid();
