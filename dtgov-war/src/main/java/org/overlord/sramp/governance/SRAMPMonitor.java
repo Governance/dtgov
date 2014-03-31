@@ -68,6 +68,7 @@ public class SRAMPMonitor extends TimerTask {
     		if (firedOnTime(scheduledExecutionTime()) && isAppserverReady()) {
     			
     			long startTime = System.currentTimeMillis();
+    			//insert lock
     			QueryExecutor.execute();
                 long endTime   = System.currentTimeMillis();
                 if (log.isDebugEnabled()) log.debug("Query run took " + (endTime - startTime) + " ms");
