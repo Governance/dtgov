@@ -127,7 +127,7 @@ public class WorkflowQueryProperty implements Serializable {
      */
     @Override
     public String toString() {
-        return "WorkflowQueryProperty [key=" + _key + ", value=" + _value + "]";
+        return "WorkflowQueryProperty [key=" + _key + ", value=" + _value + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
 }

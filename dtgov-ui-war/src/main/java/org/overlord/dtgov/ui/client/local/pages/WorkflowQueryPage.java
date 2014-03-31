@@ -354,13 +354,13 @@ public class WorkflowQueryPage extends AbstractPage {
                 public void onError(Throwable error) {
                     _notificationService.sendErrorNotification(
                             _i18n.format("deployments.error-loading"), error); //$NON-NLS-1$
-                    _workflowQueryLoading.getElement().addClassName("hide");
+                    _workflowQueryLoading.getElement().addClassName("hide"); //$NON-NLS-1$
                 }
 
                 @Override
                 public void onReturn(WorkflowQueryBean data) {
                     updateContent(data);
-                    _workflowQueryLoading.getElement().addClassName("hide");
+                    _workflowQueryLoading.getElement().addClassName("hide"); //$NON-NLS-1$
                 }
             });
         }
@@ -397,7 +397,7 @@ public class WorkflowQueryPage extends AbstractPage {
      */
     @PostConstruct
     protected void onPostConstruct() {
-        _formValidationErrorDiv.getElement().addClassName("hide");
+        _formValidationErrorDiv.getElement().addClassName("hide"); //$NON-NLS-1$
         _pageContent = DOMUtil.findElementById(getElement(), "workflow-query-content-wrapper"); //$NON-NLS-1$
 
         UiConfiguration uiConfig = _configService.getUiConfig();
@@ -421,7 +421,7 @@ public class WorkflowQueryPage extends AbstractPage {
     public void onSubmitClick(ClickEvent event) {
         final NotificationBean notification = _notificationService.startProgressNotification(
                 _i18n.format("workflowQuery-submit.save"), //$NON-NLS-1$
-                _i18n.format("workflowQuery-submit.save-msg"));
+                _i18n.format("workflowQuery-submit.save-msg")); //$NON-NLS-1$
 
         final WorkflowQueryBean query = this.createWorkflowQueryBean();
 
@@ -434,12 +434,12 @@ public class WorkflowQueryPage extends AbstractPage {
                         _validation_errors.add(new InlineLabel(_i18n.format(err.getErrorLabel())));
                     }
 
-                    _formValidationErrorDiv.getElement().removeClassName("hide");
+                    _formValidationErrorDiv.getElement().removeClassName("hide"); //$NON-NLS-1$
                     _notificationService.removeNotification(notification.getUuid());
                     Window.scrollTo(0, 0);
                 } else {
                     _notificationService.completeProgressNotification(notification.getUuid(), 
-                            _i18n.format("workflowQuery-submit.error-saving"),
+                            _i18n.format("workflowQuery-submit.error-saving"), //$NON-NLS-1$
                             error);
                 }
             }
@@ -447,8 +447,8 @@ public class WorkflowQueryPage extends AbstractPage {
             @Override
             public void onReturn(String data) {
                 _notificationService.completeProgressNotification(notification.getUuid(),
-                        _i18n.format("workflowQuery-submit.successfully-saved"),
-                        _i18n.format("workflowQuery-submit.successfully-saved-message", query.getName()));
+                        _i18n.format("workflowQuery-submit.successfully-saved"), //$NON-NLS-1$
+                        _i18n.format("workflowQuery-submit.successfully-saved-message", query.getName())); //$NON-NLS-1$
             }
         });
     }
@@ -461,13 +461,13 @@ public class WorkflowQueryPage extends AbstractPage {
      */
     @EventHandler("btn-reset")
     public void reset(ClickEvent event) {
-        _formValidationErrorDiv.getElement().addClassName("hide");
+        _formValidationErrorDiv.getElement().addClassName("hide"); //$NON-NLS-1$
         if (_uuid != null && !_uuid.isEmpty()) {
             init();
         } else {
-            _descriptionBox.setText("");
-            _queryBox.setText("");
-            _queryNameBox.setText("");
+            _descriptionBox.setText(""); //$NON-NLS-1$
+            _queryBox.setText(""); //$NON-NLS-1$
+            _queryNameBox.setText(""); //$NON-NLS-1$
             _workflow.setSelectedIndex(0);
             _propertiesTable.clear();
         }
@@ -688,7 +688,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
         _propertiesTable.setValue(data.getProperties());
 
-        if (_uuid == null || _uuid.equals("")) {
+        if (_uuid == null || _uuid.equals("")) { //$NON-NLS-1$
             _resetButton.setVisible(false);
         }
 

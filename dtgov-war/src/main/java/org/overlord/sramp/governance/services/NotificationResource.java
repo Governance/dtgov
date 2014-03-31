@@ -108,8 +108,7 @@ public class NotificationResource {
 
             // 1. get the artifact from the repo
             SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-            String query = String.format("/s-ramp[@uuid='%s']", uuid); //$NON-NLS-1$
-            QueryResultSet queryResultSet = client.query(query);
+            QueryResultSet queryResultSet = client.buildQuery("/s-ramp[@uuid = ?]").parameter(uuid).query(); //$NON-NLS-1$
             if (queryResultSet.size() == 0) {
             	results.put(GovernanceConstants.STATUS, new ValueEntity("fail")); //$NON-NLS-1$
             	results.put(GovernanceConstants.MESSAGE, new ValueEntity("Could not obtain artifact from repository.")); //$NON-NLS-1$

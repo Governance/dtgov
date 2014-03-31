@@ -223,8 +223,8 @@ public class WorkflowQuerySummaryBean implements Serializable {
      */
     @Override
     public String toString() {
-        return "WorkflowQuerySummaryBean [uuid=" + _uuid + ", name=" + _name + ", description="
-                + _description + ", query=" + _query + ", workflow=" + _workflow + "]";
+        return "WorkflowQuerySummaryBean [uuid=" + _uuid + ", name=" + _name + ", description=" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                + _description + ", query=" + _query + ", workflow=" + _workflow + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
 }

@@ -77,10 +77,10 @@ public class DtgovUIConfig {
     // be specified that begin with this prefix and have a value of the format  {label}:{type}
     public static final String DEPLOYMENT_TYPE_PREFIX = "dtgov-ui.deployment-lifecycle.types"; //$NON-NLS-1$
 
-    //WORKFLOW PROPERTIES
+    // Workflow properties
     private static final String WORKFLOW_PREFIX = "dtgov-ui.deployment-lifecycle.workflow"; //$NON-NLS-1$
-    public static final String WORKFLOW_TYPE_PREFIX = WORKFLOW_PREFIX+".type";
-    public static final String WORKFLOW_PROPERTY_PREFIX = WORKFLOW_PREFIX+".property";
+    public static final String WORKFLOW_TYPE_PREFIX = WORKFLOW_PREFIX + ".type"; //$NON-NLS-1$
+    public static final String WORKFLOW_PROPERTY_PREFIX = WORKFLOW_PREFIX + ".property"; //$NON-NLS-1$
     
     // S-RAMP UI integration properties
     public static final String SRAMP_UI_URL_BASE = "dtgov-ui.s-ramp-browser.url-base"; //$NON-NLS-1$

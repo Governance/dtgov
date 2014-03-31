@@ -49,16 +49,16 @@ public class EmbeddedJbpmManager implements BpmManager {
  		});
     	
     	try {
-    		deploymentId = URLEncoder.encode(deploymentId,"UTF-8");
-    		processId = URLEncoder.encode(processId,"UTF-8");
+    		deploymentId = URLEncoder.encode(deploymentId,"UTF-8"); //$NON-NLS-1$
+    		processId = URLEncoder.encode(processId,"UTF-8"); //$NON-NLS-1$
     		String urlStr = governance.getGovernanceUrl() + String.format("/rest/process/start/%s/%s",deploymentId, processId); //$NON-NLS-1$
     		URL url = new URL(urlStr); 
 	        connection = (HttpURLConnection) url.openConnection();
 	        StringBuffer params = new StringBuffer();
 	        for (String key : context.keySet()) {
 	        	String value = String.valueOf(context.get(key));
-	        	value = URLEncoder.encode(value,"UTF-8");
-	        	params.append(String.format("&%s=%s",key,value));
+	        	value = URLEncoder.encode(value,"UTF-8"); //$NON-NLS-1$
+	        	params.append(String.format("&%s=%s",key,value)); //$NON-NLS-1$
 	        }
 	        //remove leading '&'
 	        if (params.length() > 0) params.delete(0, 1);
@@ -79,8 +79,8 @@ public class EmbeddedJbpmManager implements BpmManager {
 	             System.out.println("reply=" + reply); //$NON-NLS-1$
 	             return Long.parseLong(reply);
 	        } else {
-	        	logger.error("HTTP RESPONSE CODE=" + responseCode);
-	        	throw new WorkflowException("Unable to connect to " + urlStr);
+	        	logger.error("HTTP RESPONSE CODE=" + responseCode); //$NON-NLS-1$
+	        	throw new WorkflowException("Unable to connect to " + urlStr); //$NON-NLS-1$
 	        }
     	} catch (Exception e) {
     		throw new WorkflowException(e);
@@ -113,8 +113,8 @@ public class EmbeddedJbpmManager implements BpmManager {
 	        connection.connect();
 	        int responseCode = connection.getResponseCode();
 	        if (responseCode!=200) {
-	        	logger.error("HTTP RESPONSE CODE=" + responseCode);
-	        	throw new WorkflowException("Unable to connect to " + urlStr);
+	        	logger.error("HTTP RESPONSE CODE=" + responseCode); //$NON-NLS-1$
+	        	throw new WorkflowException("Unable to connect to " + urlStr); //$NON-NLS-1$
 	        }
 
 	    } catch (Exception e) {

@@ -28,7 +28,7 @@ public class ProcessResourceTest extends BaseResourceTest {
 	        URL url = new URL(generateURL("/process/start/deploymentId/processId")); //$NON-NLS-1$
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	        
-	        String parameters = "kurt=" + URLEncoder.encode("stam","UTF-8");
+	        String parameters = "kurt=" + URLEncoder.encode("stam","UTF-8"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	        connection.setDoOutput(true);
 	        connection.setRequestMethod("POST"); //$NON-NLS-1$
 	        connection.setConnectTimeout(1000000);

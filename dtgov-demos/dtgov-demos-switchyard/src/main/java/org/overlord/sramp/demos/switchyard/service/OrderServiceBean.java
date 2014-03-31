@@ -36,12 +36,12 @@ public class OrderServiceBean implements OrderService {
             Item orderItem = _inventory.lookupItem(order.getItemId());
             // Check quantity on hand and generate the ack
             if (orderItem.getQuantity() >= order.getQuantity()) {
-                orderAck.setAccepted(true).setStatus("Order Accepted");
+                orderAck.setAccepted(true).setStatus("Order Accepted"); //$NON-NLS-1$
             } else {
-                orderAck.setAccepted(false).setStatus("Insufficient Quantity");
+                orderAck.setAccepted(false).setStatus("Insufficient Quantity"); //$NON-NLS-1$
             }
         } catch (ItemNotFoundException infEx) {
-            orderAck.setAccepted(false).setStatus("Item Not Available");
+            orderAck.setAccepted(false).setStatus("Item Not Available"); //$NON-NLS-1$
         }
         return orderAck;
     }

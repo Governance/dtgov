@@ -26,7 +26,7 @@ public class InventoryServiceBean implements InventoryService {
     private final Map<String, Item> _inventory = new HashMap<String, Item>();
 
     public InventoryServiceBean() {
-        Item butter = new Item().setItemId("BUTTER").setName("Not Parkay").setQuantity(1000);
+        Item butter = new Item().setItemId("BUTTER").setName("Not Parkay").setQuantity(1000); //$NON-NLS-1$ //$NON-NLS-2$
         _inventory.put(butter.getItemId(), butter);
     }
 
@@ -34,7 +34,7 @@ public class InventoryServiceBean implements InventoryService {
     public Item lookupItem(String itemId) throws ItemNotFoundException {
         Item item = _inventory.get(itemId);
         if (item == null) {
-            throw new ItemNotFoundException("We don't got any " + itemId);
+            throw new ItemNotFoundException("We don't got any " + itemId); //$NON-NLS-1$
         }
 
         return item;

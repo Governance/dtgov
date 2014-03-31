@@ -13,22 +13,22 @@ import org.junit.Test;
 public class HelloWorldTest {
 
 	private static final QName SERVICE_NAME 
-    = new QName("http://project.demos.dtgov.overlord.org/", "HelloWorld");
+    = new QName("http://project.demos.dtgov.overlord.org/", "HelloWorld"); //$NON-NLS-1$ //$NON-NLS-2$
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		System.out.println("Starting Server");
+		System.out.println("Starting Server"); //$NON-NLS-1$
 		HelloWorldImpl implementor = new HelloWorldImpl();
-		String address = "http://localhost:9000/helloWorld";
+		String address = "http://localhost:9000/helloWorld"; //$NON-NLS-1$
 		Endpoint.publish(address, implementor);
 	}
 
 	@Test
 	public void test() throws MalformedURLException {
-		Service service = Service.create(new URL("http://localhost:9000/helloWorld"), SERVICE_NAME);
+		Service service = Service.create(new URL("http://localhost:9000/helloWorld"), SERVICE_NAME); //$NON-NLS-1$
         HelloWorld hw = service.getPort(HelloWorld.class);
-        System.out.println(hw.sayHi("World"));
-        org.junit.Assert.assertEquals("Hello World", hw.sayHi("World"));
+        System.out.println(hw.sayHi("World")); //$NON-NLS-1$
+        org.junit.Assert.assertEquals("Hello World", hw.sayHi("World")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 }

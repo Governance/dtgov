@@ -11,6 +11,7 @@ package org.overlord.dtgov.taskapi.types;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -248,7 +249,7 @@ public class FindTasksRequest
      */
     public String getOrderBy() {
         if (orderBy == null) {
-            return "priority";
+            return "priority"; //$NON-NLS-1$
         } else {
             return orderBy;
         }

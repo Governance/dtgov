@@ -116,7 +116,7 @@ public class RHQDeployUtil {
 
             // type of the new resource
             resource.setTypeName("Deployment"); //$NON-NLS-1$
-            resource.setPluginName(rhqPluginName); //$NON-NLS-1$
+            resource.setPluginName(rhqPluginName);
 
             // set plugin config (path) and deploy config (runtime-name)
             resource.getPluginConfig().put("path","deployment"); //$NON-NLS-1$ //$NON-NLS-2$

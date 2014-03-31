@@ -39,18 +39,23 @@ import org.slf4j.LoggerFactory;
 public class KieSrampUtil {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	private static String SRAMP_KIE_JAR_QUERY_FORMAT="/s-ramp/ext/KieJarArchive[" //$NON-NLS-1$
-			+ "@maven.groupId='%s' and " //$NON-NLS-1$
-			+ "@maven.artifactId = '%s' and " //$NON-NLS-1$
-			+ "@maven.version = '%s']"; //$NON-NLS-1$
+    private static String SRAMP_KIE_JAR_QUERY = "/s-ramp/ext/KieJarArchive[" //$NON-NLS-1$
+            + "@maven.groupId=? and @maven.artifactId = ? and @maven.version = ?]"; //$NON-NLS-1$
 
+    /**
+     * Returns true if the workflow JAR is deployed to the s-ramp repository.
+     * @param groupId
+     * @param artifactId
+     * @param version
+     * @return true or false
+     */
 	public boolean isSRAMPPackageDeployed(String groupId, String artifactId, String version) {
 		try {
-			SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient(); 
-			String srampQuery = String.format(SRAMP_KIE_JAR_QUERY_FORMAT, groupId, artifactId, version);
-			QueryResultSet results = client.query(srampQuery);
-			if (results.size() > 0) return Boolean.TRUE;
-			
+			SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
+			QueryResultSet results = client.buildQuery(SRAMP_KIE_JAR_QUERY).parameter(groupId).parameter(artifactId).parameter(version).count(1).query();
+			if (results.size() > 0) {
+			    return Boolean.TRUE;
+			}
 		} catch (SrampClientException e) {
 			logger.error(e.getMessage(),e);
 		} catch (SrampAtomException e) {
@@ -68,18 +73,15 @@ public class KieSrampUtil {
 	 * @throws SrampAtomException
 	 */
 	public KieContainer getKieContainer(ReleaseId releaseId) throws SrampClientException, SrampAtomException {
-		
 		KieServices ks = KieServices.Factory.get();
     	KieRepository repo = ks.getRepository();
     	SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient(); 
 		
 		Governance governance = new Governance();
-		String srampQuery = String.format(SRAMP_KIE_JAR_QUERY_FORMAT,
-				governance.getGovernanceWorkflowGroup(),
-				governance.getGovernanceWorkflowName(),
-				governance.getGovernanceWorkflowVersion());
-		
-		QueryResultSet results = client.query(srampQuery);
+        QueryResultSet results = client.buildQuery(SRAMP_KIE_JAR_QUERY)
+                .parameter(governance.getGovernanceWorkflowGroup())
+                .parameter(governance.getGovernanceWorkflowName())
+                .parameter(governance.getGovernanceWorkflowVersion()).count(1).query();
 		if (results.size() > 0) {
 			ArtifactSummary artifactSummery = results.get(0);
 			InputStream is = client.getArtifactContent(artifactSummery);
