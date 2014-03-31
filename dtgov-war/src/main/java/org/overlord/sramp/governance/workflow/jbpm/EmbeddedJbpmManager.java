@@ -112,7 +112,7 @@ public class EmbeddedJbpmManager implements BpmManager {
 	        connection.setReadTimeout(60000);
 	        connection.connect();
 	        int responseCode = connection.getResponseCode();
-	        if (responseCode < 200 || responseCode >=300) {
+	        if (responseCode!=200) {
 	        	logger.error("HTTP RESPONSE CODE=" + responseCode); //$NON-NLS-1$
 	        	throw new WorkflowException("Unable to connect to " + urlStr); //$NON-NLS-1$
 	        }
