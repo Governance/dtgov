@@ -50,25 +50,25 @@ public class WorkflowQueryValidator {
     private SrampApiClientAccessor _srampClientAccessor;
 
     /** The Constant NOT_UNIQUE_LABEL. */
-    private final static String NOT_UNIQUE_LABEL = "workflowQuery.validation.error.not.unique.name";
+    private final static String NOT_UNIQUE_LABEL = "workflowQuery.validation.error.not.unique.name"; //$NON-NLS-1$
 
     /** The Constant INCORRECT_QUERY_LABEL. */
-    private final static String INCORRECT_QUERY_LABEL = "workflowQuery.validation.error.not.correct.query";
+    private final static String INCORRECT_QUERY_LABEL = "workflowQuery.validation.error.not.correct.query"; //$NON-NLS-1$
 
     /** The Constant NAME_REQUIRED_LABEL. */
-    private final static String NAME_REQUIRED_LABEL = "workflowQuery.validation.error.name.required";
+    private final static String NAME_REQUIRED_LABEL = "workflowQuery.validation.error.name.required"; //$NON-NLS-1$
 
     /** The Constant QUERY_REQUIRED_LABEL. */
-    private final static String QUERY_REQUIRED_LABEL = "workflowQuery.validation.error.query.required";
+    private final static String QUERY_REQUIRED_LABEL = "workflowQuery.validation.error.query.required"; //$NON-NLS-1$
 
     /** The Constant WORKFLOW_REQUIRED_LABEL. */
-    private final static String WORKFLOW_REQUIRED_LABEL = "workflowQuery.validation.error.workflow.required";
+    private final static String WORKFLOW_REQUIRED_LABEL = "workflowQuery.validation.error.workflow.required"; //$NON-NLS-1$
 
     /** The Constant PROPERTIES_EMPTY_LABEL. */
-    private final static String PROPERTIES_EMPTY_LABEL = "workflowQuery.validation.error.properties.empty";
+    private final static String PROPERTIES_EMPTY_LABEL = "workflowQuery.validation.error.properties.empty"; //$NON-NLS-1$
 
     /** The Constant PROPERTIES_REPEATED_LABEL. */
-    private final static String PROPERTIES_REPEATED_LABEL = "workflowQuery.validation.error.repeated.properties";
+    private final static String PROPERTIES_REPEATED_LABEL = "workflowQuery.validation.error.repeated.properties"; //$NON-NLS-1$
 
     /**
      * Instantiates a new workflow query validator.

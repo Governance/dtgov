@@ -130,19 +130,19 @@ public class WorkflowQueryTable extends SortableTemplatedWidgetTable {
         InlineLabel workflow = new InlineLabel(workFlowQuerySummaryBean.getWorkflow());
 
         FlowPanel actions = new FlowPanel();
-        Anchor editQuery = _editQueryLinkFactory.get("uuid", workFlowQuerySummaryBean.getUuid());
+        Anchor editQuery = _editQueryLinkFactory.get("uuid", workFlowQuerySummaryBean.getUuid()); //$NON-NLS-1$
 
         InlineLabel editAction = new InlineLabel();
-        editAction.setStyleName("workflow-icon", true);
-        editAction.setStyleName("workflow-edit-icon", true);
-        editAction.setStyleName("firstAction", true);
+        editAction.setStyleName("workflow-icon", true); //$NON-NLS-1$
+        editAction.setStyleName("workflow-edit-icon", true); //$NON-NLS-1$
+        editAction.setStyleName("firstAction", true); //$NON-NLS-1$
 
         editQuery.getElement().appendChild(editAction.getElement());
         actions.add(editQuery);
 
         InlineLabel deleteAction = new InlineLabel();
-        deleteAction.setStyleName("workflow-icon", true);
-        deleteAction.setStyleName("workflow-delete-icon", true);
+        deleteAction.setStyleName("workflow-icon", true); //$NON-NLS-1$
+        deleteAction.setStyleName("workflow-delete-icon", true); //$NON-NLS-1$
         actions.add(deleteAction);
 
         deleteAction.addClickHandler(new ClickHandler() {
@@ -158,7 +158,7 @@ public class WorkflowQueryTable extends SortableTemplatedWidgetTable {
         add(rowIdx, 1, workflow);
         add(rowIdx, 2, query);
         Element row = add(rowIdx, 3, actions);
-        setStyleName(row, "actions", true);
+        setStyleName(row, "actions", true); //$NON-NLS-1$
         // add(rowIdx, 2, initiatedOn);
     }
 

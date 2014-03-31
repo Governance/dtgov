@@ -219,8 +219,8 @@ public class TaskDetailsPage extends AbstractPage {
 
         completeButton.setEnabled(task.isActionAllowed(TaskActionEnum.complete));
         //only show the failbutton is specified in the data ("FailButtonIsVisible"="true")
-        if (task.getTaskData()!=null && task.getTaskData().containsKey("FailButtonIsVisible") &&
-                task.getTaskData().get("FailButtonIsVisible").equals("true")) {
+        if (task.getTaskData()!=null && task.getTaskData().containsKey("FailButtonIsVisible") && //$NON-NLS-1$
+                task.getTaskData().get("FailButtonIsVisible").equals("true")) { //$NON-NLS-1$ //$NON-NLS-2$
             failButton.setEnabled(task.isActionAllowed(TaskActionEnum.fail));
         } else {
             failButton.setEnabled(false);

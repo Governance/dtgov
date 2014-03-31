@@ -38,19 +38,19 @@ import javax.xml.bind.annotation.XmlType;
 public enum StatusType {
 
     @XmlEnumValue("Created")
-    CREATED("Created"),
+    CREATED("Created"), //$NON-NLS-1$
     @XmlEnumValue("Ready")
-    READY("Ready"),
+    READY("Ready"), //$NON-NLS-1$
     @XmlEnumValue("Reserved")
-    RESERVED("Reserved"),
+    RESERVED("Reserved"), //$NON-NLS-1$
     @XmlEnumValue("InProgress")
-    IN_PROGRESS("InProgress"),
+    IN_PROGRESS("InProgress"), //$NON-NLS-1$
     @XmlEnumValue("Completed")
-    COMPLETED("Completed"),
+    COMPLETED("Completed"), //$NON-NLS-1$
     @XmlEnumValue("Failed")
-    FAILED("Failed"),
+    FAILED("Failed"), //$NON-NLS-1$
     @XmlEnumValue("Error")
-    ERROR("Error");
+    ERROR("Error"); //$NON-NLS-1$
     private final String value;
 
     StatusType(String v) {

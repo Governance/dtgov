@@ -97,10 +97,10 @@ public class DeploymentResourceTest extends BaseResourceTest {
     @Test @Ignore
 	public void testDeployRHQ() throws IOException, ConfigException {
 		Target target = new Target("stage", "http://www.jboss.org/overlord/deployment-status.owl#InDev", //$NON-NLS-1$ //$NON-NLS-2$
-		        "rhqadmin", "rhqadmin", "http://localhost:7080", "JBossAS7"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		        "rhqadmin", "rhqadmin", "http://localhost:7080", "JBossAS7"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getUser(), target.getPassword(),
-				target.getRhqBaseUrl(), target.getPort(), "JBossAS7");
+				target.getRhqBaseUrl(), target.getPort(), "JBossAS7"); //$NON-NLS-1$
 		String groupName = target.getName();
 
 		String artifactName = "test-simple2.war"; //$NON-NLS-1$

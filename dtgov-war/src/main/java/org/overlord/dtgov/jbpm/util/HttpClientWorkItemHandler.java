@@ -66,7 +66,7 @@ public class HttpClientWorkItemHandler implements WorkItemHandler {
                 throw new Exception(Messages.i18n.format("HttpClientWorkItemHandler.MissingParams")); //$NON-NLS-1$
             }
             urlStr = urlStr.toLowerCase();
-            urlStr = urlStr.replaceAll("\\{governance.url\\}", governance.getGovernanceUrl());
+            urlStr = urlStr.replaceAll("\\{governance.url\\}", governance.getGovernanceUrl()); //$NON-NLS-1$
             Map<String,Object> params = workItem.getParameters();
             
             // replace tokens in the urlStr, the replacement value of the token

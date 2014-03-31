@@ -122,8 +122,8 @@ public class WorkflowQueryService implements IWorkflowQueryService {
                 query.parameter((Calendar) param);
             }
         }
-        query.propertyName("workflow");
-        query.propertyName("query");
+        query.propertyName("workflow"); //$NON-NLS-1$
+        query.propertyName("query"); //$NON-NLS-1$
         return query;
     }
 
@@ -146,7 +146,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
     public void delete(String uuid) throws DtgovUiException {
         try {
             _srampClientAccessor.getClient().deleteArtifact(uuid,
-                    ArtifactType.ExtendedArtifactType("DtgovWorkflowQuery", false));
+                    ArtifactType.ExtendedArtifactType("DtgovWorkflowQuery", false)); //$NON-NLS-1$
         } catch (SrampClientException e) {
             throw new DtgovUiException(e.getMessage());
         } catch (SrampAtomException e) {
@@ -181,12 +181,12 @@ public class WorkflowQueryService implements IWorkflowQueryService {
             bean.setUuid(artifact.getUuid());
             bean.setDescription(artifact.getDescription());
             for (Property prop : artifact.getProperty()) {
-                if (prop.getPropertyName().equals("workflow")) {
+                if (prop.getPropertyName().equals("workflow")) { //$NON-NLS-1$
                     bean.setWorkflow(prop.getPropertyValue());
-                } else if (prop.getPropertyName().equals("query")) {
+                } else if (prop.getPropertyName().equals("query")) { //$NON-NLS-1$
                     bean.setQuery(prop.getPropertyValue());
-                } else if (prop.getPropertyName().startsWith("prop.")) {
-                    String propertyName = prop.getPropertyName().substring("prop.".length());
+                } else if (prop.getPropertyName().startsWith("prop.")) { //$NON-NLS-1$
+                    String propertyName = prop.getPropertyName().substring("prop.".length()); //$NON-NLS-1$
                     bean.addWorkflowQueryProperty(propertyName, prop.getPropertyValue());
                 }
             }
@@ -229,15 +229,15 @@ public class WorkflowQueryService implements IWorkflowQueryService {
     public String save(WorkflowQueryBean workflowQuery) throws DtgovUiException {
         List<ValidationError> errors = _queryValidator.validate(workflowQuery, PAGE_SIZE);
         if (errors.size() == 0) {
-            String uuid = "";
+            String uuid = ""; //$NON-NLS-1$
             ExtendedArtifactType toSave = new ExtendedArtifactType();
             toSave.setArtifactType(BaseArtifactEnum.EXTENDED_ARTIFACT_TYPE);
-            toSave.setExtendedType("DtgovWorkflowQuery");
+            toSave.setExtendedType("DtgovWorkflowQuery"); //$NON-NLS-1$
             toSave.setName(workflowQuery.getName());
             toSave.setDescription(workflowQuery.getDescription());
 
-            SrampModelUtils.setCustomProperty(toSave, "query", workflowQuery.getQuery());
-            SrampModelUtils.setCustomProperty(toSave, "workflow", workflowQuery.getWorkflow());
+            SrampModelUtils.setCustomProperty(toSave, "query", workflowQuery.getQuery()); //$NON-NLS-1$
+            SrampModelUtils.setCustomProperty(toSave, "workflow", workflowQuery.getWorkflow()); //$NON-NLS-1$
 
             GregorianCalendar gcal = new GregorianCalendar();
             gcal.setTime(new Date());
@@ -245,23 +245,21 @@ public class WorkflowQueryService implements IWorkflowQueryService {
                 XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal);
                 toSave.setCreatedTimestamp(xmlCal);
             } catch (DatatypeConfigurationException ee) {
-                System.err.println("There is an error");
+                throw new RuntimeException(ee);
             }
 
             for (WorkflowQueryProperty property : workflowQuery.getProperties()) {
-                SrampModelUtils.setCustomProperty(toSave, "prop." + property.getKey(), property.getValue());
+                SrampModelUtils.setCustomProperty(toSave, "prop." + property.getKey(), property.getValue()); //$NON-NLS-1$
             }
             SrampAtomApiClient client = _srampClientAccessor.getClient();
 
             if (StringUtils.isBlank(workflowQuery.getUuid())) {
-
                 try {
                     BaseArtifactType art = client.createArtifact(toSave);
                     uuid = art.getUuid();
                 } catch (Exception exc) {
                     throw new DtgovUiException("There is a problem creating the artifact", exc);
                 }
-
             } else {
                 uuid = workflowQuery.getUuid();
                 toSave.setUuid(workflowQuery.getUuid());
@@ -311,8 +309,8 @@ public class WorkflowQueryService implements IWorkflowQueryService {
                 bean.setName(artifactSummary.getName());
                 bean.setUuid(artifactSummary.getUuid());
                 bean.setDescription(artifactSummary.getDescription());
-                bean.setQuery(artifactSummary.getCustomPropertyValue("query"));
-                bean.setWorkflow(artifactSummary.getCustomPropertyValue("workflow"));
+                bean.setQuery(artifactSummary.getCustomPropertyValue("query")); //$NON-NLS-1$
+                bean.setWorkflow(artifactSummary.getCustomPropertyValue("workflow")); //$NON-NLS-1$
                 queries.add(bean);
             }
             boolean hasMorePages = false;

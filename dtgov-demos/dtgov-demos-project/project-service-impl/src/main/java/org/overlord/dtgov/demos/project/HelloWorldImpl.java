@@ -7,8 +7,8 @@ import javax.jws.WebService;
 public class HelloWorldImpl implements HelloWorld {
 	
 	public String sayHi(String text) {
-        System.out.println("sayHi called");
-        return "Hello " + text;
+        System.out.println("sayHi called"); //$NON-NLS-1$
+        return "Hello " + text; //$NON-NLS-1$
     }
 	
 }

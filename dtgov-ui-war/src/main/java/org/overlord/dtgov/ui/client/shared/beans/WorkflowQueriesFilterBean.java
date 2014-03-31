@@ -147,7 +147,7 @@ public class WorkflowQueriesFilterBean implements Serializable {
      */
     @Override
     public String toString() {
-        return "WorkflowQueriesFilterBean [workflow=" + _workflow + ", name=" + _name + "]";
+        return "WorkflowQueriesFilterBean [workflow=" + _workflow + ", name=" + _name + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
 }

@@ -15,6 +15,8 @@
  */
 package org.overlord.sramp.demos.switchyard.service;
 
+import java.io.StringReader;
+
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamSource;
@@ -24,14 +26,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import java.io.StringReader;
-
 public class Transformers {
 
     // Element names in XML document
-    private static final String ORDER_ID = "orderId";
-    private static final String ITEM_ID = "itemId";
-    private static final String QUANTITY = "quantity";
+    private static final String ORDER_ID = "orderId"; //$NON-NLS-1$
+    private static final String ITEM_ID = "itemId"; //$NON-NLS-1$
+    private static final String QUANTITY = "quantity"; //$NON-NLS-1$
 
     /**
      * Transform from a DOM element to an Order instance.
@@ -59,11 +59,11 @@ public class Transformers {
     @Transformer(to = "{urn:overlord-demos:switchyard:1.0}submitOrderResponse")
     public Element transform(OrderAck orderAck) {
         StringBuffer ackXml = new StringBuffer()
-                .append("<orders:submitOrderResponse xmlns:orders=\"urn:overlord-demos:switchyard:1.0\">")
-                .append("<orderAck>").append("<orderId>" + orderAck.getOrderId() + "</orderId>")
-                .append("<accepted>" + orderAck.isAccepted() + "</accepted>")
-                .append("<status>" + orderAck.getStatus() + "</status>").append("</orderAck>")
-                .append("</orders:submitOrderResponse>");
+                .append("<orders:submitOrderResponse xmlns:orders=\"urn:overlord-demos:switchyard:1.0\">") //$NON-NLS-1$
+                .append("<orderAck>").append("<orderId>" + orderAck.getOrderId() + "</orderId>") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                .append("<accepted>" + orderAck.isAccepted() + "</accepted>") //$NON-NLS-1$ //$NON-NLS-2$
+                .append("<status>" + orderAck.getStatus() + "</status>").append("</orderAck>") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                .append("</orders:submitOrderResponse>"); //$NON-NLS-1$
 
         return toElement(ackXml.toString());
     }

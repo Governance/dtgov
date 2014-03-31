@@ -60,9 +60,11 @@ public class ProcessService {
 			String name = params.nextElement();
 			context.put(name,request.getParameter(name));
 		}
-		if (logger.isDebugEnabled()) logger.debug("Starting process %s %s with %d parameters",deploymentId, processId, context.size());
-		Long processInstanceId = processBean.startProcess(deploymentId, processId, context);
-		return String.valueOf(processInstanceId);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Starting process %s %s with %d parameters", deploymentId, processId, context.size()); //$NON-NLS-1$
+        }
+        Long processInstanceId = processBean.startProcess(deploymentId, processId, context);
+        return String.valueOf(processInstanceId);
 	}
 	
 	@PUT
@@ -72,8 +74,11 @@ public class ProcessService {
     		@PathParam("signalType") String signalType,
     		@PathParam("event") String event) throws Exception {
 		
-		if (logger.isDebugEnabled()) logger.debug("Signalling processInstanceId %d with signalType %s and event $s",processInstanceId, signalType, event);
-		processBean.signalProcess(processInstanceId, signalType, (Object) event);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Signalling processInstanceId %d with signalType %s and event $s", //$NON-NLS-1$
+                    processInstanceId, signalType, event);
+        }
+        processBean.signalProcess(processInstanceId, signalType, (Object) event);
 	}
     
 }

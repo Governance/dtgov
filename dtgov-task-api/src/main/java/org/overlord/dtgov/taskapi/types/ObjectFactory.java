@@ -31,9 +31,9 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Task_QNAME = new QName("http://downloads.jboss.org/overlord/dtgov/schemas/task-api-v1.xsd", "task");
-    private final static QName _TaskSummary_QNAME = new QName("http://downloads.jboss.org/overlord/dtgov/schemas/task-api-v1.xsd", "taskSummary");
-    private final static QName _TaskData_QNAME = new QName("http://downloads.jboss.org/overlord/dtgov/schemas/task-api-v1.xsd", "taskData");
+    private final static QName _Task_QNAME = new QName("http://downloads.jboss.org/overlord/dtgov/schemas/task-api-v1.xsd", "task"); //$NON-NLS-1$ //$NON-NLS-2$
+    private final static QName _TaskSummary_QNAME = new QName("http://downloads.jboss.org/overlord/dtgov/schemas/task-api-v1.xsd", "taskSummary"); //$NON-NLS-1$ //$NON-NLS-2$
+    private final static QName _TaskData_QNAME = new QName("http://downloads.jboss.org/overlord/dtgov/schemas/task-api-v1.xsd", "taskData"); //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.overlord.dtgov.taskapi.types

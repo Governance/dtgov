@@ -103,8 +103,8 @@ public class WorkflowQueryPropertiesTable extends TemplatedWidgetTable implement
         String propValue = property.getValue();
         FlowPanel actions = new FlowPanel();
         InlineLabel deleteAction = new InlineLabel();
-        deleteAction.setStyleName("workflow-icon", true);
-        deleteAction.setStyleName("workflow-delete-icon", true);
+        deleteAction.setStyleName("workflow-icon", true); //$NON-NLS-1$
+        deleteAction.setStyleName("workflow-delete-icon", true); //$NON-NLS-1$
         actions.add(deleteAction);
 
         deleteAction.addClickHandler(new ClickHandler() {
@@ -118,7 +118,7 @@ public class WorkflowQueryPropertiesTable extends TemplatedWidgetTable implement
         });
         final TextBox valueBox = new TextBox();
         valueBox.setText(propValue);
-        valueBox.setStyleName("input-value");
+        valueBox.setStyleName("input-value"); //$NON-NLS-1$
         valueBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
             @Override
@@ -130,7 +130,7 @@ public class WorkflowQueryPropertiesTable extends TemplatedWidgetTable implement
 
         SuggestBox propertyKey = new SuggestBox(keyDefaultValues);
 
-        propertyKey.setStyleName("input-value");
+        propertyKey.setStyleName("input-value"); //$NON-NLS-1$
         propertyKey.setText(property.getKey());
         propertyKey.addValueChangeHandler(new ValueChangeHandler<String>() {
 
@@ -162,7 +162,7 @@ public class WorkflowQueryPropertiesTable extends TemplatedWidgetTable implement
         add(rowIdx, 0, propertyKey);
         add(rowIdx, 1, valueBox);
         Element row = add(rowIdx, 2, actions);
-        setStyleName(row, "actions", true);
+        setStyleName(row, "actions", true); //$NON-NLS-1$
     }
 
     /*
