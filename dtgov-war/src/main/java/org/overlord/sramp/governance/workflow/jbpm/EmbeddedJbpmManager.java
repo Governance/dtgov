@@ -73,10 +73,10 @@ public class EmbeddedJbpmManager implements BpmManager {
 	        }
 	        connection.connect();
 	        int responseCode = connection.getResponseCode();
-	        if (responseCode == 200) {
+	        if (responseCode >= 200 && responseCode < 300) {
 	             InputStream is = (InputStream) connection.getContent();
 	             String reply = IOUtils.toString(is);
-	             System.out.println("reply=" + reply); //$NON-NLS-1$
+	             logger.info("reply=" + reply); //$NON-NLS-1$
 	             return Long.parseLong(reply);
 	        } else {
 	        	logger.error("HTTP RESPONSE CODE=" + responseCode); //$NON-NLS-1$
