@@ -130,45 +130,50 @@ public class UiConfigurationServlet extends HttpServlet {
         g.writeEndObject();
         g.writeEndObject();
 
-        
+
         g.writeObjectFieldStart("workflow"); //$NON-NLS-1$
-     // Pull in any configured workflow types.
+        // Pull in any configured workflow types.
         @SuppressWarnings("unchecked")
         Iterator<String> workflowTypes = config.getConfiguration().getKeys(DtgovUIConfig.WORKFLOW_TYPE_PREFIX);
         count = 0;
         g.writeObjectFieldStart("types"); //$NON-NLS-1$
-        while (workflowTypes.hasNext()) {
-            String workflowTypeKey = workflowTypes.next();
-            String value = config.getConfiguration().getString(workflowTypeKey);
-            if (value.contains(":")) { //$NON-NLS-1$
-                int idx = value.indexOf(':');
-                String label = value.substring(0, idx);
-                String type = value.substring(idx+1);
-                g.writeStringField(label, type);
-                count++;
+        if(workflowTypes!=null){
+            while (workflowTypes.hasNext()) {
+                String workflowTypeKey = workflowTypes.next();
+                String value = config.getConfiguration().getString(workflowTypeKey);
+                if (value.contains(":")) { //$NON-NLS-1$
+                    int idx = value.indexOf(':');
+                    String label = value.substring(0, idx);
+                    String type = value.substring(idx+1);
+                    g.writeStringField(label, type);
+                    count++;
+                }
             }
         }
+
         if (count == 0) {
             g.writeStringField(Messages.i18n.format("UiConfigurationServlet.workflow.SimpleReleaseProcess"), "overlord.demo.SimpleReleaseProcess"); //$NON-NLS-1$ //$NON-NLS-2$
             g.writeStringField(Messages.i18n.format("UiConfigurationServlet.workflow.SimplifiedProjectLifeCycle"), "overlord.demo.SimplifiedProjectLifeCycle"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         g.writeEndObject();
-        
-        
+
+
         // Pull in any configured workflow property default types.
         @SuppressWarnings("unchecked")
         Iterator<String> workflowPropertyTypes = config.getConfiguration().getKeys(DtgovUIConfig.WORKFLOW_PROPERTY_PREFIX);
         count = 0;
         g.writeObjectFieldStart("propertyTypes"); //$NON-NLS-1$
-        while (workflowPropertyTypes.hasNext()) {
-            String workflowPropertyTypeKey = workflowTypes.next();
-            String value = config.getConfiguration().getString(workflowPropertyTypeKey);
-            if (value.contains(":")) { //$NON-NLS-1$
-                int idx = value.indexOf(':');
-                String label = value.substring(0, idx);
-                String type = value.substring(idx+1);
-                g.writeStringField(label, type);
-                count++;
+        if(workflowPropertyTypes!=null){
+            while (workflowPropertyTypes.hasNext()) {
+                String workflowPropertyTypeKey = workflowPropertyTypes.next();
+                String value = config.getConfiguration().getString(workflowPropertyTypeKey);
+                if (value.contains(":")) { //$NON-NLS-1$
+                    int idx = value.indexOf(':');
+                    String label = value.substring(0, idx);
+                    String type = value.substring(idx+1);
+                    g.writeStringField(label, type);
+                    count++;
+                }
             }
         }
         if (count == 0) {

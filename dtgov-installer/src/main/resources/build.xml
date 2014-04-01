@@ -44,8 +44,6 @@
     <property name="dtgov.s-ramp.cli.jar" location="bin/s-ramp-shell-${s-ramp.version}.jar" />
     <property name="dtgov.s-ramp.cli.commands" location="cli-commands.txt" />
   	
-  	<echo message="Username is: ${s-ramp.shell.username}"/>
-  	<echo message="Password is: ${s-ramp.shell.password}"/>                
     <java jar="${dtgov.s-ramp.cli.jar}" fork="true" >
       <arg value="-f" />
       <arg value="${dtgov.s-ramp.cli.commands}" />

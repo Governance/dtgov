@@ -22,13 +22,20 @@ public class Query {
 
     private String srampQuery;
     private String workflowId;
-    private String parameters;
+    private Map<String, String> parameters;
 
-    public Query(String srampQuery, String workflowId,  String parameters) {
+    public Query(String srampQuery, String workflowId, Map<String, String> parameters) {
         super();
         this.workflowId = workflowId;
-        this.setSrampQuery(srampQuery);;
+        this.setSrampQuery(srampQuery);
         setParameters(parameters);
+    }
+
+    public Query(String srampQuery, String workflowId) {
+        super();
+        this.workflowId = workflowId;
+        this.setSrampQuery(srampQuery);
+        this.parameters = new HashMap<String, String>();
     }
 
     public void setSrampQuery(String srampQuery) {
@@ -48,28 +55,40 @@ public class Query {
     }
 
     public Map<String,Object> getParsedParameters() {
-        Map<String,Object> params = new HashMap<String,Object>();
-        String[] paramStrs = parameters.split("\\:\\:"); //$NON-NLS-1$
-        for (String paramStr : paramStrs) {
-            String[] param = paramStr.split("="); //$NON-NLS-1$
-            params.put(param[0], param[1]);
+        Map<String, Object> params = new HashMap<String, Object>();
+        if (parameters != null) {
+            params.putAll(parameters);
         }
         return params;
     }
 
-    public void setParameters(String parameters) {
-        this.parameters = parameters;
-    }
-
-    public String getParameters() {
+    public Map<String, String> getParameters() {
         return parameters;
     }
 
+    public void setParameters(Map<String, String> parameters) {
+        this.parameters = parameters;
+    }
+
+    public Query addParameter(String key, String value) {
+        if (this.parameters == null) {
+            this.parameters = new HashMap<String, String>();
+        }
+        this.parameters.put(key, value);
+        return this;
+    }
     @Override
     public String toString() {
         return "srampQuery=" + srampQuery + "\nworkflowId=" + workflowId + "\nparameters=" + getParsedParameters(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
-
+    public Query replaceParametersValues(String toFind, String replace) {
+        if (this.parameters != null && !this.parameters.isEmpty()) {
+            for (String key : this.parameters.keySet()) {
+                this.parameters.put(key, this.parameters.get(key).replace(toFind, replace));
+            }
+        }
+        return this;
+    }
 
 }
