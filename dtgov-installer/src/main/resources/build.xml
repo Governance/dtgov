@@ -43,10 +43,14 @@
 
     <property name="dtgov.s-ramp.cli.jar" location="bin/s-ramp-shell-${s-ramp.version}.jar" />
     <property name="dtgov.s-ramp.cli.commands" location="cli-commands.txt" />
-
-    <java jar="${dtgov.s-ramp.cli.jar}" fork="true">
+  	
+  	<echo message="Username is: ${s-ramp.shell.username}"/>
+  	<echo message="Password is: ${s-ramp.shell.password}"/>                
+    <java jar="${dtgov.s-ramp.cli.jar}" fork="true" >
       <arg value="-f" />
       <arg value="${dtgov.s-ramp.cli.commands}" />
+      <jvmarg value="-Ds-ramp.shell.username=${s-ramp.shell.username}" />
+      <jvmarg value="-Ds-ramp.shell.password=${s-ramp.shell.password}" />
     </java>
     
     <echo message=" " />
