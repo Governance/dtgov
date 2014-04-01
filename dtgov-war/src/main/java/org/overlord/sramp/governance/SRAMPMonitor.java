@@ -70,7 +70,9 @@ public class SRAMPMonitor extends TimerTask {
     			long startTime = System.currentTimeMillis();
     			QueryExecutor.execute();
                 long endTime   = System.currentTimeMillis();
-                if (log.isDebugEnabled()) log.debug("Query run took " + (endTime - startTime) + " ms");
+                if (log.isDebugEnabled()) {
+                    log.debug(Messages.i18n.format("SRAMPMonitor.QueryTiming", (endTime-startTime))); //$NON-NLS-1$
+                }
 
                 if ((endTime-startTime) > interval) {
                     log.debug(Messages.i18n.format("SRAMPMonitor.IntervalExceeded", //$NON-NLS-1$
@@ -106,10 +108,7 @@ public class SRAMPMonitor extends TimerTask {
 		if (lagTime <= acceptableLagTime || acceptableLagTime < 0) {
 			return true;
 		} else {
-			log.debug("NotificationTimer is lagging " + lagTime + " milli seconds behind. A lag time "
-					+ "which exceeds an acceptable lagtime of " + acceptableLagTime + "ms indicates "
-					+ "that the registry server is under load or was in sleep mode. We are therefore skipping this notification "
-					+ "cycle.");
+			log.debug(Messages.i18n.format("SRAMPMonitor.LaggingTimer", lagTime, acceptableLagTime)); //$NON-NLS-1$
 			return false;
 		}
 	}
