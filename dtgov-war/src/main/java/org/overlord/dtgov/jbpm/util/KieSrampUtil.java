@@ -37,10 +37,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class KieSrampUtil {
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static String SRAMP_KIE_JAR_QUERY = "/s-ramp/ext/KieJarArchive[" //$NON-NLS-1$
-            + "@maven.groupId=? and @maven.artifactId = ? and @maven.version = ?]"; //$NON-NLS-1$
+            + "@maven.groupId=? and @maven.artifactId = ? and @maven.version = ? and xp2:not(@maven.classifier)]"; //$NON-NLS-1$
 
     /**
      * Returns true if the workflow JAR is deployed to the s-ramp repository.
@@ -63,20 +63,20 @@ public class KieSrampUtil {
 		}
 		return Boolean.FALSE;
 	}
-	
+
 	/**
 	 * Creating a KieBase from the workflow GAV specified in the config.
-	 * 
+	 *
 	 * @return KieBase for package SRAMPPackage
-	 * 
+	 *
 	 * @throws SrampClientException
 	 * @throws SrampAtomException
 	 */
 	public KieContainer getKieContainer(ReleaseId releaseId) throws SrampClientException, SrampAtomException {
 		KieServices ks = KieServices.Factory.get();
     	KieRepository repo = ks.getRepository();
-    	SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient(); 
-		
+    	SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
+
 		Governance governance = new Governance();
         QueryResultSet results = client.buildQuery(SRAMP_KIE_JAR_QUERY)
                 .parameter(governance.getGovernanceWorkflowGroup())
@@ -94,12 +94,12 @@ public class KieSrampUtil {
 		} else {
 			return null;
 		}
-		
+
 	}
 	/**
-	 * Returns a RuntimeManager from the ProcessEngineService for the given deploymentId. 
+	 * Returns a RuntimeManager from the ProcessEngineService for the given deploymentId.
 	 * Creates a RuntimeManager if it didn't already exist.
-	 * 
+	 *
 	 * @param processEngineService
 	 * @param deploymentId
 	 * @return RuntimeManager
@@ -114,14 +114,14 @@ public class KieSrampUtil {
 		return getRuntimeManager(processEngineService, unit);
 	}
 	/**
-	 * Returns a RuntimeManager from the ProcessEngineService for the given KModuleDeploymentUnit. 
+	 * Returns a RuntimeManager from the ProcessEngineService for the given KModuleDeploymentUnit.
 	 * Creates a RuntimeManager if it didn't already exist.
 	 * @param processEngineService
 	 * @param unit
 	 * @return RuntimeManager
 	 */
 	public RuntimeManager getRuntimeManager(ProcessEngineService processEngineService, KModuleDeploymentUnit unit) {
-		
+
 		//First see if we have one
 		RuntimeManager runtimeManager = processEngineService.getRuntimeManager(unit.getIdentifier());
 		if (runtimeManager==null) {
@@ -136,7 +136,7 @@ public class KieSrampUtil {
 			}
 		}
 		return runtimeManager;
-		
+
 	}
-	
+
 }
