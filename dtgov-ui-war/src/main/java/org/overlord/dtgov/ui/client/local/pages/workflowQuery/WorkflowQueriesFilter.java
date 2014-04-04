@@ -15,8 +15,7 @@
  */
 package org.overlord.dtgov.ui.client.local.pages.workflowQuery;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -24,8 +23,12 @@ import javax.inject.Inject;
 
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.beans.UiConfiguration;
 import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
+import org.overlord.dtgov.ui.client.local.services.NotificationService;
+import org.overlord.dtgov.ui.client.local.services.WorkflowQueriesRpcService;
+import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueriesFilterBean;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,7 +45,7 @@ import com.google.gwt.user.client.ui.TextBox;
 /**
  * The workflow queries filtersPanel sidebar. Whenever the user changes any of
  * the settings in the filter sidebar, a ValueChangeEvent will be fired.
- * 
+ *
  * @author David Virgil Naranjo
  */
 @Templated("/org/overlord/dtgov/ui/client/local/site/workflowQueries.html#queries-filter-sidebar")
@@ -55,6 +58,18 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /** The current state. */
     private WorkflowQueriesFilterBean _currentState = new WorkflowQueriesFilterBean();
+
+    /** The _workflow query service. */
+    @Inject
+    private WorkflowQueriesRpcService _workflowQueryService;
+
+    /** The _notification service. */
+    @Inject
+    private NotificationService _notificationService;
+
+    /** The _i18n. */
+    @Inject
+    private ClientMessages _i18n;
 
     /** The workflow. */
     @Inject
@@ -106,7 +121,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Sets the value.
-     * 
+     *
      * @param value
      *            the value
      * @param fireEvents
@@ -133,10 +148,24 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
         // Update the items in the deployment type drop-down
         this._workflow.clear();
-        Map<String, String> workflowTypes = uiConfig.getWorkflowTypes();
-        for (Entry<String, String> entry : workflowTypes.entrySet()) {
-            this._workflow.addItem(entry.getKey(), entry.getValue());
-        }
+
+        _workflowQueryService.getWorkflowTypes(new IRpcServiceInvocationHandler<Set<String>>() {
+
+            @Override
+            public void onReturn(Set<String> workflowTypes) {
+                for (String entry : workflowTypes) {
+                    _workflow.addItem(entry, entry);
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                _notificationService.sendErrorNotification(
+                        _i18n.format("workflowQuery.workflow.type.loading.error"), error); //$NON-NLS-1$
+            }
+        });
+
 
     }
 
@@ -155,26 +184,28 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Gets the value.
-     * 
+     *
      * @return the current filter settings
      */
+    @Override
     public WorkflowQueriesFilterBean getValue() {
         return this._currentState;
     }
 
     /**
      * Sets the value.
-     * 
+     *
      * @param value
      *            the new filter settings
      */
+    @Override
     public void setValue(WorkflowQueriesFilterBean value) {
         setValue(value, false);
     }
 
     /**
      * Adds the value change handler.
-     * 
+     *
      * @param handler
      *            the handler
      * @return the handler registration
@@ -187,7 +218,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Gets the config service.
-     * 
+     *
      * @return the config service
      */
     public ConfigurationService getConfigService() {
@@ -196,7 +227,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Sets the config service.
-     * 
+     *
      * @param configService
      *            the new config service
      */
@@ -206,7 +237,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Gets the current state.
-     * 
+     *
      * @return the current state
      */
     public WorkflowQueriesFilterBean getCurrentState() {
@@ -215,7 +246,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Sets the current state.
-     * 
+     *
      * @param currentState
      *            the new current state
      */
@@ -225,7 +256,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Gets the workflow.
-     * 
+     *
      * @return the workflow
      */
     public WorkflowTypeListBox getWorkflow() {
@@ -234,7 +265,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Sets the workflow.
-     * 
+     *
      * @param workflow
      *            the new workflow
      */
@@ -244,7 +275,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Gets the name.
-     * 
+     *
      * @return the name
      */
     public TextBox getName() {
@@ -253,7 +284,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Sets the name.
-     * 
+     *
      * @param name
      *            the new name
      */
@@ -263,7 +294,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Gets the clear filters.
-     * 
+     *
      * @return the clear filters
      */
     public Button getClearFilters() {
@@ -272,7 +303,7 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
 
     /**
      * Sets the clear filters.
-     * 
+     *
      * @param clearFilters
      *            the new clear filters
      */

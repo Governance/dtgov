@@ -27,7 +27,7 @@ import com.google.gwt.core.client.GWT;
 /**
  * Bean that reads and holds UI configuration. This bean reads its information
  * from a global JavaScript variable
- * 
+ *
  * @author eric.wittmann@redhat.com
  */
 public class UiConfiguration {
@@ -36,7 +36,6 @@ public class UiConfiguration {
     private final Map<String, String> deploymentTypes = new LinkedHashMap<String, String>();
     private String srampUiUrlBase;
     private final Map<String, String> workflowPropertyKeyTypes = new LinkedHashMap<String, String>();
-    private final Map<String, String> workFlowTypes = new LinkedHashMap<String, String>();
 
     /**
      * Constructor.
@@ -47,7 +46,7 @@ public class UiConfiguration {
 
     /**
      * Adds a single deployment stage to the map.
-     * 
+     *
      * @param label
      * @param classifier
      */
@@ -58,7 +57,7 @@ public class UiConfiguration {
 
     /**
      * Adds a single deployment type to the map.
-     * 
+     *
      * @param label
      * @param type
      */
@@ -69,7 +68,7 @@ public class UiConfiguration {
 
     /**
      * Adds a single deployment stage to the map.
-     * 
+     *
      * @param label
      * @param classifier
      */
@@ -79,19 +78,8 @@ public class UiConfiguration {
     }
 
     /**
-     * Adds a single deployment stage to the map.
-     * 
-     * @param label
-     * @param classifier
-     */
-    private void addWorkflowType(String label, String classifier) {
-        this.getWorkflowTypes().put(label, classifier);
-        GWT.log("[UiConfig] - Registered Workflow Type: " + label + "=" + classifier); //$NON-NLS-1$ //$NON-NLS-2$
-    }
-
-    /**
      * Creates a link into the s-ramp UI.
-     * 
+     *
      * @param pageName
      * @param state
      */
@@ -103,7 +91,7 @@ public class UiConfiguration {
 
     /**
      * Creates a link into the s-ramp UI.
-     * 
+     *
      * @param pageName
      * @param stateKey
      * @param stateValue
@@ -135,74 +123,60 @@ public class UiConfiguration {
         return workflowPropertyKeyTypes;
     }
 
-    /**
-     * @return the deploymentStages
-     */
-    public Map<String, String> getWorkflowTypes() {
-        return workFlowTypes;
-    }
+
 
     /**
      * Read the configuration information from the OVERLORD_DTGOVUI_CONFIG
      * javascript variable.
      */
     private final native void read() /*-{
-        var dis = this;
-        try {
-            var deploymentConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.deployments;
-            // Read the deployment types
-            var dTypes = deploymentConfig.types;
-            for ( var k in dTypes) {
-                if (dTypes.hasOwnProperty(k)) {
-                    var label = k;
-                    var type = dTypes[k];
-                    dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addDeploymentType(Ljava/lang/String;Ljava/lang/String;)(label, type);
-                }
-            }
+		var dis = this;
+		try {
+			var deploymentConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.deployments;
+			// Read the deployment types
+			var dTypes = deploymentConfig.types;
+			for ( var k in dTypes) {
+				if (dTypes.hasOwnProperty(k)) {
+					var label = k;
+					var type = dTypes[k];
+					dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addDeploymentType(Ljava/lang/String;Ljava/lang/String;)(label, type);
+				}
+			}
 
-            // Read the deployment stages
-            var dStages = deploymentConfig.stages;
-            for ( var k in dStages) {
-                if (dStages.hasOwnProperty(k)) {
-                    var label = k;
-                    var classifier = dStages[k];
-                    dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addDeploymentStage(Ljava/lang/String;Ljava/lang/String;)(label, classifier);
-                }
-            }
+			// Read the deployment stages
+			var dStages = deploymentConfig.stages;
+			for ( var k in dStages) {
+				if (dStages.hasOwnProperty(k)) {
+					var label = k;
+					var classifier = dStages[k];
+					dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addDeploymentStage(Ljava/lang/String;Ljava/lang/String;)(label, classifier);
+				}
+			}
 
-            var workflowConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.workflow;
-            // Read the deployment types
-            var workflowTypes = workflowConfig.types;
-            for ( var k in workflowTypes) {
-                if (workflowTypes.hasOwnProperty(k)) {
-                    var label = k;
-                    var type = workflowTypes[k];
-                    dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addWorkflowType(Ljava/lang/String;Ljava/lang/String;)(label, type);
-                }
-            }
+			var workflowConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.workflow;
 
-            // Read the deployment stages
-            var propertyTypes = workflowConfig.propertyTypes;
-            for ( var k in propertyTypes) {
-                if (propertyTypes.hasOwnProperty(k)) {
-                    var label = k;
-                    var example = propertyTypes[k];
-                    dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addWorkflowPropertyKeyType(Ljava/lang/String;Ljava/lang/String;)(label,example);
-                }
-            }
+			// Read the deployment stages
+			var propertyTypes = workflowConfig.propertyTypes;
+			for ( var k in propertyTypes) {
+				if (propertyTypes.hasOwnProperty(k)) {
+					var label = k;
+					var example = propertyTypes[k];
+					dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addWorkflowPropertyKeyType(Ljava/lang/String;Ljava/lang/String;)(label,example);
+				}
+			}
 
-            // Read the s-ramp UI config
-            var srampUiConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.srampui;
-            var urlBase = srampUiConfig.urlBase;
-            dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setSrampUiUrlBase(Ljava/lang/String;)(urlBase);
-        } catch (e) {
-            // TODO do something interesting here?
-        }
+			// Read the s-ramp UI config
+			var srampUiConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.srampui;
+			var urlBase = srampUiConfig.urlBase;
+			dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setSrampUiUrlBase(Ljava/lang/String;)(urlBase);
+		} catch (e) {
+			// TODO do something interesting here?
+		}
     }-*/;
 
     /**
      * Sets the s-ramp-ui URL base.
-     * 
+     *
      * @param urlBase
      */
     private void setSrampUiUrlBase(String urlBase) {

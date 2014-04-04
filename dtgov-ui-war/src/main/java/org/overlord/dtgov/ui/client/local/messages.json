@@ -272,6 +272,7 @@
   "delete-workflow-query-submit.deleting-query-msg" : "Please wait while your workflow query is deleted...",
   "delete-workflow-query-submit.successfully-deleted" : "Removal Query Completed",
   "delete-workflow-query-submit.successfully-deleted-msg" : "The workflow query '{0}' has been successfully deleted.",
-  "delete-workflow-query-submit.error" : "Error deleting the workflow query '{0}': "
+  "delete-workflow-query-submit.error" : "Error deleting the workflow query '{0}': ",
+  "workflowQuery.workflow.type.loading.error" : "Error loading the Workflow Query Types from s-ramp."
   
 }
