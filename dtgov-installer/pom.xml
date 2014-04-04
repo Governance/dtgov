@@ -30,6 +30,10 @@
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-auth-jetty8</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-auth-jboss7</artifactId>
     </dependency>
     <dependency>
@@ -60,6 +64,12 @@
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-war-jetty8</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-ui-war-tomcat7</artifactId>
       <version>${project.version}</version>
       <type>war</type>
@@ -81,6 +91,12 @@
 	<dependency>
    	  <groupId>org.codehaus.btm</groupId>
    	  <artifactId>btm-tomcat55-lifecycle</artifactId>
+   	  <version>${version.org.codehaus.btm}</version>
+   	  <scope>provided</scope>
+    </dependency>
+    <dependency>
+   	  <groupId>org.codehaus.btm</groupId>
+   	  <artifactId>btm-jetty7-lifecycle</artifactId>
    	  <version>${version.org.codehaus.btm}</version>
    	  <scope>provided</scope>
     </dependency>
@@ -250,7 +266,94 @@
                     <property name="dtgov.dtgov-ui-tc7.path" value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-tomcat7.war.path}" />
 
                     <property file="build.properties" />
-                    <property name="dtgov.appserver.zip" value="${basedir}/apache-tomcat-7.0.52.zip" />
+                    <property name="dtgov.appserver.zip" value="${basedir}/apache-tomcat-${tomcat.version}.zip" />
+                    <unzip src="${dtgov.appserver.zip}" dest="${dtgov.install.dir}" overwrite="false" />
+                    <chmod perm="a+x" dir="${dtgov.appserver.dir}/bin">
+                      <include name="*.sh" />
+                    </chmod>
+
+                    <property name="dtgov.temp-installer-dir" value="${project.build.directory}/test-installer" />
+                    <delete dir="${dtgov.temp-installer-dir}" />
+                    <mkdir dir="${dtgov.temp-installer-dir}" />
+                    <copy todir="${dtgov.temp-installer-dir}">
+                      <fileset dir="${basedir}/src/main/resources" />
+                    </copy>
+                    <copy todir="${dtgov.temp-installer-dir}">
+                      <fileset dir="${basedir}/src/main/resources-filtered" />
+                    </copy>
+                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties">
+                      <replacetoken><![CDATA[dtgov.workflows.version]]></replacetoken>
+                      <replacevalue><![CDATA[#dtgov.workflows.version]]></replacevalue>
+                    </replace>
+
+                    <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
+                      <target name="install" />
+                    </ant>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <!-- ****************************************** -->
+    <!-- Profile to install into Jetty 8 -->
+    <!-- ****************************************** -->
+    <profile>
+      <id>install-jetty8</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.7</version>
+            <dependencies>
+              <dependency>
+                <groupId>ant</groupId>
+                <artifactId>ant-trax</artifactId>
+                <version>1.6.5</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>install-tomcat7</id>
+                <phase>install</phase>
+                <configuration>
+                  <tasks>
+                    <property name="appserver.id" value="jetty-8" />
+                    <property name="dtgov.install.dir" value="${project.build.directory}" />
+                    <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/jetty-distribution-${jetty.version}" />
+                    <property name="dtgov.version" value="${project.version}" />
+
+                    <!-- BMT Dependencies in tomcat/lib -->
+                    <property name="lib.btm.jar" value="${maven.dependency.org.codehaus.btm.btm.jar.path}" />
+                    <property name="lib.btm-jetty7-lifecycle.jar" value="${maven.dependency.org.codehaus.btm.btm-jetty7-lifecycle.jar.path}" />
+                    <property name="lib.h2.jar" value="${maven.dependency.com.h2database.h2.jar.path}" />
+                    <property name="lib.jta.jar" value="${maven.dependency.javax.transaction.jta.jar.path}" />
+                    <property name="lib.slf4j-api.jar" value="${maven.dependency.org.slf4j.slf4j-api.jar.path}" />
+                    <property name="lib.slf4j-jdk14.jar" value="${maven.dependency.org.slf4j.slf4j-jdk14.jar.path}" />
+                    <!-- email -->
+					<property name="lib.mail.jar" value="${maven.dependency.javax.mail.mail.jar.path}" />
+                    
+                    <!-- Overlord Commons Installer and Dependencies -->
+                    <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
+                    <property name="overlord-commons.idp.file" value="${maven.dependency.org.overlord.overlord-commons-idp-jetty8.war.path}" />
+                    <property name="overlord-commons.services.file" value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
+                    <property name="overlord-commons.auth.file" value="${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
+                    <property name="overlord-commons.auth.jetty8.file" value="${maven.dependency.org.overlord.overlord-commons-auth-jetty8.jar.path}" />
+					
+					
+
+                    <!-- DTGov WARs -->
+                    <property name="dtgov.dtgov-war-jetty8.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war-jetty8.war.path}" />
+                    <!--  property name="dtgov.dtgov-ui-jetty8.path" value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jetty8.war.path}" /-->
+
+                    <property file="build.properties" />
+                    <property name="dtgov.appserver.zip" value="${basedir}/jetty-distribution-${jetty.version}.zip" />
                     <unzip src="${dtgov.appserver.zip}" dest="${dtgov.install.dir}" overwrite="false" />
                     <chmod perm="a+x" dir="${dtgov.appserver.dir}/bin">
                       <include name="*.sh" />

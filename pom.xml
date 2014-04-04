@@ -113,6 +113,7 @@
     <guava-gwt.version>14.0.1</guava-gwt.version>
     <commons.logging.version>1.1.1</commons.logging.version>
     <tomcat.version>7.0.52</tomcat.version>
+    <jetty.version>8.1.14.v20131031</jetty.version>
 
     <!-- BOM Overrides -->
     <version.joda-time>2.1</version.joda-time>
@@ -314,6 +315,11 @@
       </dependency>
       <dependency>
         <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-auth-jetty8</artifactId>
+        <version>${overlord-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
         <artifactId>overlord-commons-auth-jboss7</artifactId>
         <version>${overlord-commons.version}</version>
       </dependency>
@@ -474,6 +480,7 @@
     <module>dtgov-war</module>
     <module>dtgov-war-eap61</module>
     <module>dtgov-war-eap61-modules</module>
+    <module>dtgov-war-jetty8</module>
     <module>dtgov-war-tomcat7</module>
     <module>dtgov-ui-war</module>
     <module>dtgov-ui-war-eap61</module>
