@@ -178,14 +178,11 @@
                     <delete dir="${dtgov.temp-installer-dir}" />
                     <mkdir dir="${dtgov.temp-installer-dir}" />
                     <copy todir="${dtgov.temp-installer-dir}">
-                      <fileset dir="${basedir}/src/main/resources" />
+                      <fileset dir="${project.build.directory}/classes" />
                     </copy>
-                    <copy todir="${dtgov.temp-installer-dir}">
-                      <fileset dir="${basedir}/src/main/resources-filtered" />
-                    </copy>
-                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties" value="${project.version}">
+                    <!-- replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties" value="${project.version}">
                       <replacetoken><![CDATA[${project.version}]]></replacetoken>
-                    </replace>
+                    </replace> -->
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
                       <target name="install" />
                     </ant>
