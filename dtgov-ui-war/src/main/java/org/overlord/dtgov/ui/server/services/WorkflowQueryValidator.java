@@ -38,9 +38,9 @@ import org.overlord.sramp.client.query.QueryResultSet;
 /**
  * Validator class that makes the validation of the workflow query bean that is
  * gonna be saved in s-ramp.
- * 
+ *
  * @author David Virgil Naranjo
- * 
+ *
  */
 @Dependent
 public class WorkflowQueryValidator {
@@ -83,7 +83,7 @@ public class WorkflowQueryValidator {
      */
     /**
      * Validate.
-     * 
+     *
      * @param query
      *            the query
      * @param page_size
@@ -128,13 +128,23 @@ public class WorkflowQueryValidator {
      */
     /**
      * Checks if is s ramp query correct.
-     * 
+     *
      * @param workflowQuery
      *            the workflow query
      * @return true, if is s ramp query correct
      */
     private boolean isSRampQueryCorrect(WorkflowQueryBean workflowQuery) {
-        return true;
+        boolean validQuery = true;
+        SrampAtomApiClient client = _srampClientAccessor.getClient();
+        SrampClientQuery query = client.buildQuery(workflowQuery.getQuery());
+        try {
+            query.query();
+        } catch (SrampClientException e) {
+            validQuery = false;
+        } catch (SrampAtomException e) {
+            validQuery = false;
+        }
+        return validQuery;
     }
 
     /*
@@ -143,7 +153,7 @@ public class WorkflowQueryValidator {
      */
     /**
      * Checks if is unique name.
-     * 
+     *
      * @param workflowQuery
      *            the workflow query
      * @param page_size
@@ -202,7 +212,7 @@ public class WorkflowQueryValidator {
 
     /**
      * Gets the sramp client accessor.
-     * 
+     *
      * @return the sramp client accessor
      */
     public SrampApiClientAccessor getSrampClientAccessor() {
@@ -211,7 +221,7 @@ public class WorkflowQueryValidator {
 
     /**
      * Sets the sramp client accessor.
-     * 
+     *
      * @param srampClientAccessor
      *            the new sramp client accessor
      */

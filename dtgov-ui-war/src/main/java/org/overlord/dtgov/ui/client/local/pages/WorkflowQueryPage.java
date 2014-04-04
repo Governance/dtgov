@@ -433,7 +433,7 @@ public class WorkflowQueryPage extends AbstractPage {
                 _i18n.format("workflowQuery-submit.save-msg")); //$NON-NLS-1$
 
         final WorkflowQueryBean query = this.createWorkflowQueryBean();
-
+        _validation_errors.clear();
         _workflowQueryService.save(query, new IRpcServiceInvocationHandler<String>() {
             @Override
             public void onError(Throwable error) {
