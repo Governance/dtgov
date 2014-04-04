@@ -18,9 +18,7 @@ package org.overlord.sramp.governance;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.configuration.Configuration;
 import org.overlord.commons.config.ConfigurationFactory;
@@ -31,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 public class Governance {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     public static String QUERY_ERROR  = GovernanceConstants.GOVERNANCE_QUERIES + " should be of the format <query>|<processId>|<param::param>\nCheck\n"; //$NON-NLS-1$
     public static String TARGET_ERROR = GovernanceConstants.GOVERNANCE_TARGETS + " should be of the format <targetName>|<directory>\nCheck\n"; //$NON-NLS-1$
     public static String NOTIFICATION_ERROR  = GovernanceConstants.GOVERNANCE + ".<email|..> should be of the format <groupName>|<fromAddress>|<destination1>,<destination2>\nCheck\n"; //$NON-NLS-1$
@@ -95,11 +93,6 @@ public class Governance {
             configuration.append(GovernanceConstants.SRAMP_REPO_AUTH_PROVIDER + ": " + getSrampAuthProvider()).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
             int i=1;
-            for (Query query : getQueries()) {
-                configuration.append("Query ").append(i++).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
-                configuration.append(query.toString()).append("\n\n"); //$NON-NLS-1$
-            }
-            i=1;
             for (String name : getTargets().keySet()) {
                 configuration.append("Target ").append(i++).append("\n"); //$NON-NLS-1$ //$NON-NLS-2$
                 configuration.append(getTargets().get(name).toString()).append("\n\n"); //$NON-NLS-1$
@@ -239,28 +232,6 @@ public class Governance {
         return targets;
     }
 
-    public Set<Query> getQueries() throws ConfigException {
-        Set<Query> queries = new HashSet<Query>();
-        String[] queryStrings = getConfiguration().getStringArray(GovernanceConstants.GOVERNANCE_QUERIES);
-        StringBuffer errors = new StringBuffer(QUERY_ERROR);
-        boolean hasErrors = false;
-        for (String queryString : queryStrings) {
-            String[] info = queryString.split("\\|"); //$NON-NLS-1$
-            if (info.length != 3) {
-                hasErrors = true;
-                errors.append(queryString).append("\n"); //$NON-NLS-1$
-            }
-            if (!hasErrors) {
-                String params = info[2];
-                Query query = new Query(info[0],info[1],params);
-                queries.add(query);
-            }
-        }
-        if (hasErrors) {
-            throw new ConfigException(errors.toString());
-        }
-        return queries;
-    }
 
     public Map<String,NotificationDestinations> getNotificationDestinations(String channel) throws ConfigException {
         Map<String,NotificationDestinations> destinationMap = new HashMap<String,NotificationDestinations>();
@@ -287,7 +258,7 @@ public class Governance {
     public long getQueryInterval() {
         return getConfiguration().getLong(GovernanceConstants.GOVERNANCE_QUERY_INTERVAL, 300000l); //5 min default
     }
-    
+
     public long getAcceptableLagtime() {
         return configuration.getLong(GovernanceConstants.GOVERNANCE_ACCEPTABLE_LAG, 1000l); //1 s
     }
@@ -333,6 +304,6 @@ public class Governance {
     public String getGovernanceWorkflowPackage() {
         return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_PACKAGE, DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE);
     }
-    
-    
+
+
 }

@@ -19,13 +19,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactEnum;
@@ -41,6 +45,7 @@ import org.overlord.dtgov.ui.client.shared.beans.WorkflowQuerySummaryBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovFormValidationException;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService;
+import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.i18n.Messages;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.sramp.atom.err.SrampAtomException;
@@ -55,11 +60,23 @@ import org.overlord.sramp.common.SrampModelUtils;
 
 /**
  * Concrete implementation of the workflow query service.
- * 
+ *
  * @author David Virgil Naranjo
  */
 @Service
 public class WorkflowQueryService implements IWorkflowQueryService {
+
+    /** The Constant WORKFLOW_ARTIFACT_GROUP_KEY. */
+    private final static String WORKFLOW_ARTIFACT_GROUP_KEY = "dtgov.workflows.group";
+
+    /** The Constant WORKFLOW_ARTIFACT_VERSION_KEY. */
+    private final static String WORKFLOW_ARTIFACT_VERSION_KEY = "dtgov.workflows.version";
+
+    /** The Constant WORKFLOW_ARTIFACT_NAME_KEY. */
+    private final static String WORKFLOW_ARTIFACT_NAME_KEY = "dtgov.workflows.name";
+
+    /** The Constant SRAMP_WORKFLOW_QUERY. */
+    private final static String SRAMP_WORKFLOW_QUERY = "/s-ramp/ext/BpmnDocument[expandedFromDocument[@maven.groupId = ? and @maven.artifactId = ? and @maven.version = ?]]";
 
     /** The Constant PAGE_SIZE. */
     private static final int PAGE_SIZE = 10;
@@ -72,6 +89,10 @@ public class WorkflowQueryService implements IWorkflowQueryService {
     @Inject
     private SrampApiClientAccessor _srampClientAccessor;
 
+    /** The config. */
+    @Inject
+    private DtgovUIConfig config;
+
     /**
      * Instantiates a new workflow query service.
      */
@@ -81,7 +102,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /**
      * Creates a query given the selected filters and search text.
-     * 
+     *
      * @param filters
      *            the filters
      * @return the sramp client query
@@ -131,14 +152,14 @@ public class WorkflowQueryService implements IWorkflowQueryService {
     /*
      * Remove a WorkflowQueryBean from s-ramp passing the specific uuid
      * identifier.
-     * 
+     *
      * @see
      * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#delete
      * (java.lang.String)
      */
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#delete
      * (java.lang.String)
@@ -158,14 +179,14 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /*
      * Get a WorkflowQueryBean from s-ramp using the uuid param.
-     * 
+     *
      * @see
      * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#get
      * (java.lang.String)
      */
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#get
      * (java.lang.String)
@@ -201,7 +222,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /**
      * Gets the query validator.
-     * 
+     *
      * @return the query validator
      */
     public WorkflowQueryValidator getQueryValidator() {
@@ -210,7 +231,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /**
      * Gets the sramp client accessor.
-     * 
+     *
      * @return the sramp client accessor
      */
     public SrampApiClientAccessor getSrampClientAccessor() {
@@ -219,11 +240,11 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#save
      * (String)
-     * 
+     *
      * @return uuid
      */
     @Override
@@ -281,7 +302,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#search
      * (org.overlord.dtgov.ui.client.shared.beans.WorkflowQueriesFilterBean,
@@ -342,7 +363,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /**
      * Sets the query validator.
-     * 
+     *
      * @param queryValidator
      *            the new query validator
      */
@@ -352,12 +373,43 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /**
      * Sets the sramp client accessor.
-     * 
+     *
      * @param srampClientAccessor
      *            the new sramp client accessor
      */
     public void setSrampClientAccessor(SrampApiClientAccessor srampClientAccessor) {
         this._srampClientAccessor = srampClientAccessor;
+    }
+
+    /*
+     * Get the Collection that contains all the workflow types loaded in the
+     * system.
+     * 
+     * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#
+     * getWorkflowTypes()
+     */
+    @Override
+    public Set<String> getWorkflowTypes() throws DtgovUiException {
+        Configuration dtgov_ui_conf=config.getConfiguration();
+        SrampAtomApiClient client = _srampClientAccessor.getClient();
+        Set<String> workflows = new HashSet<String>();
+        try {
+            QueryResultSet results = client.buildQuery(SRAMP_WORKFLOW_QUERY)
+                    .parameter((String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_GROUP_KEY))
+                    .parameter((String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_NAME_KEY))
+                    .parameter((String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_VERSION_KEY)).query();
+            Iterator<ArtifactSummary> results_iterator=results.iterator();
+            while (results_iterator.hasNext()) {
+                ArtifactSummary artifact=results_iterator.next();
+                String name = artifact.getName().substring(0, artifact.getName().lastIndexOf("."));
+                workflows.add(name);
+            }
+        } catch (SrampClientException e) {
+            throw new DtgovUiException(e.getMessage());
+        } catch (SrampAtomException e) {
+            throw new DtgovUiException(e.getMessage());
+        }
+        return workflows;
     }
 
 }

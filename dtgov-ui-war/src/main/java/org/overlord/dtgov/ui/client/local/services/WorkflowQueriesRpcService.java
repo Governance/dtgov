@@ -15,6 +15,8 @@
  */
 package org.overlord.dtgov.ui.client.local.services;
 
+import java.util.Set;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -34,7 +36,7 @@ import org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService;
 /**
  * Client-side service for making RPC calls to the remote workflow queries
  * service.
- * 
+ *
  * @author David Virgil Naranjo
  */
 @ApplicationScoped
@@ -52,7 +54,7 @@ public class WorkflowQueriesRpcService {
 
     /**
      * Delete.
-     * 
+     *
      * @param uuid
      *            the uuid
      * @param handler
@@ -71,7 +73,7 @@ public class WorkflowQueriesRpcService {
 
     /**
      * Gets the.
-     * 
+     *
      * @param uuid
      *            the uuid
      * @param handler
@@ -91,7 +93,7 @@ public class WorkflowQueriesRpcService {
 
     /**
      * Gets the remote workflow query service.
-     * 
+     *
      * @return the remote workflow query service
      */
     public Caller<IWorkflowQueryService> getRemoteWorkflowQueryService() {
@@ -100,7 +102,7 @@ public class WorkflowQueriesRpcService {
 
     /**
      * Save.
-     * 
+     *
      * @param query
      *            the query
      * @param handler
@@ -119,7 +121,7 @@ public class WorkflowQueriesRpcService {
 
     /**
      * Search.
-     * 
+     *
      * @param filters
      *            the filters
      * @param page
@@ -151,8 +153,25 @@ public class WorkflowQueriesRpcService {
     }
 
     /**
+     * Gets the workflow types.
+     *
+     * @param handler
+     *            the handler
+     * @return the workflow types
+     */
+    public void getWorkflowTypes(final IRpcServiceInvocationHandler<Set<String>> handler) {
+        RemoteCallback<Set<String>> successCallback = new DelegatingRemoteCallback<Set<String>>(handler);
+        ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
+        try {
+            _remoteWorkflowQueryService.call(successCallback, errorCallback).getWorkflowTypes();
+        } catch (DtgovUiException e) {
+            errorCallback.error(null, e);
+        }
+    }
+
+    /**
      * Sets the remote workflow query service.
-     * 
+     *
      * @param remoteWorkflowQueryService
      *            the new remote workflow query service
      */

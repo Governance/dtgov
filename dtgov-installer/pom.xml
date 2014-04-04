@@ -318,7 +318,9 @@
                 <phase>install</phase>
                 <configuration>
                   <tasks>
-                    <property name="appserver.id" value="jboss-as-7.1.1.Final" />
+                    <property name="appserver.id" value="jboss-eap-6.1" />
+                    <property name="s-ramp.shell.password" value="${s-ramp.shell.password}"/>
+                    <property name="s-ramp.shell.username" value="${s-ramp.shell.username}"/>                
                     <property file="build.properties" />
                     <property name="dtgov.s-ramp.cli.zip" value="${maven.dependency.org.overlord.sramp.s-ramp-distro-assembly-cli.zip.path}" />
                     <unzip src="${dtgov.s-ramp.cli.zip}" dest="${project.build.directory}" overwrite="true" />

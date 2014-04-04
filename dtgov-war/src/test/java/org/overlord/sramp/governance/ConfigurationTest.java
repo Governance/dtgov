@@ -16,7 +16,6 @@
 package org.overlord.sramp.governance;
 
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -43,8 +42,6 @@ public class ConfigurationTest {
 	    Governance governance = new Governance();
 	    Map<String,Target> targets = governance.getTargets();
 	    Assert.assertTrue(targets.size() > 0);
-	    Set<Query> queries = governance.getQueries();
-	    Assert.assertTrue(queries.size() > 0);
 	    System.out.println(governance.validate());
 	}
 
@@ -72,7 +69,7 @@ public class ConfigurationTest {
             governance.validate();
             Assert.fail("Expecting exception"); //$NON-NLS-1$
         } catch (ConfigException e) {
-            Assert.assertTrue(e.getMessage().startsWith(Governance.QUERY_ERROR));
+            Assert.assertTrue(e.getMessage().startsWith(Governance.TARGET_ERROR));
         }
     }
 
@@ -103,7 +100,7 @@ public class ConfigurationTest {
             Assert.assertTrue(e.getMessage().startsWith(Governance.TARGET_ERROR));
         }
     }
-    
+
     /**
      * Add a bad target
      *

@@ -79,7 +79,6 @@ public class DtgovUIConfig {
 
     // Workflow properties
     private static final String WORKFLOW_PREFIX = "dtgov-ui.deployment-lifecycle.workflow"; //$NON-NLS-1$
-    public static final String WORKFLOW_TYPE_PREFIX = WORKFLOW_PREFIX + ".type"; //$NON-NLS-1$
     public static final String WORKFLOW_PROPERTY_PREFIX = WORKFLOW_PREFIX + ".property"; //$NON-NLS-1$
     
     // S-RAMP UI integration properties

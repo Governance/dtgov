@@ -32,27 +32,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EmbeddedJbpmManager implements BpmManager {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(EmbeddedJbpmManager.class);
-	
+
     @Override
-    public long newProcessInstance(String deploymentId, String processId, Map<String, Object> context) 
+    public long newProcessInstance(String deploymentId, String processId, Map<String, Object> context)
     		throws WorkflowException {
     	HttpURLConnection connection = null;
     	Governance governance = new Governance();
     	final String username = governance.getOverlordUser();
  	    final String password = governance.getOverlordPassword();
     	Authenticator.setDefault (new Authenticator() {
- 		    protected PasswordAuthentication getPasswordAuthentication() {
+ 		    @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
  		        return new PasswordAuthentication (username, password.toCharArray());
  		    }
  		});
-    	
+
     	try {
     		deploymentId = URLEncoder.encode(deploymentId,"UTF-8"); //$NON-NLS-1$
     		processId = URLEncoder.encode(processId,"UTF-8"); //$NON-NLS-1$
     		String urlStr = governance.getGovernanceUrl() + String.format("/rest/process/start/%s/%s",deploymentId, processId); //$NON-NLS-1$
-    		URL url = new URL(urlStr); 
+    		URL url = new URL(urlStr);
 	        connection = (HttpURLConnection) url.openConnection();
 	        StringBuffer params = new StringBuffer();
 	        for (String key : context.keySet()) {
@@ -88,31 +89,32 @@ public class EmbeddedJbpmManager implements BpmManager {
     		if (connection!=null) connection.disconnect();
     	}
     }
-    
+
     @Override
-    public void signalProcess(long processInstanceId, String signalType, Object event) 
+    public void signalProcess(long processInstanceId, String signalType, Object event)
     		throws WorkflowException {
     	HttpURLConnection connection = null;
     	Governance governance = new Governance();
     	final String username = governance.getOverlordUser();
  	    final String password = governance.getOverlordPassword();
     	Authenticator.setDefault (new Authenticator() {
- 		    protected PasswordAuthentication getPasswordAuthentication() {
+ 		    @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
  		        return new PasswordAuthentication (username, password.toCharArray());
  		    }
  		});
-    	
+
     	try {
     		String urlStr = governance.getGovernanceUrl() + String.format("/rest/process/signal/%s/%s/%s",processInstanceId, signalType, event); //$NON-NLS-1$
-    		URL url = new URL(urlStr); 
+    		URL url = new URL(urlStr);
 	        connection = (HttpURLConnection) url.openConnection();
-	        
+
 	        connection.setRequestMethod("PUT"); //$NON-NLS-1$
 	        connection.setConnectTimeout(60000);
 	        connection.setReadTimeout(60000);
 	        connection.connect();
 	        int responseCode = connection.getResponseCode();
-	        if (responseCode!=200) {
+            if (!(responseCode >= 200 && responseCode < 300)) {
 	        	logger.error("HTTP RESPONSE CODE=" + responseCode); //$NON-NLS-1$
 	        	throw new WorkflowException("Unable to connect to " + urlStr); //$NON-NLS-1$
 	        }
@@ -123,5 +125,5 @@ public class EmbeddedJbpmManager implements BpmManager {
 	    	if (connection!=null) connection.disconnect();
 	    }
     }
-    
+
 }

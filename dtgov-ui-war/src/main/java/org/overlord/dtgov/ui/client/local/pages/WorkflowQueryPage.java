@@ -16,8 +16,7 @@
 package org.overlord.dtgov.ui.client.local.pages;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -32,7 +31,6 @@ import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.overlord.commons.gwt.client.local.widgets.HtmlSnippet;
 import org.overlord.commons.gwt.client.local.widgets.UnorderedListPanel;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
-import org.overlord.dtgov.ui.client.local.beans.UiConfiguration;
 import org.overlord.dtgov.ui.client.local.pages.workflowQuery.WorkflowQueryPropertiesTable;
 import org.overlord.dtgov.ui.client.local.pages.workflowQuery.WorkflowTypeListBox;
 import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
@@ -154,7 +152,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Creates the workflow query bean.
-     * 
+     *
      * @return the workflow query bean
      */
     private WorkflowQueryBean createWorkflowQueryBean() {
@@ -172,7 +170,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the _back to dashboard.
-     * 
+     *
      * @return the _back to dashboard
      */
     public TransitionAnchor<DashboardPage> get_backToDashboard() {
@@ -181,7 +179,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the adds the property.
-     * 
+     *
      * @return the adds the property
      */
     public Button getAddProperty() {
@@ -190,7 +188,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the back to queries.
-     * 
+     *
      * @return the back to queries
      */
     public TransitionAnchor<WorkflowQueriesPage> getBackToQueries() {
@@ -199,7 +197,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the config service.
-     * 
+     *
      * @return the config service
      */
     public ConfigurationService getConfigService() {
@@ -208,7 +206,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the description box.
-     * 
+     *
      * @return the description box
      */
     public TextArea getDescriptionBox() {
@@ -217,7 +215,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the form validation error div.
-     * 
+     *
      * @return the form validation error div
      */
     public HtmlSnippet getFormValidationErrorDiv() {
@@ -226,7 +224,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the i18n.
-     * 
+     *
      * @return the i18n
      */
     public ClientMessages getI18n() {
@@ -235,7 +233,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the notification service.
-     * 
+     *
      * @return the notification service
      */
     public NotificationService getNotificationService() {
@@ -244,7 +242,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the page content.
-     * 
+     *
      * @return the page content
      */
     public Element getPageContent() {
@@ -253,7 +251,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the properties table.
-     * 
+     *
      * @return the properties table
      */
     public WorkflowQueryPropertiesTable getPropertiesTable() {
@@ -262,7 +260,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the query box.
-     * 
+     *
      * @return the query box
      */
     public TextBox getQueryBox() {
@@ -271,7 +269,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the query name box.
-     * 
+     *
      * @return the query name box
      */
     public TextBox getQueryNameBox() {
@@ -280,7 +278,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the reset button.
-     * 
+     *
      * @return the reset button
      */
     public Button getResetButton() {
@@ -289,7 +287,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the submit button.
-     * 
+     *
      * @return the submit button
      */
     public Button getSubmitButton() {
@@ -298,7 +296,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the uuid.
-     * 
+     *
      * @return the uuid
      */
     public String getUuid() {
@@ -307,7 +305,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the validation_errors.
-     * 
+     *
      * @return the validation_errors
      */
     public UnorderedListPanel getValidation_errors() {
@@ -316,7 +314,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the workflow.
-     * 
+     *
      * @return the workflow
      */
     public WorkflowTypeListBox getWorkflow() {
@@ -325,7 +323,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the workflow query loading.
-     * 
+     *
      * @return the workflow query loading
      */
     public HtmlSnippet getWorkflowQueryLoading() {
@@ -334,7 +332,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Gets the workflow query service.
-     * 
+     *
      * @return the workflow query service
      */
     public WorkflowQueriesRpcService getWorkflowQueryService() {
@@ -368,7 +366,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Ond add property.
-     * 
+     *
      * @param event
      *            the event
      */
@@ -379,7 +377,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.overlord.dtgov.ui.client.local.pages.AbstractPage#onPageShowing()
      */
@@ -400,20 +398,31 @@ public class WorkflowQueryPage extends AbstractPage {
         _formValidationErrorDiv.getElement().addClassName("hide"); //$NON-NLS-1$
         _pageContent = DOMUtil.findElementById(getElement(), "workflow-query-content-wrapper"); //$NON-NLS-1$
 
-        UiConfiguration uiConfig = _configService.getUiConfig();
-
         this._workflow.clear();
-        Map<String, String> workflowTypes = uiConfig.getWorkflowTypes();
-        for (Entry<String, String> entry : workflowTypes.entrySet()) {
-            this._workflow.addItem(entry.getKey(), entry.getValue());
-        }
+        _workflowQueryService.getWorkflowTypes(new IRpcServiceInvocationHandler<Set<String>>() {
+
+                    @Override
+            public void onReturn(Set<String> workflowTypes) {
+                for (String entry : workflowTypes) {
+                    _workflow.addItem(entry, entry);
+                }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                _notificationService.sendErrorNotification(
+                        _i18n.format("workflowQuery.workflow.type.loading.error"), error); //$NON-NLS-1$
+                    }
+        });
+
         _descriptionBox.setVisibleLines(3);
 
     }
 
     /**
      * On submit click.
-     * 
+     *
      * @param event
      *            the event
      */
@@ -438,7 +447,7 @@ public class WorkflowQueryPage extends AbstractPage {
                     _notificationService.removeNotification(notification.getUuid());
                     Window.scrollTo(0, 0);
                 } else {
-                    _notificationService.completeProgressNotification(notification.getUuid(), 
+                    _notificationService.completeProgressNotification(notification.getUuid(),
                             _i18n.format("workflowQuery-submit.error-saving"), //$NON-NLS-1$
                             error);
                 }
@@ -455,7 +464,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Reset.
-     * 
+     *
      * @param event
      *            the event
      */
@@ -476,7 +485,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the _back to dashboard.
-     * 
+     *
      * @param _backToDashboard
      *            the new _back to dashboard
      */
@@ -486,7 +495,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the _workflow query service.
-     * 
+     *
      * @param workflowQueryService
      *            the new _workflow query service
      */
@@ -496,7 +505,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the adds the property.
-     * 
+     *
      * @param addProperty
      *            the new adds the property
      */
@@ -506,7 +515,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the back to queries.
-     * 
+     *
      * @param backToQueries
      *            the new back to queries
      */
@@ -516,7 +525,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the config service.
-     * 
+     *
      * @param configService
      *            the new config service
      */
@@ -526,7 +535,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the description box.
-     * 
+     *
      * @param descriptionBox
      *            the new description box
      */
@@ -536,7 +545,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the form validation error div.
-     * 
+     *
      * @param formValidationErrorDiv
      *            the new form validation error div
      */
@@ -546,7 +555,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the i18n.
-     * 
+     *
      * @param i18n
      *            the new i18n
      */
@@ -556,7 +565,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the notification service.
-     * 
+     *
      * @param notificationService
      *            the new notification service
      */
@@ -566,7 +575,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the page content.
-     * 
+     *
      * @param pageContent
      *            the new page content
      */
@@ -576,7 +585,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the properties table.
-     * 
+     *
      * @param propertiesTable
      *            the new properties table
      */
@@ -586,7 +595,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the query box.
-     * 
+     *
      * @param queryBox
      *            the new query box
      */
@@ -596,7 +605,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the query name box.
-     * 
+     *
      * @param queryNameBox
      *            the new query name box
      */
@@ -606,7 +615,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the reset button.
-     * 
+     *
      * @param resetButton
      *            the new reset button
      */
@@ -616,7 +625,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the submit button.
-     * 
+     *
      * @param submitButton
      *            the new submit button
      */
@@ -626,7 +635,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the uuid.
-     * 
+     *
      * @param uuid
      *            the new uuid
      */
@@ -636,7 +645,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the validation_errors.
-     * 
+     *
      * @param validation_errors
      *            the new validation_errors
      */
@@ -646,7 +655,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the workflow.
-     * 
+     *
      * @param workflow
      *            the new workflow
      */
@@ -656,7 +665,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Sets the workflow query loading.
-     * 
+     *
      * @param workflowQueryLoading
      *            the new workflow query loading
      */
@@ -666,7 +675,7 @@ public class WorkflowQueryPage extends AbstractPage {
 
     /**
      * Update content.
-     * 
+     *
      * @param data
      *            the data
      */

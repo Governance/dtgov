@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The Query executor starts workflow instances based on queries in the config.
- * 
+ *
  * @author <a href="mailto:kstam@jboss.com">Kurt T Stam</a>
  *
  */
@@ -49,28 +49,29 @@ import org.slf4j.LoggerFactory;
 @RequestScoped
 public class QueryExecutor {
 
-    private static String WORKFLOW_PROCESS_ID = "workflowProcessId="; //$NON-NLS-1$
-    private static String WORKFLOW_PARAMETERS = "workflowParameters="; //$NON-NLS-1$
     private static String GROUPED_BY = "groupedBy"; //$NON-NLS-1$
+    private static Logger logger = LoggerFactory.getLogger(QueryExecutor.class);
+    private static String MAVEN_PROPERTY_SIGNAL = "maven.property.signal"; //$NON-NLS-1$
     //signal query
     private static String SIGNAL_QUERY = "/s-ramp/ext/MavenPom[@maven.property.signal]"; //$NON-NLS-1$
-	private static String MAVEN_PROPERTY_SIGNAL = "maven.property.signal"; //$NON-NLS-1$
-	
-    private static Logger logger = LoggerFactory.getLogger(QueryExecutor.class);
+    private static String WORKFLOW_PARAMETERS = "workflowParameters="; //$NON-NLS-1$
+
+    private static String WORKFLOW_PROCESS_ID = "workflowProcessId="; //$NON-NLS-1$
 
     public static synchronized void execute() throws SrampClientException, MalformedURLException, ConfigException {
-    	
+
     	Governance governance = new Governance();
     	String deploymentId = governance.getGovernanceWorkflowGroup() + ":"  //$NON-NLS-1$
     			+ governance.getGovernanceWorkflowName() + ":" //$NON-NLS-1$
     			+ governance.getGovernanceWorkflowVersion() + ":" //$NON-NLS-1$
     			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE + ":" //$NON-NLS-1$
     			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_KSESSION;
-    	
+
     	BpmManager bpmManager = WorkflowFactory.newInstance();
     	SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
         //for all queries defined in the governance.properties file
-        Iterator<Query> queryIterator = governance.getQueries().iterator();
+        QueryAccessor accesor = new QueryAccessor();
+        Iterator<Query> queryIterator = accesor.getQueries().iterator();
         while (queryIterator.hasNext()) {
             Query query = queryIterator.next();
             try {
@@ -85,14 +86,14 @@ public class QueryExecutor {
                         String name  = WORKFLOW_PROCESS_ID + query.getWorkflowId();
                         String value = WORKFLOW_PARAMETERS + query.getParameters();
                         //for backwards compatibility of version 1.2 and before
-                        String backwardsCompatValue = WORKFLOW_PARAMETERS + query.getParameters().replaceAll("\\{governance.url\\}",governance.getGovernanceUrl()); //$NON-NLS-1$
+                        //String backwardsCompatValue = WORKFLOW_PARAMETERS + query.getParameters().replaceAll("\\{governance.url\\}",governance.getGovernanceUrl()); //$NON-NLS-1$
                         String propertyName = null;
                         boolean hasPropertyName = false;
                         Map<String,String> propertyMap = new HashMap<String,String>();
                         for (Property property : properties) {
                             propertyMap.put(property.getPropertyName(), property.getPropertyValue());
-                            if (property.getPropertyName().startsWith(name) && (property.getPropertyValue().endsWith(value) ||
-                            		property.getPropertyValue().endsWith(backwardsCompatValue)) ) {
+                            if (property.getPropertyName().startsWith(name)
+                                    && (property.getPropertyValue().endsWith(value))) {// property.getPropertyValue().endsWith(backwardsCompatValue)
                             	//if BOTH the name AND the value exist then don't start another workflow
                             	//the idea is that you may want to start two of the same workflows but with
                             	//different parameters.
@@ -111,7 +112,7 @@ public class QueryExecutor {
                             Map<String,Object> parameters = query.getParsedParameters();
                             parameters.put("ArtifactUuid", artifact.getUuid()); //$NON-NLS-1$
                             long processInstanceId = bpmManager.newProcessInstance(deploymentId, query.getWorkflowId(), parameters);
-                            
+
                             propertyName = WORKFLOW_PROCESS_ID + query.getWorkflowId() + "_"; //$NON-NLS-1$
                             // set this process as a property, so we don't start another
                             int i=0;
@@ -131,7 +132,7 @@ public class QueryExecutor {
                 logger.error(Messages.i18n.format("QueryExecutor.ExceptionFor", query.getSrampQuery(), e.getMessage()), e); //$NON-NLS-1$
             }
         }
-        
+
         //If a MavenPom gets uploaded, with a property of 'signal', which ends up in
         //metaData as a custom property of maven.property.signal, then find the
         //accompanying Application Grouping so we find the workflow instance(s)
@@ -158,7 +159,8 @@ public class QueryExecutor {
                     						if (signalProperty.getPropertyName().equals(MAVEN_PROPERTY_SIGNAL)) {
                     							String signalType = signalProperty.getPropertyValue();
                     							bpmManager.signalProcess(processInstanceId, signalType, pomArtifact.getUuid());
-                    							// change the name of the property on the artifact 
+                                                // change the name of the
+                                                // property on the artifact
                     							// so we don't keep on signaling it
                     							signalProperty.setPropertyName(MAVEN_PROPERTY_SIGNAL + ".sent"); //$NON-NLS-1$
                     							client.updateArtifactMetaData(pomArtifact);
@@ -176,7 +178,7 @@ public class QueryExecutor {
             logger.error(Messages.i18n.format("QueryExecutor.ExceptionFor", SIGNAL_QUERY, e.getMessage()), e); //$NON-NLS-1$
         }
     }
-    
-    
+
+
 
 }
