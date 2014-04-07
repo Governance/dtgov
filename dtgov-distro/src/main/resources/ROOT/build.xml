@@ -17,7 +17,7 @@
   <property name="lib.slf4j-api.jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.slf4j-api.jar}" />
   <property name="lib.slf4j-jdk14.jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.slf4j-jdk14.jar}" />
   <property name="lib.mail.jar" location="${dtgov-distro.tomcatlibdir}/${dtgov.tomcat.lib.mail.jar}" />
-	
+  <property name="dtgov-workflows-jar.path" location="${dtgov-distro.rootdir}/dtgov-data/dtgov-workflows-${dtgov.version}.jar"/>
   <!-- Install DTGov -->
   <target name="install">
     
@@ -170,6 +170,8 @@
     <ant antfile="${dtgov-distro.dtgov-installer.dir}/build.xml" inheritall="true" target="seed" 
          dir="${dtgov-distro.dtgov-installer.dir}">
       <property name="dtgov.s-ramp.cli.jar" location="${dtgov-distro.rootdir}/bin/s-ramp-shell-${s-ramp.version}.jar" />
+      <property name="dtgov-workflows-jar-path" value="${dtgov-workflows-jar.path}"/>
+      <property name="dtgov.install.commands.dir" location="${dtgov-distro.dtgov-installer.dir}"/>
     </ant>
 
   </target>

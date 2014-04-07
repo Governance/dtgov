@@ -52,6 +52,11 @@
     <!-- DTGov -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-workflows</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-war-eap61</artifactId>
       <version>${project.version}</version>
       <type>war</type>
@@ -420,8 +425,11 @@
                   <tasks>
                     <property name="appserver.id" value="jboss-eap-6.1" />
                     <property name="s-ramp.shell.password" value="${s-ramp.shell.password}"/>
-                    <property name="s-ramp.shell.username" value="${s-ramp.shell.username}"/>                
+                    <property name="s-ramp.shell.username" value="${s-ramp.shell.username}"/>  
+                    <property name="dtgov.install.dir" location="${project.build.directory}" />  
+                    <property name="dtgov-workflows-jar-path" value="${maven.dependency.org.overlord.dtgov.dtgov-workflows.jar.path}"/>             
                     <property file="build.properties" />
+                    <property name="dtgov.install.commands.dir" location="${project.build.directory}/classes"></property>
                     <property name="dtgov.s-ramp.cli.zip" value="${maven.dependency.org.overlord.sramp.s-ramp-distro-assembly-cli.zip.path}" />
                     <unzip src="${dtgov.s-ramp.cli.zip}" dest="${project.build.directory}" overwrite="true" />
                     <property name="dtgov.s-ramp.cli.jar" value="${project.build.directory}/s-ramp-cli-${s-ramp.version}/bin/s-ramp-shell-${s-ramp.version}.jar" />

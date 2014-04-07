@@ -2,6 +2,7 @@
 connect http://localhost:8080/s-ramp-server
 ontology:upload dtgov-data/deployment-status.owl
 ontology:upload dtgov-data/project-review-status.owl
+maven:deploy ${dtgov-workflow-jar} ${project.groupId}:dtgov-workflows:${project.version} KieJarArchive
 create DtgovWorkflowQuery ArtifactGrouping "Workflow Query for all the artifacts that their name starts with Project"
 property set query "/s-ramp/ext/ArtifactGrouping[xp2:matches(@name, 'Project.*')]"
 property set workflow overlord.demo.SimplifiedProjectLifeCycle

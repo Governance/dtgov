@@ -39,14 +39,13 @@
     <echo message="# Adding DTGov specific seed data to the     #" />
     <echo message="# S-RAMP repository.                         #" />
     <echo message="##############################################" />
-    <echo message=" " />
 
     <property name="dtgov.s-ramp.cli.jar" location="bin/s-ramp-shell-${s-ramp.version}.jar" />
-    <property name="dtgov.s-ramp.cli.commands" location="cli-commands.txt" />
-  	
+    <property name="dtgov.s-ramp.cli.commands" location="${dtgov.install.commands.dir}/cli-commands.txt" />
     <java jar="${dtgov.s-ramp.cli.jar}" fork="true" >
       <arg value="-f" />
       <arg value="${dtgov.s-ramp.cli.commands}" />
+      <arg value="-Ddtgov-workflow-jar=${dtgov-workflows-jar-path}" />
       <jvmarg value="-Ds-ramp.shell.username=${s-ramp.shell.username}" />
       <jvmarg value="-Ds-ramp.shell.password=${s-ramp.shell.password}" />
     </java>
