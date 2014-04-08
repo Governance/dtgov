@@ -15,7 +15,9 @@
  */
 package org.overlord.sramp.governance;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
@@ -78,7 +80,14 @@ public class QueryAccessor {
 
                 Query q = new Query(SrampModelUtils.getCustomProperty(artifact, PROPERTY_QUERY),
                         SrampModelUtils.getCustomProperty(artifact, PROPERTY_WORKLOW));
-                q.setParameters(SrampModelUtils.getCustomPropertiesByPrefix(artifact, PROPERTY_PREFIX));
+
+                Map<String, String> props = SrampModelUtils.getCustomPropertiesByPrefix(artifact,
+                        PROPERTY_PREFIX);
+                Map<String, String> props_without_prefix = new HashMap<String, String>();
+                for (String key : props.keySet()) {
+                    props_without_prefix.put(key.substring(PROPERTY_PREFIX.length()), props.get(key));
+                }
+                q.setParameters(props_without_prefix);
                 queries.add(q);
             }
         } catch (SrampClientException e) {
