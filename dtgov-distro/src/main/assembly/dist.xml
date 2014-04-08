@@ -51,8 +51,7 @@
     </dependencySet>
     <!-- The dtgov-workflows KIE archive -->
     <dependencySet>
-      <outputDirectory>dtgov-data/src/main/resources</outputDirectory>
-      <unpack>true</unpack>
+      <outputDirectory>dtgov-data</outputDirectory>
       <includes>
         <include>org.overlord.dtgov:dtgov-workflows:jar</include>
       </includes>
