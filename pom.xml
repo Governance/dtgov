@@ -478,12 +478,12 @@
     <module>dtgov-task-api</module>
     <module>dtgov-task-client</module>
     <module>dtgov-war</module>
-    <module>dtgov-war-eap61</module>
-    <module>dtgov-war-eap61-modules</module>
+    <module>dtgov-war-eap6</module>
+    <module>dtgov-war-eap6-modules</module>
     <module>dtgov-war-jetty8</module>
     <module>dtgov-war-tomcat7</module>
     <module>dtgov-ui-war</module>
-    <module>dtgov-ui-war-eap61</module>
+    <module>dtgov-ui-war-eap6</module>
     <module>dtgov-ui-war-tomcat7</module>
     <module>dtgov-workflows</module>
     <module>dtgov-demos</module>

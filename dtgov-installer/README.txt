@@ -1,14 +1,14 @@
 
-1. Installing DTGov to S-RAMP on JBoss EAP-6.1
+1. Installing DTGov to S-RAMP on JBoss EAP-6
 
     If you don't have S-RAMP already installed then do that first. Once you have
-    that deployed copy the target/jboss-eap-6.1 to a shared folder (eg, /opt)
+    that deployed copy the target/jboss-eap-6 to a shared folder (eg, /opt)
     and from the dtgov-installer module run
      
-    mvn -Pinstall-eap61 -Ddtgov.install.dir=/opt install
+    mvn -Pinstall-eap6 -Ddtgov.install.dir=/opt install
      
     This will install dtgov and dtgov-ui as well as the needed configuration.
-    You can start the server by going into the /opt/jboss-eap-6.1/bin directory
+    You can start the server by going into the /opt/jboss-eap-6/bin directory
     and by issuing
      
     ./standalone.sh

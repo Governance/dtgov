@@ -585,7 +585,7 @@ public class DeploymentResource {
             file.delete();
         }
 
-        // Delete any JBoss AS 7/EAP 6.1 deployment files.
+        // Delete any JBoss AS 7/EAP 6 deployment files.
         File deployFile = new File(deployedFile + ".deployed"); //$NON-NLS-1$
         if (deployFile.isFile()) {
             deployFile.delete();

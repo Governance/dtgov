@@ -28,19 +28,19 @@
     <echo message="#######################################################" />
     <echo message=" " />
     <echo message=" Choose from one of the following options." />
-    <echo message="    1. Install into JBoss EAP 6.1" />
+    <echo message="    1. Install into JBoss EAP 6" />
     <echo message="    2. Install into Tomcat 7" />
     <echo message=" " />
     <input message="Choice: " addproperty="dtgov-distro.choices.platform" />
 
-    <condition property="dtgov-distro.choices.platform.jboss-eap-6.1">
+    <condition property="dtgov-distro.choices.platform.jboss-eap-6">
       <equals arg1="${dtgov-distro.choices.platform}" arg2="1" />
     </condition>
     <condition property="dtgov-distro.choices.platform.tomcat-7">
       <equals arg1="${dtgov-distro.choices.platform}" arg2="2" />
     </condition>
 
-    <antcall target="install-jboss-eap-6.1-wrapper" />
+    <antcall target="install-jboss-eap-6-wrapper" />
     <antcall target="install-tomcat-7-wrapper" />
   </target>
 
@@ -50,43 +50,43 @@
   	<unzip src="${dtgov-distro.dtgov-installer.jar}" dest="${dtgov-distro.dtgov-installer.dir}" overwrite="false" />
   </target>
 
-  <!-- Install into EAP 6.1 -->
-  <target name="install-jboss-eap-6.1-wrapper" if="dtgov-distro.choices.platform.jboss-eap-6.1">
+  <!-- Install into EAP 6 -->
+  <target name="install-jboss-eap-6-wrapper" if="dtgov-distro.choices.platform.jboss-eap-6">
     <echo message=" " />
     <echo message="#######################################################" />
-    <echo message="# Installing DTGov into EAP 6.1 (great choice!).     #" />
+    <echo message="# Installing DTGov into EAP 6 (great choice!).     #" />
     <echo message="#######################################################" />
     <echo message=" " />
-    <echo message=" Please tell us where JBoss EAP 6.1 is located (full path)." />
+    <echo message=" Please tell us where JBoss EAP 6 is located (full path)." />
     <echo message=" " />
-    <input message="Path to EAP 6.1: " addproperty="dtgov-distro.choices.platform.jboss-eap-6.1.path" />
+    <input message="Path to EAP 6: " addproperty="dtgov-distro.choices.platform.jboss-eap-6.path" />
     
-    <antcall target="install-jboss-eap-6.1" />
+    <antcall target="install-jboss-eap-6" />
   </target>
   
-  <target name="install-jboss-eap-6.1" depends="extract-installer">
-    <condition property="dtgov-distro.choices.platform.jboss-eap-6.1.path.valid">
-      <available file="jboss-modules.jar" filepath="${dtgov-distro.choices.platform.jboss-eap-6.1.path}" />
+  <target name="install-jboss-eap-6" depends="extract-installer">
+    <condition property="dtgov-distro.choices.platform.jboss-eap-6.path.valid">
+      <available file="jboss-modules.jar" filepath="${dtgov-distro.choices.platform.jboss-eap-6.path}" />
     </condition>
-    <fail message="Failed to find JBoss EAP 6.1 at: ${dtgov-distro.choices.platform.jboss-eap-6.1.path}" 
-          unless="dtgov-distro.choices.platform.jboss-eap-6.1.path.valid" />
+    <fail message="Failed to find JBoss EAP 6 at: ${dtgov-distro.choices.platform.jboss-eap-6.path}" 
+          unless="dtgov-distro.choices.platform.jboss-eap-6.path.valid" />
 
-    <echo message="Installing into: ${dtgov-distro.choices.platform.jboss-eap-6.1.path} " />
+    <echo message="Installing into: ${dtgov-distro.choices.platform.jboss-eap-6.path} " />
 
     <!-- Call the DTGov installer -->
     <ant antfile="${dtgov-distro.dtgov-installer.dir}/build.xml" inheritall="true" target="install" 
          dir="${dtgov-distro.dtgov-installer.dir}">
-      <property name="appserver.id" value="jboss-eap-6.1" />
+      <property name="appserver.id" value="jboss-eap-6" />
       <property name="dtgov.install.dir" location="${dtgov-distro.tempdir}" />
-      <property name="dtgov.appserver.dir" location="${dtgov-distro.choices.platform.jboss-eap-6.1.path}" />
+      <property name="dtgov.appserver.dir" location="${dtgov-distro.choices.platform.jboss-eap-6.path}" />
       <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-${overlord-commons.version}.jar" />
-      <property name="overlord-commons.idp.file" value="${dtgov-distro.bindir}/overlord-commons-idp-eap61-${overlord-commons.version}.war" />
+      <property name="overlord-commons.idp.file" value="${dtgov-distro.bindir}/overlord-commons-idp-eap6-${overlord-commons.version}.war" />
       <property name="overlord-commons.services.file" location="${dtgov-distro.bindir}/overlord-commons-services-${overlord-commons.version}.jar" />
       <property name="overlord-commons.auth.file" location="${dtgov-distro.bindir}/overlord-commons-auth-${overlord-commons.version}.jar" />
       <property name="overlord-commons.auth.tomcat7.file" location="${dtgov-distro.bindir}/overlord-commons-auth-tomcat7-${overlord-commons.version}.jar" />
       <property name="overlord-commons.auth.jboss7.file" location="${dtgov-distro.bindir}/overlord-commons-auth-jboss7-${overlord-commons.version}.jar" />
-      <property name="dtgov.dtgov-war.path" location="${dtgov-distro.bindir}/dtgov-war-eap61-${dtgov.version}.war" />
-      <property name="dtgov.dtgov-ui.path" location="${dtgov-distro.bindir}/dtgov-ui-war-eap61-${dtgov.version}.war" />
+      <property name="dtgov.dtgov-war.path" location="${dtgov-distro.bindir}/dtgov-war-eap6-${dtgov.version}.war" />
+      <property name="dtgov.dtgov-ui.path" location="${dtgov-distro.bindir}/dtgov-ui-war-eap6-${dtgov.version}.war" />
     </ant>
   </target>
 

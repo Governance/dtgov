@@ -7,9 +7,9 @@ Distribution, thanks for downloading!
 Here are the steps you need to follow to get everything working.  For a more 
 detailed set of instructions, see the "Overview" section below.
 
-    1) Download JBoss EAP 6.1
+    1) Download JBoss EAP 6
     2) Download S-RAMP distribution
-    3) Follow the S-RAMP distribution instructions and install S-RAMP into JBoss EAP 6.1
+    3) Follow the S-RAMP distribution instructions and install S-RAMP into JBoss EAP 6
     4) Unpack the DTGov distribution
     5) Run the DTGov installer
     6) Follow the DTGov installer instructions to install DTGov into the same JBoss EAP
@@ -20,11 +20,11 @@ detailed set of instructions, see the "Overview" section below.
 Here is some pseudo-bash that accomplishes the above:
 
     mkdir ~/overlord
-    # Download JBoss EAP 6.1 (jboss-eap-6.1.0.zip)
+    # Download JBoss EAP 6.x (jboss-eap-6.x.0.zip)
     #    From - http://www.jboss.org/jbossas/downloads
     # Download S-RAMP distribution (s-ramp-${s-ramp.version}.zip)
     #    From - http://www.jboss.org/overlord/downloads/sramp
-    unzip ~/Downloads/jboss-eap-6.1.0.zip ~/overlord
+    unzip ~/Downloads/jboss-eap-6.x.0.zip ~/overlord
     unzip ~/Downloads/s-ramp-${s-ramp.version}.zip ~/overlord
     cd ~/overlord/s-ramp-${s-ramp.version}
     ant install
@@ -35,7 +35,7 @@ Here is some pseudo-bash that accomplishes the above:
     ant install
     # Follow dtgov installation instructions here
     
-    # Start JBoss (target/jboss-eap-6.1/bin/standalone.sh) - wait for startup to complete
+    # Start JBoss (target/jboss-eap-6.x/bin/standalone.sh) - wait for startup to complete
     ant seed
     cd ~/overlord/dtgov-${project.version}/dtgov-data
     mvn deploy
@@ -49,7 +49,7 @@ This distribution comes with the following:
     2) src - all of the source code, in a number of "-sources" JARs.
     3) demos - some quickstarts/demos to help you get started with DTGov
     4) build.xml/build.properties - an Ant script that will install 
-       and configure DTGov in JBoss EAP 6.1 (or Tomcat 7)
+       and configure DTGov in JBoss EAP 6 (or Tomcat 7)
     5) dtgov-data - some seed data required for out of the box DTGov
        functionality
     6) docs - the DTGov documentation
@@ -57,7 +57,7 @@ This distribution comes with the following:
 
 == What do I do next? ==
 This distribution works with version 6.1 of the JBoss Enterprise Application
-Platform (JBoss EAP 6.1) or Apache Tomcat 7.  You must download EAP or Tomcat
+Platform (JBoss EAP 6) or Apache Tomcat 7.  You must download EAP or Tomcat
 and point the DTGov installer to a valid application server installation.
 
     Download JBoss here:   http://www.jboss.org/jbossas/downloads

@@ -9,7 +9,7 @@
   <!-- ****************************************************** -->
   <!-- Customize these properties when calling this installer -->
   <!-- ****************************************************** -->
-  <property name="appserver.id" value="jboss-eap-6.1" />
+  <property name="appserver.id" value="jboss-eap-6" />
   <property name="dtgov.install.dir" location="target" />
   <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/${appserver.id}" />
   <!-- ****************************************************** -->
