@@ -928,7 +928,7 @@
         <bpmn2:targetRef>response</bpmn2:targetRef>
       </bpmn2:dataOutputAssociation>
     </bpmn2:userTask>
-    <bpmn2:task id="Task_12" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="Classify #QaPass">
+    <bpmn2:task id="Task_12" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="Classify #StagePass">
       <bpmn2:documentation id="Documentation_90">Classifies the artifact with the environment classification</bpmn2:documentation>
       <bpmn2:incoming>SequenceFlow_22</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_24</bpmn2:outgoing>
@@ -968,7 +968,7 @@
       <bpmn2:dataInputAssociation id="DataInputAssociation_59">
         <bpmn2:targetRef>DataInput_59</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_45">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_93">http://www.jboss.org/overlord/deployment-status.owl#QaPass</bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_93">http://www.jboss.org/overlord/deployment-status.owl#StagePass</bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_94">_DataInput_73</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
