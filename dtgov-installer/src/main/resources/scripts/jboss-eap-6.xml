@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Install Overlord: DTGov into EAP 6.1" default="install">
+<project name="Install Overlord: DTGov into EAP 6" default="install">
 
-  <!-- Configure properties for JBoss EAP 6.1 -->
-  <target name="properties-jboss-eap-6.1">
+  <!-- Configure properties for JBoss EAP 6 -->
+  <target name="properties-jboss-eap-6">
     <property name="dtgov.updates.dir" location="${basedir}/updates" />
 
     <property name="dtgov.overlord-commons.installer.jar" location="overlord-commons-installer.jar" />
@@ -10,16 +10,16 @@
     
     <property name="dtgov.jboss.deploy.dir" location="${dtgov.appserver.dir}/standalone/deployments/" />
     <property name="dtgov.jboss.config.dir" location="${dtgov.appserver.dir}/standalone/configuration/" />
-    <property name="dtgov.dtgov-war.path" location="bin/dtgov-war-eap61-${dtgov.version}.war" />
-    <property name="dtgov.dtgov-ui.path" location="bin/dtgov-ui-war-eap61-${dtgov.version}.war" />
+    <property name="dtgov.dtgov-war.path" location="bin/dtgov-war-eap6-${dtgov.version}.war" />
+    <property name="dtgov.dtgov-ui.path" location="bin/dtgov-ui-war-eap6-${dtgov.version}.war" />
   </target>
 
   <!-- Install DTGov -->
-  <target name="install" depends="properties-jboss-eap-6.1">
+  <target name="install" depends="properties-jboss-eap-6">
     <echo message=" " />
     <echo message="##############################################" />
     <echo message="# Running the Overlord:DTGov installer. This #" />
-    <echo message="# will install DTGov into JBoss EAP 6.1.     #" />
+    <echo message="# will install DTGov into JBoss EAP 6.     #" />
     <echo message="##############################################" />
     <echo message=" " />
 

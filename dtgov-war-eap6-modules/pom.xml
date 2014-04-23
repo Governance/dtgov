@@ -5,9 +5,9 @@
     <artifactId>dtgov</artifactId>
     <version>1.2.1-SNAPSHOT</version>
   </parent>
-  <artifactId>dtgov-war-eap61-modules</artifactId>
+  <artifactId>dtgov-war-eap6-modules</artifactId>
   <packaging>war</packaging>
-  <name>Design Time Governance: WAR (eap 6.1 with jBPM modules)</name>
+  <name>Design Time Governance: WAR (eap 6 with jBPM modules)</name>
   <dependencies>
     <!-- The base WAR being extended -->
     <dependency>
