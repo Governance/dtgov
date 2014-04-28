@@ -1,38 +1,37 @@
-
-connect http://localhost:8080/s-ramp-server
-ontology:upload dtgov-data/deployment-status.owl
-ontology:upload dtgov-data/project-review-status.owl
-maven:deploy ${dtgov-workflow-jar} ${project.groupId}:dtgov-workflows:${project.version} KieJarArchive
-create DtgovWorkflowQuery ArtifactGrouping "Workflow Query for all the artifacts that their name starts with Project"
-property set query "/s-ramp/ext/ArtifactGrouping[xp2:matches(@name, 'Project.*')]"
-property set workflow overlord.demo.SimplifiedProjectLifeCycle
-property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
-updateMetaData
-create DtgovWorkflowQuery SwitchYardApplication "Query that is applied to all the SwitchYard Applications"
-property set query "/s-ramp/ext/SwitchYardApplication"
-property set workflow overlord.demo.SimpleReleaseProcess
-property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
-property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
-property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
-updateMetaData
-create DtgovWorkflowQuery JavaArchive "Query that is applied to all the JavaArchive Applications"
-property set query "/s-ramp/ext/JavaArchive"
-property set workflow overlord.demo.SimpleReleaseProcess
-property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
-property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
-property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
-updateMetaData
-create DtgovWorkflowQuery JavaWebApplication "Query that is applied to all the Java Web Applications"
-property set query "/s-ramp/ext/JavaWebApplication"
-property set workflow overlord.demo.SimpleReleaseProcess
-property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
-property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
-property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
-updateMetaData
-create DtgovWorkflowQuery JavaEnterpriseApplication "Query that is applied to all the Java Enterprise Applications"
-property set query "/s-ramp/ext/JavaEnterpriseApplication"
-property set workflow overlord.demo.SimpleReleaseProcess
-property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
-property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
-property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
-updateMetaData
+s-ramp:connect --url http://localhost:8080/s-ramp-server
+ontology:upload --urlContent dtgov-data/deployment-status.owl
+ontology:upload --urlContent dtgov-data/project-review-status.owl
+maven:deploy -f ${dtgov-workflow-jar} --gav ${project.groupId}:dtgov-workflows:${project.version} -t KieJarArchive
+s-ramp:create --artifactType DtgovWorkflowQuery --name ArtifactGrouping --description "Workflow Query for all the artifacts that their name starts with Project"
+s-ramp:property --set --name query  --value "/s-ramp/ext/ArtifactGrouping[xp2:matches(@name, \'Project.*\')]"
+s-ramp:property --set --name workflow --value overlord.demo.SimplifiedProjectLifeCycle
+s-ramp:property --set --name prop.UpdateMetaDataUrl --value {governance.url}/rest/update/{name}/{value}/{uuid}
+s-ramp:updateMetaData
+s-ramp:create --artifactType DtgovWorkflowQuery --name SwitchYardApplication --description "Query that is applied to all the SwitchYard Applications"
+s-ramp:property --set --name query --value "/s-ramp/ext/SwitchYardApplication"
+s-ramp:property --set --name workflow --value overlord.demo.SimpleReleaseProcess
+s-ramp:property --set --name prop.UpdateMetaDataUrl --value {governance.url}/rest/update/{name}/{value}/{uuid}
+s-ramp:property --set --name prop.DeploymentUrl --value {governance.url}/rest/deploy/{target}/{uuid}
+s-ramp:property --set --name prop.NotificationUrl --value {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
+s-ramp:updateMetaData
+s-ramp:create --artifactType DtgovWorkflowQuery --name JavaArchive --description "Query that is applied to all the JavaArchive Applications"
+s-ramp:property --set --name query --value "/s-ramp/ext/JavaArchive"
+s-ramp:property --set --name workflow --value overlord.demo.SimpleReleaseProcess
+s-ramp:property --set --name prop.UpdateMetaDataUrl --value {governance.url}/rest/update/{name}/{value}/{uuid}
+s-ramp:property --set --name prop.DeploymentUrl --value {governance.url}/rest/deploy/{target}/{uuid}
+s-ramp:property --set --name prop.NotificationUrl --value {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
+s-ramp:updateMetaData
+s-ramp:create --artifactType DtgovWorkflowQuery --name JavaWebApplication --description "Query that is applied to all the Java Web Applications"
+s-ramp:property --set --name query --value "/s-ramp/ext/JavaWebApplication"
+s-ramp:property --set --name workflow --value overlord.demo.SimpleReleaseProcess
+s-ramp:property --set --name prop.UpdateMetaDataUrl --value {governance.url}/rest/update/{name}/{value}/{uuid}
+s-ramp:property --set --name prop.DeploymentUrl --value {governance.url}/rest/deploy/{target}/{uuid}
+s-ramp:property --set --name prop.NotificationUrl --value {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
+s-ramp:updateMetaData
+s-ramp:create --artifactType DtgovWorkflowQuery --name JavaEnterpriseApplication --description "Query that is applied to all the Java Enterprise Applications"
+s-ramp:property --set --name query --value "/s-ramp/ext/JavaEnterpriseApplication"
+s-ramp:property --set --name workflow --value overlord.demo.SimpleReleaseProcess
+s-ramp:property --set --name prop.UpdateMetaDataUrl --value {governance.url}/rest/update/{name}/{value}/{uuid}
+s-ramp:property --set --name prop.DeploymentUrl --value {governance.url}/rest/deploy/{target}/{uuid}
+s-ramp:property --set --name prop.NotificationUrl --value {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
+s-ramp:updateMetaData
