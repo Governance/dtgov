@@ -34,7 +34,7 @@
       <scope>runtime</scope>
       <exclusions>
         <exclusion>
-          <artifactId>servlet-api</artifactId>
+		  <artifactId>servlet-api</artifactId>
           <groupId>javax.servlet</groupId>
         </exclusion>
         <exclusion>
@@ -124,9 +124,8 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
+      <groupId>org.jboss.spec.javax.servlet</groupId>
+      <artifactId>jboss-servlet-api_3.0_spec</artifactId>
       <scope>provided</scope>
     </dependency>
     
