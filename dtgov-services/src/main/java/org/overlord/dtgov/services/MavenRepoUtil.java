@@ -1,4 +1,4 @@
-package org.overlord.sramp.governance.services;
+package org.overlord.dtgov.services;
 
 import static org.kie.scanner.MavenRepository.getMavenRepository;
 

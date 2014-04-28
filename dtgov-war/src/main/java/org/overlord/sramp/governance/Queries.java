@@ -18,6 +18,8 @@ package org.overlord.sramp.governance;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.overlord.dtgov.common.Target;
+
 public class Queries {
 
     List<Target> targets;

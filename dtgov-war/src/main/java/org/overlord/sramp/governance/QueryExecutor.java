@@ -27,6 +27,7 @@ import javax.inject.Named;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Property;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Relationship;
+import org.overlord.dtgov.common.exception.ConfigException;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.SrampClientException;

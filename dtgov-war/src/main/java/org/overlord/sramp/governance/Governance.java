@@ -23,6 +23,9 @@ import java.util.Map;
 import org.apache.commons.configuration.Configuration;
 import org.overlord.commons.config.ConfigurationFactory;
 import org.overlord.commons.config.JBossServer;
+import org.overlord.dtgov.common.Target;
+import org.overlord.dtgov.common.exception.ConfigException;
+import org.overlord.sramp.governance.auth.BasicAuthenticationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -153,8 +156,7 @@ public class Governance {
 
     public Class<?> getSrampAuthProvider() throws Exception {
         String authProviderClassName = getConfiguration().getString(
-                GovernanceConstants.SRAMP_REPO_AUTH_PROVIDER,
-                org.overlord.sramp.governance.auth.BasicAuthenticationProvider.class.getName());
+                GovernanceConstants.SRAMP_REPO_AUTH_PROVIDER, BasicAuthenticationProvider.class.getName());
         if (authProviderClassName == null)
             return null;
         return Class.forName(authProviderClassName);

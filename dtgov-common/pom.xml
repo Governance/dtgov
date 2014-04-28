@@ -8,4 +8,6 @@
   <artifactId>dtgov-common</artifactId>
   <name>Design Time Governance: Common</name>
   <description>Contains classes shared across the various DTGov modules.</description>
+  <dependencies>
+  </dependencies>
 </project>

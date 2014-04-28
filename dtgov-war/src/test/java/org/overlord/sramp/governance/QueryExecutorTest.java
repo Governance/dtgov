@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.overlord.dtgov.common.exception.ConfigException;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampClientException;
 

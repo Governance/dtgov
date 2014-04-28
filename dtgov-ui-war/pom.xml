@@ -28,6 +28,13 @@
       <artifactId>dtgov-task-client</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!-- DTGov Services -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-services</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <!-- S-RAMP client -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>
@@ -250,6 +257,7 @@
           <soyc>false</soyc>
           <hostedWebapp>src/main/webapp/</hostedWebapp>
           <server>org.jboss.errai.cdi.server.gwt.JettyLauncher</server>
+          <gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
         </configuration>
         <executions>
           <execution>

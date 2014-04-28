@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
+import org.overlord.dtgov.common.exception.ConfigException;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;

@@ -1,4 +1,4 @@
-package org.overlord.sramp.governance.services.rhq;
+package org.overlord.dtgov.services.rhq;
 
 import static com.jayway.restassured.RestAssured.basic;
 import static com.jayway.restassured.RestAssured.given;
@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.overlord.dtgov.server.i18n.Messages;
-import org.overlord.sramp.governance.ConfigException;
+import org.overlord.dtgov.common.exception.ConfigException;
+import org.overlord.dtgov.services.i18n.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ import com.jayway.restassured.response.Response;
 
 public class RHQDeployUtil {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	static final String APPLICATION_JSON = "application/json"; //$NON-NLS-1$
 	static Header acceptJson = new Header("Accept", APPLICATION_JSON); //$NON-NLS-1$
 	String rhqUser, rhqPassword, rhqPluginName;

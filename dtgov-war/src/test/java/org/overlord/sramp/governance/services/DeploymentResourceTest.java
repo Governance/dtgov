@@ -32,10 +32,10 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.overlord.dtgov.common.Target;
+import org.overlord.dtgov.common.exception.ConfigException;
+import org.overlord.dtgov.services.rhq.RHQDeployUtil;
 import org.overlord.sramp.common.test.resteasy.BaseResourceTest;
-import org.overlord.sramp.governance.ConfigException;
-import org.overlord.sramp.governance.Target;
-import org.overlord.sramp.governance.services.rhq.RHQDeployUtil;
 
 
 /**

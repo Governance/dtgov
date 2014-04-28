@@ -276,6 +276,17 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- S-ramp dependencies -->
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-api</artifactId>
+	      <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-client</artifactId>
+	      <version>${s-ramp.version}</version>
+	  </dependency>      
       <!-- Override Lucene from BOM -->
       <dependency>
         <groupId>org.apache.lucene</groupId>
@@ -477,6 +488,7 @@
     <module>dtgov-common</module>
     <module>dtgov-task-api</module>
     <module>dtgov-task-client</module>
+    <module>dtgov-services</module>
     <module>dtgov-war</module>
     <module>dtgov-war-eap6</module>
     <module>dtgov-war-eap6-modules</module>
