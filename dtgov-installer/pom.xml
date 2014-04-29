@@ -177,6 +177,7 @@
                     <property name="dtgov.version" value="${project.version}" />
 
                     <!-- Overlord Commons Installer and Dependencies -->
+                    <property name="dtgov-overlord-commons.ant.jar.path" value="${maven.dependency.org.overlord.overlord-commons-ant.jar.path}"/>
                     <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
                     <property name="overlord-commons.idp.file" value="${maven.dependency.org.overlord.overlord-commons-idp-eap6.war.path}" />
                     <property name="overlord-commons.services.file" value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
@@ -204,6 +205,8 @@
                     <!-- replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties" value="${project.version}">
                       <replacetoken><![CDATA[${project.version}]]></replacetoken>
                     </replace> -->
+                    
+                    <property name="overlord-commons.ant.jar" location="${dtgov-overlord-commons.ant.jar.path}" />
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
                       <target name="install" />
                     </ant>
@@ -258,6 +261,7 @@
 					<property name="lib.mail.jar" value="${maven.dependency.javax.mail.mail.jar.path}" />
                     
                     <!-- Overlord Commons Installer and Dependencies -->
+                    <property name="dtgov-overlord-commons.ant.jar.path" value="${maven.dependency.org.overlord.overlord-commons-ant.jar.path}"/>
                     <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
                     <property name="overlord-commons.idp.file" value="${maven.dependency.org.overlord.overlord-commons-idp-tomcat7.war.path}" />
                     <property name="overlord-commons.services.file" value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
@@ -291,6 +295,7 @@
                       <replacevalue><![CDATA[#dtgov.workflows.version]]></replacevalue>
                     </replace>
 
+					<property name="overlord-commons.ant.jar" location="${dtgov-overlord-commons.ant.jar.path}" />
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
                       <target name="install" />
                     </ant>
@@ -345,6 +350,7 @@
 					<property name="lib.mail.jar" value="${maven.dependency.javax.mail.mail.jar.path}" />
                     
                     <!-- Overlord Commons Installer and Dependencies -->
+                    <property name="dtgov-overlord-commons.ant.jar.path" value="${maven.dependency.org.overlord.overlord-commons-ant.jar.path}"/>
                     <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
                     <property name="overlord-commons.idp.file" value="${maven.dependency.org.overlord.overlord-commons-idp-jetty8.war.path}" />
                     <property name="overlord-commons.services.file" value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
@@ -378,6 +384,7 @@
                       <replacevalue><![CDATA[#dtgov.workflows.version]]></replacevalue>
                     </replace>
 
+					<property name="overlord-commons.ant.jar" location="${dtgov-overlord-commons.ant.jar.path}" />
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
                       <target name="install" />
                     </ant>

@@ -21,15 +21,15 @@
     <echo message="# Running the Overlord:DTGov installer. This #" />
     <echo message="# will install DTGov into JBoss EAP 6.     #" />
     <echo message="##############################################" />
-    <echo message=" " />
+   <echo message=" " />
 
     <echo>----------------------------------</echo>
     <echo>Installing Overlord Commons</echo>
     <echo>----------------------------------</echo>
-    <unzip src="${dtgov.overlord-commons.installer.jar}" 
+    <unzip src="${dtgov.overlord-commons.installer.jar}"
            dest="${dtgov.overlord-commons.installer.dir}" overwrite="false" />
     <ant antfile="${dtgov.overlord-commons.installer.dir}/build.xml" target="install"
-         dir="${dtgov.overlord-commons.installer.dir}" 
+         dir="${dtgov.overlord-commons.installer.dir}"
          inheritall="true" inheritrefs="false">
       <property name="appserver.id" value="${appserver.id}" />
       <property name="overlord-commons.install.dir" location="${dtgov.install.dir}" />
