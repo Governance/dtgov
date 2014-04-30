@@ -23,6 +23,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.commons.codec.binary.Base64;
+import org.overlord.dtgov.common.exception.ConfigException;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.client.SrampClientException;
 import org.slf4j.Logger;

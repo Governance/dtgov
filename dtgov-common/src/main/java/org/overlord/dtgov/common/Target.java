@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.sramp.governance;
+package org.overlord.dtgov.common;
 
 /**
  * A configured deployment target.  These are typically configured in the DTGov configuration

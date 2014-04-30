@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-package org.overlord.sramp.governance.services.rhq;
+package org.overlord.dtgov.services.rhq;
 
 import java.util.HashMap;
 import java.util.Map;
