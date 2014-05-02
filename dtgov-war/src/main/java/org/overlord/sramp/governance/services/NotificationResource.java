@@ -15,7 +15,6 @@
  */
 package org.overlord.sramp.governance.services;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -46,6 +45,7 @@ import org.overlord.sramp.governance.NotificationDestinations;
 import org.overlord.sramp.governance.SlashDecoder;
 import org.overlord.sramp.governance.SrampAtomApiClientFactory;
 import org.overlord.sramp.governance.ValueEntity;
+import org.overlord.sramp.governance.services.notification.NotificationResourceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,7 @@ public class NotificationResource {
     private Session mailSession;
 
     private static Logger logger = LoggerFactory.getLogger(NotificationResource.class);
-    private Governance governance = new Governance();
+    private final Governance governance = new Governance();
 
     /**
      * Constructor.
@@ -95,8 +95,8 @@ public class NotificationResource {
             @PathParam("template") String template,
             @PathParam("target") String target,
             @PathParam("uuid") String uuid) throws Exception {
-    	
-    	
+
+
     	Map<String, ValueEntity> results = new HashMap<String,ValueEntity>();
         try {
             // 0. run the decoder on the arguments, after replacing * by % (this so parameters can
@@ -135,23 +135,28 @@ public class NotificationResource {
                 m.setFrom(from);
                 m.setRecipients(Message.RecipientType.TO, to);
 
-                String subject = "/governance-email-templates/" + template  + ".subject.tmpl"; //$NON-NLS-1$ //$NON-NLS-2$
-                URL subjectUrl = Governance.class.getClassLoader().getResource(subject);
-                if (subjectUrl!=null) subject=IOUtils.toString(subjectUrl);
-                subject = subject.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
-                subject = subject.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
-                subject = subject.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
-                m.setSubject(subject);
+                String subject = NotificationResourceUtil.getNotificationSubject(template);
+                if (StringUtils.isNotBlank(subject)) {
+                    subject = subject.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
+                    subject = subject.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
+                    subject = subject.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
+                    m.setSubject(subject);
+                } else {
+                    logger.warn(Messages.i18n.format("NotificationResource.subject.empty", template));
+                }
 
                 m.setSentDate(new java.util.Date());
-                String content = "/governance-email-templates/" + template + ".body.tmpl"; //$NON-NLS-1$ //$NON-NLS-2$
-                URL contentUrl = Governance.class.getClassLoader().getResource(content);
-                if (contentUrl!=null) content=IOUtils.toString(contentUrl);
-                content = content.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
-                content = content.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
-                content = content.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
-                content = content.replaceAll("\\$\\{dtgovurl}", governance.getDTGovUiUrl()); //$NON-NLS-1$
-                m.setContent(content,"text/plain"); //$NON-NLS-1$
+                String content = NotificationResourceUtil.getNotificationBody(template);
+                if (StringUtils.isNotBlank(content)) {
+                    content = content.replaceAll("\\$\\{uuid}", uuid); //$NON-NLS-1$
+                    content = content.replaceAll("\\$\\{name}", artifactSummary.getName()); //$NON-NLS-1$
+                    content = content.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
+                    content = content.replaceAll("\\$\\{dtgovurl}", governance.getDTGovUiUrl()); //$NON-NLS-1$
+                    m.setContent(content, "text/plain"); //$NON-NLS-1$
+                } else {
+                    logger.warn(Messages.i18n.format("NotificationResource.body.empty", template));
+                }
+
                 Transport.send(m);
             } catch (javax.mail.MessagingException e) {
                 logger.error(e.getMessage(),e);
@@ -159,7 +164,7 @@ public class NotificationResource {
 
             // 4. build the response
             results.put(GovernanceConstants.STATUS, new ValueEntity("success")); //$NON-NLS-1$
-            
+
             return results;
         } catch (Exception e) {
             logger.error(Messages.i18n.format("NotificationResource.EmailError", e.getMessage(), e)); //$NON-NLS-1$
