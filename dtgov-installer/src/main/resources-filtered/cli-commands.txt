@@ -36,11 +36,11 @@ property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/
 property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
 property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
 updateMetaData
-upload dtgov-data/governance-email-templates/deployed.subject.tmpl DtgovEmailTemplate
+upload dtgov-data/governance-email-templates/deployed.subject.tmpl DeployedSubjectTemplate DtgovEmailTemplate
 property set template "deployed"
 property set template-type "subject"
 updateMetaData
-upload dtgov-data/governance-email-templates/deployed.body.tmpl DtgovEmailTemplate
+upload dtgov-data/governance-email-templates/deployed.body.tmpl DeployedBodyTemplate DtgovEmailTemplate
 property set template "deployed"
 property set template-type "body"
 updateMetaData
