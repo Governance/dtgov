@@ -51,6 +51,10 @@
   <listener>
     <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
   </listener>
+  <listener>
+    <listener-class>org.overlord.sramp.governance.GovernanceServletContextListener</listener-class>
+  </listener>
+  
   
   <context-param>
     <param-name>resteasy.injector.factory</param-name>
@@ -64,12 +68,6 @@
       <param-name>javax.ws.rs.Application</param-name>
       <param-value>org.overlord.sramp.governance.services.GovernanceApplication</param-value>
     </init-param>
-  </servlet>
- 
-  <servlet>
-    <servlet-name>GovernanceServlet</servlet-name>
-    <servlet-class>org.overlord.sramp.governance.GovernanceServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
   </servlet>
   
   <servlet-mapping>
