@@ -30,7 +30,7 @@
      
     ./standalone.sh
     
-2. Installing DTGov to Jetty-8.x
+3. Installing DTGov to Jetty-8.x
 
     If you don't have S-RAMP already installed then do that first. Once you have
     that deployed copy the target/jetty-distribution-<version> to a shared folder (eg, /opt)
@@ -43,3 +43,23 @@
     and by issuing
      
     ./jetty.sh start
+
+    
+ 4. Installing DTGov to Fuse-6.1
+
+    If you don't have S-RAMP already installed then do that first. Once you have
+    that deployed copy the target/jetty-distribution-<version> to a shared folder (eg, /opt)
+    and from the dtgov-installer module run
+     
+    mvn -Pinstall-fuse61 -Ddtgov.install.dir=/opt install
+     
+    You can start the server by going into the /opt/fuse-distribution-<version>/bin directory
+    and by issuing
+     
+    ./fuse
+    
+    Then, to deploy the dtgov war, at the karaf prompt issue
+    
+    features:addurl mvn:org.overlord.dtgov/dtgov-distro-fuse61/<dtgov.version>/xml/features
+    features:install -v dtgov
+ 

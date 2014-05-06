@@ -41,8 +41,18 @@
     <url-pattern>*</url-pattern>
   </filter-mapping>
  
+ 
+  <listener>
+   <listener-class>org.jboss.weld.environment.servlet.BeanManagerResourceBindingListener</listener-class>
+  </listener>
+  <!-- https://ops4j1.jira.com/browse/PAXWEB-666 
   <listener>
     <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+  </listener>
+  with our own listener as workaround
+  -->
+  <listener>
+    <listener-class>org.overlord.sramp.governance.fuse61.Listener</listener-class>
   </listener>
   <listener>
     <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
@@ -50,6 +60,7 @@
   <listener>
     <listener-class>org.overlord.sramp.governance.GovernanceServletContextListener</listener-class>
   </listener>
+  
   
   <context-param>
     <param-name>resteasy.injector.factory</param-name>

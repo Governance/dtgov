@@ -114,7 +114,8 @@
     <commons.logging.version>1.1.1</commons.logging.version>
     <tomcat.version>7.0.52</tomcat.version>
     <jetty.version>8.1.14.v20131031</jetty.version>
-	<servlet-api.version>2.5</servlet-api.version>
+    <servlet-api.version>2.5</servlet-api.version>
+    <fuse.version>6.1.0.redhat-328</fuse.version>
     <!-- BOM Overrides -->
     <version.joda-time>2.1</version.joda-time>
     <version.org.apache.lucene>4.0.0</version.org.apache.lucene>
@@ -347,6 +348,16 @@
       <dependency>
         <groupId>org.overlord</groupId>
         <artifactId>overlord-commons-config</artifactId>
+        <version>${overlord-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-osgi</artifactId>
+        <version>${overlord-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-osgi-weld</artifactId>
         <version>${overlord-commons.version}</version>
       </dependency>
 
