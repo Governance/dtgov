@@ -20,26 +20,22 @@
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-common</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <!-- DTGov Task API Client -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-task-client</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <!-- DTGov Services -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-services</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <!-- S-RAMP client -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-client</artifactId>
-      <version>${s-ramp.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>slf4j-log4j12</artifactId>
@@ -58,12 +54,10 @@
     <dependency>
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-integration-java</artifactId>
-      <version>${s-ramp.version}</version>
     </dependency>
     <dependency>
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-integration-switchyard</artifactId>
-      <version>${s-ramp.version}</version>
     </dependency>
 
     <!-- Overlord Commons UI Header -->
@@ -85,7 +79,6 @@
     <dependency>
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-ui-widgets</artifactId>
-      <version>${s-ramp-ui.version}</version>
     </dependency>
 
     <!-- Third Party Dependencies -->
@@ -177,7 +170,6 @@
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-tools</artifactId>
-      <version>${version.org.jboss.errai}</version>
     </dependency>
     <dependency>
       <groupId>org.mvel</groupId>

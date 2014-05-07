@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jboss.integration-platform</groupId>
     <artifactId>jboss-integration-platform-parent</artifactId>
-    <version>6.0.0.CR6</version>
+    <version>6.0.0.CR8</version>
   </parent>
 
   <groupId>org.overlord.dtgov</groupId>
@@ -277,6 +277,134 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- Internal dependencies -->
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-common</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-installer</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-services</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-task-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-task-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-ui-war</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-war</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-war-eap6</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-war-tomcat7</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-war-jetty8</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-ui-war-tomcat7</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-ui-war-eap6</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-workflows</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+    <!-- DTGov Sources -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-task-api</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-task-client</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-ui-war</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-war</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-workflows</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    
+    <!-- DTGov documentation (jdocbook) -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-wiki</artifactId>
+      <version>${dtgov-wiki.version}</version>
+      <type>jdocbook</type>
+    </dependency>
+
+      <!-- DTGov demos -->
+      <dependency>
+        <groupId>org.overlord.dtgov.demos.project</groupId>
+    	<artifactId>project-service-api</artifactId>
+    	<version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov.demos</groupId>
+    	<artifactId>dtgov-demos-assembly</artifactId>
+    	<version>${project.version}</version>
+        <type>zip</type>
+      </dependency>
+
+
       <!-- S-ramp dependencies -->
       <dependency>
 	      <groupId>org.overlord.sramp</groupId>
@@ -287,7 +415,56 @@
 	      <groupId>org.overlord.sramp</groupId>
 	      <artifactId>s-ramp-client</artifactId>
 	      <version>${s-ramp.version}</version>
-	  </dependency>      
+	  </dependency>
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-common</artifactId>
+	      <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-common</artifactId>
+	      <version>${s-ramp.version}</version>
+          <classifier>tests</classifier>
+      </dependency>
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-distro-assembly-cli</artifactId>
+	      <version>${s-ramp.version}</version>
+          <type>zip</type>
+      </dependency>
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-distro-shell</artifactId>
+	      <version>${s-ramp.version}</version>
+          <classifier>onejar</classifier>
+      </dependency>
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-integration-java</artifactId>
+	      <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-integration-switchyard</artifactId>
+	      <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-shell-api</artifactId>
+	      <version>${s-ramp.version}</version>
+	  </dependency>
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-ui-widgets</artifactId>
+	      <version>${s-ramp.version}</version>
+	  </dependency>
+      <dependency>
+	      <groupId>org.overlord.sramp</groupId>
+	      <artifactId>s-ramp-wagon</artifactId>
+	      <version>${s-ramp.version}</version>
+	  </dependency>
+     
       <!-- Override Lucene from BOM -->
       <dependency>
         <groupId>org.apache.lucene</groupId>
@@ -304,12 +481,17 @@
       <dependency>
         <groupId>org.jboss.integration-platform</groupId>
         <artifactId>jboss-integration-platform-bom</artifactId>
-        <version>6.0.0.CR6</version>
+        <version>6.0.0.CR8</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       
       <!-- Overlord Commons -->
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-ant</artifactId>
+        <version>${overlord-commons.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.overlord</groupId>
         <artifactId>overlord-commons-services</artifactId>
@@ -352,6 +534,23 @@
       </dependency>
       <dependency>
         <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-idp-eap6</artifactId>
+        <version>${overlord-commons.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-idp-tomcat7</artifactId>
+        <version>${overlord-commons.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-installer</artifactId>
+        <version>${overlord-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
         <artifactId>overlord-commons-osgi</artifactId>
         <version>${overlord-commons.version}</version>
       </dependency>
@@ -382,6 +581,87 @@
         <artifactId>log4j</artifactId>
         <version>${log4j.version}</version>
       </dependency>
+
+      <!-- Drools KIE dependencies -->
+      <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>drools-core</artifactId>
+        <version>${drools.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>drools-compiler</artifactId>
+        <version>${drools.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.kie</groupId>
+        <artifactId>kie-api</artifactId>
+        <version>${drools.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.kie</groupId>
+        <artifactId>kie-ci</artifactId>
+        <version>${drools.version}</version>
+      </dependency>    
+      <dependency>
+        <groupId>org.kie</groupId>
+        <artifactId>kie-internal</artifactId>
+        <version>${drools.version}</version>
+      </dependency>    
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-bpmn2</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>    
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-shared-services</artifactId>
+        <version>${jbpm.version}</version>
+        <classifier>btm</classifier>
+      </dependency>    
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-persistence-jpa</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>    
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-runtime-manager</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>    
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-kie-services</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>    
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-human-task-audit</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>    
+
+      <!-- Switchyard -->
+      <dependency>
+        <groupId>org.switchyard</groupId>
+        <artifactId>switchyard-api</artifactId>
+        <version>${switchyard.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.switchyard</groupId>
+        <artifactId>switchyard-plugin</artifactId>
+        <version>${switchyard.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.switchyard.components</groupId>
+        <artifactId>switchyard-component-bean</artifactId>
+        <version>${switchyard.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.switchyard.components</groupId>
+        <artifactId>switchyard-component-soap</artifactId>
+        <version>${switchyard.version}</version>
+      </dependency>
+
       <!-- Third party libraries -->
       <dependency>
         <groupId>org.jboss.as</groupId>
@@ -429,6 +709,41 @@
 	    <version>${servlet-api.version}</version>
 	    <scope>provided</scope>
 	  </dependency>
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>tjws</artifactId>
+        <version>${version.org.jboss.resteasy}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-catalina</artifactId>
+        <version>${tomcat.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-coyote</artifactId>
+        <version>${tomcat.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.errai</groupId>
+        <artifactId>errai-tools</artifactId>
+        <version>${version.org.jboss.errai}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.btm</groupId>
+        <artifactId>btm-tomcat55-lifecycle</artifactId>
+        <version>${version.org.codehaus.btm}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.btm</groupId>
+        <artifactId>btm-jetty7-lifecycle</artifactId>
+        <version>${version.org.codehaus.btm}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-jdk14</artifactId>
+        <version>${version.org.slf4j}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

@@ -34,7 +34,6 @@
     	<dependency>
     		<groupId>org.overlord.dtgov.demos.project</groupId>
     		<artifactId>project-service-api</artifactId>
-    		<version>${project.version}</version>
     	</dependency>
     	 <dependency>
 		    <groupId>junit</groupId>
