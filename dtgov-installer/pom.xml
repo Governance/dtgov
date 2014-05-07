@@ -14,7 +14,6 @@
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-installer</artifactId>
-      <version>${overlord-commons.version}</version>
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
@@ -39,13 +38,11 @@
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-idp-eap6</artifactId>
-      <version>${overlord-commons.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-idp-tomcat7</artifactId>
-      <version>${overlord-commons.version}</version>
       <type>war</type>
     </dependency>
 
@@ -53,36 +50,30 @@
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-workflows</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-war-eap6</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-war-tomcat7</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-war-jetty8</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-ui-war-tomcat7</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-ui-war-eap6</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     
@@ -96,13 +87,11 @@
 	<dependency>
    	  <groupId>org.codehaus.btm</groupId>
    	  <artifactId>btm-tomcat55-lifecycle</artifactId>
-   	  <version>${version.org.codehaus.btm}</version>
    	  <scope>provided</scope>
     </dependency>
     <dependency>
    	  <groupId>org.codehaus.btm</groupId>
    	  <artifactId>btm-jetty7-lifecycle</artifactId>
-   	  <version>${version.org.codehaus.btm}</version>
    	  <scope>provided</scope>
     </dependency>
     <dependency>
@@ -123,7 +112,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
-      <version>${version.org.slf4j}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -488,7 +476,6 @@
         <dependency>
           <groupId>org.overlord.sramp</groupId>
           <artifactId>s-ramp-distro-assembly-cli</artifactId>
-          <version>${s-ramp.version}</version>
           <type>zip</type>
         </dependency>
       </dependencies>

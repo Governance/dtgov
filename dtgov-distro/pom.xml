@@ -14,7 +14,6 @@
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-installer</artifactId>
-      <version>${overlord-commons.version}</version>
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
@@ -35,25 +34,21 @@
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-idp-eap6</artifactId>
-      <version>${overlord-commons.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-idp-tomcat7</artifactId>
-      <version>${overlord-commons.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-ant</artifactId>
-      <version>${overlord-commons.version}</version>
     </dependency>
     <!-- S-RAMP CLI (used during installation/seeding) -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-distro-shell</artifactId>
-      <version>${s-ramp.version}</version>
       <classifier>onejar</classifier>
       <type>jar</type>
     </dependency>
@@ -62,32 +57,27 @@
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-installer</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <!-- DTGov WARs -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-war-eap6</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-war-tomcat7</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-ui-war-eap6</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-ui-war-tomcat7</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     
@@ -95,31 +85,26 @@
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-task-api</artifactId>
-      <version>${project.version}</version>
       <classifier>sources</classifier>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-task-client</artifactId>
-      <version>${project.version}</version>
       <classifier>sources</classifier>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-ui-war</artifactId>
-      <version>${project.version}</version>
       <classifier>sources</classifier>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-war</artifactId>
-      <version>${project.version}</version>
       <classifier>sources</classifier>
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-workflows</artifactId>
-      <version>${project.version}</version>
       <classifier>sources</classifier>
     </dependency>
     
@@ -127,7 +112,6 @@
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-wiki</artifactId>
-      <version>${dtgov-wiki.version}</version>
       <type>jdocbook</type>
     </dependency>
     
@@ -135,7 +119,6 @@
     <dependency>
       <groupId>org.overlord.dtgov.demos</groupId>
       <artifactId>dtgov-demos-assembly</artifactId>
-      <version>${project.version}</version>
       <type>zip</type>
     </dependency>
     
@@ -147,7 +130,6 @@
 	<dependency>
    	  <groupId>org.codehaus.btm</groupId>
    	  <artifactId>btm-tomcat55-lifecycle</artifactId>
-   	  <version>${version.org.codehaus.btm}</version>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
@@ -164,7 +146,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
-      <version>${version.org.slf4j}</version>
     </dependency>
     <dependency>
       <groupId>javax.mail</groupId>
