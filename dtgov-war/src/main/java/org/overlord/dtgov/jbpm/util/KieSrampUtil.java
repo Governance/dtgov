@@ -83,10 +83,10 @@ public class KieSrampUtil {
                 .parameter(governance.getGovernanceWorkflowName())
                 .parameter(governance.getGovernanceWorkflowVersion()).count(1).query();
 		if (results.size() > 0) {
-			ArtifactSummary artifactSummery = results.get(0);
-			InputStream is = client.getArtifactContent(artifactSummery);
+			ArtifactSummary artifactSummary = results.get(0);
+			InputStream is = client.getArtifactContent(artifactSummary);
 			KieModule kModule = repo.addKieModule(ks.getResources().newInputStreamResource(is));
-			logger.info(Messages.i18n.format("KieSrampUtil.CreatingKieContainer", artifactSummery)); //$NON-NLS-1$
+			logger.info(Messages.i18n.format("KieSrampUtil.CreatingKieContainer", artifactSummary.getName())); //$NON-NLS-1$
 			KieContainer kContainer = ks.newKieContainer(kModule.getReleaseId());
 			//Creating the KieBase for the SRAMPPackage
 	    	logger.info(Messages.i18n.format("KieSrampUtil.FindKieBase", governance.getGovernanceWorkflowPackage())); //$NON-NLS-1$

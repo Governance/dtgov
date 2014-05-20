@@ -67,16 +67,16 @@ import org.overlord.sramp.common.SrampModelUtils;
 public class WorkflowQueryService implements IWorkflowQueryService {
 
     /** The Constant WORKFLOW_ARTIFACT_GROUP_KEY. */
-    private final static String WORKFLOW_ARTIFACT_GROUP_KEY = "dtgov.workflows.group";
+    private final static String WORKFLOW_ARTIFACT_GROUP_KEY = "dtgov.workflows.group"; //$NON-NLS-1$
 
     /** The Constant WORKFLOW_ARTIFACT_VERSION_KEY. */
-    private final static String WORKFLOW_ARTIFACT_VERSION_KEY = "dtgov.workflows.version";
+    private final static String WORKFLOW_ARTIFACT_VERSION_KEY = "dtgov.workflows.version"; //$NON-NLS-1$
 
     /** The Constant WORKFLOW_ARTIFACT_NAME_KEY. */
-    private final static String WORKFLOW_ARTIFACT_NAME_KEY = "dtgov.workflows.name";
+    private final static String WORKFLOW_ARTIFACT_NAME_KEY = "dtgov.workflows.name"; //$NON-NLS-1$
 
     /** The Constant SRAMP_WORKFLOW_QUERY. */
-    private final static String SRAMP_WORKFLOW_QUERY = "/s-ramp/ext/BpmnDocument[expandedFromDocument[@maven.groupId = ? and @maven.artifactId = ? and @maven.version = ?]]";
+    private final static String SRAMP_WORKFLOW_QUERY = "/s-ramp/ext/BpmnDocument[expandedFromDocument[@maven.groupId = ? and @maven.artifactId = ? and @maven.version = ?]]"; //$NON-NLS-1$
 
     /** The Constant PAGE_SIZE. */
     private static final int PAGE_SIZE = 10;
@@ -401,7 +401,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
             Iterator<ArtifactSummary> results_iterator=results.iterator();
             while (results_iterator.hasNext()) {
                 ArtifactSummary artifact=results_iterator.next();
-                String name = artifact.getName().substring(0, artifact.getName().lastIndexOf("."));
+                String name = artifact.getName().substring(0, artifact.getName().lastIndexOf(".")); //$NON-NLS-1$
                 workflows.add(name);
             }
         } catch (SrampClientException e) {

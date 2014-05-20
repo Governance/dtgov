@@ -24,7 +24,6 @@ import javax.inject.Inject;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
-import org.overlord.dtgov.ui.client.local.beans.UiConfiguration;
 import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.WorkflowQueriesRpcService;
@@ -144,8 +143,6 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
      * Refresh any data in the filter panel.
      */
     public void refresh() {
-        UiConfiguration uiConfig = _configService.getUiConfig();
-
         // Update the items in the deployment type drop-down
         this._workflow.clear();
 
@@ -165,8 +162,6 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
                         _i18n.format("workflowQuery.workflow.type.loading.error"), error); //$NON-NLS-1$
             }
         });
-
-
     }
 
     /**
