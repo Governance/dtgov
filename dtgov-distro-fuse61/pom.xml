@@ -22,16 +22,12 @@
   </dependencyManagement>
 
   <dependencies>
-   
     <!-- Include the fuse version of the server WAR -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-war-fuse61</artifactId>
-      <version>${project.version}</version>
       <type>war</type>
     </dependency>
-
-   
   </dependencies>
 
   <build>
@@ -65,7 +61,7 @@
                     <include>org.overlord.dtgov:dtgov-war-fuse61:war</include>
                   </includes>
                 </feature>
-                <!-- The S-RAMP UI 
+                <!-- The DTGov UI 
                 <feature>
                   <name>dtgov-ui</name>
                   <version>${project.version}</version>

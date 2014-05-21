@@ -139,7 +139,7 @@ public class MavenDeployer extends AbstractDeployer {
             // Don't register undeployment info - we never undeploy from maven
 
             // return maven url
-            logger.info(Messages.i18n.format("MavenDeployer.deploymentSuccessfully", artifact.getUuid()));
+            logger.info(Messages.i18n.format("MavenDeployer.deploymentSuccessfully", artifact.getUuid())); //$NON-NLS-1$
             return target.getMavenUrl();
         } finally {
             IOUtils.closeQuietly(isPom);

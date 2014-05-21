@@ -18,13 +18,17 @@ package org.overlord.dtgov.jbpm.util;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.inject.Alternative;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.catalina.Role;
+import org.apache.catalina.realm.GenericPrincipal;
+import org.apache.catalina.users.MemoryUser;
 import org.kie.internal.task.api.UserGroupCallback;
-import org.overlord.commons.auth.jetty8.HttpRequestThreadLocalFilter;
+import org.overlord.commons.auth.filters.HttpRequestThreadLocalFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
@@ -55,34 +59,24 @@ public class DTGovUserGroupCallbackJetty implements UserGroupCallback {
             List<String> groupIds, List<String> allExistingGroupIds)
     {
     	List<String> roles = new ArrayList<String>();
-    	//adding some default roles till authorization can be fixed
-    	roles.add("overlorduser");
-    	roles.add("admin.sramp");
-    	roles.add("dev");
-    	roles.add("qa");
-    	roles.add("stage");
-    	roles.add("prod");
-    	roles.add("ba");
-    	roles.add("arch");
         try {
-        	// https://issues.jboss.org/browse/DTGOV-106 - request comes up null 
         	HttpServletRequest request = HttpRequestThreadLocalFilter.TL_request.get();
-//            Principal principal = request.getUserPrincipal();
-//            if (principal instanceof GenericPrincipal) {
-//                GenericPrincipal gp = (GenericPrincipal) principal;
-//                String[] gpRoles = gp.getRoles();
-//                roles = new ArrayList<String>(gpRoles.length);
-//                for (String role : gpRoles) {
-//                    roles.add(role);
-//                }
-//            } else if (principal instanceof MemoryUser) {
-//            	MemoryUser mu = (MemoryUser) principal;
-//            	Iterator<Role> iter = mu.getRoles();
-//            	roles = new ArrayList<String>();
-//            	while (iter.hasNext()) {
-//            		roles.add(iter.next().getRolename());
-//            	}
-//            }
+            Principal principal = request.getUserPrincipal();
+            if (principal instanceof GenericPrincipal) {
+                GenericPrincipal gp = (GenericPrincipal) principal;
+                String[] gpRoles = gp.getRoles();
+                roles = new ArrayList<String>(gpRoles.length);
+                for (String role : gpRoles) {
+                    roles.add(role);
+                }
+            } else if (principal instanceof MemoryUser) {
+            	MemoryUser mu = (MemoryUser) principal;
+            	Iterator<Role> iter = mu.getRoles();
+            	roles = new ArrayList<String>();
+            	while (iter.hasNext()) {
+            		roles.add(iter.next().getRolename());
+            	}
+            }
         } catch (Exception e) {
             logger.error("ErrorGettingRoles for user " + userId, e); //$NON-NLS-1$
         }

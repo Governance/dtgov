@@ -62,8 +62,10 @@
     <echo>----------------------------------</echo>
     <copy file="${dtgov.dtgov-war-tc7.path}" 
           tofile="${dtgov.tomcat.deploy.dir}/dtgov.war" overwrite="true" />
+    <!--
     <copy file="${dtgov.dtgov-ui-tc7.path}" 
           tofile="${dtgov.tomcat.deploy.dir}/dtgov-ui.war" overwrite="true" />
+    -->
     
     <echo>----------------------------------</echo>
     <echo>Configuring Overlord Apps</echo>

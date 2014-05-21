@@ -69,6 +69,12 @@
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-config</artifactId>
     </dependency>
+    
+    <!-- PicketLink -->
+    <dependency>
+      <groupId>org.picketlink</groupId>
+      <artifactId>picketlink-federation</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.codehaus.btm</groupId>
@@ -118,7 +124,6 @@
       <artifactId>jboss-servlet-api_3.0_spec</artifactId>
       <scope>provided</scope>
     </dependency>
-    
     <dependency>
       <groupId>org.hibernate.javax.persistence</groupId>
       <artifactId>hibernate-jpa-2.0-api</artifactId>
@@ -170,7 +175,6 @@
     </dependency>
 
 
-
     <!-- can compile, but cannot deploy without these seam dependencies 
     <dependency>
       <groupId>org.jboss.seam.persistence</groupId>
@@ -203,7 +207,6 @@
       <artifactId>jboss-jacc-api_1.4_spec</artifactId>
       <scope>${jbpm.scope}</scope>
     </dependency>
-
 
     <!-- Drools KIE dependencies -->
     <dependency>

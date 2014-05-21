@@ -98,7 +98,7 @@ public class CliDeployer extends AbstractDeployer {
             props.put("deploy.cli.port", String.valueOf(target.getPort())); //$NON-NLS-1$
             props.put("deploy.cli.name", tmpFile.getName()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
-            logger.info(Messages.i18n.format("CliDeployer.deploymentSuccessfully", artifact.getUuid()));
+            logger.info(Messages.i18n.format("CliDeployer.deploymentSuccessfully", artifact.getUuid())); //$NON-NLS-1$
             return target.getName() + " " + target.getHost(); //$NON-NLS-1$
         } finally {
             if (ctx != null)

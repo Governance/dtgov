@@ -142,7 +142,7 @@ public class NotificationResource {
                     subject = subject.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
                     m.setSubject(subject);
                 } else {
-                    logger.warn(Messages.i18n.format("NotificationResource.subject.empty", template));
+                    logger.warn(Messages.i18n.format("NotificationResource.subject.empty", template)); //$NON-NLS-1$
                 }
 
                 m.setSentDate(new java.util.Date());
@@ -154,7 +154,7 @@ public class NotificationResource {
                     content = content.replaceAll("\\$\\{dtgovurl}", governance.getDTGovUiUrl()); //$NON-NLS-1$
                     m.setContent(content, "text/plain"); //$NON-NLS-1$
                 } else {
-                    logger.warn(Messages.i18n.format("NotificationResource.body.empty", template));
+                    logger.warn(Messages.i18n.format("NotificationResource.body.empty", template)); //$NON-NLS-1$
                 }
 
                 Transport.send(m);

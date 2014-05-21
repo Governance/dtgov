@@ -102,7 +102,7 @@ public class CopyFileDeployer extends AbstractDeployer {
             Map<String, String> props = new HashMap<String, String>();
             props.put("deploy.copy.file", file.getCanonicalPath()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
-            logger.info(Messages.i18n.format("CopyFileDeployer.deploymentSuccessfully", artifact.getUuid()));
+            logger.info(Messages.i18n.format("CopyFileDeployer.deploymentSuccessfully", artifact.getUuid())); //$NON-NLS-1$
             return file.getAbsolutePath();
         } finally {
             IOUtils.closeQuietly(os);

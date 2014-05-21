@@ -22,7 +22,8 @@ package org.overlord.sramp.governance.services.notification;
  *
  */
 public enum NotificationTemplateTypeEnum {
-    SUBJECT("subject"), BODY("body");
+    SUBJECT("subject"),  //$NON-NLS-1$
+    BODY("body"); //$NON-NLS-1$
 
     private final String value;
 

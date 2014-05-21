@@ -40,21 +40,11 @@ import org.slf4j.LoggerFactory;
  */
 public class QueryAccessor {
 
-
-    /** The Constant ARTIFACT_TYPE. */
-    private final static String ARTIFACT_TYPE="/s-ramp/ext/DtgovWorkflowQuery"; //$NON-NLS-1$
-
-    /** The logger. */
     private static Logger logger = LoggerFactory.getLogger(QueryAccessor.class);
 
-    /** The Constant PROPERTY_PREFIX. */
+    private final static String QUERY = "/s-ramp/ext/DtgovWorkflowQuery[@query]"; //$NON-NLS-1$
     private final static String PROPERTY_PREFIX = "prop."; //$NON-NLS-1$
-
-    /** The Constant PROPERTY_QUERY. */
     private final static String PROPERTY_QUERY = "query"; //$NON-NLS-1$
-
-
-    /** The Constant PROPERTY_WORKLOW. */
     private final static String PROPERTY_WORKLOW = "workflow"; //$NON-NLS-1$
 
     /**
@@ -68,11 +58,9 @@ public class QueryAccessor {
         Set<Query> queries = new HashSet<Query>();
 
         SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-        StringBuilder queryBuilder = new StringBuilder();
         // Initial query
 
-        queryBuilder.append(ARTIFACT_TYPE);
-        SrampClientQuery query = client.buildQuery(queryBuilder.toString());
+        SrampClientQuery query = client.buildQuery(QUERY);
         SrampClientQuery scq = query.startIndex(0);
         try {
             QueryResultSet resultSet = scq.query();

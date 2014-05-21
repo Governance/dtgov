@@ -43,11 +43,11 @@ public class NotificationResourceUtil {
 
     private static Logger logger = LoggerFactory.getLogger(NotificationResourceUtil.class);
 
-    public static final String CLASSPATH_FOLDER = "/governance-email-templates/";
+    public static final String CLASSPATH_FOLDER = "/governance-email-templates/"; //$NON-NLS-1$
 
-    public static final String CLASSPATH_BODY_EXTENSION = ".body.tmpl";
+    public static final String CLASSPATH_BODY_EXTENSION = ".body.tmpl"; //$NON-NLS-1$
 
-    public static final String CLASSPATH_SUBJECT_EXTENSION = ".subject.tmpl";
+    public static final String CLASSPATH_SUBJECT_EXTENSION = ".subject.tmpl"; //$NON-NLS-1$
 
     /**
      * Gets the notification subject.
@@ -93,11 +93,11 @@ public class NotificationResourceUtil {
      *             Signals that an I/O exception has occurred.
      */
     private static String getTemplate(String template,String templateType, String classpathFolder,String classpathExtension) throws IOException{
-        String toReturn = "";
+        String toReturn = ""; //$NON-NLS-1$
 
         toReturn = getTemplateFromQuery(template, templateType);
         if (StringUtils.isBlank(toReturn)) {
-            String body = CLASSPATH_FOLDER + template + CLASSPATH_BODY_EXTENSION; //$NON-NLS-1$ //$NON-NLS-2$
+            String body = CLASSPATH_FOLDER + template + CLASSPATH_BODY_EXTENSION;
             URL bodyUrl = Governance.class.getClassLoader().getResource(body);
             if (bodyUrl != null) {
                 toReturn = IOUtils.toString(bodyUrl);
@@ -119,7 +119,7 @@ public class NotificationResourceUtil {
      */
     private static String getTemplateFromQuery(String template, String templateType) {
         SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-        SrampClientQuery query = client.buildQuery("/s-ramp/ext/DtgovEmailTemplate[@template = ? and @template-type = ?]")
+        SrampClientQuery query = client.buildQuery("/s-ramp/ext/DtgovEmailTemplate[@template = ? and @template-type = ?]") //$NON-NLS-1$
                 .parameter(template).parameter(templateType);
 
         QueryResultSet resultSet = null;
@@ -127,9 +127,9 @@ public class NotificationResourceUtil {
             resultSet = query.query();
         } catch (SrampClientException e) {
             logger.warn(
-                    Messages.i18n.format("NotificationResourceUtil.query.client.error", query.toString()), e);
+                    Messages.i18n.format("NotificationResourceUtil.query.client.error", query.toString()), e); //$NON-NLS-1$
         } catch (SrampAtomException e) {
-            logger.warn(Messages.i18n.format("NotificationResourceUtil.query.atom.error", query.toString()),
+            logger.warn(Messages.i18n.format("NotificationResourceUtil.query.atom.error", query.toString()), //$NON-NLS-1$
                     e);
         }
         if (resultSet != null && resultSet.size() == 1) {
@@ -139,20 +139,20 @@ public class NotificationResourceUtil {
                 is = client.getArtifactContent(artifactSummary);
             } catch (SrampClientException e) {
                 logger.warn(Messages.i18n.format(
-                        "NotificationResourceUtil.query.client.getArtifactContent.error", artifactSummary), e);
+                        "NotificationResourceUtil.query.client.getArtifactContent.error", artifactSummary), e); //$NON-NLS-1$
             } catch (SrampAtomException e) {
                 logger.warn(Messages.i18n.format(
-                        "NotificationResourceUtil.query.atom.getArtifactContent.error", artifactSummary), e);
+                        "NotificationResourceUtil.query.atom.getArtifactContent.error", artifactSummary), e); //$NON-NLS-1$
             }
             if (is != null) {
                 try {
                     return IOUtils.toString(is);
                 } catch (IOException e) {
-                    logger.warn(Messages.i18n.format("NotificationResourceUtil.query.ioutils.to.string"), e);
+                    logger.warn(Messages.i18n.format("NotificationResourceUtil.query.ioutils.to.string"), e); //$NON-NLS-1$
                 }
             }
         } else {
-            logger.warn(Messages.i18n.format("NotificationResourceUtil.query.no.result", template,
+            logger.warn(Messages.i18n.format("NotificationResourceUtil.query.no.result", template, //$NON-NLS-1$
                     templateType));
         }
         return null;
