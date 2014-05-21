@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.overlord.dtgov</groupId>
@@ -8,23 +9,25 @@
   <artifactId>dtgov-war-jetty8</artifactId>
   <packaging>war</packaging>
   <name>Design Time Governance: WAR (Jetty 8)</name>
-  
+
   <dependencies>
-  
-   <dependency>
-      <groupId>org.overlord</groupId>
-      <artifactId>overlord-commons-auth-jetty8</artifactId>
-      <!-- 
-      <scope>provided</scope>
-       -->
-    </dependency>
+
     <!-- The base WAR being extended -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-war</artifactId>
       <type>war</type>
     </dependency>
-    
+
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-auth</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-auth-jetty8</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jaxrs</artifactId>
@@ -39,8 +42,8 @@
           <groupId>javax.servlet</groupId>
         </exclusion>
         <exclusion>
-        	<artifactId>mail</artifactId>
-        	<groupId>javax.mail</groupId>
+          <artifactId>mail</artifactId>
+          <groupId>javax.mail</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -50,63 +53,63 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
-    	<groupId>org.jboss.resteasy</groupId>
-    	<artifactId>resteasy-cdi</artifactId>
-    	<scope>runtime</scope>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-cdi</artifactId>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
       <scope>compile</scope>
     </dependency>
-    <dependency>  
-            <groupId>org.hibernate</groupId>  
-            <artifactId>hibernate-entitymanager</artifactId>   
-            <scope>runtime</scope>  
-            <exclusions>  
-                <exclusion>  
-                    <groupId>org.slf4j</groupId>  
-                    <artifactId>slf4j-api</artifactId>  
-                </exclusion>
-                <exclusion>  
-                    <groupId>org.jboss.spec.javax.transaction</groupId>
-  					<artifactId>jboss-transaction-api_1.1_spec</artifactId> 
-                </exclusion>  
-            </exclusions>  
-        </dependency> 
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.jboss.spec.javax.transaction</groupId>
+          <artifactId>jboss-transaction-api_1.1_spec</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <dependency>
       <groupId>org.hibernate.javax.persistence</groupId>
       <artifactId>hibernate-jpa-2.0-api</artifactId>
     </dependency>
-    <dependency>  
-        <groupId>org.hibernate</groupId>  
-        <artifactId>hibernate-core</artifactId>  
-        <exclusions>  
-                <exclusion>  
-                    <groupId>org.jboss.spec.javax.transaction</groupId>
-  					<artifactId>jboss-transaction-api_1.1_spec</artifactId> 
-                </exclusion>  
-            </exclusions> 
-    </dependency>  
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.jboss.spec.javax.transaction</groupId>
+          <artifactId>jboss-transaction-api_1.1_spec</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <dependency>
       <groupId>org.jboss.weld.servlet</groupId>
       <artifactId>weld-servlet-core</artifactId>
     </dependency>
-    <dependency>  
-       <groupId>javax.jms</groupId>  
-       <artifactId>jms</artifactId>  
-       <scope>runtime</scope>    
-    </dependency>  
     <dependency>
-    	<groupId>org.jboss.spec.javax.ejb</groupId>
-  		<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+      <groupId>javax.jms</groupId>
+      <artifactId>jms</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.ejb</groupId>
+      <artifactId>jboss-ejb-api_3.1_spec</artifactId>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <scope>runtime</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.kie</groupId>
       <artifactId>kie-internal</artifactId>
@@ -126,7 +129,7 @@
       <artifactId>jboss-servlet-api_3.0_spec</artifactId>
       <scope>provided</scope>
     </dependency>
-    
+
     <!-- jboss cli -->
     <dependency>
       <groupId>org.jboss.as</groupId>
@@ -134,8 +137,18 @@
       <scope>compile</scope>
     </dependency>
 
+    <!-- Jetty -->
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-plus</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
-   
   </dependencies>
   <build>
     <plugins>

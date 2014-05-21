@@ -422,7 +422,6 @@
         <type>zip</type>
       </dependency>
 
-
       <!-- S-ramp dependencies -->
       <dependency>
         <groupId>org.overlord.sramp</groupId>
@@ -611,7 +610,34 @@
         <artifactId>log4j</artifactId>
         <version>${log4j.version}</version>
       </dependency>
-
+      
+      <!-- Jetty -->
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-server</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-plus</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-jsp</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-jndi</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      
       <!-- Drools KIE dependencies -->
       <dependency>
         <groupId>org.drools</groupId>
