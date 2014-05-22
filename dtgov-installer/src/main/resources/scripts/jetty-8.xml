@@ -81,12 +81,10 @@
     <echo>----------------------------------</echo>
     <echo>Deploying DTGov and DTGov UI</echo>
     <echo>----------------------------------</echo>
-    <copy file="${dtgov.dtgov-war-jetty8.path}" 
+    <copy file="${dtgov.dtgov-war.path}" 
           tofile="${dtgov.jetty.deploy.dir}/dtgov.war" overwrite="true" />
-    <!--
-  	<copy file="${dtgov.dtgov-ui-jt8.path}" 
+  	<copy file="${dtgov.dtgov-ui.path}" 
           tofile="${dtgov.jetty.deploy.dir}/dtgov-ui.war" overwrite="true" />
-    -->
     
     <echo>----------------------------------</echo>
     <echo>Configuring Overlord Apps</echo>

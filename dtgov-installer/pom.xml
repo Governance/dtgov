@@ -86,6 +86,11 @@
       <artifactId>dtgov-ui-war-eap6</artifactId>
       <type>war</type>
     </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-ui-war-jetty8</artifactId>
+      <type>war</type>
+    </dependency>
     
     <!-- Data Source and Bean Managed transactions for jBPM, goes into <tomcat>/lib -->
     <!-- See also the README.md on https://github.com/droolsjbpm/kie-wb-distributions/tree/r6.0.0.Final/kie-wb/kie-wb-distribution-wars/src/main/tomcat7 -->
@@ -292,6 +297,15 @@
                       <replacetoken><![CDATA[dtgov.workflows.version]]></replacetoken>
                       <replacevalue><![CDATA[#dtgov.workflows.version]]></replacevalue>
                     </replace>
+                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties">
+                      <replacetoken><![CDATA[dtgov-ui.workflows.version]]></replacetoken>
+                      <replacevalue><![CDATA[#dtgov-ui.workflows.version]]></replacevalue>
+                    </replace>
+                    <concat destfile="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties" append="true">
+
+# Version
+dtgov-ui.workflows.version=${project.version}
+                    </concat>
 
 					<property name="overlord-commons.ant.jar" location="${dtgov-overlord-commons.ant.jar.path}" />
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
@@ -355,8 +369,8 @@
                     <property name="overlord-commons.idp.file" value="${maven.dependency.org.overlord.overlord-commons-idp-jetty8.war.path}" />
 
                     <!-- DTGov WARs -->
-                    <property name="dtgov.dtgov-war-jetty8.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war-jetty8.war.path}" />
-                    <!--  property name="dtgov.dtgov-ui-jetty8.path" value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jetty8.war.path}" /-->
+                    <property name="dtgov.dtgov-war.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war-jetty8.war.path}" />
+                    <property name="dtgov.dtgov-ui.path" value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-jetty8.war.path}" />
 
                     <property file="build.properties" />
                     <get src="${dtgov.jetty.download.url}" dest="${basedir}/jetty-distribution-8.1.14.v20131031.zip" usetimestamp="true" />
@@ -378,6 +392,15 @@
                       <replacetoken><![CDATA[dtgov.workflows.version]]></replacetoken>
                       <replacevalue><![CDATA[#dtgov.workflows.version]]></replacevalue>
                     </replace>
+                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties">
+                      <replacetoken><![CDATA[dtgov-ui.workflows.version]]></replacetoken>
+                      <replacevalue><![CDATA[#dtgov-ui.workflows.version]]></replacevalue>
+                    </replace>
+                    <concat destfile="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties" append="true">
+
+# Version
+dtgov-ui.workflows.version=${project.version}
+                    </concat>
 
 					<property name="overlord-commons.ant.jar" location="${dtgov-overlord-commons.ant.jar.path}" />
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
@@ -460,6 +483,14 @@
                       <replacetoken><![CDATA[dtgov.workflows.version]]></replacetoken>
                       <replacevalue><![CDATA[#dtgov.workflows.version]]></replacevalue>
                     </replace>
+                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties">
+                      <replacetoken><![CDATA[dtgov-ui.workflows.version]]></replacetoken>
+                      <replacevalue><![CDATA[#dtgov-ui.workflows.version]]></replacevalue>
+                    </replace>
+                    <concat destfile="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties" append="true">
+# Version
+dtgov-ui.workflows.version=${project.version}
+                    </concat>
 
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
                       <target name="install" />

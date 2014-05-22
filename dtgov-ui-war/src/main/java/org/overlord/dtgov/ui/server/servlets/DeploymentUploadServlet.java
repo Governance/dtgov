@@ -207,6 +207,9 @@ public class DeploymentUploadServlet extends HttpServlet {
     private void uploadSingleDeployment(String deploymentType, String fileName,
             File tempFile, Map<String, String> responseParams, String version) throws Exception {
         ArtifactType at = ArtifactType.valueOf(deploymentType);
+        if (at.isExtendedType()) {
+            at = ArtifactType.ExtendedDocument(at.getExtendedType());
+        }
         String uuid = null;
         // First, upload the deployment
         InputStream contentStream = null;

@@ -31,6 +31,8 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.UserIdentity;
 import org.kie.internal.task.api.UserGroupCallback;
 import org.overlord.commons.auth.filters.HttpRequestThreadLocalFilter;
+import org.overlord.commons.auth.filters.SamlBearerTokenAuthFilter;
+import org.overlord.commons.auth.filters.SimplePrincipal;
 import org.overlord.commons.auth.jetty8.JettyAuthConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +72,14 @@ public class DTGovUserGroupCallbackJetty implements UserGroupCallback {
     @Override
     public List<String> getGroupsForUser(String userId, List<String> groupIds,
             List<String> allExistingGroupIds) {
-    	List<String> roles = new ArrayList<String>();
+        // Try our thread local first.  If we're using our own authentication mechanism,
+        // we would have stored it in the ThreadLocal for just this purpose.
+        SimplePrincipal sp = SamlBearerTokenAuthFilter.TL_principal.get();
+        if (sp != null) {
+            return new ArrayList<String>(sp.getRoles());
+        }
+
+        List<String> roles = new ArrayList<String>();
         try {
             HttpServletRequest request = HttpRequestThreadLocalFilter.TL_request.get();
             Request jettyRequest = (Request) request;

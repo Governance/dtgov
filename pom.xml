@@ -359,6 +359,12 @@
       </dependency>
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-ui-war-jetty8</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
         <artifactId>dtgov-ui-war-eap6</artifactId>
         <version>${project.version}</version>
         <type>war</type>
@@ -901,6 +907,7 @@
     <module>dtgov-war-tomcat7</module>
     <module>dtgov-ui-war</module>
     <module>dtgov-ui-war-eap6</module>
+    <module>dtgov-ui-war-jetty8</module>
     <module>dtgov-ui-war-tomcat7</module>
     <module>dtgov-workflows</module>
   </modules>
