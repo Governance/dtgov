@@ -42,7 +42,8 @@
   		todir="${dtgov.tomcat.lib.dir}" overwrite="false" />
   	<copy file="${lib.mail.jar}" 
   		todir="${dtgov.tomcat.lib.dir}" overwrite="false" />
-  	<copy file="${dtgov.updates.dir}/setenv.sh" todir="${dtgov.tomcat.bin.dir}" overwrite="false" />
+    <copy file="${dtgov.updates.dir}/setenv.sh" todir="${dtgov.tomcat.bin.dir}" overwrite="false" />
+    <copy file="${dtgov.updates.dir}/setenv.bat" todir="${dtgov.tomcat.bin.dir}" overwrite="false" />
   	<copy file="${dtgov.updates.dir}/btm-config.properties" todir="${dtgov.tomcat.config.dir}" overwrite="false" />
   	<copy file="${dtgov.updates.dir}/resources.properties" todir="${dtgov.tomcat.config.dir}" overwrite="false" />
 
