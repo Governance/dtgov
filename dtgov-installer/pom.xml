@@ -176,7 +176,7 @@
                   <tasks>
                     <property name="appserver.id" value="jboss-eap-6" />
                     <property name="dtgov.install.dir" value="${project.build.directory}" />
-                    <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/jboss-eap-6.1" />
+                    <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/jboss-eap-6.3" />
                     <property name="dtgov.version" value="${project.version}" />
 
                     <!-- Overlord Commons Installer and Dependencies -->
@@ -193,7 +193,7 @@
                     <property name="dtgov.dtgov-ui.path" value="${maven.dependency.org.overlord.dtgov.dtgov-ui-war-eap6.war.path}" />
 
                     <property file="build.properties" />
-                    <property name="dtgov.appserver.zip" value="${basedir}/jboss-eap-6.1.0.zip" />
+                    <property name="dtgov.appserver.zip" value="${basedir}/jboss-eap-6.3.0.zip" />
                     <unzip src="${dtgov.appserver.zip}" dest="${dtgov.install.dir}" overwrite="false" />
                     <chmod perm="a+x" dir="${dtgov.appserver.dir}/bin">
                       <include name="*.sh" />
@@ -418,7 +418,7 @@ dtgov-ui.workflows.version=${project.version}
       </build>
     </profile>
     <!-- ****************************************** -->
-    <!-- Profile to install into Fuse 6.1 -->
+    <!-- Profile to install into Fuse 6.1           -->
     <!-- ****************************************** -->
     <profile>
       <id>test-install-fuse61</id>

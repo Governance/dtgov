@@ -98,6 +98,9 @@
     <!-- jBPM/Drools version -->
     <jbpm.version>6.0.0.Final</jbpm.version>
     <drools.version>6.0.0.Final</drools.version>
+    
+    <!-- Overrides -->
+    <version.org.hibernate>4.2.13-SNAPSHOT</version.org.hibernate>
 
     <!-- DTGov only libraries (not in BOM) -->
     <commons.lang3.version>3.1</commons.lang3.version>
@@ -289,6 +292,18 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- Override Hibernate -->
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>${version.org.hibernate}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>${version.org.hibernate}</version>
+      </dependency>      
+      
       <!-- Internal dependencies -->
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
@@ -428,7 +443,7 @@
         <type>zip</type>
       </dependency>
 
-      <!-- S-ramp dependencies -->
+      <!-- S-RAMP dependencies -->
       <dependency>
         <groupId>org.overlord.sramp</groupId>
         <artifactId>s-ramp-api</artifactId>

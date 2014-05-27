@@ -29,13 +29,14 @@ import org.apache.catalina.realm.GenericPrincipal;
 import org.apache.catalina.users.MemoryUser;
 import org.kie.internal.task.api.UserGroupCallback;
 import org.overlord.commons.auth.filters.HttpRequestThreadLocalFilter;
+import org.overlord.commons.auth.filters.SimplePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * Loosely based on org.jbpm.task.identity.JAASUserGroupCallbackImpl
  *
  * @author kstam
- *
  */
 @Alternative
 public class DTGovUserGroupCallbackTomcat implements UserGroupCallback {
@@ -84,6 +85,8 @@ public class DTGovUserGroupCallbackTomcat implements UserGroupCallback {
             	while (iter.hasNext()) {
             		roles.add(iter.next().getRolename());
             	}
+            } else if (principal instanceof SimplePrincipal) {
+                return new ArrayList<String>(((SimplePrincipal) principal).getRoles());
             }
         } catch (Exception e) {
             logger.error("ErrorGettingRoles for user " + userId, e); //$NON-NLS-1$
