@@ -1,0 +1,19 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0">
+
+  <service interface="javax.mail.Session" ref="mailSession">
+    <service-properties>
+      <entry key="osgi.jndi.service.name" value="mail/Default" />
+    </service-properties>
+  </service>
+
+  <bean id="mailSession" class="javax.mail.Session" factory-method="getInstance">
+    <argument>
+      <props>
+        <prop key="mail.transport.protocol" value="smtp" />
+        <prop key="mail.smtp.host" value="localhost" />
+        <prop key="mail.smtp.port" value="25" />
+      </props>
+    </argument>
+  </bean>
+
+</blueprint>

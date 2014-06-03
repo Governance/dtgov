@@ -47,13 +47,13 @@
     <echo message="Generated password for dtgovworkflow user: ${dtgov.users.workflow.password}" />
     
     <!-- Add roles and user to realm.properties -->
-  	<concat destfile="${dtgov.fuse.config.dir}/realm.properties" append="true">dtgovworkflow=${dtgov.users.workflow.password},overlorduser,admin.sramp</concat>
+  	<concat destfile="${dtgov.fuse.config.dir}/users.properties" append="true">dtgovworkflow=${dtgov.users.workflow.password},overlorduser,admin.sramp</concat>
     <echo message="Created dtgovworkflow user in Application Realm" />
     
     <!-- Set the dtgovworkflow user credentials in dtgov.properties -->
     <concat destfile="${dtgov.fuse.config.dir}/dtgov.properties" append="true">
 # JNDI email reference
-governance.jndi.email.reference=java:comp/env/mail/Default	
+governance.jndi.email.reference=osgi:service/javax.mail.Session/(osgi.jndi.service.name=mail/Default)
 
 # Governance BPM credentials
 governance.bpm.user=dtgovworkflow
