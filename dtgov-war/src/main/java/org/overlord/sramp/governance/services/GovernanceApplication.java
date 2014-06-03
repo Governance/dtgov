@@ -15,38 +15,45 @@
  */
 package org.overlord.sramp.governance.services;
 
-import javax.ws.rs.ApplicationPath;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.ws.rs.core.Application;
 
+import org.overlord.dtgov.taskapi.TaskApi;
+
 /**
- * The Governance RESTEasy application.  This is essentially the main entry point into a
- * RESTEasy application - it provides the resource implementation as well as any other
- * providers (mappers, etc).
+ * The DTGov RESTEasy application.
  */
-@ApplicationPath("/rest")
 public class GovernanceApplication extends Application {
 
-//	private Set<Object> singletons = new HashSet<Object>();
-//	private Set<Class<?>> classes = new HashSet<Class<?>>();
-//
-//	/**
-//	 * Constructor.
-//	 */
-//	public GovernanceApplication() {
-//		singletons.add(new DeploymentResource());
-//		singletons.add(new NotificationResource());
-//		singletons.add(new UpdateMetaDataResource());
-//		singletons.add(new TaskApi());
-//		singletons.add(new ProcessService());
-//	}
-//
-//	@Override
-//	public Set<Class<?>> getClasses() {
-//		return classes;
-//	}
-//
-//	@Override
-//	public Set<Object> getSingletons() {
-//		return singletons;
-//	}
+	private Set<Object> singletons = new HashSet<Object>();
+	private Set<Class<?>> classes = new HashSet<Class<?>>();
+
+	/**
+	 * Constructor.
+	 */
+	public GovernanceApplication() {
+		classes.add(DeploymentResource.class);
+		classes.add(NotificationResource.class);
+		classes.add(SystemResource.class);
+		classes.add(UpdateMetaDataResource.class);
+        classes.add(TaskApi.class);
+	}
+
+	/**
+	 * @see javax.ws.rs.core.Application#getClasses()
+	 */
+	@Override
+	public Set<Class<?>> getClasses() {
+		return classes;
+	}
+
+	/**
+	 * @see javax.ws.rs.core.Application#getSingletons()
+	 */
+	@Override
+	public Set<Object> getSingletons() {
+		return singletons;
+	}
 }

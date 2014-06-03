@@ -603,6 +603,17 @@
         <artifactId>overlord-commons-osgi-weld</artifactId>
         <version>${overlord-commons.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-solder-impl</artifactId>
+        <version>${overlord-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-solder-impl</artifactId>
+        <version>${overlord-commons.version}</version>
+        <classifier>shade</classifier>
+      </dependency>
 
       <!-- Apache Commons -->
       <dependency>

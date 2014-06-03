@@ -9,19 +9,9 @@
     <listener-class>org.overlord.sramp.governance.fuse61.Listener</listener-class>
   </listener>
   <listener>
-    <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
-  </listener>
-  <listener>
     <listener-class>org.overlord.sramp.governance.GovernanceServletContextListener</listener-class>
   </listener>
-  <listener>
-   <listener-class>org.jboss.weld.environment.servlet.BeanManagerResourceBindingListener</listener-class>
-  </listener>
 
-  <context-param>
-    <param-name>resteasy.scan</param-name>
-    <param-value>true</param-value>
-  </context-param>
   <context-param>
     <param-name>org.jboss.seam.transaction.disableListener</param-name>
     <param-value>true</param-value>

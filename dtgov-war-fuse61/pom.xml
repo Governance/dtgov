@@ -34,6 +34,18 @@
       <artifactId>overlord-commons-osgi-weld</artifactId>
     </dependency>
     
+    <!-- Custom version of solder-impl -->
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-solder-impl</artifactId>
+      <classifier>shade</classifier>
+      <exclusions>
+        <exclusion>
+          <artifactId>solder-impl</artifactId>
+          <groupId>org.jboss.solder</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   
   <build>
@@ -71,6 +83,7 @@
                 <exclude>WEB-INF/lib/slf4j-ext-*.jar</exclude>
                 <exclude>WEB-INF/lib/slf4j-log4j12-*.jar</exclude>
                 <exclude>WEB-INF/lib/cal10n-api-*.jar</exclude>
+                <exclude>WEB-INF/lib/solder-impl-*.jar</exclude>
               </excludes>
             </overlay>
           </overlays>
@@ -84,6 +97,8 @@
               <Webapp-Context>/dtgov</Webapp-Context>
               <Import-Package>
                 javax.el,
+                javax.imageio,
+                javax.imageio.plugins.jpeg,
                 javax.naming,
                 javax.servlet.http,
                 javax.servlet,
@@ -92,8 +107,9 @@
                 javax.xml.datatype,
                 javax.xml.bind,
                 javax.xml.bind.attachment,
-                javax.ws.rs.core,
                 javax.ws.rs,
+                javax.ws.rs.core,
+                javax.ws.rs.ext,
                 javax.xml.transform,
                 javax.xml.parsers,
                 javax.sql,
@@ -119,6 +135,25 @@
                 ch.qos.cal10n,
                 org.apache.karaf.jaas.boot.principal,
                 bitronix.tm,
+<!--                 org.jboss.resteasy.annotations.providers.multipart, -->
+<!--                 org.jboss.resteasy.cdi, -->
+<!--                 org.jboss.resteasy.client, -->
+<!--                 org.jboss.resteasy.client.core.executors, -->
+<!--                 org.jboss.resteasy.logging, -->
+<!--                 org.jboss.resteasy.logging.impl, -->
+<!--                 org.jboss.resteasy.plugins.interceptors, -->
+<!--                 org.jboss.resteasy.plugins.interceptors.encoding, -->
+<!--                 org.jboss.resteasy.plugins.server.servlet, -->
+<!--                 org.jboss.resteasy.plugins.providers, -->
+<!--                 org.jboss.resteasy.plugins.providers.jaxb, -->
+<!--                 org.jboss.resteasy.plugins.providers.multipart, -->
+<!--                 org.jboss.resteasy.plugins.providers.atom.app, -->
+<!--                 org.jboss.resteasy.plugins.providers.atom, -->
+<!--                 org.jboss.resteasy.spi, -->
+<!--                 org.jboss.resteasy.util, -->
+<!--                 javax.enterprise.inject.spi, -->
+<!--                 javax.enterprise.context.spi, -->
+<!--                 javax.enterprise.inject, -->
                 org.overlord.commons.osgi.vfs
               </Import-Package>
               <Bundle-ClassPath>
@@ -177,7 +212,6 @@
 				WEB-INF/lib/javassist-3.18.1-GA.jar,
 				WEB-INF/lib/javax.inject-1.jar,
 				WEB-INF/lib/jaxb-impl-2.2.5.jar,
-				WEB-INF/lib/jaxrs-api-${version.org.jboss.resteasy}.jar,
 				WEB-INF/lib/jboss-as-build-config-7.2.0.Final.jar,
 				WEB-INF/lib/jboss-as-cli-7.2.0.Final.jar,
 				WEB-INF/lib/jboss-as-controller-client-7.2.0.Final.jar,
@@ -235,7 +269,8 @@
 				WEB-INF/lib/overlord-commons-auth-jetty8-${overlord-commons.version}.jar,
 				WEB-INF/lib/overlord-commons-config-${overlord-commons.version}.jar,
 				WEB-INF/lib/overlord-commons-osgi-weld-${overlord-commons.version}.jar,
-				WEB-INF/lib/overlord-commons-services-${overlord-commons.version}.jar,
+                WEB-INF/lib/overlord-commons-services-${overlord-commons.version}.jar,
+                WEB-INF/lib/overlord-commons-solder-impl-${overlord-commons.version}-shade.jar,
 				WEB-INF/lib/plexus-cipher-1.4.jar,
 				WEB-INF/lib/plexus-classworlds-2.4.jar,
 				WEB-INF/lib/plexus-component-annotations-1.5.5.jar,
@@ -267,7 +302,6 @@
 				WEB-INF/lib/sisu-inject-bean-2.2.3.jar,
 				WEB-INF/lib/sisu-inject-plexus-2.2.3.jar,
 				WEB-INF/lib/solder-api-3.2.1.Final.jar,
-				WEB-INF/lib/solder-impl-3.2.1.Final.jar,
 				WEB-INF/lib/solder-logging-3.2.1.Final.jar,
 				WEB-INF/lib/staxmapper-1.1.0.Final.jar,
 				WEB-INF/lib/tagsoup-1.2.1.jar,
