@@ -52,8 +52,12 @@
     
     <!-- Set the dtgovworkflow user credentials in dtgov.properties -->
     <concat destfile="${dtgov.fuse.config.dir}/dtgov.properties" append="true">
+
 # JNDI email reference
-governance.jndi.email.reference=osgi:service/javax.mail.Session/(osgi.jndi.service.name=mail/Default)
+governance.jndi.email.reference=osgi:service/java.util.Properties/(osgi.jndi.service.name=mail/Default)
+
+# UserTransaction jndi reference
+governance.jndi.userTx.reference=osgi:service/javax.transaction.UserTransaction
 
 # Governance BPM credentials
 governance.bpm.user=dtgovworkflow
@@ -71,6 +75,9 @@ governance.password=${dtgov.users.workflow.password}
 sramp.repo.url=http://localhost:8181/s-ramp-server
 governance.url=http://localhost:8181/dtgov
 dtgov.ui.url=http://localhost:8181/dtgov-ui
+
+# Governance Workflow Version
+dtgov.workflows.version=${project.version}
     </concat>
 
     <!-- Set the SAML keystore and alias password in the dtgov-ui config -->

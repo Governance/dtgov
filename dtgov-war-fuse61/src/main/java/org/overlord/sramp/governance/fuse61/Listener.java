@@ -40,6 +40,7 @@ public class Listener implements ServletListener {
      * Constructor.
      */
     public Listener() {
+        System.setProperty("jbpm.ut.jndi.lookup", "osgi:service/javax.transaction.UserTransaction"); //$NON-NLS-1$ //$NON-NLS-2$
         swapper = new ContextClassLoaderSwapper();
         delegate = new BundleListener();
         swapper.restore();

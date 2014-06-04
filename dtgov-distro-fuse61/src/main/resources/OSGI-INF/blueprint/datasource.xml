@@ -1,36 +1,32 @@
-<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0">
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+          xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0">
 
-  <cm:property-placeholder persistent-id="database" id="database">
-    <cm:default-properties>
-      <cm:property name="jdbc.driverClassName" value="org.h2.Driver" />
-      <cm:property name="jdbc.url" value="jdbc:h2:file:overlord-data/dtgov" />
-      <cm:property name="jdbc.username" value="sa" />
-      <cm:property name="jdbc.password" value="" />
+   <cm:property-placeholder persistent-id="database" id="database">
+       <cm:default-properties>
+           <cm:property name="jdbc.driverClassName" value="org.h2.Driver"/>
+           <cm:property name="jdbc.url" value="jdbc:h2:file:overlord-data/dtgov"/>
+           <cm:property name="jdbc.username" value="sa"/>
+           <cm:property name="jdbc.password" value=""/>
+           
+           <!-- connection pooling -->
+           <cm:property name="jdbc.initialSize" value="5"/>
+           <cm:property name="jdbc.maxTotal" value="10"/>
+           <cm:property name="jdbc.maxIdle" value="10"/>
+       </cm:default-properties>
+   </cm:property-placeholder>
 
-      <!-- connection pooling -->
-      <cm:property name="jdbc.initialSize" value="5" />
-      <cm:property name="jdbc.maxTotal" value="10" />
-      <cm:property name="jdbc.maxIdle" value="10" />
-    </cm:default-properties>
-  </cm:property-placeholder>
+    <service interface="javax.sql.DataSource" ref="dataSource">
+        <service-properties>
+            <entry key="osgi.jndi.service.name" value="jdbc/jbpm"/>
+            <entry key="datasource" value="dtgov"/>
+        </service-properties>
+    </service>
 
-  <service interface="javax.sql.DataSource" ref="dataSource">
-    <service-properties>
-      <entry key="osgi.jndi.service.name" value="jdbc/jbpm" />
-      <entry key="datasource" value="jbpm" />
-    </service-properties>
-  </service>
-
-  <bean id="dataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
-    <property name="className" value="bitronix.tm.resource.jdbc.lrc.LrcXADataSource" />
-    <property name="uniqueName" value="jdbc/jbpm" />
-    <property name="maxPoolSize" value="${jdbc.maxTotal}" />
-    <property name="driverProperties">
-      <props>
-        <prop key="driverClassName" value="${jdbc.driverClassName}" />
-        <prop key="url" value="${jdbc.url}" />
-      </props>
-    </property>
-  </bean>
+    <bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
 
 </blueprint>

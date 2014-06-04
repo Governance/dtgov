@@ -34,6 +34,7 @@ import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
 import org.kie.internal.task.api.UserGroupCallback;
+import org.overlord.sramp.governance.Governance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +43,8 @@ public class ApplicationScopedProducer {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+    private final Governance governance = new Governance();
+
     @Inject
     private UserGroupCallback usergroupCallback;
 
@@ -89,6 +92,10 @@ public class ApplicationScopedProducer {
             this.delegate = em;
         }
         
+        /**
+         * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+         */
+        @Override
         public Object invoke(Object proxy, Method method, Object[] args)
                 throws Throwable {
             joinTransactionIfNeeded();
@@ -97,7 +104,8 @@ public class ApplicationScopedProducer {
         
         private void joinTransactionIfNeeded() {
             try {
-                UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction"); //$NON-NLS-1$
+                String jndiUserTxRef = governance.getJNDIUserTxName();
+                UserTransaction ut = InitialContext.doLookup(jndiUserTxRef);
                 if (ut.getStatus() == Status.STATUS_ACTIVE) {
                     delegate.joinTransaction();
                 }

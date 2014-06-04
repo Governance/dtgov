@@ -26,6 +26,10 @@
     
     <!-- Some additional dependencies to include in the WAR -->
     <dependency>
+      <groupId>org.jboss.netty</groupId>
+      <artifactId>netty</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.jboss.weld.servlet</groupId>
       <artifactId>weld-servlet-core</artifactId>
     </dependency>
@@ -33,8 +37,6 @@
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-osgi-weld</artifactId>
     </dependency>
-    
-    <!-- Custom version of solder-impl -->
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-solder-impl</artifactId>
@@ -47,6 +49,13 @@
       </exclusions>
     </dependency>
     
+    <!-- Hibernate -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- Seam Transactions -->
     <dependency>
       <groupId>org.jboss.seam.transaction</groupId>
@@ -61,6 +70,13 @@
     <dependency>
       <groupId>org.hibernate.javax.persistence</groupId>
       <artifactId>hibernate-jpa-2.0-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- OSGi -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
       <scope>provided</scope>
     </dependency>
 
@@ -114,11 +130,24 @@
               <Web-ContextPath>/dtgov</Web-ContextPath>
               <Webapp-Context>/dtgov</Webapp-Context>
               <Import-Package>
+                javax.activation,
                 javax.el,
                 javax.imageio,
                 javax.imageio.plugins.jpeg,
-                javax.servlet.http,
+                javax.mail,
+                javax.mail.internet,
+                javax.management,
+                javax.naming,
+                javax.naming.directory,
+                javax.naming.ldap,
+                javax.naming.event,
+                javax.net.ssl,
+                javax.security.auth,
                 javax.servlet,
+                javax.servlet.http,
+                javax.servlet.jsp,
+                javax.sql,
+                javax.transaction,
                 javax.xml.bind,
                 javax.xml.bind.annotation,
                 javax.xml.bind.attachment,
@@ -129,20 +158,12 @@
                 javax.xml.transform.dom,
                 javax.xml.transform.stream,
                 javax.xml.validation,
-                javax.sql,
-                javax.servlet.jsp,
-                javax.transaction,
-                javax.activation,
-                javax.mail,
-                javax.mail.internet,
-                javax.naming,
-                javax.naming.ldap,
-                javax.naming.event,
-                javax.net.ssl,
                 com.sun.xml.bind.v2.model.core,
+                org.ietf.jgss,
                 org.osgi.framework,
                 org.w3c.dom,
                 org.eclipse.jetty.plus.jaas,
+                org.eclipse.jetty.server,
                 org.eclipse.jetty.server.handler,
                 org.eclipse.jetty.servlet,
                 org.eclipse.jetty.security,
@@ -154,8 +175,9 @@
                 org.slf4j.cal10n,
                 org.slf4j.ext,
                 ch.qos.cal10n,
+                com.sun.xml.bind.marshaller,
                 org.apache.karaf.jaas.boot.principal,
-                bitronix.tm,
+<!--                 bitronix.tm, -->
 <!--                 org.jboss.resteasy.annotations.providers.multipart, -->
 <!--                 org.jboss.resteasy.cdi, -->
 <!--                 org.jboss.resteasy.client, -->
@@ -175,6 +197,7 @@
 <!--                 javax.enterprise.inject.spi, -->
 <!--                 javax.enterprise.context.spi, -->
 <!--                 javax.enterprise.inject, -->
+                org.h2,
                 org.overlord.commons.osgi.vfs
               </Import-Package>
               <Bundle-ClassPath>
@@ -232,7 +255,7 @@
 				WEB-INF/lib/jansi-1.8.jar,
 				WEB-INF/lib/javassist-3.18.1-GA.jar,
 				WEB-INF/lib/javax.inject-1.jar,
-				WEB-INF/lib/jaxb-impl-2.2.5.jar,
+<!-- 				WEB-INF/lib/jaxb-impl-2.2.5.jar, -->
 				WEB-INF/lib/jaxrs-api-${version.org.jboss.resteasy}.jar,
 				WEB-INF/lib/jboss-as-build-config-7.2.0.Final.jar,
 				WEB-INF/lib/jboss-as-cli-7.2.0.Final.jar,
@@ -287,12 +310,19 @@
 				WEB-INF/lib/maven-settings-3.0.5.jar,
 				WEB-INF/lib/maven-settings-builder-3.0.5.jar,
 				WEB-INF/lib/mvel2-2.1.9.Final.jar,
+                WEB-INF/lib/netty-${version.org.jboss.netty}.jar,
 				WEB-INF/lib/overlord-commons-auth-${overlord-commons.version}.jar,
 				WEB-INF/lib/overlord-commons-auth-jetty8-${overlord-commons.version}.jar,
 				WEB-INF/lib/overlord-commons-config-${overlord-commons.version}.jar,
 				WEB-INF/lib/overlord-commons-osgi-weld-${overlord-commons.version}.jar,
                 WEB-INF/lib/overlord-commons-services-${overlord-commons.version}.jar,
                 WEB-INF/lib/overlord-commons-solder-impl-${overlord-commons.version}-shade.jar,
+                WEB-INF/lib/picketbox-${picketbox.version}.jar,
+                WEB-INF/lib/picketlink-common-${picketlink.version}.jar,
+                WEB-INF/lib/picketlink-config-${picketlink.version}.jar,
+                WEB-INF/lib/picketlink-federation-${picketlink.version}.jar,
+                WEB-INF/lib/picketlink-idm-api-${picketlink.version}.jar,
+                WEB-INF/lib/picketlink-idm-impl-${picketlink.version}.jar,
 				WEB-INF/lib/plexus-cipher-1.4.jar,
 				WEB-INF/lib/plexus-classworlds-2.4.jar,
 				WEB-INF/lib/plexus-component-annotations-1.5.5.jar,

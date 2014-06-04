@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 import org.overlord.dtgov.taskapi.TaskApi;
+import org.overlord.sramp.governance.workflow.jbpm.ProcessService;
 
 /**
  * The DTGov RESTEasy application.
@@ -39,6 +40,7 @@ public class GovernanceApplication extends Application {
 		classes.add(SystemResource.class);
 		classes.add(UpdateMetaDataResource.class);
         classes.add(TaskApi.class);
+        classes.add(ProcessService.class);
 	}
 
 	/**
