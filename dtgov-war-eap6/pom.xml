@@ -15,6 +15,16 @@
       <artifactId>dtgov-war</artifactId>
       <type>war</type>
     </dependency>
+    
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-auth</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-auth-jboss7</artifactId>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>
@@ -43,7 +53,9 @@
                 <exclude>WEB-INF/lib/javax.inject-1.jar</exclude>
                 <exclude>WEB-INF/lib/jaxb-impl-*.jar</exclude>
                 <exclude>WEB-INF/lib/jboss-logging-*.jar</exclude>
+                <exclude>WEB-INF/lib/jcr-*.jar</exclude>
                 <exclude>WEB-INF/lib/log4j-*.jar</exclude>
+                <exclude>WEB-INF/lib/resteasy-*.jar</exclude>
                 <exclude>WEB-INF/lib/slf4j-api-*.jar</exclude>
                 <exclude>WEB-INF/lib/slf4j-ext-*.jar</exclude>
               </excludes>

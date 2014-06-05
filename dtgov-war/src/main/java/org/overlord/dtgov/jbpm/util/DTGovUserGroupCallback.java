@@ -28,6 +28,8 @@ import javax.security.auth.Subject;
 import javax.security.jacc.PolicyContext;
 
 import org.kie.internal.task.api.UserGroupCallback;
+import org.overlord.commons.auth.filters.SamlBearerTokenAuthFilter;
+import org.overlord.commons.auth.filters.SimplePrincipal;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,23 +44,39 @@ public class DTGovUserGroupCallback implements UserGroupCallback {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * @see org.kie.internal.task.api.UserGroupCallback#existsUser(java.lang.String)
+     */
     @Override
     public boolean existsUser(String userId) {
     	// allow everything as there is no way to ask JAAS/JACC for users in the domain
         return true;
     }
 
+    /**
+     * @see org.kie.internal.task.api.UserGroupCallback#existsGroup(java.lang.String)
+     */
     @Override
     public boolean existsGroup(String groupId) {
     	// allow everything as there is no way to ask JAAS/JACC for groups in the domain
     	return true;
     }
 
+    /**
+     * @see org.kie.internal.task.api.UserGroupCallback#getGroupsForUser(java.lang.String, java.util.List, java.util.List)
+     */
     @Override
-    public List<String> getGroupsForUser(String userId,
-            List<String> groupIds, List<String> allExistingGroupIds)
-    {
-    	List<String> roles = null;
+    public List<String> getGroupsForUser(String userId, List<String> groupIds,
+            List<String> allExistingGroupIds) {
+
+        // Try our thread local first.  If we're using our own authentication mechanism,
+        // we would have stored it in the ThreadLocal for just this purpose.
+        SimplePrincipal sp = SamlBearerTokenAuthFilter.TL_principal.get();
+        if (sp != null) {
+            return new ArrayList<String>(sp.getRoles());
+        }
+
+        List<String> roles = null;
         try {
             Subject subject = (Subject) PolicyContext.getContext("javax.security.auth.Subject.container"); //$NON-NLS-1$
 

@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.jboss.integration-platform</groupId>
     <artifactId>jboss-integration-platform-parent</artifactId>
-    <version>6.0.0.CR8</version>
+    <version>6.0.0.CR9</version>
   </parent>
 
   <groupId>org.overlord.dtgov</groupId>
@@ -97,6 +98,9 @@
     <!-- jBPM/Drools version -->
     <jbpm.version>6.0.0.Final</jbpm.version>
     <drools.version>6.0.0.Final</drools.version>
+    
+    <!-- Overrides -->
+    <version.org.hibernate>4.2.13.Final</version.org.hibernate>
 
     <!-- DTGov only libraries (not in BOM) -->
     <commons.lang3.version>3.1</commons.lang3.version>
@@ -115,11 +119,13 @@
     <tomcat.version>7.0.52</tomcat.version>
     <jetty.version>8.1.14.v20131031</jetty.version>
     <servlet-api.version>2.5</servlet-api.version>
-    <fuse.version>6.1.0.redhat-328</fuse.version>
+    <fuse.version>6.1.0.redhat-379</fuse.version>
     <!-- BOM Overrides -->
     <version.joda-time>2.1</version.joda-time>
     <version.org.apache.lucene>4.0.0</version.org.apache.lucene>
-    
+    <picketbox.version>4.0.19.SP4</picketbox.version>
+    <picketlink.version>2.5.3.SP1</picketlink.version>
+
   </properties>
 
   <build>
@@ -169,12 +175,6 @@
           <groupId>org.codehaus.plexus</groupId>
           <artifactId>plexus-component-metadata</artifactId>
           <version>${maven.plexus-component-metadata.plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.felix</groupId>
-          <artifactId>maven-bundle-plugin</artifactId>
-          <version>${maven.bundle.plugin.version}</version>
-          <extensions>true</extensions>
         </plugin>
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
@@ -272,11 +272,32 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-plugin-versions</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
   <dependencyManagement>
     <dependencies>
+      <!-- Override Hibernate -->
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>${version.org.hibernate}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>${version.org.hibernate}</version>
+      </dependency>      
+      
       <!-- Internal dependencies -->
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
@@ -335,7 +356,19 @@
       </dependency>
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-war-fuse61</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
         <artifactId>dtgov-ui-war-tomcat7</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-ui-war-jetty8</artifactId>
         <version>${project.version}</version>
         <type>war</type>
       </dependency>
@@ -351,120 +384,119 @@
         <version>${project.version}</version>
       </dependency>
 
-    <!-- DTGov Sources -->
-    <dependency>
-      <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-task-api</artifactId>
-      <version>${project.version}</version>
-      <classifier>sources</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-task-client</artifactId>
-      <version>${project.version}</version>
-      <classifier>sources</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-ui-war</artifactId>
-      <version>${project.version}</version>
-      <classifier>sources</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-war</artifactId>
-      <version>${project.version}</version>
-      <classifier>sources</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-workflows</artifactId>
-      <version>${project.version}</version>
-      <classifier>sources</classifier>
-    </dependency>
-    
-    <!-- DTGov documentation (jdocbook) -->
-    <dependency>
-      <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-wiki</artifactId>
-      <version>${dtgov-wiki.version}</version>
-      <type>jdocbook</type>
-    </dependency>
+      <!-- DTGov Sources -->
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-task-api</artifactId>
+        <version>${project.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-task-client</artifactId>
+        <version>${project.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-ui-war</artifactId>
+        <version>${project.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-war</artifactId>
+        <version>${project.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-workflows</artifactId>
+        <version>${project.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+
+      <!-- DTGov documentation (jdocbook) -->
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-wiki</artifactId>
+        <version>${dtgov-wiki.version}</version>
+        <type>jdocbook</type>
+      </dependency>
 
       <!-- DTGov demos -->
       <dependency>
         <groupId>org.overlord.dtgov.demos.project</groupId>
-    	<artifactId>project-service-api</artifactId>
-    	<version>${project.version}</version>
+        <artifactId>project-service-api</artifactId>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.overlord.dtgov.demos</groupId>
-    	<artifactId>dtgov-demos-assembly</artifactId>
-    	<version>${project.version}</version>
+        <artifactId>dtgov-demos-assembly</artifactId>
+        <version>${project.version}</version>
         <type>zip</type>
       </dependency>
 
+      <!-- S-RAMP dependencies -->
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-api</artifactId>
+        <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-client</artifactId>
+        <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-common</artifactId>
+        <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-common</artifactId>
+        <version>${s-ramp.version}</version>
+        <classifier>tests</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-distro-assembly-cli</artifactId>
+        <version>${s-ramp.version}</version>
+        <type>zip</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-distro-shell</artifactId>
+        <version>${s-ramp.version}</version>
+        <classifier>onejar</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-integration-java</artifactId>
+        <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-integration-switchyard</artifactId>
+        <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-shell-api</artifactId>
+        <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-ui-widgets</artifactId>
+        <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-wagon</artifactId>
+        <version>${s-ramp.version}</version>
+      </dependency>
 
-      <!-- S-ramp dependencies -->
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-api</artifactId>
-	      <version>${s-ramp.version}</version>
-      </dependency>
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-client</artifactId>
-	      <version>${s-ramp.version}</version>
-	  </dependency>
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-common</artifactId>
-	      <version>${s-ramp.version}</version>
-      </dependency>
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-common</artifactId>
-	      <version>${s-ramp.version}</version>
-          <classifier>tests</classifier>
-      </dependency>
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-distro-assembly-cli</artifactId>
-	      <version>${s-ramp.version}</version>
-          <type>zip</type>
-      </dependency>
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-distro-shell</artifactId>
-	      <version>${s-ramp.version}</version>
-          <classifier>onejar</classifier>
-      </dependency>
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-integration-java</artifactId>
-	      <version>${s-ramp.version}</version>
-      </dependency>
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-integration-switchyard</artifactId>
-	      <version>${s-ramp.version}</version>
-      </dependency>
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-shell-api</artifactId>
-	      <version>${s-ramp.version}</version>
-	  </dependency>
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-ui-widgets</artifactId>
-	      <version>${s-ramp.version}</version>
-	  </dependency>
-      <dependency>
-	      <groupId>org.overlord.sramp</groupId>
-	      <artifactId>s-ramp-wagon</artifactId>
-	      <version>${s-ramp.version}</version>
-	  </dependency>
-     
       <!-- Override Lucene from BOM -->
       <dependency>
         <groupId>org.apache.lucene</groupId>
@@ -476,16 +508,16 @@
         <artifactId>lucene-queryparser</artifactId>
         <version>${version.org.apache.lucene}</version>
       </dependency>
-    
+
       <!-- Integration Platform Imports -->
       <dependency>
         <groupId>org.jboss.integration-platform</groupId>
         <artifactId>jboss-integration-platform-bom</artifactId>
-        <version>6.0.0.CR8</version>
+        <version>6.0.0.CR9</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      
+
       <!-- Overlord Commons -->
       <dependency>
         <groupId>org.overlord</groupId>
@@ -546,6 +578,18 @@
       </dependency>
       <dependency>
         <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-idp-jetty8</artifactId>
+        <version>${overlord-commons.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-idp-fuse61</artifactId>
+        <version>${overlord-commons.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
         <artifactId>overlord-commons-installer</artifactId>
         <version>${overlord-commons.version}</version>
       </dependency>
@@ -558,6 +602,17 @@
         <groupId>org.overlord</groupId>
         <artifactId>overlord-commons-osgi-weld</artifactId>
         <version>${overlord-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-solder-impl</artifactId>
+        <version>${overlord-commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-solder-impl</artifactId>
+        <version>${overlord-commons.version}</version>
+        <classifier>shade</classifier>
       </dependency>
 
       <!-- Apache Commons -->
@@ -581,7 +636,34 @@
         <artifactId>log4j</artifactId>
         <version>${log4j.version}</version>
       </dependency>
-
+      
+      <!-- Jetty -->
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-server</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-plus</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-jsp</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-jndi</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      
       <!-- Drools KIE dependencies -->
       <dependency>
         <groupId>org.drools</groupId>
@@ -602,43 +684,43 @@
         <groupId>org.kie</groupId>
         <artifactId>kie-ci</artifactId>
         <version>${drools.version}</version>
-      </dependency>    
+      </dependency>
       <dependency>
         <groupId>org.kie</groupId>
         <artifactId>kie-internal</artifactId>
         <version>${drools.version}</version>
-      </dependency>    
+      </dependency>
       <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-bpmn2</artifactId>
         <version>${jbpm.version}</version>
-      </dependency>    
+      </dependency>
       <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-shared-services</artifactId>
         <version>${jbpm.version}</version>
         <classifier>btm</classifier>
-      </dependency>    
+      </dependency>
       <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-persistence-jpa</artifactId>
         <version>${jbpm.version}</version>
-      </dependency>    
+      </dependency>
       <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-runtime-manager</artifactId>
         <version>${jbpm.version}</version>
-      </dependency>    
+      </dependency>
       <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-kie-services</artifactId>
         <version>${jbpm.version}</version>
-      </dependency>    
+      </dependency>
       <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-human-task-audit</artifactId>
         <version>${jbpm.version}</version>
-      </dependency>    
+      </dependency>
 
       <!-- Switchyard -->
       <dependency>
@@ -660,6 +742,18 @@
         <groupId>org.switchyard.components</groupId>
         <artifactId>switchyard-component-soap</artifactId>
         <version>${switchyard.version}</version>
+      </dependency>
+      
+      <!-- PicketLink -->
+      <dependency>
+        <groupId>org.picketbox</groupId>
+        <artifactId>picketbox</artifactId>
+        <version>${picketbox.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.picketlink</groupId>
+        <artifactId>picketlink-federation</artifactId>
+        <version>${picketlink.version}</version>
       </dependency>
 
       <!-- Third party libraries -->
@@ -704,11 +798,11 @@
         <version>${jboss-jacc-api_1.4_spec.version}</version>
       </dependency>
       <dependency>
-	    <groupId>javax.servlet</groupId>
-	    <artifactId>servlet-api</artifactId>
-	    <version>${servlet-api.version}</version>
-	    <scope>provided</scope>
-	  </dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${servlet-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
       <dependency>
         <groupId>org.jboss.resteasy</groupId>
         <artifactId>tjws</artifactId>
@@ -797,7 +891,7 @@
       </releases>
       <snapshots>
         <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
+        <updatePolicy>daily</updatePolicy>
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
@@ -818,21 +912,24 @@
   <!-- modules in alphabetical order -->
   <modules>
     <module>dtgov-common</module>
+    <module>dtgov-demos</module>
+    <module>dtgov-distro</module>
+    <module>dtgov-distro-fuse61</module>
+    <module>dtgov-installer</module>
     <module>dtgov-task-api</module>
     <module>dtgov-task-client</module>
     <module>dtgov-services</module>
     <module>dtgov-war</module>
     <module>dtgov-war-eap6</module>
     <module>dtgov-war-eap6-modules</module>
+    <module>dtgov-war-fuse61</module>
     <module>dtgov-war-jetty8</module>
     <module>dtgov-war-tomcat7</module>
     <module>dtgov-ui-war</module>
     <module>dtgov-ui-war-eap6</module>
+    <module>dtgov-ui-war-jetty8</module>
     <module>dtgov-ui-war-tomcat7</module>
     <module>dtgov-workflows</module>
-    <module>dtgov-demos</module>
-    <module>dtgov-installer</module>
-    <module>dtgov-distro</module>
   </modules>
 </project>
 

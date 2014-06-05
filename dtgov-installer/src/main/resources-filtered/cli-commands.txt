@@ -1,35 +1,28 @@
 
-connect http://localhost:8080/s-ramp-server
+connect http://localhost:8181/s-ramp-server admin b00bies!
 ontology:upload dtgov-data/deployment-status.owl
 ontology:upload dtgov-data/project-review-status.owl
 maven:deploy ${dtgov-workflow-jar} ${project.groupId}:dtgov-workflows:${project.version} KieJarArchive
-create DtgovWorkflowQuery ArtifactGrouping "Workflow Query for all the artifacts that their name starts with Project"
+create DtgovWorkflowQuery "Project Lifecycle" "Simple Project Lifecycle management workflow trigger query.  Starts a new Project Lifecycle workflow when new projects are initiated."
 property set query "/s-ramp/ext/ArtifactGrouping[xp2:matches(@name, 'Project.*')]"
 property set workflow overlord.demo.SimplifiedProjectLifeCycle
 property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
 updateMetaData
-create DtgovWorkflowQuery SwitchYardApplication "Query that is applied to all the SwitchYard Applications"
+create DtgovWorkflowQuery "SwitchYard Application Lifecycle" "Triggers a new Deployment Lifecycle Management workflow whenever a SwitchYard application is added to the repository."
 property set query "/s-ramp/ext/SwitchYardApplication"
 property set workflow overlord.demo.SimpleReleaseProcess
 property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
 property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
 property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
 updateMetaData
-create DtgovWorkflowQuery JavaArchive "Query that is applied to all the JavaArchive Applications"
-property set query "/s-ramp/ext/JavaArchive"
-property set workflow overlord.demo.SimpleReleaseProcess
-property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
-property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
-property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
-updateMetaData
-create DtgovWorkflowQuery JavaWebApplication "Query that is applied to all the Java Web Applications"
+create DtgovWorkflowQuery "Java Web Application Lifecycle" "Triggers a new Deployment Lifecycle Management workflow whenever a Java Web Application (WAR) is added to the repository."
 property set query "/s-ramp/ext/JavaWebApplication"
 property set workflow overlord.demo.SimpleReleaseProcess
 property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
 property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
 property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
 updateMetaData
-create DtgovWorkflowQuery JavaEnterpriseApplication "Query that is applied to all the Java Enterprise Applications"
+create DtgovWorkflowQuery "Java Enterprise Application Lifecycle" "Triggers a new Deployment Lifecycle Management workflow whenever a Java Enterprise Application (EAR) is added to the repository."
 property set query "/s-ramp/ext/JavaEnterpriseApplication"
 property set workflow overlord.demo.SimpleReleaseProcess
 property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
@@ -44,3 +37,5 @@ upload dtgov-data/governance-email-templates/deployed.body.tmpl DtgovEmailTempla
 property set template "deployed"
 property set template-type "body"
 updateMetaData
+
+upload "C:/Users/Eric/Documents/Demo Files/homeloan-1.9.2.war" SwitchYardApplication

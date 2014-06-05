@@ -4,6 +4,7 @@
   <!-- Configure properties specific to Jetty 8 -->
   <target name="properties-jetty-8">
     <property name="dtgov.updates.dir" location="${basedir}/updates" />
+    <property name="dtgov.xslt.dir" location="${basedir}/xslt" />
 
     <property name="dtgov.overlord-commons.installer.jar" location="overlord-commons-installer.jar" />
     <property name="dtgov.overlord-commons.installer.dir" location="${dtgov.install.dir}/overlord-commons-installer" />
@@ -22,7 +23,7 @@
     <echo message=" " />
     <echo message="##############################################" />
     <echo message="# Running the Overlord:DTGov installer. This #" />
-    <echo message="# will install DTGov into jetty 8.          #" />
+    <echo message="# will install DTGov into jetty 8.           #" />
     <echo message="##############################################" />
     <echo message=" " />
   	
@@ -42,8 +43,29 @@
   		todir="${dtgov.jetty.lib.dir}" overwrite="false" />
   	<copy file="${lib.mail.jar}" 
   		todir="${dtgov.jetty.lib.dir}" overwrite="false" />
-  	<!-- note that in jetty the bitronix config is in the jetty.xml -->
-  	<copy file="${dtgov.updates.dir}/jetty.xml" todir="${dtgov.jetty.config.dir}" overwrite="false" />
+
+    <!-- Configure bitronix+datasource in jetty.xml -->
+    <echo>Adding the dtgov/jbpm datasource to jetty.xml</echo>
+    <property name="dtgov.addDatasource.xslt" value="${dtgov.xslt.dir}/addDatasource-jetty-8.xslt" />
+    <copy file="${dtgov.jetty.config.dir}/jetty.xml" tofile="${dtgov.jetty.config.dir}/jetty-dtgov-backup.xml" overwrite="true" />
+    <xslt 
+      style="${dtgov.addDatasource.xslt}"
+      in="${dtgov.jetty.config.dir}/jetty.xml"
+      out="${dtgov.install.dir}/_tmp_jetty.xml">
+    </xslt>
+    <copy file="${dtgov.install.dir}/_tmp_jetty.xml" tofile="${dtgov.jetty.config.dir}/jetty.xml" overwrite="true" />
+    <delete file="${dtgov.install.dir}/_tmp_jetty.xml" />
+
+    <!-- Configure the default mail session in jetty.xml -->
+    <echo>Adding the default mail session to jetty.xml</echo>
+    <property name="dtgov.addMail.xslt" value="${dtgov.xslt.dir}/addMail-jetty-8.xslt" />
+    <xslt 
+      style="${dtgov.addMail.xslt}"
+      in="${dtgov.jetty.config.dir}/jetty.xml"
+      out="${dtgov.install.dir}/_tmp_jetty.xml">
+    </xslt>
+    <copy file="${dtgov.install.dir}/_tmp_jetty.xml" tofile="${dtgov.jetty.config.dir}/jetty.xml" overwrite="true" />
+    <delete file="${dtgov.install.dir}/_tmp_jetty.xml" />
 
     <echo>----------------------------------</echo>
     <echo>Installing Overlord Commons</echo>
@@ -59,12 +81,10 @@
     <echo>----------------------------------</echo>
     <echo>Deploying DTGov and DTGov UI</echo>
     <echo>----------------------------------</echo>
-    <copy file="${dtgov.dtgov-war-jetty8.path}" 
+    <copy file="${dtgov.dtgov-war.path}" 
           tofile="${dtgov.jetty.deploy.dir}/dtgov.war" overwrite="true" />
-    <!--
-  	<copy file="${dtgov.dtgov-ui-jt8.path}" 
+  	<copy file="${dtgov.dtgov-ui.path}" 
           tofile="${dtgov.jetty.deploy.dir}/dtgov-ui.war" overwrite="true" />
-    -->
     
     <echo>----------------------------------</echo>
     <echo>Configuring Overlord Apps</echo>
@@ -87,8 +107,8 @@
     <!-- Set the dtgovworkflow user credentials in dtgov.properties -->
     <concat destfile="${dtgov.jetty.config.dir}/dtgov.properties" append="true">
 # JNDI email reference
-governance.jndi.email.reference=java:comp/env/mail/Default  	
-  
+governance.jndi.email.reference=java:comp/env/mail/Default
+
 # Governance BPM credentials
 governance.bpm.user=dtgovworkflow
 governance.bpm.password=${dtgov.users.workflow.password}
@@ -106,10 +126,10 @@ governance.password=${dtgov.users.workflow.password}
     <!-- Set the SAML keystore and alias password in the dtgov-ui config -->
     <property file="${dtgov.jetty.config.dir}/overlord-vault-keys.properties" />
     <propertyfile file="${dtgov.jetty.config.dir}/dtgov-ui.properties">
-      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore" value="${sys:catalina.home}/conf/overlord-saml.keystore" />
+      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore" value="${sys:jetty.home}/etc/overlord-saml.keystore" />
       <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore-password" value="samlkeystore77" />
       <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.key-password" value="overlord99" />
-      <entry key="dtgov-ui.task-api.authentication.saml.keystore" value="${sys:catalina.home}/conf/overlord-saml.keystore" />
+      <entry key="dtgov-ui.task-api.authentication.saml.keystore" value="${sys:jetty.home}/etc/overlord-saml.keystore" />
       <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="samlkeystore77" />
       <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="overlord99" />
     </propertyfile>

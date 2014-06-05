@@ -30,12 +30,12 @@
         <repository>
           <id>local-sramp-repo</id>
           <name>S-RAMP Releases Repository</name>
-          <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
+          <url>sramp://localhost:8181/s-ramp-server/?artifactType=KieJarArchive</url>
         </repository>
         <snapshotRepository>
           <id>local-sramp-repo-snapshots</id>
           <name>S-RAMP Snapshots Repository</name>
-          <url>sramp://localhost:8080/s-ramp-server/?artifactType=KieJarArchive</url>
+          <url>sramp://localhost:8181/s-ramp-server/?artifactType=KieJarArchive</url>
         </snapshotRepository>
       </distributionManagement>
     </profile>

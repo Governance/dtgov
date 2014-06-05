@@ -40,22 +40,12 @@ import org.slf4j.LoggerFactory;
  */
 public class QueryAccessor {
 
-
-    /** The Constant ARTIFACT_TYPE. */
-    private final static String ARTIFACT_TYPE="/s-ramp/ext/DtgovWorkflowQuery";
-
-    /** The logger. */
     private static Logger logger = LoggerFactory.getLogger(QueryAccessor.class);
 
-    /** The Constant PROPERTY_PREFIX. */
-    private final static String PROPERTY_PREFIX = "prop.";
-
-    /** The Constant PROPERTY_QUERY. */
-    private final static String PROPERTY_QUERY = "query";
-
-
-    /** The Constant PROPERTY_WORKLOW. */
-    private final static String PROPERTY_WORKLOW = "workflow";
+    private final static String QUERY = "/s-ramp/ext/DtgovWorkflowQuery[@query]"; //$NON-NLS-1$
+    private final static String PROPERTY_PREFIX = "prop."; //$NON-NLS-1$
+    private final static String PROPERTY_QUERY = "query"; //$NON-NLS-1$
+    private final static String PROPERTY_WORKLOW = "workflow"; //$NON-NLS-1$
 
     /**
      * Gets the queries.
@@ -68,11 +58,9 @@ public class QueryAccessor {
         Set<Query> queries = new HashSet<Query>();
 
         SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-        StringBuilder queryBuilder = new StringBuilder();
         // Initial query
 
-        queryBuilder.append(ARTIFACT_TYPE); //$NON-NLS-1$
-        SrampClientQuery query = client.buildQuery(queryBuilder.toString());
+        SrampClientQuery query = client.buildQuery(QUERY);
         SrampClientQuery scq = query.startIndex(0);
         try {
             QueryResultSet resultSet = scq.query();
@@ -94,11 +82,11 @@ public class QueryAccessor {
         } catch (SrampClientException e) {
             logger.error(
                     Messages.i18n.format(
-                            "QueryExecutor.ExceptionFor", "Reading query from s-ramp", e.getMessage()), e); //$NON-NLS-1$
+                            "QueryExecutor.ExceptionFor", e.getMessage()), e); //$NON-NLS-1$
         } catch (SrampAtomException e) {
             logger.error(
                     Messages.i18n.format(
-                            "QueryExecutor.ExceptionFor", " Reading query from s-ramp", e.getMessage()), e); //$NON-NLS-1$
+                            "QueryExecutor.ExceptionFor", e.getMessage()), e); //$NON-NLS-1$
         }
         return queries;
     }

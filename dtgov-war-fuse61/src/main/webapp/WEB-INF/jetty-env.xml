@@ -1,0 +1,44 @@
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN"
+   "http://www.eclipse.org/jetty/configure.dtd">
+<Configure id="webAppCtx" class="org.eclipse.jetty.webapp.WebAppContext">
+
+  <Array id="plusConfig" type="java.lang.String">
+    <Item>org.mortbay.jetty.webapp.WebInfConfiguration</Item>
+    <Item>org.mortbay.jetty.plus.webapp.EnvConfiguration</Item>
+    <Item>org.mortbay.jetty.plus.webapp.Configuration</Item>
+    <Item>org.mortbay.jetty.webapp.JettyWebXmlConfiguration</Item>
+  </Array>
+
+  <New id="BeanManager" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg>
+      <Ref id="webAppCtx" />
+    </Arg>
+    <Arg>BeanManager</Arg>
+    <Arg>
+      <New class="javax.naming.Reference">
+        <Arg>javax.enterprise.inject.spi.BeanManager</Arg>
+        <Arg>org.jboss.weld.resources.ManagerObjectFactory</Arg>
+        <Arg />
+      </New>
+    </Arg>
+  </New>
+
+  <Call name="getConfiguration" class="bitronix.tm.TransactionManagerServices">
+    <Set name="serverId">jetty-btm-node0</Set>
+    <Set name="logPart1Filename"><SystemProperty name="karaf.home" default="."/>/work/btm1.tlog</Set>
+    <Set name="logPart2Filename"><SystemProperty name="karaf.home" default="."/>/work/btm2.tlog</Set>
+  </Call>
+  <Get name="server">
+    <Call name="addLifeCycle">
+      <Arg>
+        <New class="bitronix.tm.integration.jetty7.BTMLifeCycle"/>
+      </Arg>
+    </Call>
+  </Get>
+  <New id="tx" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg>java:comp/UserTransaction</Arg>
+    <Arg>
+      <Call name="getTransactionManager" class="bitronix.tm.TransactionManagerServices" />
+    </Arg>
+  </New>
+</Configure> 

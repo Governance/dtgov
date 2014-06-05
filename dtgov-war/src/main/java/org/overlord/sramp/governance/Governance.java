@@ -37,6 +37,7 @@ public class Governance {
     public static String TARGET_ERROR = GovernanceConstants.GOVERNANCE_TARGETS + " should be of the format <targetName>|<directory>\nCheck\n"; //$NON-NLS-1$
     public static String NOTIFICATION_ERROR  = GovernanceConstants.GOVERNANCE + ".<email|..> should be of the format <groupName>|<fromAddress>|<destination1>,<destination2>\nCheck\n"; //$NON-NLS-1$
     public static String DEFAULT_JNDI_EMAIL_REF = "java:jboss/mail/Default"; //$NON-NLS-1$
+    public static String DEFAULT_JNDI_TX_REF = "java:comp/UserTransaction"; //$NON-NLS-1$
     public static String DEFAULT_EMAIL_DOMAIN = "example.com"; //$NON-NLS-1$
     public static String DEFAULT_EMAIL_FROM = "overlord@example.com"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_WORKFLOW_GROUP   = "org.overlord.dtgov"; //$NON-NLS-1$
@@ -267,6 +268,10 @@ public class Governance {
 
     public String getJNDIEmailName() {
         return getConfiguration().getString(GovernanceConstants.GOVERNANCE_JNDI_EMAIL_REF, DEFAULT_JNDI_EMAIL_REF);
+    }
+
+    public String getJNDIUserTxName() {
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_JNDI_TX_REF, DEFAULT_JNDI_TX_REF);
     }
 
     public String getDefaultEmailDomain() {

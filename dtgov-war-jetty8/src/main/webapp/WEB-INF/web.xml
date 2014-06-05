@@ -4,23 +4,28 @@
   version="2.5">
 
   <display-name>dtgov</display-name>
-  
-  <!-- Auto scan REST service  -->
-  <context-param>
-      <param-name>resteasy.scan</param-name>
-      <param-value>true</param-value>
-  </context-param>
- 
-  
+
+  <listener>
+    <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.overlord.sramp.governance.GovernanceServletContextListener</listener-class>
+  </listener>
+  <listener>
+   <listener-class>org.jboss.weld.environment.servlet.BeanManagerResourceBindingListener</listener-class>
+  </listener>
+
   <context-param>
     <param-name>org.jboss.seam.transaction.disableListener</param-name>
     <param-value>true</param-value>
   </context-param>
-  
-  <!-- this need same with resteasy servlet url-pattern -->
   <context-param>
     <param-name>resteasy.servlet.mapping.prefix</param-name>
     <param-value>/rest</param-value>
+  </context-param>
+  <context-param>
+    <param-name>resteasy.injector.factory</param-name>
+    <param-value>org.jboss.resteasy.cdi.CdiInjectorFactory</param-value>
   </context-param>
 
   <filter>
@@ -40,27 +45,30 @@
     <filter-name>ConversationPropagationFilter</filter-name>
     <url-pattern>*</url-pattern>
   </filter-mapping>
- 
- 
-  <listener>
-   <listener-class>org.jboss.weld.environment.servlet.BeanManagerResourceBindingListener</listener-class>
-  </listener>
-  <listener>
-    <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
-  </listener>
-  <listener>
-    <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
-  </listener>
-  <listener>
-    <listener-class>org.overlord.sramp.governance.GovernanceServletContextListener</listener-class>
-  </listener>
-  
-  
-  <context-param>
-    <param-name>resteasy.injector.factory</param-name>
-    <param-value>org.jboss.resteasy.cdi.CdiInjectorFactory</param-value>
-  </context-param>
- 
+
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>org.overlord.commons.auth.filters.SamlBearerTokenAuthFilter</filter-class>
+    <description>This filter provides support for BASIC authentication that works with both standard user/password auth as well as SAML Bearer Token auth.</description>
+    <init-param>
+        <param-name>allowedIssuers</param-name>
+        <param-value>/dtgov-ui</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <servlet-name>Resteasy</servlet-name>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>HttpRequestThreadLocalFilter</filter-name>
+    <filter-class>org.overlord.commons.auth.filters.HttpRequestThreadLocalFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HttpRequestThreadLocalFilter</filter-name>
+    <servlet-name>Resteasy</servlet-name>
+  </filter-mapping>
+
   <servlet>
     <servlet-name>Resteasy</servlet-name>
     <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
@@ -69,36 +77,16 @@
       <param-value>org.overlord.sramp.governance.services.GovernanceApplication</param-value>
     </init-param>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>Resteasy</servlet-name>
     <url-pattern>/rest/*</url-pattern>
   </servlet-mapping>
-  
-
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>S-RAMP Governance</web-resource-name>
-      <url-pattern>/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>overlorduser</role-name>
-    </auth-constraint>
-  </security-constraint>
 
   <login-config>
     <auth-method>BASIC</auth-method>
-    <realm-name>OverlordRealm</realm-name>
+    <realm-name>Overlord</realm-name>
   </login-config>
 
-  <security-role>
-    <role-name>overlorduser</role-name>
-  </security-role>
-
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
-  
   <!-- Resources -->
   <resource-env-ref>
     <description>Object factory for the CDI Bean Manager</description>

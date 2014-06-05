@@ -81,7 +81,7 @@ public class RHQDeployer extends AbstractDeployer {
             props.put("deploy.rhq.pluginName", target.getRhqPluginName()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
 
-            logger.info(Messages.i18n.format("RHQDeployer.deploymentSuccessfully", artifact.getUuid()));
+            logger.info(Messages.i18n.format("RHQDeployer.deploymentSuccessfully", artifact.getUuid())); //$NON-NLS-1$
             return target.getRhqBaseUrl();
         } finally {
             IOUtils.closeQuietly(is);

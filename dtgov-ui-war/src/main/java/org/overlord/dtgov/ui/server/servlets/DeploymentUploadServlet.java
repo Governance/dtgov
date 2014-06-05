@@ -72,7 +72,6 @@ public class DeploymentUploadServlet extends HttpServlet {
     /**
      * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    @SuppressWarnings("unchecked")
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse response)
             throws ServletException, IOException {
@@ -208,6 +207,9 @@ public class DeploymentUploadServlet extends HttpServlet {
     private void uploadSingleDeployment(String deploymentType, String fileName,
             File tempFile, Map<String, String> responseParams, String version) throws Exception {
         ArtifactType at = ArtifactType.valueOf(deploymentType);
+        if (at.isExtendedType()) {
+            at = ArtifactType.ExtendedDocument(at.getExtendedType());
+        }
         String uuid = null;
         // First, upload the deployment
         InputStream contentStream = null;

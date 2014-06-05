@@ -19,14 +19,24 @@ package org.overlord.dtgov.jbpm.util;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.inject.Alternative;
+import javax.security.auth.Subject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.eclipse.jetty.server.Authentication;
+import org.eclipse.jetty.server.Authentication.User;
+import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.UserIdentity;
 import org.kie.internal.task.api.UserGroupCallback;
-import org.overlord.commons.auth.jetty8.HttpRequestThreadLocalFilter;
+import org.overlord.commons.auth.filters.HttpRequestThreadLocalFilter;
+import org.overlord.commons.auth.filters.SamlBearerTokenAuthFilter;
+import org.overlord.commons.auth.filters.SimplePrincipal;
+import org.overlord.commons.auth.jetty8.JettyAuthConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * Loosely based on org.jbpm.task.identity.JAASUserGroupCallbackImpl
  *
@@ -38,51 +48,58 @@ public class DTGovUserGroupCallbackJetty implements UserGroupCallback {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * @see org.kie.internal.task.api.UserGroupCallback#existsUser(java.lang.String)
+     */
     @Override
     public boolean existsUser(String userId) {
     	// allow everything as there is no way to ask JAAS/JACC for users in the domain
         return true;
     }
 
+    /**
+     * @see org.kie.internal.task.api.UserGroupCallback#existsGroup(java.lang.String)
+     */
     @Override
     public boolean existsGroup(String groupId) {
     	// allow everything as there is no way to ask JAAS/JACC for groups in the domain
     	return true;
     }
 
+    /**
+     * @see org.kie.internal.task.api.UserGroupCallback#getGroupsForUser(java.lang.String, java.util.List, java.util.List)
+     */
     @Override
-    public List<String> getGroupsForUser(String userId,
-            List<String> groupIds, List<String> allExistingGroupIds)
-    {
-    	List<String> roles = new ArrayList<String>();
-    	//adding some default roles till authorization can be fixed
-    	roles.add("overlorduser");
-    	roles.add("admin.sramp");
-    	roles.add("dev");
-    	roles.add("qa");
-    	roles.add("stage");
-    	roles.add("prod");
-    	roles.add("ba");
-    	roles.add("arch");
+    public List<String> getGroupsForUser(String userId, List<String> groupIds,
+            List<String> allExistingGroupIds) {
+        // Try our thread local first.  If we're using our own authentication mechanism,
+        // we would have stored it in the ThreadLocal for just this purpose.
+        SimplePrincipal sp = SamlBearerTokenAuthFilter.TL_principal.get();
+        if (sp != null) {
+            return new ArrayList<String>(sp.getRoles());
+        }
+
+        List<String> roles = new ArrayList<String>();
         try {
-        	// https://issues.jboss.org/browse/DTGOV-106 - request comes up null 
-        	HttpServletRequest request = HttpRequestThreadLocalFilter.TL_request.get();
-//            Principal principal = request.getUserPrincipal();
-//            if (principal instanceof GenericPrincipal) {
-//                GenericPrincipal gp = (GenericPrincipal) principal;
-//                String[] gpRoles = gp.getRoles();
-//                roles = new ArrayList<String>(gpRoles.length);
-//                for (String role : gpRoles) {
-//                    roles.add(role);
-//                }
-//            } else if (principal instanceof MemoryUser) {
-//            	MemoryUser mu = (MemoryUser) principal;
-//            	Iterator<Role> iter = mu.getRoles();
-//            	roles = new ArrayList<String>();
-//            	while (iter.hasNext()) {
-//            		roles.add(iter.next().getRolename());
-//            	}
-//            }
+            HttpServletRequest request = HttpRequestThreadLocalFilter.TL_request.get();
+            Request jettyRequest = (Request) request;
+            Authentication authentication = jettyRequest.getAuthentication();
+            User userAuth = (User) authentication;
+            UserIdentity userIdentity = userAuth.getUserIdentity();
+            Subject subject = userIdentity.getSubject();
+            for (String cname : JettyAuthConstants.ROLE_CLASSES) {
+                try {
+                    @SuppressWarnings("unchecked")
+                    Class<? extends Principal> c = (Class<? extends Principal>) Thread.currentThread().getContextClassLoader().loadClass(cname);
+                    Set<? extends Principal> principals = subject.getPrincipals(c);
+                    for (Principal p : principals) {
+                        roles.add(p.getName());
+                    }
+                } catch (ClassNotFoundException e) {
+                    // Skip it!
+                }
+            }
+            return roles;
         } catch (Exception e) {
             logger.error("ErrorGettingRoles for user " + userId, e); //$NON-NLS-1$
         }

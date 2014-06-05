@@ -9,29 +9,20 @@
   <packaging>war</packaging>
   <name>Design Time Governance: UI</name>
   <dependencies>
-
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava-gwt</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <!-- DTGov Common -->
+    <!-- Project Dependencies -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-common</artifactId>
     </dependency>
-    <!-- DTGov Task API Client -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-task-client</artifactId>
     </dependency>
-
-    <!-- DTGov Services -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-services</artifactId>
     </dependency>
+
     <!-- S-RAMP client -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>
@@ -60,21 +51,24 @@
       <artifactId>s-ramp-integration-switchyard</artifactId>
     </dependency>
 
-    <!-- Overlord Commons UI Header -->
+    <!-- Overlord Commons -->
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-uiheader</artifactId>
     </dependency>
-    <!-- Overlord Commons GWT -->
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-gwt</artifactId>
     </dependency>
-    <!-- Overlord Commons Config -->
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-config</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-auth</artifactId>
+    </dependency>
+    
     <!-- S-RAMP Widgets -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>
@@ -82,6 +76,15 @@
     </dependency>
 
     <!-- Third Party Dependencies -->
+    <dependency>
+      <groupId>org.picketlink</groupId>
+      <artifactId>picketlink-federation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-gwt</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-core-asl</artifactId>
@@ -116,11 +119,6 @@
     <dependency>
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.overlord</groupId>
-      <artifactId>overlord-commons-auth</artifactId>
       <scope>provided</scope>
     </dependency>
 

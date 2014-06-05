@@ -22,6 +22,7 @@
       <artifactId>cdi-api</artifactId>
     </dependency>
   </dependencies>
+  
   <build>
     <plugins>
       <plugin>

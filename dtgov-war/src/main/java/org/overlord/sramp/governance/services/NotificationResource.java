@@ -17,6 +17,7 @@ package org.overlord.sramp.governance.services;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -70,8 +71,13 @@ public class NotificationResource {
         try {
             String jndiEmailRef = governance.getJNDIEmailName();
             context = new InitialContext();
-            mailSession = (Session) context.lookup(jndiEmailRef);
-            if (mailSession==null) {
+            Object o = context.lookup(jndiEmailRef);
+            if (o instanceof Session) {
+                mailSession = (Session) o;
+            } else if (o instanceof Properties) {
+                mailSession = Session.getInstance((Properties) o);
+            }
+            if (mailSession == null) {
                 logger.error(Messages.i18n.format("NotificationResource.JndiLookupFailed", jndiEmailRef)); //$NON-NLS-1$
             }
         } catch (NamingException e) {
@@ -142,7 +148,7 @@ public class NotificationResource {
                     subject = subject.replaceAll("\\$\\{target}", target); //$NON-NLS-1$
                     m.setSubject(subject);
                 } else {
-                    logger.warn(Messages.i18n.format("NotificationResource.subject.empty", template));
+                    logger.warn(Messages.i18n.format("NotificationResource.subject.empty", template)); //$NON-NLS-1$
                 }
 
                 m.setSentDate(new java.util.Date());
@@ -154,7 +160,7 @@ public class NotificationResource {
                     content = content.replaceAll("\\$\\{dtgovurl}", governance.getDTGovUiUrl()); //$NON-NLS-1$
                     m.setContent(content, "text/plain"); //$NON-NLS-1$
                 } else {
-                    logger.warn(Messages.i18n.format("NotificationResource.body.empty", template));
+                    logger.warn(Messages.i18n.format("NotificationResource.body.empty", template)); //$NON-NLS-1$
                 }
 
                 Transport.send(m);

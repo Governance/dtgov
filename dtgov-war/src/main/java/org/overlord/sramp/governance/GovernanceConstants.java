@@ -37,6 +37,8 @@ public interface GovernanceConstants {
     public static final String GOVERNANCE_EMAIL_DOMAIN  = "governance.email.domain"; //$NON-NLS-1$
     public static final String GOVERNANCE_EMAIL_FROM    = "governance.email.from"; //$NON-NLS-1$
 
+    public static final String GOVERNANCE_JNDI_TX_REF   = "governance.jndi.userTx.reference"; //$NON-NLS-1$
+
 
     //RHQ connection info
     public static final String GOVERNANCE_RHQ_USER     = "rhq.rest.user"; //$NON-NLS-1$

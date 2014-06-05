@@ -28,40 +28,48 @@ import org.apache.catalina.Role;
 import org.apache.catalina.realm.GenericPrincipal;
 import org.apache.catalina.users.MemoryUser;
 import org.kie.internal.task.api.UserGroupCallback;
-import org.overlord.commons.auth.tomcat7.HttpRequestThreadLocalValve;
+import org.overlord.commons.auth.filters.HttpRequestThreadLocalFilter;
+import org.overlord.commons.auth.filters.SimplePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * Loosely based on org.jbpm.task.identity.JAASUserGroupCallbackImpl
  *
  * @author kstam
- *
  */
 @Alternative
 public class DTGovUserGroupCallbackTomcat implements UserGroupCallback {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * @see org.kie.internal.task.api.UserGroupCallback#existsUser(java.lang.String)
+     */
     @Override
     public boolean existsUser(String userId) {
     	// allow everything as there is no way to ask JAAS/JACC for users in the domain
         return true;
     }
 
+    /**
+     * @see org.kie.internal.task.api.UserGroupCallback#existsGroup(java.lang.String)
+     */
     @Override
     public boolean existsGroup(String groupId) {
     	// allow everything as there is no way to ask JAAS/JACC for groups in the domain
     	return true;
     }
 
+    /**
+     * @see org.kie.internal.task.api.UserGroupCallback#getGroupsForUser(java.lang.String, java.util.List, java.util.List)
+     */
     @Override
-    public List<String> getGroupsForUser(String userId,
-            List<String> groupIds, List<String> allExistingGroupIds)
-    {
+    public List<String> getGroupsForUser(String userId, List<String> groupIds,
+            List<String> allExistingGroupIds) {
     	List<String> roles = null;
         try {
-        	// https://issues.jboss.org/browse/DTGOV-106 - request comes up null 
-        	HttpServletRequest request = HttpRequestThreadLocalValve.TL_request.get();
+        	HttpServletRequest request = HttpRequestThreadLocalFilter.TL_request.get();
             Principal principal = request.getUserPrincipal();
             if (principal instanceof GenericPrincipal) {
                 GenericPrincipal gp = (GenericPrincipal) principal;
@@ -77,6 +85,8 @@ public class DTGovUserGroupCallbackTomcat implements UserGroupCallback {
             	while (iter.hasNext()) {
             		roles.add(iter.next().getRolename());
             	}
+            } else if (principal instanceof SimplePrincipal) {
+                return new ArrayList<String>(((SimplePrincipal) principal).getRoles());
             }
         } catch (Exception e) {
             logger.error("ErrorGettingRoles for user " + userId, e); //$NON-NLS-1$
