@@ -353,7 +353,7 @@ dtgov-ui.workflows.version=${project.version}
                     <property name="dtgov.jetty.zip" location="${basedir}/jetty-distribution-8.1.14.v20131031.zip" />
                     <property name="dtgov.version" value="${project.version}" />
 
-                    <!-- BMT Dependencies in tomcat/lib -->
+                    <!-- BMT Dependencies in jetty/lib/ext -->
                     <property name="lib.btm.jar" value="${maven.dependency.org.codehaus.btm.btm.jar.path}" />
                     <property name="lib.btm-jetty7-lifecycle.jar" value="${maven.dependency.org.codehaus.btm.btm-jetty7-lifecycle.jar.path}" />
                     <property name="lib.h2.jar" value="${maven.dependency.com.h2database.h2.jar.path}" />
@@ -446,18 +446,9 @@ dtgov-ui.workflows.version=${project.version}
                     <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/jboss-fuse-${fuse.version}" />
                     <property name="dtgov.version" value="${project.version}" />
 
-                    <!-- BMT Dependencies in tomcat/lib -->
-                    <property name="lib.btm.jar" value="${maven.dependency.org.codehaus.btm.btm.jar.path}" />
-                    <property name="lib.btm-jetty7-lifecycle.jar" value="${maven.dependency.org.codehaus.btm.btm-jetty7-lifecycle.jar.path}" />
-                    <property name="lib.h2.jar" value="${maven.dependency.com.h2database.h2.jar.path}" />
-                    <property name="lib.jta.jar" value="${maven.dependency.javax.transaction.jta.jar.path}" />
-                    <property name="lib.slf4j-api.jar" value="${maven.dependency.org.slf4j.slf4j-api.jar.path}" />
-                    <property name="lib.slf4j-jdk14.jar" value="${maven.dependency.org.slf4j.slf4j-jdk14.jar.path}" />
-                    <!-- email -->
-					<property name="lib.mail.jar" value="${maven.dependency.javax.mail.mail.jar.path}" />
-                    
                     <!-- Overlord Commons Installer and Dependencies -->
                     <property name="dtgov.overlord-commons.installer.jar" value="${maven.dependency.org.overlord.overlord-commons-installer.jar.path}" />
+                    <property name="dtgov-overlord-commons.ant.jar.path" value="${maven.dependency.org.overlord.overlord-commons-ant.jar.path}"/>
                     <property name="overlord-commons.idp.file" value="${maven.dependency.org.overlord.overlord-commons-idp-jetty8.war.path}" />
                     <property name="overlord-commons.services.file" value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
                     <property name="overlord-commons.auth.file" value="${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
@@ -492,6 +483,7 @@ dtgov-ui.workflows.version=${project.version}
 dtgov-ui.workflows.version=${project.version}
                     </concat>
 
+                    <property name="overlord-commons.ant.jar" location="${dtgov-overlord-commons.ant.jar.path}" />
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
                       <target name="install" />
                     </ant>

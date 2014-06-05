@@ -9,8 +9,6 @@
     <property name="dtgov.overlord-commons.installer.dir" location="${dtgov.install.dir}/overlord-commons-installer" />
 
     <property name="dtgov.fuse.config.dir" location="${dtgov.appserver.dir}/etc/" />
-  	<property name="dtgov.fuse.lib.dir" location="${dtgov.appserver.dir}/lib/ext/" />
-  	<property name="dtgov.fuse.bin.dir" location="${dtgov.appserver.dir}/bin/" />
 
   </target>
 
@@ -22,25 +20,6 @@
     <echo message="# will install DTGov into Fuse 6.1.          #" />
     <echo message="##############################################" />
     <echo message=" " />
-  	
-  	<echo>------------------------------------</echo>
-  	<echo>Installing DataSource, Mail and BMT to lib</echo>
-  	<echo>------------------------------------</echo>
-  	<copy file="${lib.btm.jar}" todir="${dtgov.fuse.lib.dir}" overwrite="false" />
-  	<copy file="${lib.btm-jetty7-lifecycle.jar}" 
-  		todir="${dtgov.fuse.lib.dir}" overwrite="false" />
-  	<copy file="${lib.h2.jar}" 
-  		todir="${dtgov.fuse.lib.dir}" overwrite="false" />
-  	<copy file="${lib.jta.jar}" 
-  		todir="${dtgov.fuse.lib.dir}" overwrite="false" />
-  	<copy file="${lib.slf4j-api.jar}" 
-  		todir="${dtgov.fuse.lib.dir}" overwrite="false" />
-  	<copy file="${lib.slf4j-jdk14.jar}" 
-  		todir="${dtgov.fuse.lib.dir}" overwrite="false" />
-  	<copy file="${lib.mail.jar}" 
-  		todir="${dtgov.fuse.lib.dir}" overwrite="false" />
-  	<!-- note that in jetty the bitronix config is in the jetty.xml -->
-  	<copy file="${dtgov.updates.dir}/jetty.xml" todir="${dtgov.fuse.config.dir}" overwrite="false" />
 
     <echo>----------------------------------</echo>
     <echo>Installing Overlord Commons</echo>
@@ -74,8 +53,8 @@
     <!-- Set the dtgovworkflow user credentials in dtgov.properties -->
     <concat destfile="${dtgov.fuse.config.dir}/dtgov.properties" append="true">
 # JNDI email reference
-governance.jndi.email.reference=java:comp/env/mail/Default  	
-  
+governance.jndi.email.reference=java:comp/env/mail/Default	
+
 # Governance BPM credentials
 governance.bpm.user=dtgovworkflow
 governance.bpm.password=${dtgov.users.workflow.password}
@@ -88,6 +67,10 @@ sramp.repo.password=${dtgov.users.workflow.password}
 #  (used by the workflows to invoke DTGov services)
 governance.user=dtgovworkflow
 governance.password=${dtgov.users.workflow.password}
+
+sramp.repo.url=http://localhost:8181/s-ramp-server
+governance.url=http://localhost:8181/dtgov
+dtgov.ui.url=http://localhost:8181/dtgov-ui
     </concat>
 
     <!-- Set the SAML keystore and alias password in the dtgov-ui config -->
@@ -99,6 +82,9 @@ governance.password=${dtgov.users.workflow.password}
       <entry key="dtgov-ui.task-api.authentication.saml.keystore" value="${sys:catalina.home}/conf/overlord-saml.keystore" />
       <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="samlkeystore77" />
       <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="overlord99" />
+      
+      <entry key="dtgov-ui.s-ramp.atom-api.endpoint" value="http://localhost:8181/s-ramp-server" />
+      <entry key="dtgov-ui.task-api.endpoint" value="http://localhost:8181/dtgov/rest/tasks" />
     </propertyfile>
 
     <echo message=" " />
