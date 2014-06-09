@@ -16,7 +16,7 @@
       <type>war</type>
     </dependency>
     
-    <!-- Other Tomcat-only dependencies -->
+    <!-- Other Jetty-only dependencies -->
     <dependency>
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>

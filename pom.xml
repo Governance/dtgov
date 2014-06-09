@@ -90,7 +90,6 @@
 
     <!-- S-RAMP version -->
     <s-ramp.version>0.4.1-SNAPSHOT</s-ramp.version>
-    <s-ramp-ui.version>0.4.1-SNAPSHOT</s-ramp-ui.version>
 
     <!-- Overlord Commons version -->
     <overlord-commons.version>2.0.1-SNAPSHOT</overlord-commons.version>
@@ -332,6 +331,12 @@
       </dependency>
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-ui-war-fuse61</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
         <artifactId>dtgov-war</artifactId>
         <version>${project.version}</version>
         <type>war</type>
@@ -483,6 +488,16 @@
       </dependency>
       <dependency>
         <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-integration-teiid</artifactId>
+        <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-integration-kie</artifactId>
+        <version>${s-ramp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
         <artifactId>s-ramp-shell-api</artifactId>
         <version>${s-ramp.version}</version>
       </dependency>
@@ -613,6 +628,11 @@
         <artifactId>overlord-commons-solder-impl</artifactId>
         <version>${overlord-commons.version}</version>
         <classifier>shade</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-errai-fuse-support</artifactId>
+        <version>${overlord-commons.version}</version>
       </dependency>
 
       <!-- Apache Commons -->
@@ -931,6 +951,7 @@
     <module>dtgov-ui-war-jetty8</module>
     <module>dtgov-ui-war-tomcat7</module>
     <module>dtgov-workflows</module>
+    <module>dtgov-ui-war-fuse61</module>
   </modules>
 </project>
 
