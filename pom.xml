@@ -914,6 +914,7 @@
     <module>dtgov-common</module>
     <module>dtgov-demos</module>
     <module>dtgov-distro</module>
+    <module>dtgov-distro-fabric</module>
     <module>dtgov-distro-fuse61</module>
     <module>dtgov-installer</module>
     <module>dtgov-task-api</module>
