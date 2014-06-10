@@ -47,7 +47,8 @@
     <echo message="Generated password for dtgovworkflow user: ${dtgov.users.workflow.password}" />
     
     <!-- Add roles and user to realm.properties -->
-  	<concat destfile="${dtgov.fuse.config.dir}/users.properties" append="true">dtgovworkflow=${dtgov.users.workflow.password},overlorduser,admin.sramp</concat>
+  	<concat destfile="${dtgov.fuse.config.dir}/users.properties" append="true">
+dtgovworkflow=${dtgov.users.workflow.password},overlorduser,admin.sramp</concat>
     <echo message="Created dtgovworkflow user in Application Realm" />
     
     <!-- Set the dtgovworkflow user credentials in dtgov.properties -->
@@ -83,10 +84,10 @@ dtgov.workflows.version=${project.version}
     <!-- Set the SAML keystore and alias password in the dtgov-ui config -->
     <property file="${dtgov.fuse.config.dir}/overlord-vault-keys.properties" />
     <propertyfile file="${dtgov.fuse.config.dir}/dtgov-ui.properties">
-      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore" value="${sys:catalina.home}/conf/overlord-saml.keystore" />
+      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore" value="${sys:karaf.home}/etc/overlord-saml.keystore" />
       <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore-password" value="samlkeystore77" />
       <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.key-password" value="overlord99" />
-      <entry key="dtgov-ui.task-api.authentication.saml.keystore" value="${sys:catalina.home}/conf/overlord-saml.keystore" />
+      <entry key="dtgov-ui.task-api.authentication.saml.keystore" value="${sys:karaf.home}/etc/overlord-saml.keystore" />
       <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="samlkeystore77" />
       <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="overlord99" />
       

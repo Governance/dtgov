@@ -1,5 +1,4 @@
-
-connect http://localhost:8181/s-ramp-server admin b00bies!
+connect ${s-ramp.endpoint} ${s-ramp.username} ${s-ramp.password}
 ontology:upload dtgov-data/deployment-status.owl
 ontology:upload dtgov-data/project-review-status.owl
 maven:deploy ${dtgov-workflow-jar} ${project.groupId}:dtgov-workflows:${project.version} KieJarArchive
@@ -38,4 +37,4 @@ property set template "deployed"
 property set template-type "body"
 updateMetaData
 
-upload "C:/Users/Eric/Documents/Demo Files/homeloan-1.9.2.war" SwitchYardApplication
+upload "C:/Users/ewittman/Documents/Demo Files/homeloan-1.9.2.war" SwitchYardApplication

@@ -50,6 +50,14 @@
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-integration-switchyard</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-integration-teiid</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-integration-kie</artifactId>
+    </dependency>
 
     <!-- Overlord Commons -->
     <dependency>
