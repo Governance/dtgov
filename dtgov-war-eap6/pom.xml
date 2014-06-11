@@ -16,6 +16,7 @@
       <type>war</type>
     </dependency>
     
+    <!-- Additional Dependencies to include in the WAR -->
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-auth</artifactId>
@@ -23,6 +24,13 @@
     <dependency>
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-auth-jboss7</artifactId>
+    </dependency>
+
+    <!-- Provided Dependencies -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>jaxrs-api</artifactId>
+      <scope>provided</scope>
     </dependency>
 
   </dependencies>
@@ -37,6 +45,7 @@
               <groupId>${project.groupId}</groupId>
               <artifactId>dtgov-war</artifactId>
               <excludes>
+                <exclude>WEB-INF/classes/org/overlord/sramp/governance/services/GovernanceApplication.class</exclude>
                 <exclude>WEB-INF/lib/activation-*.jar</exclude>
                 <exclude>WEB-INF/lib/commons-codec-*.jar</exclude>
                 <exclude>WEB-INF/lib/commons-collections-*.jar</exclude>
