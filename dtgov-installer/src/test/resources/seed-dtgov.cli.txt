@@ -1,7 +1,7 @@
 connect ${s-ramp.endpoint} ${s-ramp.username} ${s-ramp.password}
 ontology:upload dtgov-data/deployment-status.owl
 ontology:upload dtgov-data/project-review-status.owl
-maven:deploy ${dtgov-workflow-jar} ${project.groupId}:dtgov-workflows:${project.version} KieJarArchive
+maven:deploy "${dtgov-workflow-jar}" ${project.groupId}:dtgov-workflows:${project.version} KieJarArchive
 create DtgovWorkflowQuery "Project Lifecycle" "Simple Project Lifecycle management workflow trigger query.  Starts a new Project Lifecycle workflow when new projects are initiated."
 property set query "/s-ramp/ext/ArtifactGrouping[xp2:matches(@name, 'Project.*')]"
 property set workflow overlord.demo.SimplifiedProjectLifeCycle
@@ -36,3 +36,5 @@ upload dtgov-data/governance-email-templates/deployed.body.tmpl DtgovEmailTempla
 property set template "deployed"
 property set template-type "body"
 updateMetaData
+
+upload "${test-app.path}" SwitchYardApplication
