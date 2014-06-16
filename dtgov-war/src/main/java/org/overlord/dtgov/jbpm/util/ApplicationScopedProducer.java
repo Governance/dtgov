@@ -48,7 +48,7 @@ public class ApplicationScopedProducer {
     @Inject
     private UserGroupCallback usergroupCallback;
 
-    @PersistenceUnit(unitName = "org.overlord.dtgov.jbpm")
+    @PersistenceUnit(unitName = "org.jbpm.domain")
     private EntityManagerFactory emf;
 
     @ApplicationScoped
@@ -61,7 +61,7 @@ public class ApplicationScopedProducer {
     public EntityManagerFactory getEntityManagerFactory() {
         if (this.emf == null) {
             this.emf = Persistence
-                    .createEntityManagerFactory("org.overlord.dtgov.jbpm"); //$NON-NLS-1$
+                    .createEntityManagerFactory("org.jbpm.domain"); //$NON-NLS-1$
         }
         return this.emf;
     }

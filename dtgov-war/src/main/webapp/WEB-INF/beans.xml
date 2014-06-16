@@ -12,12 +12,12 @@ http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
          -->
         <class>org.overlord.dtgov.jbpm.util.DTGovUserGroupCallback</class>
     </alternatives>
-    <decorators>
-        <class>org.jbpm.services.task.identity.UserGroupTaskQueryServiceDecorator</class>
-        <class>org.jbpm.services.task.identity.UserGroupTaskInstanceServiceDecorator</class>
-        <class>org.jbpm.services.task.identity.UserGroupLifeCycleManagerDecorator</class>
-        <class>org.jbpm.services.task.subtask.SubTaskDecorator</class>
-    </decorators>
+<!--     <decorators> -->
+<!--         <class>org.jbpm.services.task.identity.UserGroupTaskQueryServiceDecorator</class> -->
+<!--         <class>org.jbpm.services.task.identity.UserGroupTaskInstanceServiceDecorator</class> -->
+<!--         <class>org.jbpm.services.task.identity.UserGroupLifeCycleManagerDecorator</class> -->
+<!--         <class>org.jbpm.services.task.subtask.SubTaskDecorator</class> -->
+<!--     </decorators> -->
     <interceptors>
         <class>org.jboss.seam.transaction.TransactionInterceptor</class>
     </interceptors>

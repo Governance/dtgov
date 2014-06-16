@@ -95,8 +95,8 @@
     <overlord-commons.version>2.0.2-SNAPSHOT</overlord-commons.version>
 
     <!-- jBPM/Drools version -->
-    <jbpm.version>6.0.0.Final</jbpm.version>
-    <drools.version>6.0.0.Final</drools.version>
+    <jbpm.version>6.1.0.Beta4</jbpm.version>
+    <drools.version>6.1.0.Beta4</drools.version>
     
     <!-- Overrides -->
     <version.org.hibernate>4.2.13.Final</version.org.hibernate>
@@ -713,6 +713,11 @@
       <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-bpmn2</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-shared-services</artifactId>
         <version>${jbpm.version}</version>
       </dependency>
       <dependency>
