@@ -7,6 +7,7 @@
   <bpmn2:process id="overlord.demo.SimpleReleaseProcess" drools:version="1" drools:packageName="SRAMPPackage" drools:adHoc="false" name="Simple Release Process" isExecutable="true">
     <bpmn2:property id="DeploymentUrl" itemSubjectRef="_String"/>
     <bpmn2:property id="ArtifactUuid" itemSubjectRef="_String"/>
+    <bpmn2:property id="ArtifactName" itemSubjectRef="_String"/>
     <bpmn2:property id="response" itemSubjectRef="_String"/>
     <bpmn2:property id="NotificationUrl" itemSubjectRef="_String"/>
     <bpmn2:property id="UpdateMetaDataUrl" itemSubjectRef="_String"/>
@@ -184,7 +185,7 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:userTask id="UserTask_1" name="Test Dev">
+    <bpmn2:userTask id="UserTask_1" name="Test deployment '#{ArtifactName}' in the DEV environment">
       <bpmn2:documentation id="Documentation_8">Claim and Start this task before testing this deployment. Set Pass/Fail when complete.</bpmn2:documentation>
       <bpmn2:extensionElements>
         <drools:onEntry-script scriptFormat="http://www.java.com/java">
@@ -236,7 +237,7 @@
       <bpmn2:dataInputAssociation id="DataInputAssociation_125">
         <bpmn2:targetRef>DataInput_125</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_91">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_190">Please Claim &amp; Start this Task, then check the deployment and mark as Pass/Fail</bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_190">Please Claim &amp; Start this Task, then verify that deployment '#{ArtifactName}' is working, then choose Pass/Fail.</bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_189">DataInput_125</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -490,7 +491,7 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:userTask id="UserTask_2" name="Test Qa">
+    <bpmn2:userTask id="UserTask_2" name="Test deployment '#{ArtifactName}' in the QA environment">
       <bpmn2:documentation id="Documentation_21">Claim and Start this task before testing this deployment. Set Pass/Fail when complete.</bpmn2:documentation>
       <bpmn2:extensionElements>
         <drools:onEntry-script scriptFormat="http://www.java.com/java">
@@ -549,7 +550,7 @@
       <bpmn2:dataInputAssociation id="DataInputAssociation_23">
         <bpmn2:targetRef>DataInput_23</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_22">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_44">Please Claim &amp; Start this Task, then check the deployment and mark as Pass/Fail</bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_44">Please Claim &amp; Start this Task, then verify that deployment '#{ArtifactName}' is working, then choose Pass/Fail.</bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_43">DataInput_23</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -828,7 +829,7 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:userTask id="UserTask_3" name="Test Stage">
+    <bpmn2:userTask id="UserTask_3" name="Test deployment '#{ArtifactName}' in the STAGE environment">
       <bpmn2:documentation id="Documentation_88">Claim and Start this task before testing this deployment. Set Pass/Fail when complete.</bpmn2:documentation>
       <bpmn2:extensionElements>
         <drools:onEntry-script scriptFormat="http://www.java.com/java">
@@ -887,7 +888,7 @@
       <bpmn2:dataInputAssociation id="DataInputAssociation_50">
         <bpmn2:targetRef>DataInput_50</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_41">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_85">Please Claim &amp; Start this Task, then check the deployment and mark as Pass/Fail</bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_85">Please Claim &amp; Start this Task, then verify that deployment '#{ArtifactName}' is working, then choose Pass/Fail.</bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_86">DataInput_23</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -1165,7 +1166,7 @@
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
     </bpmn2:task>
-    <bpmn2:userTask id="UserTask_4" name="Test Prod">
+    <bpmn2:userTask id="UserTask_4" name="Test deployment '#{ArtifactName}' in the PROD environment">
       <bpmn2:documentation id="Documentation_122">Claim and Start this task before testing this deployment. Set Pass/Fail when complete.</bpmn2:documentation>
       <bpmn2:extensionElements>
         <drools:onEntry-script scriptFormat="http://www.java.com/java">
@@ -1224,7 +1225,7 @@
       <bpmn2:dataInputAssociation id="DataInputAssociation_77">
         <bpmn2:targetRef>DataInput_77</bpmn2:targetRef>
         <bpmn2:assignment id="Assignment_59">
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_123">Please Claim &amp; Start this Task, then check the deployment and mark as Pass/Fail</bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_123">Please Claim &amp; Start this Task, then verify that deployment '#{ArtifactName}' is working, then choose Pass/Fail.</bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_124">DataInput_23</bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
