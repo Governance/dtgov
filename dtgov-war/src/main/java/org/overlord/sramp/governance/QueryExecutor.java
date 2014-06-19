@@ -112,6 +112,15 @@ public class QueryExecutor {
                         	logger.info(Messages.i18n.format("QueryExecutor.StartingWorkflow", query.getWorkflowId(), artifact.getUuid())); //$NON-NLS-1$
                             Map<String,Object> parameters = query.getParsedParameters();
                             parameters.put("ArtifactUuid", artifact.getUuid()); //$NON-NLS-1$
+                            parameters.put("ArtifactName", artifact.getName()); //$NON-NLS-1$
+                            if (artifact.getVersion() != null) {
+                                parameters.put("ArtifactVersion", artifact.getVersion()); //$NON-NLS-1$
+                            }
+                            parameters.put("ArtifactCreatedBy", artifact.getCreatedBy()); //$NON-NLS-1$
+                            parameters.put("ArtifactCreatedTimestamp", artifact.getCreatedTimestamp().toGregorianCalendar()); //$NON-NLS-1$
+                            parameters.put("ArtifactLastModifiedBy", artifact.getLastModifiedBy()); //$NON-NLS-1$
+                            parameters.put("ArtifactLastModifiedTimestamp", artifact.getLastModifiedTimestamp().toGregorianCalendar()); //$NON-NLS-1$
+                            parameters.put("ArtifactType", artifactSummary.getType().getType()); //$NON-NLS-1$
                             long processInstanceId = bpmManager.newProcessInstance(deploymentId, query.getWorkflowId(), parameters);
 
                             propertyName = WORKFLOW_PROCESS_ID + query.getWorkflowId() + "_"; //$NON-NLS-1$
