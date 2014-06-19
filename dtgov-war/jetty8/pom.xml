@@ -5,10 +5,11 @@
     <groupId>org.overlord.dtgov</groupId>
     <artifactId>dtgov</artifactId>
     <version>1.2.1-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
-  <artifactId>dtgov-war-tomcat7</artifactId>
+  <artifactId>dtgov-war-jetty8</artifactId>
   <packaging>war</packaging>
-  <name>Design Time Governance: WAR (Tomcat 7)</name>
+  <name>Design Time Governance: WAR (Jetty 8)</name>
 
   <dependencies>
 
@@ -25,7 +26,7 @@
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
-      <artifactId>overlord-commons-auth-tomcat7</artifactId>
+      <artifactId>overlord-commons-auth-jetty8</artifactId>
     </dependency>
 
     <dependency>
@@ -137,7 +138,17 @@
       <scope>compile</scope>
     </dependency>
 
-
+    <!-- Jetty -->
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-plus</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
   </dependencies>
   <build>
