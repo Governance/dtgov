@@ -15,6 +15,8 @@
  */
 package org.overlord.sramp.governance.services;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +26,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.jboss.downloads.overlord.sramp._2013.auditing.AuditEntry;
+import org.jboss.downloads.overlord.sramp._2013.auditing.AuditItemType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.overlord.dtgov.common.Target;
 import org.overlord.dtgov.server.i18n.Messages;
@@ -35,6 +41,7 @@ import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.common.ArtifactType;
 import org.overlord.sramp.common.SrampModelUtils;
+import org.overlord.sramp.common.audit.AuditUtils;
 import org.overlord.sramp.governance.Governance;
 import org.overlord.sramp.governance.GovernanceConstants;
 import org.overlord.sramp.governance.SlashDecoder;
@@ -102,7 +109,7 @@ public class DeploymentResource {
         }
 
         if (prevVersionArtifact != null) {
-            undeploy(client, prevVersionArtifact, target, deployer);
+            undeploy(request, client, prevVersionArtifact, target, deployer);
         }
 
         // deploy the artifact (delegate based on target type)
@@ -126,6 +133,23 @@ public class DeploymentResource {
             artifact = client.getArtifactMetaData(uuid);
             artifact.getClassifiedBy().add(deploymentClassifier);
             client.updateArtifactMetaData(artifact);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        
+        // Add a custom audit record to the artifact
+        ////////////////////////////////////////////
+        try {
+            AuditEntry auditEntry = new AuditEntry();
+            auditEntry.setType("deploy:deploy"); //$NON-NLS-1$
+            DatatypeFactory dtFactory = DatatypeFactory.newInstance();
+            XMLGregorianCalendar now = dtFactory.newXMLGregorianCalendar((GregorianCalendar)Calendar.getInstance());
+            auditEntry.setWhen(now);
+            auditEntry.setWho(request.getRemoteUser());
+            AuditItemType item = AuditUtils.getOrCreateAuditItem(auditEntry, "deploy:info"); //$NON-NLS-1$
+            AuditUtils.setAuditItemProperty(item, "target", target.getName()); //$NON-NLS-1$
+            AuditUtils.setAuditItemProperty(item, "classifier", target.getClassifier()); //$NON-NLS-1$
+            client.addAuditEntry(uuid, auditEntry);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -193,14 +217,15 @@ public class DeploymentResource {
     /**
      * Undeploys the given artifact.  Uses information recorded when that artifact was originally
      * deployed (see {@link #recordUndeploymentInfo(BaseArtifactType, Target, Map, SrampAtomApiClient)}).
+     * @param request
      * @param client
      * @param prevVersionArtifact
      * @param target
+     * @param deployer
      * @throws Exception
      */
-    protected void undeploy(SrampAtomApiClient client, BaseArtifactType prevVersionArtifact, Target target,
-            Deployer deployer)
-            throws Exception {
+    protected void undeploy(HttpServletRequest request, SrampAtomApiClient client,
+            BaseArtifactType prevVersionArtifact, Target target, Deployer deployer) throws Exception {
         // Find the undeployment information for the artifact
         QueryResultSet resultSet = client.buildQuery("/s-ramp/ext/UndeploymentInformation[describesDeployment[@uuid = ?] and @deploy.target = ?]") //$NON-NLS-1$
                 .parameter(prevVersionArtifact.getUuid()).parameter(target.getName()).count(2).query();
@@ -217,6 +242,24 @@ public class DeploymentResource {
             client.updateArtifactMetaData(prevVersionArtifact);
             // remove the undeployment information (no longer needed)
             client.deleteArtifact(undeployInfo.getUuid(), ArtifactType.valueOf(undeployInfo));
+
+            // Add a custom audit record to the artifact
+            ////////////////////////////////////////////
+            try {
+                AuditEntry auditEntry = new AuditEntry();
+                auditEntry.setType("deploy:undeploy"); //$NON-NLS-1$
+                DatatypeFactory dtFactory = DatatypeFactory.newInstance();
+                XMLGregorianCalendar now = dtFactory.newXMLGregorianCalendar((GregorianCalendar)Calendar.getInstance());
+                auditEntry.setWhen(now);
+                auditEntry.setWho(request.getRemoteUser());
+                AuditItemType item = AuditUtils.getOrCreateAuditItem(auditEntry, "deploy:info"); //$NON-NLS-1$
+                AuditUtils.setAuditItemProperty(item, "target", target.getName()); //$NON-NLS-1$
+                AuditUtils.setAuditItemProperty(item, "classifier", target.getClassifier()); //$NON-NLS-1$
+                client.addAuditEntry(prevVersionArtifact.getUuid(), auditEntry);
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+
         } else {
             logger.warn(Messages.i18n.format("DeploymentResource.UndeploymentInfoNotFound", prevVersionArtifact.getName())); //$NON-NLS-1$
         }
