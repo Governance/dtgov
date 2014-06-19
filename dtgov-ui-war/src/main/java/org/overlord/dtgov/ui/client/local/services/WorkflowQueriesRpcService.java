@@ -136,11 +136,9 @@ public class WorkflowQueriesRpcService {
      */
     public void search(WorkflowQueriesFilterBean filters, int page, String sortColumnId,
             boolean sortAscending, final IRpcServiceInvocationHandler<WorkflowQueryResultSetBean> handler) {
-        // TODO only allow one search at a time. If another search comes in
-        // before the previous one
-        // finished, cancel the previous one. In other words, only return the
-        // results of the *last*
-        // search performed.
+        // TODO only allow one search at a time. If another search comes in before the previous 
+        // one is finished, cancel the previous one. In other words, only return the results of 
+        // the *last* search performed.
         RemoteCallback<WorkflowQueryResultSetBean> successCallback = new DelegatingRemoteCallback<WorkflowQueryResultSetBean>(
                 handler);
         ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);

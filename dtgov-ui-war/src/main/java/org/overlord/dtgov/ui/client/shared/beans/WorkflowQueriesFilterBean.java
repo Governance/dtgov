@@ -25,9 +25,6 @@ import org.jboss.errai.common.client.api.annotations.Portable;
 @Portable
 public class WorkflowQueriesFilterBean implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6203921263827575233L;
 
     /** The _workflow. */
