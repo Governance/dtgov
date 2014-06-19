@@ -4,10 +4,11 @@
     <groupId>org.overlord.dtgov</groupId>
     <artifactId>dtgov</artifactId>
     <version>1.2.1-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
-  <artifactId>dtgov-ui-war-tomcat7</artifactId>
+  <artifactId>dtgov-ui-war-jetty8</artifactId>
   <packaging>war</packaging>
-  <name>Design Time Governance: UI (Tomcat 7)</name>
+  <name>Design Time Governance: UI (Jetty 8)</name>
   <dependencies>
     <!-- The base WAR being extended -->
     <dependency>
@@ -16,7 +17,7 @@
       <type>war</type>
     </dependency>
     
-    <!-- Other Tomcat-only dependencies -->
+    <!-- Other Jetty-only dependencies -->
     <dependency>
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
@@ -29,11 +30,15 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <warName>dtgov-ui-tomcat7</warName>
+          <warName>dtgov-ui-jetty8</warName>
           <overlays>
             <overlay>
               <groupId>${project.groupId}</groupId>
               <artifactId>dtgov-ui-war</artifactId>
+              <excludes>
+                <exclude>WEB-INF/lib/jetty-naming-*.jar</exclude>
+                <exclude>WEB-INF/lib/jetty-plus-*.jar</exclude>
+              </excludes>
             </overlay>
           </overlays>
         </configuration>

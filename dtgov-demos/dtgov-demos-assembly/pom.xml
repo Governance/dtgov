@@ -25,7 +25,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>dtgov-demos-assembly</artifactId>
-  <name>DTGov Demos Assembly</name>
+  <name>DTGov Demos: Assembly</name>
   <packaging>pom</packaging>
   
   <build>
