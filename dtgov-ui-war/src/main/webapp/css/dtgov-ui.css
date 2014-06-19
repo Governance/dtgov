@@ -287,7 +287,7 @@ footer hr {
   padding-bottom: 10px;
 }
 
-.tasks-none, .tasks-searching, .deployments-none, .deployments-searching, .queries-searching {
+.tasks-none, .tasks-searching, .deployments-none, .deployments-searching, .queries-none, .queries-searching {
     float: left;
     width: 100%;
     background-color: white;
