@@ -17,6 +17,7 @@ package org.overlord.dtgov.ui.client.local.beans;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.jboss.errai.ui.nav.client.local.HistoryToken;
 
@@ -33,7 +34,7 @@ import com.google.gwt.core.client.GWT;
 public class UiConfiguration {
 
     private final Map<String, String> deploymentStages = new LinkedHashMap<String, String>();
-    private final Map<String, String> deploymentTypes = new LinkedHashMap<String, String>();
+    private final Map<String, String> deploymentTypes = new TreeMap<String, String>();
     private String srampUiUrlBase;
     private final Map<String, String> workflowPropertyKeyTypes = new LinkedHashMap<String, String>();
 
