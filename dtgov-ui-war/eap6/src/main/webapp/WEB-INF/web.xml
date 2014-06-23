@@ -9,10 +9,6 @@
     <location>/403.html</location>
   </error-page>
 
-  <listener>
-    <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
-  </listener>
-
   <!-- Filters -->
   <filter>
     <filter-name>GWTCacheControl</filter-name>
@@ -30,7 +26,7 @@
     <filter-name>GWTCacheControl</filter-name>
     <url-pattern>*.html</url-pattern>
   </filter-mapping>
-  
+
   <filter>
     <filter-name>ResourceCacheControl</filter-name>
     <filter-class>org.overlord.commons.gwt.server.filters.ResourceCacheControlFilter</filter-class>
@@ -79,11 +75,7 @@
   </filter>
   <filter-mapping>
     <filter-name>AuthenticationFilter</filter-name>
-    <url-pattern>/</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
-    <filter-name>AuthenticationFilter</filter-name>
-    <url-pattern>/index.html</url-pattern>
+    <url-pattern>*.html</url-pattern>
   </filter-mapping>
   
   <filter>
@@ -201,12 +193,5 @@
     <servlet-name>DeploymentUpload</servlet-name>
     <url-pattern>/app/services/deploymentUpload</url-pattern>
   </servlet-mapping>
-
-  <!-- Resources -->
-  <resource-env-ref>
-    <description>Object factory for the CDI Bean Manager</description>
-    <resource-env-ref-name>BeanManager</resource-env-ref-name>
-    <resource-env-ref-type>javax.enterprise.inject.spi.BeanManager</resource-env-ref-type>
-  </resource-env-ref>
 
 </web-app>

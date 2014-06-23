@@ -26,7 +26,7 @@
   </parent>
   <artifactId>dtgov-demos-project</artifactId>
   <groupId>org.overlord.dtgov.demos.project</groupId>
-  <name>DTGov Demos Project: Project Lifecycle Management</name>
+  <name>DTGov Demos: Project</name>
   <packaging>pom</packaging>
 
   <modules>

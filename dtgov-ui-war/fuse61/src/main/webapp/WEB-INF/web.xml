@@ -10,7 +10,7 @@
   </error-page>
 
   <listener>
-    <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+    <listener-class>org.overlord.dtgov.ui.server.fuse61.Listener</listener-class>
   </listener>
 
   <!-- Filters -->
@@ -66,6 +66,15 @@
   </filter-mapping>
 
   <filter>
+    <filter-name>OverlordHeaderResources</filter-name>
+    <filter-class>org.overlord.commons.ui.header.OverlordHeaderResources</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>OverlordHeaderResources</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
     <filter-name>AuthenticationFilter</filter-name>
     <filter-class>org.picketlink.identity.federation.web.filters.SPFilter</filter-class>
     <init-param>
@@ -83,7 +92,7 @@
   </filter-mapping>
   <filter-mapping>
     <filter-name>AuthenticationFilter</filter-name>
-    <url-pattern>/index.html</url-pattern>
+    <url-pattern>*.html</url-pattern>
   </filter-mapping>
   
   <filter>
@@ -139,6 +148,19 @@
     <url-pattern>/app/services/deploymentUpload</url-pattern>
   </filter-mapping>
 
+  <filter>
+    <filter-name>WelcomeFileFilter</filter-name>
+    <filter-class>org.overlord.commons.gwt.server.filters.WelcomeFileFilter</filter-class>
+    <init-param>
+      <param-name>welcomeFiles</param-name>
+      <param-value>index.html</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>WelcomeFileFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
   <!-- Servlets -->
   <servlet>
     <servlet-name>ErraiServlet</servlet-name>
