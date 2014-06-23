@@ -432,7 +432,7 @@
       <!-- DTGov demos -->
       <dependency>
         <groupId>org.overlord.dtgov.demos.project</groupId>
-        <artifactId>project-service-api</artifactId>
+        <artifactId>dtgov-demos-project-service-api</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

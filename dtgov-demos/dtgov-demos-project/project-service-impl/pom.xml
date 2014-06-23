@@ -24,7 +24,7 @@
         <version>1.2.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>project-service-impl</artifactId>
+    <artifactId>dtgov-demos-project-service-impl</artifactId>
     <name>DTGov Demos: Project - Service Implementation</name>
     <properties>
     	<signal>ServiceImplArtifactComplete</signal>
@@ -33,7 +33,7 @@
     <dependencies>
     	<dependency>
     		<groupId>org.overlord.dtgov.demos.project</groupId>
-    		<artifactId>project-service-api</artifactId>
+    		<artifactId>dtgov-demos-project-service-api</artifactId>
     	</dependency>
     	 <dependency>
 		    <groupId>junit</groupId>
