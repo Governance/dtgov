@@ -108,8 +108,8 @@ the appropriate URL for you).
 
 You should see the following artifacts in the S-RAMP repository:
 
-* project-requirements-<version>.jar
-* project-requirements-<version>.pom
+* dtgov-demos-project-requirements-<version>.jar
+* dtgov-demos-project-requirements-<version>.pom
 * Project-org.overlord.dtgov.demos.project.<version>
 
 The requirements-doc.txt is shipped in the requirements-<version>.jar. Note that you
@@ -210,8 +210,8 @@ The build should complete successfully.
 
 You should see the following newly created artifacts in the S-RAMP repository:
 
-* project-service-api-<version>.jar
-* project-service-api-<version>.pom
+* dtgov-demos-project-service-api-<version>.jar
+* dtgov-demos-project-service-api-<version>.pom
 
 In this pom the signal property
 ....
@@ -243,8 +243,8 @@ The build should complete successfully.
 
 You should see the following newly created artifacts in the S-RAMP repository:
 
-* project-service-impl-<version>.jar
-* project-service-impl-<version>.pom
+* dtgov-demos-project-service-impl-<version>.jar
+* dtgov-demos-project-service-impl-<version>.pom
 
 In this pom the signal property
 ....
