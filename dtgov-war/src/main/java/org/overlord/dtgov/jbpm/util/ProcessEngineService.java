@@ -22,15 +22,15 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.jbpm.kie.services.api.DeployedUnit;
-import org.jbpm.kie.services.api.DeploymentService;
 import org.jbpm.kie.services.api.RuntimeDataService;
 import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
 import org.jbpm.kie.services.impl.event.DeploymentEvent;
 import org.jbpm.kie.services.impl.event.Undeploy;
-import org.jbpm.kie.services.impl.model.ProcessDesc;
+import org.jbpm.kie.services.impl.model.ProcessAssetDesc;
 import org.jbpm.kie.services.impl.model.ProcessInstanceDesc;
 import org.kie.api.runtime.manager.RuntimeManager;
+import org.kie.internal.deployment.DeployedUnit;
+import org.kie.internal.deployment.DeploymentService;
 
 /**
  * Main entry point for the application to interact with ProcessEngine.
@@ -82,7 +82,7 @@ public class ProcessEngineService {
      * Returns all available process definitions
      * @return
      */
-    public Collection<ProcessDesc> getProcesses() {
+    public Collection<ProcessAssetDesc> getProcesses() {
         return runtimeDataService.getProcesses();
     }
     
@@ -107,7 +107,7 @@ public class ProcessEngineService {
      * @param deploymentId unique identifier of unit (kjar)
      * @return
      */
-    public Collection<ProcessDesc> getProcesses(String deploymentId) {
+    public Collection<ProcessAssetDesc> getProcesses(String deploymentId) {
         return runtimeDataService.getProcessesByDeploymentId(deploymentId);
         
     }

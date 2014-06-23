@@ -150,7 +150,6 @@
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-shared-services</artifactId>
       <scope>${jbpm.scope}</scope>
-      <classifier>btm</classifier>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>

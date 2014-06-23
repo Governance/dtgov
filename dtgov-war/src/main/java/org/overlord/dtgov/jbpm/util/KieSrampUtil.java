@@ -17,7 +17,6 @@ package org.overlord.dtgov.jbpm.util;
 
 import java.io.InputStream;
 
-import org.jbpm.kie.services.api.DeploymentUnit.RuntimeStrategy;
 import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieModule;
@@ -25,6 +24,7 @@ import org.kie.api.builder.KieRepository;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.manager.RuntimeManager;
+import org.kie.internal.deployment.DeploymentUnit.RuntimeStrategy;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
