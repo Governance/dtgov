@@ -115,7 +115,7 @@
     <jboss-jacc-api_1.4_spec.version>1.0.2.Final</jboss-jacc-api_1.4_spec.version>
     <guava-gwt.version>14.0.1</guava-gwt.version>
     <commons.logging.version>1.1.1</commons.logging.version>
-    <tomcat.version>7.0.52</tomcat.version>
+    <tomcat.version>7.0.54</tomcat.version>
     <jetty.version>8.1.14.v20131031</jetty.version>
     <servlet-api.version>2.5</servlet-api.version>
     <fuse.version>6.1.0.redhat-379</fuse.version>
