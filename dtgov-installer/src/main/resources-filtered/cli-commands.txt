@@ -36,3 +36,23 @@ upload dtgov-data/governance-email-templates/deployed.body.tmpl DtgovEmailTempla
 property set template "deployed"
 property set template-type "body"
 updateMetaData
+create DeploymentTarget "dev" "Deployment Target used as development environment"
+property set deployment.classifiers "http://www.jboss.org/overlord/deployment-status.owl#InDev"
+property set deployment.type "copy"
+property set deployment.deployDir "/tmp/dev/jbossas7/standalone/deployments"
+updateMetaData
+create DeploymentTarget "qa" "Deployment Target used as qa environment"
+property set deployment.classifiers "http://www.jboss.org/overlord/deployment-status.owl#InQa"
+property set deployment.type "copy"
+property set deployment.deployDir "/tmp/dev/jbossas7/standalone/deployments"
+updateMetaData
+create DeploymentTarget "stage" "Deployment Target used as stage environment"
+property set deployment.classifiers "http://www.jboss.org/overlord/deployment-status.owl#InStage"
+property set deployment.type "copy"
+property set deployment.deployDir "/tmp/dev/jbossas7/standalone/deployments"
+updateMetaData
+create DeploymentTarget "prod" "Deployment Target used as production environment"
+property set deployment.classifiers "http://www.jboss.org/overlord/deployment-status.owl#InProd"
+property set deployment.type "copy"
+property set deployment.deployDir "/tmp/dev/jbossas7/standalone/deployments"
+updateMetaData

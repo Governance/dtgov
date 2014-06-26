@@ -705,3 +705,39 @@ div.task-form label.checkbox, div.task-form label.radio {
   height: 0px;
   overflow: hidden;
 }
+
+
+
+.target-icon{
+	background-repeat: no-repeat;
+ 	padding-left: 25px;
+   	padding-bottom: 5px;
+}
+
+.target-edit-icon {
+  background-image: url(../images/event-edit.png) !important;
+}
+
+.target-delete-icon {
+  background-image: url(../images/event-delete.png) !important;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.targets-table .actions{
+	margin:0px;
+	padding: 0px;
+}
+
+.targets-table .actions .firstAction{
+	margin-right: 10px;
+}
+
+.target-details-form .target-details .control-group .radio{
+	display: inline-flex;
+	margin-left: 25px;
+}
+
+.target-details-form .target-details .control-group .radio .yes{
+	margin-right: 40px;	
+}
