@@ -270,7 +270,7 @@ footer hr {
     padding: 0px;
 }
 
-.tasks-actions, .task-actions, .deployments-actions, .deployment-actions, .queries-actions {
+.tasks-actions, .task-actions, .deployments-actions, .deployment-actions, .queries-actions, .targets-actions {
     border: 1px solid rgb(211, 211, 211);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -279,10 +279,10 @@ footer hr {
     background-repeat: repeat-x;
     background-color: rgb(242, 242, 242);
 }
-.tasks-actions, .deployments-actions, .queries-actions {
+.tasks-actions, .deployments-actions, .queries-actions, .targets-actions {
   padding: 10px;
 }
-.task-actions, .deployment-actions, .query-actions {
+.task-actions, .deployment-actions, .query-actions, .target-actions {
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -309,7 +309,7 @@ footer hr {
     font-style: italic;
 }
 
-.tasks-table, .deployments-table, .queries-table {
+.tasks-table, .deployments-table, .queries-table, .targets-table {
     border-left: 1px solid rgb(211, 211, 211);
     border-right: 1px solid rgb(211, 211, 211);
     border-bottom: 1px solid rgb(211, 211, 211);
@@ -324,7 +324,7 @@ footer hr {
 .deployments-table thead th, .deployments-table tbody td {
     border-left: 1px solid rgb(211, 211, 211);
 }
-.deployments-table thead th, .queries-table thead th {
+.deployments-table thead th, .queries-table thead th, .targets-table thead th {
     background-color: white;
 }
 
@@ -552,12 +552,12 @@ div.task-form label.checkbox, div.task-form label.radio {
   width: 95%;
 }
 
-.query-details-form {
+.query-details-form, .target-details-form {
   background-color: white;
   border: 1px solid rgb(211, 211, 211);
   padding-top: 10px;
 }
-.query-details-form .query-details {
+.query-details-form .query-details, .target-details-form .target-details {
   padding: 10px;
 }
 .query-details-form table {
@@ -566,7 +566,6 @@ div.task-form label.checkbox, div.task-form label.radio {
 .query-details-form table th {
   color: rgb(91, 91, 91);
 }
-
 
 .workflow-icon{
 	background-repeat: no-repeat;
@@ -584,16 +583,16 @@ div.task-form label.checkbox, div.task-form label.radio {
   text-decoration: none;
 }
 
-.queries-table .actions{
+.queries-table .actions, .targets-table .actions {
 	margin:0px;
 	padding: 0px;
 }
 
-.queries-table .actions .firstAction{
+.queries-table .actions .firstAction, .targets-table .actions .firstAction {
 	margin-right: 10px;
 }
 
-.error-validation{
+.error-validation {
 	margin-top:10px;
 	margin-bottom: 10px;
 }
@@ -707,8 +706,7 @@ div.task-form label.checkbox, div.task-form label.radio {
 }
 
 
-
-.target-icon{
+.target-icon {
 	background-repeat: no-repeat;
  	padding-left: 25px;
    	padding-bottom: 5px;
@@ -724,11 +722,3 @@ div.task-form label.checkbox, div.task-form label.radio {
   text-decoration: none;
 }
 
-.targets-table .actions{
-	margin:0px;
-	padding: 0px;
-}
-
-.targets-table .actions .firstAction{
-	margin-right: 10px;
-}

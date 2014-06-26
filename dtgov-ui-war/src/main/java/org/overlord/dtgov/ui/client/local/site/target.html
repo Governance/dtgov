@@ -1,149 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<title data-role="dummy">DTGov - Edit Target</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-<meta name="description" content=""></meta>
-<meta name="author" content=""></meta>
-<link
-href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css"
-rel="stylesheet" media="screen"></link>
-<link
-href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css"
-rel="stylesheet"></link>
-<link href="../../../../../../../../webapp/css/dtgov-ui.css"
-rel="stylesheet"></link>
-<link href="../../../../../../../../webapp/css/dtgov-ui-responsive.css"
-rel="stylesheet"></link>
-<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-<script type="text/javascript"
-src="../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js"></script>
-<script type="text/javascript"
-src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-src="../../../../../../../../webapp/js/dtgov-ui-responsive.js"></script>
-</head>
-
-
+  <head>
+    <meta charset="utf-8">
+    <title data-role="dummy">DTGov - Edit Target</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <meta name="description" content=""></meta>
+    <meta name="author" content=""></meta>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <link href="../../../../../../../../webapp/bootstrap-2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui.css" rel="stylesheet"></link>
+    <link href="../../../../../../../../webapp/css/dtgov-ui-responsive.css" rel="stylesheet"></link>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../../../../../../../../webapp/jquery-1.8.3/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/bootstrap-2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../../../../../../webapp/js/dtgov-responsive.js"></script>
+  </head>
   <body>
     <div id="page" data-field="page">
       <!-- Content area with footer-->
       <div id="page-content" class="container-fluid">
-
         <!-- Breadcrumbs -->
         <div class="row-fluid">
-            <ul class="breadcrumb">
-                <li>
-                  <a data-field="back-to-dashboard" href="dashboard.html"
-                     data-i18n-key="breadcrumb.dashboard">DTGov Dashboard</a>
-                  <span class="divider">/<span data-role="dummy" /></span>
-                </li>
-                <li>
-                  <a data-field="back-to-targets" href="targets.html"
-                     data-i18n-key="breadcrumb.targets">Targets</a>
-                  <span class="divider">/<span data-role="dummy" /></span>
-                </li>
-                <li class="active" data-i18n-key="breadcrumb.target.edit">Edit Target</li>
-            </ul>
+          <ul class="breadcrumb">
+            <li>
+              <a data-field="back-to-dashboard" href="dashboard.html" data-i18n-key="breadcrumb.dashboard">DTGov Dashboard</a>
+              <span class="divider">/<span data-role="dummy" /></span>
+            </li>
+            <li>
+              <a data-field="back-to-targets" href="targets.html" data-i18n-key="breadcrumb.targets">Targets</a>
+              <span class="divider">/<span data-role="dummy" /></span>
+            </li>
+            <li class="active" data-i18n-key="breadcrumb.target.edit">Edit Target</li>
+          </ul>
         </div>
         <!-- Loading spinner -->
         <div data-field="target-loading-spinner" class="spinner target-loading hide" data-i18n-key="loading-target">Loading Target, please wait...</div>
         
         <div id="target-content-wrapper">
-	           <!-- Explanation -->
-	        <div class="page-explanation row-fluid">
-	          <div class="span12">
-	            <h2 data-i18n-key="target.title">Target Details</h2>
-	            <div class="message" data-i18n-key="title.message">
-	              Make changes to this target by using the form below, then click the Save button
-	              to commit your changes.
-	            </div>
-	          </div>
-	        </div>
-	        <div class="error-validation span11 alert alert-danger" data-field="form-validation-div" style="">
-	        		<span class="title" style="" data-i18n-key="form.validation.title"><b>Validation Errors</b></span>
-					<ul data-field="form-validation-errors" data-role="dummy" class="" style="">
-						<li>Query name is required.</li>
-						<li>Classifier is required</li>
-					</ul>
-	        </div>
-	        <!-- The query form -->
-	        <div class="row-fluid target-details-form">
-	          <div class="span12 target-details">
-	            <form class="form-horizontal span9" onsubmit="return false;">
-	              <div class="control-group">
-	                <label class="control-label" data-placement="top" data-i18n-key="form.target.name" for="inputFieldTargetName" title="Write an unique name that identifies the target.">Name:</label>
-	                <div class="controls">
-	                  <input type="text"
-	                      placeholder="Enter a unique target name"
-	                      id="inputFieldTargetName"
-	                      class="form-control input-xxlarge"
-	                      data-field="form-target-name-input"></input>
-	                </div>
-	              </div>
-	              <div class="control-group">
-	                <label class="control-label" data-placement="top" for="inputFieldTargetType" data-i18n-key="form.target.type" title="Choose the target type used as endpoint.">Type:</label>
-	                <div class="controls">
-	                  <select data-field="form-target-type-input" class="form-control" id="inputFieldTargetType" class="input-xxlarge" data-role="dummy">
-	                      <option selected="selected">-</option>
-	                      <option>Copy</option>
-	                      <option>RHQ</option>
-	                      <option>Jboss Cli</option>
-	                      <option>Maven</option>
-	                  </select>
-	                </div>
-	              </div>	              
-	              <div class="control-group">
-	                <label class="control-label" data-placement="top" for="inputFieldDesc"  data-i18n-key="form.description" title="Enter a simple description of this workflow trigger query - it should indicate the query's purpose.">Description:</label>
-	                <div class="controls">
-	                  <textarea data-field="form-workflow-description-input" id="inputFieldDesc" placeholder="Enter the purpose of this workflow trigger" class="input-value" rows="5" cols="" ></textarea>
-	                </div>
-	              </div>
-	              <div class="control-group">
-	                <label class="control-label" data-placement="top" for="optionsRadios" title="" data-i18n-key="form.classifier.title">Target Classifiers:</label>
-	                <div class="controls">
-	                   <table data-i18n-skip="true" data-field="properties-table" class="table table-striped table-condensed ">
-	                       <thead>
-	                           <tr>
-	                               <th width="30%" data-i18n-key="form.classifier.table.classifier">Classifier</th>
-	                               <th width="1%" data-i18n-key="form.classifier.table.classifier.actions">Actions</th>
-	                           </tr>
-	                       </thead>
-	                       <tbody data-role="dummy">
-	                           <tr>
-	                               <td class="table-classifier-name">
-	                               	<span>http://www.jboss.org/overlord/deployment-status.owl#InDev</span>                 
-	                               <td class="target-actions"><span><a
-	                                       title="Remove Classifier"><img
-	                                           alt="Remove Classifier"
-	                                           src="../../../../../../../../webapp/images/event-delete.png"></a></span>
-	                               </td>
-	                           </tr>
-	                           
-	
-	                       </tbody>
-	                   </table> 
- 						<div style="width: 95%">
-	                     &nbsp;
-	                     <button data-field="btn-add-classifier" id="btn-add-classifier" class="btn btn-focus pull-right" data-i18n-key="add-classifier-button">Add Classifier</button>
-	                   </div>
-	                   <hr />
-	                   <button data-field="btn-save" class="btn btn-focus" data-i18n-key="save">Save</button>
-	                   <button data-field="btn-reset" class="btn btn-focus" data-i18n-key="reset">Reset</button>
-	                </div>
-	              </div>
-	            </form>
-	            
-	          </div>
-	        </div>
-        
+          <!-- Explanation -->
+          <div class="page-explanation row-fluid">
+            <div class="span12">
+              <h2 data-i18n-key="target.title">Target Details</h2>
+              <div class="message" data-i18n-key="title.message">
+                Make changes to this target by using the form below, then click the Save button
+                to commit your changes.
+              </div>
+            </div>
+          </div>
+          <div class="error-validation span11 alert alert-danger" data-field="form-validation-div">
+            <span class="title" style="" data-i18n-key="form.validation.title"><b>Validation Errors</b></span>
+            <ul data-field="form-validation-errors" data-role="dummy" class="" style="">
+              <li>Query name is required.</li>
+              <li>Classifier is required</li>
+            </ul>
+          </div>
+          <!-- The query form -->
+          <div class="row-fluid target-details-form">
+            <div class="span12 target-details">
+              <form class="form-horizontal span9" onsubmit="return false;">
+                <div class="control-group">
+                  <label class="control-label" data-placement="top" data-i18n-key="form.target.name" for="inputFieldTargetName" title="Write an unique name that identifies the target.">Name:</label>
+                  <div class="controls">
+                    <input type="text"
+                        placeholder="Enter a unique target name"
+                        id="inputFieldTargetName"
+                        class="form-control input-xxlarge"
+                        data-field="form-target-name-input"></input>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" data-placement="top" for="inputFieldTargetType" data-i18n-key="form.target.type" title="Choose the target type used as endpoint.">Type:</label>
+                  <div class="controls">
+                    <select data-field="form-target-type-input" class="form-control" id="inputFieldTargetType" class="input-xxlarge" data-role="dummy">
+                        <option selected="selected">-</option>
+                        <option>Copy</option>
+                        <option>RHQ</option>
+                        <option>Jboss Cli</option>
+                        <option>Maven</option>
+                    </select>
+                  </div>
+                </div>                
+                <div class="control-group">
+                  <label class="control-label" data-placement="top" for="inputFieldDesc"  data-i18n-key="form.description" title="Enter a simple description of this workflow trigger query - it should indicate the query's purpose.">Description:</label>
+                  <div class="controls">
+                    <textarea data-field="form-workflow-description-input" id="inputFieldDesc" placeholder="Enter the purpose of this workflow trigger" class="input-value" rows="5" cols="" ></textarea>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" data-placement="top" for="optionsRadios" title="" data-i18n-key="form.classifier.title">Target Classifiers:</label>
+                  <div class="controls">
+                     <table data-i18n-skip="true" data-field="properties-table" class="table table-striped table-condensed ">
+                         <thead>
+                             <tr>
+                                 <th width="30%" data-i18n-key="form.classifier.table.classifier">Classifier</th>
+                                 <th width="1%" data-i18n-key="form.classifier.table.classifier.actions">Actions</th>
+                             </tr>
+                         </thead>
+                         <tbody data-role="dummy">
+                             <tr>
+                                 <td class="table-classifier-name">
+                                   <span>http://www.jboss.org/overlord/deployment-status.owl#InDev</span>                 
+                                 <td class="target-actions"><span><a
+                                         title="Remove Classifier"><img
+                                             alt="Remove Classifier"
+                                             src="../../../../../../../../webapp/images/event-delete.png"></a></span>
+                                 </td>
+                             </tr>
+                             
+  
+                         </tbody>
+                     </table> 
+             <div style="width: 95%">
+                       &nbsp;
+                       <button data-field="btn-add-classifier" id="btn-add-classifier" class="btn btn-focus pull-right" data-i18n-key="add-classifier-button">Add Classifier</button>
+                     </div>
+                     <hr />
+                     <button data-field="btn-save" class="btn btn-focus" data-i18n-key="save">Save</button>
+                     <button data-field="btn-reset" class="btn btn-focus" data-i18n-key="reset">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-        
-     
         
         <!-- Footer -->
         <footer>
@@ -151,13 +133,6 @@ src="../../../../../../../../webapp/js/dtgov-ui-responsive.js"></script>
           <p data-i18n-key="footer">JBoss Overlord 2014</p>
         </footer>
       </div> <!-- /container -->
-</div> <!-- /page -->
-
-
-<!-- Some scripting to add functionality to the live template -->
-<script>
-</script>
-
-
-</body>
+    </div> <!-- /page -->
+  </body>
 </html>
