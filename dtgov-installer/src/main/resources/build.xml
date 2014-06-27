@@ -42,12 +42,13 @@
 
     <property name="dtgov.s-ramp.cli.jar" location="bin/s-ramp-shell-${s-ramp.version}.jar" />
     <property name="dtgov.s-ramp.cli.commands" location="${dtgov.install.commands.dir}/cli-commands.txt" />
-    <java jar="${dtgov.s-ramp.cli.jar}" fork="true" >
+    <java jar="${dtgov.s-ramp.cli.jar}" fork="true">
       <arg value="-f" />
       <arg value="${dtgov.s-ramp.cli.commands}" />
-      <arg value="-Ddtgov-workflow-jar=${dtgov-workflows-jar-path}" />
-      <jvmarg value="-Ds-ramp.shell.username=${s-ramp.shell.username}" />
-      <jvmarg value="-Ds-ramp.shell.password=${s-ramp.shell.password}" />
+      <jvmarg value="-Ds-ramp.endpoint=${s-ramp.endpoint}" />
+      <jvmarg value="-Ds-ramp.username=${s-ramp.shell.username}" />
+      <jvmarg value="-Ds-ramp.password=${s-ramp.shell.password}" />
+      <jvmarg value="-Ddtgov-workflow-jar=${dtgov-workflow-jar}" />
     </java>
     
     <echo message=" " />

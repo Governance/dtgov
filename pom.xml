@@ -92,7 +92,7 @@
     <s-ramp.version>0.5.0-SNAPSHOT</s-ramp.version>
 
     <!-- Overlord Commons version -->
-    <overlord-commons.version>2.0.2-SNAPSHOT</overlord-commons.version>
+    <overlord-commons.version>2.0.2.Final</overlord-commons.version>
 
     <!-- jBPM/Drools version -->
     <jbpm.version>6.1.0.Beta4</jbpm.version>
@@ -938,7 +938,7 @@
   <modules>
     <module>dtgov-common</module>
     <module>dtgov-demos</module>
-    <module>dtgov-distro</module>
+    <module>dtgov-distro/assembly</module>
     <module>dtgov-distro/fabric</module>
     <module>dtgov-distro/fuse61</module>
     <module>dtgov-installer</module>

@@ -8,12 +8,4 @@
   <interceptors>
     <class>org.jboss.seam.transaction.TransactionInterceptor</class>
   </interceptors>
-
-  <m:CMTBTMTransaction>
-    <s:modifies />
-  </m:CMTBTMTransaction>
-
-  <m:BTMTransactionManagerSynchronizations>
-    <s:modifies />
-  </m:BTMTransactionManagerSynchronizations>
 </beans>

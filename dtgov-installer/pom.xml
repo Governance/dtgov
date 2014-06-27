@@ -501,7 +501,7 @@ dtgov-ui.workflows.version=${project.version}
 
     <!-- Profile to seed S-RAMP with dtgov data -->
     <profile>
-      <id>seed</id>
+      <id>test-install-seed</id>
       <dependencies>
         <dependency>
           <groupId>org.overlord.sramp</groupId>
@@ -529,15 +529,17 @@ dtgov-ui.workflows.version=${project.version}
                 <configuration>
                   <tasks>
                     <property name="appserver.id" value="jboss-eap-6" />
-                    <property name="s-ramp.shell.password" value="${s-ramp.shell.password}"/>
-                    <property name="s-ramp.shell.username" value="${s-ramp.shell.username}"/>  
-                    <property name="dtgov.install.dir" location="${project.build.directory}" />  
-                    <property name="dtgov-workflows-jar-path" value="${maven.dependency.org.overlord.dtgov.dtgov-workflows.jar.path}"/>             
+                    <property name="dtgov.install.dir" location="${project.build.directory}" />
+                    <property name="dtgov-workflow-jar" value="${maven.dependency.org.overlord.dtgov.dtgov-workflows.jar.path}" />
                     <property file="build.properties" />
-                    <property name="dtgov.install.commands.dir" location="${project.build.directory}/classes"></property>
+<!--                     <property name="s-ramp.password" value="ADMIN_PASSWORD_HERE" /> -->
+                    <property name="dtgov.install.commands.dir" location="${project.build.directory}/classes" />
                     <property name="dtgov.s-ramp.cli.zip" value="${maven.dependency.org.overlord.sramp.s-ramp-distro-assembly-cli.zip.path}" />
                     <unzip src="${dtgov.s-ramp.cli.zip}" dest="${project.build.directory}" overwrite="true" />
                     <property name="dtgov.s-ramp.cli.jar" value="${project.build.directory}/s-ramp-cli-${s-ramp.version}/bin/s-ramp-shell-${s-ramp.version}.jar" />
+                    <property name="s-ramp.endpoint" value="http://localhost:8080/s-ramp-server/" />
+                    <property name="s-ramp.shell.username" value="admin" />
+                    <property name="s-ramp.shell.password" value="admin123!" />
                     <ant dir="${basedir}/src/main/resources" antfile="${basedir}/src/main/resources/build.xml">
                       <target name="seed" />
                     </ant>

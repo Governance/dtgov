@@ -34,9 +34,9 @@ Here is some pseudo-bash that accomplishes the above:
     cd ~/overlord/dtgov-${project.version}
     ant install
     # Follow dtgov installation instructions here
-    
+
     # Start JBoss (target/jboss-eap-6.x/bin/standalone.sh) - wait for startup to complete
-    ant seed
+    ant seed -Ds-ramp.shell.password=ADMIN_PASSWORD
     cd ~/overlord/dtgov-${project.version}/dtgov-data
     mvn deploy
 
@@ -88,10 +88,15 @@ Once the installation completes, you can start JBoss (which you should find
 in the 'target' directory).
 
 Once JBoss is running, you must seed the system with some DTGov specific
-data:
+data (don't forget to supply the S-RAMP admin password):
 
-    ant seed
-    cd dtgov-data; mvn deploy
+    ant seed -Ds-ramp.shell.password=ADMIN_PASSWORD
+
+Note: if you are running in JBoss Fuse the default server port is 8181
+rather than 8080.  In this case you may need to specify the location of
+the S-RAMP repository when seeding:
+
+    ant seed -Ds-ramp.shell.password=ADMIN_PASSWORD -Ds-ramp.endpoint=http://localhost:8181/s-ramp-server/
 
 The first step will install an S-RAMP ontology.  The second step will add
 the DTGov deployment release process to the repository (basically just a 
