@@ -45,10 +45,6 @@ public class NotificationResourceUtil {
 
     public static final String CLASSPATH_FOLDER = "/governance-email-templates/"; //$NON-NLS-1$
 
-    public static final String CLASSPATH_BODY_EXTENSION = ".body.tmpl"; //$NON-NLS-1$
-
-    public static final String CLASSPATH_SUBJECT_EXTENSION = ".subject.tmpl"; //$NON-NLS-1$
-
     /**
      * Gets the notification subject.
      *
@@ -59,8 +55,7 @@ public class NotificationResourceUtil {
      *             Signals that an I/O exception has occurred.
      */
     public static String getNotificationSubject(String template) throws IOException {
-        return getTemplate(template, NotificationTemplateTypeEnum.SUBJECT.value(), CLASSPATH_FOLDER,
-                CLASSPATH_SUBJECT_EXTENSION);
+        return getTemplate(template, NotificationTemplateTypeEnum.SUBJECT.value(), CLASSPATH_FOLDER);
     }
 
     /**
@@ -73,8 +68,7 @@ public class NotificationResourceUtil {
      *             Signals that an I/O exception has occurred.
      */
     public static String getNotificationBody(String template) throws IOException {
-        return getTemplate(template, NotificationTemplateTypeEnum.BODY.value(), CLASSPATH_FOLDER,
-                CLASSPATH_BODY_EXTENSION);
+        return getTemplate(template, NotificationTemplateTypeEnum.BODY.value(), CLASSPATH_FOLDER);
     }
 
     /**
@@ -86,21 +80,19 @@ public class NotificationResourceUtil {
      *            the template type
      * @param classpathFolder
      *            the classpath folder
-     * @param classpathExtension
-     *            the classpath extension
      * @return the template
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-    private static String getTemplate(String template,String templateType, String classpathFolder,String classpathExtension) throws IOException{
+    private static String getTemplate(String template, String templateType, String classpathFolder) throws IOException {
         String toReturn = ""; //$NON-NLS-1$
 
         toReturn = getTemplateFromQuery(template, templateType);
         if (StringUtils.isBlank(toReturn)) {
-            String body = CLASSPATH_FOLDER + template + CLASSPATH_BODY_EXTENSION;
-            URL bodyUrl = Governance.class.getClassLoader().getResource(body);
-            if (bodyUrl != null) {
-                toReturn = IOUtils.toString(bodyUrl);
+            String resource = classpathFolder + template + "." + templateType + ".tmpl"; //$NON-NLS-1$ //$NON-NLS-2$
+            URL resourceUrl = Governance.class.getClassLoader().getResource(resource);
+            if (resourceUrl != null) {
+                toReturn = IOUtils.toString(resourceUrl);
             }
         }
         return toReturn;
