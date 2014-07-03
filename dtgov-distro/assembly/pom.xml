@@ -3,9 +3,10 @@
   <parent>
     <groupId>org.overlord.dtgov</groupId>
     <artifactId>dtgov</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
-  <artifactId>dtgov-distro</artifactId>
+  <artifactId>dtgov-distro-assembly</artifactId>
   <name>Design Time Governance: Community Distribution</name>
   <packaging>pom</packaging>
 
@@ -43,6 +44,11 @@
     </dependency>
     <dependency>
       <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-idp-jetty8</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-ant</artifactId>
     </dependency>
     <!-- S-RAMP CLI (used during installation/seeding) -->
@@ -72,6 +78,11 @@
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-war-jetty8</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-ui-war-eap6</artifactId>
       <type>war</type>
     </dependency>
@@ -79,6 +90,17 @@
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-ui-war-tomcat7</artifactId>
       <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-ui-war-jetty8</artifactId>
+      <type>war</type>
+    </dependency>
+    
+    <!-- DTGov Workflows (KIE jar) -->
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-workflows</artifactId>
     </dependency>
     
     <!-- DTGov Sources -->
@@ -122,14 +144,18 @@
       <type>zip</type>
     </dependency>
     
-    <!-- tomcat/lib jars -->
-        <dependency>
+    <!-- lib jars -->
+    <dependency>
       <groupId>org.codehaus.btm</groupId>
       <artifactId>btm</artifactId>
     </dependency>
-	<dependency>
-   	  <groupId>org.codehaus.btm</groupId>
-   	  <artifactId>btm-tomcat55-lifecycle</artifactId>
+    <dependency>
+      <groupId>org.codehaus.btm</groupId>
+      <artifactId>btm-tomcat55-lifecycle</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.btm</groupId>
+      <artifactId>btm-jetty7-lifecycle</artifactId>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>

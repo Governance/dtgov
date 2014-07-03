@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.overlord.dtgov</groupId>
     <artifactId>dtgov</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
   <artifactId>dtgov-task-client</artifactId>
   <name>Design Time Governance: Task Client</name>

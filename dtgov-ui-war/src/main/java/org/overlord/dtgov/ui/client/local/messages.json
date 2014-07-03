@@ -87,7 +87,7 @@
   "dashboard.nav.admin-targets-description" : " Go here to administrate your governance targets. It will allow you to update, delete and create new targets. The targets are used as endpoints of the workflows.",
   "dashboard.nav.targets-description" : "Go here to administrate your governance targets endpoints. It will allow you to update, delete and create new targets.",    
   "dashboard.nav.targets" : "Manage Targets", 
-  "dashboard.targets" : "Manage Targets", 
+  "dashboard.targets" : "Manage Targets",
   "deploymentContents.artifact-filters" : "Artifact Filters",
   "deploymentContents.artifacts" : "artifacts",
   "deploymentContents.breadcrumb.dashboard" : "DTGov Dashboard",

@@ -35,24 +35,11 @@
       <directoryMode>0755</directoryMode>
       <fileMode>0755</fileMode>
     </dependencySet>
-    <!-- All of the DTGov WARs -->
+    <!-- All of the DTGov WARs and the dtgov-workflows KIE archive -->
     <dependencySet>
       <outputDirectory>bin</outputDirectory>
       <includes>
         <include>org.overlord.dtgov:*:war</include>
-      </includes>
-      <outputFileNameMapping>${artifact.artifactId}-${project.version}.${artifact.extension}</outputFileNameMapping>
-      <useProjectArtifact>false</useProjectArtifact>
-      <useProjectAttachments>false</useProjectAttachments>
-      <useTransitiveDependencies>false</useTransitiveDependencies>
-      <useTransitiveFiltering>false</useTransitiveFiltering>
-      <directoryMode>0755</directoryMode>
-      <fileMode>0755</fileMode>
-    </dependencySet>
-    <!-- The dtgov-workflows KIE archive -->
-    <dependencySet>
-      <outputDirectory>dtgov-data</outputDirectory>
-      <includes>
         <include>org.overlord.dtgov:dtgov-workflows:jar</include>
       </includes>
       <outputFileNameMapping>${artifact.artifactId}-${project.version}.${artifact.extension}</outputFileNameMapping>
@@ -130,12 +117,13 @@
       </unpackOptions>
     </dependencySet>
     
-    <!-- tomcat/lib -->
+    <!-- lib -->
     <dependencySet>
-      <outputDirectory>tomcatlib</outputDirectory>
+      <outputDirectory>lib</outputDirectory>
       <includes>
         <include>org.codehaus.btm:btm:jar</include>
         <include>org.codehaus.btm:btm-tomcat55-lifecycle:jar</include>
+        <include>org.codehaus.btm:btm-jetty7-lifecycle:jar</include>
         <include>com.h2database:h2:jar</include>
         <include>javax.transaction:jta:jar</include>
         <include>org.slf4j:slf4j-api:jar</include>

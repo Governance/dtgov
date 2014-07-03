@@ -66,6 +66,7 @@
           </xsl:text><Set name="minPoolSize">10</Set><xsl:text>
           </xsl:text><Set name="maxPoolSize">20</Set><xsl:text>
           </xsl:text><Set name="uniqueName">jdbc/jbpm</Set><xsl:text>
+          </xsl:text><Set name="allowLocalTransactions">true</Set><xsl:text>
           </xsl:text><Get name="driverProperties"><xsl:text>
             </xsl:text><Put name="driverClassName">org.h2.Driver</Put><xsl:text>
             </xsl:text><Put name="url">jdbc:h2:file:overlord-data/jbpm</Put><xsl:text>

@@ -1,12 +1,21 @@
-connect ${s-ramp.endpoint} ${s-ramp.username} ${s-ramp.password}
-ontology:upload dtgov-data/deployment-status.owl
-ontology:upload dtgov-data/project-review-status.owl
+echo "Connecting to the S-RAMP repository"
+connect ${s-ramp.endpoint:http://localhost:8080/s-ramp-server/} ${s-ramp.username:admin} ${s-ramp.password}
+
+echo "Adding dtgov ontologies"
+ontology:upload ${dtgov.deployment-status-owl:dtgov-data/deployment-status.owl}
+ontology:upload ${dtgov.project-review-status-owl:dtgov-data/project-review-status.owl}
+
+echo "Deploying the dtgov workflows JAR to S-RAMP"
 maven:deploy ${dtgov-workflow-jar} ${project.groupId}:dtgov-workflows:${project.version} KieJarArchive
+
+echo "Creating out-of-the-box dtgov Workflow Queries"
+echo "   - Project Lifecycle"
 create DtgovWorkflowQuery "Project Lifecycle" "Simple Project Lifecycle management workflow trigger query.  Starts a new Project Lifecycle workflow when new projects are initiated."
 property set query "/s-ramp/ext/ArtifactGrouping[xp2:matches(@name, 'Project.*')]"
 property set workflow overlord.demo.SimplifiedProjectLifeCycle
 property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
 updateMetaData
+echo "   - SwitchYard Application Lifecycle"
 create DtgovWorkflowQuery "SwitchYard Application Lifecycle" "Triggers a new Deployment Lifecycle Management workflow whenever a SwitchYard application is added to the repository."
 property set query "/s-ramp/ext/SwitchYardApplication"
 property set workflow overlord.demo.SimpleReleaseProcess
@@ -14,6 +23,7 @@ property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/
 property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
 property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
 updateMetaData
+echo "   - Java Web Application Lifecycle"
 create DtgovWorkflowQuery "Java Web Application Lifecycle" "Triggers a new Deployment Lifecycle Management workflow whenever a Java Web Application (WAR) is added to the repository."
 property set query "/s-ramp/ext/JavaWebApplication"
 property set workflow overlord.demo.SimpleReleaseProcess
@@ -21,6 +31,7 @@ property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/
 property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
 property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
 updateMetaData
+echo "   - Java Enterprise Application Lifecycle"
 create DtgovWorkflowQuery "Java Enterprise Application Lifecycle" "Triggers a new Deployment Lifecycle Management workflow whenever a Java Enterprise Application (EAR) is added to the repository."
 property set query "/s-ramp/ext/JavaEnterpriseApplication"
 property set workflow overlord.demo.SimpleReleaseProcess
@@ -28,11 +39,13 @@ property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/
 property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
 property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
 updateMetaData
-upload dtgov-data/governance-email-templates/deployed.subject.tmpl DtgovEmailTemplate
+
+echo "Adding Notification Service templates to S-RAMP"
+upload ${dtgov.templates.deployed-subject-tmpl:dtgov-data/governance-email-templates/deployed.subject.tmpl} DtgovEmailTemplate
 property set template "deployed"
 property set template-type "subject"
 updateMetaData
-upload dtgov-data/governance-email-templates/deployed.body.tmpl DtgovEmailTemplate
+upload ${dtgov.templates.deployed-body-tmpl:dtgov-data/governance-email-templates/deployed.body.tmpl} DtgovEmailTemplate
 property set template "deployed"
 property set template-type "body"
 updateMetaData
