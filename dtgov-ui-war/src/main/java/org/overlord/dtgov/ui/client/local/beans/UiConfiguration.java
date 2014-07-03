@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 JBoss Inc
+ * Copyright 2014 JBoss Inc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ public class UiConfiguration {
     private final Map<String, String> deploymentTypes = new TreeMap<String, String>();
     private String srampUiUrlBase;
     private final Map<String, String> workflowPropertyKeyTypes = new LinkedHashMap<String, String>();
+    private final Map<String, String> targetKeyTypes = new LinkedHashMap<String, String>();
 
     /**
      * Constructor.
@@ -49,7 +50,9 @@ public class UiConfiguration {
      * Adds a single deployment stage to the map.
      *
      * @param label
+     *            the label
      * @param classifier
+     *            the classifier
      */
     private void addDeploymentStage(String label, String classifier) {
         this.getDeploymentStages().put(label, classifier);
@@ -60,7 +63,9 @@ public class UiConfiguration {
      * Adds a single deployment type to the map.
      *
      * @param label
+     *            the label
      * @param type
+     *            the type
      */
     private void addDeploymentType(String label, String type) {
         this.getDeploymentTypes().put(label, type);
@@ -71,7 +76,9 @@ public class UiConfiguration {
      * Adds a single deployment stage to the map.
      *
      * @param label
-     * @param classifier
+     *            the label
+     * @param example
+     *            the example
      */
     private void addWorkflowPropertyKeyType(String label, String example) {
         this.getWorkflowPropertyKeyTypes().put(label, example);
@@ -79,10 +86,26 @@ public class UiConfiguration {
     }
 
     /**
+     * Adds the target key type.
+     *
+     * @param label
+     *            the label
+     * @param example
+     *            the example
+     */
+    private void addTargetKeyType(String label, String example) {
+        this.getTargetKeyTypes().put(label, example);
+        GWT.log("[UiConfig] - Registered Working Type: " + label + " example: " + example); //$NON-NLS-1$ //$NON-NLS-2$
+    }
+
+    /**
      * Creates a link into the s-ramp UI.
      *
      * @param pageName
+     *            the page name
      * @param state
+     *            the state
+     * @return the string
      */
     public String createSrampUiUrl(String pageName, Multimap<String, String> state) {
         HistoryToken token = HistoryToken.of(pageName, state);
@@ -94,8 +117,12 @@ public class UiConfiguration {
      * Creates a link into the s-ramp UI.
      *
      * @param pageName
+     *            the page name
      * @param stateKey
+     *            the state key
      * @param stateValue
+     *            the state value
+     * @return the string
      */
     public String createSrampUiUrl(String pageName, String stateKey, String stateValue) {
         Multimap<String, String> state = HashMultimap.create();
@@ -104,6 +131,8 @@ public class UiConfiguration {
     }
 
     /**
+     * Gets the deployment stages.
+     *
      * @return the deploymentStages
      */
     public Map<String, String> getDeploymentStages() {
@@ -111,6 +140,8 @@ public class UiConfiguration {
     }
 
     /**
+     * Gets the deployment types.
+     *
      * @return the deploymentTypes
      */
     public Map<String, String> getDeploymentTypes() {
@@ -118,6 +149,8 @@ public class UiConfiguration {
     }
 
     /**
+     * Gets the workflow property key types.
+     *
      * @return the deploymentStages
      */
     public Map<String, String> getWorkflowPropertyKeyTypes() {
@@ -125,6 +158,14 @@ public class UiConfiguration {
     }
 
 
+    /**
+     * Gets the target key types.
+     *
+     * @return the deploymentStages
+     */
+    public Map<String, String> getTargetKeyTypes() {
+        return targetKeyTypes;
+    }
 
     /**
      * Read the configuration information from the OVERLORD_DTGOVUI_CONFIG
@@ -166,6 +207,18 @@ public class UiConfiguration {
 				}
 			}
 
+			var targetConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.target;
+
+			// Read the targets
+			var targetTypes = targetConfig.types;
+			for ( var k in targetTypes) {
+				if (targetTypes.hasOwnProperty(k)) {
+					var label = k;
+					var example = targetTypes[k];
+					dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addTargetKeyType(Ljava/lang/String;Ljava/lang/String;)(label,example);
+				}
+			}
+
 			// Read the s-ramp UI config
 			var srampUiConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.srampui;
 			var urlBase = srampUiConfig.urlBase;
@@ -179,6 +232,7 @@ public class UiConfiguration {
      * Sets the s-ramp-ui URL base.
      *
      * @param urlBase
+     *            the new sramp ui url base
      */
     private void setSrampUiUrlBase(String urlBase) {
         this.srampUiUrlBase = urlBase;

@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
+import org.overlord.dtgov.ui.client.shared.beans.TargetType;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.DtgovUIConfig.DeploymentStage;
 import org.overlord.dtgov.ui.server.i18n.Messages;
@@ -158,6 +159,26 @@ public class UiConfigurationServlet extends HttpServlet {
         }
         g.writeEndObject();
         g.writeEndObject();
+
+        // Target types
+        g.writeObjectFieldStart("target"); //$NON-NLS-1$
+
+        // Pull in any configured target property default types.
+        @SuppressWarnings("unchecked")
+        TargetType[] targetTypes = TargetType.values();
+        count = 0;
+        g.writeObjectFieldStart("types"); //$NON-NLS-1$
+        if (targetTypes != null) {
+            for (int i = 0; i < targetTypes.length; i++) {
+                TargetType targetType = targetTypes[i];
+                String label = Messages.i18n.format("target.type." + targetType.getValue());//$NON-NLS-1$
+                g.writeStringField(label, targetType.getValue());
+            }
+        }
+
+        g.writeEndObject();
+        g.writeEndObject();
+
         g.flush();
         g.close();
 

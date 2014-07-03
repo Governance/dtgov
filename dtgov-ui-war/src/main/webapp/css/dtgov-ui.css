@@ -722,3 +722,20 @@ div.task-form label.checkbox, div.task-form label.radio {
   text-decoration: none;
 }
 
+.targets-table .actions{
+	margin:0px;
+	padding: 0px;
+}
+
+.targets-table .actions .firstAction{
+	margin-right: 10px;
+}
+
+.target-details-form .target-details .control-group .radio{
+	display: inline-flex;
+	margin-left: 25px;
+}
+
+.target-details-form .target-details .control-group .radio .yes{
+	margin-right: 40px;	
+}
