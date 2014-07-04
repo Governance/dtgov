@@ -18,6 +18,7 @@ package org.overlord.sramp.governance;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.configuration.Configuration;
@@ -25,6 +26,7 @@ import org.overlord.commons.config.ConfigurationFactory;
 import org.overlord.commons.config.JBossServer;
 import org.overlord.dtgov.common.Target;
 import org.overlord.dtgov.common.exception.ConfigException;
+import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.governance.auth.BasicAuthenticationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -182,57 +184,16 @@ public class Governance {
     }
 
     public Map<String,Target> getTargets() throws ConfigException {
-        Map<String,Target> targets = new HashMap<String,Target>();
-        String[] targetStrings = getConfiguration().getStringArray(GovernanceConstants.GOVERNANCE_TARGETS);
-        StringBuffer errors = new StringBuffer(TARGET_ERROR);
-        boolean hasErrors = false;
-        for (String targetString : targetStrings) {
-            String[] info = targetString.split("\\|"); //$NON-NLS-1$
-            if (info.length != 4) {
-                hasErrors = true;
-                errors.append(targetString).append("\n"); //$NON-NLS-1$
-            }
-            if (!hasErrors) {
-            	String name = info[0];
-                String classifier = info[1];
-                String type = info[2];
-                if (Target.TYPE.COPY.toString().equalsIgnoreCase(type)) {
-            		Target target = new Target(name, classifier, info[3]);
-            		targets.put(target.getName(), target);
-            	} else if (Target.TYPE.RHQ.toString().equalsIgnoreCase(type)) {
-            		String rhqConfigStr = info[3].replaceAll("\\{rhq.user\\}",    DEFAULT_RHQ_USER) //$NON-NLS-1$
-            									 .replaceAll("\\{rhq.password\\}",DEFAULT_RHQ_PASSWORD) //$NON-NLS-1$
-            									 .replaceAll("\\{rhq.baseUrl\\}", DEFAULT_RHQ_BASEURL); //$NON-NLS-1$
 
-            		String[] rhqConfig = rhqConfigStr.split("\\:\\:"); //$NON-NLS-1$
-
-            		Target target = null;
-            		if (rhqConfig.length==3) {
-            			target = new Target(name, classifier, rhqConfig[0], rhqConfig[1], rhqConfig[2],"JBossAS7"); //$NON-NLS-1$
-            		} else if (rhqConfig.length==4) {
-            			target = new Target(name, classifier, rhqConfig[0], rhqConfig[1], rhqConfig[2], rhqConfig[3]);
-            		} else {
-            			hasErrors = true;
-            			errors.append(rhqConfigStr).append("\n"); //$NON-NLS-1$
-            		}
-            		if (!hasErrors) {
-            			targets.put(target.getName(), target);
-            		}
-            	} else if (Target.TYPE.AS_CLI.toString().equalsIgnoreCase(type)) {
-            		String[] cliConfig = info[3].split("\\:\\:"); //$NON-NLS-1$
-            		Target target = new Target(name, classifier, cliConfig[0], cliConfig[1], cliConfig[2], Integer.valueOf(cliConfig[3]));
-            		targets.put(target.getName(), target);
-            	} else if (Target.TYPE.MAVEN.toString().equalsIgnoreCase(type)) {
-            		String[] mvnConfig = info[3].split("\\:\\:"); //$NON-NLS-1$
-            		Target target = new Target(name, classifier, mvnConfig[0], Boolean.parseBoolean(mvnConfig[1]), Boolean.parseBoolean(mvnConfig[2]));
-            		targets.put(target.getName(), target);
-            	}
-            }
+        List<Target> targets = TargetAccessor.getTargets();
+        Map<String, Target> map = new HashMap<String, Target>();
+        for (Target target : targets) {
+            map.put(target.getName(), target);
         }
-        if (hasErrors) {
-            throw new ConfigException(errors.toString());
+        if (targets.isEmpty()) {
+            log.error(Messages.i18n.format("Governance.NoTargets"));
         }
-        return targets;
+        return map;
     }
 
 

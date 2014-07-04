@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.dtgov.ui.server.services.targets;
+package org.overlord.dtgov.common.target;
 
 /**
  * Common place where all the target service constants are located.
