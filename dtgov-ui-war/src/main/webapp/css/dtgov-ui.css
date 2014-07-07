@@ -739,3 +739,24 @@ div.task-form label.checkbox, div.task-form label.radio {
 .target-details-form .target-details .control-group .radio .yes{
 	margin-right: 40px;	
 }
+
+.process-icon {
+	background-repeat: no-repeat;
+ 	padding-left: 25px;
+   	padding-bottom: 5px;
+}
+
+.process-delete-icon {
+  background-image: url(../images/event-delete.png) !important;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.processes-table .actions{
+	margin:0px;
+	padding: 0px;
+}
+
+.processes-table .actions .firstAction{
+	margin-right: 10px;
+}
