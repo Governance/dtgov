@@ -94,7 +94,7 @@ public class Target {
         	int slashPosition = portStr.indexOf("/") ; //$NON-NLS-1$
         	if (slashPosition > 0) portStr = portStr.substring(0,slashPosition);
         	this.port = Integer.valueOf(portStr);
-        	
+
         } else {
         	this.rhqBaseUrl = rhqBaseUrl;
         	this.port = 7080;
@@ -120,6 +120,22 @@ public class Target {
         this.setSnapshotEnabled(isSnapshotEnabled);
     }
 
+    /**
+     * Constructor a target of type Maven.
+     *
+     * @param name
+     * @param classifier
+     * @param mavenUrl
+     * @param isReleaseEnabled
+     * @param isSnapshotEnabled
+     */
+    public Target(String name, String classifier, String mavenUrl, String mavenUser, String mavenPassword, boolean isReleaseEnabled,
+            boolean isSnapshotEnabled) {
+        this(name, classifier, mavenUrl, isReleaseEnabled, isSnapshotEnabled);
+        this.user = mavenUser;
+        this.password = mavenPassword;
+    }
+
     public String getHost() {
 		return host;
 	}
@@ -141,6 +157,8 @@ public class Target {
     private String mavenUrl;
     private boolean isReleaseEnabled;
     private boolean isSnapshotEnabled;
+
+    private String description;
 
     public TYPE getType() {
 		return type;
@@ -173,7 +191,7 @@ public class Target {
 	public void setRhqBaseUrl(String rhqBaseUrl) {
 		this.rhqBaseUrl = rhqBaseUrl;
 	}
-	
+
 	public String getRhqPluginName() {
 		return rhqPluginName;
 	}
@@ -236,6 +254,14 @@ public class Target {
 
     public void setClassifier(String classifier) {
         this.classifier = classifier;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

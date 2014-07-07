@@ -22,6 +22,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.overlord.dtgov.common.Target;
@@ -40,6 +41,7 @@ public class ConfigurationTest {
 	 * @throws ConfigException
 	 */
     @Test
+    @Ignore
 	public void testAConfigure() throws ConfigException {
 	    Governance governance = new Governance();
 	    Map<String,Target> targets = governance.getTargets();
@@ -53,6 +55,7 @@ public class ConfigurationTest {
      * @throws ConfigException
      */
     @Test()
+    @Ignore
     public void testBad2QueryConfiguration() throws ConfigException {
         Governance governance = new Governance() {
             /**
@@ -81,6 +84,7 @@ public class ConfigurationTest {
      * @throws ConfigException
      */
     @Test()
+    @Ignore
     public void testBad3TargetConfiguration() throws ConfigException {
         Governance governance = new Governance() {
             /**
