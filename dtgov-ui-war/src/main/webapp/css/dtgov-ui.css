@@ -270,7 +270,7 @@ footer hr {
     padding: 0px;
 }
 
-.tasks-actions, .task-actions, .deployments-actions, .deployment-actions, .queries-actions, .targets-actions {
+.tasks-actions, .task-actions, .deployments-actions, .deployment-actions, .queries-actions, .targets-actions, .processes-actions {
     border: 1px solid rgb(211, 211, 211);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -279,7 +279,7 @@ footer hr {
     background-repeat: repeat-x;
     background-color: rgb(242, 242, 242);
 }
-.tasks-actions, .deployments-actions, .queries-actions, .targets-actions {
+.tasks-actions, .deployments-actions, .queries-actions, .targets-actions, .processes-actions {
   padding: 10px;
 }
 .task-actions, .deployment-actions, .query-actions, .target-actions {
@@ -309,7 +309,7 @@ footer hr {
     font-style: italic;
 }
 
-.tasks-table, .deployments-table, .queries-table, .targets-table {
+.tasks-table, .deployments-table, .queries-table, .targets-table, .processes-table {
     border-left: 1px solid rgb(211, 211, 211);
     border-right: 1px solid rgb(211, 211, 211);
     border-bottom: 1px solid rgb(211, 211, 211);
@@ -324,7 +324,7 @@ footer hr {
 .deployments-table thead th, .deployments-table tbody td {
     border-left: 1px solid rgb(211, 211, 211);
 }
-.deployments-table thead th, .queries-table thead th, .targets-table thead th {
+.deployments-table thead th, .queries-table thead th, .targets-table thead th, .processes-table thead th {
     background-color: white;
 }
 
@@ -583,8 +583,8 @@ div.task-form label.checkbox, div.task-form label.radio {
   text-decoration: none;
 }
 
-.queries-table .actions, .targets-table .actions {
-	margin:0px;
+.queries-table .actions, .targets-table .actions, .processes-table .actions {
+	margin: 0px;
 	padding: 0px;
 }
 
