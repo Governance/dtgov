@@ -238,4 +238,13 @@ public class UiConfiguration {
         this.srampUiUrlBase = urlBase;
     }
 
+    /**
+     * Gets the sramp ui url base.
+     *
+     * @return the sramp ui url base
+     */
+    public String getSrampUiUrlBase() {
+        return srampUiUrlBase;
+    }
+
 }

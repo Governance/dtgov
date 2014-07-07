@@ -48,6 +48,10 @@ public class DashboardPage extends AbstractPage {
     @DataField("to-targets-page")
     private TransitionAnchor<TargetsPage> toTargetsPage;
 
+    @Inject
+    @DataField("to-processes-page")
+    private TransitionAnchor<ProcessesPage> toProcessesPage;
+
     /**
      * Constructor.
      */

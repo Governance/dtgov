@@ -66,6 +66,9 @@ import org.overlord.sramp.common.SrampModelUtils;
 @Service
 public class WorkflowQueryService implements IWorkflowQueryService {
 
+    private final static String WORKFLOW_ARTIFACT_GROUP_KEY = "dtgov-ui.workflows.group"; //$NON-NLS-1$
+    private final static String WORKFLOW_ARTIFACT_NAME_KEY = "dtgov-ui.workflows.name"; //$NON-NLS-1$
+    private final static String WORKFLOW_ARTIFACT_VERSION_KEY = "dtgov-ui.workflows.version"; //$NON-NLS-1$
     private final static String SRAMP_WORKFLOW_QUERY = "/s-ramp/ext/BpmnDocument[expandedFromDocument[@maven.groupId = ? and @maven.artifactId = ? and @maven.version = ?]]"; //$NON-NLS-1$
 
     private static final int PAGE_SIZE = 10;
@@ -368,7 +371,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
     /*
      * Get the Collection that contains all the workflow types loaded in the
      * system.
-     * 
+     *
      * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#
      * getWorkflowTypes()
      */
@@ -379,15 +382,18 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         Set<String> workflows = new HashSet<String>();
         try {
             QueryResultSet results = client.buildQuery(SRAMP_WORKFLOW_QUERY)
-                    .parameter((String) dtgov_ui_conf.getProperty(DtgovUIConfig.WORKFLOW_ARTIFACT_GROUP_KEY))
-                    .parameter((String) dtgov_ui_conf.getProperty(DtgovUIConfig.WORKFLOW_ARTIFACT_NAME_KEY))
-                    .parameter((String) dtgov_ui_conf.getProperty(DtgovUIConfig.WORKFLOW_ARTIFACT_VERSION_KEY)).query();
-            Iterator<ArtifactSummary> results_iterator=results.iterator();
-            while (results_iterator.hasNext()) {
-                ArtifactSummary artifact=results_iterator.next();
-                String name = artifact.getName().substring(0, artifact.getName().lastIndexOf(".")); //$NON-NLS-1$
-                workflows.add(name);
+                    .parameter((String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_GROUP_KEY))
+                    .parameter((String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_NAME_KEY))
+                    .parameter((String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_VERSION_KEY)).query();
+            if (results != null && results.iterator() != null) {
+                Iterator<ArtifactSummary> results_iterator = results.iterator();
+                while (results_iterator.hasNext()) {
+                    ArtifactSummary artifact = results_iterator.next();
+                    String name = artifact.getName().substring(0, artifact.getName().lastIndexOf(".")); //$NON-NLS-1$
+                    workflows.add(name);
+                }
             }
+
         } catch (SrampClientException e) {
             throw new DtgovUiException(e.getMessage());
         } catch (SrampAtomException e) {

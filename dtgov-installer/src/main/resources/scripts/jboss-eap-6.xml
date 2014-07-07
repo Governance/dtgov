@@ -139,6 +139,8 @@ governance.password=$${vault:${dtgov.users.workflow.password.hash}}
       <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />
       <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.saml-keystore.password.hash}}" />
       <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />
+      <entry key="dtgov-ui.dtgov-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.saml-keystore.password.hash}}" />
+      <entry key="dtgov-ui.dtgov-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />    
     </propertyfile>
 
     <echo message=" " />
