@@ -23,15 +23,14 @@ import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
-import org.overlord.dtgov.ui.client.local.pages.TargetsPage;
-import org.overlord.dtgov.ui.client.local.services.NotificationService;
-import org.overlord.dtgov.ui.client.local.services.TargetsRpcService;
-import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
-import org.overlord.dtgov.ui.client.shared.beans.NotificationBean;
+import org.overlord.dtgov.ui.client.local.events.DialogOkCancelEvent;
+import org.overlord.dtgov.ui.client.local.events.DialogOkCancelEvent.Handler;
+import org.overlord.dtgov.ui.client.local.events.DialogOkCancelEvent.HasDialogOkCancelHandlers;
 import org.overlord.dtgov.ui.client.shared.beans.TargetSummaryBean;
 import org.overlord.sramp.ui.client.local.widgets.bootstrap.ModalDialog;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.InlineLabel;
 
@@ -43,17 +42,10 @@ import com.google.gwt.user.client.ui.InlineLabel;
  */
 @Templated("/org/overlord/dtgov/ui/client/local/site/dialogs/delete-target-dialog.html#delete-target-dialog")
 @Dependent
-public class DeleteTargetDialog extends ModalDialog {
+public class DeleteTargetDialog extends ModalDialog implements HasDialogOkCancelHandlers {
     @Inject
     @DataField("delete-target-submit-button")
     private Button _submitButton;
-
-    @Inject
-    private TargetsRpcService _targetService;
-
-    /** The _notification service. */
-    @Inject
-    private NotificationService _notificationService;
 
     /** The _i18n. */
     @Inject
@@ -61,9 +53,6 @@ public class DeleteTargetDialog extends ModalDialog {
 
     /** The _workflow query. */
     private TargetSummaryBean _target;
-
-    /** The _notification. */
-    private NotificationBean _notification;
 
     /** The _projectname. */
     @Inject
@@ -87,7 +76,7 @@ public class DeleteTargetDialog extends ModalDialog {
 
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.overlord.sramp.ui.client.local.widgets.bootstrap.ModalDialog#show()
      */
     @Override
@@ -104,26 +93,7 @@ public class DeleteTargetDialog extends ModalDialog {
     @EventHandler("delete-target-submit-button")
     public void onSubmitClick(ClickEvent event) {
         this.hide(false);
-
-        _notification = _notificationService.startProgressNotification(_i18n.format("delete-target-submit.deleting"), //$NON-NLS-1$
-                _i18n.format("delete-target-submit.deleting-msg")); //$NON-NLS-1$
-
-        _targetService.delete(_target.getUuid(), new IRpcServiceInvocationHandler<Void>() {
-            @Override
-            public void onReturn(Void data) {
-                destroy();
-                _notificationService.completeProgressNotification(_notification.getUuid(), _i18n.format("delete-target-submit.successfully-deleted"), //$NON-NLS-1$
-                        _i18n.format("delete-target-submit.successfully-deleted-msg", _target.getName())); //$NON-NLS-1$
-                DeleteTargetEvent event = new DeleteTargetEvent();
-                TargetsPage._eventBus.fireEvent(event);
-            }
-
-            @Override
-            public void onError(Throwable error) {
-                _notificationService.sendErrorNotification(_i18n.format("delete-target-submit.error", _target.getName()), error); //$NON-NLS-1$
-
-            }
-        });
+        DialogOkCancelEvent.fire(this, true);
     }
 
     /**
@@ -143,44 +113,6 @@ public class DeleteTargetDialog extends ModalDialog {
      */
     public void setSubmitButton(Button submitButton) {
         this._submitButton = submitButton;
-    }
-
-    /**
-     * Gets the target service.
-     *
-     * @return the target service
-     */
-    public TargetsRpcService getTargetService() {
-        return _targetService;
-    }
-
-    /**
-     * Sets the target service.
-     *
-     * @param targetService
-     *            the new target service
-     */
-    public void setTargetService(TargetsRpcService targetService) {
-        this._targetService = targetService;
-    }
-
-    /**
-     * Gets the notification service.
-     *
-     * @return the notification service
-     */
-    public NotificationService getNotificationService() {
-        return _notificationService;
-    }
-
-    /**
-     * Sets the notification service.
-     *
-     * @param notificationService
-     *            the new notification service
-     */
-    public void setNotificationService(NotificationService notificationService) {
-        this._notificationService = notificationService;
     }
 
     /**
@@ -222,45 +154,14 @@ public class DeleteTargetDialog extends ModalDialog {
         if (target != null) {
             this._targetName.setText(this._target.getName());
         }
-
     }
 
     /**
-     * Gets the notification.
-     *
-     * @return the notification
+     * @see org.overlord.dtgov.ui.client.local.events.DialogOkCancelEvent.HasDialogOkCancelHandlers#addDialogOkCancelHandler(org.overlord.dtgov.ui.client.local.events.DialogOkCancelEvent.Handler)
      */
-    public NotificationBean getNotification() {
-        return _notification;
-    }
-
-    /**
-     * Sets the notification.
-     *
-     * @param notification
-     *            the new notification
-     */
-    public void setNotification(NotificationBean notification) {
-        this._notification = notification;
-    }
-
-    /**
-     * Gets the target name.
-     *
-     * @return the target name
-     */
-    public InlineLabel getTargetName() {
-        return _targetName;
-    }
-
-    /**
-     * Sets the target name.
-     *
-     * @param targetName
-     *            the new target name
-     */
-    public void setTargetName(InlineLabel targetName) {
-        this._targetName = targetName;
+    @Override
+    public HandlerRegistration addDialogOkCancelHandler(Handler handler) {
+        return super.addHandler(handler, DialogOkCancelEvent.getType());
     }
 
 

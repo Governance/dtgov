@@ -400,24 +400,21 @@ public class WorkflowQueryPage extends AbstractPage {
 
         this._workflow.clear();
         _workflowQueryService.getWorkflowTypes(new IRpcServiceInvocationHandler<Set<String>>() {
-
-                    @Override
+            @Override
             public void onReturn(Set<String> workflowTypes) {
                 for (String entry : workflowTypes) {
                     _workflow.addItem(entry, entry);
                 }
+            }
 
-                    }
-
-                    @Override
-                    public void onError(Throwable error) {
+            @Override
+            public void onError(Throwable error) {
                 _notificationService.sendErrorNotification(
                         _i18n.format("workflowQuery.workflow.type.loading.error"), error); //$NON-NLS-1$
-                    }
+            }
         });
 
         _descriptionBox.setVisibleLines(3);
-
     }
 
     /**

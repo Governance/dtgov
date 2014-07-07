@@ -63,6 +63,11 @@ public class DtgovUIConfig {
     public static final String TASK_API_SAML_AUTH_KEY_ALIAS = "dtgov-ui.task-api.authentication.saml.key-alias"; //$NON-NLS-1$
     public static final String TASK_API_SAML_AUTH_KEY_PASSWORD = "dtgov-ui.task-api.authentication.saml.key-password"; //$NON-NLS-1$
 
+    // Workflow Queries UI properties
+    public final static String WORKFLOW_ARTIFACT_GROUP_KEY = "dtgov-ui.workflows.group"; //$NON-NLS-1$
+    public final static String WORKFLOW_ARTIFACT_NAME_KEY = "dtgov-ui.workflows.name"; //$NON-NLS-1$
+    public final static String WORKFLOW_ARTIFACT_VERSION_KEY = "dtgov-ui.workflows.version"; //$NON-NLS-1$
+
     // Deployment Lifecycle UI properties
     public static final String DEPLOYMENT_CLASSIFIER_BASE = "dtgov-ui.deployment-lifecycle.classifiers.base"; //$NON-NLS-1$
     public static final String DEPLOYMENT_INITIAL_CLASSIFIER = "dtgov-ui.deployment-lifecycle.classifiers.initial"; //$NON-NLS-1$
