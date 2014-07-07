@@ -29,13 +29,14 @@ import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.overlord.commons.gwt.client.local.widgets.HtmlSnippet;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
+import org.overlord.dtgov.ui.client.local.events.DeleteItemEvent;
+import org.overlord.dtgov.ui.client.local.events.DialogOkCancelEvent;
 import org.overlord.dtgov.ui.client.local.pages.targets.DeleteTargetDialog;
-import org.overlord.dtgov.ui.client.local.pages.targets.DeleteTargetEvent;
-import org.overlord.dtgov.ui.client.local.pages.targets.DeleteTargetHandler;
 import org.overlord.dtgov.ui.client.local.pages.targets.TargetsTable;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.TargetsRpcService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
+import org.overlord.dtgov.ui.client.shared.beans.NotificationBean;
 import org.overlord.dtgov.ui.client.shared.beans.TargetSummaryBean;
 
 import com.google.gwt.core.client.GWT;
@@ -125,7 +126,6 @@ public class TargetsPage extends AbstractPage {
      */
     @Override
     protected void onPageShowing() {
-
         doSearch();
     }
 
@@ -134,17 +134,44 @@ public class TargetsPage extends AbstractPage {
      */
     @PostConstruct
     protected void postConstruct() {
-        _targetsTable.setDeleteTargetDialog(_deleteTargetDialog);
-        DeleteTargetHandler handlerDeleteTarget = new DeleteTargetHandler() {
-
+        _targetsTable.addDeleteItemHandler(new DeleteItemEvent.Handler() {
             @Override
-            public void onTargetDeleted(DeleteTargetEvent event) {
+            public void onDeleteItem(DeleteItemEvent event) {
+                DeleteTargetDialog dialog = _deleteTargetDialog.get();
+                final TargetSummaryBean target = (TargetSummaryBean) event.getItem();
+                dialog.setTarget(target);
+                dialog.addDialogOkCancelHandler(new DialogOkCancelEvent.Handler() {
+                    @Override
+                    public void onDialogOkCancel(DialogOkCancelEvent event) {
+                        doDeleteTarget(target);
+                    }
+                });
+                dialog.show();
+            }
+        });
+    }
+
+    /**
+     * Called to delete a target.
+     * @param target
+     */
+    private void doDeleteTarget(final TargetSummaryBean target) {
+        final NotificationBean notification = _notificationService.startProgressNotification(_i18n.format("delete-target-submit.deleting"), //$NON-NLS-1$
+                _i18n.format("delete-target-submit.deleting-msg")); //$NON-NLS-1$
+
+        _targetService.delete(target.getUuid(), new IRpcServiceInvocationHandler<Void>() {
+            @Override
+            public void onReturn(Void data) {
+                _notificationService.completeProgressNotification(notification.getUuid(), _i18n.format("delete-target-submit.successfully-deleted"), //$NON-NLS-1$
+                        _i18n.format("delete-target-submit.successfully-deleted-msg", target.getName())); //$NON-NLS-1$
                 doSearch();
             }
-        };
-        // this.addHandler(handlerDeleteQuery, DeleteWorkflowQueryEvent.TYPE);
 
-        DeleteTargetEvent.register(_eventBus, handlerDeleteTarget);
+            @Override
+            public void onError(Throwable error) {
+                _notificationService.sendErrorNotification(_i18n.format("delete-target-submit.error", target.getName()), error); //$NON-NLS-1$
+            }
+        });
     }
 
     /**
@@ -176,12 +203,9 @@ public class TargetsPage extends AbstractPage {
      *            the data
      */
     protected void updateTable(List<TargetSummaryBean> data) {
-        this._targetsTable.clear();
+        this._targetsTable.setValue(data);
         this._searchInProgressMessage.setVisible(false);
         if (data.size() > 0) {
-            for (TargetSummaryBean targetSummaryBean : data) {
-                this._targetsTable.addRow(targetSummaryBean);
-            }
             this._targetsTable.setVisible(true);
         } else {
             this._noDataMessage.setVisible(true);

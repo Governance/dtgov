@@ -287,7 +287,7 @@ footer hr {
   padding-bottom: 10px;
 }
 
-.tasks-none, .tasks-searching, .deployments-none, .deployments-searching, .queries-none, .queries-searching {
+.tasks-none, .tasks-searching, .deployments-none, .deployments-searching, .queries-none, .queries-searching, .targets-none, .targets-searching {
     float: left;
     width: 100%;
     background-color: white;
@@ -303,7 +303,7 @@ footer hr {
     float: left;
     background-position: 16px 11px;
 }
-.tasks-none span, .deployments-none span {
+.tasks-none span, .deployments-none span, .queries-none span, .targets-none span {
     padding: 10px;
     float: left;
     font-style: italic;

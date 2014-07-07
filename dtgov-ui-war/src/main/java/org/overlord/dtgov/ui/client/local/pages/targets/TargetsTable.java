@@ -15,21 +15,29 @@
  */
 package org.overlord.dtgov.ui.client.local.pages.targets;
 
+import java.util.List;
+
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.jboss.errai.ui.nav.client.local.TransitionAnchorFactory;
 import org.overlord.commons.gwt.client.local.widgets.TemplatedWidgetTable;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
+import org.overlord.dtgov.ui.client.local.events.DeleteItemEvent;
+import org.overlord.dtgov.ui.client.local.events.DeleteItemEvent.Handler;
+import org.overlord.dtgov.ui.client.local.events.DeleteItemEvent.HasDeleteItemHandlers;
 import org.overlord.dtgov.ui.client.local.pages.TargetPage;
 import org.overlord.dtgov.ui.client.shared.beans.TargetSummaryBean;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.InlineLabel;
 
 /**
@@ -39,7 +47,10 @@ import com.google.gwt.user.client.ui.InlineLabel;
  * @author David Virgil Naranjo
  */
 @Dependent
-public class TargetsTable extends TemplatedWidgetTable {
+public class TargetsTable extends TemplatedWidgetTable implements HasValue<List<TargetSummaryBean>>, HasDeleteItemHandlers {
+
+    public static final String PREFIX_I18_TARGET_TYPE = "targets.type."; //$NON-NLS-1$
+
     /** The _i18n. */
     @Inject
     private ClientMessages i18n;
@@ -48,10 +59,8 @@ public class TargetsTable extends TemplatedWidgetTable {
     @Inject
     private TransitionAnchorFactory<TargetPage> _editTargetLinkFactory;
 
-    /** The _delete workflow query dialog. */
-    private Instance<DeleteTargetDialog> _deleteTargetDialog;
+    private List<TargetSummaryBean> targets;
 
-    public static final String PREFIX_I18_TARGET_TYPE = "targets.type."; //$NON-NLS-1$
 
     /**
      * Constructor.
@@ -96,12 +105,9 @@ public class TargetsTable extends TemplatedWidgetTable {
         actions.add(deleteAction);
 
         deleteAction.addClickHandler(new ClickHandler() {
-
             @Override
             public void onClick(ClickEvent event) {
-                DeleteTargetDialog dialog = _deleteTargetDialog.get();
-                dialog.setTarget(target);
-                dialog.show();
+                DeleteItemEvent.fire(TargetsTable.this, target);
             }
         });
         add(rowIdx, 0, name_link);
@@ -150,22 +156,56 @@ public class TargetsTable extends TemplatedWidgetTable {
     }
 
     /**
-     * Gets the delete target dialog.
-     *
-     * @return the delete target dialog
+     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
      */
-    public Instance<DeleteTargetDialog> getDeleteTargetDialog() {
-        return _deleteTargetDialog;
+    @Override
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<TargetSummaryBean>> handler) {
+        return super.addHandler(handler, ValueChangeEvent.getType());
     }
 
     /**
-     * Sets the delete target dialog.
-     *
-     * @param deleteTargetDialog
-     *            the new delete target dialog
+     * @see org.overlord.dtgov.ui.client.local.events.DeleteItemEvent.HasDeleteItemHandlers#addDeleteItemHandler(org.overlord.dtgov.ui.client.local.events.DeleteItemEvent.Handler)
      */
-    public void setDeleteTargetDialog(Instance<DeleteTargetDialog> deleteTargetDialog) {
-        this._deleteTargetDialog = deleteTargetDialog;
+    @Override
+    public HandlerRegistration addDeleteItemHandler(Handler handler) {
+        return super.addHandler(handler, DeleteItemEvent.getType());
+    }
+
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#getValue()
+     */
+    @Override
+    public List<TargetSummaryBean> getValue() {
+        return targets;
+    }
+
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
+     */
+    @Override
+    public void setValue(List<TargetSummaryBean> value) {
+        setValue(value, false);
+    }
+
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
+     */
+    @Override
+    public void setValue(List<TargetSummaryBean> value, boolean fireEvents) {
+        targets = value;
+        clear();
+        refresh();
+    }
+
+    /**
+     * Refresh the display with the current value.
+     */
+    public void refresh() {
+        if (targets != null && !targets.isEmpty()) {
+            for (TargetSummaryBean targetSummaryBean : targets) {
+                addRow(targetSummaryBean);
+            }
+        }
     }
 
 }
