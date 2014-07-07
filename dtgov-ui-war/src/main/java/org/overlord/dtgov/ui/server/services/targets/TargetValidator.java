@@ -23,7 +23,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.overlord.dtgov.common.target.TargetConstants;
+import org.overlord.dtgov.common.targets.TargetConstants;
 import org.overlord.dtgov.ui.client.shared.beans.CliTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.CopyTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.MavenTargetBean;
