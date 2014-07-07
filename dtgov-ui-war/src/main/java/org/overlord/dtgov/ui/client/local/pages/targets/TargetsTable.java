@@ -118,44 +118,6 @@ public class TargetsTable extends TemplatedWidgetTable implements HasValue<List<
     }
 
     /**
-     * Gets the _i18n.
-     *
-     * @return the _i18n
-     */
-    public ClientMessages getI18n() {
-        return i18n;
-    }
-
-    /**
-     * Sets the _i18n.
-     *
-     * @param i18n
-     *            the new _i18n
-     */
-    public void setI18n(ClientMessages i18n) {
-        this.i18n = i18n;
-    }
-
-    /**
-     * Gets the edits the target link factory.
-     *
-     * @return the edits the target link factory
-     */
-    public TransitionAnchorFactory<TargetPage> getEditTargetLinkFactory() {
-        return _editTargetLinkFactory;
-    }
-
-    /**
-     * Sets the edits the target link factory.
-     *
-     * @param editTargetLinkFactory
-     *            the new edits the target link factory
-     */
-    public void setEditTargetLinkFactory(TransitionAnchorFactory<TargetPage> editTargetLinkFactory) {
-        this._editTargetLinkFactory = editTargetLinkFactory;
-    }
-
-    /**
      * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
      */
     @Override
