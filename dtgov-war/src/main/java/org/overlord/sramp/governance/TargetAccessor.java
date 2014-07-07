@@ -20,7 +20,7 @@ public class TargetAccessor {
         SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
         // Initial query
 
-        SrampClientQuery query = client.buildQuery("/s-ramp/ext/DeploymentTarget");
+        SrampClientQuery query = client.buildQuery("/s-ramp/ext/DeploymentTarget"); //$NON-NLS-1$
         query = query.startIndex(0);
         try {
             QueryResultSet resultSet = query.query();

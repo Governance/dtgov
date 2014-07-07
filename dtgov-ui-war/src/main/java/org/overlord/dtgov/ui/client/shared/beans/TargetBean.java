@@ -161,17 +161,17 @@ public class TargetBean implements Serializable {
      */
     @Override
     public String toString() {
-        String classifierToString = "";
+        String classifierToString = ""; //$NON-NLS-1$
         if (_classifiers != null) {
             for (TargetClassifier classifier : _classifiers) {
-                classifierToString += classifier.getValue() + " ,";
+                classifierToString += classifier.getValue() + " ,"; //$NON-NLS-1$
             }
         }
 
-        if (classifierToString != null && !classifierToString.equals("")) {
+        if (classifierToString != null && !classifierToString.equals("")) { //$NON-NLS-1$
             classifierToString = classifierToString.substring(0, classifierToString.length() - 1);
         }
-        return "uuid=" + _uuid + ", classifiers=" + classifierToString + ", description=" + _description + ", name=" + _name;
+        return "uuid=" + _uuid + ", classifiers=" + classifierToString + ", description=" + _description + ", name=" + _name; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     }
 
     /*

@@ -171,7 +171,7 @@ public class CliTargetBean extends TargetBean implements Serializable {
      */
     @Override
     public String toString() {
-        return "CliTargetBean [" + super.toString() + ", user=" + _user + ", password=" + _password + ", host=" + _host + ", port=" + _port + "]";
+        return "CliTargetBean [" + super.toString() + ", user=" + _user + ", password=" + _password + ", host=" + _host + ", port=" + _port + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
     }
 
 

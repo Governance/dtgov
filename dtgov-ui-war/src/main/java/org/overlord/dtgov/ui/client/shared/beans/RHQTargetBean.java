@@ -172,8 +172,8 @@ public class RHQTargetBean extends TargetBean implements Serializable {
      */
     @Override
     public String toString() {
-        return "RHQTargetBean [" + super.toString() + ", user=" + _user + ", password=" + _password + ", baseUrl=" + _baseUrl + ", rhqPlugin="
-                + _rhqPlugin + "]";
+        return "RHQTargetBean [" + super.toString() + ", user=" + _user + ", password=" + _password + ", baseUrl=" + _baseUrl + ", rhqPlugin=" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                + _rhqPlugin + "]"; //$NON-NLS-1$
     }
 
 

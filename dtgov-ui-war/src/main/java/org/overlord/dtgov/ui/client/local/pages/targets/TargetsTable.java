@@ -51,7 +51,7 @@ public class TargetsTable extends TemplatedWidgetTable {
     /** The _delete workflow query dialog. */
     private Instance<DeleteTargetDialog> _deleteTargetDialog;
 
-    public static final String PREFIX_I18_TARGET_TYPE = "targets.type.";
+    public static final String PREFIX_I18_TARGET_TYPE = "targets.type."; //$NON-NLS-1$
 
     /**
      * Constructor.
@@ -71,7 +71,7 @@ public class TargetsTable extends TemplatedWidgetTable {
         //Anchor name = editQueryLinkFactory.get("uuid", deploymentSummaryBean.getUuid()); //$NON-NLS-1$
         Anchor name_link = _editTargetLinkFactory.get("uuid", target.getUuid()); //$NON-NLS-1$
         name_link.setText(target.getName());
-        String type_text = "";
+        String type_text = ""; //$NON-NLS-1$
         if (target.getType() != null) {
             type_text = i18n.format(PREFIX_I18_TARGET_TYPE + target.getType().getValue());
         }

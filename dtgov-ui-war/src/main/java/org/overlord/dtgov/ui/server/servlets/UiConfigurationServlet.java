@@ -164,7 +164,6 @@ public class UiConfigurationServlet extends HttpServlet {
         g.writeObjectFieldStart("target"); //$NON-NLS-1$
 
         // Pull in any configured target property default types.
-        @SuppressWarnings("unchecked")
         TargetType[] targetTypes = TargetType.values();
         count = 0;
         g.writeObjectFieldStart("types"); //$NON-NLS-1$

@@ -149,7 +149,7 @@ public class TargetSummaryBean implements Serializable{
      */
     @Override
     public String toString() {
-        return "TargetSummaryBean [uuid=" + _uuid + ", description=" + _description + ", name=" + _name + ", type=" + _type + "]";
+        return "TargetSummaryBean [uuid=" + _uuid + ", description=" + _description + ", name=" + _name + ", type=" + _type + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
     }
 
 }

@@ -48,7 +48,7 @@ public enum TargetType implements Serializable {
      * @return the target type
      */
     public static TargetType value(String value) {
-        if (value != null && !value.equals("")) {
+        if (value != null && !value.equals("")) { //$NON-NLS-1$
             TargetType[] values = TargetType.values();
             for (int i = 0; i < values.length; i++) {
                 if (values[i]._value.equals(value)) {

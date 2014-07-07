@@ -63,7 +63,7 @@ public class TargetService implements ITargetService {
     @Override
     public void delete(String uuid) throws DtgovUiException {
         try {
-            _srampClientAccessor.getClient().deleteArtifact(uuid, ArtifactType.ExtendedArtifactType(TargetConstants.TARGET_EXTENDED_TYPE, false)); //$NON-NLS-1$
+            _srampClientAccessor.getClient().deleteArtifact(uuid, ArtifactType.ExtendedArtifactType(TargetConstants.TARGET_EXTENDED_TYPE, false));
         } catch (SrampClientException e) {
             throw new DtgovUiException(e.getMessage());
         } catch (SrampAtomException e) {

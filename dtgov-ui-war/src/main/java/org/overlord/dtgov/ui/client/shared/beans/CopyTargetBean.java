@@ -98,7 +98,7 @@ public class CopyTargetBean extends TargetBean implements Serializable {
      */
     @Override
     public String toString() {
-        return "CopyTargetBean [" + super.toString() + ", deployDirectory=" + _deployDirectory + "]";
+        return "CopyTargetBean [" + super.toString() + ", deployDirectory=" + _deployDirectory + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
 

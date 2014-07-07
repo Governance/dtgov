@@ -99,9 +99,9 @@ public class MavenTargetPanel extends AbstractTargetPanel {
      */
     @PostConstruct
     public void onPostConstruct() {
-        _releaseEnabled.setName("release");
-        _releaseNotEnabled.setName("release");
-        _snapshotEnabled.setName("snapshot");
-        _snapshotNotEnabled.setName("snapshot");
+        _releaseEnabled.setName("release"); //$NON-NLS-1$
+        _releaseNotEnabled.setName("release"); //$NON-NLS-1$
+        _snapshotEnabled.setName("snapshot"); //$NON-NLS-1$
+        _snapshotNotEnabled.setName("snapshot"); //$NON-NLS-1$
     }
 }

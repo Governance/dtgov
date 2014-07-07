@@ -22,7 +22,6 @@ public class TargetFactory {
         TargetType typeEnum = TargetType.value(type);
         String name = artifact.getName();
         String description = artifact.getDescription();
-        String uuid = artifact.getUuid();
         String classifier = SrampModelUtils.getCustomProperty(artifact, TargetConstants.TARGET_CLASSIFIERS);
         ;
         Target target = null;
@@ -59,14 +58,6 @@ public class TargetFactory {
                 String cli_port = SrampModelUtils.getCustomProperty(artifact, TargetConstants.CLI_PORT);
                 String cli_user = SrampModelUtils.getCustomProperty(artifact, TargetConstants.CLI_USER);
                 String cli_password = SrampModelUtils.getCustomProperty(artifact, TargetConstants.CLI_PASSWORD);
-                Integer port = null;
-                if (StringUtils.isNotBlank(cli_port)) {
-                    try {
-                        port = Integer.parseInt(cli_port);
-                    } catch (NumberFormatException e) {
-
-                    }
-                }
                 target = new Target(name, classifier, cli_user, cli_password, cli_host, cli_port);
                 break;
             case COPY:

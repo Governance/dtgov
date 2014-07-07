@@ -78,7 +78,7 @@ public class TargetClassifier implements Serializable{
      */
     @Override
     public String toString() {
-        return "TargetClassifier [value=" + _value + "]";
+        return "TargetClassifier [value=" + _value + "]"; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
 }

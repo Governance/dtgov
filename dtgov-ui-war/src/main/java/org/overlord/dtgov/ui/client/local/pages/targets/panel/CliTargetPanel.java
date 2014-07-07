@@ -64,7 +64,7 @@ public class CliTargetPanel extends AbstractTargetPanel {
         cli.setUser(_user.getValue());
         cli.setPassword(_password.getValue());
         cli.setHost(_host.getValue());
-        if (_port.getValue() != null && !_port.getValue().equals("")) {
+        if (_port.getValue() != null && !_port.getValue().equals("")) { //$NON-NLS-1$
             cli.setPort(_port.getValue());
         }
 

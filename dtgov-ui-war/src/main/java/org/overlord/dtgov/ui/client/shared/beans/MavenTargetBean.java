@@ -200,8 +200,8 @@ public class MavenTargetBean extends TargetBean implements Serializable {
      */
     @Override
     public String toString() {
-        return "MavenTargetBean [" + super.toString() + ", repositoryUrl=" + _repositoryUrl + ", isReleaseEnabled=" + _isReleaseEnabled
-                + ", isSnapshotEnabled=" + _isSnapshotEnabled + ", user=" + _user + ", password=" + _password + "]";
+        return "MavenTargetBean [" + super.toString() + ", repositoryUrl=" + _repositoryUrl + ", isReleaseEnabled=" + _isReleaseEnabled //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                + ", isSnapshotEnabled=" + _isSnapshotEnabled + ", user=" + _user + ", password=" + _password + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     }
 
 

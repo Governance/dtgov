@@ -191,7 +191,7 @@ public class Governance {
             map.put(target.getName(), target);
         }
         if (targets.isEmpty()) {
-            log.error(Messages.i18n.format("Governance.NoTargets"));
+            log.error(Messages.i18n.format("Governance.NoTargets")); //$NON-NLS-1$
         }
         return map;
     }

@@ -180,7 +180,7 @@ public class TargetPage extends AbstractPage {
      */
     private TargetBean createTargetBean() {
         TargetBean target = null;
-        if (_targetType != null && _targetType.getValue() != null && !_targetType.getValue().equals("")) {
+        if (_targetType != null && _targetType.getValue() != null && !_targetType.getValue().equals("")) { //$NON-NLS-1$
             TargetType type = TargetType.value(_targetType.getValue());
             if (type != null) {
                 if (_targetPanel != null) {
