@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
-import org.overlord.dtgov.common.target.TargetConstants;
+import org.overlord.dtgov.common.targets.TargetConstants;
 import org.overlord.dtgov.ui.client.shared.beans.TargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.TargetSummaryBean;
 import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
