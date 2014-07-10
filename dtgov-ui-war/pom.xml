@@ -77,12 +77,6 @@
       <artifactId>overlord-commons-auth</artifactId>
     </dependency>
     
-    <!-- S-RAMP Widgets -->
-    <dependency>
-      <groupId>org.overlord.sramp</groupId>
-      <artifactId>s-ramp-ui-widgets</artifactId>
-    </dependency>
-
     <!-- Third Party Dependencies -->
     <dependency>
       <groupId>org.picketlink</groupId>
