@@ -123,7 +123,7 @@
     <version.joda-time>2.1</version.joda-time>
     <version.org.apache.lucene>4.0.0</version.org.apache.lucene>
     <picketbox.version>4.0.19.SP4</picketbox.version>
-    <picketlink.version>2.5.3.SP1</picketlink.version>
+    <picketlink.version>2.5.3.SP4</picketlink.version>
 
   </properties>
 
