@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.commons.gwt.client.local.widgets.ModalDialog;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.WorkflowQueriesPage;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
@@ -29,7 +30,6 @@ import org.overlord.dtgov.ui.client.local.services.WorkflowQueriesRpcService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
 import org.overlord.dtgov.ui.client.shared.beans.NotificationBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQuerySummaryBean;
-import org.overlord.sramp.ui.client.local.widgets.bootstrap.ModalDialog;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Button;

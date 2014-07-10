@@ -20,13 +20,13 @@ import javax.inject.Inject;
 
 import org.jboss.errai.ui.nav.client.local.TransitionAnchor;
 import org.jboss.errai.ui.nav.client.local.TransitionAnchorFactory;
+import org.overlord.commons.gwt.client.local.widgets.ModalDialog;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.pages.DeploymentDetailsPage;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.shared.beans.NotificationBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.server.servlets.DeploymentUploadServlet;
-import org.overlord.sramp.ui.client.local.widgets.bootstrap.ModalDialog;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.FlowPanel;

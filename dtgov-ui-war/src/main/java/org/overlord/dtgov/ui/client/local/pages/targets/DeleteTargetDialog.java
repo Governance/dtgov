@@ -22,12 +22,12 @@ import javax.inject.Inject;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.commons.gwt.client.local.widgets.ModalDialog;
 import org.overlord.dtgov.ui.client.local.ClientMessages;
 import org.overlord.dtgov.ui.client.local.events.DialogOkCancelEvent;
 import org.overlord.dtgov.ui.client.local.events.DialogOkCancelEvent.Handler;
 import org.overlord.dtgov.ui.client.local.events.DialogOkCancelEvent.HasDialogOkCancelHandlers;
 import org.overlord.dtgov.ui.client.shared.beans.TargetSummaryBean;
-import org.overlord.sramp.ui.client.local.widgets.bootstrap.ModalDialog;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
