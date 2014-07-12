@@ -1,0 +1,161 @@
+For an html version of this readme run 'asciidoc README.asciidoc'.
+
+DTGov Demos: Deployment Lifecycle Workflow
+------------------------------------------
+
+For a (related) short video see: http://jboss-overlord.blogspot.com/2013/11/managed-deployments-using-dtgov.html
+
+Summary
+~~~~~~~
+
+This demo shows how DTGov can start a Deployment Lifecycle Workflow which is triggered by 
+performing a maven deployment of a Java Web Application project into the S-RAMP repository.
+
+Requirements
+~~~~~~~~~~~~
+
+Email Server
+^^^^^^^^^^^^
+To receive email notifications you need a running email server. The connection settings can be 
+provided in the dtgov.properties file.  For example, when running in JBoss EAP, the _mail-smtp_ 
+settings defined in the _standalone/configuration/standalone.xml_ file will be utilized.
+....
+<outbound-socket-binding name="mail-smtp">
+   <remote-destination host="localhost" port="25"/>
+</outbound-socket-binding>
+....
+The easiest way to fulfill this requirements is to run a mock/fake SMTP server on port 25
+on your local machine.  One such simple SMTP server is Fake SMTP (http://nilhcem.github.io/FakeSMTP/)
+
+Just download FakeSMTP and then run:
+
+....
+sudo java -jar fakeSMTP-1.0.jar 
+....
+
+Users and Roles
+^^^^^^^^^^^^^^^
+This demo uses the roles _dev_, _qa_, _stage_ and _prod_.  By default the _admin_ user
+has all of these roles.  Alternatively you can configure your local application server
+to assign appropriate roles.
+
+Authentication Settings
+^^^^^^^^^^^^^^^^^^^^^^^
+Be aware that when performing a maven deployment (mvn deploy) you must supply the maven build 
+with valid credentials for your S-RAMP repository.  This can be done by adding a section to 
+your ~/.m2/settings.xml file (or by providing a custom settings.xml on the mvn command line 
+using the '-s' argument).
+
+For more information see:  http://maven.apache.org/settings.html
+
+Your settings.xml file should contain two additional server entries in the servers section:
+....
+    <server>
+      <id>local-sramp-repo</id>
+      <username>admin</username>
+      <password>YOUR-PASSWORD</password>
+    </server>
+    <server>
+      <id>local-sramp-repo-snapshots</id>
+      <username>admin</username>
+      <password>YOUR-PASSWORD</password>
+    </server>
+....
+
+How It Works
+~~~~~~~~~~~~
+
+Deploying the Java Web Application to S-RAMP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The first (and only) step in this demo is to run the following maven command:
+
+IMPORTANT: Authentication settings in your ~/.m2/settings.xml are required.
+....
+$ mvn -Pdemo clean deploy
+....
+
+The _-Pdemo_ flag will enable the 'demo' profile, which tells the Maven **distributionManagement** to
+point to your local S-RAMP repository (http://localhost:8080/s-ramp-server/).  Therefore you need to
+be running S-RAMP on port 8080 and deployed as the 's-ramp-server' context.
+
+The build should complete successfully and on the server you should see logging along the lines of:
+....
+09:04:10,929 INFO  [org.overlord.sramp.governance.QueryExecutor] (EJB default - 5) Starting workflow overlord.demo.SimpleReleaseProcess for artifact 44021610-f85e-48bf-9a1c-9adcdbe485b6
+....
+
+Once the maven deploy command completes you should have a new artifact in the
+S-RAMP repository.  You can verify this using the S-RAMP browser UI:
+
+http://localhost:8080/s-ramp-ui/
+
+You should see the following primary artifacts in the S-RAMP repository:
+
+* dtgov-demos-webapp-VERSION.war
+* dtgov-demos-webapp-VERSION.pom
+
+Because there is a workflow trigger query defined (by default) to look for new artifacts of
+type /s-ramp/ext/JavaWebApplication, DTGov will kick off a new SimpleReleaseProcess workflow
+for this new artifact.
+
+Note that the definition of the 'overlord.demo.SimpleReleaseProcess' lives in the
+SRAMPPackage in the dtgov-workflows-VERSION.jar. If you want to update the workflow you
+need to use eclipse tooling to modify the bpmn, build and upload a new dtgov-worflow.jar
+to S-RAMP. The GAV settings are defined in the dtgov.properties file.
+
+
+Artifact Deployment
+~~~~~~~~~~~~~~~~~~~
+
+The workflow (and the deployment ontology) specifies four different environments:
+
+ * dev - development: machine hosting deployed released artifact before they go to QA. Developers
+ can do a quick test to make sure things work on more then just their desk.
+ * qa - quality assurance: machine hosting deployed released artifacts so that they can
+ go through the testing process.
+ * stage - staging: an environment identical to production where qa'ed artifacts can be tested
+ on the real hardware and with interactions with other systems.
+ * prod - production: the final place where the artifacts are deployed and run
+ 
+ When the _SimpleReleaseProcess_ is instantiated it deploys the artifact to the _dev_ environment.
+ The workflow makes a POST call to DeploymentUrl={governance.url}/rest/deploy/{target}/{uuid}
+ where
+ * {governance.url} is the location where the DTGov REST API is hosted; this defaults to 'http://localhost:8080/dtgov'
+ and can be overridden in the dtgov.properties.
+ * {target} is the name of the deployment target which defined in the dtgov.properties and is
+ referenced in the 'Deploy to Dev' task. 
+ * {uuid} is the UUID of the artifact which is set as a process parameter in the _SimpleReleaseProcess_ 
+ instance at creation time.
+ 
+For more details about the target environments, you can log into the DTGov UI
+and view the targets.
+
+http://localhost:8080/dtgov-ui
+
+Since the artifact is now in S-RAMP and being governed as a Deployment by DTGov, you
+should see it listed on the DTGov UI's Deployments page.  See the above link to 
+reach the DTGov UI.  You can use this UI to see which target deployment environments
+the artifact has been deployed to (dev, test, stage, prod).  You can also see an audit
+history of the artifact and some other useful information.
+
+
+Human Tasks
+~~~~~~~~~~~
+
+Workflows in DTGov can have human tasks associated with them.  This allows the workflow
+to request that a real person perform some action before it will continue on with the
+rest of its tasks.  In the case of the SimpleReleaseProcess, the workflow will ask for
+approval before it moves the deployment artifact between the various stages (dev, test,
+stage, prod).  Log in to the DTGov UI and navigate to the Task Inbox to see the list
+of human tasks.
+
+Once in the inbox a user must Claim, Start, and finally Complete a task.  Once a task is
+completed, the workflow will be notified and continue with the rest of its tasks.  Each
+time you complete a task, the SimpleReleaseProcess will proceed to the next phase, 
+allowing you to control its lifecycle.
+
+
+This completes this demo.
+
+
+
+

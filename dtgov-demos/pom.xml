@@ -63,7 +63,7 @@
   
   <modules>
     <module>dtgov-demos-project</module>
-    <module>dtgov-demos-switchyard</module>
+    <module>dtgov-demos-webapp</module>
   </modules>
 
   <profiles>
