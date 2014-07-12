@@ -92,6 +92,10 @@ You should see the following primary artifacts in the S-RAMP repository:
 
 * dtgov-demos-webapp-VERSION.war
 * dtgov-demos-webapp-VERSION.pom
+* dtgov-demos-webapp-VERSION-sources.jar
+* dtgov-demos-webapp-VERSION-tests.jar
+* web.xml
+* jboss-web.xml
 
 Because there is a workflow trigger query defined (by default) to look for new artifacts of
 type /s-ramp/ext/JavaWebApplication, DTGov will kick off a new SimpleReleaseProcess workflow

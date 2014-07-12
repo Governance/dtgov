@@ -760,3 +760,7 @@ div.task-form label.checkbox, div.task-form label.radio {
 .processes-table .actions .firstAction{
 	margin-right: 10px;
 }
+
+#admin-dash {
+  margin-top: 15px;
+}
