@@ -377,7 +377,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
     private static final void checkAuthorization() throws DtgovUiException {
         ServletRequest request = RpcContext.getServletRequest();
         if (!AuthUtils.isOverlordAdmin((HttpServletRequest) request)) {
-            throw new DtgovUiException("User is not authorized to perform the action.");
+            throw new DtgovUiException(Messages.i18n.format("UserNotAuthorized")); //$NON-NLS-1$
         }
     }
 
