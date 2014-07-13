@@ -32,6 +32,7 @@ import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovFormValidationException;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.ITargetService;
+import org.overlord.dtgov.ui.server.i18n.Messages;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.dtgov.ui.server.services.targets.TargetFactory;
 import org.overlord.dtgov.ui.server.services.targets.TargetValidator;
@@ -197,7 +198,7 @@ public class TargetService implements ITargetService {
     private static final void checkAuthorization() throws DtgovUiException {
         ServletRequest request = RpcContext.getServletRequest();
         if (!AuthUtils.isOverlordAdmin((HttpServletRequest) request)) {
-            throw new DtgovUiException("User is not authorized to perform the action.");
+            throw new DtgovUiException(Messages.i18n.format("UserNotAuthorized")); //$NON-NLS-1$
         }
     }
 
