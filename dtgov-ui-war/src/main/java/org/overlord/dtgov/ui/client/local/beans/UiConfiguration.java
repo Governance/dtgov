@@ -33,9 +33,11 @@ import com.google.gwt.core.client.GWT;
  */
 public class UiConfiguration {
 
+    private String srampUiUrlBase;
+    private String currentUser;
+    private boolean admin;
     private final Map<String, String> deploymentStages = new LinkedHashMap<String, String>();
     private final Map<String, String> deploymentTypes = new TreeMap<String, String>();
-    private String srampUiUrlBase;
     private final Map<String, String> workflowPropertyKeyTypes = new LinkedHashMap<String, String>();
     private final Map<String, String> targetKeyTypes = new LinkedHashMap<String, String>();
 
@@ -221,8 +223,15 @@ public class UiConfiguration {
 
 			// Read the s-ramp UI config
 			var srampUiConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.srampui;
-			var urlBase = srampUiConfig.urlBase;
+            var urlBase = srampUiConfig.urlBase;
+
+            // Read the auth config
+            var authConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.auth;
+            var currentUser = authConfig.currentUser;
+            var isAdmin = authConfig.isAdmin;
 			dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setSrampUiUrlBase(Ljava/lang/String;)(urlBase);
+            dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setCurrentUser(Ljava/lang/String;)(currentUser);
+            dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setAdmin(Ljava/lang/String;)(''+isAdmin);
 		} catch (e) {
 			// TODO do something interesting here?
 		}
@@ -245,6 +254,34 @@ public class UiConfiguration {
      */
     public String getSrampUiUrlBase() {
         return srampUiUrlBase;
+     }
+     
+   /**
+     * @return the currentUser
+     */
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    /**
+     * @param currentUser the currentUser to set
+     */
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    /**
+     * @return the admin
+     */
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    /**
+     * @param admin the admin to set
+     */
+    public void setAdmin(String admin) {
+        this.admin = Boolean.valueOf(admin);
     }
 
 }

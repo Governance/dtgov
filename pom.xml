@@ -305,6 +305,17 @@
       </dependency>
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-javadoc</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-javadoc</artifactId>
+        <version>${project.version}</version>
+        <classifier>javadoc</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
         <artifactId>dtgov-installer</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -415,9 +426,21 @@
       </dependency>
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-ui-war</artifactId>
+        <version>${project.version}</version>
+        <classifier>classes</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
         <artifactId>dtgov-war</artifactId>
         <version>${project.version}</version>
         <classifier>sources</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-war</artifactId>
+        <version>${project.version}</version>
+        <classifier>classes</classifier>
       </dependency>
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
@@ -947,9 +970,10 @@
     <module>dtgov-distro/fabric</module>
     <module>dtgov-distro/fuse61</module>
     <module>dtgov-installer</module>
+    <module>dtgov-javadoc</module>
+    <module>dtgov-services</module>
     <module>dtgov-task-api</module>
     <module>dtgov-task-client</module>
-    <module>dtgov-services</module>
     <module>dtgov-war</module>
     <module>dtgov-war/eap6</module>
     <module>dtgov-war/eap6-modules</module>

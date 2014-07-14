@@ -21,8 +21,7 @@ import org.overlord.sramp.client.SrampAtomApiClient;
 
 /**
  * Interface tha provides the methods that a dtgov deployer should implement. A
- * deployer can deploy an undeploy an s-ramp artifact on a specific target.
- *
+ * deployer can deploy and undeploy an s-ramp artifact on a specific target.
  *
  * @author David Virgil Naranjo
  */
@@ -54,7 +53,6 @@ public interface Deployer {
      * @throws Exception
      *             the exception
      */
-    public void undeploy(BaseArtifactType prevVersionArtifact,
- BaseArtifactType undeployInfo, Target target,
+    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, Target target,
             SrampAtomApiClient client) throws Exception;
 }

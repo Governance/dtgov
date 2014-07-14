@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -32,6 +34,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
+import org.jboss.errai.bus.server.api.RpcContext;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactEnum;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.ExtendedArtifactType;
@@ -48,6 +51,7 @@ import org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.i18n.Messages;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
+import org.overlord.dtgov.ui.server.util.AuthUtils;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.SrampClientException;
@@ -136,23 +140,12 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         return query;
     }
 
-    /*
-     * Remove a WorkflowQueryBean from s-ramp passing the specific uuid
-     * identifier.
-     *
-     * @see
-     * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#delete
-     * (java.lang.String)
-     */
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#delete
-     * (java.lang.String)
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#delete(java.lang.String)
      */
     @Override
     public void delete(String uuid) throws DtgovUiException {
+        checkAuthorization();
         try {
             _srampClientAccessor.getClient().deleteArtifact(uuid,
                     ArtifactType.ExtendedArtifactType("DtgovWorkflowQuery", false)); //$NON-NLS-1$
@@ -164,22 +157,12 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     }
 
-    /*
-     * Get a WorkflowQueryBean from s-ramp using the uuid param.
-     *
-     * @see
-     * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#get
-     * (java.lang.String)
-     */
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#get
-     * (java.lang.String)
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#get(java.lang.String)
      */
     @Override
     public WorkflowQueryBean get(String uuid) throws DtgovUiException {
+        checkAuthorization();
         try {
             BaseArtifactType artifact = _srampClientAccessor.getClient().getArtifactMetaData(uuid);
             // ArtifactType artifactType = ArtifactType.valueOf(artifact);
@@ -225,17 +208,12 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         return _srampClientAccessor;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#save
-     * (String)
-     *
-     * @return uuid
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#save(org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean)
      */
     @Override
     public String save(WorkflowQueryBean workflowQuery) throws DtgovUiException {
+        checkAuthorization();
         List<ValidationError> errors = _queryValidator.validate(workflowQuery, PAGE_SIZE);
         if (errors.size() == 0) {
             String uuid = ""; //$NON-NLS-1$
@@ -287,17 +265,13 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#search
-     * (org.overlord.dtgov.ui.client.shared.beans.WorkflowQueriesFilterBean,
-     * int, java.lang.String, boolean)
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#search(org.overlord.dtgov.ui.client.shared.beans.WorkflowQueriesFilterBean, int, java.lang.String, boolean)
      */
     @Override
     public WorkflowQueryResultSetBean search(WorkflowQueriesFilterBean filters, int page,
             String sortColumnId, boolean sortAscending) throws DtgovUiException {
+        checkAuthorization();
         int pageSize = PAGE_SIZE;
         try {
             int req_startIndex = (page - 1) * pageSize;
@@ -368,16 +342,16 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         this._srampClientAccessor = srampClientAccessor;
     }
 
-    /*
+    /**
      * Get the Collection that contains all the workflow types loaded in the
      * system.
-     *
-     * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#
-     * getWorkflowTypes()
+     * 
+     * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#getWorkflowTypes()
      */
     @Override
     public Set<String> getWorkflowTypes() throws DtgovUiException {
-        Configuration dtgov_ui_conf=config.getConfiguration();
+        checkAuthorization();
+        Configuration dtgov_ui_conf = config.getConfiguration();
         SrampAtomApiClient client = _srampClientAccessor.getClient();
         Set<String> workflows = new HashSet<String>();
         try {
@@ -400,6 +374,17 @@ public class WorkflowQueryService implements IWorkflowQueryService {
             throw new DtgovUiException(e.getMessage());
         }
         return workflows;
+    }
+    
+    /**
+     * Checks that the current user is authorized to perform the action.
+     * @throws DtgovUiException
+     */
+    private static final void checkAuthorization() throws DtgovUiException {
+        ServletRequest request = RpcContext.getServletRequest();
+        if (!AuthUtils.isOverlordAdmin((HttpServletRequest) request)) {
+            throw new DtgovUiException(Messages.i18n.format("UserNotAuthorized")); //$NON-NLS-1$
+        }
     }
 
 }

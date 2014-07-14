@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 JBoss Inc
+ * Copyright 2013 JBoss Inc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.overlord.sramp.demos.switchyard.service;
 
-public interface InventoryService {
+package org.overlord.dtgov.ui.server.util;
 
-    Item lookupItem(String itemId) throws ItemNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * Util methods for authentication.
+ *
+ * @author eric.wittmann@redhat.com
+ */
+public class AuthUtils {
+
+    /**
+     * Returns true if the user is an Overlord Admin.
+     * @param request
+     */
+    public static final boolean isOverlordAdmin(HttpServletRequest request) {
+        return request.isUserInRole("overlordadmin"); //$NON-NLS-1$
+    }
+    
 }

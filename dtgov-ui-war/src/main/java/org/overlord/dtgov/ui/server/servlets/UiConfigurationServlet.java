@@ -33,6 +33,7 @@ import org.overlord.dtgov.ui.client.shared.beans.TargetType;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.DtgovUIConfig.DeploymentStage;
 import org.overlord.dtgov.ui.server.i18n.Messages;
+import org.overlord.dtgov.ui.server.util.AuthUtils;
 
 /**
  * A standard servlet that delivers all of the UI configuration as a handy bunch 'o JSON.
@@ -90,6 +91,12 @@ public class UiConfigurationServlet extends HttpServlet {
         // Some s-ramp UI/browser integration settings
         g.writeObjectFieldStart("srampui"); //$NON-NLS-1$
         g.writeStringField("urlBase", config.getConfiguration().getString(DtgovUIConfig.SRAMP_UI_URL_BASE, autoGenerateSrampUiUrlBase(request))); //$NON-NLS-1$
+        g.writeEndObject();
+
+        // Auth settings
+        g.writeObjectFieldStart("auth"); //$NON-NLS-1$
+        g.writeStringField("currentUser", request.getRemoteUser()); //$NON-NLS-1$
+        g.writeBooleanField("isAdmin", AuthUtils.isOverlordAdmin(request)); //$NON-NLS-1$
         g.writeEndObject();
 
         g.writeObjectFieldStart("deployments"); //$NON-NLS-1$

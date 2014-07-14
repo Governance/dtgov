@@ -20,10 +20,14 @@ import javax.inject.Inject;
 
 import org.jboss.errai.ui.nav.client.local.DefaultPage;
 import org.jboss.errai.ui.nav.client.local.Page;
-import org.jboss.errai.ui.nav.client.local.PageShown;
 import org.jboss.errai.ui.nav.client.local.TransitionAnchor;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
+import org.overlord.dtgov.ui.client.local.util.DOMUtil;
+
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Display;
 
 /**
  * The "Dashboard" page.
@@ -43,6 +47,8 @@ public class DashboardPage extends AbstractPage {
     @Inject @DataField("to-adminQueries-page")
     private TransitionAnchor<WorkflowQueriesPage> toAdminQueriesPage;
 
+    @Inject
+    private ConfigurationService config;
 
     @Inject
     @DataField("to-targets-page")
@@ -57,12 +63,21 @@ public class DashboardPage extends AbstractPage {
      */
     public DashboardPage() {
     }
-
+    
     /**
-     * Called whenver the page is shown.
+     * @see org.overlord.dtgov.ui.client.local.pages.AbstractPage#onPageShowing()
      */
-    @PageShown
-    public void onPageShown() {
+    @Override
+    protected void onPageShowing() {
+        Element adminDashElem = DOMUtil.findElementById(getElement(), "admin-dash"); //$NON-NLS-1$
+        if (adminDashElem != null) {
+            boolean admin = config.getUiConfig().isAdmin();
+            if (admin) {
+                adminDashElem.getStyle().clearDisplay();
+            } else {
+                adminDashElem.getStyle().setDisplay(Display.NONE);
+            }
+        }
     }
-
+    
 }
