@@ -336,6 +336,11 @@
       </dependency>
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
         <artifactId>dtgov-ui-war</artifactId>
         <version>${project.version}</version>
         <type>war</type>
@@ -981,6 +986,7 @@
     <module>dtgov-ui-war/tomcat7</module>
     <module>dtgov-ui-war/fuse61</module>
     <module>dtgov-workflows</module>
+    <module>dtgov-client</module>
   </modules>
 </project>
 

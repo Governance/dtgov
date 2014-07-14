@@ -15,6 +15,7 @@
  */
 package org.overlord.sramp.governance.workflow.jbpm;
 
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,12 +24,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 
+import org.jbpm.kie.services.impl.model.ProcessInstanceDesc;
 import org.overlord.dtgov.jbpm.ProcessBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,17 +46,17 @@ public class ProcessService {
 	@Inject
 	@ApplicationScoped
     private ProcessBean processBean;
-	
-	
+
+
 	private static Logger logger = LoggerFactory.getLogger(ProcessService.class);
-	
+
 	@POST
     @Path("start/{deploymentId}/{processId}")
     public String startProcess(
     		@Context HttpServletRequest request,
-    		@PathParam("deploymentId") String deploymentId, 
+    		@PathParam("deploymentId") String deploymentId,
     		@PathParam("processId") String processId) throws Exception {
-    	
+
 		Map<String, Object> context = new HashMap<String, Object>();
 		Enumeration<String> params = request.getParameterNames();
 		while (params.hasMoreElements()) {
@@ -66,20 +69,41 @@ public class ProcessService {
         Long processInstanceId = processBean.startProcess(deploymentId, processId, context);
         return String.valueOf(processInstanceId);
 	}
-	
+
 	@PUT
     @Path("signal/{processInstanceId}/{signalType}/{event}")
     public void signalProcess(
     		@PathParam("processInstanceId") Long processInstanceId,
     		@PathParam("signalType") String signalType,
     		@PathParam("event") String event) throws Exception {
-		
+
         if (logger.isDebugEnabled()) {
             logger.debug("Signalling processInstanceId %d with signalType %s and event $s", //$NON-NLS-1$
                     processInstanceId, signalType, event);
         }
-        processBean.signalProcess(processInstanceId, signalType, (Object) event);
+        processBean.signalProcess(processInstanceId, signalType, event);
 	}
-    
+
+    @PUT
+    @Path("stop/{artifactUUID}/{processInstanceId}")
+    public void stopProcess(@PathParam("processInstanceId") Long processInstanceId, @PathParam("artifactUUID") String artifactUUID) throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.info("Stopping Process with Id %d for the artifact with uuid %s", //$NON-NLS-1$
+                    processInstanceId, artifactUUID);
+        }
+        processBean.stopProcess(processInstanceId);
+    }
+
+    @GET
+    @Path("list")
+    public String list() throws Exception {
+        Collection<ProcessInstanceDesc> processes = processBean.listProcessInstances();
+        if (processes == null) {
+            return "0";
+        } else {
+            return processes.size() + "";
+        }
+    }
+
 }
 

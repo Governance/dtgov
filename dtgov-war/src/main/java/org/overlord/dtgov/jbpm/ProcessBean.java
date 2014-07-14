@@ -1,5 +1,5 @@
-/**
- * Copyright 2013 JBoss Inc
+/*
+ * Copyright 2014 JBoss Inc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,35 +38,48 @@ import org.overlord.dtgov.server.i18n.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 @ApplicationScoped
 @Transactional
 public class ProcessBean {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Inject
 	@ApplicationScoped
 	private ProcessEngineService processEngineService;
-  
-	
+
+
+    /**
+     * Cleanup.
+     */
 	@PreDestroy
 	public void cleanup() {
 		logger.info(Messages.i18n.format("ProcessBean.CleaningJBPM")); //$NON-NLS-1$
 
 		processEngineService.closeAllRuntimeManagers();
 	}
-	
+
 	@Inject
 	TaskService taskService;
 
-	/**
-	 * Starts up a new ProcessInstance with the given deploymentId and ProcessId. The
-	 * parameters Map is set into the context of the workflow.
-	 *
-	 */
+	    /**
+     * Starts up a new ProcessInstance with the given deploymentId and
+     * ProcessId. The parameters Map is set into the context of the workflow.
+     *
+     * @param deploymentId
+     *            the deployment id
+     * @param processId
+     *            the process id
+     * @param parameters
+     *            the parameters
+     * @return the long
+     * @throws Exception
+     *             the exception
+     */
     public long startProcess(String deploymentId, String processId, Map<String, Object> parameters)
 			throws Exception {
-		
+
 		long processInstanceId = -1;
 		try {
 			KieSrampUtil kieSrampUtil = new KieSrampUtil();
@@ -78,15 +91,42 @@ public class ProcessBean {
 					parameters);
 			processInstanceId = processInstance.getId();
 			logger.info(Messages.i18n.format("ProcessBean.Started", processInstanceId)); //$NON-NLS-1$
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 			throw e;
 		}
 		return processInstanceId;
 	}
-	
+
+    /**
+     * Stop a running process.
+     *
+     * @param processInstanceId
+     *            the process instance id
+     */
+    public void stopProcess(long processInstanceId) {
+        KieSrampUtil kieSrampUtil = new KieSrampUtil();
+        logger.debug(Messages.i18n.format("ProcessBean.Stopping", processInstanceId)); //$NON-NLS-1$
+        String deploymentId = processEngineService.getProcessInstance(processInstanceId).getDeploymentId();
+        RuntimeManager runtimeManager = kieSrampUtil.getRuntimeManager(processEngineService, deploymentId);
+        RuntimeEngine runtime = runtimeManager.getRuntimeEngine(ProcessInstanceIdContext.get(processInstanceId));
+        KieSession ksession = runtime.getKieSession();
+        ksession.abortProcessInstance(processInstanceId);
+        logger.debug(Messages.i18n.format("ProcessBean.Stopped", processInstanceId)); //$NON-NLS-1$
+    }
+
+    /**
+     * Signal a running process.
+     * 
+     * @param processInstanceId
+     *            the process instance id
+     * @param signalType
+     *            the signal type
+     * @param event
+     *            the event
+     */
 	public void signalProcess(long processInstanceId, String signalType, Object event) {
 		KieSrampUtil kieSrampUtil = new KieSrampUtil();
 		logger.info(Messages.i18n.format("ProcessBean.Signalled", processInstanceId, signalType)); //$NON-NLS-1$
@@ -98,10 +138,17 @@ public class ProcessBean {
 		ksession.signalEvent(signalType, event,processInstance.getId());
 	}
 
+    /**
+     * List all the process instances.
+     * 
+     * @return the collection
+     * @throws Exception
+     *             the exception
+     */
     public Collection<ProcessInstanceDesc> listProcessInstances() throws Exception {
 
 		Collection<ProcessInstanceDesc> processInstances = null;
-		
+
 		//note that, if needed, the processEngineService can easily be extended with
 		//methods that can filter by deploymentId and processId
 		try {
@@ -109,10 +156,10 @@ public class ProcessBean {
 			for (ProcessInstanceDesc processInstanceDesc : processInstances) {
 				logger.info(processInstanceDesc.getDeploymentId() + " " + //$NON-NLS-1$
 							processInstanceDesc.getProcessName() + " " +  //$NON-NLS-1$
-							processInstanceDesc.getId() 
+							processInstanceDesc.getId()
 							);
 			}
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -121,6 +168,14 @@ public class ProcessBean {
 
 	}
 
+    /**
+     * List process instance detail.
+     *
+     * @param processInstanceId
+     *            the process instance id
+     * @throws Exception
+     *             the exception
+     */
     public void listProcessInstanceDetail(long processInstanceId) throws Exception {
 
 		try {
@@ -130,10 +185,10 @@ public class ProcessBean {
 				logger.info("state=" + processInstanceDesc.getState()); //$NON-NLS-1$
 				logger.info(".."); //$NON-NLS-1$
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 			throw e;
 		}
 

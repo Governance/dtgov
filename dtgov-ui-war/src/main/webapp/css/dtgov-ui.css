@@ -567,7 +567,8 @@ div.task-form label.checkbox, div.task-form label.radio {
   color: rgb(91, 91, 91);
 }
 
-.workflow-icon{
+
+.target-icon, .process-icon, .workflow-icon{
 	background-repeat: no-repeat;
  	padding-left: 25px;
    	padding-bottom: 5px;
@@ -706,12 +707,6 @@ div.task-form label.checkbox, div.task-form label.radio {
 }
 
 
-.target-icon {
-	background-repeat: no-repeat;
- 	padding-left: 25px;
-   	padding-bottom: 5px;
-}
-
 .target-edit-icon {
   background-image: url(../images/event-edit.png) !important;
 }
@@ -740,21 +735,18 @@ div.task-form label.checkbox, div.task-form label.radio {
 	margin-right: 40px;	
 }
 
-.process-icon {
-	background-repeat: no-repeat;
- 	padding-left: 25px;
-   	padding-bottom: 5px;
-}
 
-.process-delete-icon {
-  background-image: url(../images/event-delete.png) !important;
+.process-abort-icon {
+  background-image: url(../images/event-stop.png) !important;
   cursor: pointer;
   text-decoration: none;
+  background-size:20px;
 }
 
 .processes-table .actions{
 	margin:0px;
 	padding: 0px;
+	text-align: center;
 }
 
 .processes-table .actions .firstAction{

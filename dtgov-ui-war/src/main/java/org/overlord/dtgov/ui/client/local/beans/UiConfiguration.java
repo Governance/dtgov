@@ -248,6 +248,15 @@ public class UiConfiguration {
     }
 
     /**
+     * Gets the sramp ui url base.
+     *
+     * @return the sramp ui url base
+     */
+    public String getSrampUiUrlBase() {
+        return srampUiUrlBase;
+     }
+     
+   /**
      * @return the currentUser
      */
     public String getCurrentUser() {

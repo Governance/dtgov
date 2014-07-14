@@ -121,6 +121,9 @@ governance.password=${dtgov.users.workflow.password}
       <entry key="dtgov-ui.task-api.authentication.saml.keystore" value="${sys:catalina.home}/conf/overlord-saml.keystore" />
       <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="samlkeystore77" />
       <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="overlord99" />
+      <entry key="dtgov-ui.dtgov-api.authentication.saml.keystore" value="${sys:catalina.home}/conf/overlord-saml.keystore" />
+      <entry key="dtgov-ui.dtgov-api.authentication.saml.keystore-password" value="samlkeystore77" />
+      <entry key="dtgov-ui.dtgov-api.authentication.saml.key-password" value="overlord99" />    	
     </propertyfile>
 
     <echo message=" " />

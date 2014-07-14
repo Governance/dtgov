@@ -20,6 +20,10 @@
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-services</artifactId>
     </dependency>
 

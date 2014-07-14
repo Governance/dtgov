@@ -63,6 +63,20 @@ public class DtgovUIConfig {
     public static final String TASK_API_SAML_AUTH_KEY_ALIAS = "dtgov-ui.task-api.authentication.saml.key-alias"; //$NON-NLS-1$
     public static final String TASK_API_SAML_AUTH_KEY_PASSWORD = "dtgov-ui.task-api.authentication.saml.key-password"; //$NON-NLS-1$
 
+    // DTGOV API related properties
+    public static final String DTGOV_API_ENDPOINT = "dtgov-ui.dtgov-api.endpoint"; //$NON-NLS-1$
+    public static final String DTGOV_CLIENT_CLASS = "dtgov-ui.dtgov-client.class"; //$NON-NLS-1$
+    public static final String DTGOV_API_AUTH_PROVIDER = "dtgov-ui.dtgov-api.authentication.provider"; //$NON-NLS-1$
+    public static final String DTGOV_API_BASIC_AUTH_USER = "dtgov-ui.dtgov-api.authentication.basic.username"; //$NON-NLS-1$
+    public static final String DTGOV_API_BASIC_AUTH_PASS = "dtgov-ui.dtgov-api.authentication.basic.password"; //$NON-NLS-1$
+    public static final String DTGOV_API_SAML_ISSUER = "dtgov-ui.dtgov-api.authentication.saml.issuer"; //$NON-NLS-1$
+    public static final String DTGOV_API_SAML_SERVICE = "dtgov-ui.dtgov-api.authentication.saml.service"; //$NON-NLS-1$
+    public static final String DTGOV_API_SAML_AUTH_SIGN_ASSERTIONS = "dtgov-ui.dtgov-api.authentication.saml.sign-assertions"; //$NON-NLS-1$
+    public static final String DTGOV_API_SAML_AUTH_KEYSTORE = "dtgov-ui.dtgov-api.authentication.saml.keystore"; //$NON-NLS-1$
+    public static final String DTGOV_API_SAML_AUTH_KEYSTORE_PASSWORD = "dtgov-ui.dtgov-api.authentication.saml.keystore-password"; //$NON-NLS-1$
+    public static final String DTGOV_API_SAML_AUTH_KEY_ALIAS = "dtgov-ui.dtgov-api.authentication.saml.key-alias"; //$NON-NLS-1$
+    public static final String DTGOV_API_SAML_AUTH_KEY_PASSWORD = "dtgov-ui.dtgov-api.authentication.saml.key-password"; //$NON-NLS-1$
+
     // Workflow Queries UI properties
     public final static String WORKFLOW_ARTIFACT_GROUP_KEY = "dtgov-ui.workflows.group"; //$NON-NLS-1$
     public final static String WORKFLOW_ARTIFACT_NAME_KEY = "dtgov-ui.workflows.name"; //$NON-NLS-1$
@@ -85,7 +99,7 @@ public class DtgovUIConfig {
     // Workflow properties
     private static final String WORKFLOW_PREFIX = "dtgov-ui.deployment-lifecycle.workflow"; //$NON-NLS-1$
     public static final String WORKFLOW_PROPERTY_PREFIX = WORKFLOW_PREFIX + ".property"; //$NON-NLS-1$
-    
+
     // S-RAMP UI integration properties
     public static final String SRAMP_UI_URL_BASE = "dtgov-ui.s-ramp-browser.url-base"; //$NON-NLS-1$
 
