@@ -17,8 +17,6 @@ package org.overlord.dtgov.ui.server.services;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -27,22 +25,15 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jboss.errai.bus.server.api.RpcContext;
-import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactEnum;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
-import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.ExtendedArtifactType;
-import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Property;
 import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueriesFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean;
-import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryProperty;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryResultSetBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQuerySummaryBean;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovFormValidationException;
@@ -51,6 +42,7 @@ import org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.i18n.Messages;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
+import org.overlord.dtgov.ui.server.services.workflows.WorkflowQueryFactory;
 import org.overlord.dtgov.ui.server.util.AuthUtils;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -59,7 +51,6 @@ import org.overlord.sramp.client.SrampClientQuery;
 import org.overlord.sramp.client.query.ArtifactSummary;
 import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.common.ArtifactType;
-import org.overlord.sramp.common.SrampModelUtils;
 
 
 /**
@@ -91,54 +82,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     }
 
-    /**
-     * Creates a query given the selected filters and search text.
-     *
-     * @param filters
-     *            the filters
-     * @return the sramp client query
-     */
-    protected SrampClientQuery createQuery(WorkflowQueriesFilterBean filters) {
-        StringBuilder queryBuilder = new StringBuilder();
-        // Initial query
 
-        queryBuilder.append("/s-ramp/ext/DtgovWorkflowQuery"); //$NON-NLS-1$
-
-        List<String> criteria = new ArrayList<String>();
-        List<Object> params = new ArrayList<Object>();
-
-        if (filters != null && filters.getName() != null && filters.getName().trim().length() > 0) {
-            criteria.add("fn:matches(@name, ?)"); //$NON-NLS-1$
-            params.add(filters.getName().replace("*", ".*")); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-
-        if (filters != null && StringUtils.isNotBlank(filters.getWorkflow())) {
-            criteria.add("@workflow = ?"); //$NON-NLS-1$
-            params.add(filters.getWorkflow());
-        }
-
-        // Now create the query predicate from the generated criteria
-        if (criteria.size() > 0) {
-            queryBuilder.append("["); //$NON-NLS-1$
-            queryBuilder.append(StringUtils.join(criteria, " and ")); //$NON-NLS-1$
-            queryBuilder.append("]"); //$NON-NLS-1$
-        }
-
-        // Create the query, and parameterize it
-        SrampAtomApiClient client = _srampClientAccessor.getClient();
-        SrampClientQuery query = client.buildQuery(queryBuilder.toString());
-        for (Object param : params) {
-            if (param instanceof String) {
-                query.parameter((String) param);
-            }
-            if (param instanceof Calendar) {
-                query.parameter((Calendar) param);
-            }
-        }
-        query.propertyName("workflow"); //$NON-NLS-1$
-        query.propertyName("query"); //$NON-NLS-1$
-        return query;
-    }
 
     /**
      * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#delete(java.lang.String)
@@ -165,23 +109,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         checkAuthorization();
         try {
             BaseArtifactType artifact = _srampClientAccessor.getClient().getArtifactMetaData(uuid);
-            // ArtifactType artifactType = ArtifactType.valueOf(artifact);
-
-            WorkflowQueryBean bean = new WorkflowQueryBean();
-
-            bean.setName(artifact.getName());
-            bean.setUuid(artifact.getUuid());
-            bean.setDescription(artifact.getDescription());
-            for (Property prop : artifact.getProperty()) {
-                if (prop.getPropertyName().equals("workflow")) { //$NON-NLS-1$
-                    bean.setWorkflow(prop.getPropertyValue());
-                } else if (prop.getPropertyName().equals("query")) { //$NON-NLS-1$
-                    bean.setQuery(prop.getPropertyValue());
-                } else if (prop.getPropertyName().startsWith("prop.")) { //$NON-NLS-1$
-                    String propertyName = prop.getPropertyName().substring("prop.".length()); //$NON-NLS-1$
-                    bean.addWorkflowQueryProperty(propertyName, prop.getPropertyValue());
-                }
-            }
+            WorkflowQueryBean bean = WorkflowQueryFactory.toWorkflowQuery(artifact);
             return bean;
         } catch (SrampClientException e) {
             throw new DtgovUiException(e.getMessage());
@@ -190,23 +118,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         }
     }
 
-    /**
-     * Gets the query validator.
-     *
-     * @return the query validator
-     */
-    public WorkflowQueryValidator getQueryValidator() {
-        return _queryValidator;
-    }
 
-    /**
-     * Gets the sramp client accessor.
-     *
-     * @return the sramp client accessor
-     */
-    public SrampApiClientAccessor getSrampClientAccessor() {
-        return _srampClientAccessor;
-    }
 
     /**
      * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#save(org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean)
@@ -217,27 +129,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         List<ValidationError> errors = _queryValidator.validate(workflowQuery, PAGE_SIZE);
         if (errors.size() == 0) {
             String uuid = ""; //$NON-NLS-1$
-            ExtendedArtifactType toSave = new ExtendedArtifactType();
-            toSave.setArtifactType(BaseArtifactEnum.EXTENDED_ARTIFACT_TYPE);
-            toSave.setExtendedType("DtgovWorkflowQuery"); //$NON-NLS-1$
-            toSave.setName(workflowQuery.getName());
-            toSave.setDescription(workflowQuery.getDescription());
-
-            SrampModelUtils.setCustomProperty(toSave, "query", workflowQuery.getQuery()); //$NON-NLS-1$
-            SrampModelUtils.setCustomProperty(toSave, "workflow", workflowQuery.getWorkflow()); //$NON-NLS-1$
-
-            GregorianCalendar gcal = new GregorianCalendar();
-            gcal.setTime(new Date());
-            try {
-                XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal);
-                toSave.setCreatedTimestamp(xmlCal);
-            } catch (DatatypeConfigurationException ee) {
-                throw new RuntimeException(ee);
-            }
-
-            for (WorkflowQueryProperty property : workflowQuery.getProperties()) {
-                SrampModelUtils.setCustomProperty(toSave, "prop." + property.getKey(), property.getValue()); //$NON-NLS-1$
-            }
+            BaseArtifactType toSave = WorkflowQueryFactory.toBaseArtifact(workflowQuery);
             SrampAtomApiClient client = _srampClientAccessor.getClient();
 
             if (StringUtils.isBlank(workflowQuery.getUuid())) {
@@ -286,16 +178,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
             QueryResultSet resultSet = scq.count(pageSize + 1).query();
 
             WorkflowQueryResultSetBean rval = new WorkflowQueryResultSetBean();
-            ArrayList<WorkflowQuerySummaryBean> queries = new ArrayList<WorkflowQuerySummaryBean>();
-            for (ArtifactSummary artifactSummary : resultSet) {
-                WorkflowQuerySummaryBean bean = new WorkflowQuerySummaryBean();
-                bean.setName(artifactSummary.getName());
-                bean.setUuid(artifactSummary.getUuid());
-                bean.setDescription(artifactSummary.getDescription());
-                bean.setQuery(artifactSummary.getCustomPropertyValue("query")); //$NON-NLS-1$
-                bean.setWorkflow(artifactSummary.getCustomPropertyValue("workflow")); //$NON-NLS-1$
-                queries.add(bean);
-            }
+            List<WorkflowQuerySummaryBean> queries = WorkflowQueryFactory.asList(resultSet);
             boolean hasMorePages = false;
             if (queries.size() > pageSize) {
                 queries.remove(queries.get(queries.size() - 1));
@@ -345,7 +228,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
     /**
      * Get the Collection that contains all the workflow types loaded in the
      * system.
-     * 
+     *
      * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#getWorkflowTypes()
      */
     @Override
@@ -375,7 +258,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         }
         return workflows;
     }
-    
+
     /**
      * Checks that the current user is authorized to perform the action.
      * @throws DtgovUiException
@@ -385,6 +268,73 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         if (!AuthUtils.isOverlordAdmin((HttpServletRequest) request)) {
             throw new DtgovUiException(Messages.i18n.format("UserNotAuthorized")); //$NON-NLS-1$
         }
+    }
+
+    /**
+     * Gets the query validator.
+     * 
+     * @return the query validator
+     */
+    public WorkflowQueryValidator getQueryValidator() {
+        return _queryValidator;
+    }
+
+    /**
+     * Gets the sramp client accessor.
+     * 
+     * @return the sramp client accessor
+     */
+    public SrampApiClientAccessor getSrampClientAccessor() {
+        return _srampClientAccessor;
+    }
+
+    /**
+     * Creates a query given the selected filters and search text.
+     * 
+     * @param filters
+     *            the filters
+     * @return the sramp client query
+     */
+    protected SrampClientQuery createQuery(WorkflowQueriesFilterBean filters) {
+        StringBuilder queryBuilder = new StringBuilder();
+        // Initial query
+
+        queryBuilder.append("/s-ramp/ext/DtgovWorkflowQuery"); //$NON-NLS-1$
+
+        List<String> criteria = new ArrayList<String>();
+        List<Object> params = new ArrayList<Object>();
+
+        if (filters != null && filters.getName() != null && filters.getName().trim().length() > 0) {
+            criteria.add("fn:matches(@name, ?)"); //$NON-NLS-1$
+            params.add(filters.getName().replace("*", ".*")); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+
+        if (filters != null && StringUtils.isNotBlank(filters.getWorkflow())) {
+            criteria.add("@workflow = ?"); //$NON-NLS-1$
+            params.add(filters.getWorkflow());
+        }
+
+        // Now create the query predicate from the generated criteria
+        if (criteria.size() > 0) {
+            queryBuilder.append("["); //$NON-NLS-1$
+            queryBuilder.append(StringUtils.join(criteria, " and ")); //$NON-NLS-1$
+            queryBuilder.append("]"); //$NON-NLS-1$
+        }
+
+        // Create the query, and parameterize it
+        SrampAtomApiClient client = _srampClientAccessor.getClient();
+        SrampClientQuery query = client.buildQuery(queryBuilder.toString());
+        for (Object param : params) {
+            if (param instanceof String) {
+                query.parameter((String) param);
+            }
+            if (param instanceof Calendar) {
+                query.parameter((Calendar) param);
+            }
+        }
+        query.propertyName("workflow"); //$NON-NLS-1$
+        query.propertyName("query"); //$NON-NLS-1$
+        return query;
     }
 
 }
