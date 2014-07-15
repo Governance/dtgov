@@ -52,38 +52,36 @@
             <p><a data-field="to-deploymentLifecycle-page" class="btn" href="deployments.html"><span data-i18n-key="deployments">Deployments</span> &raquo;</a></p>
          </div>
         </div>
+        
+        <!-- Anything inside this div is admin-only functionality -->
         <div id="admin-dash">
           <div class="row">
             <div class="span6">
-              <h2 data-i18n-key="nav.admin-queries">Admin Queries</h2>
+              <h2 data-i18n-key="nav.admin-queries">Workflow Queries</h2>
               <p data-i18n-key="nav.admin-queries-description">
-                Go here to administrate your governance queries. It will allow you to update, delete and create new 
-                queries to apply a workflow process.
+                Go here to manage your workflow trigger queries.  A workflow trigger query is an S-RAMP query used to find artifacts which should be governed by a particular governance workflow.
               </p>
               <p><a data-field="to-adminQueries-page" class="btn" href="workflowQueries.html"><span data-i18n-key="admin-queries">Admin Queries</span> &raquo;</a></p>
             </div>
             <div class="span6">
-            <h2 data-i18n-key="nav.targets">Manage Targets</h2>
+              <h2 data-i18n-key="nav.targets">Deployment Targets</h2>
               <p data-i18n-key="nav.targets-description">
-                Go here to administrate your governance targets endpoints. It will allow you to update, delete and create new 
-                targets.
+                Go here to manage your deployment targets.  Deployment targets provide a configurable mechanism to deploy artifacts to your runtime platform(s).
               </p>
-              <p><a data-field="to-targets-page" class="btn" href="targets.html"><span data-i18n-key="targets">Manage Targets</span> &raquo;</a></p>
-           </div>
+              <p><a data-field="to-targets-page" class="btn" href="targets.html"><span data-i18n-key="targets">Deployment Targets</span> &raquo;</a></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="span6">
+              <h2 data-i18n-key="nav.admin-processes">Workflows</h2>
+              <p data-i18n-key="nav.processes-description">
+                Go here to view and manage the workflows that are governing your artifacts.  You can view all workflow instances (past and present) and even stop one if it's not doing what you want!
+              </p>
+              <p><a data-field="to-processes-page" class="btn" href="processes.html"><span data-i18n-key="processes">Workflows</span> &raquo;</a></p>
+            </div>
           </div>
         </div>
 
-       <div class="row">
-          <div class="span6">
-            <h2 data-i18n-key="nav.admin-processes">Workflows</h2>
-            <p data-i18n-key="nav.processes-description">
-              Go here to view and manage the workflows that are governing your artifacts.  You can view all workflow instances (past and present) and even stop one if it's not doing what you want!
-            </p>
-            <p><a data-field="to-processes-page" class="btn" href="processes.html"><span data-i18n-key="processes">Workflows</span> &raquo;</a></p>
-          </div>
-          <div class="span6">
-          </div>
-        </div>
         <!-- Footer -->
         <footer>
           <hr />

@@ -79,10 +79,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
      * Instantiates a new workflow query service.
      */
     public WorkflowQueryService() {
-
     }
-
-
 
     /**
      * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#delete(java.lang.String)
@@ -118,8 +115,6 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         }
     }
 
-
-
     /**
      * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#save(org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean)
      */
@@ -154,7 +149,6 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         } else {
             throw new DtgovFormValidationException(errors);
         }
-
     }
 
     /**

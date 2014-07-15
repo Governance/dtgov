@@ -43,9 +43,9 @@ import org.overlord.sramp.common.SrampModelUtils;
  */
 public class WorkflowQueryFactory {
 
-    public static final String WORKFLOW_QUERY_WORKFLOW = "workflow";
-    public static final String WORKFLOW_QUERY_QUERY = "query";
-    public static final String WORKFLOW_QUERY_PROPS_PREFIX = "prop.";
+    public static final String WORKFLOW_QUERY_WORKFLOW = "workflow"; //$NON-NLS-1$
+    public static final String WORKFLOW_QUERY_QUERY = "query"; //$NON-NLS-1$
+    public static final String WORKFLOW_QUERY_PROPS_PREFIX = "prop."; //$NON-NLS-1$
 
     /**
      * To workflow query.

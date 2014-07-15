@@ -33,8 +33,6 @@ import org.overlord.sramp.client.SrampClientQuery;
 import org.overlord.sramp.client.query.ArtifactSummary;
 import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.common.SrampModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Clas with the necessary methods to access to the s-ramp workflow artifacts
@@ -42,8 +40,6 @@ import org.slf4j.LoggerFactory;
  * @author David Virgil Naranjo
  */
 public class WorkflowAccesor {
-
-    private static Logger _logger = LoggerFactory.getLogger(WorkflowAccesor.class);
 
     private final SrampAtomApiClient _client;
 
@@ -88,7 +84,7 @@ public class WorkflowAccesor {
         SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_ID, targetUUID);
         SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_NAME, targetName);
         if (parameters != null && parameters.size() > 0) {
-            SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_NUM_PARAMS, parameters.size() + "");
+            SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_NUM_PARAMS, parameters.size() + ""); //$NON-NLS-1$
             for (String param_key : parameters.keySet()) {
                 SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_PARAM_PREFIX + param_key, parameters.get(param_key));
             }
@@ -140,8 +136,8 @@ public class WorkflowAccesor {
      */
     public List<Long> getProcessIds(String targetUUID) throws SrampClientException, SrampAtomException {
         List<Long> processes = new ArrayList<Long>();
-        String query = "/s-ramp/ext/" + WorkflowConstants.WORKFLOW_EXTENDED_TYPE;
-        query += "[@" + WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_ID + "= ?]";
+        String query = "/s-ramp/ext/" + WorkflowConstants.WORKFLOW_EXTENDED_TYPE; //$NON-NLS-1$
+        query += "[@" + WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_ID + "= ?]"; //$NON-NLS-1$ //$NON-NLS-2$
         SrampClientQuery queryClient = _client.buildQuery(query);
         queryClient = queryClient.propertyName(WorkflowConstants.CUSTOM_PROPERTY_PROCESS_ID);
         queryClient=queryClient.parameter(targetUUID);
@@ -177,7 +173,7 @@ public class WorkflowAccesor {
             Map<String, String> parameters) throws SrampClientException, SrampAtomException {
         SrampClientQuery query = buildQuery(targetUUID, targetName, workflow, processInstanceId, null, parameters);
 
-        query = query.startIndex(0); //$NON-NLS-1$
+        query = query.startIndex(0);
         QueryResultSet resultSet = query.query();
         if (resultSet.size() > 0) {
             return true;
@@ -193,7 +189,7 @@ public class WorkflowAccesor {
      * @return the string
      */
     private String buildArtifactName(String targetName) {
-        return targetName + "_workflow";
+        return targetName + "_workflow"; //$NON-NLS-1$
     }
 
     /**
@@ -224,28 +220,28 @@ public class WorkflowAccesor {
         List<Object> params = new ArrayList<Object>();
         criteria.add("fn:matches(@name, ?)"); //$NON-NLS-1$
         params.add(buildArtifactName(targetName));
-        criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_ID + "= ?"); //$NON-NLS-1$
+        criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_ID + "= ?"); //$NON-NLS-1$ //$NON-NLS-2$
         params.add(targetUUID);
-        criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_NAME + "= ?"); //$NON-NLS-1$
+        criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_NAME + "= ?"); //$NON-NLS-1$ //$NON-NLS-2$
         params.add(targetName);
         if (StringUtils.isNotBlank(workflow)) {
-            criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_WORKFLOW + "= ?"); //$NON-NLS-1$
+            criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_WORKFLOW + "= ?"); //$NON-NLS-1$ //$NON-NLS-2$
             params.add(workflow);
         }
         if (StringUtils.isNotBlank(processInstanceId)) {
-            criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_PROCESS_ID + "= ?"); //$NON-NLS-1$
+            criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_PROCESS_ID + "= ?"); //$NON-NLS-1$ //$NON-NLS-2$
             params.add(processInstanceId);
         }
         if (status != null) {
-            criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_STATUS + "= ?"); //$NON-NLS-1$
+            criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_STATUS + "= ?"); //$NON-NLS-1$ //$NON-NLS-2$
             params.add(status.name());
         }
         if (parameters != null && parameters.size() > 0) {
-            criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_NUM_PARAMS + "= ?"); //$NON-NLS-1$
-            params.add(parameters.size() + "");
+            criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_NUM_PARAMS + "= ?"); //$NON-NLS-1$ //$NON-NLS-2$
+            params.add(parameters.size() + ""); //$NON-NLS-1$
 
             for (String param_key : parameters.keySet()) {
-                criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_PARAM_PREFIX+param_key + "= ?"); //$NON-NLS-1$
+                criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_PARAM_PREFIX+param_key + "= ?"); //$NON-NLS-1$ //$NON-NLS-2$
                 params.add(parameters.get(param_key));
             }
         }

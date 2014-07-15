@@ -287,7 +287,8 @@ footer hr {
   padding-bottom: 10px;
 }
 
-.tasks-none, .tasks-searching, .deployments-none, .deployments-searching, .queries-none, .queries-searching, .targets-none, .targets-searching {
+.tasks-none, .tasks-searching, .deployments-none, .deployments-searching, .queries-none, .queries-searching, 
+.targets-none, .targets-searching, .processes-none, .processes-searching {
     float: left;
     width: 100%;
     background-color: white;
@@ -303,7 +304,7 @@ footer hr {
     float: left;
     background-position: 16px 11px;
 }
-.tasks-none span, .deployments-none span, .queries-none span, .targets-none span {
+.tasks-none span, .deployments-none span, .queries-none span, .targets-none span, .processes-none span {
     padding: 10px;
     float: left;
     font-style: italic;
@@ -754,5 +755,7 @@ div.task-form label.checkbox, div.task-form label.radio {
 }
 
 #admin-dash {
+  border-top: 1px solid rgb(187, 187, 187);
   margin-top: 15px;
+  padding-top: 15px;
 }

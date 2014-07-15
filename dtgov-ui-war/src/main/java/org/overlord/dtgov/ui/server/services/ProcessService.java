@@ -58,26 +58,21 @@ public class ProcessService implements IProcessService {
     @Inject
     private DtGovClientAccessor _dtgovClientAccessor;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.overlord.dtgov.ui.client.shared.services.IProcessService#search(org
-     * .overlord.dtgov.ui.client.shared.beans.ProcessesFilterBean, int,
-     * java.lang.String, boolean)
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.IProcessService#search(org.overlord.dtgov.ui.client.shared.beans.ProcessesFilterBean, int, java.lang.String, boolean)
      */
     @Override
     public ProcessesResultSetBean search(ProcessesFilterBean filters, int page, String sortColumnId, boolean sortAscending) throws DtgovUiException {
         int pageSize = PAGE_SIZE;
-            int req_startIndex = (page - 1) * pageSize;
-            SrampClientQuery query = null;
-            query = createQuery(filters);
-            SrampClientQuery scq = query.startIndex(req_startIndex).orderBy(sortColumnId);
-            if (sortAscending) {
-                scq = scq.ascending();
-            } else {
-                scq = scq.descending();
-            }
+        int req_startIndex = (page - 1) * pageSize;
+        SrampClientQuery query = null;
+        query = createQuery(filters);
+        SrampClientQuery scq = query.startIndex(req_startIndex).orderBy(sortColumnId);
+        if (sortAscending) {
+            scq = scq.ascending();
+        } else {
+            scq = scq.descending();
+        }
         QueryResultSet resultSet = null;
         try {
             resultSet = scq.count(pageSize + 1).query();
@@ -119,12 +114,8 @@ public class ProcessService implements IProcessService {
         return bean;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.overlord.dtgov.ui.client.shared.services.IProcessService#abort(java
-     * .lang.String)
+    /**
+     * @see org.overlord.dtgov.ui.client.shared.services.IProcessService#abort(java.lang.String)
      */
     @Override
     public boolean abort(String uuid) throws DtgovUiException {
@@ -142,8 +133,6 @@ public class ProcessService implements IProcessService {
             IDtgovClient client = _dtgovClientAccessor.getClient();
             try {
                 client.stopProcess(targetUUID, new Long(processId));
-            } catch (NumberFormatException e) {
-                throw new DtgovUiException("The process Id introduced is not a long type");
             } catch (Exception e) {
                 throw new DtgovUiException(e);
             }
@@ -171,17 +160,17 @@ public class ProcessService implements IProcessService {
         if (filters != null) {
             List<String> criteria = new ArrayList<String>();
             if (filters.getArtifact() != null && filters.getArtifact().trim().length() > 0) {
-                criteria.add("fn:matches(@" + WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_NAME + ", ?)"); //$NON-NLS-1$
+                criteria.add("fn:matches(@" + WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_NAME + ", ?)"); //$NON-NLS-1$ //$NON-NLS-2$
                 params.add(filters.getArtifact().replace("*", ".*")); //$NON-NLS-1$ //$NON-NLS-2$
             }
 
             if (StringUtils.isNotBlank(filters.getWorkflow())) {
-                criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_WORKFLOW + " = ?"); //$NON-NLS-1$
+                criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_WORKFLOW + " = ?"); //$NON-NLS-1$ //$NON-NLS-2$
                 params.add(filters.getWorkflow());
             }
 
             if (filters.getStatus() != null) {
-                criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_STATUS + " = ?"); //$NON-NLS-1$
+                criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_STATUS + " = ?"); //$NON-NLS-1$ //$NON-NLS-2$
                 params.add(filters.getStatus().name());
             }
 

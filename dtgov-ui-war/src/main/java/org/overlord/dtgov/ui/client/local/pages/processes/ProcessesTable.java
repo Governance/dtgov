@@ -120,7 +120,7 @@ public class ProcessesTable extends SortableTemplatedWidgetTable implements HasV
         artifact_name.setText(processBean.getArtifactName());
         String url = srampUIBaseUrl;
         if (!url.endsWith("/")) { //$NON-NLS-1$
-            url += "/";
+            url += "/"; //$NON-NLS-1$
         }
         url += "#details;uuid=" + processBean.getArtifactId(); //$NON-NLS-1$
         artifact_name.setHref(url);

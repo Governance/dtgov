@@ -90,12 +90,12 @@ public class WorkflowEventListener implements ProcessEventListener {
         long processId = event.getProcessInstance().getId();
         SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
         String queryStr = "/s-ramp/ext/" + WorkflowConstants.WORKFLOW_EXTENDED_TYPE; //$NON-NLS-1$
-        queryStr += "[";
-        queryStr += "@" + WorkflowConstants.CUSTOM_PROPERTY_PROCESS_ID + " = ? and ";
-        queryStr += "@" + WorkflowConstants.CUSTOM_PROPERTY_STATUS + " = ?";
-        queryStr += "]";
+        queryStr += "["; //$NON-NLS-1$
+        queryStr += "@" + WorkflowConstants.CUSTOM_PROPERTY_PROCESS_ID + " = ? and "; //$NON-NLS-1$ //$NON-NLS-2$
+        queryStr += "@" + WorkflowConstants.CUSTOM_PROPERTY_STATUS + " = ?"; //$NON-NLS-1$ //$NON-NLS-2$
+        queryStr += "]"; //$NON-NLS-1$
         SrampClientQuery query = client.buildQuery(queryStr);
-        query.parameter(processId + "");
+        query.parameter(processId + ""); //$NON-NLS-1$
         query.parameter(WorkflowStatusEnum.RUNNING.name());
         QueryResultSet resultSet = null;
         try {

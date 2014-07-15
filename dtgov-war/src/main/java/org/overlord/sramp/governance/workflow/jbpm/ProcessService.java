@@ -99,9 +99,9 @@ public class ProcessService {
     public String list() throws Exception {
         Collection<ProcessInstanceDesc> processes = processBean.listProcessInstances();
         if (processes == null) {
-            return "0";
+            return "0"; //$NON-NLS-1$
         } else {
-            return processes.size() + "";
+            return processes.size() + ""; //$NON-NLS-1$
         }
     }
 

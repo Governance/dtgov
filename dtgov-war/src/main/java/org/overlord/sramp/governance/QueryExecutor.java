@@ -107,7 +107,7 @@ public class QueryExecutor {
                             parameters.put("ArtifactType", artifactSummary.getType().getType()); //$NON-NLS-1$
                             long processInstanceId = bpmManager.newProcessInstance(deploymentId, query.getWorkflowId(), parameters);
 
-                            workflowAccesor.save(artifactSummary.getUuid(), artifactSummary.getName(), query.getWorkflowId(), processInstanceId + "",
+                            workflowAccesor.save(artifactSummary.getUuid(), artifactSummary.getName(), query.getWorkflowId(), processInstanceId + "", //$NON-NLS-1$
                                     query.getParameters());
                         }
                     }
