@@ -19,7 +19,7 @@
     <echo message=" " />
     <echo message="##############################################" />
     <echo message="# Running the Overlord:DTGov installer. This #" />
-    <echo message="# will install DTGov into JBoss EAP 6.     #" />
+    <echo message="# will install DTGov into JBoss EAP 6. #" />
     <echo message="##############################################" />
    <echo message=" " />
 
@@ -39,9 +39,9 @@
     <echo>----------------------------------</echo>
     <echo>Deploying DTGov and DTGov UI</echo>
     <echo>----------------------------------</echo>
-    <copy file="${dtgov.dtgov-war.path}" 
+    <copy file="${dtgov.dtgov-war.path}"
           tofile="${dtgov.jboss.deploy.dir}/dtgov.war" overwrite="true" />
-    <copy file="${dtgov.dtgov-ui.path}" 
+    <copy file="${dtgov.dtgov-ui.path}"
           tofile="${dtgov.jboss.deploy.dir}/dtgov-ui.war" overwrite="true" />
     
     <echo>----------------------------------</echo>
@@ -127,7 +127,7 @@ sramp.repo.user=dtgovworkflow
 sramp.repo.password=$${vault:${dtgov.users.workflow.password.hash}}
 
 # Overlord governance credentials
-#  (used by the workflows to invoke DTGov services)
+# (used by the workflows to invoke DTGov services)
 governance.user=dtgovworkflow
 governance.password=$${vault:${dtgov.users.workflow.password.hash}}
     </concat>
@@ -140,7 +140,7 @@ governance.password=$${vault:${dtgov.users.workflow.password.hash}}
       <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.saml-keystore.password.hash}}" />
       <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />
       <entry key="dtgov-ui.dtgov-api.authentication.saml.keystore-password" value="$${vault:${overlord-commons.saml-keystore.password.hash}}" />
-      <entry key="dtgov-ui.dtgov-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />    
+      <entry key="dtgov-ui.dtgov-api.authentication.saml.key-password" value="$${vault:${overlord-commons.overlord-alias.password.hash}}" />
     </propertyfile>
 
     <echo message=" " />
@@ -153,9 +153,9 @@ governance.password=$${vault:${dtgov.users.workflow.password.hash}}
   <scriptdef name="genguid" language="javascript">
       <attribute name="property" />
       <![CDATA[
-      importClass( java.util.UUID );
-      project.setProperty( attributes.get( "property" ), UUID.randomUUID() );
-      ]]>
+importClass( java.util.UUID );
+project.setProperty( attributes.get( "property" ), UUID.randomUUID() );
+]]>
   </scriptdef>
 
 </project>

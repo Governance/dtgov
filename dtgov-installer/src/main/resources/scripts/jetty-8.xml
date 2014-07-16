@@ -77,7 +77,7 @@
     <ant antfile="build.xml" 
          dir="${dtgov.overlord-commons.installer.dir}"  inheritall="true"
          target="install" />
-
+  	
     <echo>----------------------------------</echo>
     <echo>Deploying DTGov and DTGov UI</echo>
     <echo>----------------------------------</echo>
@@ -127,16 +127,17 @@ governance.password=${dtgov.users.workflow.password}
     <property file="${dtgov.jetty.config.dir}/overlord-vault-keys.properties" />
     <propertyfile file="${dtgov.jetty.config.dir}/dtgov-ui.properties">
       <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore" value="${sys:jetty.home}/etc/overlord-saml.keystore" />
-      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore-password" value="samlkeystore77" />
-      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.key-password" value="overlord99" />
+      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.keystore-password" value="${overlord.auth.saml-keystore-password}" />
+      <entry key="dtgov-ui.s-ramp.atom-api.authentication.saml.key-password" value="${overlord.auth.saml-key-alias-password}" />
       <entry key="dtgov-ui.task-api.authentication.saml.keystore" value="${sys:jetty.home}/etc/overlord-saml.keystore" />
-      <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="samlkeystore77" />
-      <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="overlord99" />
+      <entry key="dtgov-ui.task-api.authentication.saml.keystore-password" value="${overlord.auth.saml-keystore-password}" />
+      <entry key="dtgov-ui.task-api.authentication.saml.key-password" value="${overlord.auth.saml-key-alias-password}" />
       <entry key="dtgov-ui.dtgov-api.authentication.saml.keystore" value="${sys:jetty.home}/etc/overlord-saml.keystore" />
-      <entry key="dtgov-ui.dtgov-api.authentication.saml.keystore-password" value="samlkeystore77" />
-      <entry key="dtgov-ui.dtgov-api.authentication.saml.key-password" value="overlord99" />    	
+      <entry key="dtgov-ui.dtgov-api.authentication.saml.keystore-password" value="${overlord.auth.saml-keystore-password}" />
+      <entry key="dtgov-ui.dtgov-api.authentication.saml.key-password" value="${overlord.auth.saml-key-alias-password}" />    	
     </propertyfile>
-
+    	
+  	
     <echo message=" " />
     <echo message="########" />
     <echo message="# DONE #" />
