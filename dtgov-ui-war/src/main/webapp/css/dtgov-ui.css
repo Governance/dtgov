@@ -297,7 +297,7 @@ footer hr {
     border-bottom: 1px solid rgb(211, 211, 211);
     margin-bottom: 20px;
 }
-.tasks-searching span, .deployments-searching span, .queries-searching span {
+.tasks-searching span, .deployments-searching span, .queries-searching span, .processes-searching span {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 36px;
