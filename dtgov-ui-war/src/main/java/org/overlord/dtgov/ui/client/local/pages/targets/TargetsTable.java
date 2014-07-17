@@ -95,6 +95,7 @@ public class TargetsTable extends TemplatedWidgetTable implements HasValue<List<
         editAction.setStyleName("target-icon", true); //$NON-NLS-1$
         editAction.setStyleName("target-edit-icon", true); //$NON-NLS-1$
         editAction.setStyleName("firstAction", true); //$NON-NLS-1$
+        editAction.setTitle(i18n.format("edit")); //$NON-NLS-1$
 
         editTarget.getElement().appendChild(editAction.getElement());
         actions.add(editTarget);
@@ -102,6 +103,7 @@ public class TargetsTable extends TemplatedWidgetTable implements HasValue<List<
         InlineLabel deleteAction = new InlineLabel();
         deleteAction.setStyleName("target-icon", true); //$NON-NLS-1$
         deleteAction.setStyleName("target-delete-icon", true); //$NON-NLS-1$
+        deleteAction.setTitle(i18n.format("delete")); //$NON-NLS-1$
         actions.add(deleteAction);
 
         deleteAction.addClickHandler(new ClickHandler() {

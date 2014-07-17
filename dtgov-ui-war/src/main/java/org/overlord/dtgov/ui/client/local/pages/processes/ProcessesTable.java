@@ -133,6 +133,7 @@ public class ProcessesTable extends SortableTemplatedWidgetTable implements HasV
             InlineLabel stopAction = new InlineLabel();
             stopAction.setStyleName("process-icon", true); //$NON-NLS-1$
             stopAction.setStyleName("process-abort-icon", true); //$NON-NLS-1$
+            stopAction.setTitle(_i18n.format("abort")); //$NON-NLS-1$
             actions.add(stopAction);
             stopAction.addClickHandler(new ClickHandler() {
 

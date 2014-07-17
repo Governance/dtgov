@@ -136,6 +136,7 @@ public class WorkflowQueryTable extends SortableTemplatedWidgetTable {
         editAction.setStyleName("workflow-icon", true); //$NON-NLS-1$
         editAction.setStyleName("workflow-edit-icon", true); //$NON-NLS-1$
         editAction.setStyleName("firstAction", true); //$NON-NLS-1$
+        editAction.setTitle(_i18n.format("edit")); //$NON-NLS-1$
 
         editQuery.getElement().appendChild(editAction.getElement());
         actions.add(editQuery);
@@ -143,6 +144,7 @@ public class WorkflowQueryTable extends SortableTemplatedWidgetTable {
         InlineLabel deleteAction = new InlineLabel();
         deleteAction.setStyleName("workflow-icon", true); //$NON-NLS-1$
         deleteAction.setStyleName("workflow-delete-icon", true); //$NON-NLS-1$
+        deleteAction.setTitle(_i18n.format("delete")); //$NON-NLS-1$
         actions.add(deleteAction);
 
         deleteAction.addClickHandler(new ClickHandler() {

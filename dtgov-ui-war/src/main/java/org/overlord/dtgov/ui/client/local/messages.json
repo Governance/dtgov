@@ -3,6 +3,9 @@
   "date-format" : "MM/dd/yyyy",
   "time-format" : "h:mma",
   "any" : "Any",
+  "edit" : "Edit",
+  "delete" : "Delete",
+  "abort" : "Abort",
   
   "deployment-contents.error-expanding" : "Error Getting Expanded Artifacts",
   "deployment-details.updating-deployment" : "Updating Deployment",
