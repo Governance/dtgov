@@ -569,21 +569,52 @@ div.task-form label.checkbox, div.task-form label.radio {
 }
 
 
-.target-icon, .process-icon, .workflow-icon{
+.target-icon, .process-icon, .workflow-icon {
 	background-repeat: no-repeat;
- 	padding-left: 25px;
-   	padding-bottom: 5px;
+	display: block;
+	float: left;
+	margin-top: 5px;
+	width: 16px;
+	height: 16px;
 }
 
-.workflow-edit-icon {
-  background-image: url(../images/event-edit.png) !important;
-}
-
-.workflow-delete-icon {
-  background-image: url(../images/event-delete.png) !important;
+.workflow-edit-icon, .target-edit-icon {
+  background-image: url(../images/action-edit.png) !important;
   cursor: pointer;
   text-decoration: none;
 }
+
+.workflow-delete-icon, .target-delete-icon {
+  background-image: url(../images/action-delete.png) !important;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.process-abort-icon {
+  background-image: url(../images/action-stop.png) !important;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.processes-table .actions {
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+}
+
+.processes-table .actions .firstAction {
+    margin-right: 10px;
+}
+
+.targets-table .actions {
+    margin: 0px;
+    padding: 0px;
+}
+
+.targets-table .actions .firstAction {
+    margin-right: 10px;
+}
+
 
 .queries-table .actions, .targets-table .actions, .processes-table .actions {
 	margin: 0px;
@@ -707,51 +738,13 @@ div.task-form label.checkbox, div.task-form label.radio {
   overflow: hidden;
 }
 
-
-.target-edit-icon {
-  background-image: url(../images/event-edit.png) !important;
-}
-
-.target-delete-icon {
-  background-image: url(../images/event-delete.png) !important;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.targets-table .actions{
-	margin:0px;
-	padding: 0px;
-}
-
-.targets-table .actions .firstAction{
-	margin-right: 10px;
-}
-
-.target-details-form .target-details .control-group .radio{
+.target-details-form .target-details .control-group .radio {
 	display: inline-flex;
 	margin-left: 25px;
 }
 
-.target-details-form .target-details .control-group .radio .yes{
+.target-details-form .target-details .control-group .radio .yes {
 	margin-right: 40px;	
-}
-
-
-.process-abort-icon {
-  background-image: url(../images/event-stop.png) !important;
-  cursor: pointer;
-  text-decoration: none;
-  background-size:20px;
-}
-
-.processes-table .actions{
-	margin:0px;
-	padding: 0px;
-	text-align: center;
-}
-
-.processes-table .actions .firstAction{
-	margin-right: 10px;
 }
 
 #admin-dash {
