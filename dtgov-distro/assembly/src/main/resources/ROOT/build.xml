@@ -96,6 +96,7 @@
       <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-${overlord-commons.version}.jar" />
       <property name="overlord-commons.ant.jar" location="${dtgov-distro.overlord-commons-ant.jar}" />
       <property name="overlord-commons.idp.file" value="${dtgov-distro.bindir}/overlord-commons-idp-eap6-${overlord-commons.version}.war" />
+      <property name="overlord-commons.eap-dist.file" value="${dtgov-distro.bindir}/overlord-commons-dist-eap6-${overlord-commons.version}.zip" />
       <property name="overlord-commons.auth.jboss7.file" location="${dtgov-distro.bindir}/overlord-commons-auth-jboss7-${overlord-commons.version}.jar" />
       <property name="dtgov.dtgov-war.path" location="${dtgov-distro.bindir}/dtgov-war-eap6-${dtgov.version}.war" />
       <property name="dtgov.dtgov-ui.path" location="${dtgov-distro.bindir}/dtgov-ui-war-eap6-${dtgov.version}.war" />
