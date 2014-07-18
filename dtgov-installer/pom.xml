@@ -203,12 +203,15 @@
                     <delete dir="${dtgov.temp-installer-dir}" />
                     <mkdir dir="${dtgov.temp-installer-dir}" />
                     <copy todir="${dtgov.temp-installer-dir}">
-                      <fileset dir="${project.build.directory}/classes" />
+                      <fileset dir="${basedir}/src/main/resources" />
                     </copy>
-                    <!-- replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties" value="${project.version}">
-                      <replacetoken><![CDATA[${project.version}]]></replacetoken>
-                    </replace> -->
-                    
+                    <copy todir="${dtgov.temp-installer-dir}">
+                      <fileset dir="${project.build.directory}/classes">
+                        <include name="**/updates/*.*"/>
+                        <include name="**/xslt/*.*"/>
+                      </fileset>
+                    </copy>
+
                     <property name="overlord-commons.ant.jar" location="${dtgov-overlord-commons.ant.jar.path}" />
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
                       <target name="install" />
@@ -270,8 +273,6 @@
                     <property name="overlord-commons.services.file" value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
                     <property name="overlord-commons.auth.file" value="${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
                     <property name="overlord-commons.auth.tomcat7.file" value="${maven.dependency.org.overlord.overlord-commons-auth-tomcat7.jar.path}" />
-					
-					
 
                     <!-- DTGov WARs -->
                     <property name="dtgov.dtgov-war-tc7.path" value="${maven.dependency.org.overlord.dtgov.dtgov-war-tomcat7.war.path}" />
@@ -291,21 +292,11 @@
                       <fileset dir="${basedir}/src/main/resources" />
                     </copy>
                     <copy todir="${dtgov.temp-installer-dir}">
-                      <fileset dir="${basedir}/src/main/resources-filtered" />
+                      <fileset dir="${project.build.directory}/classes">
+                        <include name="**/updates/*.*"/>
+                        <include name="**/xslt/*.*"/>
+                      </fileset>
                     </copy>
-                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties">
-                      <replacetoken><![CDATA[dtgov.workflows.version]]></replacetoken>
-                      <replacevalue><![CDATA[#dtgov.workflows.version]]></replacevalue>
-                    </replace>
-                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties">
-                      <replacetoken><![CDATA[dtgov-ui.workflows.version]]></replacetoken>
-                      <replacevalue><![CDATA[#dtgov-ui.workflows.version]]></replacevalue>
-                    </replace>
-                    <concat destfile="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties" append="true">
-
-# Version
-dtgov-ui.workflows.version=${project.version}
-                    </concat>
 
 					<property name="overlord-commons.ant.jar" location="${dtgov-overlord-commons.ant.jar.path}" />
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
@@ -386,21 +377,11 @@ dtgov-ui.workflows.version=${project.version}
                       <fileset dir="${basedir}/src/main/resources" />
                     </copy>
                     <copy todir="${dtgov.temp-installer-dir}">
-                      <fileset dir="${basedir}/src/main/resources-filtered" />
+                      <fileset dir="${project.build.directory}/classes">
+                        <include name="**/updates/*.*"/>
+                        <include name="**/xslt/*.*"/>
+                      </fileset>
                     </copy>
-                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties">
-                      <replacetoken><![CDATA[dtgov.workflows.version]]></replacetoken>
-                      <replacevalue><![CDATA[#dtgov.workflows.version]]></replacevalue>
-                    </replace>
-                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties">
-                      <replacetoken><![CDATA[dtgov-ui.workflows.version]]></replacetoken>
-                      <replacevalue><![CDATA[#dtgov-ui.workflows.version]]></replacevalue>
-                    </replace>
-                    <concat destfile="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties" append="true">
-
-# Version
-dtgov-ui.workflows.version=${project.version}
-                    </concat>
 
 					<property name="overlord-commons.ant.jar" location="${dtgov-overlord-commons.ant.jar.path}" />
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
@@ -468,20 +449,11 @@ dtgov-ui.workflows.version=${project.version}
                       <fileset dir="${basedir}/src/main/resources" />
                     </copy>
                     <copy todir="${dtgov.temp-installer-dir}">
-                      <fileset dir="${basedir}/src/main/resources-filtered" />
+                      <fileset dir="${project.build.directory}/classes">
+                        <include name="**/updates/*.*"/>
+                        <include name="**/xslt/*.*"/>
+                      </fileset>
                     </copy>
-                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov.properties">
-                      <replacetoken><![CDATA[dtgov.workflows.version]]></replacetoken>
-                      <replacevalue><![CDATA[#dtgov.workflows.version]]></replacevalue>
-                    </replace>
-                    <replace file="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties">
-                      <replacetoken><![CDATA[dtgov-ui.workflows.version]]></replacetoken>
-                      <replacevalue><![CDATA[#dtgov-ui.workflows.version]]></replacevalue>
-                    </replace>
-                    <concat destfile="${dtgov.temp-installer-dir}/updates/dtgov-ui.properties" append="true">
-# Version
-dtgov-ui.workflows.version=${project.version}
-                    </concat>
 
                     <property name="overlord-commons.ant.jar" location="${dtgov-overlord-commons.ant.jar.path}" />
                     <ant dir="${dtgov.temp-installer-dir}" antfile="${dtgov.temp-installer-dir}/build.xml">
