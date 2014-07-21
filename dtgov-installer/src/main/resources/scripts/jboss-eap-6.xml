@@ -9,10 +9,12 @@
     <property name="dtgov.overlord-commons.installer.jar" location="overlord-commons-installer.jar" />
     <property name="dtgov.overlord-commons.installer.dir" location="${dtgov.install.dir}/overlord-commons-installer" />
     
-    <property name="dtgov.jboss.deploy.dir" location="${dtgov.appserver.dir}/standalone/deployments/" />
     <property name="dtgov.jboss.config.dir" location="${dtgov.appserver.dir}/standalone/configuration/" />
     <property name="dtgov.dtgov-war.path" location="bin/dtgov-war-eap6-${dtgov.version}.war" />
     <property name="dtgov.dtgov-ui.path" location="bin/dtgov-ui-war-eap6-${dtgov.version}.war" />
+
+    <property name="dtgov.jboss.module.path" location="${dtgov.appserver.dir}/modules" />
+    <property name="dtgov.jboss.deployments.dir" location="${dtgov.jboss.module.path}/org/overlord/dtgov/eap/deployments/main" />
   </target>
 
   <!-- Install DTGov -->
@@ -40,10 +42,12 @@
     <echo>----------------------------------</echo>
     <echo>Deploying DTGov and DTGov UI</echo>
     <echo>----------------------------------</echo>
+    <copy file="${dtgov.updates.dir}/deployments-module.xml"
+          tofile="${dtgov.jboss.deployments.dir}/module.xml" overwrite="true" />
     <copy file="${dtgov.dtgov-war.path}"
-          tofile="${dtgov.jboss.deploy.dir}/dtgov.war" overwrite="true" />
+          tofile="${dtgov.jboss.deployments.dir}/dtgov.war" overwrite="true" />
     <copy file="${dtgov.dtgov-ui.path}"
-          tofile="${dtgov.jboss.deploy.dir}/dtgov-ui.war" overwrite="true" />
+          tofile="${dtgov.jboss.deployments.dir}/dtgov-ui.war" overwrite="true" />
     
     <echo>----------------------------------</echo>
     <echo>Configuring Overlord Apps</echo>
@@ -52,7 +56,7 @@
     <property name="dtgov.vault.password" value="vault22" />
     <property name="dtgov.tmp.file" location="${dtgov.install.dir}/_tmp_vault.properties" />
     
-    <copy file="${dtgov.updates.dir}/dtgov-ds.xml" todir="${dtgov.jboss.deploy.dir}" overwrite="false" />
+    <copy file="${dtgov.updates.dir}/dtgov-ds.xml" todir="${dtgov.jboss.deployments.dir}" overwrite="false" />
 
     <!-- Create DTGov workflow user -->
     <genguid property="dtgov.users.workflow.password" />
@@ -143,6 +147,12 @@ project.setProperty( attributes.get( "property" ), UUID.randomUUID() );
         out="${dtgov.install.dir}/_tmp_standalone-ms.xml">
         <param name="workflow-user-password" expression="${dtgov.users.workflow.password.hash}"/>
       </xslt>
+      <copy file="${dtgov.install.dir}/_tmp_standalone-ms.xml" tofile="@{config}" overwrite="true" />
+      <delete file="${dtgov.install.dir}/_tmp_standalone-ms.xml" />
+      <xslt
+        style="${dtgov.xslt.dir}/addDeployments-${appserver.id}.xslt"
+        in="@{config}"
+        out="${dtgov.install.dir}/_tmp_standalone-ms.xml" />
       <copy file="${dtgov.install.dir}/_tmp_standalone-ms.xml" tofile="@{config}" overwrite="true" />
       <delete file="${dtgov.install.dir}/_tmp_standalone-ms.xml" />
     </sequential>

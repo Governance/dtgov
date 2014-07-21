@@ -15,19 +15,19 @@
     <xsl:element name="properties" namespace="{$currentNS}">
       <xsl:apply-templates select="./node()|./text()" />
       <xsl:element name="property" namespace="urn:jboss:domain:overlord-configuration:1.0">
-        <xsl:attribute name="name">overlord.headerui.apps.dtgov-ui.href</xsl:attribute>
+        <xsl:attribute name="name">overlord.headerui.apps.dtgov.href</xsl:attribute>
         <xsl:attribute name="value">/dtgov-ui/</xsl:attribute>
       </xsl:element>
       <xsl:element name="property" namespace="urn:jboss:domain:overlord-configuration:1.0">
-        <xsl:attribute name="name">overlord.headerui.apps.dtgov-ui.label</xsl:attribute>
+        <xsl:attribute name="name">overlord.headerui.apps.dtgov.label</xsl:attribute>
         <xsl:attribute name="value">Design Time</xsl:attribute>
       </xsl:element>
       <xsl:element name="property" namespace="urn:jboss:domain:overlord-configuration:1.0">
-        <xsl:attribute name="name">overlord.headerui.apps.dtgov-ui.primary-brand</xsl:attribute>
+        <xsl:attribute name="name">overlord.headerui.apps.dtgov.primary-brand</xsl:attribute>
         <xsl:attribute name="value">JBoss Overlord</xsl:attribute>
       </xsl:element>
       <xsl:element name="property" namespace="urn:jboss:domain:overlord-configuration:1.0">
-        <xsl:attribute name="name">overlord.headerui.apps.dtgov-ui.secondary-brand</xsl:attribute>
+        <xsl:attribute name="name">overlord.headerui.apps.dtgov.secondary-brand</xsl:attribute>
         <xsl:attribute name="value">Governance</xsl:attribute>
       </xsl:element>
     </xsl:element>
