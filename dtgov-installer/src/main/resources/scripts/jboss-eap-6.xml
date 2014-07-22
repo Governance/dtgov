@@ -10,6 +10,7 @@
     <property name="dtgov.overlord-commons.installer.dir" location="${dtgov.install.dir}/overlord-commons-installer" />
     
     <property name="dtgov.jboss.config.dir" location="${dtgov.appserver.dir}/standalone/configuration/" />
+    <property name="dtgov.jboss.domain-config.dir" location="${dtgov.appserver.dir}/domain/configuration/" />
     <property name="dtgov.dtgov-war.path" location="bin/dtgov-war-eap6-${dtgov.version}.war" />
     <property name="dtgov.dtgov-ui.path" location="bin/dtgov-ui-war-eap6-${dtgov.version}.war" />
 
@@ -120,6 +121,7 @@
     <transformConfig config="${dtgov.jboss.config.dir}/standalone-full.xml" />
     <transformConfig config="${dtgov.jboss.config.dir}/standalone-full-ha.xml" />
     <transformConfig config="${dtgov.jboss.config.dir}/standalone-ha.xml" />
+    <transformConfig config="${dtgov.jboss.domain-config.dir}/domain.xml" />
 
     <echo message=" " />
     <echo message="########" />
