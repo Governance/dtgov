@@ -29,9 +29,6 @@
     <property name="overlord-commons.install.dir" location="${dtgov.install.dir}" />
     <property name="overlord-commons.appserver.dir" location="${dtgov.appserver.dir}" />
     
-    <echo message="INSTALL DIR: ${overlord-commons.install.dir}" />
-    <echo message="APPSERVER DIR: ${overlord-commons.appserver.dir}" />
-    
     <ant antfile="build.xml" 
          dir="${dtgov.overlord-commons.installer.dir}"  inheritall="true"
          target="install" />
