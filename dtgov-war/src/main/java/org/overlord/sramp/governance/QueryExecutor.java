@@ -23,6 +23,7 @@ import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Property;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Relationship;
@@ -91,8 +92,15 @@ public class QueryExecutor {
                                         "QueryExecutor.ExistingWorkflowError", //$NON-NLS-1$
                                         artifactSummary.getUuid(), query.getWorkflowId(), query.getParameters()));
                         } else {
+                            // Create the workflow artifact in s-ramp - if this fails then we should *not* create the process instance
+                            String hashGuid = createWorkflowArtifactGuid(artifactSummary.getUuid(), query.getWorkflowId());
+                            BaseArtifactType workflowArtifact = workflowAccesor.save(hashGuid, artifactSummary.getUuid(),
+                                    artifactSummary.getName(), query.getWorkflowId(), query.getParameters());
+
+                            // Get the full meta-data for the artifact being governed
                             BaseArtifactType artifact = client.getArtifactMetaData(artifactSummary.getType(), artifactSummary.getUuid());
-                            // start workflow for this artifact
+
+                            // Start a new workflow instance for this artifact
                         	logger.info(Messages.i18n.format("QueryExecutor.StartingWorkflow", query.getWorkflowId(), artifact.getUuid())); //$NON-NLS-1$
                             Map<String,Object> parameters = query.getParsedParameters();
                             parameters.put("ArtifactUuid", artifact.getUuid()); //$NON-NLS-1$
@@ -106,9 +114,9 @@ public class QueryExecutor {
                             parameters.put("ArtifactLastModifiedTimestamp", artifact.getLastModifiedTimestamp().toGregorianCalendar()); //$NON-NLS-1$
                             parameters.put("ArtifactType", artifactSummary.getType().getType()); //$NON-NLS-1$
                             long processInstanceId = bpmManager.newProcessInstance(deploymentId, query.getWorkflowId(), parameters);
-
-                            workflowAccesor.save(artifactSummary.getUuid(), artifactSummary.getName(), query.getWorkflowId(), processInstanceId + "", //$NON-NLS-1$
-                                    query.getParameters());
+                            
+                            // Update the workflow artifact with the process instance ID
+                            workflowAccesor.update(workflowArtifact, processInstanceId);
                         }
                     }
                 }
@@ -158,6 +166,15 @@ public class QueryExecutor {
         }
     }
 
-
+    /**
+     * Creates a unique GUID for the workflow artifact by using SHA1 to create a hash
+     * of the target artifact's UUID and the ID of the workflow being created.
+     * @param uuid
+     * @param workflowId
+     */
+    private static String createWorkflowArtifactGuid(String uuid, String workflowId) {
+        String value = uuid + "||" + workflowId; //$NON-NLS-1$
+        return DigestUtils.shaHex(value);
+    }
 
 }
