@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.overlord.dtgov</groupId>
@@ -80,7 +81,7 @@
       <groupId>org.overlord</groupId>
       <artifactId>overlord-commons-auth</artifactId>
     </dependency>
-    
+
     <!-- Third Party Dependencies -->
     <dependency>
       <groupId>org.picketlink</groupId>
@@ -111,7 +112,7 @@
       <groupId>org.jboss.spec.javax.servlet</groupId>
       <artifactId>jboss-servlet-api_3.0_spec</artifactId>
       <scope>provided</scope>
-    </dependency >
+    </dependency>
     <dependency>
       <groupId>org.jboss.spec.javax.servlet.jsp</groupId>
       <artifactId>jboss-jsp-api_2.2_spec</artifactId>
@@ -275,25 +276,53 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>${basedir}</directory>
-              <includes>
-                <include>www-test/**</include>
-                <include>.gwt/**</include>
-                <include>.errai/**</include>
-                <include>src/main/webapp/.errai/**</include>
-                <include>src/main/webapp/app/**</include>
-                <include>src/main/webapp/WEB-INF/deploy/**</include>
-                <include>src/main/webapp/WEB-INF/lib/**</include>
-                <include>src/main/webapp/WEB-INF/classes/**</include>
-                <include>**/gwt-unitCache/**</include>
-                <include>**/*.JUnit/**</include>
-              </includes>
-            </fileset>
-          </filesets>
-        </configuration>
+        <executions>
+          <execution>
+            <id>default-clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <directory>${basedir}</directory>
+                  <includes>
+                    <include>www-test/**</include>
+                    <include>.gwt/**</include>
+                    <include>.errai/**</include>
+                    <include>src/main/webapp/.errai/**</include>
+                    <include>src/main/webapp/app/**</include>
+                    <include>src/main/webapp/WEB-INF/deploy/**</include>
+                    <include>src/main/webapp/WEB-INF/lib/**</include>
+                    <include>src/main/webapp/WEB-INF/classes/**</include>
+                    <include>**/gwt-unitCache/**</include>
+                    <include>**/*.JUnit/**</include>
+                  </includes>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+          <execution>
+            <id>package-clean</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <configuration>
+              <excludeDefaultDirectories>true</excludeDefaultDirectories>
+              <filesets>
+                <fileset>
+                  <directory>${basedir}</directory>
+                  <includes>
+                    <!-- Prevent non-needed GWT junk from ending up in the war. -->
+                    <include>**/.junit_symbolMaps/**</include>
+                  </includes>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
