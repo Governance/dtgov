@@ -50,36 +50,31 @@ public class WorkflowAccesor {
         _client = SrampAtomApiClientFactory.createAtomApiClient();
     }
     public enum WorkflowStatusEnum implements Serializable {
-        RUNNING, ABORTED, COMPLETED
+        CREATED, RUNNING, ABORTED, COMPLETED
     }
 
     /**
      * Converts the values passed as params in sramp workflow artifact.
      *
+     * @param uuid
      * @param targetUUID
-     *            the target uuid
      * @param targetName
-     *            the target name
      * @param workflow
-     *            the workflow
      * @param processInstanceId
-     *            the process instance id
      * @param status
-     *            the status
      * @param parameters
-     *            the parameters
      * @return the base artifact type
      */
-    private BaseArtifactType toWorkflowArtifact(String targetUUID, String targetName, String workflow, String processInstanceId,
-            WorkflowStatusEnum status,
-            Map<String, String> parameters) {
+    private BaseArtifactType toWorkflowArtifact(String uuid, String targetUUID, String targetName, String workflow,
+            WorkflowStatusEnum status, Map<String, String> parameters) {
         ExtendedArtifactType artifact = new ExtendedArtifactType();
+        // Set the UUID so that we only ever create one of these
+        artifact.setUuid(uuid);
         artifact.setArtifactType(BaseArtifactEnum.EXTENDED_ARTIFACT_TYPE);
         artifact.setExtendedType(WorkflowConstants.WORKFLOW_EXTENDED_TYPE);
         artifact.setName(buildArtifactName(targetName));
 
         SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_WORKFLOW, workflow);
-        SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_PROCESS_ID, processInstanceId);
         SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_STATUS, status.name());
         SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_ID, targetUUID);
         SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_NAME, targetName);
@@ -97,30 +92,33 @@ public class WorkflowAccesor {
     /**
      * Save a new workflow type artifact.
      * 
+     * @param workflowUUID
      * @param targetUUID
-     *            the target uuid
      * @param targetName
-     *            the target name
      * @param workflow
-     *            the workflow
      * @param processInstanceId
-     *            the process instance id
      * @param parameters
-     *            the parameters
-     * @return the string
      * @throws SrampClientException
-     *             the sramp client exception
      * @throws SrampAtomException
-     *             the sramp atom exception
      */
-    public String save(String targetUUID, String targetName, String workflow, String processInstanceId, Map<String, String> parameters)
+    public BaseArtifactType save(String workflowUUID, String targetUUID, String targetName, String workflow, Map<String, String> parameters)
             throws SrampClientException, SrampAtomException {
-        BaseArtifactType artifact = toWorkflowArtifact(targetUUID, targetName, workflow, processInstanceId, WorkflowStatusEnum.RUNNING, parameters);
-        artifact = _client.createArtifact(artifact);
-        if (artifact != null) {
-            return artifact.getUuid();
-        }
-        return null;
+        BaseArtifactType artifact = toWorkflowArtifact(workflowUUID, targetUUID, targetName, workflow, WorkflowStatusEnum.CREATED, parameters);
+        return _client.createArtifact(artifact);
+    }
+
+    /**
+     * Updates the workflow artifact with the process instance ID of the process instance
+     * we just created.
+     * @param artifact
+     * @param processInstanceId
+     * @throws SrampAtomException 
+     * @throws SrampClientException 
+     */
+    public void update(BaseArtifactType artifact, long processInstanceId) throws SrampClientException, SrampAtomException {
+        SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_STATUS, WorkflowStatusEnum.RUNNING.name());
+        SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_PROCESS_ID, String.valueOf(processInstanceId));
+        _client.updateArtifactMetaData(artifact);
     }
 
     /**
