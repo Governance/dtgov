@@ -139,7 +139,7 @@
     <!-- lib -->
     <dependencySet>
       <outputDirectory>lib</outputDirectory>
-      <includes>
+      <includes>    
         <include>org.codehaus.btm:btm:jar</include>
         <include>org.codehaus.btm:btm-tomcat55-lifecycle:jar</include>
         <include>org.codehaus.btm:btm-jetty7-lifecycle:jar</include>
@@ -156,6 +156,19 @@
       <directoryMode>0755</directoryMode>
       <fileMode>0755</fileMode>
     </dependencySet>
+ 	<dependencySet>
+      <outputDirectory>lib</outputDirectory>
+      <includes>    
+        <include>commons-codec:commons-codec:jar</include>
+      </includes>
+      <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+      <useProjectArtifact>false</useProjectArtifact>
+      <useProjectAttachments>false</useProjectAttachments>
+      <useTransitiveDependencies>false</useTransitiveDependencies>
+      <useTransitiveFiltering>false</useTransitiveFiltering>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0755</fileMode>
+    </dependencySet>    
   </dependencySets>
   <fileSets>
     <!-- Files at the root of the distribution -->

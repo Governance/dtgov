@@ -421,6 +421,11 @@
                 <artifactId>ant-trax</artifactId>
                 <version>1.6.5</version>
               </dependency>
+			 <dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.9</version>
+			 </dependency>              
             </dependencies>
             <executions>
               <execution>
@@ -440,7 +445,7 @@
                     <property name="overlord-commons.services.file" value="${maven.dependency.org.overlord.overlord-commons-services.jar.path}" />
                     <property name="overlord-commons.auth.file" value="${maven.dependency.org.overlord.overlord-commons-auth.jar.path}" />
                     <property name="overlord-commons.auth.jetty8.file" value="${maven.dependency.org.overlord.overlord-commons-auth-jetty8.jar.path}" />
-					
+					<property name="commons-codec.jar" location="${maven.dependency.commons-codec.commons-codec.jar.path}" />
                     <property file="build.properties" />
                     <property name="dtgov.appserver.zip" value="${basedir}/jboss-fuse-full-${fuse.version}.zip" />
                     <unzip src="${dtgov.appserver.zip}" dest="${dtgov.install.dir}" overwrite="false" />

@@ -218,6 +218,7 @@
       <property name="dtgov.appserver.dir" location="${dtgov-distro.choices.platform.fuse-6.1.path}" />
       <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-${overlord-commons.version}.jar" />
       <property name="overlord-commons.ant.jar" location="${dtgov-distro.overlord-commons-ant.jar}" />
+      <property name="commons-codec.jar" location="${dtgov-distro.libdir}/commons-codec.jar" />     	
     </ant>
   </target>
 
