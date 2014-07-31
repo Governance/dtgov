@@ -15,9 +15,11 @@
  */
 package org.overlord.dtgov.ui.server.services.targets;
 
+import static org.overlord.dtgov.common.targets.TargetConstants.CLI_DOMAIN_MODE;
 import static org.overlord.dtgov.common.targets.TargetConstants.CLI_HOST;
 import static org.overlord.dtgov.common.targets.TargetConstants.CLI_PASSWORD;
 import static org.overlord.dtgov.common.targets.TargetConstants.CLI_PORT;
+import static org.overlord.dtgov.common.targets.TargetConstants.CLI_SERVER_GROUP;
 import static org.overlord.dtgov.common.targets.TargetConstants.CLI_USER;
 import static org.overlord.dtgov.common.targets.TargetConstants.COPY_DEPLOY_DIR;
 import static org.overlord.dtgov.common.targets.TargetConstants.MAVEN_IS_RELEASE_ENABLED;
@@ -135,41 +137,38 @@ public class TargetFactory {
 
                 break;
             case MAVEN:
-
-                String maven_isReleaseEnabled=SrampModelUtils.getCustomProperty(artifact, MAVEN_IS_RELEASE_ENABLED);
-                String maven_isSnapshotEnabled=SrampModelUtils.getCustomProperty(artifact, MAVEN_SNAPSHOT_ENABLED);
-                String maven_user=SrampModelUtils.getCustomProperty(artifact, MAVEN_USER);
-                String maven_password=SrampModelUtils.getCustomProperty(artifact, MAVEN_PASSWORD);
-                String maven_repository=SrampModelUtils.getCustomProperty(artifact, MAVEN_REPOSITORY_URL);
-                boolean isReleaseEnabled=false;
-                boolean isSnapshotEnabled=false;
+                String maven_isReleaseEnabled = SrampModelUtils.getCustomProperty(artifact, MAVEN_IS_RELEASE_ENABLED);
+                String maven_isSnapshotEnabled = SrampModelUtils.getCustomProperty(artifact, MAVEN_SNAPSHOT_ENABLED);
+                String maven_user = SrampModelUtils.getCustomProperty(artifact, MAVEN_USER);
+                String maven_password = SrampModelUtils.getCustomProperty(artifact, MAVEN_PASSWORD);
+                String maven_repository = SrampModelUtils.getCustomProperty(artifact, MAVEN_REPOSITORY_URL);
+                boolean isReleaseEnabled = false;
+                boolean isSnapshotEnabled = false;
                 if (StringUtils.isNotBlank(maven_isReleaseEnabled) && maven_isReleaseEnabled.equals("true")) { //$NON-NLS-1$
-                    isReleaseEnabled=true;
+                    isReleaseEnabled = true;
                 }
                 if (StringUtils.isNotBlank(maven_isSnapshotEnabled) && maven_isSnapshotEnabled.equals("true")) { //$NON-NLS-1$
-                    isSnapshotEnabled=true;
+                    isSnapshotEnabled = true;
                 }
-                bean=new MavenTargetBean(uuid,classifiersList,description,name,maven_repository,isReleaseEnabled,isSnapshotEnabled,maven_user,maven_password);
+                bean = new MavenTargetBean(uuid, classifiersList, description, name, maven_repository,
+                        isReleaseEnabled, isSnapshotEnabled, maven_user, maven_password);
                 break;
             case CLI:
-
-                String cli_host=SrampModelUtils.getCustomProperty(artifact, CLI_HOST);
-                String cli_port=SrampModelUtils.getCustomProperty(artifact, CLI_PORT);
-                String cli_user=SrampModelUtils.getCustomProperty(artifact, CLI_USER);
-                String cli_password=SrampModelUtils.getCustomProperty(artifact, CLI_PASSWORD);
-                Integer port=null;
-                if(StringUtils.isNotBlank(cli_port)){
-                    try{
-                        port=Integer.parseInt(cli_port);
-                    }
-                    catch(NumberFormatException e){
-
-                    }
+                String cli_host = SrampModelUtils.getCustomProperty(artifact, CLI_HOST);
+                String cli_port = SrampModelUtils.getCustomProperty(artifact, CLI_PORT);
+                String cli_user = SrampModelUtils.getCustomProperty(artifact, CLI_USER);
+                String cli_password = SrampModelUtils.getCustomProperty(artifact, CLI_PASSWORD);
+                String cli_domainMode = SrampModelUtils.getCustomProperty(artifact, CLI_DOMAIN_MODE);
+                String cli_serverGroup = SrampModelUtils.getCustomProperty(artifact, CLI_SERVER_GROUP);
+                Integer port = null;
+                if (StringUtils.isNotBlank(cli_port)) {
+                    port = new Integer(cli_port);
                 }
-                bean = new CliTargetBean(uuid, classifiersList, description, name, cli_user, cli_password, cli_host, port);
+                bean = new CliTargetBean(uuid, classifiersList, description, name, cli_user, cli_password,
+                        cli_host, port, "true".equals(cli_domainMode), cli_serverGroup); //$NON-NLS-1$
                 break;
             case COPY:
-                String deployDir=SrampModelUtils.getCustomProperty(artifact, COPY_DEPLOY_DIR);
+                String deployDir = SrampModelUtils.getCustomProperty(artifact, COPY_DEPLOY_DIR);
                 bean = new CopyTargetBean(uuid, classifiersList, description, name, deployDir);
                 break;
             default:
@@ -185,7 +184,6 @@ public class TargetFactory {
      * Converts a TargetBean object into a S-ramp Object
      *
      * @param target
-     *            the target
      * @return the base artifact type
      */
     public static BaseArtifactType toBaseArtifact(TargetBean target) {
@@ -221,13 +219,19 @@ public class TargetFactory {
                 SrampModelUtils.setCustomProperty(artifact, CLI_HOST, cli.getHost());
             }
             if (cli.getPort() != null) {
-                SrampModelUtils.setCustomProperty(artifact, CLI_PORT, cli.getPort() + ""); //$NON-NLS-1$
+                SrampModelUtils.setCustomProperty(artifact, CLI_PORT, String.valueOf(cli.getPort()));
             }
             if (StringUtils.isNotBlank(cli.getUser())) {
                 SrampModelUtils.setCustomProperty(artifact, CLI_USER, cli.getUser());
             }
             if (StringUtils.isNotBlank(cli.getPassword())) {
                 SrampModelUtils.setCustomProperty(artifact, CLI_PASSWORD, cli.getPassword());
+            }
+            if (cli.getDomainMode() != null) {
+                SrampModelUtils.setCustomProperty(artifact, CLI_DOMAIN_MODE, String.valueOf(cli.getDomainMode()));
+            }
+            if (StringUtils.isNotBlank(cli.getServerGroup())) {
+                SrampModelUtils.setCustomProperty(artifact, CLI_SERVER_GROUP, cli.getServerGroup());
             }
             break;
         case COPY:

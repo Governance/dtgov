@@ -29,46 +29,36 @@ import org.jboss.errai.common.client.api.annotations.Portable;
 @Portable
 public class CliTargetBean extends TargetBean implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -4526717452935610828L;
 
     private String _user;
-
     private String _password;
-
     private String _host;
-
     private Integer _port;
+    private Boolean domainMode;
+    private String serverGroup;
 
     /**
      * Instantiates a new cli target bean.
      *
      * @param uuid
-     *            the uuid
      * @param classifiers
-     *            the classifiers
      * @param description
-     *            the description
      * @param name
-     *            the name
      * @param user
-     *            the user
      * @param password
-     *            the password
      * @param host
-     *            the host
      * @param port
-     *            the port
      */
     public CliTargetBean(String uuid, List<TargetClassifier> classifiers, String description, String name, String user, String password, String host,
-            Integer port) {
+            Integer port, Boolean domainMode, String serverGroup) {
         super(uuid, classifiers, description, name);
         this._user = user;
         this._password = password;
         this._host = host;
         this._port = port;
+        this.setDomainMode(domainMode);
+        this.setServerGroup(serverGroup);
     }
 
     /**
@@ -78,9 +68,7 @@ public class CliTargetBean extends TargetBean implements Serializable {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.overlord.dtgov.ui.client.shared.beans.TargetBean#getType()
      */
     @Override
@@ -164,15 +152,40 @@ public class CliTargetBean extends TargetBean implements Serializable {
         this._port = port;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * @return the domainMode
+     */
+    public Boolean getDomainMode() {
+        return domainMode;
+    }
+
+    /**
+     * @param domainMode the domainMode to set
+     */
+    public void setDomainMode(Boolean domainMode) {
+        this.domainMode = domainMode;
+    }
+
+    /**
+     * @return the serverGroup
+     */
+    public String getServerGroup() {
+        return serverGroup;
+    }
+
+    /**
+     * @param serverGroup the serverGroup to set
+     */
+    public void setServerGroup(String serverGroup) {
+        this.serverGroup = serverGroup;
+    }
+
+    /**
      * @see org.overlord.dtgov.ui.client.shared.beans.TargetBean#toString()
      */
     @Override
     public String toString() {
         return "CliTargetBean [" + super.toString() + ", user=" + _user + ", password=" + _password + ", host=" + _host + ", port=" + _port + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
     }
-
 
 }

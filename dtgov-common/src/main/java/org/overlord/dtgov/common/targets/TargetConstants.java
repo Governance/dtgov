@@ -38,6 +38,8 @@ public interface TargetConstants {
     public static final String CLI_PORT = "deployment.port"; //$NON-NLS-1$
     public static final String CLI_USER = "deployment.user"; //$NON-NLS-1$
     public static final String CLI_PASSWORD = "deployment.password"; //$NON-NLS-1$
+    public static final String CLI_DOMAIN_MODE = "deployment.domainMode"; //$NON-NLS-1$
+    public static final String CLI_SERVER_GROUP = "deployment.serverGroup"; //$NON-NLS-1$
 
     // MAVEN CONSTANTS
     public static final String MAVEN_REPOSITORY_URL = "deployment.repositoryUrl"; //$NON-NLS-1$

@@ -16,27 +16,29 @@
 package org.overlord.dtgov.common;
 
 /**
- * A configured deployment target.  These are typically configured in the DTGov configuration
- * file.
+ * A configured deployment target.  These are typically configured in the DTGov UI.
  *
  * @author eric.wittmann@redhat.com
  */
 public class Target {
 
-	public enum TYPE {COPY, RHQ, AS_CLI, MAVEN};
-
-	/**
-	 * Constructor.
+    public enum TYPE {
+        COPY, RHQ, AS_CLI, MAVEN
+    };
+    
+    /**
+     * Create a COPY style target.
      * @param name
      * @param classifier
      * @param deployDir
      */
-    public Target(String name, String classifier, String deployDir) {
-        super();
-        this.name = name;
-        this.classifier = classifier;
-        this.type = TYPE.COPY;
-        this.deployDir = deployDir;
+    public static final Target copy(String name, String classifier, String deployDir) {
+        Target target = new Target();
+        target.name = name;
+        target.classifier = classifier;
+        target.type = TYPE.COPY;
+        target.deployDir = deployDir;
+        return target;
     }
 
     /**
@@ -48,24 +50,30 @@ public class Target {
      * @param asPassword - password of the asUser
      * @param asHost - Application Server Hostname (defaults to localhost)
      * @param asPort - Application Server Port (defaults to 9999)
+     * @param asDomainMode - whether the server is in domain mode or standalone
+     * @param asServerGroup - the domain mode server group (optional)
      */
-    public Target(String name, String classifier, String asUser, String asPassword, String asHost, Integer asPort) {
-        super();
-        this.name = name;
-        this.classifier = classifier;
-        this.type = TYPE.AS_CLI;
-        this.user = asUser;
-        this.password = asPassword;
-        if (asHost!=null) {
-        	this.host = asHost;
+    public static final Target cli(String name, String classifier, String asUser, String asPassword, String asHost,
+            Integer asPort, Boolean asDomainMode, String asServerGroup) {
+        Target target = new Target();
+        target.name = name;
+        target.classifier = classifier;
+        target.type = TYPE.AS_CLI;
+        target.user = asUser;
+        target.password = asPassword;
+        target.cliDomainMode = asDomainMode == null ? false : asDomainMode;
+        target.cliServerGroup = asServerGroup;
+        if (asHost != null) {
+            target.host = asHost;
         } else {
-        	this.host = "localhost"; //$NON-NLS-1$
+            target.host = "localhost"; //$NON-NLS-1$
         }
-        if (port!=null && port > 0) {
-        	this.port = asPort;
+        if (asPort != null && asPort > 0) {
+            target.port = asPort;
         } else {
-        	this.port = 9999;
+            target.port = 9999;
         }
+        return target;
     }
 
     /**
@@ -79,27 +87,29 @@ public class Target {
      * @param rhqPassword - password of the rhqUser.
      * @param rhqBaseUrl - baseUrl of the RHQ Server i.e. http://localhost:7080/
      */
-    public Target(String name, String classifier, String rhqUser, String rhqPassword, String rhqBaseUrl,
+    public static final Target rhq(String name, String classifier, String rhqUser, String rhqPassword, String rhqBaseUrl,
     		String rhqPluginName) {
-        super();
-        this.name = name;
-        this.classifier = classifier;
-        this.type = TYPE.RHQ;
-        this.user = rhqUser;
-        this.password = rhqPassword;
-        int secondColon = rhqBaseUrl.indexOf(":",rhqBaseUrl.indexOf(":")+1); //$NON-NLS-1$ //$NON-NLS-2$
+        Target target = new Target();
+        target.name = name;
+        target.classifier = classifier;
+        target.type = TYPE.RHQ;
+        target.user = rhqUser;
+        target.password = rhqPassword;
+        int secondColon = rhqBaseUrl.indexOf(":", rhqBaseUrl.indexOf(":") + 1); //$NON-NLS-1$ //$NON-NLS-2$
         if (secondColon > 0) {
-        	this.rhqBaseUrl = rhqBaseUrl.substring(0,secondColon);
-        	String portStr = rhqBaseUrl.substring(secondColon + 1);
-        	int slashPosition = portStr.indexOf("/") ; //$NON-NLS-1$
-        	if (slashPosition > 0) portStr = portStr.substring(0,slashPosition);
-        	this.port = Integer.valueOf(portStr);
-
+            target.rhqBaseUrl = rhqBaseUrl.substring(0, secondColon);
+            String portStr = rhqBaseUrl.substring(secondColon + 1);
+            int slashPosition = portStr.indexOf("/"); //$NON-NLS-1$
+            if (slashPosition > 0) {
+                portStr = portStr.substring(0, slashPosition);
+            }
+            target.port = Integer.valueOf(portStr);
         } else {
-        	this.rhqBaseUrl = rhqBaseUrl;
-        	this.port = 7080;
+            target.rhqBaseUrl = rhqBaseUrl;
+            target.port = 7080;
         }
-        this.rhqPluginName = rhqPluginName;
+        target.rhqPluginName = rhqPluginName;
+        return target;
     }
 
     /**
@@ -110,14 +120,16 @@ public class Target {
      * @param isReleaseEnabled
      * @param isSnapshotEnabled
      */
-    public Target(String name, String classifier, String mavenUrl, boolean isReleaseEnabled, boolean isSnapshotEnabled ) {
-        super();
-        this.name = name;
-        this.classifier = classifier;
-        this.type = TYPE.MAVEN;
-        this.mavenUrl = mavenUrl;
-        this.setReleaseEnabled(isReleaseEnabled);
-        this.setSnapshotEnabled(isSnapshotEnabled);
+    public static final Target maven(String name, String classifier, String mavenUrl,
+            boolean isReleaseEnabled, boolean isSnapshotEnabled) {
+        Target target = new Target();
+        target.name = name;
+        target.classifier = classifier;
+        target.type = TYPE.MAVEN;
+        target.mavenUrl = mavenUrl;
+        target.setReleaseEnabled(isReleaseEnabled);
+        target.setSnapshotEnabled(isSnapshotEnabled);
+        return target;
     }
 
     /**
@@ -129,20 +141,13 @@ public class Target {
      * @param isReleaseEnabled
      * @param isSnapshotEnabled
      */
-    public Target(String name, String classifier, String mavenUrl, String mavenUser, String mavenPassword, boolean isReleaseEnabled,
+    public static final Target maven(String name, String classifier, String mavenUrl, String mavenUser, String mavenPassword, boolean isReleaseEnabled,
             boolean isSnapshotEnabled) {
-        this(name, classifier, mavenUrl, isReleaseEnabled, isSnapshotEnabled);
-        this.user = mavenUser;
-        this.password = mavenPassword;
+        Target target = maven(name, classifier, mavenUrl, isReleaseEnabled, isSnapshotEnabled);
+        target.user = mavenUser;
+        target.password = mavenPassword;
+        return target;
     }
-
-    public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
 
 	private String name;
 	private String classifier;
@@ -157,8 +162,23 @@ public class Target {
     private String mavenUrl;
     private boolean isReleaseEnabled;
     private boolean isSnapshotEnabled;
-
+    private boolean cliDomainMode;
+    private String cliServerGroup;
     private String description;
+
+    /**
+     * Constructor.
+     */
+    public Target() {
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
 
     public TYPE getType() {
 		return type;
@@ -267,6 +287,34 @@ public class Target {
     @Override
     public String toString() {
         return "Name=" + name + "\nDeployDir=" + deployDir; //$NON-NLS-1$ //$NON-NLS-2$
+    }
+
+    /**
+     * @return the cliDomainMode
+     */
+    public boolean isCliDomainMode() {
+        return cliDomainMode;
+    }
+
+    /**
+     * @param cliDomainMode the cliDomainMode to set
+     */
+    public void setCliDomainMode(boolean cliDomainMode) {
+        this.cliDomainMode = cliDomainMode;
+    }
+
+    /**
+     * @return the cliServerGroup
+     */
+    public String getCliServerGroup() {
+        return cliServerGroup;
+    }
+
+    /**
+     * @param cliServerGroup the cliServerGroup to set
+     */
+    public void setCliServerGroup(String cliServerGroup) {
+        this.cliServerGroup = cliServerGroup;
     }
 
 }

@@ -23,20 +23,18 @@ public class TargetFactory {
         String name = artifact.getName();
         String description = artifact.getDescription();
         String classifier = SrampModelUtils.getCustomProperty(artifact, TargetConstants.TARGET_CLASSIFIERS);
-        ;
+        
         Target target = null;
         if (typeEnum != null) {
             switch (typeEnum) {
             case RHQ:
-
                 String rhq_baseUrl = SrampModelUtils.getCustomProperty(artifact, TargetConstants.RHQ_BASE_URL);
                 String rhq_pluginName = SrampModelUtils.getCustomProperty(artifact, TargetConstants.RHQ_PLUGIN_NAME);
                 String rhq_user = SrampModelUtils.getCustomProperty(artifact, TargetConstants.RHQ_USER);
                 String rhq_password = SrampModelUtils.getCustomProperty(artifact, TargetConstants.RHQ_PASSWORD);
-                target = new Target(name, classifier, rhq_user, rhq_password, rhq_baseUrl, rhq_pluginName);
+                target = Target.rhq(name, classifier, rhq_user, rhq_password, rhq_baseUrl, rhq_pluginName);
                 break;
             case MAVEN:
-
                 String maven_isReleaseEnabled = SrampModelUtils.getCustomProperty(artifact, TargetConstants.MAVEN_IS_RELEASE_ENABLED);
                 String maven_isSnapshotEnabled = SrampModelUtils.getCustomProperty(artifact, TargetConstants.MAVEN_SNAPSHOT_ENABLED);
                 String maven_user = SrampModelUtils.getCustomProperty(artifact, TargetConstants.MAVEN_USER);
@@ -50,19 +48,20 @@ public class TargetFactory {
                 if (StringUtils.isNotBlank(maven_isSnapshotEnabled) && maven_isSnapshotEnabled.equals("true")) { //$NON-NLS-1$
                     isSnapshotEnabled = true;
                 }
-                target = new Target(name, classifier, maven_repository, maven_user, maven_password, isReleaseEnabled, isSnapshotEnabled);
+                target = Target.maven(name, classifier, maven_repository, maven_user, maven_password, isReleaseEnabled, isSnapshotEnabled);
                 break;
             case CLI:
-
                 String cli_host = SrampModelUtils.getCustomProperty(artifact, TargetConstants.CLI_HOST);
                 String cli_port = SrampModelUtils.getCustomProperty(artifact, TargetConstants.CLI_PORT);
                 String cli_user = SrampModelUtils.getCustomProperty(artifact, TargetConstants.CLI_USER);
                 String cli_password = SrampModelUtils.getCustomProperty(artifact, TargetConstants.CLI_PASSWORD);
-                target = new Target(name, classifier, cli_user, cli_password, cli_host, cli_port);
+                Boolean cli_domainMode = "true".equals(SrampModelUtils.getCustomProperty(artifact, TargetConstants.CLI_DOMAIN_MODE)); //$NON-NLS-1$
+                String cli_serverGroup = SrampModelUtils.getCustomProperty(artifact, TargetConstants.CLI_SERVER_GROUP);
+                target = Target.cli(name, classifier, cli_user, cli_password, cli_host, new Integer(cli_port), cli_domainMode, cli_serverGroup);
                 break;
             case COPY:
                 String deployDir = SrampModelUtils.getCustomProperty(artifact, TargetConstants.COPY_DEPLOY_DIR);
-                target = new Target(name, classifier, deployDir);
+                target = Target.copy(name, classifier, deployDir);
                 break;
             default:
                 break;

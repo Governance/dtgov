@@ -54,10 +54,9 @@
 								<div class="control-group">
 									<label class="control-label" data-placement="top"
 										data-i18n-key="form.target.cli.host"
-										for="inputFieldTargetHost" title="Write the jboss host">Jboss
-										AS Host:</label>
+										for="inputFieldTargetHost">Host:</label>
 									<div class="controls">
-										<input type="text" placeholder="Enter the host"
+										<input type="text" placeholder="Enter the host..."
 											id="inputFieldTargetHost" class="form-control input-xxlarge"
 											data-field="form-target-host-input"></input>
 									</div>
@@ -65,10 +64,9 @@
 								<div class="control-group">
 									<label class="control-label" data-placement="top"
 										data-i18n-key="form.target.cli.port"
-										for="inputFieldTargetPort" title="Write the jboss port">Jboss
-										AS Port:</label>
+										for="inputFieldTargetPort">Port:</label>
 									<div class="controls">
-										<input type="text" placeholder="Enter the port"
+										<input type="text" placeholder="Enter the port..."
 											id="inputFieldTargetPort" class="form-control input-xxlarge"
 											data-field="form-target-port-input"></input>
 									</div>
@@ -76,10 +74,9 @@
 								<div class="control-group">
 									<label class="control-label" data-placement="top"
 										data-i18n-key="form.target.cli.user"
-										for="inputFieldTargetUser" title="Write the jboss admin user">Jboss
-										AS User:</label>
+										for="inputFieldTargetUser">User:</label>
 									<div class="controls">
-										<input type="text" placeholder="Enter the admin user"
+										<input type="text" placeholder="Enter the admin user..."
 											id="inputFieldTargetUser" class="form-control input-xxlarge"
 											data-field="form-target-user-input"></input>
 									</div>
@@ -87,14 +84,28 @@
 								<div class="control-group">
 									<label class="control-label" data-placement="top"
 										data-i18n-key="form.target.cli.password"
-										for="inputFieldTargetPassword" title="Write the jboss admin password">Jboss
-										AS Password:</label>
+										for="inputFieldTargetPassword">Password:</label>
 									<div class="controls">
-										<input type="text" placeholder="Enter the password"
+										<input type="text" placeholder="Enter the password..."
 											id="inputFieldTargetPassword" class="form-control input-xxlarge"
 											data-field="form-target-password-input"></input>
 									</div>
 								</div>
+                                <div class="control-group">
+                                    <label data-i18n-key="form.target.cli.domain-mode" class="control-label">Domain Mode:</label>
+                                    <div class="controls">
+                                        <input type="checkbox" id="domainMode" class="form-control" data-field="form-target-domain-mode-input"></input>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" data-i18n-key="form.target.cli.server-group"
+                                        for="inputFieldTargetServerGroup">Server Group:</label>
+                                    <div class="controls">
+                                        <input type="text" placeholder="Enter the Domain Mode Server Group (optional)..."
+                                            id="inputFieldTargetServerGroup" class="form-control input-xxlarge"
+                                            data-field="form-target-server-group-input"></input>
+                                    </div>
+                                </div>
 							</div>
 
 						</form>
