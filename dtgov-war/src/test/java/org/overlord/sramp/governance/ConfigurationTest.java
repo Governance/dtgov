@@ -113,6 +113,7 @@ public class ConfigurationTest {
      * @throws ConfigException
      */
     @Test()
+    @Ignore
     public void testRHQTargetConfiguration() throws ConfigException {
         Governance governance = new Governance() {
             /**

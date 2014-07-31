@@ -29,9 +29,7 @@ import org.jboss.errai.common.client.api.annotations.Portable;
  */
 @Portable
 public class TargetBean implements Serializable {
-    /**
-     *
-     */
+
     private static final long serialVersionUID = -8215641937953030367L;
 
     private String _uuid;

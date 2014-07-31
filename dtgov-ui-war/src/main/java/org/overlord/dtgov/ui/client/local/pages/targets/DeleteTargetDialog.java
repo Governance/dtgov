@@ -56,8 +56,8 @@ public class DeleteTargetDialog extends ModalDialog implements HasDialogOkCancel
 
     /** The _projectname. */
     @Inject
-    @DataField("form-target-name-input")
-    private InlineLabel _targetName;
+    @DataField
+    private InlineLabel targetName;
 
     /**
      * Instantiates a new delete target dialog.
@@ -71,7 +71,7 @@ public class DeleteTargetDialog extends ModalDialog implements HasDialogOkCancel
     @PostConstruct
     protected void onPostConstruct() {
         if (_target != null) {
-            _targetName.setText(_target.getName());
+            targetName.setText(_target.getName());
         }
 
     }
@@ -152,7 +152,7 @@ public class DeleteTargetDialog extends ModalDialog implements HasDialogOkCancel
     public void setTarget(TargetSummaryBean target) {
         this._target = target;
         if (target != null) {
-            this._targetName.setText(this._target.getName());
+            this.targetName.setText(this._target.getName());
         }
     }
 

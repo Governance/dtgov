@@ -26,6 +26,7 @@ import org.overlord.dtgov.ui.client.shared.beans.TargetBean;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -55,7 +56,21 @@ public class CliTargetPanel extends AbstractTargetPanel {
     @DataField("form-target-port-input")
     private IntegerBox _port;
 
-    /* (non-Javadoc)
+    @Inject
+    @DataField("form-target-domain-mode-input")
+    private CheckBox domainMode;
+
+    @Inject
+    @DataField("form-target-server-group-input")
+    private TextBox serverGroup;
+    
+    /**
+     * Constructor.
+     */
+    public CliTargetPanel() {
+    }
+
+    /**
      * @see org.overlord.dtgov.ui.client.local.pages.target.panel.AbstractTargetPanel#getTargetBean()
      */
     @Override
@@ -67,7 +82,8 @@ public class CliTargetPanel extends AbstractTargetPanel {
         if (_port.getValue() != null && !_port.getValue().equals("")) { //$NON-NLS-1$
             cli.setPort(_port.getValue());
         }
-
+        cli.setDomainMode(domainMode.getValue());
+        cli.setServerGroup(serverGroup.getValue());
         return cli;
     }
 
@@ -77,12 +93,10 @@ public class CliTargetPanel extends AbstractTargetPanel {
     @PostConstruct
     public void postConstruct() {
         _port.addKeyPressHandler(new NumbersOnly());
-
     }
 
     class NumbersOnly implements KeyPressHandler {
-
-        /* (non-Javadoc)
+        /**
          * @see com.google.gwt.event.dom.client.KeyPressHandler#onKeyPress(com.google.gwt.event.dom.client.KeyPressEvent)
          */
         @Override
@@ -92,7 +106,7 @@ public class CliTargetPanel extends AbstractTargetPanel {
         }
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.overlord.dtgov.ui.client.local.pages.target.panel.AbstractTargetPanel#initialize(org.overlord.dtgov.ui.client.shared.beans.TargetBean)
      */
     @Override
@@ -102,83 +116,8 @@ public class CliTargetPanel extends AbstractTargetPanel {
         _password.setValue(cli.getPassword());
         _host.setValue(cli.getHost());
         _port.setValue(cli.getPort());
-
-    }
-
-    /**
-     * Gets the user.
-     *
-     * @return the user
-     */
-    public TextBox getUser() {
-        return _user;
-    }
-
-    /**
-     * Sets the user.
-     *
-     * @param user
-     *            the new user
-     */
-    public void setUser(TextBox user) {
-        this._user = user;
-    }
-
-    /**
-     * Gets the password.
-     *
-     * @return the password
-     */
-    public TextBox getPassword() {
-        return _password;
-    }
-
-    /**
-     * Sets the password.
-     *
-     * @param password
-     *            the new password
-     */
-    public void setPassword(TextBox password) {
-        this._password = password;
-    }
-
-    /**
-     * Gets the host.
-     *
-     * @return the host
-     */
-    public TextBox getHost() {
-        return _host;
-    }
-
-    /**
-     * Sets the host.
-     *
-     * @param host
-     *            the new host
-     */
-    public void setHost(TextBox host) {
-        this._host = host;
-    }
-
-    /**
-     * Gets the port.
-     *
-     * @return the port
-     */
-    public IntegerBox getPort() {
-        return _port;
-    }
-
-    /**
-     * Sets the port.
-     *
-     * @param port
-     *            the new port
-     */
-    public void setPort(IntegerBox port) {
-        this._port = port;
+        domainMode.setValue(cli.getDomainMode());
+        serverGroup.setValue(cli.getServerGroup());
     }
 
 }

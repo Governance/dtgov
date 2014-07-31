@@ -52,9 +52,9 @@ import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovFormValidationException;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -252,10 +252,9 @@ public class TargetPage extends AbstractPage {
         for (String key : typesMap.keySet()) {
             _targetType.addItem(key, typesMap.get(key));
         }
-        this._targetType.addChangeHandler(new ChangeHandler() {
-
+        this._targetType.addValueChangeHandler(new ValueChangeHandler<String>() {
             @Override
-            public void onChange(ChangeEvent event) {
+            public void onValueChange(ValueChangeEvent<String> event) {
                 refreshTargetForm(null);
             }
         });

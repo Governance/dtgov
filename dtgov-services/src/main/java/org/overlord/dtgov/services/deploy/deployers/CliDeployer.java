@@ -51,12 +51,8 @@ public class CliDeployer extends AbstractDeployer {
      * group the artifact will be deployed to.
      *
      * @param artifact
-     *            the artifact
      * @param target
-     *            the target
-     * @return the string
      * @throws Exception
-     *             the exception
      */
     @Override
     public String deploy(BaseArtifactType artifact, Target target, SrampAtomApiClient client)
@@ -78,6 +74,11 @@ public class CliDeployer extends AbstractDeployer {
             IOUtils.closeQuietly(is);
             IOUtils.closeQuietly(os);
 
+            Map<String, String> undeployProperties = new HashMap<String, String>();
+            undeployProperties.put("deploy.cli.host", target.getHost()); //$NON-NLS-1$
+            undeployProperties.put("deploy.cli.port", String.valueOf(target.getPort())); //$NON-NLS-1$
+            undeployProperties.put("deploy.cli.name", tmpFile.getName()); //$NON-NLS-1$
+
             // Deploy using AS CLI.
             if (target.getUser() == null || target.getUser().isEmpty()) {
                 ctx = CommandContextFactory.getInstance().newCommandContext();
@@ -86,18 +87,27 @@ public class CliDeployer extends AbstractDeployer {
                         target.getPassword().toCharArray());
             }
             ctx.connectController(target.getHost(), target.getPort());
-            // execute deploy to a servergroup or update if it's already
-            // deployed
-            ctx.handle("deploy " + tmpFile.getAbsolutePath() + " --server-groups=" + target.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+            
+            StringBuilder commandString = new StringBuilder();
+            commandString.append("deploy "); //$NON-NLS-1$
+            commandString.append(tmpFile.getAbsolutePath());
+            if (target.isCliDomainMode()) {
+                String serverGroup = target.getCliServerGroup();
+                undeployProperties.put("deploy.cli.domainMode", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+                if (serverGroup != null && serverGroup.trim().length() > 0) {
+                    commandString.append(" --server-groups="); //$NON-NLS-1$
+                    commandString.append(serverGroup);
+                    undeployProperties.put("deploy.cli.serverGroups", serverGroup); //$NON-NLS-1$
+                } else {
+                    commandString.append(" --all-server-groups"); //$NON-NLS-1$
+                }
+            } else {
+                // Nothing to do for standalone mode!  Just don't include the domain options above.
+            }
+            ctx.handle(commandString.toString());
             tmpFile.delete();
 
-            // record (un)deployment information
-            Map<String, String> props = new HashMap<String, String>();
-            props.put("deploy.cli.serverGroups", target.getName()); //$NON-NLS-1$
-            props.put("deploy.cli.host", target.getHost()); //$NON-NLS-1$
-            props.put("deploy.cli.port", String.valueOf(target.getPort())); //$NON-NLS-1$
-            props.put("deploy.cli.name", tmpFile.getName()); //$NON-NLS-1$
-            recordUndeploymentInfo(artifact, target, props, client);
+            recordUndeploymentInfo(artifact, target, undeployProperties, client);
             logger.info(Messages.i18n.format("CliDeployer.deploymentSuccessfully", artifact.getUuid())); //$NON-NLS-1$
             return target.getName() + " " + target.getHost(); //$NON-NLS-1$
         } finally {
@@ -120,14 +130,14 @@ public class CliDeployer extends AbstractDeployer {
      *             the exception
      */
     @Override
-    public void undeploy(BaseArtifactType prevVersionArtifact,
- BaseArtifactType undeployInfo, Target target,
+    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, Target target,
             SrampAtomApiClient client) throws Exception {
         CommandContext ctx = null;
         try {
             String deploymentName = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.cli.name"); //$NON-NLS-1$
             String cliHost = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.cli.host"); //$NON-NLS-1$
             Integer cliPort = new Integer(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.cli.port")); //$NON-NLS-1$
+            boolean domainMode = "true".equals(SrampModelUtils.getCustomProperty(undeployInfo, "deploy.cli.domainMode")); //$NON-NLS-1$ //$NON-NLS-2$
 
             // Deploy using AS CLI.
             // TODO CLI creds should probably be separate from the configuration
@@ -139,7 +149,11 @@ public class CliDeployer extends AbstractDeployer {
                         target.getPassword().toCharArray());
             }
             ctx.connectController(cliHost, cliPort);
-            ctx.handle("undeploy " + deploymentName); //$NON-NLS-1$
+            if (domainMode) {
+                ctx.handle("undeploy " + deploymentName + " --all-relevant-server-groups"); //$NON-NLS-1$ //$NON-NLS-2$
+            } else {
+                ctx.handle("undeploy " + deploymentName); //$NON-NLS-1$
+            }
         } finally {
             if (ctx != null)
                 ctx.terminateSession();
