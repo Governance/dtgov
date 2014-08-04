@@ -57,7 +57,10 @@
       <artifactId>overlord-commons-dist-eap6</artifactId>
       <type>zip</type>
     </dependency>
-
+     <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-codec</artifactId>
+      </dependency>
     <!-- S-RAMP CLI (used during installation/seeding) -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>

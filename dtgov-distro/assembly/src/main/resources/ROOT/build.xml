@@ -20,7 +20,7 @@
   <property name="lib.mail.jar" location="${dtgov-distro.libdir}/${dtgov.lib.mail.jar}" />
   <property name="dtgov-distro.overlord-commons-ant.jar" location="${dtgov-distro.bindir}/overlord-commons-ant-${overlord-commons.version}.jar" />
   <property name="dtgov-workflows-jar.path" location="${dtgov-distro.rootdir}/bin/dtgov-workflows-${dtgov.version}.jar"/>
-
+  <property name="dtgov-distro.overlord-commons-codec.jar" location="${dtgov-distro.bindir}/overlord-commons-codec-${overlord-commons.version}.jar" />	
   
   <!-- Install DTGov -->
   <target name="install">
@@ -172,6 +172,8 @@
       <property name="overlord-commons.ant.jar" location="${dtgov-distro.overlord-commons-ant.jar}" />
       <property name="dtgov.dtgov-war-tc7.path" location="${dtgov-distro.bindir}/dtgov-war-tomcat7-${dtgov.version}.war" />
       <property name="dtgov.dtgov-ui-tc7.path" location="${dtgov-distro.bindir}/dtgov-ui-war-tomcat7-${dtgov.version}.war" />
+      <property name="commons-codec.jar" location="${dtgov-distro.libdir}/commons-codec.jar" />      	 
+      <property name="overlord-commons.codec.jar" location="${dtgov-distro.overlord-commons-codec.jar}" />      	
     </ant>
   </target>
 
@@ -219,6 +221,7 @@
       <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-${overlord-commons.version}.jar" />
       <property name="overlord-commons.ant.jar" location="${dtgov-distro.overlord-commons-ant.jar}" />
       <property name="commons-codec.jar" location="${dtgov-distro.libdir}/commons-codec.jar" />     	
+      <property name="overlord-commons.codec.jar" location="${dtgov-distro.overlord-commons-codec.jar}" />  
     </ant>
   </target>
 
@@ -289,6 +292,8 @@
       <property name="overlord-commons.idp.file" value="${dtgov-distro.bindir}/overlord-commons-idp-jetty8-${overlord-commons.version}.war" />
       <property name="dtgov.dtgov-war.path" location="${dtgov-distro.bindir}/dtgov-war-jetty8-${dtgov.version}.war" />
       <property name="dtgov.dtgov-ui.path" location="${dtgov-distro.bindir}/dtgov-ui-war-jetty8-${dtgov.version}.war" />
+      <property name="overlord-commons.codec.jar" location="${dtgov-distro.overlord-commons-codec.jar}" />    	    	
+      <property name="commons-codec.jar" location="${dtgov-distro.libdir}/commons-codec.jar" />      	    	
     </ant>
   </target>
   
