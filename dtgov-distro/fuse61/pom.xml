@@ -77,6 +77,7 @@
               <attach>true</attach>
               <repositories>
                 <repository>mvn:org.overlord/overlord-commons-dist-fuse6/${overlord-commons.version}/xml/features</repository>
+		<repository>mvn:org.overlord.sramp/s-ramp-distro-fuse61/${s-ramp.version}/xml/features</repository>
               </repositories>
               <features>
                 <!-- All DTGov Dependencies -->
@@ -89,6 +90,10 @@
                       <name>overlord-commons-idp</name>
                       <version>${overlord-commons.version}</version>
                     </feature>
+                    <feature>
+		      <name>s-ramp-modules</name>
+		      <version>${s-ramp.version}</version>
+		    </feature>
                     <feature>
                       <name>jndi</name>
                     </feature>
