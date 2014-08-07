@@ -611,6 +611,13 @@
         <type>zip</type>
       </dependency>
 
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-codec</artifactId>
+        <version>${overlord-commons.version}</version>
+      </dependency>
+
+
       <!-- Apache Commons -->
       <dependency>
         <groupId>org.apache.commons</groupId>
