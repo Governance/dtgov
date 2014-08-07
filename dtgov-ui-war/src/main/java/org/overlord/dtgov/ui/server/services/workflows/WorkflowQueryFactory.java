@@ -65,7 +65,7 @@ public class WorkflowQueryFactory {
         Map<String, String> props = SrampModelUtils.getCustomPropertiesByPrefix(artifact, WORKFLOW_QUERY_PROPS_PREFIX);
         if (props != null && !props.isEmpty()) {
             for (String key : props.keySet()) {
-                bean.addWorkflowQueryProperty(key, props.get(key));
+                bean.addWorkflowQueryProperty(key.substring(WORKFLOW_QUERY_PROPS_PREFIX.length()), props.get(key));
             }
         }
         return bean;
