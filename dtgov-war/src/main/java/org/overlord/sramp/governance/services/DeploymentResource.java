@@ -38,6 +38,7 @@ import org.overlord.dtgov.services.deploy.Deployer;
 import org.overlord.dtgov.services.deploy.DeployerFactory;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
+import org.overlord.sramp.client.SrampClientQuery;
 import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.common.ArtifactType;
 import org.overlord.sramp.common.SrampModelUtils;
@@ -180,9 +181,17 @@ public class DeploymentResource {
         // Try to find a currently deployed version of this artifact based on maven information.
         String mavenArtifactId = SrampModelUtils.getCustomProperty(artifact, "maven.artifactId"); //$NON-NLS-1$
         String mavenGroupId = SrampModelUtils.getCustomProperty(artifact, "maven.groupId"); //$NON-NLS-1$
+        String mavenClassifier = SrampModelUtils.getCustomProperty(artifact, "maven.classifier"); //$NON-NLS-1$
         if (mavenArtifactId != null && mavenGroupId != null) {
-            QueryResultSet resultSet = client.buildQuery("/s-ramp[@maven.artifactId = ? and @maven.groupId = ? and s-ramp:exactlyClassifiedByAllOf(., ?)]") //$NON-NLS-1$
-                    .parameter(mavenArtifactId).parameter(mavenGroupId).parameter(classifier).count(2).query();
+            String q = "/s-ramp[@maven.artifactId = ? and @maven.groupId = ? and s-ramp:exactlyClassifiedByAllOf(., ?)]"; //$NON-NLS-1$
+            if (mavenClassifier != null) {
+                q = "/s-ramp[@maven.artifactId = ? and @maven.groupId = ? and s-ramp:exactlyClassifiedByAllOf(., ?) and @maven.classifier = ?]"; //$NON-NLS-1$
+            }
+            SrampClientQuery qbuilder = client.buildQuery(q).parameter(mavenArtifactId).parameter(mavenGroupId).parameter(classifier);
+            if (mavenClassifier != null) {
+                qbuilder.parameter(mavenClassifier);
+            }
+            QueryResultSet resultSet = qbuilder.count(2).query();
             if (resultSet.size() == 2) {
                 throw new Exception(Messages.i18n.format("DeploymentResource.MultipleMavenDeployments", target.getName(), artifact.getName())); //$NON-NLS-1$
             }
