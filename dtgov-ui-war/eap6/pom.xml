@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.overlord.dtgov</groupId>
     <artifactId>dtgov</artifactId>
-    <version>1.3.0.Final</version>
+    <version>1.4.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>dtgov-ui-war-eap6</artifactId>
