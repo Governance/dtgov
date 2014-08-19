@@ -15,11 +15,6 @@
  */
 package org.overlord.sramp.governance.services;
 
-import static org.overlord.sramp.common.test.resteasy.TestPortProvider.generateURL;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Random;
@@ -33,12 +28,9 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.overlord.sramp.common.test.resteasy.BaseResourceTest;
 
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
@@ -49,7 +41,7 @@ import com.dumbster.smtp.SmtpMessage;
  *
  * @author kurt.stam@redhat.com
  */
-public class NotificationResourceTest extends BaseResourceTest {
+public class NotificationResourceTest {
 	
 	private static SimpleSmtpServer mailServer;
 	private static Integer smtpPort = 25;
@@ -87,50 +79,12 @@ public class NotificationResourceTest extends BaseResourceTest {
 			}
             
         } catch (AddressException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } catch (MessagingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
         	mailServer.stop();
         }
         
     }
-	/**
-	 * This is an integration test, and only works if artifact 'e67e1b09-1de7-4945-a47f-45646752437a'
-     * exists in the repo; check the following urls to find out:
-     * 
-	 * http://localhost:8080/s-ramp-server/s-ramp?query=/s-ramp[@uuid%3D'e67e1b09-1de7-4945-a47f-45646752437a']
-	 * http://localhost:8080/s-ramp-server/s-ramp/user/BpmnDocument/e67e1b09-1de7-4945-a47f-45646752437a
-	 * 
-	 * @throws Exception
-	 */
-	@Test @Ignore
-	public void testNotify() {
-	    try {
-	        String notificationUrl = "/dtgov/notify/email/dev/deployed/dev/${uuid}"; //$NON-NLS-1$
-	        String uuid="3c7bb7f7-a811-4080-82db-5ece86993a11"; //$NON-NLS-1$
-	        URL url = new URL(generateURL(notificationUrl.replace("${uuid}", uuid))); //$NON-NLS-1$
-	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-	        connection.setRequestMethod("POST"); //$NON-NLS-1$
-	        connection.setConnectTimeout(10000);
-	        connection.setReadTimeout(10000);
-	        connection.connect();
-	        int responseCode = connection.getResponseCode();
-	        if (responseCode == 200) {
-	             InputStream is = (InputStream) connection.getContent();
-	             String reply = IOUtils.toString(is);
-	             System.out.println("reply=" + reply); //$NON-NLS-1$
-	        } else {
-	            System.err.println("endpoint could not be reached"); //$NON-NLS-1$
-	            Assert.fail();
-	        }
-	        
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        Assert.fail();
-	    }
-	    
-	}
 }
