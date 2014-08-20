@@ -24,11 +24,13 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Property;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Relationship;
 import org.overlord.dtgov.common.exception.ConfigException;
 import org.overlord.dtgov.server.i18n.Messages;
+import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.SrampClientException;
 import org.overlord.sramp.client.query.ArtifactSummary;
@@ -52,15 +54,34 @@ public class QueryExecutor {
     private static String GROUPED_BY = "groupedBy"; //$NON-NLS-1$
     private static Logger logger = LoggerFactory.getLogger(QueryExecutor.class);
     private static String MAVEN_PROPERTY_SIGNAL = "maven.property.signal"; //$NON-NLS-1$
+
+    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive";
+
     //signal query
     private static String SIGNAL_QUERY = "/s-ramp/ext/MavenPom[@maven.property.signal]"; //$NON-NLS-1$
 
     public static synchronized void execute() throws SrampClientException, MalformedURLException, ConfigException {
 
     	Governance governance = new Governance();
-    	String deploymentId = governance.getGovernanceWorkflowGroup() + ":"  //$NON-NLS-1$
-    			+ governance.getGovernanceWorkflowName() + ":" //$NON-NLS-1$
-    			+ governance.getGovernanceWorkflowVersion() + ":" //$NON-NLS-1$
+        String groupId = governance.getGovernanceWorkflowGroup();
+        String artifactId = governance.getGovernanceWorkflowName();
+        String workflowVersion = governance.getGovernanceWorkflowVersion();
+        String version = null;
+        try {
+            version = SrampMavenUtil.getVersion(SRAMP_KIE_MODEL, groupId, artifactId, workflowVersion);
+        } catch (SrampClientException e) {
+            throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e);
+        } catch (SrampAtomException e) {
+            throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e);
+        }
+
+        if (StringUtils.isBlank(version)) {
+            throw new RuntimeException(Messages.i18n.format("maven.version.not.found", groupId, artifactId, workflowVersion));
+        }
+
+        String deploymentId = groupId + ":" //$NON-NLS-1$
+                + artifactId + ":" //$NON-NLS-1$
+                + version + ":" //$NON-NLS-1$
     			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE + ":" //$NON-NLS-1$
     			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_KSESSION;
 
@@ -114,7 +135,7 @@ public class QueryExecutor {
                             parameters.put("ArtifactLastModifiedTimestamp", artifact.getLastModifiedTimestamp().toGregorianCalendar()); //$NON-NLS-1$
                             parameters.put("ArtifactType", artifactSummary.getType().getType()); //$NON-NLS-1$
                             long processInstanceId = bpmManager.newProcessInstance(deploymentId, query.getWorkflowId(), parameters);
-                            
+
                             // Update the workflow artifact with the process instance ID
                             workflowAccesor.update(workflowArtifact, processInstanceId);
                         }
