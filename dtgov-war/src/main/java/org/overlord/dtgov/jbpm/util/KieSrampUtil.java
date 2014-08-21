@@ -17,6 +17,7 @@ package org.overlord.dtgov.jbpm.util;
 
 import java.io.InputStream;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieModule;
@@ -33,6 +34,7 @@ import org.overlord.sramp.client.query.ArtifactSummary;
 import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.governance.Governance;
 import org.overlord.sramp.governance.SrampAtomApiClientFactory;
+import org.overlord.sramp.governance.SrampMavenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +44,7 @@ public class KieSrampUtil {
     private static String SRAMP_KIE_JAR_QUERY = "/s-ramp/ext/KieJarArchive[" //$NON-NLS-1$
             + "@maven.groupId=? and @maven.artifactId = ? and @maven.version = ? and xp2:not(@maven.classifier)]"; //$NON-NLS-1$
 
+    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive";
     /**
      * Returns true if the workflow JAR is deployed to the s-ramp repository.
      * @param groupId
@@ -78,12 +81,23 @@ public class KieSrampUtil {
     	SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
 
 		Governance governance = new Governance();
-        QueryResultSet results = client.buildQuery(SRAMP_KIE_JAR_QUERY)
-                .parameter(governance.getGovernanceWorkflowGroup())
-                .parameter(governance.getGovernanceWorkflowName())
-                .parameter(governance.getGovernanceWorkflowVersion()).count(1).query();
+        String workflowGroupId = governance.getGovernanceWorkflowGroup();
+        String workflowArtifactId = governance.getGovernanceWorkflowName();
+
+        String workflowVersion = SrampMavenUtil.getVersion(SRAMP_KIE_MODEL, workflowGroupId, workflowArtifactId,
+                governance.getGovernanceWorkflowVersion());
+
+        if (StringUtils.isBlank(workflowVersion)) {
+            throw new RuntimeException(Messages.i18n.format("maven.version.not.found", workflowGroupId, workflowArtifactId, workflowVersion));
+        }
+        QueryResultSet results = null;
+        ArtifactSummary artifactSummary = null;
+
+        results = client.buildQuery(SRAMP_KIE_JAR_QUERY).parameter(workflowGroupId).parameter(workflowArtifactId).parameter(workflowVersion).count(1)
+                .query();
+
 		if (results.size() > 0) {
-			ArtifactSummary artifactSummary = results.get(0);
+            artifactSummary = results.get(0);
 			InputStream is = client.getArtifactContent(artifactSummary);
 			KieModule kModule = repo.addKieModule(ks.getResources().newInputStreamResource(is));
 			logger.info(Messages.i18n.format("KieSrampUtil.CreatingKieContainer", artifactSummary.getName())); //$NON-NLS-1$
