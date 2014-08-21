@@ -43,6 +43,7 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.seam.transaction.Transactional;
 import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
 import org.jbpm.services.task.exception.PermissionDeniedException;
@@ -68,7 +69,10 @@ import org.overlord.dtgov.taskapi.types.TaskDataType;
 import org.overlord.dtgov.taskapi.types.TaskDataType.Entry;
 import org.overlord.dtgov.taskapi.types.TaskSummaryType;
 import org.overlord.dtgov.taskapi.types.TaskType;
+import org.overlord.sramp.atom.err.SrampAtomException;
+import org.overlord.sramp.client.SrampClientException;
 import org.overlord.sramp.governance.Governance;
+import org.overlord.sramp.governance.SrampMavenUtil;
 
 /**
  *
@@ -80,14 +84,16 @@ import org.overlord.sramp.governance.Governance;
 public class TaskApi {
 
 	private static Boolean hasSRAMPPackageDeployed = Boolean.FALSE;
-	
+
+    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive";
+
 	@Inject
     TaskService taskService;
-	
+
 	@Inject
 	@ApplicationScoped
 	private ProcessEngineService processEngineService;
-  
+
 	@PostConstruct
 	public void configure() {
 		//we need it to start to startup task management - however
@@ -98,11 +104,22 @@ public class TaskApi {
 			Governance governance = new Governance();
 			String groupId = governance.getGovernanceWorkflowGroup();
 			String artifactId = governance.getGovernanceWorkflowName();
-			String version = governance.getGovernanceWorkflowVersion();
-			
+            String workflowVersion = governance.getGovernanceWorkflowVersion();
+            String version = null;
+            try {
+                version = SrampMavenUtil.getVersion(SRAMP_KIE_MODEL, groupId, artifactId, workflowVersion);
+            } catch (SrampClientException e) {
+                throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e);
+            } catch (SrampAtomException e) {
+                throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e);
+            }
+            if (StringUtils.isBlank(version)) {
+                throw new RuntimeException(Messages.i18n.format("maven.version.not.found", groupId, artifactId, workflowVersion));
+            }
+
 			if (kieSrampUtil.isSRAMPPackageDeployed(groupId, artifactId, version)) {
 				KModuleDeploymentUnit unit = new KModuleDeploymentUnit(
-						groupId, 
+						groupId,
 						artifactId,
 						version,
 						Governance.DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE,
@@ -236,9 +253,9 @@ public class TaskApi {
         assertCurrentUser(httpRequest);
 
         Task task = taskService.getTaskById(taskId);
-        
+
         TaskType rval = new TaskType();
-        
+
         List<I18NText> descriptions = task.getDescriptions();
         if (descriptions != null && !descriptions.isEmpty()) {
             rval.setDescription(descriptions.iterator().next().getText());
@@ -265,15 +282,15 @@ public class TaskApi {
             }
             rval.setStatus(StatusType.fromValue(taskData.getStatus().toString()));
         }
-        
+
         long docId = taskService.getTaskById(taskId).getTaskData().getDocumentContentId();
-        
+
         if (docId > 0) {
 	        //Set the input params
 	        Content content = taskService.getContentById(docId);
 	        @SuppressWarnings("unchecked")
 			Map<String,Object> inputParams = (Map<String, Object>) ContentMarshallerHelper.unmarshall(content.getContent(), null);
-	
+
 	        if (inputParams!=null && inputParams.size() > 0) {
 	        	if (rval.getTaskData()==null) rval.setTaskData(new TaskDataType());
 	        	for ( String key : inputParams.keySet()) {
@@ -448,11 +465,11 @@ public class TaskApi {
             throw error;
         }
         if (error instanceof PermissionDeniedException) {
-            
+
             // Probably the task has already been started by other users
             throw new ProcessOperationException(Messages.i18n.format("TaskApi.AlreadyClaimed"), error); //$NON-NLS-1$
         }
-        
+
         throw error;
     }
 
