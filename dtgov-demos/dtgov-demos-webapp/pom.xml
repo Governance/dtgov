@@ -24,7 +24,7 @@
       <extension>
         <groupId>org.overlord.sramp</groupId>
         <artifactId>s-ramp-wagon</artifactId>
-        <version>${s-ramp.version}</version>
+        <version>${version.org.overlord.sramp}</version>
       </extension>
     </extensions>
   </build>

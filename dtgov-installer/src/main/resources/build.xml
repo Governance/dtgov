@@ -40,7 +40,7 @@
     <echo message="# S-RAMP repository.                         #" />
     <echo message="##############################################" />
 
-    <property name="dtgov.s-ramp.cli.jar" location="bin/s-ramp-shell-${s-ramp.version}.jar" />
+    <property name="dtgov.s-ramp.cli.jar" location="bin/s-ramp-shell-${version.org.overlord.sramp}.jar" />
     <property name="dtgov.s-ramp.cli.commands" location="${dtgov.install.commands.dir}/cli-commands.txt" />
     <java jar="${dtgov.s-ramp.cli.jar}" fork="true">
       <arg value="-f" />
