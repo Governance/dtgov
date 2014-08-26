@@ -249,6 +249,8 @@
         <configuration>
           <logLevel>INFO</logLevel>
           <strict>true</strict>
+	  <localWorkers>2</localWorkers>
+	  <failOnError>true</failOnError>
           <runTarget>index.html</runTarget>
           <extraJvmArgs>-Xmx512m</extraJvmArgs>
           <soyc>false</soyc>

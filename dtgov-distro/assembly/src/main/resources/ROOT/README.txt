@@ -22,11 +22,11 @@ Here is some pseudo-bash that accomplishes the above:
     mkdir ~/overlord
     # Download JBoss EAP 6.x (jboss-eap-6.x.0.zip)
     #    From - http://www.jboss.org/jbossas/downloads
-    # Download S-RAMP distribution (s-ramp-${s-ramp.version}.zip)
+    # Download S-RAMP distribution (s-ramp-${version.org.overlord.sramp}.zip)
     #    From - http://www.jboss.org/overlord/downloads/sramp
     unzip ~/Downloads/jboss-eap-6.x.0.zip ~/overlord
-    unzip ~/Downloads/s-ramp-${s-ramp.version}.zip ~/overlord
-    cd ~/overlord/s-ramp-${s-ramp.version}
+    unzip ~/Downloads/s-ramp-${version.org.overlord.sramp}.zip ~/overlord
+    cd ~/overlord/s-ramp-${version.org.overlord.sramp}
     ant install
     # Follow s-ramp installation instructions here
     
