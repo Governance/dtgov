@@ -291,6 +291,7 @@
   "targets.type.cli": "JBoss CLI",
   "targets.type.copy": "Copy",
   "targets.type.rhq": "RHQ",
+  "targets.type.custom": "Custom",
   "targets.description" : "Description",
   "targets.actions" : "Actions",
   "target.breadcrumb.targets" : "Targets",
@@ -349,6 +350,10 @@
   "target.validation.error.rhq.url.required" : "The 'RHQ Base URL' is a required field.",
   "target.validation.error.rhq.user.required" : "The 'RHQ User' is a required field.",
   "target.validation.error.rhq.password.required" : "The 'RHQ Password' is a required field.",
+  "target.validation.error.custom.type.required" : "The 'Custom TYpe' is a required field.",
+  "target.validation.error.custom.properties.required" : "At least one property is required to be added",
+  "target.validation.error.custom.property.empty" : "There is a custom property with the name or value empty.",
+  "target.validation.error.custom.property.repeated" : "There are some properties with the same key.",  
   "delete-target-submit.deleting" : "Deleting Target",
   "delete-target-submit.deleting-msg" : "Please wait while your target is deleted...",
   "delete-target-submit.successfully-deleted" : "Removal Target Completed",
@@ -380,6 +385,11 @@
   "processes.clear-all-filters" : "Clear All Filters",
   "dashboard.processes" : "Workflows",
   "dashboard.nav.processes" : "Workflows",
+  "form.custom.target.properties.table.name" : "Name",
+  "form.custom.target.properties.table.value" : "Value",  
+  "form.custom.target.properties.table.actions" : "Actions",  
+  "form.target.custom.type.name" : "Custom Type:",  
+  "form.custom.target.properties.title" : "Custom Target Properties:",         
   "dashboard.nav.processes-description" : "Go here to administrate the processes. It will allow you stop running processes and list a history of all the dtgov processes and their status."
 
 }

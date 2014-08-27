@@ -26,6 +26,8 @@ import org.apache.commons.lang.StringUtils;
 import org.overlord.dtgov.common.targets.TargetConstants;
 import org.overlord.dtgov.ui.client.shared.beans.CliTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.CopyTargetBean;
+import org.overlord.dtgov.ui.client.shared.beans.CustomTargetBean;
+import org.overlord.dtgov.ui.client.shared.beans.CustomTargetProperty;
 import org.overlord.dtgov.ui.client.shared.beans.MavenTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.RHQTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.TargetBean;
@@ -92,6 +94,14 @@ public class TargetValidator  {
 
     private final static String RHQ_PASSWORD_REQUIRED_LABEL = "target.validation.error.rhq.password.required"; //$NON-NLS-1$
 
+    // CUSTOM CONSTANTS
+    private final static String CUSTOM_TYPE_REQUIRED_LABEL = "target.validation.error.custom.type.required"; //$NON-NLS-1$
+
+    private final static String CUSTOM_PROPERTIES_REQUIRED_LABEL = "target.validation.error.custom.properties.required"; //$NON-NLS-1$
+
+    private final static String CUSTOM_PROPERTY_EMPTY_LABEL = "target.validation.error.custom.property.empty"; //$NON-NLS-1$
+
+    private final static String CUSTOM_PROPERTY_REPEATED_LABEL = "target.validation.error.custom.property.repeated"; //$NON-NLS-1$
     /**
      * Instantiates a new Target validator.
      */
@@ -173,7 +183,23 @@ public class TargetValidator  {
                     errors.add(new ValidationError(CLI_PASSWORD_REQUIRED_LABEL));
                 }
                 break;
+            case CUSTOM:
+                CustomTargetBean custom = (CustomTargetBean) bean;
+                if (StringUtils.isBlank(custom.getCustomTypeName())) {
+                    errors.add(new ValidationError(CUSTOM_TYPE_REQUIRED_LABEL));
+                }
+                if (custom.getProperties() == null || custom.getProperties().isEmpty()) {
+                    errors.add(new ValidationError(CUSTOM_PROPERTIES_REQUIRED_LABEL));
+                }
+                if (emptyCustomProperty(custom)) {
+                    errors.add(new ValidationError(CUSTOM_PROPERTY_EMPTY_LABEL));
+                }
+                if (repeatedCustomProperty(custom)) {
+                    errors.add(new ValidationError(CUSTOM_PROPERTY_REPEATED_LABEL));
+                }
+                break;
             }
+
         }
         return errors;
     }
@@ -211,6 +237,52 @@ public class TargetValidator  {
                 if (StringUtils.isNotBlank(classifier.getValue())) {
                     for (TargetClassifier second : bean.getClassifiers()) {
                         if (StringUtils.isNotBlank(second.getValue()) && classifier.getValue().equals(second.getValue())) {
+                            counter++;
+                        }
+                        if (counter == 2) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if there is any classifier empty in the TargetBean object.
+     * 
+     * @param bean
+     *            the bean
+     * @return true, if successful
+     */
+    private boolean emptyCustomProperty(CustomTargetBean bean) {
+        if (bean.getProperties() != null) {
+            for (CustomTargetProperty property : bean.getProperties()) {
+                if (StringUtils.isBlank(property.getValue()) || StringUtils.isBlank(property.getKey())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if there are repeated classifiers in the TargetBean object.
+     * 
+     * @param bean
+     *            the bean
+     * @return true, if successful
+     */
+    private boolean repeatedCustomProperty(CustomTargetBean bean) {
+        if (bean.getProperties() != null) {
+            for (CustomTargetProperty property : bean.getProperties()) {
+                int counter = 0;
+                if (StringUtils.isNotBlank(property.getKey())) {
+                    for (CustomTargetProperty second : bean.getProperties()) {
+                        if (StringUtils.isNotBlank(second.getKey()) && property.getKey().equals(second.getKey())) {
                             counter++;
                         }
                         if (counter == 2) {

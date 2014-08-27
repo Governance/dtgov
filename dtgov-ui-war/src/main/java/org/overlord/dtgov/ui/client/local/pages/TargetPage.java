@@ -38,6 +38,7 @@ import org.overlord.dtgov.ui.client.local.pages.targets.TargetTypeListBox;
 import org.overlord.dtgov.ui.client.local.pages.targets.panel.AbstractTargetPanel;
 import org.overlord.dtgov.ui.client.local.pages.targets.panel.CliTargetPanel;
 import org.overlord.dtgov.ui.client.local.pages.targets.panel.CopyTargetPanel;
+import org.overlord.dtgov.ui.client.local.pages.targets.panel.CustomTargetPanel;
 import org.overlord.dtgov.ui.client.local.pages.targets.panel.MavenTargetPanel;
 import org.overlord.dtgov.ui.client.local.pages.targets.panel.RhqTargetPanel;
 import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
@@ -71,6 +72,9 @@ import com.google.gwt.user.client.ui.TextBox;
 @Page(path = "target")
 @Dependent
 public class TargetPage extends AbstractPage {
+
+
+
     // Breadcrumbs
     /** The _back to dashboard. */
     @Inject
@@ -158,6 +162,9 @@ public class TargetPage extends AbstractPage {
     @Inject
     Instance<CopyTargetPanel> _addCopyForm;
 
+    @Inject
+    Instance<CustomTargetPanel> _addCustomForm;
+
     private AbstractTargetPanel _targetPanel;
 
     @Inject
@@ -181,14 +188,7 @@ public class TargetPage extends AbstractPage {
     private TargetBean createTargetBean() {
         TargetBean target = null;
         if (_targetType != null && _targetType.getValue() != null && !_targetType.getValue().equals("")) { //$NON-NLS-1$
-            TargetType type = TargetType.value(_targetType.getValue());
-            if (type != null) {
-                if (_targetPanel != null) {
-                    target = _targetPanel.getTargetBean();
-                }
-            } else if (_targetType.getValue().equals("custom")) { //$NON-NLS-1$
-
-            }
+            target = _targetPanel.getTargetBean();
         } else {
             target = new TargetBean();
         }
@@ -289,14 +289,19 @@ public class TargetPage extends AbstractPage {
                 case COPY:
                     _targetPanel = this._addCopyForm.get();
                     break;
+
+                case CUSTOM:
+                    _targetPanel = this._addCustomForm.get();
+                    break;
                 }
 
                 if (_targetPanel != null) {
+                    _panel.add(_targetPanel);
                     if (data != null) {
                         _targetPanel.initialize(data);
                     }
 
-                    _panel.add(_targetPanel);
+
                 }
             }
         }
@@ -398,7 +403,7 @@ public class TargetPage extends AbstractPage {
      *            the event
      */
     @EventHandler("btn-add-classifier")
-    public void ondAddProperty(ClickEvent event) {
+    public void ondAddClassifier(ClickEvent event) {
         _classifiersTable.addNewRow();
     }
 

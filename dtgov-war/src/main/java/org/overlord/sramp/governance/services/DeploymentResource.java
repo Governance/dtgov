@@ -95,6 +95,15 @@ public class DeploymentResource {
         // get the deployment environment settings
         ////////////////////////////////////////////
         Target target = governance.getTargets().get(targetRef);
+        String targetType;
+        String targetTypeStr;
+        if (target.getType().equals(Target.TYPE.CUSTOM)) {
+            targetType = target.getCustomType();
+            targetTypeStr = targetType;
+        } else {
+            targetType = target.getType().name();
+            targetTypeStr = target.getType().toString();
+        }
         if (target == null) {
             logger.error(Messages.i18n.format("DeploymentResource.NoTarget", targetRef)); //$NON-NLS-1$
             throw new SrampAtomException(Messages.i18n.format("DeploymentResource.NoTarget", targetRef)); //$NON-NLS-1$
@@ -103,7 +112,7 @@ public class DeploymentResource {
         // get the previous version of the deployment (so we can undeploy it)
         ////////////////////////////////////////////
         BaseArtifactType prevVersionArtifact = getCurrentlyDeployedVersion(client, artifact, target);
-        Deployer deployer = DeployerFactory.createDeployer(target.getType().name());
+        Deployer deployer = DeployerFactory.createDeployer(targetType);
         if (deployer == null) {
             throw new Exception(Messages.i18n.format(
                     "DeploymentResource.TargetTypeNotFound", target.getType())); //$NON-NLS-1$
@@ -115,7 +124,7 @@ public class DeploymentResource {
 
         // deploy the artifact (delegate based on target type)
         ////////////////////////////////////////////
-        String deploymentTarget = target.getType().toString() + ":"; //$NON-NLS-1$
+        String deploymentTarget = targetTypeStr + ":"; //$NON-NLS-1$
 
         try {
             deploymentTarget += deployer.deploy(artifact, target, client);
@@ -137,7 +146,7 @@ public class DeploymentResource {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        
+
         // Add a custom audit record to the artifact
         ////////////////////////////////////////////
         try {

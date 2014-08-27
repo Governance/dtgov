@@ -26,7 +26,7 @@ import org.jboss.errai.common.client.api.annotations.Portable;
  */
 @Portable
 public enum TargetType implements Serializable {
-    RHQ("rhq"), MAVEN("maven"), COPY("copy"), CLI("cli"); //$NON-NLS-1$   //$NON-NLS-2$    //$NON-NLS-3$    //$NON-NLS-4$
+    RHQ("rhq"), MAVEN("maven"), COPY("copy"), CLI("cli"), CUSTOM("custom"); //$NON-NLS-1$   //$NON-NLS-2$    //$NON-NLS-3$    //$NON-NLS-4$
 
     private String _value;
 

@@ -20,17 +20,17 @@ import java.io.Serializable;
 
 /**
  * The supported dtgov target types
- * 
+ *
  * @author David Virgil Naranjo
  */
 public enum TargetType implements Serializable {
-    RHQ("rhq"), MAVEN("maven"), COPY("copy"), CLI("cli"); //$NON-NLS-1$   //$NON-NLS-2$    //$NON-NLS-3$    //$NON-NLS-4$
+    RHQ("rhq"), MAVEN("maven"), COPY("copy"), CLI("cli"), CUSTOM("custom"); //$NON-NLS-1$   //$NON-NLS-2$    //$NON-NLS-3$    //$NON-NLS-4$
 
     private String _value;
 
     /**
      * Instantiates a new target type.
-     * 
+     *
      * @param value
      *            the value
      */
@@ -40,7 +40,7 @@ public enum TargetType implements Serializable {
 
     /**
      * Value.
-     * 
+     *
      * @param value
      *            the value
      * @return the target type
@@ -60,7 +60,7 @@ public enum TargetType implements Serializable {
 
     /**
      * Gets the value.
-     * 
+     *
      * @return the value
      */
     public String getValue() {
