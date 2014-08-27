@@ -51,6 +51,7 @@ public class CustomTargetPanel extends AbstractTargetPanel {
     @Inject
     @DataField("btn-add-property")
     private Button _addProperty;
+    
     /*
      * (non-Javadoc)
      *
@@ -62,8 +63,8 @@ public class CustomTargetPanel extends AbstractTargetPanel {
     public TargetBean getTargetBean() {
         CustomTargetBean custom = new CustomTargetBean();
         custom.setCustomTypeName(customTypeName.getValue());
-        if (_propertiesTable != null && _propertiesTable.getProperties() != null && _propertiesTable.getProperties().size() > 0) {
-            for (CustomTargetProperty property : _propertiesTable.getProperties()) {
+        if (_propertiesTable != null) {
+            for (CustomTargetProperty property : _propertiesTable.getValue()) {
                 custom.addProperty(property);
             }
         }

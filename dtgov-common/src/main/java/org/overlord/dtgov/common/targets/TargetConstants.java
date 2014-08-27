@@ -53,5 +53,5 @@ public interface TargetConstants {
 
     // CUSTOM TARGET CONSTANTS
     public static final String CUSTOM_TYPE_NAME = "deployment.custom.type"; //$NON-NLS-1$
-    public static final String PREFIX_CUSTOM_PROPERTY = "deployment.custom.property.";
+    public static final String PREFIX_CUSTOM_PROPERTY = "deployment.custom.property."; //$NON-NLS-1$
 }

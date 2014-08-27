@@ -28,10 +28,10 @@ import org.overlord.sramp.client.query.QueryResultSet;
  * @author David Virgil Naranjo
  */
 public class SrampMavenUtil {
-    private static final String MAVEN_VERSION_LATEST = "LATEST";
-    private static final String MAVEN_VERSION_RELEASE = "RELEASE";
+    private static final String MAVEN_VERSION_LATEST = "LATEST"; //$NON-NLS-1$
+    private static final String MAVEN_VERSION_RELEASE = "RELEASE"; //$NON-NLS-1$
 
-    private static final String MAVEN_QUERY_PARAMETERS = "@maven.groupId=? and @maven.artifactId = ? and xp2:not(@maven.classifier)";
+    private static final String MAVEN_QUERY_PARAMETERS = "@maven.groupId=? and @maven.artifactId = ? and xp2:not(@maven.classifier)"; //$NON-NLS-1$
 
     /**
      * Gets the version of an artifact stored in sramp.
@@ -55,14 +55,14 @@ public class SrampMavenUtil {
         if (mavenVersion.equals(MAVEN_VERSION_LATEST) || mavenVersion.equals(MAVEN_VERSION_RELEASE)) {
             QueryResultSet results = null;
             StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.append(queryModel).append("[").append(MAVEN_QUERY_PARAMETERS).append("]");
+            queryBuilder.append(queryModel).append("[").append(MAVEN_QUERY_PARAMETERS).append("]"); //$NON-NLS-1$ //$NON-NLS-2$
             SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
             if (mavenVersion.equals(MAVEN_VERSION_LATEST)) {
                 results = client.buildQuery(queryBuilder.toString()).parameter(mavenGroupId).parameter(mavenArtifactId)
-                        .propertyName("maven.version").orderBy("createdTimestamp").descending() //$NON-NLS-1$
+                        .propertyName("maven.version").orderBy("createdTimestamp").descending() //$NON-NLS-1$ //$NON-NLS-2$
                         .count(1).query();
                 if (results.size() > 0) {
-                    return results.get(0).getCustomPropertyValue("maven.version");
+                    return results.get(0).getCustomPropertyValue("maven.version"); //$NON-NLS-1$
                 } else {
                     return null;
                 }
@@ -74,7 +74,7 @@ public class SrampMavenUtil {
 
                 while (moreItems) {
                     results = client.buildQuery(queryBuilder.toString()).parameter(mavenGroupId).parameter(mavenArtifactId)
-                            .propertyName("maven.version").orderBy("createdTimestamp").descending() //$NON-NLS-1$
+                            .propertyName("maven.version").orderBy("createdTimestamp").descending() //$NON-NLS-1$ //$NON-NLS-2$
                             .count(page_size).startIndex(page * page_size).query();
                     for (ArtifactSummary artSumm : results) {
                         String version = artSumm.getCustomPropertyValue("maven.version"); //$NON-NLS-1$

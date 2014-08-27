@@ -85,7 +85,7 @@ public class TaskApi {
 
 	private static Boolean hasSRAMPPackageDeployed = Boolean.FALSE;
 
-    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive";
+    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive"; //$NON-NLS-1$
 
 	@Inject
     TaskService taskService;
@@ -109,12 +109,12 @@ public class TaskApi {
             try {
                 version = SrampMavenUtil.getVersion(SRAMP_KIE_MODEL, groupId, artifactId, workflowVersion);
             } catch (SrampClientException e) {
-                throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e);
+                throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e); //$NON-NLS-1$
             } catch (SrampAtomException e) {
-                throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e);
+                throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e); //$NON-NLS-1$
             }
             if (StringUtils.isBlank(version)) {
-                throw new RuntimeException(Messages.i18n.format("maven.version.not.found", groupId, artifactId, workflowVersion));
+                throw new RuntimeException(Messages.i18n.format("maven.version.not.found", groupId, artifactId, workflowVersion)); //$NON-NLS-1$
             }
 
 			if (kieSrampUtil.isSRAMPPackageDeployed(groupId, artifactId, version)) {

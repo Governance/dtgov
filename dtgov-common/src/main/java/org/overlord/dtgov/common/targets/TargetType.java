@@ -24,7 +24,7 @@ import java.io.Serializable;
  * @author David Virgil Naranjo
  */
 public enum TargetType implements Serializable {
-    RHQ("rhq"), MAVEN("maven"), COPY("copy"), CLI("cli"), CUSTOM("custom"); //$NON-NLS-1$   //$NON-NLS-2$    //$NON-NLS-3$    //$NON-NLS-4$
+    RHQ("rhq"), MAVEN("maven"), COPY("copy"), CLI("cli"), CUSTOM("custom"); //$NON-NLS-1$   //$NON-NLS-2$    //$NON-NLS-3$    //$NON-NLS-4$ //$NON-NLS-5$
 
     private String _value;
 

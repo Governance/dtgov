@@ -55,7 +55,7 @@ public class QueryExecutor {
     private static Logger logger = LoggerFactory.getLogger(QueryExecutor.class);
     private static String MAVEN_PROPERTY_SIGNAL = "maven.property.signal"; //$NON-NLS-1$
 
-    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive";
+    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive"; //$NON-NLS-1$
 
     //signal query
     private static String SIGNAL_QUERY = "/s-ramp/ext/MavenPom[@maven.property.signal]"; //$NON-NLS-1$
@@ -70,13 +70,13 @@ public class QueryExecutor {
         try {
             version = SrampMavenUtil.getVersion(SRAMP_KIE_MODEL, groupId, artifactId, workflowVersion);
         } catch (SrampClientException e) {
-            throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e);
+            throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e); //$NON-NLS-1$
         } catch (SrampAtomException e) {
-            throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e);
+            throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e); //$NON-NLS-1$
         }
 
         if (StringUtils.isBlank(version)) {
-            throw new RuntimeException(Messages.i18n.format("maven.version.not.found", groupId, artifactId, workflowVersion));
+            throw new RuntimeException(Messages.i18n.format("maven.version.not.found", groupId, artifactId, workflowVersion)); //$NON-NLS-1$
         }
 
         String deploymentId = groupId + ":" //$NON-NLS-1$

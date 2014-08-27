@@ -95,6 +95,10 @@ public class DeploymentResource {
         // get the deployment environment settings
         ////////////////////////////////////////////
         Target target = governance.getTargets().get(targetRef);
+        if (target == null) {
+            logger.error(Messages.i18n.format("DeploymentResource.NoTarget", targetRef)); //$NON-NLS-1$
+            throw new SrampAtomException(Messages.i18n.format("DeploymentResource.NoTarget", targetRef)); //$NON-NLS-1$
+        }
         String targetType;
         String targetTypeStr;
         if (target.getType().equals(Target.TYPE.CUSTOM)) {
@@ -103,10 +107,6 @@ public class DeploymentResource {
         } else {
             targetType = target.getType().name();
             targetTypeStr = target.getType().toString();
-        }
-        if (target == null) {
-            logger.error(Messages.i18n.format("DeploymentResource.NoTarget", targetRef)); //$NON-NLS-1$
-            throw new SrampAtomException(Messages.i18n.format("DeploymentResource.NoTarget", targetRef)); //$NON-NLS-1$
         }
 
         // get the previous version of the deployment (so we can undeploy it)

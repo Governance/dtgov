@@ -350,7 +350,7 @@
   "target.validation.error.rhq.url.required" : "The 'RHQ Base URL' is a required field.",
   "target.validation.error.rhq.user.required" : "The 'RHQ User' is a required field.",
   "target.validation.error.rhq.password.required" : "The 'RHQ Password' is a required field.",
-  "target.validation.error.custom.type.required" : "The 'Custom TYpe' is a required field.",
+  "target.validation.error.custom.type.required" : "The 'Custom Type' is a required field.",
   "target.validation.error.custom.properties.required" : "At least one property is required to be added",
   "target.validation.error.custom.property.empty" : "There is a custom property with the name or value empty.",
   "target.validation.error.custom.property.repeated" : "There are some properties with the same key.",  

@@ -94,7 +94,7 @@ public class CustomTargetPropertiesTable extends TemplatedWidgetTable implements
             public void onClick(ClickEvent event) {
                 deleteRow(rowIdx);
                 properties.remove(rowIdx);
-                setValue(properties);
+                setValue(properties, true);
             }
         });
         final TextBox valueBox = new TextBox();
@@ -123,7 +123,6 @@ public class CustomTargetPropertiesTable extends TemplatedWidgetTable implements
             }
         });
 
-
         add(rowIdx, 0, propertyKey);
         add(rowIdx, 1, valueBox);
         Element row = add(rowIdx, 2, actions);
@@ -139,8 +138,7 @@ public class CustomTargetPropertiesTable extends TemplatedWidgetTable implements
      */
     @Override
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<CustomTargetProperty>> handler) {
-        // TODO Auto-generated method stub
-        return null;
+        return addHandler(handler, ValueChangeEvent.getType());
     }
 
     /**
@@ -161,18 +159,6 @@ public class CustomTargetPropertiesTable extends TemplatedWidgetTable implements
         return i18n;
     }
 
-
-    /**
-     * Gets the properties.
-     *
-     * @return the properties
-     */
-    public List<CustomTargetProperty> getProperties() {
-        return properties;
-    }
-
-
-
     /*
      * (non-Javadoc)
      *
@@ -180,10 +166,8 @@ public class CustomTargetPropertiesTable extends TemplatedWidgetTable implements
      */
     @Override
     public List<CustomTargetProperty> getValue() {
-        // TODO Auto-generated method stub
-        return null;
+        return properties;
     }
-
 
     /**
      * Sets the config service.
@@ -205,8 +189,6 @@ public class CustomTargetPropertiesTable extends TemplatedWidgetTable implements
         this.i18n = i18n;
     }
 
-
-
     /**
      * Sets the properties.
      *
@@ -217,8 +199,6 @@ public class CustomTargetPropertiesTable extends TemplatedWidgetTable implements
         this.properties = properties;
     }
 
-
-
     /*
      * (non-Javadoc)
      *
@@ -226,8 +206,7 @@ public class CustomTargetPropertiesTable extends TemplatedWidgetTable implements
      */
     @Override
     public void setValue(List<CustomTargetProperty> value) {
-        this.setValue(value, true);
-
+        this.setValue(value, false);
     }
 
     /*
@@ -247,7 +226,9 @@ public class CustomTargetPropertiesTable extends TemplatedWidgetTable implements
                 addRow(property);
             }
         }
-
+        if (fireEvents) {
+            ValueChangeEvent.fire(this, this.properties);
+        }
     }
 
 }

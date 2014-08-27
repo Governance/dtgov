@@ -29,10 +29,7 @@ import org.jboss.errai.common.client.api.annotations.Portable;
 @Portable
 public class CustomTargetBean extends TargetBean implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 8165075213299343976L;
 
     private String customTypeName;
 
@@ -117,8 +114,8 @@ public class CustomTargetBean extends TargetBean implements Serializable {
             properties = new ArrayList<CustomTargetProperty>();
         }
         properties.add(property);
-
     }
+    
     /*
      * (non-Javadoc)
      *
@@ -127,23 +124,23 @@ public class CustomTargetBean extends TargetBean implements Serializable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("CustomTargetBean [" + super.toString() + ", customTypeName=" + customTypeName);
+        builder.append("CustomTargetBean [" + super.toString() + ", customTypeName=" + customTypeName); //$NON-NLS-1$ //$NON-NLS-2$
 
         if (properties != null && properties.size() > 0) {
-            builder.append(", properties:{");
+            builder.append(", properties:{"); //$NON-NLS-1$
             int size = properties.size();
             int i = 0;
             for (CustomTargetProperty key : properties) {
 
-                builder.append(key.getKey()).append(": ").append(key.getValue());
+                builder.append(key.getKey()).append(": ").append(key.getValue()); //$NON-NLS-1$
                 if (i < size - 1) {
-                    builder.append(", ");
+                    builder.append(", "); //$NON-NLS-1$
                 }
                 i++;
             }
-            builder.append("}");
+            builder.append("}"); //$NON-NLS-1$
         }
-        builder.append("]");
+        builder.append("]"); //$NON-NLS-1$
 
         return builder.toString();
     }

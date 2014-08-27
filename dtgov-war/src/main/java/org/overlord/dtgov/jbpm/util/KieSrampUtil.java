@@ -44,7 +44,7 @@ public class KieSrampUtil {
     private static String SRAMP_KIE_JAR_QUERY = "/s-ramp/ext/KieJarArchive[" //$NON-NLS-1$
             + "@maven.groupId=? and @maven.artifactId = ? and @maven.version = ? and xp2:not(@maven.classifier)]"; //$NON-NLS-1$
 
-    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive";
+    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive"; //$NON-NLS-1$
     /**
      * Returns true if the workflow JAR is deployed to the s-ramp repository.
      * @param groupId
@@ -88,7 +88,7 @@ public class KieSrampUtil {
                 governance.getGovernanceWorkflowVersion());
 
         if (StringUtils.isBlank(workflowVersion)) {
-            throw new RuntimeException(Messages.i18n.format("maven.version.not.found", workflowGroupId, workflowArtifactId, workflowVersion));
+            throw new RuntimeException(Messages.i18n.format("maven.version.not.found", workflowGroupId, workflowArtifactId, workflowVersion)); //$NON-NLS-1$
         }
         QueryResultSet results = null;
         ArtifactSummary artifactSummary = null;
