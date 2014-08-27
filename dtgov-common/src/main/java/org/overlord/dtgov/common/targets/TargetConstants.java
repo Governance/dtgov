@@ -50,4 +50,8 @@ public interface TargetConstants {
 
     // COPY CONSTANTS
     public static final String COPY_DEPLOY_DIR = "deployment.deployDir"; //$NON-NLS-1$
+
+    // CUSTOM TARGET CONSTANTS
+    public static final String CUSTOM_TYPE_NAME = "deployment.custom.type"; //$NON-NLS-1$
+    public static final String PREFIX_CUSTOM_PROPERTY = "deployment.custom.property.";
 }

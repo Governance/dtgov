@@ -1,7 +1,12 @@
 package org.overlord.sramp.governance;
 
+import static org.overlord.dtgov.common.targets.TargetConstants.CUSTOM_TYPE_NAME;
+import static org.overlord.dtgov.common.targets.TargetConstants.PREFIX_CUSTOM_PROPERTY;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
@@ -23,7 +28,7 @@ public class TargetFactory {
         String name = artifact.getName();
         String description = artifact.getDescription();
         String classifier = SrampModelUtils.getCustomProperty(artifact, TargetConstants.TARGET_CLASSIFIERS);
-        
+
         Target target = null;
         if (typeEnum != null) {
             switch (typeEnum) {
@@ -62,6 +67,16 @@ public class TargetFactory {
             case COPY:
                 String deployDir = SrampModelUtils.getCustomProperty(artifact, TargetConstants.COPY_DEPLOY_DIR);
                 target = Target.copy(name, classifier, deployDir);
+                break;
+            case CUSTOM:
+                String customType = SrampModelUtils.getCustomProperty(artifact, CUSTOM_TYPE_NAME);
+                Map<String, String> properties = SrampModelUtils.getCustomPropertiesByPrefix(artifact, PREFIX_CUSTOM_PROPERTY);
+
+                Map<String, String> parsed_properties = new HashMap<String, String>();
+                for (String key : properties.keySet()) {
+                    parsed_properties.put(key.substring(PREFIX_CUSTOM_PROPERTY.length()), properties.get(key));
+                }
+                target = Target.custom(name, classifier, customType, parsed_properties);
                 break;
             default:
                 break;

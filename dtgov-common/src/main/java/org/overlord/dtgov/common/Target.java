@@ -15,6 +15,8 @@
  */
 package org.overlord.dtgov.common;
 
+import java.util.Map;
+
 /**
  * A configured deployment target.  These are typically configured in the DTGov UI.
  *
@@ -23,9 +25,9 @@ package org.overlord.dtgov.common;
 public class Target {
 
     public enum TYPE {
-        COPY, RHQ, AS_CLI, MAVEN
+        COPY, RHQ, AS_CLI, MAVEN, CUSTOM
     };
-    
+
     /**
      * Create a COPY style target.
      * @param name
@@ -133,6 +135,25 @@ public class Target {
     }
 
     /**
+     * Constructor a target of custom type.
+     *
+     * @param name
+     * @param classifier
+     * @param mavenUrl
+     * @param isReleaseEnabled
+     * @param isSnapshotEnabled
+     */
+    public static final Target custom(String name, String classifier, String customType, Map<String, String> properties) {
+        Target target = new Target();
+        target.name = name;
+        target.classifier = classifier;
+        target.type = TYPE.CUSTOM;
+        target.customType = customType;
+        target.properties = properties;
+        return target;
+    }
+
+    /**
      * Constructor a target of type Maven.
      *
      * @param name
@@ -165,6 +186,8 @@ public class Target {
     private boolean cliDomainMode;
     private String cliServerGroup;
     private String description;
+    private String customType;
+    Map<String, String> properties;
 
     /**
      * Constructor.
@@ -315,6 +338,22 @@ public class Target {
      */
     public void setCliServerGroup(String cliServerGroup) {
         this.cliServerGroup = cliServerGroup;
+    }
+
+    public String getCustomType() {
+        return customType;
+    }
+
+    public void setCustomType(String customType) {
+        this.customType = customType;
+    }
+
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Map<String, String> properties) {
+        this.properties = properties;
     }
 
 }

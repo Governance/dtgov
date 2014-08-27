@@ -22,11 +22,13 @@ import static org.overlord.dtgov.common.targets.TargetConstants.CLI_PORT;
 import static org.overlord.dtgov.common.targets.TargetConstants.CLI_SERVER_GROUP;
 import static org.overlord.dtgov.common.targets.TargetConstants.CLI_USER;
 import static org.overlord.dtgov.common.targets.TargetConstants.COPY_DEPLOY_DIR;
+import static org.overlord.dtgov.common.targets.TargetConstants.CUSTOM_TYPE_NAME;
 import static org.overlord.dtgov.common.targets.TargetConstants.MAVEN_IS_RELEASE_ENABLED;
 import static org.overlord.dtgov.common.targets.TargetConstants.MAVEN_PASSWORD;
 import static org.overlord.dtgov.common.targets.TargetConstants.MAVEN_REPOSITORY_URL;
 import static org.overlord.dtgov.common.targets.TargetConstants.MAVEN_SNAPSHOT_ENABLED;
 import static org.overlord.dtgov.common.targets.TargetConstants.MAVEN_USER;
+import static org.overlord.dtgov.common.targets.TargetConstants.PREFIX_CUSTOM_PROPERTY;
 import static org.overlord.dtgov.common.targets.TargetConstants.RHQ_BASE_URL;
 import static org.overlord.dtgov.common.targets.TargetConstants.RHQ_PASSWORD;
 import static org.overlord.dtgov.common.targets.TargetConstants.RHQ_PLUGIN_NAME;
@@ -38,6 +40,7 @@ import static org.overlord.dtgov.common.targets.TargetConstants.TARGET_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactEnum;
@@ -46,6 +49,8 @@ import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.ExtendedArtifactType;
 import org.overlord.dtgov.common.targets.TargetConstants;
 import org.overlord.dtgov.ui.client.shared.beans.CliTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.CopyTargetBean;
+import org.overlord.dtgov.ui.client.shared.beans.CustomTargetBean;
+import org.overlord.dtgov.ui.client.shared.beans.CustomTargetProperty;
 import org.overlord.dtgov.ui.client.shared.beans.MavenTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.RHQTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.TargetBean;
@@ -171,6 +176,16 @@ public class TargetFactory {
                 String deployDir = SrampModelUtils.getCustomProperty(artifact, COPY_DEPLOY_DIR);
                 bean = new CopyTargetBean(uuid, classifiersList, description, name, deployDir);
                 break;
+            case CUSTOM:
+                String customType = SrampModelUtils.getCustomProperty(artifact, CUSTOM_TYPE_NAME);
+                Map<String,String> properties=SrampModelUtils.getCustomPropertiesByPrefix(artifact, PREFIX_CUSTOM_PROPERTY);
+
+                List<CustomTargetProperty> parsed_properties = new ArrayList<CustomTargetProperty>();
+                for (String key : properties.keySet()) {
+                    parsed_properties.add(new CustomTargetProperty(key.substring(PREFIX_CUSTOM_PROPERTY.length()), properties.get(key)));
+                }
+                bean = new CustomTargetBean(uuid, classifiersList, description, name, customType, parsed_properties);
+                break;
             default:
                 break;
             }
@@ -197,6 +212,7 @@ public class TargetFactory {
             SrampModelUtils.setCustomProperty(artifact, TARGET_CLASSIFIERS, getClassifiers(target.getClassifiers()));
         }
         SrampModelUtils.setCustomProperty(artifact, TARGET_TYPE, target.getType().getValue());
+
         switch (target.getType()) {
         case RHQ:
             RHQTargetBean rhq = (RHQTargetBean) target;
@@ -262,7 +278,16 @@ public class TargetFactory {
                 SrampModelUtils.setCustomProperty(artifact, MAVEN_SNAPSHOT_ENABLED, "false"); //$NON-NLS-1$
             }
             break;
-
+        case CUSTOM:
+            CustomTargetBean custom = (CustomTargetBean) target;
+            if (StringUtils.isNotBlank(custom.getCustomTypeName())) {
+                SrampModelUtils.setCustomProperty(artifact, CUSTOM_TYPE_NAME, custom.getCustomTypeName());
+            }
+            if (custom.getProperties() != null && custom.getProperties().size() > 0) {
+                for (CustomTargetProperty key : custom.getProperties()) {
+                    SrampModelUtils.setCustomProperty(artifact, PREFIX_CUSTOM_PROPERTY + key.getKey(), key.getValue());
+                }
+            }
         default:
             break;
         }
