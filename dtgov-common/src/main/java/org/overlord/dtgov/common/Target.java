@@ -17,6 +17,8 @@ package org.overlord.dtgov.common;
 
 import java.util.Map;
 
+import org.overlord.dtgov.common.targets.TargetConstants;
+
 /**
  * A configured deployment target.  These are typically configured in the DTGov UI.
  *
@@ -354,6 +356,20 @@ public class Target {
 
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
+    }
+
+    public String getProperty(String key) {
+        if (properties != null && !properties.isEmpty()) {
+            if (properties.containsKey(key)) {
+                return properties.get(key);
+            } else {
+                String key_prefixed = TargetConstants.PREFIX_CUSTOM_PROPERTY + key;
+                if (properties.containsKey(key_prefixed)) {
+                    return properties.get(key_prefixed);
+                }
+            }
+        }
+        return null;
     }
 
 }
