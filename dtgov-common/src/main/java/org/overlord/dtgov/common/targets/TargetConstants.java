@@ -32,6 +32,7 @@ public interface TargetConstants {
     public static final String RHQ_PLUGIN_NAME = "deployment.pluginName"; //$NON-NLS-1$
     public static final String RHQ_USER = "deployment.user"; //$NON-NLS-1$
     public static final String RHQ_PASSWORD = "deployment.password"; //$NON-NLS-1$
+    public static final String RHQ_GROUP = "deployment.group"; //$NON-NLS-1$
 
     // CLI CONSTANTS
     public static final String CLI_HOST = "deployment.host"; //$NON-NLS-1$

@@ -94,6 +94,10 @@ public class TargetValidator  {
 
     private final static String RHQ_PASSWORD_REQUIRED_LABEL = "target.validation.error.rhq.password.required"; //$NON-NLS-1$
 
+    private final static String RHQ_GROUP_REQUIRED_LABEL = "target.validation.error.rhq.group.required"; //$NON-NLS-1$
+
+    private final static String RHQ_PLUGIN_REQUIRED_LABEL = "target.validation.error.rhq.plugin.required"; //$NON-NLS-1$
+
     // CUSTOM CONSTANTS
     private final static String CUSTOM_TYPE_REQUIRED_LABEL = "target.validation.error.custom.type.required"; //$NON-NLS-1$
 
@@ -160,6 +164,12 @@ public class TargetValidator  {
                 }
                 if (StringUtils.isBlank(rhq.getPassword())) {
                     errors.add(new ValidationError(RHQ_PASSWORD_REQUIRED_LABEL));
+                }
+                if (StringUtils.isBlank(rhq.getRhqPlugin())) {
+                    errors.add(new ValidationError(RHQ_PLUGIN_REQUIRED_LABEL));
+                }
+                if (StringUtils.isBlank(rhq.getRhqGroup())) {
+                    errors.add(new ValidationError(RHQ_GROUP_REQUIRED_LABEL));
                 }
                 break;
             case COPY:
@@ -252,7 +262,7 @@ public class TargetValidator  {
 
     /**
      * Check if there is any classifier empty in the TargetBean object.
-     * 
+     *
      * @param bean
      *            the bean
      * @return true, if successful
@@ -271,7 +281,7 @@ public class TargetValidator  {
 
     /**
      * Check if there are repeated classifiers in the TargetBean object.
-     * 
+     *
      * @param bean
      *            the bean
      * @return true, if successful

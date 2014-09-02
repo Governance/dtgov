@@ -51,6 +51,10 @@ public class RhqTargetPanel extends AbstractTargetPanel {
     @DataField("form-target-url-input")
     private TextBox _baseURL;
 
+    @Inject
+    @DataField("form-target-group-input")
+    private TextBox _group;
+
     /* (non-Javadoc)
      * @see org.overlord.dtgov.ui.client.local.pages.target.panel.AbstractTargetPanel#getTargetBean()
      */
@@ -61,6 +65,7 @@ public class RhqTargetPanel extends AbstractTargetPanel {
         bean.setRhqPlugin(_pluginName.getValue());
         bean.setUser(_user.getValue());
         bean.setPassword(_password.getValue());
+        bean.setRhqGroup(_group.getValue());
         return bean;
     }
 
@@ -74,6 +79,7 @@ public class RhqTargetPanel extends AbstractTargetPanel {
         _password.setValue(rhq.getPassword());
         _baseURL.setValue(rhq.getBaseUrl());
         _pluginName.setValue(rhq.getRhqPlugin());
+        _group.setValue(rhq.getRhqGroup());
     }
 
     /**
@@ -150,6 +156,14 @@ public class RhqTargetPanel extends AbstractTargetPanel {
      */
     public void setBaseURL(TextBox baseURL) {
         this._baseURL = baseURL;
+    }
+
+    public TextBox getGroup() {
+        return _group;
+    }
+
+    public void setGroup(TextBox group) {
+        this._group = group;
     }
 
 }

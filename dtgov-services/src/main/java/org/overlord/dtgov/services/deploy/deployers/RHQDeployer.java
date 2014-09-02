@@ -61,7 +61,7 @@ public class RHQDeployer extends AbstractDeployer {
 
             // Deploy the artifact to each server in the preconfigured RHQ
             // Server Group
-            Integer rhqGroupId = rhqDeployUtil.getGroupIdForGroup(target.getName());
+            Integer rhqGroupId = rhqDeployUtil.getGroupIdForGroup(target.getRhqGroup());
             rhqDeployUtil.wipeArchiveIfNecessary(artifact.getName(), rhqGroupId);
             List<Integer> resourceIds = rhqDeployUtil.getServerIdsForGroup(rhqGroupId);
             is = client.getArtifactContent(ArtifactType.valueOf(artifact), artifact.getUuid());

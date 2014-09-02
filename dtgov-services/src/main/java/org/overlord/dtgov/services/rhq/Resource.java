@@ -19,8 +19,7 @@
 
 package org.overlord.dtgov.services.rhq;
 
-import java.util.List;
-import java.util.Map;
+
 
 /**
  * A resource for testing purposes
@@ -35,8 +34,7 @@ public class Resource {
     Integer parentId;
     String status;
     int typeId;
-    @SuppressWarnings("rawtypes")
-	List<Map> links;
+
     String ancestry;
     String location;
     String description;
@@ -92,15 +90,6 @@ public class Resource {
         this.typeId = typeId;
     }
 
-    @SuppressWarnings("rawtypes")
-	public List<Map> getLinks() {
-        return links;
-    }
-
-    @SuppressWarnings("rawtypes")
-	public void setLinks(List<Map> links) {
-        this.links = links;
-    }
 
     public String getAncestry() {
         return ancestry;
