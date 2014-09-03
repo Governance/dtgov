@@ -27,7 +27,7 @@ public class CustomDeployer extends AbstractDeployer {
 
     private static Logger logger = LoggerFactory.getLogger(CustomDeployer.class);
 
-    private final static String CUSTOM_DEPLOY_DIR_PROPERTY = "deploy_dir";
+    private final static String CUSTOM_DEPLOY_DIR_PROPERTY = "deploy_dir"; //$NON-NLS-1$
 
     /**
      * Deploys an artifact by copying it onto the file system.
@@ -89,7 +89,7 @@ public class CustomDeployer extends AbstractDeployer {
             Map<String, String> props = new HashMap<String, String>();
             props.put("deploy.copy.file", file.getCanonicalPath()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
-            logger.info("The deployment of the artifact with UUID=" + artifact.getUuid() + " has been successfully done."); //$NON-NLS-1$ $NON-NLS-2$
+            logger.info("The deployment of the artifact with UUID=" + artifact.getUuid() + " has been successfully done."); //$NON-NLS-1$ //$NON-NLS-2$
             return file.getAbsolutePath();
         } finally {
             IOUtils.closeQuietly(os);
