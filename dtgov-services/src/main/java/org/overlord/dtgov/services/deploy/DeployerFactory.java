@@ -31,6 +31,7 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.overlord.commons.services.ServiceRegistryUtil;
 import org.overlord.dtgov.common.DTGovConstants;
+import org.overlord.dtgov.common.Target;
 
 /**
  * Factory used to create an {@link Deployer} for a particular type of artifact.
@@ -102,5 +103,15 @@ public class DeployerFactory {
     public final static Deployer createDeployer(String deployerType) {
         Deployer deployer = deployers.get(deployerType);
         return deployer;
+    }
+
+    public static List<String> getCustomDeployerNames() {
+        List<String> customDeployers = new ArrayList<String>();
+        for (String deployer : deployers.keySet()) {
+            if (Target.TYPE.valueOf(deployer) == null) {
+                customDeployers.add(deployer);
+            }
+        }
+        return customDeployers;
     }
 }

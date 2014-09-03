@@ -80,7 +80,7 @@ public class UiConfigurationServletTest {
             public Configuration getConfiguration() {
                 return config;
             }
-        });
+        }, null);
         Assert.assertNotNull(rval);
         Assert.assertTrue(rval.contains("http://test.overlord.org:8080/s-ramp-ui")); //$NON-NLS-1$
         // TODO re-enable this assertion but make it cross-platform :(
@@ -99,7 +99,7 @@ public class UiConfigurationServletTest {
             public Configuration getConfiguration() {
                 return config;
             }
-        });
+        }, null);
         Assert.assertNotNull(rval);
         // TODO re-enable this assertion but make it cross-platform :(
 //        Assert.assertEquals(EXPECTED_DEFAULT, rval);

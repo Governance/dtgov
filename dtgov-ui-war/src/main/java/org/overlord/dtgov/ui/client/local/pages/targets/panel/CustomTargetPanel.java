@@ -15,32 +15,43 @@
  */
 package org.overlord.dtgov.ui.client.local.pages.targets.panel;
 
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.overlord.dtgov.ui.client.local.beans.UiConfiguration;
+import org.overlord.dtgov.ui.client.local.pages.targets.TargetTypeListBox;
+import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
 import org.overlord.dtgov.ui.client.shared.beans.CustomTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.CustomTargetProperty;
 import org.overlord.dtgov.ui.client.shared.beans.TargetBean;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * Custom target panel added in the TargetPage when the type "custom" is
  * selected in the type select input.
- * 
+ *
  * @author David Virgil Naranjo
  */
 @Templated("/org/overlord/dtgov/ui/client/local/site/targets/custom_target.html#target_content")
 @Dependent
 public class CustomTargetPanel extends AbstractTargetPanel {
+
+    /** The _workflow. */
     @Inject
     @DataField("form-custom-target-type-input")
-    private TextBox customTypeName;
+    private TargetTypeListBox customType;
+
+    /** The _config service. */
+    @Inject
+    private ConfigurationService _configService;
 
     /** The _properties table. */
     @Inject
@@ -51,7 +62,7 @@ public class CustomTargetPanel extends AbstractTargetPanel {
     @Inject
     @DataField("btn-add-property")
     private Button _addProperty;
-    
+
     /*
      * (non-Javadoc)
      *
@@ -62,7 +73,7 @@ public class CustomTargetPanel extends AbstractTargetPanel {
     @Override
     public TargetBean getTargetBean() {
         CustomTargetBean custom = new CustomTargetBean();
-        custom.setCustomTypeName(customTypeName.getValue());
+        custom.setCustomTypeName(customType.getValue());
         if (_propertiesTable != null) {
             for (CustomTargetProperty property : _propertiesTable.getValue()) {
                 custom.addProperty(property);
@@ -82,28 +93,10 @@ public class CustomTargetPanel extends AbstractTargetPanel {
     @Override
     public void initialize(TargetBean bean) {
         CustomTargetBean custom = (CustomTargetBean) bean;
-        customTypeName.setValue(custom.getCustomTypeName());
+        customType.setValue(custom.getCustomTypeName());
         _propertiesTable.setValue(custom.getProperties());
     }
 
-    /**
-     * Gets the custom type name.
-     *
-     * @return the custom type name
-     */
-    public TextBox getCustomTypeName() {
-        return customTypeName;
-    }
-
-    /**
-     * Sets the custom type name.
-     *
-     * @param customTypeName
-     *            the new custom type name
-     */
-    public void setCustomTypeName(TextBox customTypeName) {
-        this.customTypeName = customTypeName;
-    }
 
     /**
      * Adds the new property.
@@ -133,6 +126,20 @@ public class CustomTargetPanel extends AbstractTargetPanel {
      */
     public void setPropertiesTable(CustomTargetPropertiesTable _propertiesTable) {
         this._propertiesTable = _propertiesTable;
+    }
+
+    /**
+     * Method execuded on post construct. Initialize the components.
+     */
+    @PostConstruct
+    protected void onPostConstruct() {
+
+        this.customType.clear();
+        UiConfiguration uiConfig = _configService.getUiConfig();
+        Map<String, String> typesMap = uiConfig.getCustomDeployerTypes();
+        for (String key : typesMap.keySet()) {
+            customType.addItem(key, typesMap.get(key));
+        }
     }
 
 }
