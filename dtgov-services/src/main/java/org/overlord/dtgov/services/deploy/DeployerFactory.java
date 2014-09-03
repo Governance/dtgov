@@ -105,10 +105,24 @@ public class DeployerFactory {
         return deployer;
     }
 
+    /**
+     * Gets the custom deployer names.
+     *
+     * @return the custom deployer names
+     */
     public static List<String> getCustomDeployerNames() {
         List<String> customDeployers = new ArrayList<String>();
+        Target.TYPE[] targetTypes = Target.TYPE.values();
         for (String deployer : deployers.keySet()) {
-            if (Target.TYPE.valueOf(deployer) == null) {
+            boolean found = false;
+            for (int i = 0; i < targetTypes.length; i++) {
+                Target.TYPE type = targetTypes[i];
+                if (type.name().equals(deployer)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
                 customDeployers.add(deployer);
             }
         }
