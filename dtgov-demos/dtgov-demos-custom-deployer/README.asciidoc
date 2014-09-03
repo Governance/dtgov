@@ -1,0 +1,78 @@
+DTGov Demos: Custom Deployer Deployment
+------------------------------------------
+
+Summary
+~~~~~~~
+
+This demo shows how DTGov can use external custom deployers to deploy artifacts during the 
+DeploymentResource phase. In this example the custom deployer created copy the artifact into
+a directory, simulating the COPY Deployer.
+
+Requirements
+~~~~~~~~~~~~
+
+....
+
+Users and Roles
+^^^^^^^^^^^^^^^
+This demo uses the roles _dev_, _qa_, _stage_ and _prod_.  By default the _admin_ user
+has all of these roles.  Alternatively you can configure your local application server
+to assign appropriate roles.
+
+Authentication Settings
+^^^^^^^^^^^^^^^^^^^^^^^
+Be aware that when performing a maven deployment (mvn deploy) you must supply the maven build 
+with valid credentials for your S-RAMP repository.  This can be done by adding a section to 
+your ~/.m2/settings.xml file (or by providing a custom settings.xml on the mvn command line 
+using the '-s' argument).
+
+For more information see:  http://maven.apache.org/settings.html
+
+Your settings.xml file should contain two additional server entries in the servers section:
+....
+    <server>
+      <id>local-sramp-repo</id>
+      <username>admin</username>
+      <password>YOUR-PASSWORD</password>
+    </server>
+    <server>
+      <id>local-sramp-repo-snapshots</id>
+      <username>admin</username>
+      <password>YOUR-PASSWORD</password>
+    </server>
+....
+
+How It Works
+~~~~~~~~~~~~
+
+1 The first (and only) step in this demo is to run the following maven command:
+	....
+	$ mvn clean install
+	....
+
+2 Then copy the generated jar to your dtgov custom deployers directory. It can be defined anywhere in your filesystem. Then copy the path of this directory.
+
+3 Install dtgov and s-ramp in the platform you choose. For this example it is necessary to install dtgov in jboss eap.
+
+4 Initiate jboss eap with the system property:
+	.... 
+	dtgov.deployers.customDir=${YOUR_CUSTOM_DEPLOYERS_DIR}
+	....
+
+5 Populate dtgov:
+   5.1 Unzip the dtgov-distro/assembly/target/dtgov-{version}.zip
+   5.2 ant seed -Ds-ramp.shell.password=admin -Ds-ramp.shell.password={PASSWORD} -Ds-ramp.endpoint=http://localhost:8080/s-ramp-server/
+
+6 Go to http://localhost:8080/dtgov-ui/targets# and edit the dev target
+   6.1 Target-Type=Custom
+   6-2 Then in the Custom Type write "custom_jboss" (If you take a look to the java code of this project you can see that is the name that is defined in the CustomDeployerProvider class).
+   6.3 Add a new property:  deploy_dir=/tmp/dev/jbossas7/standalone/deployments
+
+7 You have to complete later a deployment. For doing that you can follow the instructions of the dtgov-demos-webapp or the project-requirements demo projects. 
+  Once the deployment is done, you can see that the war artifact has been copied to the deploy_dir directory you defined in the step 6.3.
+
+This completes this demo.
+
+
+
+
