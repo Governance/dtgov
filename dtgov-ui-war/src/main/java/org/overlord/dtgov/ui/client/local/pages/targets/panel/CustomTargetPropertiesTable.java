@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * Table widget included in the custom target panel to include custom properties
- * 
+ *
  * @author David Virgil Naranjo
  */
 @Dependent
@@ -127,6 +127,7 @@ public class CustomTargetPropertiesTable extends TemplatedWidgetTable implements
         add(rowIdx, 1, valueBox);
         Element row = add(rowIdx, 2, actions);
         setStyleName(row, "actions", true); //$NON-NLS-1$
+        propertyKey.setFocus(true);
     }
 
     /*
