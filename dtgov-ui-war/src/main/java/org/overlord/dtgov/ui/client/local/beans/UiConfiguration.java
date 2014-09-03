@@ -40,6 +40,7 @@ public class UiConfiguration {
     private final Map<String, String> deploymentTypes = new TreeMap<String, String>();
     private final Map<String, String> workflowPropertyKeyTypes = new LinkedHashMap<String, String>();
     private final Map<String, String> targetKeyTypes = new LinkedHashMap<String, String>();
+    private final Map<String, String> customDeployerTypes = new LinkedHashMap<String, String>();
 
     /**
      * Constructor.
@@ -98,6 +99,19 @@ public class UiConfiguration {
     private void addTargetKeyType(String label, String example) {
         this.getTargetKeyTypes().put(label, example);
         GWT.log("[UiConfig] - Registered Working Type: " + label + " example: " + example); //$NON-NLS-1$ //$NON-NLS-2$
+    }
+
+    /**
+     * Adds the target key type.
+     * 
+     * @param label
+     *            the label
+     * @param example
+     *            the example
+     */
+    private void addCustomDeployerType(String label, String example) {
+        this.getCustomDeployerTypes().put(label, example);
+        GWT.log("[UiConfig] - Registered Custom Deployer Type: " + label + " example: " + example); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -169,6 +183,10 @@ public class UiConfiguration {
         return targetKeyTypes;
     }
 
+    public Map<String, String> getCustomDeployerTypes() {
+        return customDeployerTypes;
+    }
+
     /**
      * Read the configuration information from the OVERLORD_DTGOVUI_CONFIG
      * javascript variable.
@@ -221,17 +239,27 @@ public class UiConfiguration {
 				}
 			}
 
+			// Read the targets
+			var customDeployerTypes = $wnd.OVERLORD_DTGOVUI_CONFIG.customDeployers;
+			for ( var k in customDeployerTypes) {
+				if (customDeployerTypes.hasOwnProperty(k)) {
+					var label = k;
+					var example = customDeployerTypes[k];
+					dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::addCustomDeployerType(Ljava/lang/String;Ljava/lang/String;)(label,example);
+				}
+			}
+
 			// Read the s-ramp UI config
 			var srampUiConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.srampui;
-            var urlBase = srampUiConfig.urlBase;
+			var urlBase = srampUiConfig.urlBase;
 
-            // Read the auth config
-            var authConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.auth;
-            var currentUser = authConfig.currentUser;
-            var isAdmin = authConfig.isAdmin;
+			// Read the auth config
+			var authConfig = $wnd.OVERLORD_DTGOVUI_CONFIG.auth;
+			var currentUser = authConfig.currentUser;
+			var isAdmin = authConfig.isAdmin;
 			dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setSrampUiUrlBase(Ljava/lang/String;)(urlBase);
-            dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setCurrentUser(Ljava/lang/String;)(currentUser);
-            dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setAdmin(Ljava/lang/String;)(''+isAdmin);
+			dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setCurrentUser(Ljava/lang/String;)(currentUser);
+			dis.@org.overlord.dtgov.ui.client.local.beans.UiConfiguration::setAdmin(Ljava/lang/String;)(''+isAdmin);
 		} catch (e) {
 			// TODO do something interesting here?
 		}
@@ -255,7 +283,7 @@ public class UiConfiguration {
     public String getSrampUiUrlBase() {
         return srampUiUrlBase;
      }
-     
+
    /**
      * @return the currentUser
      */

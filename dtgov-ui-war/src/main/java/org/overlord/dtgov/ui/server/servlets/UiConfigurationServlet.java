@@ -33,6 +33,8 @@ import org.overlord.dtgov.ui.client.shared.beans.TargetType;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.DtgovUIConfig.DeploymentStage;
 import org.overlord.dtgov.ui.server.i18n.Messages;
+import org.overlord.dtgov.ui.server.services.dtgov.DtGovClientAccessor;
+import org.overlord.dtgov.ui.server.services.dtgov.IDtgovClient;
 import org.overlord.dtgov.ui.server.util.AuthUtils;
 
 /**
@@ -46,6 +48,9 @@ public class UiConfigurationServlet extends HttpServlet {
 
     @Inject
     private DtgovUIConfig config;
+
+    @Inject
+    private DtGovClientAccessor _dtgovClientAccessor;
 
     /**
      * Constructor.
@@ -64,9 +69,9 @@ public class UiConfigurationServlet extends HttpServlet {
 
         // Now generate the JavaScript data (JSON)
         response.setContentType("text/javascript"); //$NON-NLS-1$
-
+        IDtgovClient client = _dtgovClientAccessor.getClient();
         try {
-            String json = generateJSONConfig(req, config);
+            String json = generateJSONConfig(req, config, client);
             response.getOutputStream().write("var OVERLORD_DTGOVUI_CONFIG = ".getBytes("UTF-8")); //$NON-NLS-1$ //$NON-NLS-2$
             response.getOutputStream().write(json.getBytes("UTF-8")); //$NON-NLS-1$
             response.getOutputStream().write(";".getBytes("UTF-8")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -81,7 +86,7 @@ public class UiConfigurationServlet extends HttpServlet {
      * @param config
      * @throws Exception
      */
-    protected static String generateJSONConfig(HttpServletRequest request, DtgovUIConfig config) throws Exception {
+    protected static String generateJSONConfig(HttpServletRequest request, DtgovUIConfig config, IDtgovClient client) throws Exception {
         StringWriter json = new StringWriter();
         JsonFactory f = new JsonFactory();
         JsonGenerator g = f.createJsonGenerator(json);
@@ -183,6 +188,21 @@ public class UiConfigurationServlet extends HttpServlet {
         }
 
         g.writeEndObject();
+        g.writeEndObject();
+        List<String> customDeployers = null;
+        if (client != null) {
+            customDeployers = client.getCustomDeployerNames();
+        }
+
+        // Target types
+        g.writeObjectFieldStart("customDeployers"); //$NON-NLS-1$
+
+        if (customDeployers != null && customDeployers.size() > 0) {
+            for (String customDeployer : customDeployers) {
+                g.writeStringField(customDeployer, customDeployer);
+            }
+        }
+
         g.writeEndObject();
 
         g.flush();

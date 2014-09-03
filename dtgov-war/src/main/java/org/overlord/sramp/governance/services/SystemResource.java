@@ -15,12 +15,15 @@
  */
 package org.overlord.sramp.governance.services;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
+import org.overlord.dtgov.services.deploy.DeployerFactory;
 import org.overlord.sramp.governance.Governance;
 
 /**
@@ -46,7 +49,14 @@ public class SystemResource {
         builder.append("  \"repository-url\" : \"" //$NON-NLS-1$
                 + repoUrl + "\""); //$NON-NLS-1$
         builder.append("}"); //$NON-NLS-1$
-    	
+
         return builder.toString();
+    }
+
+    @GET
+    @Path("/config/deployers/custom")
+    @Produces("application/json")
+    public List<String> getCustomDeployers(@Context HttpServletRequest request) throws Exception {
+        return DeployerFactory.getCustomDeployerNames();
     }
 }

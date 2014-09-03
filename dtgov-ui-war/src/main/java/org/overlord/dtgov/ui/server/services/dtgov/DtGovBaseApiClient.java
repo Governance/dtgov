@@ -16,6 +16,7 @@
 package org.overlord.dtgov.ui.server.services.dtgov;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.configuration.Configuration;
@@ -26,7 +27,7 @@ import org.overlord.dtgov.ui.server.DtgovUIConfig;
 
 /**
  * Concrete implementation of the Dtgov client interfeace
- * 
+ *
  * @author David Virgil Naranjo
  */
 public class DtGovBaseApiClient implements IDtgovClient {
@@ -67,7 +68,7 @@ public class DtGovBaseApiClient implements IDtgovClient {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.overlord.dtgov.ui.server.services.dtgov.IDtgovClient#stopProcess(
      * java.lang.String, long)
@@ -77,9 +78,14 @@ public class DtGovBaseApiClient implements IDtgovClient {
         client.stopProcess(targetUUID, processId);
     }
 
+    @Override
+    public List<String> getCustomDeployerNames() throws Exception {
+        return client.getCustomDeployers();
+    }
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.overlord.dtgov.ui.server.services.dtgov.IDtgovClient#setLocale(java
      * .util.Locale)
