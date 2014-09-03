@@ -97,6 +97,11 @@ public class DtgovApiClient {
         }
 	}
 
+    /**
+     * Gets a list of custom deployers from the dtgov server.
+     * @throws DtgovApiClientException
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public List<String> getCustomDeployers() throws DtgovApiClientException {
         try {
             String url = String.format("%1$s/system/config/deployers/custom", this.endpoint); //$NON-NLS-1$
