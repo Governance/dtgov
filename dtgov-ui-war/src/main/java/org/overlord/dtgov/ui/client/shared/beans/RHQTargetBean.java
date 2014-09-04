@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.jboss.errai.common.client.api.annotations.Portable;
 
+
 /**
  * It contains the rqh target fields. It is a subtype of the TargetBean.
  *
@@ -42,6 +43,8 @@ public class RHQTargetBean extends TargetBean implements Serializable {
 
     private String _rhqPlugin;
 
+    private String rhqGroup;
+
     /**
      * Instantiates a new RHQ target bean.
      *
@@ -61,15 +64,18 @@ public class RHQTargetBean extends TargetBean implements Serializable {
      *            the base url
      * @param rhqPlugin
      *            the rhq plugin
+     * @param rhqGroup
+     *            the rhq group
      */
     public RHQTargetBean(String uuid, List<TargetClassifier> classifiers, String description, String name, String user, String password,
             String baseUrl,
-            String rhqPlugin) {
+ String rhqPlugin, String rhqGroup) {
         super(uuid, classifiers, description, name);
         this._user = user;
         this._password = password;
         this._baseUrl = baseUrl;
         this._rhqPlugin = rhqPlugin;
+        this.rhqGroup = rhqGroup;
     }
 
     /**
@@ -81,7 +87,7 @@ public class RHQTargetBean extends TargetBean implements Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.overlord.dtgov.ui.client.shared.beans.TargetBean#getType()
      */
     @Override
@@ -165,9 +171,28 @@ public class RHQTargetBean extends TargetBean implements Serializable {
         this._rhqPlugin = rhqPlugin;
     }
 
+    /**
+     * Gets the rhq group.
+     *
+     * @return the rhq group
+     */
+    public String getRhqGroup() {
+        return rhqGroup;
+    }
+
+    /**
+     * Sets the rhq group.
+     *
+     * @param rhqGroup
+     *            the new rhq group
+     */
+    public void setRhqGroup(String rhqGroup) {
+        this.rhqGroup = rhqGroup;
+    }
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.overlord.dtgov.ui.client.shared.beans.TargetBean#toString()
      */
     @Override

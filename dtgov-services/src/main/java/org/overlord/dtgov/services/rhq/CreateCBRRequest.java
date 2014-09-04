@@ -22,13 +22,19 @@ package org.overlord.dtgov.services.rhq;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * A request to create a content based resource via REST api
  * @author Heiko W. Rupp
  */
+@XmlRootElement(name = "createCBRresourceRequest")
 public class CreateCBRRequest extends Resource {
-
+    @XmlElement
     Map<String,Object> pluginConfig = new HashMap<String, Object>();
+
+    @XmlElement
     Map<String,Object> resourceConfig = new HashMap<String, Object>();
 
     public Map<String, Object> getPluginConfig() {

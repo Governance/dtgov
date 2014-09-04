@@ -92,7 +92,7 @@ public class Target {
      * @param rhqBaseUrl - baseUrl of the RHQ Server i.e. http://localhost:7080/
      */
     public static final Target rhq(String name, String classifier, String rhqUser, String rhqPassword, String rhqBaseUrl,
-    		String rhqPluginName) {
+    		String rhqPluginName, String rhqGroup) {
         Target target = new Target();
         target.name = name;
         target.classifier = classifier;
@@ -113,6 +113,7 @@ public class Target {
             target.port = 7080;
         }
         target.rhqPluginName = rhqPluginName;
+        target.rhqGroup=rhqGroup;
         return target;
     }
 
@@ -180,6 +181,7 @@ public class Target {
     private String password;
     private String rhqBaseUrl;
     private String rhqPluginName;
+    private String rhqGroup;
     private String host;
     private Integer port;
     private String mavenUrl;
@@ -358,6 +360,7 @@ public class Target {
         this.properties = properties;
     }
 
+
     public String getProperty(String key) {
         if (properties != null && !properties.isEmpty()) {
             if (properties.containsKey(key)) {
@@ -371,5 +374,15 @@ public class Target {
         }
         return null;
     }
+
+
+    public String getRhqGroup() {
+        return rhqGroup;
+    }
+
+    public void setRhqGroup(String rhqGroup) {
+        this.rhqGroup = rhqGroup;
+    }
+
 
 }

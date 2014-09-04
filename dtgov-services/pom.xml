@@ -53,7 +53,14 @@
       <artifactId>jboss-as-cli</artifactId>
       <scope>provided</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-core-asl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+    </dependency>
     <!-- Drools KIE dependencies -->
     <dependency>
       <groupId>org.drools</groupId>

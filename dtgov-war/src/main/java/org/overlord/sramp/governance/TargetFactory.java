@@ -37,7 +37,8 @@ public class TargetFactory {
                 String rhq_pluginName = SrampModelUtils.getCustomProperty(artifact, TargetConstants.RHQ_PLUGIN_NAME);
                 String rhq_user = SrampModelUtils.getCustomProperty(artifact, TargetConstants.RHQ_USER);
                 String rhq_password = SrampModelUtils.getCustomProperty(artifact, TargetConstants.RHQ_PASSWORD);
-                target = Target.rhq(name, classifier, rhq_user, rhq_password, rhq_baseUrl, rhq_pluginName);
+                String rhq_group = SrampModelUtils.getCustomProperty(artifact, TargetConstants.RHQ_GROUP);
+                target = Target.rhq(name, classifier, rhq_user, rhq_password, rhq_baseUrl, rhq_pluginName, rhq_group);
                 break;
             case MAVEN:
                 String maven_isReleaseEnabled = SrampModelUtils.getCustomProperty(artifact, TargetConstants.MAVEN_IS_RELEASE_ENABLED);

@@ -30,6 +30,7 @@ import static org.overlord.dtgov.common.targets.TargetConstants.MAVEN_SNAPSHOT_E
 import static org.overlord.dtgov.common.targets.TargetConstants.MAVEN_USER;
 import static org.overlord.dtgov.common.targets.TargetConstants.PREFIX_CUSTOM_PROPERTY;
 import static org.overlord.dtgov.common.targets.TargetConstants.RHQ_BASE_URL;
+import static org.overlord.dtgov.common.targets.TargetConstants.RHQ_GROUP;
 import static org.overlord.dtgov.common.targets.TargetConstants.RHQ_PASSWORD;
 import static org.overlord.dtgov.common.targets.TargetConstants.RHQ_PLUGIN_NAME;
 import static org.overlord.dtgov.common.targets.TargetConstants.RHQ_USER;
@@ -138,7 +139,8 @@ public class TargetFactory {
                 String rhq_pluginName=SrampModelUtils.getCustomProperty(artifact, RHQ_PLUGIN_NAME);
                 String rhq_user=SrampModelUtils.getCustomProperty(artifact, RHQ_USER);
                 String rhq_password=SrampModelUtils.getCustomProperty(artifact, RHQ_PASSWORD);
-                bean=new RHQTargetBean(uuid,classifiersList,description,name, rhq_user,rhq_password,rhq_baseUrl,rhq_pluginName);
+                String rhq_group = SrampModelUtils.getCustomProperty(artifact, RHQ_GROUP);
+                bean = new RHQTargetBean(uuid, classifiersList, description, name, rhq_user, rhq_password, rhq_baseUrl, rhq_pluginName, rhq_group);
 
                 break;
             case MAVEN:
@@ -227,6 +229,9 @@ public class TargetFactory {
             }
             if (StringUtils.isNotBlank(rhq.getPassword())) {
                 SrampModelUtils.setCustomProperty(artifact, RHQ_PASSWORD, rhq.getPassword());
+            }
+            if (StringUtils.isNotBlank(rhq.getRhqGroup())) {
+                SrampModelUtils.setCustomProperty(artifact, RHQ_GROUP, rhq.getRhqGroup());
             }
             break;
         case CLI:

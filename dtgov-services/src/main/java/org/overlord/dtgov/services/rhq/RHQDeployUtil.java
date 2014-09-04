@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.overlord.dtgov.common.exception.ConfigException;
 import org.overlord.dtgov.services.i18n.Messages;
 import org.slf4j.Logger;
@@ -34,8 +35,10 @@ public class RHQDeployUtil {
         RestAssured.port = rhqPort;
         RestAssured.basePath = "/rest/"; //$NON-NLS-1$
         this.rhqUser = rhqUser;
+        this.rhqPluginName = rhqPluginname;
         this.rhqPassword = rhqPassword;
         RestAssured.authentication = basic(rhqUser,rhqPassword);
+
 	}
 	/**
 	 * Looks up the group id in RHQ for the given group name.
@@ -121,13 +124,11 @@ public class RHQDeployUtil {
             // set plugin config (path) and deploy config (runtime-name)
             resource.getPluginConfig().put("path","deployment"); //$NON-NLS-1$ //$NON-NLS-2$
             resource.getResourceConfig().put("runtimeName", artifactName); //$NON-NLS-1$
-
-            Response response =
-            given()
-                .body(resource) // Type of new resource
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonObject = mapper.writeValueAsString(resource);
+            Response response = given().body(jsonObject) // Type of new resource
                 .queryParam("handle", handle) //$NON-NLS-1$
-                .contentType(ContentType.JSON)
-                .header(acceptJson)
+                    .contentType(ContentType.JSON).header(acceptJson)
                 //.log().everything()
             .expect()
                 .statusCode(isOneOf(200, 201, 302))
@@ -192,41 +193,38 @@ public class RHQDeployUtil {
 	 * @param artifactName - the name of the archive to be deleted
 	 * @param groupId - the id of the RHQ group
 	 */
-	public void wipeArchiveIfNecessary(String artifactName, Integer groupId) {
+    public void wipeArchiveIfNecessary(String artifactName, Integer groupId) {
 
         @SuppressWarnings("unchecked")
-        List<Resource> resources =
-        given()
-            .queryParam("q",artifactName) //$NON-NLS-1$
-            .queryParam("category", "SERVICE") //$NON-NLS-1$ //$NON-NLS-2$
-            .queryParam("group", groupId) //$NON-NLS-1$
-            .header(acceptJson)
-        .expect()
-            //.log().everything()
-        .when()
-            .get("/resource") //$NON-NLS-1$
-        .as(List.class);
-        logger.info(Messages.i18n.format(
-                "RHQDeployUtil.ManagementSummary", resources.size(), //$NON-NLS-1$
-                groupId, artifactName));
-    	for (int i=0; i<resources.size(); i++) {
-    		try {
-	            @SuppressWarnings("unchecked")
-				int resourceId = (Integer) ((Map < String,Object>)resources.get(i)).get("resourceId"); //$NON-NLS-1$
-	            logger.info(Messages.i18n.format("RHQDeployUtil.DeletingDeployment", artifactName, resourceId)); //$NON-NLS-1$
-	            given()
-	                .pathParam("id", resourceId) //$NON-NLS-1$
-	                .queryParam("physical", "true") // Also remove target on the EAP instance //$NON-NLS-1$ //$NON-NLS-2$
-	            .expect()
-	                .statusCode(204)
-	            .when()
-	                .delete("/resource/{id}"); //$NON-NLS-1$
-    		} catch (Throwable t) {
-    			logger.error(Messages.i18n.format("RHQDeployUtil.DeleteFailed")); //$NON-NLS-1$
-    			logger.error(t.getMessage());
-    			//TODO do we need to send out somekind of notification about this?
-    		}
-    	}
+        List<Resource> resources;
+
+        Response response = given().queryParam("q", artifactName) //$NON-NLS-1$
+                .queryParam("category", "SERVICE") //$NON-NLS-1$ //$NON-NLS-2$
+                .queryParam("group", groupId) //$NON-NLS-1$
+                .header(acceptJson).expect()
+                // .log().everything()
+                .when().get("/resource"); //$NON-NLS-1$
+
+        if (response != null) {
+            resources = response.as(List.class);
+            logger.info(Messages.i18n.format("RHQDeployUtil.ManagementSummary", resources.size(), //$NON-NLS-1$
+                    groupId, artifactName));
+            for (int i = 0; i < resources.size(); i++) {
+                try {
+                    @SuppressWarnings("unchecked")
+                    int resourceId = (Integer) ((Map<String, Object>) resources.get(i)).get("resourceId"); //$NON-NLS-1$
+                    logger.info(Messages.i18n.format("RHQDeployUtil.DeletingDeployment", artifactName, resourceId)); //$NON-NLS-1$
+                    given().pathParam("id", resourceId) //$NON-NLS-1$
+                            .queryParam("physical", "true") // Also remove target on the EAP instance //$NON-NLS-1$ //$NON-NLS-2$
+                            .expect().statusCode(204).when().delete("/resource/{id}"); //$NON-NLS-1$
+                } catch (Throwable t) {
+                    logger.error(Messages.i18n.format("RHQDeployUtil.DeleteFailed")); //$NON-NLS-1$
+                    logger.error(t.getMessage());
+                    // TODO do we need to send out somekind of notification
+                    // about this?
+                }
+            }
+        }
 
     }
 }
