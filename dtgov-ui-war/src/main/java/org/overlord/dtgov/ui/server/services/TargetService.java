@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jboss.errai.bus.server.api.RpcContext;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
-import org.overlord.dtgov.common.targets.TargetConstants;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.ui.client.shared.beans.TargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.TargetSummaryBean;
 import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
@@ -65,7 +65,7 @@ public class TargetService implements ITargetService {
     public void delete(String uuid) throws DtgovUiException {
         checkAuthorization();
         try {
-            _srampClientAccessor.getClient().deleteArtifact(uuid, ArtifactType.ExtendedArtifactType(TargetConstants.TARGET_EXTENDED_TYPE, false));
+            _srampClientAccessor.getClient().deleteArtifact(uuid, ArtifactType.ExtendedArtifactType(DtgovModel.DeploymentTargetType, false));
         } catch (SrampClientException e) {
             throw new DtgovUiException(e.getMessage());
         } catch (SrampAtomException e) {
@@ -138,9 +138,9 @@ public class TargetService implements ITargetService {
 
         SrampAtomApiClient client = _srampClientAccessor.getClient();
 
-        SrampClientQuery query = client.buildQuery("/s-ramp/ext/" + TargetConstants.TARGET_EXTENDED_TYPE); //$NON-NLS-1$
+        SrampClientQuery query = client.buildQuery("/s-ramp/ext/" + DtgovModel.DeploymentTargetType); //$NON-NLS-1$
         query.startIndex(0).orderBy("name"); //$NON-NLS-1$
-        query.propertyName(TargetConstants.TARGET_TYPE);
+        query.propertyName(DtgovModel.TARGET_TYPE);
         query.ascending();
         try {
             QueryResultSet resultSet = query.query();

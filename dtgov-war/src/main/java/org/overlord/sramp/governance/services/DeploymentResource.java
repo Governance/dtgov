@@ -33,6 +33,7 @@ import org.jboss.downloads.overlord.sramp._2013.auditing.AuditEntry;
 import org.jboss.downloads.overlord.sramp._2013.auditing.AuditItemType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.overlord.dtgov.common.Target;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.dtgov.services.deploy.Deployer;
 import org.overlord.dtgov.services.deploy.DeployerFactory;
@@ -245,14 +246,14 @@ public class DeploymentResource {
     protected void undeploy(HttpServletRequest request, SrampAtomApiClient client,
             BaseArtifactType prevVersionArtifact, Target target, Deployer deployer) throws Exception {
         // Find the undeployment information for the artifact
-        QueryResultSet resultSet = client.buildQuery("/s-ramp/ext/UndeploymentInformation[describesDeployment[@uuid = ?] and @deploy.target = ?]") //$NON-NLS-1$
+        QueryResultSet resultSet = client.buildQuery("/s-ramp/ext/" + DtgovModel.UndeploymentInformationType + "[describesDeployment[@uuid = ?] and @deploy.target = ?]") //$NON-NLS-1$ //$NON-NLS-2$
                 .parameter(prevVersionArtifact.getUuid()).parameter(target.getName()).count(2).query();
         if (resultSet.size() == 1) {
             // Found it
             BaseArtifactType undeployInfo = client.getArtifactMetaData(resultSet.get(0));
             deployer.undeploy(prevVersionArtifact, undeployInfo, target, client);
 
-            String deploymentClassifier = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.classifier"); //$NON-NLS-1$
+            String deploymentClassifier = SrampModelUtils.getCustomProperty(undeployInfo, DtgovModel.CUSTOM_PROPERTY_DEPLOY_CLASSIFIER);
             // re-fetch the artifact to get the latest meta-data
             prevVersionArtifact = client.getArtifactMetaData(ArtifactType.valueOf(prevVersionArtifact), prevVersionArtifact.getUuid());
             // remove the deployment classifier from the deployment

@@ -28,6 +28,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactEnum;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.ExtendedArtifactType;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryProperty;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQuerySummaryBean;
@@ -81,12 +82,12 @@ public class WorkflowQueryFactory {
     public static BaseArtifactType toBaseArtifact(WorkflowQueryBean workflowQuery) {
         ExtendedArtifactType toSave = new ExtendedArtifactType();
         toSave.setArtifactType(BaseArtifactEnum.EXTENDED_ARTIFACT_TYPE);
-        toSave.setExtendedType("DtgovWorkflowQuery"); //$NON-NLS-1$
+        toSave.setExtendedType(DtgovModel.WorkflowQueryType);
         toSave.setName(workflowQuery.getName());
         toSave.setDescription(workflowQuery.getDescription());
 
-        SrampModelUtils.setCustomProperty(toSave, "query", workflowQuery.getQuery()); //$NON-NLS-1$
-        SrampModelUtils.setCustomProperty(toSave, "workflow", workflowQuery.getWorkflow()); //$NON-NLS-1$
+        SrampModelUtils.setCustomProperty(toSave, DtgovModel.CUSTOM_PROPERTY_QUERY, workflowQuery.getQuery());
+        SrampModelUtils.setCustomProperty(toSave, DtgovModel.CUSTOM_PROPERTY_WORKFLOW, workflowQuery.getWorkflow());
 
         GregorianCalendar gcal = new GregorianCalendar();
         gcal.setTime(new Date());
@@ -117,8 +118,8 @@ public class WorkflowQueryFactory {
             bean.setName(artifactSummary.getName());
             bean.setUuid(artifactSummary.getUuid());
             bean.setDescription(artifactSummary.getDescription());
-            bean.setQuery(artifactSummary.getCustomPropertyValue("query")); //$NON-NLS-1$
-            bean.setWorkflow(artifactSummary.getCustomPropertyValue("workflow")); //$NON-NLS-1$
+            bean.setQuery(artifactSummary.getCustomPropertyValue(DtgovModel.CUSTOM_PROPERTY_QUERY));
+            bean.setWorkflow(artifactSummary.getCustomPropertyValue(DtgovModel.CUSTOM_PROPERTY_WORKFLOW));
             queries.add(bean);
         }
         return queries;

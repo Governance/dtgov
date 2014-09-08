@@ -23,7 +23,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.overlord.dtgov.common.targets.TargetConstants;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.ui.client.shared.beans.CliTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.CopyTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.CustomTargetBean;
@@ -319,7 +319,7 @@ public class TargetValidator  {
         StringBuilder queryBuilder = new StringBuilder();
         // Initial query
 
-        queryBuilder.append("/s-ramp/ext/" + TargetConstants.TARGET_EXTENDED_TYPE); //$NON-NLS-1$
+        queryBuilder.append("/s-ramp/ext/" + DtgovModel.DeploymentTargetType); //$NON-NLS-1$
 
         List<String> criteria = new ArrayList<String>();
         List<Object> params = new ArrayList<Object>();

@@ -23,7 +23,7 @@ import org.kie.api.event.process.ProcessStartedEvent;
 import org.kie.api.event.process.ProcessVariableChangedEvent;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
-import org.overlord.dtgov.common.workflow.WorkflowConstants;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.SrampClientException;
@@ -89,10 +89,10 @@ public class WorkflowEventListener implements ProcessEventListener {
     public void afterProcessCompleted(ProcessCompletedEvent event) {
         long processId = event.getProcessInstance().getId();
         SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-        String queryStr = "/s-ramp/ext/" + WorkflowConstants.WORKFLOW_EXTENDED_TYPE; //$NON-NLS-1$
+        String queryStr = "/s-ramp/ext/" + DtgovModel.WorkflowInstanceType; //$NON-NLS-1$
         queryStr += "["; //$NON-NLS-1$
-        queryStr += "@" + WorkflowConstants.CUSTOM_PROPERTY_PROCESS_ID + " = ? and "; //$NON-NLS-1$ //$NON-NLS-2$
-        queryStr += "@" + WorkflowConstants.CUSTOM_PROPERTY_STATUS + " = ?"; //$NON-NLS-1$ //$NON-NLS-2$
+        queryStr += "@" + DtgovModel.CUSTOM_PROPERTY_PROCESS_ID + " = ? and "; //$NON-NLS-1$ //$NON-NLS-2$
+        queryStr += "@" + DtgovModel.CUSTOM_PROPERTY_STATUS + " = ?"; //$NON-NLS-1$ //$NON-NLS-2$
         queryStr += "]"; //$NON-NLS-1$
         SrampClientQuery query = client.buildQuery(queryStr);
         query.parameter(processId + ""); //$NON-NLS-1$
@@ -113,9 +113,9 @@ public class WorkflowEventListener implements ProcessEventListener {
             }
             if (artifact != null) {
                 if (event.getProcessInstance().getState() == ProcessInstance.STATE_ABORTED) {
-                    SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_STATUS, WorkflowStatusEnum.ABORTED.name());
+                    SrampModelUtils.setCustomProperty(artifact, DtgovModel.CUSTOM_PROPERTY_STATUS, WorkflowStatusEnum.ABORTED.name());
                 } else if (event.getProcessInstance().getState() == ProcessInstance.STATE_COMPLETED) {
-                    SrampModelUtils.setCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_STATUS, WorkflowStatusEnum.COMPLETED.name());
+                    SrampModelUtils.setCustomProperty(artifact, DtgovModel.CUSTOM_PROPERTY_STATUS, WorkflowStatusEnum.COMPLETED.name());
                 }
 
                 try {
