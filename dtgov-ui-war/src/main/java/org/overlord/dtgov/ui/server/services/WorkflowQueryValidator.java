@@ -23,6 +23,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryProperty;
@@ -166,7 +167,7 @@ public class WorkflowQueryValidator {
         StringBuilder queryBuilder = new StringBuilder();
         // Initial query
 
-        queryBuilder.append("/s-ramp/ext/DtgovWorkflowQuery"); //$NON-NLS-1$
+        queryBuilder.append("/s-ramp/ext/" + DtgovModel.WorkflowQueryType); //$NON-NLS-1$
 
         List<String> criteria = new ArrayList<String>();
         List<Object> params = new ArrayList<Object>();

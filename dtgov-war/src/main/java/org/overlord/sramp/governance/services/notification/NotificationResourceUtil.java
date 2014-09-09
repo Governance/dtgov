@@ -21,6 +21,7 @@ import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -40,6 +41,8 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class NotificationResourceUtil {
+
+    private static final String GET_TEMPLATE_QUERY = "/s-ramp/ext/" + DtgovModel.EmailTemplateType + "[@template = ? and @template-type = ?]"; //$NON-NLS-1$ //$NON-NLS-2$
 
     private static Logger logger = LoggerFactory.getLogger(NotificationResourceUtil.class);
 
@@ -111,8 +114,8 @@ public class NotificationResourceUtil {
      */
     private static String getTemplateFromQuery(String template, String templateType) {
         SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
-        SrampClientQuery query = client.buildQuery("/s-ramp/ext/DtgovEmailTemplate[@template = ? and @template-type = ?]") //$NON-NLS-1$
-                .parameter(template).parameter(templateType);
+        SrampClientQuery query = client.buildQuery(GET_TEMPLATE_QUERY).parameter(template)
+                .parameter(templateType);
 
         QueryResultSet resultSet = null;
         try {

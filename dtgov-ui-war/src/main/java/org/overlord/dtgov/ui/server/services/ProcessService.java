@@ -24,7 +24,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
-import org.overlord.dtgov.common.workflow.WorkflowConstants;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.ui.client.shared.beans.ProcessBean;
 import org.overlord.dtgov.ui.client.shared.beans.ProcessStatusEnum;
 import org.overlord.dtgov.ui.client.shared.beans.ProcessesFilterBean;
@@ -85,10 +85,10 @@ public class ProcessService implements IProcessService {
         ProcessesResultSetBean bean=new ProcessesResultSetBean();
         List<ProcessBean> processes = new ArrayList<ProcessBean>();
         for (ArtifactSummary summary : resultSet) {
-            String status = summary.getCustomPropertyValue(WorkflowConstants.CUSTOM_PROPERTY_STATUS);
-            String workflow = summary.getCustomPropertyValue(WorkflowConstants.CUSTOM_PROPERTY_WORKFLOW);
-            String artifactName = summary.getCustomPropertyValue(WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_NAME);
-            String artifactId = summary.getCustomPropertyValue(WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_ID);
+            String status = summary.getCustomPropertyValue(DtgovModel.CUSTOM_PROPERTY_STATUS);
+            String workflow = summary.getCustomPropertyValue(DtgovModel.CUSTOM_PROPERTY_WORKFLOW);
+            String artifactName = summary.getCustomPropertyValue(DtgovModel.CUSTOM_PROPERTY_ARTIFACT_NAME);
+            String artifactId = summary.getCustomPropertyValue(DtgovModel.CUSTOM_PROPERTY_ARTIFACT_ID);
             ProcessBean processBean = new ProcessBean(summary.getUuid(), workflow, artifactName, artifactId, ProcessStatusEnum.valueOf(status));
             processes.add(processBean);
         }
@@ -128,8 +128,8 @@ public class ProcessService implements IProcessService {
             throw new DtgovUiException(e1);
         }
         if (artifact != null) {
-            String processId = SrampModelUtils.getCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_PROCESS_ID);
-            String targetUUID = SrampModelUtils.getCustomProperty(artifact, WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_ID);
+            String processId = SrampModelUtils.getCustomProperty(artifact, DtgovModel.CUSTOM_PROPERTY_PROCESS_ID);
+            String targetUUID = SrampModelUtils.getCustomProperty(artifact, DtgovModel.CUSTOM_PROPERTY_ARTIFACT_ID);
             IDtgovClient client = _dtgovClientAccessor.getClient();
             try {
                 client.stopProcess(targetUUID, new Long(processId));
@@ -154,23 +154,23 @@ public class ProcessService implements IProcessService {
         StringBuilder queryBuilder = new StringBuilder();
         // Initial query
 
-        queryBuilder.append("/s-ramp/ext/" + WorkflowConstants.WORKFLOW_EXTENDED_TYPE); //$NON-NLS-1$
+        queryBuilder.append("/s-ramp/ext/" + DtgovModel.WorkflowInstanceType); //$NON-NLS-1$
 
         List<Object> params = new ArrayList<Object>();
         if (filters != null) {
             List<String> criteria = new ArrayList<String>();
             if (filters.getArtifact() != null && filters.getArtifact().trim().length() > 0) {
-                criteria.add("fn:matches(@" + WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_NAME + ", ?)"); //$NON-NLS-1$ //$NON-NLS-2$
+                criteria.add("fn:matches(@" + DtgovModel.CUSTOM_PROPERTY_ARTIFACT_NAME + ", ?)"); //$NON-NLS-1$ //$NON-NLS-2$
                 params.add(filters.getArtifact().replace("*", ".*")); //$NON-NLS-1$ //$NON-NLS-2$
             }
 
             if (StringUtils.isNotBlank(filters.getWorkflow())) {
-                criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_WORKFLOW + " = ?"); //$NON-NLS-1$ //$NON-NLS-2$
+                criteria.add("@" + DtgovModel.CUSTOM_PROPERTY_WORKFLOW + " = ?"); //$NON-NLS-1$ //$NON-NLS-2$
                 params.add(filters.getWorkflow());
             }
 
             if (filters.getStatus() != null) {
-                criteria.add("@" + WorkflowConstants.CUSTOM_PROPERTY_STATUS + " = ?"); //$NON-NLS-1$ //$NON-NLS-2$
+                criteria.add("@" + DtgovModel.CUSTOM_PROPERTY_STATUS + " = ?"); //$NON-NLS-1$ //$NON-NLS-2$
                 params.add(filters.getStatus().name());
             }
 
@@ -195,10 +195,10 @@ public class ProcessService implements IProcessService {
                 query.parameter((Calendar) param);
             }
         }
-        query.propertyName(WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_ID);
-        query.propertyName(WorkflowConstants.CUSTOM_PROPERTY_ARTIFACT_NAME);
-        query.propertyName(WorkflowConstants.CUSTOM_PROPERTY_WORKFLOW);
-        query.propertyName(WorkflowConstants.CUSTOM_PROPERTY_STATUS);
+        query.propertyName(DtgovModel.CUSTOM_PROPERTY_ARTIFACT_ID);
+        query.propertyName(DtgovModel.CUSTOM_PROPERTY_ARTIFACT_NAME);
+        query.propertyName(DtgovModel.CUSTOM_PROPERTY_WORKFLOW);
+        query.propertyName(DtgovModel.CUSTOM_PROPERTY_STATUS);
         return query;
     }
 

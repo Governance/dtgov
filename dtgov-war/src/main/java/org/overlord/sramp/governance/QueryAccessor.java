@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.overlord.dtgov.common.exception.ConfigException;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -42,10 +43,8 @@ public class QueryAccessor {
 
     private static Logger logger = LoggerFactory.getLogger(QueryAccessor.class);
 
-    private final static String QUERY = "/s-ramp/ext/DtgovWorkflowQuery[@query]"; //$NON-NLS-1$
+    private final static String QUERY = "/s-ramp/ext/" + DtgovModel.WorkflowQueryType + "[@" + DtgovModel.CUSTOM_PROPERTY_QUERY + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     private final static String PROPERTY_PREFIX = "prop."; //$NON-NLS-1$
-    private final static String PROPERTY_QUERY = "query"; //$NON-NLS-1$
-    private final static String PROPERTY_WORKLOW = "workflow"; //$NON-NLS-1$
 
     /**
      * Gets the queries.
@@ -67,8 +66,8 @@ public class QueryAccessor {
             for (ArtifactSummary artifactSummary : resultSet) {
                 BaseArtifactType artifact = client.getArtifactMetaData(artifactSummary.getUuid());
 
-                Query q = new Query(SrampModelUtils.getCustomProperty(artifact, PROPERTY_QUERY),
-                        SrampModelUtils.getCustomProperty(artifact, PROPERTY_WORKLOW));
+                Query q = new Query(SrampModelUtils.getCustomProperty(artifact, DtgovModel.CUSTOM_PROPERTY_QUERY),
+                        SrampModelUtils.getCustomProperty(artifact, DtgovModel.CUSTOM_PROPERTY_WORKFLOW));
 
                 Map<String, String> props = SrampModelUtils.getCustomPropertiesByPrefix(artifact,
                         PROPERTY_PREFIX);

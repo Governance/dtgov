@@ -21,6 +21,7 @@ import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactEnum;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.ExtendedArtifactType;
 import org.overlord.dtgov.common.Target;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.services.deploy.Deployer;
 import org.overlord.dtgov.services.i18n.Messages;
 import org.overlord.sramp.atom.err.SrampAtomException;
@@ -30,7 +31,7 @@ import org.overlord.sramp.common.SrampModelUtils;
 
 
 /**
- * Abstract class that contains the main methods and attributes than a deployer
+ * Abstract class that contains the main methods and attributes that a deployer
  * can use.
  * 
  * @author David Virgil Naranjo
@@ -67,13 +68,13 @@ public abstract class AbstractDeployer implements Deployer {
             SrampAtomException {
         ExtendedArtifactType undeploymentArtifact = new ExtendedArtifactType();
         undeploymentArtifact.setArtifactType(BaseArtifactEnum.EXTENDED_ARTIFACT_TYPE);
-        undeploymentArtifact.setExtendedType("UndeploymentInformation"); //$NON-NLS-1$
+        undeploymentArtifact.setExtendedType(DtgovModel.UndeploymentInformationType);
         undeploymentArtifact.setName(artifact.getName() + ".undeploy"); //$NON-NLS-1$
         undeploymentArtifact.setDescription(Messages.i18n.format(
                 "DeploymentResource.UndeploymentInfoDescription", artifact.getName())); //$NON-NLS-1$
-        SrampModelUtils.setCustomProperty(undeploymentArtifact, "deploy.target", target.getName()); //$NON-NLS-1$
-        SrampModelUtils.setCustomProperty(undeploymentArtifact, "deploy.type", target.getType().name()); //$NON-NLS-1$
-        SrampModelUtils.setCustomProperty(undeploymentArtifact, "deploy.classifier", target.getClassifier()); //$NON-NLS-1$
+        SrampModelUtils.setCustomProperty(undeploymentArtifact, DtgovModel.CUSTOM_PROPERTY_DEPLOY_TARGET, target.getName());
+        SrampModelUtils.setCustomProperty(undeploymentArtifact, DtgovModel.CUSTOM_PROPERTY_DEPLOY_TYPE, target.getType().name());
+        SrampModelUtils.setCustomProperty(undeploymentArtifact, DtgovModel.CUSTOM_PROPERTY_DEPLOY_CLASSIFIER, target.getClassifier());
         if (props != null) {
             for (String propKey : props.keySet()) {
                 String propVal = props.get(propKey);
@@ -81,7 +82,7 @@ public abstract class AbstractDeployer implements Deployer {
             }
         }
         SrampModelUtils.addGenericRelationship(undeploymentArtifact,
-                "describesDeployment", artifact.getUuid()); //$NON-NLS-1$
+                DtgovModel.RELATIONSHIP_DESCRIBED_DEPLOYMENT, artifact.getUuid());
         client.createArtifact(undeploymentArtifact);
     }
 

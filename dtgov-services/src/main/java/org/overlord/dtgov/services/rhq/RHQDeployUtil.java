@@ -193,9 +193,9 @@ public class RHQDeployUtil {
 	 * @param artifactName - the name of the archive to be deleted
 	 * @param groupId - the id of the RHQ group
 	 */
+    @SuppressWarnings("unchecked")
     public void wipeArchiveIfNecessary(String artifactName, Integer groupId) {
 
-        @SuppressWarnings("unchecked")
         List<Resource> resources;
 
         Response response = given().queryParam("q", artifactName) //$NON-NLS-1$
@@ -211,7 +211,6 @@ public class RHQDeployUtil {
                     groupId, artifactName));
             for (int i = 0; i < resources.size(); i++) {
                 try {
-                    @SuppressWarnings("unchecked")
                     int resourceId = (Integer) ((Map<String, Object>) resources.get(i)).get("resourceId"); //$NON-NLS-1$
                     logger.info(Messages.i18n.format("RHQDeployUtil.DeletingDeployment", artifactName, resourceId)); //$NON-NLS-1$
                     given().pathParam("id", resourceId) //$NON-NLS-1$

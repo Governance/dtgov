@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.overlord.dtgov.common.Target;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -20,7 +21,7 @@ public class TargetAccessor {
         SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
         // Initial query
 
-        SrampClientQuery query = client.buildQuery("/s-ramp/ext/DeploymentTarget"); //$NON-NLS-1$
+        SrampClientQuery query = client.buildQuery("/s-ramp/ext/" + DtgovModel.DeploymentTargetType); //$NON-NLS-1$
         query = query.startIndex(0);
         try {
             QueryResultSet resultSet = query.query();

@@ -101,8 +101,7 @@ public class RHQDeployer extends AbstractDeployer {
      *             the exception
      */
     @Override
-    public void undeploy(BaseArtifactType prevVersionArtifact,
- BaseArtifactType undeployInfo, Target target,
+    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, Target target,
             SrampAtomApiClient client) throws Exception {
         if (target.getUser() == null || target.getPassword() == null || target.getUser().isEmpty()
                 || target.getPassword().isEmpty()) {

@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jboss.errai.bus.server.api.RpcContext;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueriesFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean;
@@ -89,7 +90,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         checkAuthorization();
         try {
             _srampClientAccessor.getClient().deleteArtifact(uuid,
-                    ArtifactType.ExtendedArtifactType("DtgovWorkflowQuery", false)); //$NON-NLS-1$
+                    ArtifactType.ExtendedArtifactType(DtgovModel.WorkflowQueryType, false));
         } catch (SrampClientException e) {
             throw new DtgovUiException(e.getMessage());
         } catch (SrampAtomException e) {
@@ -293,7 +294,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         StringBuilder queryBuilder = new StringBuilder();
         // Initial query
 
-        queryBuilder.append("/s-ramp/ext/DtgovWorkflowQuery"); //$NON-NLS-1$
+        queryBuilder.append("/s-ramp/ext/" + DtgovModel.WorkflowQueryType); //$NON-NLS-1$
 
         List<String> criteria = new ArrayList<String>();
         List<Object> params = new ArrayList<Object>();
@@ -304,7 +305,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         }
 
         if (filters != null && StringUtils.isNotBlank(filters.getWorkflow())) {
-            criteria.add("@workflow = ?"); //$NON-NLS-1$
+            criteria.add("@" + DtgovModel.CUSTOM_PROPERTY_WORKFLOW + " = ?"); //$NON-NLS-1$ //$NON-NLS-2$
             params.add(filters.getWorkflow());
         }
 
@@ -326,8 +327,8 @@ public class WorkflowQueryService implements IWorkflowQueryService {
                 query.parameter((Calendar) param);
             }
         }
-        query.propertyName("workflow"); //$NON-NLS-1$
-        query.propertyName("query"); //$NON-NLS-1$
+        query.propertyName(DtgovModel.CUSTOM_PROPERTY_WORKFLOW);
+        query.propertyName(DtgovModel.CUSTOM_PROPERTY_QUERY);
         return query;
     }
 

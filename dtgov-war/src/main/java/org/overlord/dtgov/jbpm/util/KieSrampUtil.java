@@ -35,16 +35,18 @@ import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.governance.Governance;
 import org.overlord.sramp.governance.SrampAtomApiClientFactory;
 import org.overlord.sramp.governance.SrampMavenUtil;
+import org.overlord.sramp.integration.kie.model.KieJarModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class KieSrampUtil {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static String SRAMP_KIE_JAR_QUERY = "/s-ramp/ext/KieJarArchive[" //$NON-NLS-1$
+    private static String SRAMP_KIE_JAR_QUERY = "/s-ramp/ext/" + KieJarModel.TYPE_ARCHIVE + "[" //$NON-NLS-1$ //$NON-NLS-2$
             + "@maven.groupId=? and @maven.artifactId = ? and @maven.version = ? and xp2:not(@maven.classifier)]"; //$NON-NLS-1$
 
-    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive"; //$NON-NLS-1$
+    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/" + KieJarModel.TYPE_ARCHIVE; //$NON-NLS-1$
+    
     /**
      * Returns true if the workflow JAR is deployed to the s-ramp repository.
      * @param groupId
