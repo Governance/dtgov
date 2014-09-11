@@ -63,7 +63,7 @@ public class CliTargetPanel extends AbstractTargetPanel {
     @Inject
     @DataField("form-target-server-group-input")
     private TextBox serverGroup;
-    
+
     /**
      * Constructor.
      */
@@ -92,6 +92,7 @@ public class CliTargetPanel extends AbstractTargetPanel {
      */
     @PostConstruct
     public void postConstruct() {
+
         _port.addKeyPressHandler(new NumbersOnly());
     }
 
@@ -101,9 +102,10 @@ public class CliTargetPanel extends AbstractTargetPanel {
          */
         @Override
         public void onKeyPress(KeyPressEvent event) {
-            if (!Character.isDigit(event.getCharCode()))
+            if (Character.isLetter(event.getCharCode()))
                 ((IntegerBox) event.getSource()).cancelKey();
         }
+
     }
 
     /**
