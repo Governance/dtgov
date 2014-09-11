@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
-import org.overlord.dtgov.common.Target;
+import org.overlord.dtgov.common.targets.RHQTarget;
 import org.overlord.dtgov.services.i18n.Messages;
 import org.overlord.dtgov.services.rhq.RHQDeployUtil;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author David Virgil Naranjo
  */
-public class RHQDeployer extends AbstractDeployer {
+public class RHQDeployer extends AbstractDeployer<RHQTarget> {
 
     private static Logger logger = LoggerFactory.getLogger(RHQDeployer.class);
 
@@ -52,16 +52,17 @@ public class RHQDeployer extends AbstractDeployer {
      *             the exception
      */
     @Override
-    public String deploy(BaseArtifactType artifact, Target target, SrampAtomApiClient client)
+    public String deploy(BaseArtifactType artifact, RHQTarget target, SrampAtomApiClient client)
             throws Exception {
         InputStream is = null;
         try {
             RHQDeployUtil rhqDeployUtil = new RHQDeployUtil(target.getUser(), target.getPassword(),
-                    target.getRhqBaseUrl(), target.getPort(), target.getRhqPluginName());
+ target.getBaseUrl(), target.getPort(),
+                    target.getPluginName());
 
             // Deploy the artifact to each server in the preconfigured RHQ
             // Server Group
-            Integer rhqGroupId = rhqDeployUtil.getGroupIdForGroup(target.getRhqGroup());
+            Integer rhqGroupId = rhqDeployUtil.getGroupIdForGroup(target.getGroup());
             rhqDeployUtil.wipeArchiveIfNecessary(artifact.getName(), rhqGroupId);
             List<Integer> resourceIds = rhqDeployUtil.getServerIdsForGroup(rhqGroupId);
             is = client.getArtifactContent(ArtifactType.valueOf(artifact), artifact.getUuid());
@@ -75,14 +76,14 @@ public class RHQDeployer extends AbstractDeployer {
             // record (un)deployment information
             Map<String, String> props = new HashMap<String, String>();
             props.put("deploy.rhq.groupId", String.valueOf(rhqGroupId)); //$NON-NLS-1$
-            props.put("deploy.rhq.baseUrl", target.getRhqBaseUrl()); //$NON-NLS-1$
+            props.put("deploy.rhq.baseUrl", target.getBaseUrl()); //$NON-NLS-1$
             props.put("deploy.rhq.port", String.valueOf(target.getPort())); //$NON-NLS-1$
             props.put("deploy.rhq.name", artifact.getName()); //$NON-NLS-1$
-            props.put("deploy.rhq.pluginName", target.getRhqPluginName()); //$NON-NLS-1$
+            props.put("deploy.rhq.pluginName", target.getPluginName()); //$NON-NLS-1$
             recordUndeploymentInfo(artifact, target, props, client);
 
             logger.info(Messages.i18n.format("RHQDeployer.deploymentSuccessfully", artifact.getUuid())); //$NON-NLS-1$
-            return target.getRhqBaseUrl();
+            return target.getBaseUrl();
         } finally {
             IOUtils.closeQuietly(is);
         }
@@ -101,7 +102,7 @@ public class RHQDeployer extends AbstractDeployer {
      *             the exception
      */
     @Override
-    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, Target target,
+    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, RHQTarget target,
             SrampAtomApiClient client) throws Exception {
         if (target.getUser() == null || target.getPassword() == null || target.getUser().isEmpty()
                 || target.getPassword().isEmpty()) {

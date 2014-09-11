@@ -25,7 +25,7 @@ import org.overlord.sramp.client.SrampAtomApiClient;
  *
  * @author David Virgil Naranjo
  */
-public interface Deployer {
+public interface Deployer<T extends Target> {
 
     /**
      * Deploy an artifact
@@ -38,7 +38,7 @@ public interface Deployer {
      * @throws Exception
      *             the exception
      */
-    public String deploy(BaseArtifactType artifact, Target target, SrampAtomApiClient client)
+    public String deploy(BaseArtifactType artifact, T target, SrampAtomApiClient client)
             throws Exception;
 
     /**
@@ -53,6 +53,6 @@ public interface Deployer {
      * @throws Exception
      *             the exception
      */
-    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, Target target,
+    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, T target,
             SrampAtomApiClient client) throws Exception;
 }

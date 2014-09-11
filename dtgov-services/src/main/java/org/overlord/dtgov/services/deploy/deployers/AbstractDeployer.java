@@ -33,10 +33,10 @@ import org.overlord.sramp.common.SrampModelUtils;
 /**
  * Abstract class that contains the main methods and attributes that a deployer
  * can use.
- * 
+ *
  * @author David Virgil Naranjo
  */
-public abstract class AbstractDeployer implements Deployer {
+public abstract class AbstractDeployer<T extends Target> implements Deployer<T> {
 
 
     /**
@@ -63,7 +63,7 @@ public abstract class AbstractDeployer implements Deployer {
      * @throws SrampAtomException
      *             the sramp atom exception
      */
-    protected void recordUndeploymentInfo(BaseArtifactType artifact, Target target,
+    protected void recordUndeploymentInfo(BaseArtifactType artifact, T target,
             Map<String, String> props, SrampAtomApiClient client) throws SrampClientException,
             SrampAtomException {
         ExtendedArtifactType undeploymentArtifact = new ExtendedArtifactType();
