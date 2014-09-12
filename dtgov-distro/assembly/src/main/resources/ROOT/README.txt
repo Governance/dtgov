@@ -37,8 +37,6 @@ Here is some pseudo-bash that accomplishes the above:
 
     # Start JBoss (target/jboss-eap-6.x/bin/standalone.sh) - wait for startup to complete
     ant seed -Ds-ramp.shell.password=ADMIN_PASSWORD
-    cd ~/overlord/dtgov-${project.version}/dtgov-data
-    mvn deploy
 
 
 == Overview ==
