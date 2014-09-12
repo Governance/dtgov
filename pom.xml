@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jboss.integration-platform</groupId>
     <artifactId>jboss-integration-platform-parent</artifactId>
-    <version>6.0.0.CR9</version>
+    <version>6.0.0.CR12</version>
   </parent>
 
   <groupId>org.overlord.dtgov</groupId>
@@ -80,27 +80,26 @@
     <version.org.overlord.sramp>0.6.0-SNAPSHOT</version.org.overlord.sramp>
 
     <!-- Overlord Commons version -->
-    <version.org.overlord.overlord-commons>2.0.9-SNAPSHOT</version.org.overlord.overlord-commons>
+    <version.org.overlord.overlord-commons>2.0.10-SNAPSHOT</version.org.overlord.overlord-commons>
 
     <!-- jBPM/Drools version -->
-    <version.org.jbpm>6.1.0.Beta4</version.org.jbpm>
-    <version.org.drools>6.1.0.Beta4</version.org.drools>
-    
+    <version.org.jbpm>6.1.0.Final</version.org.jbpm>
+    <version.org.drools>6.1.0.Final</version.org.drools>
+
     <!-- Overrides -->
     <version.org.hibernate>4.2.13.Final</version.org.hibernate>
+    <version.org.jboss.as>7.4.0.Final-redhat-19</version.org.jboss.as>
 
     <!-- DTGov only libraries (not in BOM) -->
     <version.org.apache.commons.commons-lang3>3.1</version.org.apache.commons.commons-lang3>
-    <version.org.apache.commons.commons-compress>1.4.1</version.org.apache.commons.commons-compress>
-    <version.org.jboss.ejb3>3.1.0</version.org.jboss.ejb3>
     <version.com.jayway.restassured>1.7.2</version.com.jayway.restassured>
     <version.dumbster>1.5</version.dumbster>
-    <version.com.google.guava>14.0.1</version.com.google.guava>
-    <version.org.apache.tomcat>7.0.54</version.org.apache.tomcat>
     <version.org.eclipse.jetty>8.1.14.v20131031</version.org.eclipse.jetty>
-    <version.javax.servlet.javax.servlet-api>2.5</version.javax.servlet.javax.servlet-api>
     <version.fuse>6.1.0.redhat-379</version.fuse>
+
     <!-- BOM Overrides -->
+    <version.org.apache.tomcat>7.0.54</version.org.apache.tomcat>
+    <version.com.google.guava>14.0.1</version.com.google.guava>
     <version.joda-time>2.1</version.joda-time>
     <version.org.apache.lucene>4.0.0</version.org.apache.lucene>
     <version.org.picketbox>4.0.19.SP4</version.org.picketbox>
@@ -230,8 +229,8 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-core</artifactId>
         <version>${version.org.hibernate}</version>
-      </dependency>      
-      
+      </dependency>
+
       <!-- Internal dependencies -->
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
@@ -491,7 +490,7 @@
       <dependency>
         <groupId>org.jboss.integration-platform</groupId>
         <artifactId>jboss-integration-platform-bom</artifactId>
-        <version>6.0.0.CR9</version>
+        <version>6.0.0.CR12</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -615,12 +614,7 @@
         <artifactId>commons-lang3</artifactId>
         <version>${version.org.apache.commons.commons-lang3}</version>
       </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-compress</artifactId>
-        <version>${version.org.apache.commons.commons-compress}</version>
-      </dependency>
-      
+
       <!-- Jetty -->
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
@@ -647,7 +641,7 @@
         <artifactId>jetty-jndi</artifactId>
         <version>${version.org.eclipse.jetty}</version>
       </dependency>
-      
+
       <!-- Drools KIE dependencies -->
       <dependency>
         <groupId>org.drools</groupId>
@@ -732,7 +726,7 @@
         <artifactId>switchyard-component-soap</artifactId>
         <version>${version.org.switchyard}</version>
       </dependency>
-      
+
       <!-- PicketLink -->
       <dependency>
         <groupId>org.picketbox</groupId>
@@ -745,12 +739,24 @@
         <version>${version.org.picketlink}</version>
       </dependency>
 
-      <!-- Third party libraries -->
+      <!-- JBoss AS -->
       <dependency>
         <groupId>org.jboss.as</groupId>
         <artifactId>jboss-as-cli</artifactId>
         <version>${version.org.jboss.as}</version>
       </dependency>
+      <dependency>
+        <groupId>org.jboss.as</groupId>
+        <artifactId>jboss-as-naming</artifactId>
+        <version>${version.org.jboss.as}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.as</groupId>
+        <artifactId>jboss-as-server</artifactId>
+        <version>${version.org.jboss.as}</version>
+      </dependency>
+
+      <!-- Third party libraries -->
       <dependency>
         <groupId>com.jayway.restassured</groupId>
         <artifactId>rest-assured</artifactId>
@@ -772,11 +778,6 @@
         <version>${version.com.google.guava}</version>
       </dependency>
       <dependency>
-        <groupId>org.jboss.ejb3</groupId>
-        <artifactId>jboss-ejb3-api</artifactId>
-        <version>${version.org.jboss.ejb3}</version>
-      </dependency>
-      <dependency>
         <groupId>dumbster</groupId>
         <artifactId>dumbster</artifactId>
         <version>${version.dumbster}</version>
@@ -785,12 +786,6 @@
         <groupId>org.jboss.spec.javax.security.jacc</groupId>
         <artifactId>jboss-jacc-api_1.4_spec</artifactId>
         <version>${version.org.jboss.spec.javax.security.jacc}</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>${version.javax.servlet.javax.servlet-api}</version>
-        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.jboss.resteasy</groupId>
@@ -858,6 +853,20 @@
       <id>jboss-public-repository-group</id>
       <name>JBoss Public Repository Group</name>
       <url>http://repository.jboss.org/nexus/content/groups/developer/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>daily</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>redhat-tech-preview-repository</id>
+      <name>Red Hat Tech Preview Repository</name>
+      <url>http://maven.repository.redhat.com/techpreview/all/</url>
       <layout>default</layout>
       <releases>
         <enabled>true</enabled>

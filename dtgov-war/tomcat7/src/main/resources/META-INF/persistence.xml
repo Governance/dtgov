@@ -45,12 +45,14 @@
     <class>org.jbpm.process.audit.NodeInstanceLog</class>
     <class>org.jbpm.process.audit.VariableInstanceLog</class>
 
-    <!--BAM for task service -->
+    <!-- BAM for task service -->
     <class>org.jbpm.services.task.audit.impl.model.BAMTaskSummaryImpl</class>
-    <class>org.jbpm.services.task.audit.impl.model.GroupAuditTaskImpl</class>
-    <class>org.jbpm.services.task.audit.impl.model.HistoryAuditTaskImpl</class>
+    
+    <!-- Event Classes -->
     <class>org.jbpm.services.task.audit.impl.model.TaskEventImpl</class>
-    <class>org.jbpm.services.task.audit.impl.model.UserAuditTaskImpl</class>
+    
+    <!-- Task Audit Classes --> 
+    <class>org.jbpm.services.task.audit.impl.model.AuditTaskImpl</class>
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

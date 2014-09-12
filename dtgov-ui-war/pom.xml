@@ -119,9 +119,8 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.jboss.ejb3</groupId>
-      <artifactId>jboss-ejb3-api</artifactId>
-      <scope>provided</scope>
+      <groupId>org.jboss.spec.javax.ejb</groupId>
+      <artifactId>jboss-ejb-api_3.1_spec</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.enterprise</groupId>
@@ -249,8 +248,8 @@
         <configuration>
           <logLevel>INFO</logLevel>
           <strict>true</strict>
-	  <localWorkers>2</localWorkers>
-	  <failOnError>true</failOnError>
+          <localWorkers>2</localWorkers>
+          <failOnError>true</failOnError>
           <runTarget>index.html</runTarget>
           <extraJvmArgs>-Xmx512m</extraJvmArgs>
           <soyc>false</soyc>
