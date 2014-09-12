@@ -25,7 +25,7 @@ import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.kie.api.builder.ReleaseId;
 import org.kie.scanner.MavenRepository;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
-import org.overlord.dtgov.common.Target;
+import org.overlord.dtgov.common.targets.MavenTarget;
 import org.overlord.dtgov.services.MavenRepoUtil;
 import org.overlord.dtgov.services.i18n.Messages;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author David Virgil Naranjo
  */
-public class MavenDeployer extends AbstractDeployer {
+public class MavenDeployer extends AbstractDeployer<MavenTarget> {
 
     private static Logger logger = LoggerFactory.getLogger(MavenDeployer.class);
 
@@ -65,7 +65,7 @@ public class MavenDeployer extends AbstractDeployer {
      *             the exception
      */
     @Override
-    public String deploy(BaseArtifactType artifact, Target target, SrampAtomApiClient client)
+    public String deploy(BaseArtifactType artifact, MavenTarget target, SrampAtomApiClient client)
             throws Exception {
         InputStream isJar = null;
         InputStream isPom = null;
@@ -155,7 +155,7 @@ public class MavenDeployer extends AbstractDeployer {
      */
     @Override
     public void undeploy(BaseArtifactType prevVersionArtifact,
- BaseArtifactType undeployInfo, Target target,
+ BaseArtifactType undeployInfo, MavenTarget target,
             SrampAtomApiClient client) throws Exception {
         // We never undeploy from maven
 

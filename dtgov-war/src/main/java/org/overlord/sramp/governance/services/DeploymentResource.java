@@ -34,6 +34,7 @@ import org.jboss.downloads.overlord.sramp._2013.auditing.AuditItemType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.overlord.dtgov.common.Target;
 import org.overlord.dtgov.common.model.DtgovModel;
+import org.overlord.dtgov.common.targets.CustomTarget;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.dtgov.services.deploy.Deployer;
 import org.overlord.dtgov.services.deploy.DeployerFactory;
@@ -103,7 +104,7 @@ public class DeploymentResource {
         String targetType;
         String targetTypeStr;
         if (target.getType().equals(Target.TYPE.CUSTOM)) {
-            targetType = target.getCustomType();
+            targetType = ((CustomTarget) target).getCustomType();
             targetTypeStr = targetType;
         } else {
             targetType = target.getType().name();

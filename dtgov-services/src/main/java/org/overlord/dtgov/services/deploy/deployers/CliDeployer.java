@@ -26,7 +26,7 @@ import org.apache.commons.io.IOUtils;
 import org.jboss.as.cli.CommandContext;
 import org.jboss.as.cli.CommandContextFactory;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
-import org.overlord.dtgov.common.Target;
+import org.overlord.dtgov.common.targets.CliTarget;
 import org.overlord.dtgov.services.i18n.Messages;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.common.ArtifactType;
@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  *
  * * @author David Virgil Naranjo
  */
-public class CliDeployer extends AbstractDeployer {
+public class CliDeployer extends AbstractDeployer<CliTarget> {
 
     private static Logger logger = LoggerFactory.getLogger(CliDeployer.class);
 
@@ -55,7 +55,7 @@ public class CliDeployer extends AbstractDeployer {
      * @throws Exception
      */
     @Override
-    public String deploy(BaseArtifactType artifact, Target target, SrampAtomApiClient client)
+    public String deploy(BaseArtifactType artifact, CliTarget target, SrampAtomApiClient client)
             throws Exception {
         InputStream is = null;
         OutputStream os = null;
@@ -87,12 +87,12 @@ public class CliDeployer extends AbstractDeployer {
                         target.getPassword().toCharArray());
             }
             ctx.connectController(target.getHost(), target.getPort());
-            
+
             StringBuilder commandString = new StringBuilder();
             commandString.append("deploy "); //$NON-NLS-1$
             commandString.append(tmpFile.getAbsolutePath());
-            if (target.isCliDomainMode()) {
-                String serverGroup = target.getCliServerGroup();
+            if (target.isDomainMode()) {
+                String serverGroup = target.getServerGroup();
                 undeployProperties.put("deploy.cli.domainMode", "true"); //$NON-NLS-1$ //$NON-NLS-2$
                 if (serverGroup != null && serverGroup.trim().length() > 0) {
                     commandString.append(" --server-groups="); //$NON-NLS-1$
@@ -130,7 +130,7 @@ public class CliDeployer extends AbstractDeployer {
      *             the exception
      */
     @Override
-    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, Target target,
+    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, CliTarget target,
             SrampAtomApiClient client) throws Exception {
         CommandContext ctx = null;
         try {

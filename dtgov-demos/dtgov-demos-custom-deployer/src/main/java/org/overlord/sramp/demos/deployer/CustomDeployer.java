@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
-import org.overlord.dtgov.common.Target;
+import org.overlord.dtgov.common.targets.CustomTarget;
 import org.overlord.dtgov.services.deploy.deployers.AbstractDeployer;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.common.ArtifactType;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author David Virgil Naranjo
  */
-public class CustomDeployer extends AbstractDeployer {
+public class CustomDeployer extends AbstractDeployer<CustomTarget> {
 
     private static Logger logger = LoggerFactory.getLogger(CustomDeployer.class);
 
@@ -41,7 +41,7 @@ public class CustomDeployer extends AbstractDeployer {
      *             the exception
      */
     @Override
-    public String deploy(BaseArtifactType artifact, Target target, SrampAtomApiClient client) throws Exception {
+    public String deploy(BaseArtifactType artifact, CustomTarget target, SrampAtomApiClient client) throws Exception {
         InputStream is = null;
         OutputStream os = null;
         try {
@@ -108,7 +108,7 @@ public class CustomDeployer extends AbstractDeployer {
      *            the target
      */
     @Override
-    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, Target target, SrampAtomApiClient client) {
+    public void undeploy(BaseArtifactType prevVersionArtifact, BaseArtifactType undeployInfo, CustomTarget target, SrampAtomApiClient client) {
         String deployedFile = SrampModelUtils.getCustomProperty(undeployInfo, "deploy.copy.file"); //$NON-NLS-1$
         File file = new File(deployedFile);
         if (file.exists() && file.isFile()) {
