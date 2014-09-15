@@ -15,9 +15,10 @@
  */
 package org.overlord.dtgov.ui.client.shared.services;
 
-import java.util.Set;
+import java.util.List;
 
 import org.jboss.errai.bus.server.annotations.Remote;
+import org.overlord.dtgov.ui.client.shared.beans.Workflow;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueriesFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryResultSetBean;
@@ -66,10 +67,10 @@ public interface IWorkflowQueryService {
     /**
      * Get the Collection that contains all the workflow types loaded in the
      * system.
-     * 
+     *
      * @return the workflow types
      */
-    public Set<String> getWorkflowTypes() throws DtgovUiException;
+    public List<Workflow> getWorkflowTypes() throws DtgovUiException;
 
     /**
      * Search for tasks using the given filters and search text.

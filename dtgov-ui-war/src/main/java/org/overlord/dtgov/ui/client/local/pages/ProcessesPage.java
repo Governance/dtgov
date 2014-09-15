@@ -15,6 +15,8 @@
  */
 package org.overlord.dtgov.ui.client.local.pages;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
@@ -34,14 +36,17 @@ import org.overlord.dtgov.ui.client.local.events.StopProcessEvent;
 import org.overlord.dtgov.ui.client.local.pages.processes.AbortProcessDialog;
 import org.overlord.dtgov.ui.client.local.pages.processes.ProcessesFilter;
 import org.overlord.dtgov.ui.client.local.pages.processes.ProcessesTable;
+import org.overlord.dtgov.ui.client.local.pages.processes.WorkflowsTable;
 import org.overlord.dtgov.ui.client.local.services.ApplicationStateService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.ProcessesRpcService;
+import org.overlord.dtgov.ui.client.local.services.WorkflowQueriesRpcService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
 import org.overlord.dtgov.ui.client.shared.beans.NotificationBean;
 import org.overlord.dtgov.ui.client.shared.beans.ProcessBean;
 import org.overlord.dtgov.ui.client.shared.beans.ProcessesFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.ProcessesResultSetBean;
+import org.overlord.dtgov.ui.client.shared.beans.Workflow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -91,6 +96,11 @@ public class ProcessesPage extends AbstractPage {
     @DataField("processes-none")
     private HtmlSnippet _noDataMessage;
 
+    /** The no data message. */
+    @Inject
+    @DataField("workflows-none")
+    private HtmlSnippet workflowsNoDataMessage;
+
     /** The notification service. */
     @Inject
     private NotificationService _notificationService;
@@ -105,6 +115,11 @@ public class ProcessesPage extends AbstractPage {
     @DataField("processes-searching")
     private HtmlSnippet _searchInProgressMessage;
 
+    /** The search in progress message. */
+    @Inject
+    @DataField("workflows-searching")
+    private HtmlSnippet workflowsSearchInProgressMessage;
+
     /** The workflow query service. */
     @Inject
     private ProcessesRpcService _processesService;
@@ -113,6 +128,11 @@ public class ProcessesPage extends AbstractPage {
     @Inject
     @DataField("processes-table")
     private ProcessesTable _processesTable;
+
+    /** The _workflow query table. */
+    @Inject
+    @DataField("workflows-table")
+    private WorkflowsTable workflowsTable;
 
     @Inject
     @DataField("processes-filter-sidebar")
@@ -125,14 +145,26 @@ public class ProcessesPage extends AbstractPage {
 
     /** The _range span. */
     @DataField("processes-range")
-    private final SpanElement _rangeSpan = Document.get().createSpanElement();
+    private final SpanElement _processesRangeSpan = Document.get().createSpanElement();
 
     /** The _total span. */
     @DataField("processes-total")
-    private final SpanElement _totalSpan = Document.get().createSpanElement();
+    private final SpanElement _processesTotalSpan = Document.get().createSpanElement();
+
+    /** The _range span. */
+    @DataField("workflows-range")
+    private final SpanElement workflowsRangeSpan = Document.get().createSpanElement();
+
+    /** The _total span. */
+    @DataField("workflows-total")
+    private final SpanElement workflowsTotalSpan = Document.get().createSpanElement();
 
     /** The _current page. */
     private int _currentPage = 1;
+
+    /** The _workflow query service. */
+    @Inject
+    private WorkflowQueriesRpcService _workflowQueryService;
 
     /**
      * Instantiates a new targets page.
@@ -167,6 +199,7 @@ public class ProcessesPage extends AbstractPage {
         this._filtersPanel.setValue(filterBean);
         this._processesTable.sortBy(sortColumn.columnId, sortColumn.ascending);
         doSearch(page);
+        doWorkflowSearch();
     }
 
     /**
@@ -211,8 +244,39 @@ public class ProcessesPage extends AbstractPage {
         });
 
 
-        this._rangeSpan.setInnerText("?"); //$NON-NLS-1$
-        this._totalSpan.setInnerText("?"); //$NON-NLS-1$
+        this._processesRangeSpan.setInnerText("?"); //$NON-NLS-1$
+        this._processesTotalSpan.setInnerText("?"); //$NON-NLS-1$
+
+        this.workflowsRangeSpan.setInnerText("?"); //$NON-NLS-1$
+        this.workflowsTotalSpan.setInnerText("?"); //$NON-NLS-1$
+    }
+
+    /**
+     * Do search method. Used on refresh, stop event and init method.
+     *
+     * @param page
+     *            the page
+     */
+    protected void doWorkflowSearch() {
+        onWorkflowSearchStarting();
+        _workflowQueryService.getWorkflowTypes(new IRpcServiceInvocationHandler<List<Workflow>>() {
+
+            @Override
+            public void onReturn(List<Workflow> workflowTypes) {
+                updateWorkflowsTable(workflowTypes);
+                String rangeText = "1-" + workflowTypes.size(); //$NON-NLS-1$ //$NON-NLS-2$
+                workflowsRangeSpan.setInnerText(rangeText); //$NON-NLS-1$
+                workflowsTotalSpan.setInnerText(workflowTypes.size() + ""); //$NON-NLS-1$
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                _notificationService.sendErrorNotification(_i18n.format("processes.error-loading"), error); //$NON-NLS-1$
+                workflowsNoDataMessage.setVisible(true);
+                workflowsSearchInProgressMessage.setVisible(false);
+            }
+        });
+
     }
 
     /**
@@ -270,6 +334,25 @@ public class ProcessesPage extends AbstractPage {
     }
 
     /**
+     * Updates the table of processes with the given data. Called when the
+     * doSearch asynchronous call is successful.
+     *
+     * @param data
+     *            the data
+     */
+    protected void updateWorkflowsTable(List<Workflow> data) {
+        this.workflowsTable.clear();
+        this.workflowsSearchInProgressMessage.setVisible(false);
+        if (data != null && data.size() > 0) {
+            this.workflowsTable.setValue(data);
+
+            this.workflowsTable.setVisible(true);
+        } else {
+            this.workflowsNoDataMessage.setVisible(true);
+        }
+    }
+
+    /**
      * Called when a new search is kicked off.
      */
     protected void onSearchStarting() {
@@ -277,10 +360,20 @@ public class ProcessesPage extends AbstractPage {
         this._searchInProgressMessage.setVisible(true);
         this._processesTable.setVisible(false);
         this._noDataMessage.setVisible(false);
-        this._rangeSpan.setInnerText("?"); //$NON-NLS-1$
-        this._totalSpan.setInnerText("?"); //$NON-NLS-1$
+        this._processesRangeSpan.setInnerText("?"); //$NON-NLS-1$
+        this._processesTotalSpan.setInnerText("?"); //$NON-NLS-1$
     }
 
+    /**
+     * Called when a new search is kicked off.
+     */
+    protected void onWorkflowSearchStarting() {
+        this.workflowsSearchInProgressMessage.setVisible(true);
+        this.workflowsTable.setVisible(false);
+        this.workflowsNoDataMessage.setVisible(false);
+        this.workflowsRangeSpan.setInnerText("?"); //$NON-NLS-1$
+        this.workflowsTotalSpan.setInnerText("?"); //$NON-NLS-1$
+    }
     /**
      * Update pager.
      *
@@ -301,13 +394,13 @@ public class ProcessesPage extends AbstractPage {
             int endIndex = startIndex + data.getProcesses().size() - 1;
             String rangeText = "" + startIndex + "-" + endIndex; //$NON-NLS-1$ //$NON-NLS-2$
             String totalText = String.valueOf(data.get_totalResults());
-            this._rangeSpan.setInnerText(rangeText);
-            this._totalSpan.setInnerText(totalText);
+            this._processesRangeSpan.setInnerText(rangeText);
+            this._processesTotalSpan.setInnerText(totalText);
         } else {
             this._pager.setVisible(false);
             this._noDataMessage.setVisible(true);
-            this._rangeSpan.setInnerText("0"); //$NON-NLS-1$
-            this._totalSpan.setInnerText("0"); //$NON-NLS-1$
+            this._processesRangeSpan.setInnerText("0"); //$NON-NLS-1$
+            this._processesTotalSpan.setInnerText("0"); //$NON-NLS-1$
         }
 
     }
@@ -594,7 +687,7 @@ public class ProcessesPage extends AbstractPage {
      * @return the range span
      */
     public SpanElement getRangeSpan() {
-        return _rangeSpan;
+        return _processesRangeSpan;
     }
 
     /**
@@ -603,7 +696,7 @@ public class ProcessesPage extends AbstractPage {
      * @return the total span
      */
     public SpanElement getTotalSpan() {
-        return _totalSpan;
+        return _processesTotalSpan;
     }
 
     /**

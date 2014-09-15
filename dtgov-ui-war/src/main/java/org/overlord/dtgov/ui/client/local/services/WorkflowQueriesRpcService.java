@@ -15,7 +15,7 @@
  */
 package org.overlord.dtgov.ui.client.local.services;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -26,6 +26,7 @@ import org.jboss.errai.common.client.api.RemoteCallback;
 import org.overlord.dtgov.ui.client.local.services.rpc.DelegatingErrorCallback;
 import org.overlord.dtgov.ui.client.local.services.rpc.DelegatingRemoteCallback;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
+import org.overlord.dtgov.ui.client.shared.beans.Workflow;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueriesFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryResultSetBean;
@@ -136,8 +137,8 @@ public class WorkflowQueriesRpcService {
      */
     public void search(WorkflowQueriesFilterBean filters, int page, String sortColumnId,
             boolean sortAscending, final IRpcServiceInvocationHandler<WorkflowQueryResultSetBean> handler) {
-        // TODO only allow one search at a time. If another search comes in before the previous 
-        // one is finished, cancel the previous one. In other words, only return the results of 
+        // TODO only allow one search at a time. If another search comes in before the previous
+        // one is finished, cancel the previous one. In other words, only return the results of
         // the *last* search performed.
         RemoteCallback<WorkflowQueryResultSetBean> successCallback = new DelegatingRemoteCallback<WorkflowQueryResultSetBean>(
                 handler);
@@ -157,8 +158,8 @@ public class WorkflowQueriesRpcService {
      *            the handler
      * @return the workflow types
      */
-    public void getWorkflowTypes(final IRpcServiceInvocationHandler<Set<String>> handler) {
-        RemoteCallback<Set<String>> successCallback = new DelegatingRemoteCallback<Set<String>>(handler);
+    public void getWorkflowTypes(final IRpcServiceInvocationHandler<List<Workflow>> handler) {
+        RemoteCallback<List<Workflow>> successCallback = new DelegatingRemoteCallback<List<Workflow>>(handler);
         ErrorCallback<?> errorCallback = new DelegatingErrorCallback(handler);
         try {
             _remoteWorkflowQueryService.call(successCallback, errorCallback).getWorkflowTypes();

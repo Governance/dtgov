@@ -17,10 +17,8 @@ package org.overlord.dtgov.ui.server.services;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.ServletRequest;
@@ -33,6 +31,7 @@ import org.jboss.errai.bus.server.api.RpcContext;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
+import org.overlord.dtgov.ui.client.shared.beans.Workflow;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueriesFilterBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryResultSetBean;
@@ -227,11 +226,11 @@ public class WorkflowQueryService implements IWorkflowQueryService {
      * @see org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService#getWorkflowTypes()
      */
     @Override
-    public Set<String> getWorkflowTypes() throws DtgovUiException {
+    public List<Workflow> getWorkflowTypes() throws DtgovUiException {
         checkAuthorization();
         Configuration dtgov_ui_conf = config.getConfiguration();
         SrampAtomApiClient client = _srampClientAccessor.getClient();
-        Set<String> workflows = new HashSet<String>();
+        List<Workflow> workflows = new ArrayList<Workflow>();
         try {
             QueryResultSet results = client.buildQuery(SRAMP_WORKFLOW_QUERY)
                     .parameter((String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_GROUP_KEY))
@@ -242,7 +241,10 @@ public class WorkflowQueryService implements IWorkflowQueryService {
                 while (results_iterator.hasNext()) {
                     ArtifactSummary artifact = results_iterator.next();
                     String name = artifact.getName().substring(0, artifact.getName().lastIndexOf(".")); //$NON-NLS-1$
-                    workflows.add(name);
+                    Workflow workflow = new Workflow();
+                    workflow.setUuid(artifact.getUuid());
+                    workflow.setName(name);
+                    workflows.add(workflow);
                 }
             }
 
@@ -267,7 +269,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /**
      * Gets the query validator.
-     * 
+     *
      * @return the query validator
      */
     public WorkflowQueryValidator getQueryValidator() {
@@ -276,7 +278,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /**
      * Gets the sramp client accessor.
-     * 
+     *
      * @return the sramp client accessor
      */
     public SrampApiClientAccessor getSrampClientAccessor() {
@@ -285,7 +287,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
 
     /**
      * Creates a query given the selected filters and search text.
-     * 
+     *
      * @param filters
      *            the filters
      * @return the sramp client query

@@ -288,7 +288,7 @@ footer hr {
 }
 
 .tasks-none, .tasks-searching, .deployments-none, .deployments-searching, .queries-none, .queries-searching, 
-.targets-none, .targets-searching, .processes-none, .processes-searching {
+.targets-none, .targets-searching, .processes-none, .processes-searching , .workflows-none, .workflows-searching{
     float: left;
     width: 100%;
     background-color: white;
@@ -297,20 +297,20 @@ footer hr {
     border-bottom: 1px solid rgb(211, 211, 211);
     margin-bottom: 20px;
 }
-.tasks-searching span, .deployments-searching span, .queries-searching span, .processes-searching span {
+.tasks-searching span, .deployments-searching span, .queries-searching span, .processes-searching, .workflows-searching span {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 36px;
     float: left;
     background-position: 16px 11px;
 }
-.tasks-none span, .deployments-none span, .queries-none span, .targets-none span, .processes-none span {
+.tasks-none span, .deployments-none span, .queries-none span, .targets-none span, .processes-none, .workflows-none span {
     padding: 10px;
     float: left;
     font-style: italic;
 }
 
-.tasks-table, .deployments-table, .queries-table, .targets-table, .processes-table {
+.tasks-table, .deployments-table, .queries-table, .targets-table, .processes-table, .workflows-table {
     border-left: 1px solid rgb(211, 211, 211);
     border-right: 1px solid rgb(211, 211, 211);
     border-bottom: 1px solid rgb(211, 211, 211);
@@ -325,7 +325,7 @@ footer hr {
 .deployments-table thead th, .deployments-table tbody td {
     border-left: 1px solid rgb(211, 211, 211);
 }
-.deployments-table thead th, .queries-table thead th, .targets-table thead th, .processes-table thead th {
+.deployments-table thead th, .queries-table thead th, .targets-table thead th, .processes-table, .workflows-table thead th {
     background-color: white;
 }
 
