@@ -204,7 +204,7 @@ public class TargetFactory {
                 SrampModelUtils.setCustomProperty(artifact, DtgovModel.RHQ_USER, rhq.getUser());
             }
             if (StringUtils.isNotBlank(rhq.getPassword())) {
-                SrampModelUtils.setCustomProperty(artifact, DtgovModel.RHQ_PASSWORD, rhq.getPassword());
+                SrampModelUtils.setCustomEncryptedProperty(artifact, DtgovModel.RHQ_PASSWORD, rhq.getPassword());
             }
             if (StringUtils.isNotBlank(rhq.getRhqGroup())) {
                 SrampModelUtils.setCustomProperty(artifact, DtgovModel.RHQ_GROUP, rhq.getRhqGroup());
@@ -222,7 +222,7 @@ public class TargetFactory {
                 SrampModelUtils.setCustomProperty(artifact, DtgovModel.CLI_USER, cli.getUser());
             }
             if (StringUtils.isNotBlank(cli.getPassword())) {
-                SrampModelUtils.setCustomProperty(artifact, DtgovModel.CLI_PASSWORD, cli.getPassword());
+                SrampModelUtils.setCustomEncryptedProperty(artifact, DtgovModel.CLI_PASSWORD, cli.getPassword());
             }
             if (cli.getDomainMode() != null) {
                 SrampModelUtils.setCustomProperty(artifact, DtgovModel.CLI_DOMAIN_MODE, String.valueOf(cli.getDomainMode()));
@@ -246,7 +246,7 @@ public class TargetFactory {
                 SrampModelUtils.setCustomProperty(artifact, DtgovModel.MAVEN_USER, maven.getUser());
             }
             if (StringUtils.isNotBlank(maven.getPassword())) {
-                SrampModelUtils.setCustomProperty(artifact, DtgovModel.MAVEN_PASSWORD, maven.getPassword());
+                SrampModelUtils.setCustomEncryptedProperty(artifact, DtgovModel.MAVEN_PASSWORD, maven.getPassword());
             }
             if (maven.isReleaseEnabled()) {
                 SrampModelUtils.setCustomProperty(artifact, DtgovModel.MAVEN_IS_RELEASE_ENABLED, "true"); //$NON-NLS-1$
