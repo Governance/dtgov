@@ -16,6 +16,7 @@
 package org.overlord.dtgov.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,6 +30,7 @@ import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 import org.overlord.dtgov.client.auth.AuthenticationProvider;
 import org.overlord.dtgov.client.auth.BasicAuthenticationProvider;
+import org.overlord.dtgov.common.model.Deployer;
 
 /**
  * Class used to communicate with the DTGov REST API.
@@ -102,12 +104,12 @@ public class DtgovApiClient {
      * @throws DtgovApiClientException
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public List<String> getCustomDeployers() throws DtgovApiClientException {
+    public List<Deployer> getCustomDeployers() throws DtgovApiClientException {
         try {
             String url = String.format("%1$s/system/config/deployers/custom", this.endpoint); //$NON-NLS-1$
             ClientRequest request = createClientRequest(url);
-            ClientResponse<List> response = request.get(List.class);
-            List<String> deployers = response.getEntity();
+            ClientResponse<ArrayList> response = request.get(ArrayList.class);
+            ArrayList<Deployer> deployers = response.getEntity();
             return deployers;
         } catch (Throwable e) {
             throw new DtgovApiClientException(e);

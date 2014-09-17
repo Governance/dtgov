@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
+import org.overlord.dtgov.common.model.Deployer;
 import org.overlord.dtgov.ui.client.shared.beans.TargetType;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.DtgovUIConfig.DeploymentStage;
@@ -189,7 +190,7 @@ public class UiConfigurationServlet extends HttpServlet {
 
         g.writeEndObject();
         g.writeEndObject();
-        List<String> customDeployers = null;
+        List<Deployer> customDeployers = null;
         if (client != null) {
             customDeployers = client.getCustomDeployerNames();
         }
@@ -198,8 +199,8 @@ public class UiConfigurationServlet extends HttpServlet {
         g.writeObjectFieldStart("customDeployers"); //$NON-NLS-1$
 
         if (customDeployers != null && customDeployers.size() > 0) {
-            for (String customDeployer : customDeployers) {
-                g.writeStringField(customDeployer, customDeployer);
+            for (Deployer customDeployer : customDeployers) {
+                g.writeStringField(customDeployer.getName(), customDeployer.getName());
             }
         }
 

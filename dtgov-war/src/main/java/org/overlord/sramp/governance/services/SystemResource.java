@@ -15,14 +15,16 @@
  */
 package org.overlord.sramp.governance.services;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
+import org.overlord.dtgov.common.model.Deployer;
 import org.overlord.dtgov.services.deploy.DeployerFactory;
 import org.overlord.sramp.governance.Governance;
 
@@ -42,9 +44,9 @@ public class SystemResource {
     @Path("status")
     @Produces("application/json")
     public String deploy(@Context HttpServletRequest request) throws Exception {
-    	Governance governance = new Governance();
-    	String repoUrl = governance.getGovernanceUrl();
-    	StringBuilder builder = new StringBuilder();
+        Governance governance = new Governance();
+        String repoUrl = governance.getGovernanceUrl();
+        StringBuilder builder = new StringBuilder();
         builder.append("{"); //$NON-NLS-1$
         builder.append("  \"repository-url\" : \"" //$NON-NLS-1$
                 + repoUrl + "\""); //$NON-NLS-1$
@@ -55,8 +57,8 @@ public class SystemResource {
 
     @GET
     @Path("/config/deployers/custom")
-    @Produces("application/json")
-    public List<String> getCustomDeployers(@Context HttpServletRequest request) throws Exception {
-        return DeployerFactory.getCustomDeployerNames();
+    @Produces(MediaType.APPLICATION_XML)
+    public ArrayList<Deployer> getCustomDeployers(@Context HttpServletRequest request) throws Exception {
+        return (ArrayList<Deployer>) DeployerFactory.getCustomDeployerNames();
     }
 }
