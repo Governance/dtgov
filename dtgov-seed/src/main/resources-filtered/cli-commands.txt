@@ -1,12 +1,12 @@
 echo "Connecting to the S-RAMP repository"
 connect ${s-ramp.endpoint:http://localhost:8080/s-ramp-server/} ${s-ramp.username:admin} ${s-ramp.password}
 
+echo "Deploying the dtgov workflows JAR to S-RAMP"
+maven:deploy ${dtgov-workflow-jar} ${project.groupId}:dtgov-workflows:${project.version} KieJarArchive
+
 echo "Adding dtgov ontologies"
 ontology:upload ${dtgov.deployment-status-owl:dtgov-data/deployment-status.owl}
 ontology:upload ${dtgov.project-review-status-owl:dtgov-data/project-review-status.owl}
-
-echo "Deploying the dtgov workflows JAR to S-RAMP"
-maven:deploy ${dtgov-workflow-jar} ${project.groupId}:dtgov-workflows:${project.version} KieJarArchive
 
 echo "Creating out-of-the-box dtgov Workflow Queries"
 echo "   - Project Lifecycle"

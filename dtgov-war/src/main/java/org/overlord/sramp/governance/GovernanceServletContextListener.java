@@ -30,9 +30,11 @@ public class GovernanceServletContextListener implements ServletContextListener 
 
     @SuppressWarnings("unused")
 	private static final long serialVersionUID = -2902363450855487818L;
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private SRAMPMonitor monitor;
+
+
 
 	/**
 	 * Create the SRAMP monitor.

@@ -42,9 +42,13 @@ Follow these steps to get up and running with DTGov (and S-RAMP) on Fuse:
    features:install -v s-ramp
    features:install -v dtgov
 
-7) Once everything has installed, you must seed the initial DTGov data into the
-   S-RAMP repository.  This can be done using the following command at the root of
-   this distribution:
+7) The dtgov initialization is done automatically during the dtgov deployment.
+   This behaviour can be changed modifying the dtgov.automatic.data.initialization.enabled 
+   property from the dtgov.properties.
+       
+In case you change to false, then you must populate S-ramp. Once everything has installed, 
+you must seed the initial DTGov data into the S-RAMP repository.  This can be done using 
+the following command at the root of this distribution:
    
    ant seed -Ds-ramp.shell.password=<ADMIN-USER-PASSWORD> -Ds-ramp.endpoint=http://localhost:8181/s-ramp-server/
 

@@ -77,6 +77,11 @@
       <param-value>org.overlord.sramp.governance.services.GovernanceApplication</param-value>
     </init-param>
   </servlet>
+  <servlet>
+    <servlet-name>Init</servlet-name>
+    <servlet-class>org.overlord.dtgov.servlets.DataInitializationServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>    
   <servlet-mapping>
     <servlet-name>Resteasy</servlet-name>
     <url-pattern>/rest/*</url-pattern>

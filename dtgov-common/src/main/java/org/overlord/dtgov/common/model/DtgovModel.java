@@ -30,34 +30,35 @@ public class DtgovModel {
     public static final String WorkflowQueryType           = "DtgovWorkflowQuery"; //$NON-NLS-1$
     public static final String UndeploymentInformationType = "UndeploymentInformation"; //$NON-NLS-1$
     public static final String EmailTemplateType           = "DtgovEmailTemplate"; //$NON-NLS-1$
+    public static final String DataInitializedType = "DtgovDataInitialized"; //$NON-NLS-1$
 
-    
+
     /* *****************************************************************
      * Undeployment Information Properties
      * ***************************************************************** */
-    
+
     public static final String CUSTOM_PROPERTY_DEPLOY_TARGET     = "deploy.target"; //$NON-NLS-1$
     public static final String CUSTOM_PROPERTY_DEPLOY_TYPE       = "deploy.type"; //$NON-NLS-1$
     public static final String CUSTOM_PROPERTY_DEPLOY_CLASSIFIER = "deploy.classifier"; //$NON-NLS-1$
     public static final String RELATIONSHIP_DESCRIBED_DEPLOYMENT = "describesDeployment"; //$NON-NLS-1$
 
-    
+
     /* *****************************************************************
      * Email Template Properties
      * ***************************************************************** */
-    
+
     public static final String CUSTOM_PROPERTY_TEMPLATE       = "template"; //$NON-NLS-1$
     public static final String CUSTOM_PROPERTY_TEMPLATE_TYPE  = "template-type"; //$NON-NLS-1$
 
-    
+
     /* *****************************************************************
      * Workflow Query Properties
      * ***************************************************************** */
-    
+
     public static final String CUSTOM_PROPERTY_QUERY     = "query"; //$NON-NLS-1$
     public static final String CUSTOM_PROPERTY_WORKFLOW  = "workflow"; //$NON-NLS-1$
 
-    
+
     /* *****************************************************************
      * Workflow Instance Properties
      * ***************************************************************** */
@@ -71,11 +72,15 @@ public class DtgovModel {
     public static final String CUSTOM_PROPERTY_ARTIFACT_ID    = "workflow.artifactId"; //$NON-NLS-1$
     public static final String CUSTOM_PROPERTY_ARTIFACT_NAME  = "workflow.artifactName"; //$NON-NLS-1$
 
-    
+
+    /* DTGOV INITIALIZATION PROPERTIES */
+
+    public static final String DataInitializedName = "DtgovInit"; //$NON-NLS-1$
+
     /* *****************************************************************
      * Deployment Target Properties
      * ***************************************************************** */
-    
+
     // COMMON CONSTANTS
     public static final String TARGET_TYPE                 = "deployment.type"; //$NON-NLS-1$
     public static final String TARGET_CLASSIFIERS          = "deployment.classifiers"; //$NON-NLS-1$

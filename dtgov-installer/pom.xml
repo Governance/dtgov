@@ -496,6 +496,10 @@
           <artifactId>s-ramp-distro-assembly-cli</artifactId>
           <type>zip</type>
         </dependency>
+	    <dependency>
+	      <groupId>org.overlord.dtgov</groupId>
+	      <artifactId>dtgov-seed</artifactId>
+	    </dependency>        
       </dependencies>
       <build>
         <plugins>
@@ -524,11 +528,13 @@
                     <property name="dtgov.install.commands.dir" location="${project.build.directory}/classes" />
                     <property name="dtgov.s-ramp.cli.zip" value="${maven.dependency.org.overlord.sramp.s-ramp-distro-assembly-cli.zip.path}" />
                     <unzip src="${dtgov.s-ramp.cli.zip}" dest="${project.build.directory}" overwrite="true" />
+                    <property name="dtgov.seed.jar" value="${maven.dependency.org.overlord.dtgov.dtgov-seed.jar.path}" />
+                    <unzip src="${dtgov.seed.jar}" dest="${dtgov.install.commands.dir}" overwrite="true" />
                     <property name="dtgov.s-ramp.cli.jar" value="${project.build.directory}/s-ramp-cli-${version.org.overlord.sramp}/bin/s-ramp-shell-${version.org.overlord.sramp}.jar" />
                     <property name="s-ramp.endpoint" value="http://localhost:8080/s-ramp-server/" />
                     <property name="s-ramp.shell.username" value="admin" />
                     <property name="s-ramp.shell.password" value="admin123!" />
-                    <ant dir="${basedir}/src/main/resources" antfile="${basedir}/src/main/resources/build.xml">
+                    <ant dir="${dtgov.install.commands.dir}" antfile="${dtgov.install.commands.dir}/build.xml">
                       <target name="seed" />
                     </ant>
                   </tasks>

@@ -13,9 +13,10 @@ detailed set of instructions, see the "Overview" section below.
     4) Unpack the DTGov distribution
     5) Run the DTGov installer
     6) Follow the DTGov installer instructions to install DTGov into the same JBoss EAP
-       6.x directory as in step #3
+       6.x directory as in step #3. 
     7) Start JBoss
-    8) Populate the S-RAMP repository with DTGov seed data (e.g. ontologies + workflow jar)
+    8) In case dtgov has not been automatically initializated, then populate the S-RAMP
+       repository with DTGov seed data (e.g. ontologies + workflow jar)
 
 Here is some pseudo-bash that accomplishes the above:
 
@@ -36,6 +37,7 @@ Here is some pseudo-bash that accomplishes the above:
     # Follow dtgov installation instructions here
 
     # Start JBoss (target/jboss-eap-6.x/bin/standalone.sh) - wait for startup to complete
+    # In case  dtgov.automatic.data.initialization.enabled=false you need to populate s-ramp
     ant seed -Ds-ramp.shell.password=ADMIN_PASSWORD
 
 
@@ -88,9 +90,17 @@ Now that you have S-RAMP installed, you can go ahead and install DTGov:
 
 Once the installation completes, you can start your application container.
 
-Once the application container (e.g. JBoss EAP) is running, you must seed 
+
+ The dtgov initialization is done automatically during the dtgov deployment.
+ This behaviour can be changed modifying the dtgov.automatic.data.initialization.enabled 
+ property from the dtgov.properties.
+       
+In case you change to false, then you must populate S-ramp. Once the 
+application container (e.g. JBoss EAP) is running, you must seed 
 the system with some DTGov-specific data (don't forget to supply the 
 S-RAMP admin password):
+
+
 
     ant seed -Ds-ramp.shell.password=ADMIN_PASSWORD
 

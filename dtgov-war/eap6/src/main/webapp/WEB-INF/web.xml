@@ -40,7 +40,11 @@
     <filter-name>HttpRequestThreadLocalFilter</filter-name>
     <url-pattern>/rest/*</url-pattern>
   </filter-mapping>
-
+  <servlet>
+    <servlet-name>Init</servlet-name>
+    <servlet-class>org.overlord.dtgov.servlets.DataInitializationServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>S-RAMP</web-resource-name>

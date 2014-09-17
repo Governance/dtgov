@@ -28,8 +28,8 @@ import org.overlord.sramp.governance.workflow.jbpm.ProcessService;
  */
 public class GovernanceApplication extends Application {
 
-	private Set<Object> singletons = new HashSet<Object>();
-	private Set<Class<?>> classes = new HashSet<Class<?>>();
+	private final Set<Object> singletons = new HashSet<Object>();
+	private final Set<Class<?>> classes = new HashSet<Class<?>>();
 
 	/**
 	 * Constructor.
