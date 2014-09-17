@@ -110,8 +110,8 @@ public class DeployerFactory {
      *
      * @return the custom deployer names
      */
-    public static List<String> getCustomDeployerNames() {
-        List<String> customDeployers = new ArrayList<String>();
+    public static List<org.overlord.dtgov.common.model.Deployer> getCustomDeployerNames() {
+        List<org.overlord.dtgov.common.model.Deployer> customDeployers = new ArrayList<org.overlord.dtgov.common.model.Deployer>();
         Target.TYPE[] targetTypes = Target.TYPE.values();
         for (String deployer : deployers.keySet()) {
             boolean found = false;
@@ -123,7 +123,7 @@ public class DeployerFactory {
                 }
             }
             if (!found) {
-                customDeployers.add(deployer);
+                customDeployers.add(new org.overlord.dtgov.common.model.Deployer(deployer));
             }
         }
         return customDeployers;

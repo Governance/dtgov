@@ -3,6 +3,8 @@ package org.overlord.dtgov.ui.server.services.dtgov;
 import java.util.List;
 import java.util.Locale;
 
+import org.overlord.dtgov.common.model.Deployer;
+
 /**
  * A client used to access a dtgov server
  *
@@ -11,7 +13,7 @@ import java.util.Locale;
 public interface IDtgovClient {
     public void stopProcess(String targetUUID, long processId) throws Exception;
 
-    public List<String> getCustomDeployerNames() throws Exception;
+    public List<Deployer> getCustomDeployerNames() throws Exception;
 
     public void setLocale(Locale locale);
 }

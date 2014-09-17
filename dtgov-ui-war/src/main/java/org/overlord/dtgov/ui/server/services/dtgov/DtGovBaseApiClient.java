@@ -23,6 +23,7 @@ import org.apache.commons.configuration.Configuration;
 import org.overlord.commons.config.JBossServer;
 import org.overlord.dtgov.client.DtgovApiClient;
 import org.overlord.dtgov.client.auth.AuthenticationProvider;
+import org.overlord.dtgov.common.model.Deployer;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 
 /**
@@ -79,7 +80,7 @@ public class DtGovBaseApiClient implements IDtgovClient {
     }
 
     @Override
-    public List<String> getCustomDeployerNames() throws Exception {
+    public List<Deployer> getCustomDeployerNames() throws Exception {
         return client.getCustomDeployers();
     }
 
