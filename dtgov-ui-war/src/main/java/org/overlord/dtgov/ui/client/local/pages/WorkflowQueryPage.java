@@ -16,7 +16,6 @@
 package org.overlord.dtgov.ui.client.local.pages;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -40,6 +39,7 @@ import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHand
 import org.overlord.dtgov.ui.client.local.util.DOMUtil;
 import org.overlord.dtgov.ui.client.shared.beans.NotificationBean;
 import org.overlord.dtgov.ui.client.shared.beans.ValidationError;
+import org.overlord.dtgov.ui.client.shared.beans.Workflow;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryBean;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueryProperty;
 import org.overlord.dtgov.ui.client.shared.exceptions.DtgovFormValidationException;
@@ -399,11 +399,11 @@ public class WorkflowQueryPage extends AbstractPage {
         _pageContent = DOMUtil.findElementById(getElement(), "workflow-query-content-wrapper"); //$NON-NLS-1$
 
         this._workflow.clear();
-        _workflowQueryService.getWorkflowTypes(new IRpcServiceInvocationHandler<Set<String>>() {
+        _workflowQueryService.getWorkflowTypes(new IRpcServiceInvocationHandler<List<Workflow>>() {
             @Override
-            public void onReturn(Set<String> workflowTypes) {
-                for (String entry : workflowTypes) {
-                    _workflow.addItem(entry, entry);
+            public void onReturn(List<Workflow> workflowTypes) {
+                for (Workflow entry : workflowTypes) {
+                    _workflow.addItem(entry.getName(), entry.getName());
                 }
             }
 

@@ -15,7 +15,7 @@
  */
 package org.overlord.dtgov.ui.client.local.pages.workflowQuery;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -28,6 +28,7 @@ import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
 import org.overlord.dtgov.ui.client.local.services.NotificationService;
 import org.overlord.dtgov.ui.client.local.services.WorkflowQueriesRpcService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
+import org.overlord.dtgov.ui.client.shared.beans.Workflow;
 import org.overlord.dtgov.ui.client.shared.beans.WorkflowQueriesFilterBean;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -146,12 +147,12 @@ public class WorkflowQueriesFilter extends Composite implements HasValue<Workflo
         // Update the items in the deployment type drop-down
         this._workflow.clear();
 
-        _workflowQueryService.getWorkflowTypes(new IRpcServiceInvocationHandler<Set<String>>() {
+        _workflowQueryService.getWorkflowTypes(new IRpcServiceInvocationHandler<List<Workflow>>() {
 
             @Override
-            public void onReturn(Set<String> workflowTypes) {
-                for (String entry : workflowTypes) {
-                    _workflow.addItem(entry, entry);
+            public void onReturn(List<Workflow> workflowTypes) {
+                for (Workflow entry : workflowTypes) {
+                    _workflow.addItem(entry.getName(), entry.getName());
                 }
 
             }

@@ -15,7 +15,7 @@
  */
 package org.overlord.dtgov.ui.client.local.pages.processes;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -31,6 +31,7 @@ import org.overlord.dtgov.ui.client.local.services.WorkflowQueriesRpcService;
 import org.overlord.dtgov.ui.client.local.services.rpc.IRpcServiceInvocationHandler;
 import org.overlord.dtgov.ui.client.shared.beans.ProcessStatusEnum;
 import org.overlord.dtgov.ui.client.shared.beans.ProcessesFilterBean;
+import org.overlord.dtgov.ui.client.shared.beans.Workflow;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -46,7 +47,7 @@ import com.google.gwt.user.client.ui.TextBox;
 /**
  * The processes filtersPanel sidebar. Whenever the user changes any of the
  * settings in the filter sidebar, a ValueChangeEvent will be fired.
- * 
+ *
  * @author David Virgil Naranjo
  */
 @Templated("/org/overlord/dtgov/ui/client/local/site/processes.html#processes-filter-sidebar")
@@ -154,12 +155,12 @@ public class ProcessesFilter extends Composite implements HasValue<ProcessesFilt
         // Update the items in the deployment type drop-down
         this._workflow.clear();
         this.status.clear();
-        workflowService.getWorkflowTypes(new IRpcServiceInvocationHandler<Set<String>>() {
+        workflowService.getWorkflowTypes(new IRpcServiceInvocationHandler<List<Workflow>>() {
 
             @Override
-            public void onReturn(Set<String> workflowTypes) {
-                for (String entry : workflowTypes) {
-                    _workflow.addItem(entry, entry);
+            public void onReturn(List<Workflow> workflowTypes) {
+                for (Workflow entry : workflowTypes) {
+                    _workflow.addItem(entry.getName(), entry.getName());
                 }
 
             }
