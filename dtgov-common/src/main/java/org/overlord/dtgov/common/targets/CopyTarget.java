@@ -21,7 +21,7 @@ import org.overlord.dtgov.common.Target;
 
 /**
  * Copy Target Implementation
- * 
+ *
  * @author David Virgil Naranjo
  */
 public class CopyTarget extends Target implements Serializable{
@@ -97,12 +97,12 @@ public class CopyTarget extends Target implements Serializable{
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return super.toString() + "\nDeployDir=" + deployDir; //$NON-NLS-1$ //$NON-NLS-2$
+        return super.toString() + "\nDeployDir=" + deployDir; //$NON-NLS-1$
     }
 
 }
