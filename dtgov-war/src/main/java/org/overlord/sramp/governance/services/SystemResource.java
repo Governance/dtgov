@@ -15,7 +15,7 @@
  */
 package org.overlord.sramp.governance.services;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -58,7 +58,7 @@ public class SystemResource {
     @GET
     @Path("/config/deployers/custom")
     @Produces(MediaType.APPLICATION_XML)
-    public ArrayList<Deployer> getCustomDeployers(@Context HttpServletRequest request) throws Exception {
-        return (ArrayList<Deployer>) DeployerFactory.getCustomDeployerNames();
+    public List<Deployer> getCustomDeployers(@Context HttpServletRequest request) throws Exception {
+        return DeployerFactory.getCustomDeployerNames();
     }
 }

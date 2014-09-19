@@ -16,9 +16,10 @@
 package org.overlord.dtgov.client;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import javax.ws.rs.core.MediaType;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
@@ -28,6 +29,7 @@ import org.apache.http.protocol.HttpContext;
 import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
+import org.jboss.resteasy.util.GenericType;
 import org.overlord.dtgov.client.auth.AuthenticationProvider;
 import org.overlord.dtgov.client.auth.BasicAuthenticationProvider;
 import org.overlord.dtgov.common.model.Deployer;
@@ -39,20 +41,21 @@ import org.overlord.dtgov.common.model.Deployer;
  */
 public class DtgovApiClient {
 
-	private String endpoint;
-	private AuthenticationProvider authProvider;
+    private String endpoint;
+    private AuthenticationProvider authProvider;
     private Locale locale;
 
-	/**
-	 * Constructor.
-	 * @param endpoint
-	 */
-	public DtgovApiClient(String endpoint) {
-		this.endpoint = endpoint;
-		if (this.endpoint.endsWith("/")) { //$NON-NLS-1$
-			this.endpoint = this.endpoint.substring(0, this.endpoint.length()-1);
-		}
-	}
+    /**
+     * Constructor.
+     * 
+     * @param endpoint
+     */
+    public DtgovApiClient(String endpoint) {
+        this.endpoint = endpoint;
+        if (this.endpoint.endsWith("/")) { //$NON-NLS-1$
+            this.endpoint = this.endpoint.substring(0, this.endpoint.length() - 1);
+        }
+    }
 
     /**
      * Constructor.
@@ -78,17 +81,19 @@ public class DtgovApiClient {
         this.authProvider = authenticationProvider;
     }
 
-	/**
-	 * @return the s-ramp endpoint
-	 */
-	public String getEndpoint() {
-		return this.endpoint;
-	}
+    /**
+     * @return the s-ramp endpoint
+     */
+    public String getEndpoint() {
+        return this.endpoint;
+    }
 
-	/**
-	 * Finds a list of tasks based on criteria provided in {@link FindTasksRequest}.
-	 * @param findTasksRequest
-	 */
+    /**
+     * Finds a list of tasks based on criteria provided in
+     * {@link FindTasksRequest}.
+     * 
+     * @param findTasksRequest
+     */
     public void stopProcess(String targetUUID, long processId) throws DtgovApiClientException {
         try {
             String url = String.format("%1$s/process/stop/%2$s/%3$s", this.endpoint, targetUUID, processId); //$NON-NLS-1$
@@ -97,7 +102,7 @@ public class DtgovApiClient {
         } catch (Throwable e) {
             throw new DtgovApiClientException(e);
         }
-	}
+    }
 
     /**
      * Gets a list of custom deployers from the dtgov server.
@@ -108,8 +113,11 @@ public class DtgovApiClient {
         try {
             String url = String.format("%1$s/system/config/deployers/custom", this.endpoint); //$NON-NLS-1$
             ClientRequest request = createClientRequest(url);
-            ClientResponse<ArrayList> response = request.get(ArrayList.class);
-            ArrayList<Deployer> deployers = response.getEntity();
+            request.accept(MediaType.APPLICATION_XML);
+            ClientResponse<List> response = request.get(new GenericType<List<Deployer>>() {
+            });
+            response.getEntity();
+            List<Deployer> deployers = response.getEntity();
             return deployers;
         } catch (Throwable e) {
             throw new DtgovApiClientException(e);

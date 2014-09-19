@@ -15,17 +15,22 @@
  */
 package org.overlord.dtgov.common.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Jaxb object that encapsulates the deployers basic data.
- * 
+ *
  * @author eric.wittmann@redhat.com
  */
-@XmlRootElement
+@XmlRootElement(name = "deployer")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "Deployer")
 public class Deployer {
-
+    @XmlElement(name = "Name")
     private String name;
 
     /**
@@ -51,7 +56,7 @@ public class Deployer {
      *
      * @return the name
      */
-    @XmlElement
+
     public String getName() {
         return name;
     }
