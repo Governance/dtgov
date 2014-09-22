@@ -46,7 +46,9 @@ public class GovernanceServletContextListener implements ServletContextListener 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		log.debug(Messages.i18n.format("GovernanceServlet.Stopping")); //$NON-NLS-1$
-	    monitor.cancel();
+		if (monitor != null) {
+		    monitor.cancel();
+		}
 	}
 
 }
