@@ -17,6 +17,8 @@ package org.overlord.dtgov.services.deploy;
 
 import java.util.Map;
 
+import org.overlord.dtgov.common.Target;
+
 /**
  * Interface that provides the main method that a deployerProvider should
  * implement.
@@ -30,5 +32,5 @@ public interface DeployerProvider {
      *
      * @return the map
      */
-    public Map<String, Deployer> createDeployers();
+    public Map<String, Deployer<? extends Target>> createDeployers();
 }

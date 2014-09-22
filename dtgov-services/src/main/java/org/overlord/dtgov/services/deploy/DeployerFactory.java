@@ -39,7 +39,7 @@ import org.overlord.dtgov.common.Target;
  * @author David Virgil Naranjo
  */
 public class DeployerFactory {
-    private static Map<String, Deployer> deployers = new HashMap<String, Deployer>();
+    private static Map<String, Deployer<? extends Target>> deployers = new HashMap<String, Deployer<? extends Target>>();
 
     static {
         loadDeployers();
@@ -53,7 +53,7 @@ public class DeployerFactory {
         // First load via the standard ServiceRegistry mechanism.
         Set<DeployerProvider> providers = ServiceRegistryUtil.getServices(DeployerProvider.class);
         for (DeployerProvider provider : providers) {
-            Map<String, Deployer> deployers_provider = provider.createDeployers();
+            Map<String, Deployer<? extends Target>> deployers_provider = provider.createDeployers();
             if (deployers_provider != null && !deployers_provider.isEmpty()) {
                 deployers.putAll(deployers_provider);
             }
@@ -84,7 +84,7 @@ public class DeployerFactory {
         // Now load all of these contributed DeployerProvider implementations
         for (ClassLoader loader : loaders) {
             for (DeployerProvider provider : ServiceLoader.load(DeployerProvider.class, loader)) {
-                Map<String, Deployer> deployers_provider = provider.createDeployers();
+                Map<String, Deployer<? extends Target>> deployers_provider = provider.createDeployers();
                 if (deployers_provider != null && !deployers_provider.isEmpty()) {
                     deployers.putAll(deployers_provider);
                 }
@@ -100,8 +100,8 @@ public class DeployerFactory {
      *            the deployer type
      * @return the deployer
      */
-    public final static Deployer createDeployer(String deployerType) {
-        Deployer deployer = deployers.get(deployerType);
+    public final static Deployer<? extends Target> createDeployer(String deployerType) {
+        Deployer<? extends Target> deployer = deployers.get(deployerType);
         return deployer;
     }
 

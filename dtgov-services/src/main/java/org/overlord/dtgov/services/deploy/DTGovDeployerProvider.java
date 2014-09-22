@@ -18,6 +18,7 @@ package org.overlord.dtgov.services.deploy;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.overlord.dtgov.common.Target;
 import org.overlord.dtgov.common.Target.TYPE;
 import org.overlord.dtgov.services.deploy.deployers.CliDeployer;
 import org.overlord.dtgov.services.deploy.deployers.CopyFileDeployer;
@@ -39,8 +40,8 @@ public class DTGovDeployerProvider implements DeployerProvider {
      * org.overlord.dtgov.services.deploy.DeployerProvider#createDeployers()
      */
     @Override
-    public Map<String, Deployer> createDeployers() {
-        Map<String, Deployer> deployers = new HashMap<String, Deployer>();
+    public Map<String, Deployer<? extends Target>> createDeployers() {
+        Map<String, Deployer<? extends Target>> deployers = new HashMap<String, Deployer<? extends Target>>();
         deployers.put(TYPE.AS_CLI.name(), new CliDeployer());
         deployers.put(TYPE.COPY.name(), new CopyFileDeployer());
         deployers.put(TYPE.MAVEN.name(), new MavenDeployer());

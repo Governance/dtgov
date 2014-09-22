@@ -3,6 +3,7 @@ package org.overlord.sramp.demos.deployer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.overlord.dtgov.common.Target;
 import org.overlord.dtgov.services.deploy.Deployer;
 import org.overlord.dtgov.services.deploy.DeployerProvider;
 
@@ -23,8 +24,8 @@ public class CustomDeployerProvider implements DeployerProvider {
      * org.overlord.dtgov.services.deploy.DeployerProvider#createDeployers()
      */
     @Override
-    public Map<String, Deployer> createDeployers() {
-        Map<String, Deployer> deployers = new HashMap<String, Deployer>();
+    public Map<String, Deployer<? extends Target>> createDeployers() {
+        Map<String, Deployer<? extends Target>> deployers = new HashMap<String, Deployer<? extends Target>>();
         deployers.put(CUSTOM_DEPLOYER_NAME, new CustomDeployer());
         return deployers;
     }
