@@ -109,7 +109,7 @@ public class Workflow implements Serializable {
      */
     @Override
     public String toString() {
-        return "Workflow [uuid=" + uuid + ", name=" + name + ", description=" + description + "]";
+        return "Workflow [uuid=" + uuid + ", name=" + name + ", description=" + description + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     }
 
     /*

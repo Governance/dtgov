@@ -75,6 +75,7 @@ public class DeploymentResource {
      * @param uuid
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     @POST
     @Path("{target}/{uuid}")
     @Produces("application/xml")
@@ -114,7 +115,7 @@ public class DeploymentResource {
         // get the previous version of the deployment (so we can undeploy it)
         ////////////////////////////////////////////
         BaseArtifactType prevVersionArtifact = getCurrentlyDeployedVersion(client, artifact, target);
-        Deployer deployer = DeployerFactory.createDeployer(targetType);
+        Deployer<? extends Target> deployer = DeployerFactory.createDeployer(targetType);
         if (deployer == null) {
             throw new Exception(Messages.i18n.format(
                     "DeploymentResource.TargetTypeNotFound", target.getType())); //$NON-NLS-1$
@@ -129,7 +130,7 @@ public class DeploymentResource {
         String deploymentTarget = targetTypeStr + ":"; //$NON-NLS-1$
 
         try {
-            deploymentTarget += deployer.deploy(artifact, target, client);
+            deploymentTarget += ((Deployer<Target>) deployer).deploy(artifact, target, client);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             results.put(GovernanceConstants.STATUS, new ValueEntity("fail")); //$NON-NLS-1$
@@ -244,15 +245,16 @@ public class DeploymentResource {
      * @param deployer
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     protected void undeploy(HttpServletRequest request, SrampAtomApiClient client,
-            BaseArtifactType prevVersionArtifact, Target target, Deployer deployer) throws Exception {
+            BaseArtifactType prevVersionArtifact, Target target, Deployer<? extends Target> deployer) throws Exception {
         // Find the undeployment information for the artifact
         QueryResultSet resultSet = client.buildQuery("/s-ramp/ext/" + DtgovModel.UndeploymentInformationType + "[describesDeployment[@uuid = ?] and @deploy.target = ?]") //$NON-NLS-1$ //$NON-NLS-2$
                 .parameter(prevVersionArtifact.getUuid()).parameter(target.getName()).count(2).query();
         if (resultSet.size() == 1) {
             // Found it
             BaseArtifactType undeployInfo = client.getArtifactMetaData(resultSet.get(0));
-            deployer.undeploy(prevVersionArtifact, undeployInfo, target, client);
+            ((Deployer<Target>) deployer).undeploy(prevVersionArtifact, undeployInfo, target, client);
 
             String deploymentClassifier = SrampModelUtils.getCustomProperty(undeployInfo, DtgovModel.CUSTOM_PROPERTY_DEPLOY_CLASSIFIER);
             // re-fetch the artifact to get the latest meta-data

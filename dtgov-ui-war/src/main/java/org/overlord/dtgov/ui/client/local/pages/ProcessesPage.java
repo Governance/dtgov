@@ -264,8 +264,8 @@ public class ProcessesPage extends AbstractPage {
             @Override
             public void onReturn(List<Workflow> workflowTypes) {
                 updateWorkflowsTable(workflowTypes);
-                String rangeText = "1-" + workflowTypes.size(); //$NON-NLS-1$ //$NON-NLS-2$
-                workflowsRangeSpan.setInnerText(rangeText); //$NON-NLS-1$
+                String rangeText = "1-" + workflowTypes.size(); //$NON-NLS-1$
+                workflowsRangeSpan.setInnerText(rangeText);
                 workflowsTotalSpan.setInnerText(workflowTypes.size() + ""); //$NON-NLS-1$
             }
 
