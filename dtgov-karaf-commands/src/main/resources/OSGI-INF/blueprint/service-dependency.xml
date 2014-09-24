@@ -1,0 +1,13 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+
+    <command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
+        <command name="overlord:dtgov:configure">
+            <action class="org.overlord.dtgov.karaf.commands.ConfigureCommand"/>
+        </command>    
+    </command-bundle>
+    <command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
+        <command name="overlord:dtgov:configure-fabric">
+            <action class="org.overlord.dtgov.karaf.commands.ConfigureFabricCommand"/>
+        </command>    
+    </command-bundle>    
+</blueprint>
