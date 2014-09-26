@@ -10,6 +10,27 @@
   <name>Design Time Governance: Fabric Distribution</name>
 
   <build>
+	<resources>
+		<resource>
+			<directory>src/main/resources</directory>
+			<filtering>true</filtering>
+		</resource>
+		<resource>
+			<directory>../../dtgov-installer/src/main/resources-filtered/updates</directory>
+			<includes>
+				<include>dtgov-ui.properties</include>
+				<include>dtgov.properties</include>
+			</includes>
+			<filtering>true</filtering>
+		</resource>
+		<resource>
+			<directory>../../dtgov-installer/src/main/resources/updates</directory>
+			<includes>
+				<include>dtgovui-overlordapp.properties</include>
+			</includes>
+			<filtering>true</filtering>
+		</resource>		
+	</resources>  
     <plugins>
  	  <plugin>
         <artifactId>maven-assembly-plugin</artifactId>

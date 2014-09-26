@@ -255,6 +255,11 @@
       </dependency>
       <dependency>
         <groupId>org.overlord.dtgov</groupId>
+        <artifactId>dtgov-karaf-commands</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.dtgov</groupId>
         <artifactId>dtgov-services</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -608,6 +613,13 @@
         <version>${version.org.overlord.overlord-commons}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-karaf-commands</artifactId>
+        <version>${version.org.overlord.overlord-commons}</version>
+      </dependency>
+
+
       <!-- Apache Commons -->
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -932,6 +944,7 @@
     <module>dtgov-ui-war/fuse61</module>
     <module>dtgov-workflows</module>
     <module>dtgov-client</module>
+    <module>dtgov-karaf-commands</module>
   </modules>
 </project>
 

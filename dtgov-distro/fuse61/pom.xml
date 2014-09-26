@@ -23,6 +23,10 @@
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-karaf-commands</artifactId>
+    </dependency>
     <!-- Include the version.fuse of the server WAR -->
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
@@ -77,38 +81,50 @@
               <attach>true</attach>
               <repositories>
                 <repository>mvn:org.overlord/overlord-commons-dist-fuse6/${version.org.overlord.overlord-commons}/xml/features</repository>
-		<repository>mvn:org.overlord.sramp/s-ramp-distro-fuse61/${version.org.overlord.sramp}/xml/features</repository>
+				<repository>mvn:org.overlord.sramp/s-ramp-distro-fuse61/${version.org.overlord.sramp}/xml/features</repository>
               </repositories>
               <features>
+                <feature>
+                  <name>dtgov-install</name>
+                  <version>${project.version}</version>
+                  <comment>DTGov installation (Karaf commands)</comment>
+                  <dependsOnFeatures>
+                    <feature>
+                      <name>overlord-commons</name>
+                      <version>${version.org.overlord.overlord-commons}</version>
+                    </feature>                  
+                    <!-- Note: DO NOT include s-ramp-dependencies.  We want http (jetty) to be refreshed only when
+                    installing the s-ramp feature.  The karaf-commands add items to jetty.xml, users.properties, etc.
+                    that must be present BEFORE the refresh. -->
+                    <feature>
+                      <name>s-ramp-install</name>
+                      <version>${version.org.overlord.sramp}</version>
+                    </feature>
+                  </dependsOnFeatures>
+                  <includes>
+                    <include>org.overlord.dtgov:dtgov-karaf-commands:*</include>
+                  </includes>
+                </feature>                
                 <!-- All DTGov Dependencies -->
                 <feature>
                   <name>dtgov-dependencies</name>
                   <version>${project.version}</version>
                   <comment>All DTGov dependencies</comment>
-                  <dependsOnFeatures>
+                  <dependsOnFeatures>> 
                     <feature>
-                      <name>overlord-commons-idp</name>
-                      <version>${version.org.overlord.overlord-commons}</version>
-                    </feature>
-                    <feature>
-		      <name>s-ramp-modules</name>
-		      <version>${s-ramp.version}</version>
-		    </feature>
-                    <feature>
-                      <name>jndi</name>
-                    </feature>
+			<name>s-ramp-modules</name>
+			<version>${s-ramp.version}</version>
+		    </feature>                	            
                   </dependsOnFeatures>
                   <excludes>
-                    <exclude>org.overlord.dtgov:dtgov-*:*</exclude>
-                    <exclude>org.overlord:overlord-commons-*:*</exclude>
+                 	<exclude>*:*:*</exclude>
                   </excludes>
                   <bundles>
                     <!-- TODO: overlord-commons-maven-plugin isn't picking this up.  For now, be explicit. -->
                     <bundle>mvn:${project.groupId}/${project.artifactId}/${project.version}</bundle>
                   </bundles>
                 </feature>
-                
-                <!-- The DTGov Server (back-end) -->
+             <!-- The DTGov Server (back-end) -->
                 <feature>
                   <name>dtgov-war</name>
                   <version>${project.version}</version>
@@ -125,6 +141,9 @@
                   <includes>
                     <include>org.overlord.dtgov:dtgov-war-fuse61:war</include>
                   </includes>
+                  <excludes>
+                 	<exclude>org.overlord.dtgov:dtgov-karaf-commands:*</exclude>
+                  </excludes>
                 </feature>
                 <!-- The DTGov UI -->
                 <feature>
@@ -139,6 +158,9 @@
                   <includes>
                     <include>org.overlord.dtgov:dtgov-ui-war-fuse61:war</include>
                   </includes>
+                  <excludes>
+                 	<exclude>org.overlord.dtgov:dtgov-karaf-commands:*</exclude>
+                  </excludes>                  
                 </feature>
                 <!-- Everything -->
                 <feature>
@@ -158,7 +180,8 @@
                   <excludes>
                     <exclude>*:*:*</exclude>
                   </excludes>
-                </feature>
+                </feature>                
+   
               </features>
             </configuration>
           </execution>
