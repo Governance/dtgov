@@ -141,6 +141,7 @@ public class ProcessesFilter extends Composite implements HasValue<ProcessesFilt
     public void setValue(ProcessesFilterBean value, boolean fireEvents) {
         _workflow.setValue(value.getWorkflow() == null ? "" : value.getWorkflow()); //$NON-NLS-1$
         artifact.setValue(value.getArtifact() == null ? "" : value.getArtifact()); //$NON-NLS-1$
+        status.setValue(value.getStatus() == null ? "" : value.getStatus().toString()); //$NON-NLS-1$
         ProcessesFilterBean oldState = this._currentState;
         _currentState = value;
         if (fireEvents) {
@@ -180,7 +181,9 @@ public class ProcessesFilter extends Composite implements HasValue<ProcessesFilt
         ProcessesFilterBean newState = new ProcessesFilterBean();
         newState.setWorkflow(_workflow.getValue());
         newState.setArtifact(artifact.getValue());
-        newState.setStatus(ProcessStatusEnum.valueOf(status.getValue()));
+        if (status.getValue() != null) {
+            newState.setStatus(ProcessStatusEnum.valueOf(status.getValue()));
+        }
         ProcessesFilterBean oldState = this._currentState;
         this._currentState = newState;
         // Only fire a change event if something actually changed.
