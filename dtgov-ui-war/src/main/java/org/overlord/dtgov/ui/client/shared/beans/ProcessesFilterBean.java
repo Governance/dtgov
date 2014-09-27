@@ -28,10 +28,6 @@ import org.jboss.errai.common.client.api.annotations.Portable;
 @Portable
 public class ProcessesFilterBean implements Serializable {
 
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 5238894183125636757L;
 
     /** The _workflow. */

@@ -74,7 +74,7 @@ public class DtGovClientAccessor {
                 throw new RuntimeException(Messages.i18n.format("TaskClientAccessor.ErrorCreatingClient"), e); //$NON-NLS-1$
             }
         }
-        throw new RuntimeException(Messages.i18n.format("TaskClientAccessor.FailedTocreateClientFrom", clientClassname)); //$NON-NLS-1$
+        throw new RuntimeException(Messages.i18n.format("DtGovClientAccessor.FailedToCreateClient", clientClassname)); //$NON-NLS-1$
     }
 
     /**
