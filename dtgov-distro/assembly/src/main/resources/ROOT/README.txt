@@ -48,9 +48,8 @@ This distribution comes with the following:
     3) demos - some quickstarts/demos to help you get started with DTGov
     4) build.xml/build.properties - an Ant script that will install 
        and configure DTGov in JBoss EAP 6 (or Tomcat 7)
-    5) dtgov-data - some seed data required for out of the box DTGov
-       functionality
-    6) docs - the DTGov documentation
+    5) docs - the DTGov documentation
+    6) workflows - the source code of the out of the box DTGov workflows
 
 
 == What do I do next? ==
@@ -121,3 +120,9 @@ when you installed S-RAMP/DTGov:
     Password: <pw-chosen-during-install>
 
 Note: the repository browser UI can be found on port 8181 when running in Fuse.
+
+
+== Customized Workflows ==
+Included in the distribution is a folder that contains all of the source code
+for the out of the box DTGov workflows.  An easy way to get started customizing
+the workflows (or creating your own) is to use what's in the 'workflows' folder.

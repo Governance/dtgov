@@ -135,11 +135,11 @@
         </excludes>
       </unpackOptions>
     </dependencySet>
-    
+
     <!-- lib -->
     <dependencySet>
       <outputDirectory>lib</outputDirectory>
-      <includes>    
+      <includes>
         <include>org.codehaus.btm:btm:jar</include>
         <include>org.codehaus.btm:btm-tomcat55-lifecycle:jar</include>
         <include>org.codehaus.btm:btm-jetty7-lifecycle:jar</include>
@@ -156,9 +156,9 @@
       <directoryMode>0755</directoryMode>
       <fileMode>0755</fileMode>
     </dependencySet>
- 	<dependencySet>
+    <dependencySet>
       <outputDirectory>lib</outputDirectory>
-      <includes>    
+      <includes>
         <include>commons-codec:commons-codec:jar</include>
       </includes>
       <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
@@ -168,7 +168,7 @@
       <useTransitiveFiltering>false</useTransitiveFiltering>
       <directoryMode>0755</directoryMode>
       <fileMode>0755</fileMode>
-    </dependencySet>    
+    </dependencySet>
   </dependencySets>
   <fileSets>
     <!-- Files at the root of the distribution -->
@@ -178,6 +178,18 @@
       <filtered>true</filtered>
       <directoryMode>0755</directoryMode>
       <fileMode>0755</fileMode>
+    </fileSet>
+    <!-- The workflows -->
+    <fileSet>
+      <directory>../../dtgov-workflows</directory>
+      <outputDirectory>workflows</outputDirectory>
+      <filtered>false</filtered>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0755</fileMode>
+      <includes>
+        <include>**/src/**</include>
+        <include>pom.xml</include>
+      </includes>
     </fileSet>
   </fileSets>
 </assembly>
