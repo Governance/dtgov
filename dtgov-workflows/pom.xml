@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.overlord.dtgov</groupId>
@@ -26,18 +27,59 @@
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
+      <properties>
+        <sramp.repository.host>localhost</sramp.repository.host>
+        <sramp.repository.port>8080</sramp.repository.port>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <phase>verify</phase>
+                <configuration>
+                  <attach>false</attach>
+                </configuration>
+                <goals>
+                  <goal>jar</goal>
+                  <goal>test-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
       <distributionManagement>
         <repository>
           <id>local-sramp-repo</id>
           <name>S-RAMP Releases Repository</name>
-          <url>sramp://localhost:8181/s-ramp-server/?artifactType=KieJarArchive</url>
+          <url>sramp://${sramp.repository.host}:${sramp.repository.port}/s-ramp-server/?artifactType=KieJarArchive</url>
         </repository>
         <snapshotRepository>
           <id>local-sramp-repo-snapshots</id>
           <name>S-RAMP Snapshots Repository</name>
-          <url>sramp://localhost:8181/s-ramp-server/?artifactType=KieJarArchive</url>
+          <url>sramp://${sramp.repository.host}:${sramp.repository.port}/s-ramp-server/?artifactType=KieJarArchive</url>
         </snapshotRepository>
       </distributionManagement>
+      <repositories>
+        <repository>
+          <id>jboss-public-repository-group</id>
+          <name>JBoss Public Repository Group</name>
+          <url>http://repository.jboss.org/nexus/content/groups/developer/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
+          </snapshots>
+        </repository>
+      </repositories>
     </profile>
   </profiles>
 </project>
