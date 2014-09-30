@@ -85,7 +85,7 @@
               </repositories>
               <features>
                 <feature>
-                  <name>dtgov-install</name>
+                  <name>dtgov-karaf-commands</name>
                   <version>${project.version}</version>
                   <comment>DTGov installation (Karaf commands)</comment>
                   <dependsOnFeatures>
@@ -97,7 +97,7 @@
                     installing the s-ramp feature.  The karaf-commands add items to jetty.xml, users.properties, etc.
                     that must be present BEFORE the refresh. -->
                     <feature>
-                      <name>s-ramp-install</name>
+                      <name>s-ramp-karaf-commands</name>
                       <version>${version.org.overlord.sramp}</version>
                     </feature>
                   </dependsOnFeatures>
