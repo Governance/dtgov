@@ -6,7 +6,7 @@
         </command>    
     </command-bundle>
     <command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
-        <command name="overlord:dtgov:configure-fabric">
+        <command name="overlord:fabric:dtgov:configure">
             <action class="org.overlord.dtgov.karaf.commands.ConfigureFabricCommand"/>
         </command>    
     </command-bundle>    

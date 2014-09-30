@@ -33,7 +33,7 @@ import org.overlord.commons.osgi.weld.BundleListener;
 public class Listener implements ServletListener {
 
     private ContextClassLoaderSwapper swapper;
-    private org.jboss.weld.environment.servlet.Listener delegate;
+    private final org.jboss.weld.environment.servlet.Listener delegate;
 
     /**
      * Constructor.
@@ -76,7 +76,9 @@ public class Listener implements ServletListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
+        swapper = new ContextClassLoaderSwapper();
         delegate.contextInitialized(arg0);
+        swapper.restore();
     }
 
     /**

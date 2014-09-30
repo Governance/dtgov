@@ -15,8 +15,6 @@
  */
 package org.overlord.dtgov.karaf.commands;
 
-import java.io.File;
-
 import org.apache.felix.gogo.commands.Command;
 import org.overlord.commons.karaf.commands.configure.AbstractConfigureFabricCommand;
 
@@ -30,15 +28,6 @@ import org.overlord.commons.karaf.commands.configure.AbstractConfigureFabricComm
 @Command(scope = "overlord:fabric:dtgov", name = "configure")
 public class ConfigureFabricCommand extends AbstractConfigureFabricCommand {
 
-    private static String DTGOV_PROFILE_PATH;
-
-    static {
-        if (File.separator.equals("/")) { //$NON-NLS-1$
-            DTGOV_PROFILE_PATH = "overlord/dtgov.profile"; //$NON-NLS-1$
-        } else {
-            DTGOV_PROFILE_PATH = "overlord\\dtgov.profile"; //$NON-NLS-1$
-        }
-    }
 
     /*
      * (non-Javadoc)
@@ -53,17 +42,6 @@ public class ConfigureFabricCommand extends AbstractConfigureFabricCommand {
         return null;
     }
 
-    /**
-     * Gets the fabric sramp profile path.
-     *
-     * @return the fuse config path
-     */
-    @Override
-    public String getFabricProfilePath() {
-        StringBuilder fuse_config_path = new StringBuilder();
-        fuse_config_path.append(getFabricProfilesePath()).append(DTGOV_PROFILE_PATH).append(File.separator);
-        return fuse_config_path.toString();
-    }
 
 
 

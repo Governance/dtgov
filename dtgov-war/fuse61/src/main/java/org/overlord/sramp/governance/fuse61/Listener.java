@@ -26,15 +26,15 @@ import org.overlord.commons.osgi.weld.BundleListener;
 /**
  * A servlet listener that wraps the Weld servlet listener so that we can
  * fix up the context class loader during creation.
- * 
- * Workarond for  https://ops4j1.jira.com/browse/PAXWEB-666 
+ *
+ * Workarond for  https://ops4j1.jira.com/browse/PAXWEB-666
  *
  * @author eric.wittmann@redhat.com
  */
 public class Listener implements ServletListener {
 
     private ContextClassLoaderSwapper swapper;
-    private org.jboss.weld.environment.servlet.Listener delegate;
+    private final org.jboss.weld.environment.servlet.Listener delegate;
 
     /**
      * Constructor.
@@ -79,7 +79,9 @@ public class Listener implements ServletListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
+        swapper = new ContextClassLoaderSwapper();
         delegate.contextInitialized(arg0);
+        swapper.restore();
     }
 
     /**
