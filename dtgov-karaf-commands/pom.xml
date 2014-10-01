@@ -66,14 +66,14 @@
 					<destination>${build.outputDirectory}/dtgov.properties</destination>
 					<files>
 						<file>../dtgov-installer/src/main/resources-filtered/updates/dtgov.properties</file>
-						<file>target/classes/dtgov.properties</file>
+						<file>${build.outputDirectory}/dtgov.properties</file>
 					</files>
 				</merge>
 			</merges>
 		</configuration>
 		<executions>
 			<execution>
-				<phase>package</phase>
+				<phase>compile</phase>
 				<goals>
 					<goal>merge-files</goal>
 				</goals>

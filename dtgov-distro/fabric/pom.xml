@@ -19,17 +19,9 @@
 			<directory>../../dtgov-installer/src/main/resources-filtered/updates</directory>
 			<includes>
 				<include>dtgov-ui.properties</include>
-				<include>dtgov.properties</include>
 			</includes>
 			<filtering>true</filtering>
 		</resource>
-		<resource>
-			<directory>../../dtgov-installer/src/main/resources/updates</directory>
-			<includes>
-				<include>dtgovui-overlordapp.properties</include>
-			</includes>
-			<filtering>true</filtering>
-		</resource>		
 	</resources>  
     <plugins>
  	  <plugin>
@@ -56,6 +48,31 @@
           </execution>
         </executions>
       </plugin>
+		<plugin>
+			<groupId>org.overlord</groupId>
+			<artifactId>overlord-commons-maven-plugin</artifactId>
+			<version>${version.org.overlord.overlord-commons}</version>
+			<configuration>
+				<merges>
+					<merge>
+						<destination>${build.outputDirectory}/dtgov.properties</destination>
+						<files>
+							<file>../../dtgov-installer/src/main/resources-filtered/updates/dtgov.properties</file>
+							<file>${build.outputDirectory}/dtgov.properties</file>
+						</files>
+					</merge>
+				</merges>
+			</configuration>
+			<executions>
+				<execution>
+					<phase>compile</phase>
+					<goals>
+						<goal>merge-files</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>            
     </plugins>
+	
   </build>
 </project>
