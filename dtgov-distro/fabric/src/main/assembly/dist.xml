@@ -19,16 +19,6 @@
 			<filtered>true</filtered>
 		</fileSet>
 		<fileSet>
-			<directory>./target/classes</directory>
-			<includes>
-				<include>dtgovui-overlordapp.properties</include>
-			</includes>
-			<outputDirectory>overlord/dtgov.profile/overlord-apps</outputDirectory>
-			<filtered>true</filtered>
-			<directoryMode>0755</directoryMode>
-			<fileMode>0755</fileMode>
-		</fileSet>
-		<fileSet>
 			<directory>./src/main/resources/</directory>
 			<includes>
 				<include>io.fabric8.agent.properties</include>

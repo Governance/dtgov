@@ -22,14 +22,7 @@
 				<include>dtgov.properties</include>
 			</includes>
 			<filtering>true</filtering>
-		</resource>
-		<resource>
-			<directory>../../dtgov-installer/src/main/resources/updates</directory>
-			<includes>
-				<include>dtgovui-overlordapp.properties</include>
-			</includes>
-			<filtering>true</filtering>
-		</resource>		
+		</resource>	
 	</resources>  
     <plugins>
  	  <plugin>

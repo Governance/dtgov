@@ -15,6 +15,12 @@
  */
 package org.overlord.dtgov.karaf.commands;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.Properties;
+
 import org.apache.felix.gogo.commands.Command;
 import org.overlord.commons.karaf.commands.configure.AbstractConfigureFabricCommand;
 
@@ -37,12 +43,47 @@ public class ConfigureFabricCommand extends AbstractConfigureFabricCommand {
     @Override
     protected Object doExecute() throws Exception {
         super.doExecute();
-
+        addHeaderProperties();
 
         return null;
     }
 
 
+    /**
+     * Adds the header properties.
+     *
+     * @throws Exception
+     *             the exception
+     */
+    private void addHeaderProperties() throws Exception {
 
+        String filePath = getOverlordPropertiesFilePath();
+
+        Properties props = new Properties();
+        InputStream is = null;
+        try {
+            is = new FileInputStream(new File(filePath));
+            props.load(is);
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
+
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(filePath);
+            props.setProperty(ConfigureConstants.DTGOV_HEADER_HREF, ConfigureConstants.DTGOV_HEADER_HREF_VALUE);
+            props.setProperty(ConfigureConstants.DTGOV_HEADER_LABEL, ConfigureConstants.DTGOV_HEADER_LABEL_VALUE);
+            props.setProperty(ConfigureConstants.DTGOV_HEADER_PRIMARY_BRAND, ConfigureConstants.DTGOV_HEADER_PRIMARY_BRAND_VALUE);
+            props.setProperty(ConfigureConstants.DTGOV_HEADER_SECOND_BRAND, ConfigureConstants.DTGOV_HEADER_SECOND_BRAND_VALUE);
+            props.store(out, null);
+
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
 
 }
