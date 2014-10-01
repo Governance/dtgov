@@ -60,7 +60,7 @@ public class ConfigureFabricCommand extends AbstractConfigureFabricCommand {
 
 
     private void configureDtgovProperties() throws Exception {
-        InputStream is = this.getClass().getResourceAsStream("/" + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME);
+        InputStream is = this.getClass().getResourceAsStream("/" + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME); //$NON-NLS-1$
         Properties dtgovProps = new Properties();
         dtgovProps.load(is);
         for (Object key : dtgovProps.keySet()) {
@@ -69,9 +69,9 @@ public class ConfigureFabricCommand extends AbstractConfigureFabricCommand {
                 dtgovProps.put(key, password);
             }
         }
-        File dtgovFile = new File(getDtgovPropertiesFilePath()); //$NON-NLS-1$
+        File dtgovFile = new File(getDtgovPropertiesFilePath());
 
-        dtgovProps.store(new FileOutputStream(dtgovFile), "");
+        dtgovProps.store(new FileOutputStream(dtgovFile), ""); //$NON-NLS-1$
     }
 
     /**

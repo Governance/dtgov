@@ -19,10 +19,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 import java.util.UUID;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.felix.gogo.commands.Command;
 import org.overlord.commons.karaf.commands.configure.AbstractConfigureCommand;
 import org.overlord.dtgov.karaf.commands.i18n.Messages;
@@ -50,7 +52,7 @@ public class ConfigureCommand extends AbstractConfigureCommand {
         if (!dir.exists()) {
             dir.mkdir();
         }
-        copyFile("dtgovui-overlordapp.properties", "overlord-apps/dtgovui-overlordapp.properties"); //$NON-NLS-1$
+        copyFile("dtgovui-overlordapp.properties", "overlord-apps/dtgovui-overlordapp.properties"); //$NON-NLS-1$ //$NON-NLS-2$
 
         logger.debug(Messages.getString("configure.command.copying.files.end")); //$NON-NLS-1$
         String randomWorkflowUserPassword = UUID.randomUUID().toString();
@@ -63,33 +65,44 @@ public class ConfigureCommand extends AbstractConfigureCommand {
         String randomWorkflowPassword = DigestUtils.sha256Hex(randomWorkflowUserPassword);
         String encryptedPassword = "{CRYPT}" + randomWorkflowPassword + "{CRYPT}"; //$NON-NLS-1$ //$NON-NLS-2$
         StringBuilder workflowUserValue = new StringBuilder();
-        workflowUserValue.append(encryptedPassword).append(",").append(ConfigureConstants.DTGOV_WORKFLOW_USER_GRANTS);
-        usersProperties.setProperty(ConfigureConstants.DTGOV_WORKFLOW_USER, workflowUserValue.toString()); //$NON-NLS-1$
+        workflowUserValue.append(encryptedPassword).append(",").append(ConfigureConstants.DTGOV_WORKFLOW_USER_GRANTS); //$NON-NLS-1$
+        usersProperties.setProperty(ConfigureConstants.DTGOV_WORKFLOW_USER, workflowUserValue.toString());
 
-        InputStream is = this.getClass().getResourceAsStream("/" + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME);
-        Properties dtgovProps = new Properties();
-        dtgovProps.load(is);
-        for (Object key : dtgovProps.keySet()) {
-            String value = (String) dtgovProps.get(key);
-            if (value.contains(ConfigureConstants.DTGOV_WORKFLOW_PASSWORD)) {
-                dtgovProps.put(key, randomWorkflowPassword);
+        InputStream is = this.getClass().getResourceAsStream("/" + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME); //$NON-NLS-1$
+        OutputStream os = null;
+        try {
+            Properties dtgovProps = new Properties();
+            dtgovProps.load(is);
+            for (Object key : dtgovProps.keySet()) {
+                String value = (String) dtgovProps.get(key);
+                if (value.contains(ConfigureConstants.DTGOV_WORKFLOW_PASSWORD)) {
+                    dtgovProps.put(key, "${crypt:" + randomWorkflowPassword + "}"); //$NON-NLS-1$ //$NON-NLS-2$
+                }
             }
-        }
-        File dtgovFile = new File(karafConfigPath + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME); //$NON-NLS-1$
+            File dtgovFile = new File(karafConfigPath + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME);
 
-        dtgovProps.store(new FileOutputStream(dtgovFile), "");
+            os = new FileOutputStream(dtgovFile);
+            dtgovProps.store(os, ""); //$NON-NLS-1$
+        } finally {
+            IOUtils.closeQuietly(is);
+            IOUtils.closeQuietly(os);
+        }
 
         logger.debug(Messages.getString("configure.command.adding.user.end")); //$NON-NLS-1$
 
         // Adding to the admin user the sramp grants:
-        String adminUser = (String) usersProperties.get("admin");
+        String adminUser = (String) usersProperties.get("admin"); //$NON-NLS-1$
         adminUser += ",admin.sramp"; //$NON-NLS-1$
         usersProperties.setProperty("admin", adminUser); //$NON-NLS-1$
 
         logger.debug(Messages.getString("configure.command.modify.admin.roles")); //$NON-NLS-1$
         // Storing the users.properties changes
-        usersProperties.store(new FileOutputStream(srcFile), ""); //$NON-NLS-1$
-
+        os = new FileOutputStream(srcFile);
+        try {
+            usersProperties.store(os, ""); //$NON-NLS-1$
+        } finally {
+            IOUtils.closeQuietly(os);
+        }
 
         logger.info(Messages.getString("configure.command.end.execution")); //$NON-NLS-1$
         return null;
