@@ -18,6 +18,7 @@ package org.overlord.dtgov.karaf.commands;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -59,10 +60,25 @@ public class ConfigureCommand extends AbstractConfigureCommand {
         File srcFile = new File(karafConfigPath + "users.properties"); //$NON-NLS-1$
         usersProperties.load(new FileInputStream(srcFile));
         // Adding the jms user to the users.properties
-        String encryptedPassword = "{CRYPT}" + DigestUtils.sha256Hex(randomWorkflowUserPassword) + "{CRYPT}"; //$NON-NLS-1$ //$NON-NLS-2$
+        String randomWorkflowPassword = DigestUtils.sha256Hex(randomWorkflowUserPassword);
+        String encryptedPassword = "{CRYPT}" + randomWorkflowPassword + "{CRYPT}"; //$NON-NLS-1$ //$NON-NLS-2$
         StringBuilder workflowUserValue = new StringBuilder();
         workflowUserValue.append(encryptedPassword).append(",").append(ConfigureConstants.DTGOV_WORKFLOW_USER_GRANTS);
         usersProperties.setProperty(ConfigureConstants.DTGOV_WORKFLOW_USER, workflowUserValue.toString()); //$NON-NLS-1$
+
+        InputStream is = this.getClass().getResourceAsStream("/" + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME);
+        Properties dtgovProps = new Properties();
+        dtgovProps.load(is);
+        for (Object key : dtgovProps.keySet()) {
+            String value = (String) dtgovProps.get(key);
+            if (value.contains(ConfigureConstants.DTGOV_WORKFLOW_PASSWORD)) {
+                dtgovProps.put(key, randomWorkflowPassword);
+            }
+        }
+        File dtgovFile = new File(karafConfigPath + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME); //$NON-NLS-1$
+
+        dtgovProps.store(new FileOutputStream(dtgovFile), "");
+
         logger.debug(Messages.getString("configure.command.adding.user.end")); //$NON-NLS-1$
 
         // Adding to the admin user the sramp grants:

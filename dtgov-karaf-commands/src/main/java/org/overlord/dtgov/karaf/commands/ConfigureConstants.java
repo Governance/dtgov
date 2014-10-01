@@ -13,6 +13,7 @@ public interface ConfigureConstants {
 
     public static final String DTGOV_PROPERTIES_FILE_NAME = "dtgov.properties";
 
+    public static final String DTGOV_WORKFLOW_PASSWORD = "${dtgov.users.workflow.password}";
     // FABRIC CONSTANTS
 
     // Ui headers:
