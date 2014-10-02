@@ -61,7 +61,12 @@ public class ConfigureCommand extends AbstractConfigureCommand {
         logger.debug(Messages.getString("configure.command.adding.jms.user")); //$NON-NLS-1$
         Properties usersProperties = new Properties();
         File srcFile = new File(karafConfigPath + "users.properties"); //$NON-NLS-1$
-        usersProperties.load(new FileInputStream(srcFile));
+        FileInputStream fis = new FileInputStream(srcFile);
+        try {
+            usersProperties.load(fis);
+        } finally {
+            IOUtils.closeQuietly(fis);
+        }
         // Adding the jms user to the users.properties
         String randomWorkflowPassword = DigestUtils.sha256Hex(randomWorkflowUserPassword);
         String encryptedPassword = "{CRYPT}" + randomWorkflowPassword + "{CRYPT}"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -71,12 +76,11 @@ public class ConfigureCommand extends AbstractConfigureCommand {
 
         InputStream is = this.getClass().getResourceAsStream("/" + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME); //$NON-NLS-1$
         OutputStream os = null;
-
-        String aesEncryptedValue=AesEncrypter.encrypt(randomWorkflowUserPassword);
-        StringBuilder aesEncrypterBuilder = new StringBuilder();
-        aesEncrypterBuilder.append("${crypt:").append(aesEncryptedValue).append("}"); //$NON-NLS-1$ //$NON-NLS-2$
-        aesEncryptedValue = aesEncrypterBuilder.toString();
         try {
+            String aesEncryptedValue=AesEncrypter.encrypt(randomWorkflowUserPassword);
+            StringBuilder aesEncrypterBuilder = new StringBuilder();
+            aesEncrypterBuilder.append("${crypt:").append(aesEncryptedValue).append("}"); //$NON-NLS-1$ //$NON-NLS-2$
+            aesEncryptedValue = aesEncrypterBuilder.toString();
             Properties dtgovProps = new Properties();
             dtgovProps.load(is);
             for (Object key : dtgovProps.keySet()) {
@@ -96,10 +100,12 @@ public class ConfigureCommand extends AbstractConfigureCommand {
 
         logger.debug(Messages.getString("configure.command.adding.user.end")); //$NON-NLS-1$
 
-        // Adding to the admin user the sramp grants:
+        // Adding to the admin user the dtgov grants:
         String adminUser = (String) usersProperties.get("admin"); //$NON-NLS-1$
-        adminUser += ",admin.sramp"; //$NON-NLS-1$
-        usersProperties.setProperty("admin", adminUser); //$NON-NLS-1$
+        if (!adminUser.contains("dev,qa")) { //$NON-NLS-1$
+            adminUser += ",dev,qa,stage,prod,ba,arch"; //$NON-NLS-1$
+            usersProperties.setProperty("admin", adminUser); //$NON-NLS-1$
+        }
 
         logger.debug(Messages.getString("configure.command.modify.admin.roles")); //$NON-NLS-1$
         // Storing the users.properties changes
