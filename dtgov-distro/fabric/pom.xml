@@ -59,7 +59,7 @@
               <destination>${build.outputDirectory}/dtgov.properties</destination>
               <files>
                 <file>../../dtgov-installer/src/main/resources-filtered/updates/dtgov.properties</file>
-                <file>${build.outputDirectory}/dtgov.properties</file>
+               <file>../../dtgov-karaf-commands/src/main/resources/dtgov.properties</file>
               </files>
             </merge>
           </merges>
