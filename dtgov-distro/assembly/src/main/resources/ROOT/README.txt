@@ -15,7 +15,7 @@ detailed set of instructions, see the "Overview" section below.
     6) Follow the DTGov installer instructions to install DTGov into the same JBoss EAP
        6.x directory as in step #3
     7) Start JBoss
-    8) Populate the S-RAMP repository with DTGov seed data (ontology + workflow jar)
+    8) Populate the S-RAMP repository with DTGov seed data (e.g. ontologies + workflow jar)
 
 Here is some pseudo-bash that accomplishes the above:
 
@@ -32,7 +32,7 @@ Here is some pseudo-bash that accomplishes the above:
     
     unzip ~/Downloads/dtgov-${project.version}.zip ~/overlord
     cd ~/overlord/dtgov-${project.version}
-    ant install
+    ant
     # Follow dtgov installation instructions here
 
     # Start JBoss (target/jboss-eap-6.x/bin/standalone.sh) - wait for startup to complete
@@ -56,7 +56,6 @@ This distribution comes with the following:
 This distribution works with the following runtime platforms:
 
 * JBoss EAP 6.x
-* JBoss Fuse 6.1
 * Tomcat 7
 * Jetty 8
 
@@ -65,9 +64,6 @@ into it, then point the DTGov installer to the resulting valid application
 server installation.
 
     Download JBoss EAP here:   http://www.jboss.org/jbossas/downloads
-    Download JBoss Fuse here:  http://www.jboss.org/products/fuse/overview/
-    Download Tomcat here:      http://tomcat.apache.org/download-70.cgi
-    Download Jetty here:       http://download.eclipse.org/jetty/8.1.15.v20140411/dist/
 
 Overlord DTGov provides functionality that is built on top of the Overlord
 S-RAMP project.  So you *must* have S-RAMP installed in order for DTGov
@@ -84,12 +80,11 @@ update).
 
 Once you have downloaded and installed S-RAMP, you can install DTGov into
 the resulting S-RAMP installation.  This can be accomplished by simply 
-telling the DTGov installer where S-RAMP is installed (either in JBoss or
-Tomcat).
+telling the DTGov installer where S-RAMP is installed.
 
 Now that you have S-RAMP installed, you can go ahead and install DTGov:
 
-    ant install
+    ant
 
 Once the installation completes, you can start your application container.
 
@@ -99,15 +94,10 @@ S-RAMP admin password):
 
     ant seed -Ds-ramp.shell.password=ADMIN_PASSWORD
 
-Note: if you are running in JBoss Fuse the default server port is 8181
-rather than 8080.  In this case you may need to specify the location of
-the S-RAMP repository when seeding:
+Note: if your application server is running on a different port, you will
+need to specify that when seeding the data:
 
     ant seed -Ds-ramp.shell.password=ADMIN_PASSWORD -Ds-ramp.endpoint=http://localhost:8181/s-ramp-server/
-
-The first step will install an S-RAMP ontology.  The second step will add
-the DTGov deployment release process to the repository (basically just a 
-JAR containing JBPM artifacts).
 
 Finally, you can hit the UI!
 
@@ -117,12 +107,18 @@ You should be able to log in to the UI with the credentials you set up
 when you installed S-RAMP/DTGov:
 
     Username: admin
-    Password: <pw-chosen-during-install>
-
-Note: the repository browser UI can be found on port 8181 when running in Fuse.
+    Password: <pw-chosen-during-sramp-install>
 
 
 == Customized Workflows ==
 Included in the distribution is a folder that contains all of the source code
 for the out of the box DTGov workflows.  An easy way to get started customizing
 the workflows (or creating your own) is to use what's in the 'workflows' folder.
+
+
+== Note on Memory Configuration ==
+You will most likely need to increase the default JVM memory settings for
+your application server.  The typical defaults are insufficient.  For
+example, on Tomcat these settings are pretty good:
+
+set CATALINA_OPTS=-Xms1G -Xmx1G -XX:PermSize=384m -XX:MaxPermSize=384m
