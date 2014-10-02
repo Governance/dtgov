@@ -26,6 +26,7 @@ import java.util.UUID;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.felix.gogo.commands.Command;
+import org.overlord.commons.codec.AesEncrypter;
 import org.overlord.commons.karaf.commands.configure.AbstractConfigureCommand;
 import org.overlord.dtgov.karaf.commands.i18n.Messages;
 import org.slf4j.Logger;
@@ -70,13 +71,18 @@ public class ConfigureCommand extends AbstractConfigureCommand {
 
         InputStream is = this.getClass().getResourceAsStream("/" + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME); //$NON-NLS-1$
         OutputStream os = null;
+
+        String aesEncryptedValue=AesEncrypter.encrypt(randomWorkflowUserPassword);
+        StringBuilder aesEncrypterBuilder = new StringBuilder();
+        aesEncrypterBuilder.append("${crypt:").append(aesEncryptedValue).append("}"); //$NON-NLS-1$ //$NON-NLS-2$
+        aesEncryptedValue = aesEncrypterBuilder.toString();
         try {
             Properties dtgovProps = new Properties();
             dtgovProps.load(is);
             for (Object key : dtgovProps.keySet()) {
                 String value = (String) dtgovProps.get(key);
                 if (value.contains(ConfigureConstants.DTGOV_WORKFLOW_PASSWORD)) {
-                    dtgovProps.put(key, "${crypt:" + randomWorkflowPassword + "}"); //$NON-NLS-1$ //$NON-NLS-2$
+                    dtgovProps.put(key, aesEncryptedValue);
                 }
             }
             File dtgovFile = new File(karafConfigPath + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME);
