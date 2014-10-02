@@ -34,8 +34,7 @@
     <echo message=" Choose from one of the following options." />
     <echo message="    1. Install into JBoss EAP 6" />
     <echo message="    2. Install into Apache Tomcat 7" />
-    <echo message="    3. Install into JBoss Fuse 6.1" />
-    <echo message="    4. Install into Jetty 8" />
+    <echo message="    3. Install into Jetty 8" />
     <echo message=" " />
     <input message="Choice: " addproperty="dtgov-distro.choices.platform" />
 
@@ -45,16 +44,12 @@
     <condition property="dtgov-distro.choices.platform.tomcat-7">
       <equals arg1="${dtgov-distro.choices.platform}" arg2="2" />
     </condition>
-    <condition property="dtgov-distro.choices.platform.fuse-6.1">
-      <equals arg1="${dtgov-distro.choices.platform}" arg2="3" />
-    </condition>
     <condition property="dtgov-distro.choices.platform.jetty-8">
-      <equals arg1="${dtgov-distro.choices.platform}" arg2="4" />
+      <equals arg1="${dtgov-distro.choices.platform}" arg2="3" />
     </condition>
 
     <antcall target="install-jboss-eap-6-wrapper" />
     <antcall target="install-tomcat-7-wrapper" />
-    <antcall target="install-fuse-6.1-wrapper" />
     <antcall target="install-jetty-8-wrapper" />
   </target>
 
@@ -177,54 +172,7 @@
     </ant>
   </target>
 
-  <!-- Install into Fuse 6.1 -->
-  <target name="install-fuse-6.1-wrapper" if="dtgov-distro.choices.platform.fuse-6.1">
-    <echo message=" " />
-    <echo message="#######################################################" />
-    <echo message="# Installing DTGov into Fuse 6.1                     #" />
-    <echo message="#######################################################" />
-    <echo message=" " />
-    <echo message=" Please tell us where JBoss Fuse 6.1 is located (full path)." />
-    <echo message=" " />
-    <input message="Path to Fuse 6.1: " addproperty="dtgov-distro.choices.platform.fuse-6.1.path" />
-
-    <antcall target="install-fuse-6.1" />
-
-    <echo message=" ******************************************" />
-    <echo message=" * Installation Completed Successfully    *" />
-    <echo message=" ******************************************" />
-    <echo message=" *                                        *" />
-    <echo message=" * Next you must start up Fuse 6.1        *" />
-    <echo message=" * and execute the following command:     *" />
-    <echo message="                                           " />
-    <echo message="   > features:addurl mvn:org.overlord.dtgov/dtgov-distro-fuse61/${project.version}/xml/features"/>
-    <echo message="   > features:install -v dtgov            " />
-    <echo message="                                           " />
-    <echo message=" ******************************************" />
-  </target>
-
-  <target name="install-fuse-6.1" depends="extract-installer">
-    <condition property="dtgov-distro.choices.platform.fuse-6.1.path.valid">
-      <available file="fuse-bai.xml" filepath="${dtgov-distro.choices.platform.fuse-6.1.path}/etc" />
-    </condition>
-    <fail message="Failed to find JBoss Fuse 6.1 at: ${dtgov-distro.choices.platform.fuse-6.1.path}" 
-              unless="dtgov-distro.choices.platform.fuse-6.1.path.valid" />
-    <echo message="Installing into: ${dtgov-distro.choices.platform.fuse-6.1.path} " />
-    
-    <!-- Call the DTGov installer -->
-    <ant antfile="${dtgov-distro.dtgov-installer.dir}/build.xml" inheritall="true" target="install" 
-         dir="${dtgov-distro.dtgov-installer.dir}">
-      <property name="server.host" value="http://localhost:8181"/>
-      <property name="appserver.id" value="fuse-6.1" />
-      <property name="dtgov.install.dir" location="${dtgov-distro.tempdir}" />
-      <property name="dtgov.appserver.dir" location="${dtgov-distro.choices.platform.fuse-6.1.path}" />
-      <property name="dtgov.overlord-commons.installer.jar" location="${dtgov-distro.bindir}/overlord-commons-installer-${version.org.overlord.overlord-commons}.jar" />
-      <property name="overlord-commons.ant.jar" location="${dtgov-distro.overlord-commons-ant.jar}" />
-      <property name="commons-codec.jar" location="${dtgov-distro.libdir}/commons-codec.jar" />     	
-      <property name="overlord-commons.codec.jar" location="${dtgov-distro.overlord-commons-codec.jar}" />  
-    </ant>
-  </target>
-
+ 
   <!-- Install into Jetty 8 -->
   <target name="install-jetty-8-wrapper" if="dtgov-distro.choices.platform.jetty-8">
     <echo message=" " />
@@ -298,7 +246,7 @@
   </target>
   
   <!-- Seed the S-RAMP repository with required DTGov data -->
-  <target name="seed">
+  <target name="seed" depends="extract-installer">
     <ant antfile="${dtgov-distro.dtgov-installer.dir}/build.xml" inheritall="true" target="seed" 
          dir="${dtgov-distro.dtgov-installer.dir}">
       <property name="dtgov.s-ramp.cli.jar" location="${dtgov-distro.rootdir}/bin/s-ramp-shell-${version.org.overlord.sramp}.jar" />
