@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.overlord.dtgov</groupId>
     <artifactId>dtgov</artifactId>
-    <version>1.4.0.Final</version>
+    <version>1.5.0-SNAPSHOT</version>
   </parent>
   <groupId>org.overlord.dtgov.demos</groupId>
   <artifactId>dtgov-demos</artifactId>
