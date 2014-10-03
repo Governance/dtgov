@@ -115,6 +115,14 @@ Included in the distribution is a folder that contains all of the source code
 for the out of the box DTGov workflows.  An easy way to get started customizing
 the workflows (or creating your own) is to use what's in the 'workflows' folder.
 
+It's easy to make changes to the files in this directory and then, when you are
+done, build the workflows JAR and deploy it to S-RAMP.  To do this, simply 
+change the version number in the pom.xml and then run the following:
+
+    mvn deploy -Psramp
+
+Make sure you have the "local-sramp-repo" and "local-sramp-repo-snapshots" 
+servers configured (for authentication) in your ~/.m2/settings.xml file!
 
 == Note on Memory Configuration ==
 You will most likely need to increase the default JVM memory settings for
