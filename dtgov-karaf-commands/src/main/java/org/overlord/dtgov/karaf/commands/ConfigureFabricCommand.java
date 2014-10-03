@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import org.apache.felix.gogo.commands.Command;
+import org.overlord.commons.codec.AesEncrypter;
 import org.overlord.commons.karaf.commands.configure.AbstractConfigureFabricCommand;
 
 /**
@@ -63,10 +64,16 @@ public class ConfigureFabricCommand extends AbstractConfigureFabricCommand {
         InputStream is = this.getClass().getResourceAsStream("/" + ConfigureConstants.DTGOV_PROPERTIES_FILE_NAME); //$NON-NLS-1$
         Properties dtgovProps = new Properties();
         dtgovProps.load(is);
+
+        String aesEncryptedValue = AesEncrypter.encrypt(password);
+        StringBuilder aesEncrypterBuilder = new StringBuilder();
+        aesEncrypterBuilder.append("$\\{crypt:").append(aesEncryptedValue).append("\\}"); //$NON-NLS-1$ //$NON-NLS-2$
+        aesEncryptedValue = aesEncrypterBuilder.toString();
+
         for (Object key : dtgovProps.keySet()) {
             String value = (String) dtgovProps.get(key);
             if (value.contains(ConfigureConstants.DTGOV_WORKFLOW_PASSWORD)) {
-                dtgovProps.put(key, password);
+                dtgovProps.put(key, aesEncryptedValue);
             }
         }
         File dtgovFile = new File(getDtgovPropertiesFilePath());
