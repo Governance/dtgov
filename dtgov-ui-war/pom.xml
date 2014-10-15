@@ -9,6 +9,62 @@
   <artifactId>dtgov-ui-war</artifactId>
   <packaging>war</packaging>
   <name>Design Time Governance: UI</name>
+  
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-bus</artifactId>
+          <version>${version.org.jboss.errai}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-ioc</artifactId>
+          <version>${version.org.jboss.errai}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-data-binding</artifactId>
+          <version>${version.org.jboss.errai}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-ui</artifactId>
+          <version>${version.org.jboss.errai}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-navigation</artifactId>
+          <version>${version.org.jboss.errai}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-cdi-client</artifactId>
+          <version>${version.org.jboss.errai}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-javax-enterprise</artifactId>
+          <version>${version.org.jboss.errai}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-weld-integration</artifactId>
+          <version>${version.org.jboss.errai}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-common</artifactId>
+          <version>${version.org.jboss.errai}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.google.collections</groupId>
+          <artifactId>google-collections</artifactId>
+          <version>1.0</version>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
   <dependencies>
     <!-- Project Dependencies -->
     <dependency>
@@ -26,6 +82,10 @@
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-services</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-task-api</artifactId>
     </dependency>
 
     <!-- S-RAMP client -->
@@ -62,6 +122,18 @@
     <dependency>
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-integration-kie</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-atom</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-common</artifactId>
     </dependency>
 
     <!-- Overlord Commons -->
@@ -127,6 +199,22 @@
       <artifactId>cdi-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-configuration</groupId>
+      <artifactId>commons-configuration</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+    </dependency>
 
     <!-- Errai -->
     <dependency>
@@ -179,6 +267,10 @@
       <groupId>org.mvel</groupId>
       <artifactId>mvel2</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-common</artifactId>
+    </dependency>
 
     <!-- CDI Integration Modules -->
     <dependency>
@@ -216,6 +308,10 @@
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.collections</groupId>
+      <artifactId>google-collections</artifactId>
     </dependency>
 
     <!-- Runtime / Container dependencies -->

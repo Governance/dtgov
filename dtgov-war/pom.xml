@@ -54,6 +54,14 @@
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-wagon</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-atom</artifactId>
+    </dependency>
 
     <!-- Overlord Commons -->
     <dependency>
@@ -113,6 +121,35 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-configuration</groupId>
+      <artifactId>commons-configuration</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency> 
+    
     <!-- jboss cli -->
     <dependency>
       <groupId>org.jboss.as</groupId>
@@ -130,8 +167,8 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>javax.transaction</groupId>
-      <artifactId>jta</artifactId>
+      <groupId>org.jboss.spec.javax.transaction</groupId>
+      <artifactId>jboss-transaction-api_1.1_spec</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -166,7 +203,17 @@
       <artifactId>jbpm-kie-services</artifactId>
       <scope>${jbpm.scope}</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-audit</artifactId>
+      <scope>${jbpm.scope}</scope>
+    </dependency>
     <!-- adding for task management -->
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-human-task-core</artifactId>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-human-task-audit</artifactId>
@@ -202,6 +249,10 @@
       -->
     </dependency>
     <dependency>
+      <groupId>org.jboss.seam.transaction</groupId>
+      <artifactId>seam-transaction-api</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.jboss.spec.javax.security.jacc</groupId>
       <artifactId>jboss-jacc-api_1.4_spec</artifactId>
       <scope>${jbpm.scope}</scope>
@@ -229,10 +280,15 @@
       <scope>${jbpm.scope}</scope>
       <exclusions>
         <exclusion>
+          <groupId>io.netty</groupId>
           <artifactId>netty</artifactId>
-          <groupId>org.jboss.netty</groupId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.kie</groupId>
+      <artifactId>kie-internal</artifactId>
+      <scope>${jbpm.scope}</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -273,8 +329,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>io.netty</groupId>
       <artifactId>netty</artifactId>
-      <groupId>org.jboss.netty</groupId>
       <scope>test</scope>
     </dependency>
     

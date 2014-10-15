@@ -11,18 +11,19 @@
     <properties>
     <jbpm.scope>compile</jbpm.scope>
   </properties>
+  
   <dependencies>
     <dependency>
-      	<groupId>org.overlord.dtgov</groupId>
-      	<artifactId>dtgov-common</artifactId>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-common</artifactId>
     </dependency>
     <dependency>
-      	<groupId>org.overlord</groupId>
-      	<artifactId>overlord-commons-services</artifactId>
+      <groupId>org.overlord</groupId>
+      <artifactId>overlord-commons-services</artifactId>
     </dependency>
     <dependency>
-      	<groupId>commons-io</groupId>
-      	<artifactId>commons-io</artifactId>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
     </dependency>
     <dependency>
       <groupId>org.overlord.sramp</groupId>
@@ -39,13 +40,33 @@
       </exclusions>
     </dependency>
     <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-atom</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.overlord.sramp</groupId>
+      <artifactId>s-ramp-common</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.jayway.restassured</groupId>
       <artifactId>rest-assured</artifactId>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+    </dependency> 
+    <dependency>
+      <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-core</artifactId>
-    </dependency>    
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-core</artifactId>
+    </dependency>
 
     <!-- jboss cli -->
     <dependency>
