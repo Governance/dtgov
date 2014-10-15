@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jboss.integration-platform</groupId>
     <artifactId>jboss-integration-platform-parent</artifactId>
-    <version>6.0.0.CR12</version>
+    <version>6.0.0.CR14</version>
   </parent>
 
   <groupId>org.overlord.dtgov</groupId>
@@ -96,6 +96,7 @@
     <version.dumbster>1.5</version.dumbster>
     <version.org.eclipse.jetty>8.1.14.v20131031</version.org.eclipse.jetty>
     <version.fuse>6.1.0.redhat-379</version.fuse>
+    <version.org.jboss.errai>2.4.4.Final</version.org.jboss.errai>
 
     <!-- BOM Overrides -->
     <version.org.apache.tomcat>7.0.54</version.org.apache.tomcat>
@@ -427,6 +428,11 @@
       </dependency>
       <dependency>
         <groupId>org.overlord.sramp</groupId>
+        <artifactId>s-ramp-atom</artifactId>
+        <version>${version.org.overlord.sramp}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord.sramp</groupId>
         <artifactId>s-ramp-common</artifactId>
         <version>${version.org.overlord.sramp}</version>
         <classifier>tests</classifier>
@@ -495,7 +501,7 @@
       <dependency>
         <groupId>org.jboss.integration-platform</groupId>
         <artifactId>jboss-integration-platform-bom</artifactId>
-        <version>6.0.0.CR12</version>
+        <version>6.0.0.CR14</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -713,7 +719,17 @@
       </dependency>
       <dependency>
         <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-human-task-core</artifactId>
+        <version>${version.org.jbpm}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm</groupId>
         <artifactId>jbpm-human-task-audit</artifactId>
+        <version>${version.org.jbpm}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-audit</artifactId>
         <version>${version.org.jbpm}</version>
       </dependency>
 
@@ -797,7 +813,7 @@
       <dependency>
         <groupId>org.jboss.spec.javax.security.jacc</groupId>
         <artifactId>jboss-jacc-api_1.4_spec</artifactId>
-        <version>${version.org.jboss.spec.javax.security.jacc}</version>
+        <version>${version.org.jboss.spec.javax.security.jacc.jboss-jacc-api_1.4_spec}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.resteasy</groupId>
@@ -833,6 +849,11 @@
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-jdk14</artifactId>
         <version>${version.org.slf4j}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpmime</artifactId>
+        <version>4.3.5</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

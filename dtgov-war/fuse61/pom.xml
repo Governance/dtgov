@@ -27,8 +27,12 @@
     
     <!-- Some additional dependencies to include in the WAR -->
     <dependency>
-      <groupId>org.jboss.netty</groupId>
+      <groupId>io.netty</groupId>
       <artifactId>netty</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.weld.servlet</groupId>
+      <artifactId>weld-servlet</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jboss.weld.servlet</groupId>
@@ -60,12 +64,17 @@
     <!-- Seam Transactions -->
     <dependency>
       <groupId>org.jboss.seam.transaction</groupId>
+      <artifactId>seam-transaction-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.seam.transaction</groupId>
       <artifactId>seam-transaction</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>javax.transaction</groupId>
-      <artifactId>jta</artifactId>
+      <groupId>org.jboss.spec.javax.transaction</groupId>
+      <artifactId>jboss-transaction-api_1.1_spec</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
