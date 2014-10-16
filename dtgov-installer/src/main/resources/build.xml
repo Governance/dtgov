@@ -52,12 +52,6 @@
     </java>
     
     <echo message=" " />
-    <echo message="Please manually execute the following commands (or the equivalent for your OS):" />
-    <echo message="  $ cd dtgov-data" />
-    <echo message="  $ mvn package" />
-    <echo message=" " />
-    
-    <echo message=" " />
     <echo message="########" />
     <echo message="# DONE #" />
     <echo message="########" />

@@ -56,6 +56,7 @@
                 <exclude>WEB-INF/lib/dom4j-*.jar</exclude>
                 <exclude>WEB-INF/lib/guava-*.jar</exclude>
                 <exclude>WEB-INF/lib/httpclient-*.jar</exclude>
+                <exclude>WEB-INF/lib/httpmime-*.jar</exclude>
                 <exclude>WEB-INF/lib/httpcore-*.jar</exclude>
                 <exclude>WEB-INF/lib/jackson-core-asl-*.jar</exclude>
                 <exclude>WEB-INF/lib/jackson-mapper-asl-*.jar</exclude>

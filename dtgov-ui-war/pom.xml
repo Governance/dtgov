@@ -9,62 +9,57 @@
   <artifactId>dtgov-ui-war</artifactId>
   <packaging>war</packaging>
   <name>Design Time Governance: UI</name>
-  
+
   <dependencyManagement>
     <dependencies>
-        <dependency>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-bus</artifactId>
-          <version>${version.org.jboss.errai}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-ioc</artifactId>
-          <version>${version.org.jboss.errai}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-data-binding</artifactId>
-          <version>${version.org.jboss.errai}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-ui</artifactId>
-          <version>${version.org.jboss.errai}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-navigation</artifactId>
-          <version>${version.org.jboss.errai}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-cdi-client</artifactId>
-          <version>${version.org.jboss.errai}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-javax-enterprise</artifactId>
-          <version>${version.org.jboss.errai}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-weld-integration</artifactId>
-          <version>${version.org.jboss.errai}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-common</artifactId>
-          <version>${version.org.jboss.errai}</version>
-        </dependency>
-        <dependency>
-          <groupId>com.google.collections</groupId>
-          <artifactId>google-collections</artifactId>
-          <version>1.0</version>
-        </dependency>
+      <dependency>
+        <groupId>org.jboss.errai</groupId>
+        <artifactId>errai-bus</artifactId>
+        <version>${version.org.jboss.errai}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.errai</groupId>
+        <artifactId>errai-ioc</artifactId>
+        <version>${version.org.jboss.errai}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.errai</groupId>
+        <artifactId>errai-data-binding</artifactId>
+        <version>${version.org.jboss.errai}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.errai</groupId>
+        <artifactId>errai-ui</artifactId>
+        <version>${version.org.jboss.errai}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.errai</groupId>
+        <artifactId>errai-navigation</artifactId>
+        <version>${version.org.jboss.errai}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.errai</groupId>
+        <artifactId>errai-cdi-client</artifactId>
+        <version>${version.org.jboss.errai}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.errai</groupId>
+        <artifactId>errai-javax-enterprise</artifactId>
+        <version>${version.org.jboss.errai}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.errai</groupId>
+        <artifactId>errai-weld-integration</artifactId>
+        <version>${version.org.jboss.errai}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.errai</groupId>
+        <artifactId>errai-common</artifactId>
+        <version>${version.org.jboss.errai}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
-  
+
   <dependencies>
     <!-- Project Dependencies -->
     <dependency>
@@ -155,6 +150,10 @@
     </dependency>
 
     <!-- Third Party Dependencies -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.picketlink</groupId>
       <artifactId>picketlink-federation</artifactId>
@@ -308,10 +307,6 @@
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.collections</groupId>
-      <artifactId>google-collections</artifactId>
     </dependency>
 
     <!-- Runtime / Container dependencies -->

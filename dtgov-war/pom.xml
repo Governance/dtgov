@@ -53,6 +53,12 @@
     <dependency>
       <groupId>org.overlord.sramp</groupId>
       <artifactId>s-ramp-wagon</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>plexus-container-default</artifactId>
+          <groupId>org.codehaus.plexus</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.overlord.sramp</groupId>
