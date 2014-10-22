@@ -42,6 +42,7 @@ import org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.i18n.Messages;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
+import org.overlord.dtgov.ui.server.services.workflows.WorkflowMavenUtil;
 import org.overlord.dtgov.ui.server.services.workflows.WorkflowQueryFactory;
 import org.overlord.dtgov.ui.server.util.AuthUtils;
 import org.overlord.sramp.atom.err.SrampAtomException;
@@ -51,7 +52,7 @@ import org.overlord.sramp.client.SrampClientQuery;
 import org.overlord.sramp.client.query.ArtifactSummary;
 import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.common.ArtifactType;
-
+import org.overlord.sramp.integration.kie.model.KieJarModel;
 
 /**
  * Concrete implementation of the workflow query service.
@@ -65,7 +66,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
     private final static String WORKFLOW_ARTIFACT_NAME_KEY = "dtgov-ui.workflows.name"; //$NON-NLS-1$
     private final static String WORKFLOW_ARTIFACT_VERSION_KEY = "dtgov-ui.workflows.version"; //$NON-NLS-1$
     private final static String SRAMP_WORKFLOW_QUERY = "/s-ramp/ext/BpmnDocument[expandedFromDocument[@maven.groupId = ? and @maven.artifactId = ? and @maven.version = ?]]"; //$NON-NLS-1$
-
+    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/" + KieJarModel.TYPE_ARCHIVE; //$NON-NLS-1$
     private static final int PAGE_SIZE = 10;
 
     @Inject
@@ -232,21 +233,27 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         SrampAtomApiClient client = _srampClientAccessor.getClient();
         List<Workflow> workflows = new ArrayList<Workflow>();
         try {
-            QueryResultSet results = client.buildQuery(SRAMP_WORKFLOW_QUERY)
-                    .parameter((String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_GROUP_KEY))
-                    .parameter((String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_NAME_KEY))
-                    .parameter((String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_VERSION_KEY)).query();
-            if (results != null && results.iterator() != null) {
-                Iterator<ArtifactSummary> results_iterator = results.iterator();
-                while (results_iterator.hasNext()) {
-                    ArtifactSummary artifact = results_iterator.next();
-                    String name = artifact.getName().substring(0, artifact.getName().lastIndexOf(".")); //$NON-NLS-1$
-                    Workflow workflow = new Workflow();
-                    workflow.setUuid(artifact.getUuid());
-                    workflow.setName(name);
-                    workflows.add(workflow);
+
+            String workflowGroupId = (String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_GROUP_KEY);
+            String workflowArtifactId = (String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_NAME_KEY);
+            String workflowVersionId = (String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_VERSION_KEY);
+            String workflowVersion = WorkflowMavenUtil.getVersion(SRAMP_KIE_MODEL, workflowGroupId, workflowArtifactId, workflowVersionId, client);
+            if (workflowVersion != null) {
+                QueryResultSet results = client.buildQuery(SRAMP_WORKFLOW_QUERY).parameter(workflowGroupId).parameter(workflowArtifactId)
+                        .parameter(workflowVersion).query();
+                if (results != null && results.iterator() != null) {
+                    Iterator<ArtifactSummary> results_iterator = results.iterator();
+                    while (results_iterator.hasNext()) {
+                        ArtifactSummary artifact = results_iterator.next();
+                        String name = artifact.getName().substring(0, artifact.getName().lastIndexOf(".")); //$NON-NLS-1$
+                        Workflow workflow = new Workflow();
+                        workflow.setUuid(artifact.getUuid());
+                        workflow.setName(name);
+                        workflows.add(workflow);
+                    }
                 }
             }
+
 
         } catch (SrampClientException e) {
             throw new DtgovUiException(e.getMessage());
