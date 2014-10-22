@@ -28,6 +28,7 @@ import org.overlord.dtgov.ui.client.shared.beans.CliTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.CopyTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.CustomTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.CustomTargetProperty;
+import org.overlord.dtgov.ui.client.shared.beans.FabricTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.MavenTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.RHQTargetBean;
 import org.overlord.dtgov.ui.client.shared.beans.TargetBean;
@@ -154,6 +155,12 @@ public class TargetFactory {
                 String deployDir = SrampModelUtils.getCustomProperty(artifact, DtgovModel.COPY_DEPLOY_DIR);
                 bean = new CopyTargetBean(uuid, classifiersList, description, name, deployDir);
                 break;
+            case FABRIC:
+                String jolokiaURL = SrampModelUtils.getCustomProperty(artifact, DtgovModel.FABRIC_JOLOKIA_URL);
+                String jolokiaUser = SrampModelUtils.getCustomProperty(artifact, DtgovModel.FABRIC_USER);
+                String jolokiaPassword = SrampModelUtils.getCustomProperty(artifact, DtgovModel.FABRIC_PASSWORD);
+                bean = new FabricTargetBean(uuid, classifiersList, description, name, jolokiaUser, jolokiaPassword, jolokiaURL);
+                break;
             case CUSTOM:
                 String customType = SrampModelUtils.getCustomProperty(artifact, DtgovModel.CUSTOM_TYPE_NAME);
                 Map<String,String> properties=SrampModelUtils.getCustomPropertiesByPrefix(artifact, DtgovModel.PREFIX_CUSTOM_PROPERTY);
@@ -257,6 +264,18 @@ public class TargetFactory {
                 SrampModelUtils.setCustomProperty(artifact, DtgovModel.MAVEN_SNAPSHOT_ENABLED, "true"); //$NON-NLS-1$
             } else {
                 SrampModelUtils.setCustomProperty(artifact, DtgovModel.MAVEN_SNAPSHOT_ENABLED, "false"); //$NON-NLS-1$
+            }
+            break;
+        case FABRIC:
+            FabricTargetBean fabric = (FabricTargetBean) target;
+            if (StringUtils.isNotBlank(fabric.getJolokiaURL())) {
+                SrampModelUtils.setCustomProperty(artifact, DtgovModel.FABRIC_JOLOKIA_URL, fabric.getJolokiaURL());
+            }
+            if (StringUtils.isNotBlank(fabric.getUser())) {
+                SrampModelUtils.setCustomProperty(artifact, DtgovModel.FABRIC_USER, fabric.getUser());
+            }
+            if (StringUtils.isNotBlank(fabric.getPassword())) {
+                SrampModelUtils.setCustomProperty(artifact, DtgovModel.FABRIC_PASSWORD, fabric.getPassword());
             }
             break;
         case CUSTOM:

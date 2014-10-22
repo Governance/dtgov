@@ -111,6 +111,11 @@ public class DtgovModel {
     // COPY CONSTANTS
     public static final String COPY_DEPLOY_DIR             = "deployment.deployDir"; //$NON-NLS-1$
 
+    // COPY CONSTANTS
+    public static final String FABRIC_JOLOKIA_URL = "deployment.jolokiaUrl"; //$NON-NLS-1$
+    public static final String FABRIC_USER = "deployment.user"; //$NON-NLS-1$
+    public static final String FABRIC_PASSWORD = "deployment.password"; //$NON-NLS-1$
+
     // CUSTOM TARGET CONSTANTS
     public static final String CUSTOM_TYPE_NAME            = "deployment.custom.type"; //$NON-NLS-1$
     public static final String PREFIX_CUSTOM_PROPERTY      = "deployment.custom.property."; //$NON-NLS-1$

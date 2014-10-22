@@ -530,6 +530,11 @@
       </dependency>
       <dependency>
         <groupId>org.overlord</groupId>
+        <artifactId>overlord-commons-fabric-utils</artifactId>
+        <version>${version.org.overlord.overlord-commons}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.overlord</groupId>
         <artifactId>overlord-commons-services</artifactId>
         <version>${version.org.overlord.overlord-commons}</version>
       </dependency>
@@ -675,10 +680,9 @@
         <artifactId>jetty-jndi</artifactId>
         <version>${version.org.eclipse.jetty}</version>
       </dependency>
-
       <!-- Drools KIE dependencies -->
       <dependency>
-        <groupId>org.drools</groupId>
+      <groupId>org.drools</groupId>
         <artifactId>drools-core</artifactId>
         <version>${version.org.drools}</version>
       </dependency>
