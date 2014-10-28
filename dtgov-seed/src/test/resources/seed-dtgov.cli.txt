@@ -1,0 +1,40 @@
+connect ${s-ramp.endpoint} ${s-ramp.username} ${s-ramp.password}
+ontology:upload dtgov-data/deployment-status.owl
+ontology:upload dtgov-data/project-review-status.owl
+maven:deploy "${dtgov-workflow-jar}" ${project.groupId}:dtgov-workflows:${project.version} KieJarArchive
+create DtgovWorkflowQuery "Project Lifecycle" "Simple Project Lifecycle management workflow trigger query.  Starts a new Project Lifecycle workflow when new projects are initiated."
+property set query "/s-ramp/ext/ArtifactGrouping[xp2:matches(@name, 'Project.*')]"
+property set workflow overlord.demo.SimplifiedProjectLifeCycle
+property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
+updateMetaData
+create DtgovWorkflowQuery "SwitchYard Application Lifecycle" "Triggers a new Deployment Lifecycle Management workflow whenever a SwitchYard application is added to the repository."
+property set query "/s-ramp/ext/SwitchYardApplication"
+property set workflow overlord.demo.SimpleReleaseProcess
+property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
+property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
+property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
+updateMetaData
+create DtgovWorkflowQuery "Java Web Application Lifecycle" "Triggers a new Deployment Lifecycle Management workflow whenever a Java Web Application (WAR) is added to the repository."
+property set query "/s-ramp/ext/JavaWebApplication"
+property set workflow overlord.demo.SimpleReleaseProcess
+property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
+property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
+property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
+updateMetaData
+create DtgovWorkflowQuery "Java Enterprise Application Lifecycle" "Triggers a new Deployment Lifecycle Management workflow whenever a Java Enterprise Application (EAR) is added to the repository."
+property set query "/s-ramp/ext/JavaEnterpriseApplication"
+property set workflow overlord.demo.SimpleReleaseProcess
+property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
+property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
+property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
+updateMetaData
+upload dtgov-data/governance-email-templates/deployed.subject.tmpl DtgovEmailTemplate
+property set template "deployed"
+property set template-type "subject"
+updateMetaData
+upload dtgov-data/governance-email-templates/deployed.body.tmpl DtgovEmailTemplate
+property set template "deployed"
+property set template-type "body"
+updateMetaData
+
+upload "${test-app.path}" SwitchYardApplication

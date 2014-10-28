@@ -77,8 +77,16 @@ public class ConfigureFabricCommand extends AbstractConfigureFabricCommand {
             }
         }
         File dtgovFile = new File(getDtgovPropertiesFilePath());
+        FileOutputStream os = null;
+        try {
+            os = new FileOutputStream(dtgovFile);
+            dtgovProps.store(os, ""); //$NON-NLS-1$
+        } finally {
+            if (os != null) {
+                os.close();
+            }
+        }
 
-        dtgovProps.store(new FileOutputStream(dtgovFile), ""); //$NON-NLS-1$
     }
 
     /**

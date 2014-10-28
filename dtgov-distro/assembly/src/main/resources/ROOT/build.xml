@@ -20,6 +20,7 @@
   <property name="lib.mail.jar" location="${dtgov-distro.libdir}/${dtgov.lib.mail.jar}" />
   <property name="dtgov-distro.overlord-commons-ant.jar" location="${dtgov-distro.bindir}/overlord-commons-ant-${version.org.overlord.overlord-commons}.jar" />
   <property name="dtgov-workflows-jar.path" location="${dtgov-distro.rootdir}/bin/dtgov-workflows-${dtgov.version}.jar"/>
+  <property name="dtgov-seed-jar.path" location="${dtgov-distro.rootdir}/bin/dtgov-seed-${dtgov.version}.jar"/>	
   <property name="dtgov-distro.overlord-commons-codec.jar" location="${dtgov-distro.bindir}/overlord-commons-codec-${overlord-commons.version}.jar" />	
   
   <!-- Install DTGov -->
@@ -247,6 +248,7 @@
   
   <!-- Seed the S-RAMP repository with required DTGov data -->
   <target name="seed" depends="extract-installer">
+  	<unzip src="${dtgov-seed-jar.path}" dest="${dtgov-distro.dtgov-installer.dir}" overwrite="false" />
     <ant antfile="${dtgov-distro.dtgov-installer.dir}/build.xml" inheritall="true" target="seed" 
          dir="${dtgov-distro.dtgov-installer.dir}">
       <property name="dtgov.s-ramp.cli.jar" location="${dtgov-distro.rootdir}/bin/s-ramp-shell-${version.org.overlord.sramp}.jar" />

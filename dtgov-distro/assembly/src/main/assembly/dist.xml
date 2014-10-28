@@ -42,6 +42,7 @@
       <includes>
         <include>org.overlord.dtgov:*:war</include>
         <include>org.overlord.dtgov:dtgov-workflows:jar</include>
+        <include>org.overlord.dtgov:dtgov-seed:jar</include>        
       </includes>
       <outputFileNameMapping>${artifact.artifactId}-${project.version}.${artifact.extension}</outputFileNameMapping>
       <useProjectArtifact>false</useProjectArtifact>

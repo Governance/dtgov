@@ -22,15 +22,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.configuration.Configuration;
+import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactEnum;
+import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.ExtendedArtifactType;
 import org.overlord.commons.config.ConfigurationFactory;
 import org.overlord.commons.config.JBossServer;
 import org.overlord.dtgov.common.Target;
 import org.overlord.dtgov.common.exception.ConfigException;
+import org.overlord.dtgov.common.model.DtgovModel;
 import org.overlord.dtgov.server.i18n.Messages;
+import org.overlord.sramp.atom.err.SrampAtomException;
+import org.overlord.sramp.client.SrampAtomApiClient;
+import org.overlord.sramp.client.SrampClientException;
+import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.governance.auth.BasicAuthenticationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 public class Governance {
 
@@ -68,6 +74,7 @@ public class Governance {
                 refreshDelay,
                 "/governance.config.txt", //$NON-NLS-1$
                 Governance.class);
+
     }
 
     /**
@@ -149,6 +156,25 @@ public class Governance {
         return new URL(getConfiguration().getString(GovernanceConstants.SRAMP_REPO_URL, JBossServer.getBaseUrl() + "/s-ramp-server")); //$NON-NLS-1$
     }
 
+    public boolean isInitialized() throws SrampClientException, SrampAtomException {
+        SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
+        String srampQuery = "/s-ramp/ext/" + DtgovModel.DataInitializedType;
+        QueryResultSet resultSet = client.query(srampQuery);
+        if (resultSet.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public void initialize() throws SrampClientException, SrampAtomException {
+        SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
+        ExtendedArtifactType artifact = new ExtendedArtifactType();
+        artifact.setArtifactType(BaseArtifactEnum.EXTENDED_ARTIFACT_TYPE);
+        artifact.setExtendedType(DtgovModel.DataInitializedType);
+        artifact.setName(DtgovModel.DataInitializedName);
+        client.createArtifact(artifact);
+    }
+
     public String getSrampUser() {
         return getConfiguration().getString(GovernanceConstants.SRAMP_REPO_USER, "admin"); //$NON-NLS-1$
     }
@@ -167,6 +193,10 @@ public class Governance {
 
     public boolean getSrampValidating() throws Exception {
         return "true".equals(getConfiguration().getString(GovernanceConstants.SRAMP_REPO_VALIDATING, "false")); //$NON-NLS-1$ //$NON-NLS-2$
+    }
+
+    public boolean isDataInicializationEnabled() throws Exception {
+        return "true".equals(getConfiguration().getString(GovernanceConstants.DTGOV_AUTOMATIC_DATA_INITIALIZATION_PROPERTY, "false")); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**

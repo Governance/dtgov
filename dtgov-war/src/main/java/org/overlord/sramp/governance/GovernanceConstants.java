@@ -69,7 +69,7 @@ public interface GovernanceConstants {
     public static final String GOVERNANCE_WORKFLOW_NAME    = "dtgov.workflows.name"; //$NON-NLS-1$
     public static final String GOVERNANCE_WORKFLOW_VERSION = "dtgov.workflows.version"; //$NON-NLS-1$
     public static final String GOVERNANCE_WORKFLOW_PACKAGE = "dtgov.workflows.package"; //$NON-NLS-1$
-    
+
     //ArtifactInfo
     public static final String STATUS                   = "status"; //$NON-NLS-1$
     public static final String MESSAGE                  = "message"; //$NON-NLS-1$
@@ -77,6 +77,9 @@ public interface GovernanceConstants {
     public static final String ARTIFACT_NAME            = "artifactName"; //$NON-NLS-1$
     public static final String ARTIFACT_DESCRIPTION     = "artifactDescription"; //$NON-NLS-1$
     public static final String ARTIFACT_CREATED_BY      = "artifactCreatedBy"; //$NON-NLS-1$
-    
-    
+
+    // Dtgov Seeding
+    public static final String INITIALIZED = "dtgov.init";
+    public static final String DTGOV_AUTOMATIC_DATA_INITIALIZATION_PROPERTY = "dtgov.automatic.data.initialization.enabled"; //$NON-NLS-1$
+
 }

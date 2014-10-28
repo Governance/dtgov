@@ -24,13 +24,20 @@
     </dependency>
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-seed</artifactId>
+    </dependency>    
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-services</artifactId>
     </dependency>    
     <dependency>
       <groupId>org.overlord.dtgov</groupId>
       <artifactId>dtgov-task-api</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>org.overlord.dtgov</groupId>
+      <artifactId>dtgov-workflows</artifactId>
+    </dependency>
     <!-- S-RAMP -->
     <dependency>
       <groupId>org.overlord.sramp</groupId>
@@ -313,11 +320,6 @@
     </dependency>
 
     <!-- Testing (note the scope) -->
-    <dependency>
-      <groupId>org.overlord.dtgov</groupId>
-      <artifactId>dtgov-workflows</artifactId>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>tjws</artifactId>
