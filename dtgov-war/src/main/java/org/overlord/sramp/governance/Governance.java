@@ -48,11 +48,10 @@ public class Governance {
     public static String DEFAULT_JNDI_TX_REF = "java:comp/UserTransaction"; //$NON-NLS-1$
     public static String DEFAULT_EMAIL_DOMAIN = "example.com"; //$NON-NLS-1$
     public static String DEFAULT_EMAIL_FROM = "overlord@example.com"; //$NON-NLS-1$
-    public static String DEFAULT_GOVERNANCE_WORKFLOW_GROUP   = "org.overlord.dtgov"; //$NON-NLS-1$
-    public static String DEFAULT_GOVERNANCE_WORKFLOW_NAME    = "dtgov-workflows"; //$NON-NLS-1$
-    public static String DEFAULT_GOVERNANCE_WORKFLOW_VERSION = "1.0.0"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE = "SRAMPPackage"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_WORKFLOW_KSESSION = "ksessionSRAMP"; //$NON-NLS-1$
+    public static String DEFAULT_GOVERNANCE_WORKFLOW_GROUP = "org.overlord.dtgov"; //$NON-NLS-1$
+    public static String DEFAULT_GOVERNANCE_WORKFLOW_NAME = "dtgov-workflows"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_USER = "admin"; //$NON-NLS-1$
     public static String DEFAULT_GOVERNANCE_PASSWORD = "overlord"; //$NON-NLS-1$
     public static String DEFAULT_RHQ_USER = "rhqadmin"; //$NON-NLS-1$
@@ -285,6 +284,14 @@ public class Governance {
         return getConfiguration().getBoolean(GovernanceConstants.SRAMP_WAGON_RELEASES, true);
     }
 
+    public String getGovernanceWorkflowVersion() {
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_VERSION);
+    }
+
+    public String getGovernanceWorkflowPackage() {
+        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_PACKAGE, DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE);
+    }
+
     public String getGovernanceWorkflowGroup() {
         return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_GROUP, DEFAULT_GOVERNANCE_WORKFLOW_GROUP);
     }
@@ -292,16 +299,4 @@ public class Governance {
     public String getGovernanceWorkflowName() {
         return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_NAME, DEFAULT_GOVERNANCE_WORKFLOW_NAME);
     }
-
-    public String getGovernanceWorkflowVersion() {
-    	String defaultDtGovVersion = Release.getGovernanceVersion();
-    	if (defaultDtGovVersion==null || defaultDtGovVersion.equals("unknown")) defaultDtGovVersion = DEFAULT_GOVERNANCE_WORKFLOW_VERSION; //$NON-NLS-1$
-        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_VERSION, defaultDtGovVersion);
-    }
-
-    public String getGovernanceWorkflowPackage() {
-        return getConfiguration().getString(GovernanceConstants.GOVERNANCE_WORKFLOW_PACKAGE, DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE);
-    }
-
-
 }

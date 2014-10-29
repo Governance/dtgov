@@ -24,6 +24,7 @@ import org.overlord.commons.config.JBossServer;
 import org.overlord.dtgov.client.DtgovApiClient;
 import org.overlord.dtgov.client.auth.AuthenticationProvider;
 import org.overlord.dtgov.common.model.Deployer;
+import org.overlord.dtgov.common.model.Workflow;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 
 /**
@@ -84,6 +85,10 @@ public class DtGovBaseApiClient implements IDtgovClient {
         return client.getCustomDeployers();
     }
 
+    @Override
+    public List<Workflow> getWorkflows() throws Exception {
+        return client.getWorkflows();
+    }
     /*
      * (non-Javadoc)
      *

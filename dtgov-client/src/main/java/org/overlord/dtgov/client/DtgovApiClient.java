@@ -33,6 +33,7 @@ import org.jboss.resteasy.util.GenericType;
 import org.overlord.dtgov.client.auth.AuthenticationProvider;
 import org.overlord.dtgov.client.auth.BasicAuthenticationProvider;
 import org.overlord.dtgov.common.model.Deployer;
+import org.overlord.dtgov.common.model.Workflow;
 
 /**
  * Class used to communicate with the DTGov REST API.
@@ -47,7 +48,7 @@ public class DtgovApiClient {
 
     /**
      * Constructor.
-     * 
+     *
      * @param endpoint
      */
     public DtgovApiClient(String endpoint) {
@@ -91,7 +92,7 @@ public class DtgovApiClient {
     /**
      * Finds a list of tasks based on criteria provided in
      * {@link FindTasksRequest}.
-     * 
+     *
      * @param findTasksRequest
      */
     public void stopProcess(String targetUUID, long processId) throws DtgovApiClientException {
@@ -119,6 +120,27 @@ public class DtgovApiClient {
             response.getEntity();
             List<Deployer> deployers = response.getEntity();
             return deployers;
+        } catch (Throwable e) {
+            throw new DtgovApiClientException(e);
+        }
+    }
+
+    /**
+     * Gets a list of custom deployers from the dtgov server.
+     *
+     * @throws DtgovApiClientException
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public List<Workflow> getWorkflows() throws DtgovApiClientException {
+        try {
+            String url = String.format("%1$s/system/config/workflows", this.endpoint); //$NON-NLS-1$
+            ClientRequest request = createClientRequest(url);
+            request.accept(MediaType.APPLICATION_XML);
+            ClientResponse<List<Workflow>> response = request.get(new GenericType<List<Workflow>>() {
+            });
+            response.getEntity();
+            List<Workflow> workflowVersion = response.getEntity();
+            return workflowVersion;
         } catch (Throwable e) {
             throw new DtgovApiClientException(e);
         }
