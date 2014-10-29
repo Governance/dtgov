@@ -65,6 +65,7 @@
     <module>dtgov-demos-project</module>
     <module>dtgov-demos-webapp</module>
     <module>dtgov-demos-custom-deployer</module>
+    <module>dtgov-demos-fabric</module>
   </modules>
 
   <profiles>

@@ -1,0 +1,31 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+  <id>dist</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+
+  <fileSets>
+   <fileSet>
+      <directory>./src/main/resources/</directory>
+      <includes>
+      	<include>*</include>
+      </includes>
+      <outputDirectory>overlord/commons.profile/</outputDirectory>
+      <filtered>true</filtered>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0755</fileMode>
+    </fileSet>
+   <fileSet>
+      <directory>../../overlord-commons-installer/src/main/resources</directory>
+      <includes>
+      	<include>overlord.properties</include>
+      </includes>
+      <outputDirectory>overlord/commons.profile/</outputDirectory>
+      <filtered>true</filtered>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0755</fileMode>
+    </fileSet>    
+  </fileSets>
+</assembly>

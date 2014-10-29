@@ -256,6 +256,11 @@
         <classifier>javadoc</classifier>
       </dependency>
       <dependency>
+        <groupId>org.overlord.dtgov.demos.fabric</groupId>
+        <artifactId>dtgov-demos-fabric-workflows</artifactId>
+        <version>${project.version}</version>
+      </dependency>      
+      <dependency>
         <groupId>org.overlord.dtgov</groupId>
         <artifactId>dtgov-installer</artifactId>
         <version>${project.version}</version>

@@ -1,0 +1,45 @@
+echo "Connecting to the S-RAMP repository"
+connect ${s-ramp.endpoint:http://localhost:8080/s-ramp-server/} ${s-ramp.username:admin} ${s-ramp.password}
+
+echo "Deploying the dtgov workflows JAR to S-RAMP"
+maven:deploy ${dtgov-workflow-jar} ${project.groupId}:dtgov-workflows-fabric:${project.version} KieJarArchive
+
+echo "Creating out-of-the-box dtgov Workflow Queries"
+echo "   - Java Web Application Lifecycle"
+create DtgovWorkflowQuery "Fabric Profiles Lifecycle" "Triggers a new Deployment Lifecycle Management workflow whenever a Fabric Profile (ZIP) is added to the repository."
+property set query "/s-ramp/ext/FabricProfile"
+property set workflow overlord.demo.fabric.SimpleReleaseProcess
+property set prop.UpdateMetaDataUrl {governance.url}/rest/update/{name}/{value}/{uuid}
+property set prop.DeploymentUrl {governance.url}/rest/deploy/{target}/{uuid}
+property set prop.NotificationUrl {governance.url}/rest/notify/email/{group}/deployed/{target}/{uuid}
+updateMetaData
+
+
+create DtgovDeploymentTarget "dev_fabric" "Deployment Target used as development environment"
+property set deployment.classifiers "http://www.jboss.org/overlord/deployment-status.owl#InDev"
+property set deployment.type "fabric"
+property set deployment.jolokiaUrl "http://localhost:8181/jolokia"
+property set deployment.user "admin"
+property set deployment.password "123admin!"
+updateMetaData
+create DtgovDeploymentTarget "qa_fabric" "Deployment Target used as qa environment"
+property set deployment.classifiers "http://www.jboss.org/overlord/deployment-status.owl#InQa"
+property set deployment.type "fabric"
+property set deployment.jolokiaUrl "http://localhost:8181/jolokia"
+property set deployment.user "admin"
+property set deployment.password "123admin!"
+updateMetaData
+create DtgovDeploymentTarget "stage_fabric" "Deployment Target used as stage environment"
+property set deployment.classifiers "http://www.jboss.org/overlord/deployment-status.owl#InStage"
+property set deployment.type "fabric"
+property set deployment.jolokiaUrl "http://localhost:8181/jolokia"
+property set deployment.user "admin"
+property set deployment.password "123admin!"
+updateMetaData
+create DtgovDeploymentTarget "prod_fabric" "Deployment Target used as production environment"
+property set deployment.classifiers "http://www.jboss.org/overlord/deployment-status.owl#InProd"
+property set deployment.type "fabric"
+property set deployment.jolokiaUrl "http://localhost:8181/jolokia"
+property set deployment.user "admin"
+property set deployment.password "123admin!"
+updateMetaData
