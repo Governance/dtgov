@@ -29,6 +29,8 @@ import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.BaseArtifactType;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Property;
 import org.oasis_open.docs.s_ramp.ns.s_ramp_v1.Relationship;
 import org.overlord.dtgov.common.exception.ConfigException;
+import org.overlord.dtgov.jbpm.util.KieJar;
+import org.overlord.dtgov.jbpm.util.WorkflowUtil;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
@@ -55,36 +57,11 @@ public class QueryExecutor {
     private static Logger logger = LoggerFactory.getLogger(QueryExecutor.class);
     private static String MAVEN_PROPERTY_SIGNAL = "maven.property.signal"; //$NON-NLS-1$
 
-    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive"; //$NON-NLS-1$
 
     //signal query
     private static String SIGNAL_QUERY = "/s-ramp/ext/MavenPom[@maven.property.signal]"; //$NON-NLS-1$
 
     public static synchronized void execute() throws SrampClientException, MalformedURLException, ConfigException {
-
-    	Governance governance = new Governance();
-        String groupId = governance.getGovernanceWorkflowGroup();
-        String artifactId = governance.getGovernanceWorkflowName();
-        String workflowVersion = governance.getGovernanceWorkflowVersion();
-        String version = null;
-        try {
-            version = SrampMavenUtil.getVersion(SRAMP_KIE_MODEL, groupId, artifactId, workflowVersion);
-        } catch (SrampClientException e) {
-            throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e); //$NON-NLS-1$
-        } catch (SrampAtomException e) {
-            throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e); //$NON-NLS-1$
-        }
-
-        if (StringUtils.isBlank(version)) {
-            throw new RuntimeException(Messages.i18n.format("maven.version.not.found", groupId, artifactId, workflowVersion)); //$NON-NLS-1$
-        }
-
-        String deploymentId = groupId + ":" //$NON-NLS-1$
-                + artifactId + ":" //$NON-NLS-1$
-                + version + ":" //$NON-NLS-1$
-    			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE + ":" //$NON-NLS-1$
-    			+ Governance.DEFAULT_GOVERNANCE_WORKFLOW_KSESSION;
-
     	BpmManager bpmManager = WorkflowFactory.newInstance();
     	SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
         //for all queries defined in the governance.properties file
@@ -134,10 +111,16 @@ public class QueryExecutor {
                             parameters.put("ArtifactLastModifiedBy", artifact.getLastModifiedBy()); //$NON-NLS-1$
                             parameters.put("ArtifactLastModifiedTimestamp", artifact.getLastModifiedTimestamp().toGregorianCalendar()); //$NON-NLS-1$
                             parameters.put("ArtifactType", artifactSummary.getType().getType()); //$NON-NLS-1$
-                            long processInstanceId = bpmManager.newProcessInstance(deploymentId, query.getWorkflowId(), parameters);
+                            String deploymentId=buildDeploymentId(client,query.getWorkflowId());
+                            if(StringUtils.isNotBlank(deploymentId)){
+                                long processInstanceId = bpmManager.newProcessInstance(deploymentId, query.getWorkflowId(), parameters);
 
-                            // Update the workflow artifact with the process instance ID
-                            workflowAccesor.update(workflowArtifact, processInstanceId);
+                                // Update the workflow artifact with the process instance ID
+                                workflowAccesor.update(workflowArtifact, processInstanceId);
+                            }
+                            else{
+                                throw new RuntimeException(Messages.i18n.format("QueryExecutor.DeploymentId.Empty"));
+                            }
                         }
                     }
                 }
@@ -185,6 +168,22 @@ public class QueryExecutor {
         } catch (Exception e) {
             logger.error(Messages.i18n.format("QueryExecutor.ExceptionFor", SIGNAL_QUERY, e.getMessage()), e); //$NON-NLS-1$
         }
+    }
+
+    private static String buildDeploymentId(SrampAtomApiClient client, String workflowId) throws SrampClientException, SrampAtomException {
+        KieJar kieJar = WorkflowUtil.getKieJarFromBmpnName(client, workflowId);
+        if (kieJar != null) {
+            String deploymentId = kieJar.getGroupId() + ":" //$NON-NLS-1$
+                    + kieJar.getArtifactId() + ":" //$NON-NLS-1$
+                    + kieJar.getVersion() + ":" //$NON-NLS-1$
+                    + kieJar.getWorkflowPackage() + ":" //$NON-NLS-1$
+                    + kieJar.getWorkflowKSession();
+            return deploymentId;
+        }
+        return null;
+
+
+
     }
 
     /**

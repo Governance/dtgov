@@ -1,0 +1,1610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" xmlns="http://www.jboss.org/drools" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd" id="Definitions_1" targetNamespace="http://www.jboss.org/overlord">
+  <bpmn2:itemDefinition id="ItemDefinition_1" structureRef="StringDataType"/>
+  <bpmn2:itemDefinition id="_String" structureRef="String"/>
+  <bpmn2:itemDefinition id="ItemDefinition_2" structureRef="Integer"/>
+  <bpmn2:itemDefinition id="ItemDefinition_3" structureRef="Boolean"/>
+  <bpmn2:process id="overlord.demo.fabric.SimpleReleaseProcess" drools:version="1" drools:packageName="SRAMPPackage" drools:adHoc="false" name="Simple Release Process Fabric" isExecutable="true">
+    <bpmn2:property id="DeploymentUrl" itemSubjectRef="_String"/>
+    <bpmn2:property id="ArtifactUuid" itemSubjectRef="_String"/>
+    <bpmn2:property id="ArtifactName" itemSubjectRef="_String"/>
+    <bpmn2:property id="response" itemSubjectRef="_String"/>
+    <bpmn2:property id="NotificationUrl" itemSubjectRef="_String"/>
+    <bpmn2:property id="UpdateMetaDataUrl" itemSubjectRef="_String"/>
+    <bpmn2:property id="artifactName" itemSubjectRef="_String"/>
+    <bpmn2:property id="artifactCreatedBy" itemSubjectRef="_String"/>
+    <bpmn2:property id="artifactDescription" itemSubjectRef="_String"/>
+    <bpmn2:property id="deploymentTarget" itemSubjectRef="_String"/>
+    <bpmn2:task id="Task_2" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="Classify #DevTest">
+      <bpmn2:documentation id="Documentation_13">Classifies the artifact with the environment classification</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_15">
+        <bpmn2:dataInput id="_DataInput_70" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_71" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="_DataInput_72" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="_DataInput_73" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="_DataInput_74" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_5" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_6" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_7" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="_InputSet_15" name="New Input Set">
+          <bpmn2:dataInputRefs>_DataInput_70</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_71</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_72</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_73</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_74</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_2" name="Output Set 2">
+          <bpmn2:dataOutputRefs>DataOutput_5</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_6</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_7</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_70">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_70</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_71">
+        <bpmn2:targetRef>_DataInput_71</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_5">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_10">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_9">_DataInput_71</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_72">
+        <bpmn2:targetRef>_DataInput_72</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_6">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_12">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_11">_DataInput_72</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_73">
+        <bpmn2:targetRef>_DataInput_73</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_7">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_14">http://www.jboss.org/overlord/deployment-status.owl#DevTest</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_13">_DataInput_73</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_74">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_74</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_5">
+        <bpmn2:sourceRef>DataOutput_5</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_6">
+        <bpmn2:sourceRef>DataOutput_6</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_7">
+        <bpmn2:sourceRef>DataOutput_7</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:startEvent id="StartEvent_1" name="Start">
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" drools:priority="1" name="" sourceRef="StartEvent_1" targetRef="Task_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" drools:priority="1" name="" sourceRef="Task_2" targetRef="Task_3"/>
+    <bpmn2:task id="Task_1" drools:taskName="HttpClientDeploy" drools:displayName="Deploy" drools:icon="run-build-install.png" name="Deploy to Dev">
+      <bpmn2:documentation id="Documentation_4">Deploy the artifact to the Dev environment</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_14">
+        <bpmn2:dataInput id="_DataInput_66" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_67" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="_DataInput_68" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_69" itemSubjectRef="_String" name="Target"/>
+        <bpmn2:dataOutput id="DataOutput_18" itemSubjectRef="_String" name="target"/>
+        <bpmn2:inputSet id="_InputSet_14" name="New Input Set">
+          <bpmn2:dataInputRefs>_DataInput_66</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_67</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_68</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_69</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_1" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_18</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_66">
+        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_66</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_67">
+        <bpmn2:targetRef>_DataInput_67</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_2">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_4">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_3">_DataInput_67</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_68">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_68</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_69">
+        <bpmn2:targetRef>_DataInput_69</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_3">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_6">dev_fabric</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_5">_DataInput_69</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_18">
+        <bpmn2:sourceRef>DataOutput_18</bpmn2:sourceRef>
+        <bpmn2:targetRef>deploymentTarget</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" drools:priority="1" name="" sourceRef="Task_1" targetRef="Task_2"/>
+    <bpmn2:task id="Task_3" drools:taskName="HttpClientNotify" drools:displayName="Notify" drools:icon="audio-input-microphone-3.png" name="Notify Dev">
+      <bpmn2:documentation id="Documentation_3">Notifies the 'Dev' group by sending out an email with a link to the TaskForm in DTGov</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_16">
+        <bpmn2:dataInput id="_DataInput_75" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="_DataInput_76" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="_DataInput_77" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataInput id="_DataInput_78" itemSubjectRef="_String" name="Target"/>
+        <bpmn2:dataInput id="_DataInput_79" itemSubjectRef="_String" name="Group"/>
+        <bpmn2:inputSet id="_InputSet_16" name="New Input Set">
+          <bpmn2:dataInputRefs>_DataInput_75</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_76</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_77</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_78</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_79</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_3" name="Output Set 3"/>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_75">
+        <bpmn2:sourceRef>NotificationUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_75</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_76">
+        <bpmn2:targetRef>_DataInput_76</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_1">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_2">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_1">_DataInput_76</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_77">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_77</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_78">
+        <bpmn2:targetRef>_DataInput_78</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_4">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_8">dev</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_7">_DataInput_78</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_79">
+        <bpmn2:targetRef>_DataInput_79</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_8">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_16">dev</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_15">_DataInput_79</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:userTask id="UserTask_1" name="Test deployment '#{ArtifactName}' in the DEV environment">
+      <bpmn2:documentation id="Documentation_8">Claim and Start this task before testing this deployment. Set Pass/Fail when complete.</bpmn2:documentation>
+      <bpmn2:extensionElements>
+        <drools:onEntry-script scriptFormat="http://www.java.com/java">
+          <drools:script></drools:script>
+        </drools:onEntry-script>
+        <drools:onExit-script scriptFormat="http://www.java.com/java">
+          <drools:script></drools:script>
+        </drools:onExit-script>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_17">
+        <bpmn2:dataInput id="DataInput_102" itemSubjectRef="_String" name="DeploymentUuid"/>
+        <bpmn2:dataInput id="DataInput_101" itemSubjectRef="_String" name="ArtifactName"/>
+        <bpmn2:dataInput id="DataInput_117" name="TaskName"/>
+        <bpmn2:dataInput id="DataInput_125" name="Comment"/>
+        <bpmn2:dataInput id="DataInput_126" name="GroupId"/>
+        <bpmn2:dataInput id="DataInput_134" itemSubjectRef="_String" name="DeploymentTarget"/>
+        <bpmn2:dataInput id="DataInput_135" name="Priority"/>
+        <bpmn2:dataOutput id="DataOutput_1" name="Status"/>
+        <bpmn2:inputSet id="_InputSet_17" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_101</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_102</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_117</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_125</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_126</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_134</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_135</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="_OutputSet_2" name="Output Set">
+          <bpmn2:dataOutputRefs>DataOutput_1</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_101">
+        <bpmn2:sourceRef>artifactName</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_101</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_102">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_102</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_117">
+        <bpmn2:targetRef>DataInput_117</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_79">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_166">overlord.demo.CheckDeployment</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_165">DataInput_117</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_125">
+        <bpmn2:targetRef>DataInput_125</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_91">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_190">Please Claim &amp; Start this Task, then verify that deployment '#{ArtifactName}' is working, then choose Pass/Fail.</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_189">DataInput_125</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_126">
+        <bpmn2:targetRef>DataInput_126</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_92">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_192">dev</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_191">DataInput_126</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_134">
+        <bpmn2:sourceRef>deploymentTarget</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_134</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_135">
+        <bpmn2:targetRef>DataInput_135</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_116">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_240">3</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_239">DataInput_135</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_1">
+        <bpmn2:sourceRef>DataOutput_1</bpmn2:sourceRef>
+        <bpmn2:targetRef>response</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_4" drools:priority="1" name="" sourceRef="Task_3" targetRef="UserTask_1"/>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_1" name="Continue if PASS - Stop if FAIL" gatewayDirection="Diverging">
+      <bpmn2:documentation id="Documentation_15">The workflow should continue if it the status is set to PASS. It should stop when set to FAIL.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_5" drools:priority="1" name="" sourceRef="UserTask_1" targetRef="ExclusiveGateway_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_6" drools:priority="1" name="PASS" sourceRef="ExclusiveGateway_1" targetRef="Task_4">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_73" language="http://www.java.com/java">return (response.toLowerCase().startsWith(&quot;ok&quot;) || response.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_7" drools:priority="1" name="FAIL" sourceRef="ExclusiveGateway_1" targetRef="EndEvent_3">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_74" language="http://www.java.com/java">return (! response.toLowerCase().startsWith(&quot;ok&quot;) &amp;&amp; ! response.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:task id="Task_5" drools:taskName="HttpClientDeploy" drools:displayName="Deploy" drools:icon="run-build-install.png" name="Deploy to QA">
+      <bpmn2:documentation id="Documentation_14">Deploy the artifact to the QA environment</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_9</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_2">
+        <bpmn2:dataInput id="DataInput_7" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_8" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_9" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataInput id="DataInput_10" itemSubjectRef="_String" name="Target"/>
+        <bpmn2:dataOutput id="DataOutput_19" itemSubjectRef="_String" name="target"/>
+        <bpmn2:inputSet id="InputSet_2" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_7</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_8</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_9</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_10</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_5" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_19</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_7">
+        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_7</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_8">
+        <bpmn2:targetRef>DataInput_8</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_10">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_19">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_20">_DataInput_67</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_9">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_9</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_10">
+        <bpmn2:targetRef>DataInput_10</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_11">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_21">qa_fabric</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_22">_DataInput_69</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_19">
+        <bpmn2:sourceRef>DataOutput_19</bpmn2:sourceRef>
+        <bpmn2:targetRef>deploymentTarget</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:task id="Task_4" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="Classify #DevPass">
+      <bpmn2:documentation id="Documentation_22">Classifies the artifact with the environment classification</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_1">
+        <bpmn2:dataInput id="DataInput_2" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_3" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_4" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_5" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_6" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:inputSet id="InputSet_1" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_2</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_3</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_4</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_5</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_6</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_4" name="Output Set 2"/>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_2">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_2</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_3">
+        <bpmn2:targetRef>DataInput_3</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_34">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_67">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_68">_DataInput_71</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_4">
+        <bpmn2:targetRef>DataInput_4</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_35">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_69">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_70">_DataInput_72</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_5">
+        <bpmn2:targetRef>DataInput_5</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_36">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_71">http://www.jboss.org/overlord/deployment-status.owl#DevPass</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_72">_DataInput_73</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_6">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_6</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:task id="Task_6" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="Classify #QaTest">
+      <bpmn2:documentation id="Documentation_17">Classifies the artifact with the environment classification</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_3">
+        <bpmn2:dataInput id="DataInput_11" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_12" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_13" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_14" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_15" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_8" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_9" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:dataOutput id="DataOutput_10" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:inputSet id="InputSet_3" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_11</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_12</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_13</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_14</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_15</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_6" name="Output Set 2">
+          <bpmn2:dataOutputRefs>DataOutput_8</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_9</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_10</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_11">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_11</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_12">
+        <bpmn2:targetRef>DataInput_12</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_12">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_23">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_24">_DataInput_71</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_13">
+        <bpmn2:targetRef>DataInput_13</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_13">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_25">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_26">_DataInput_72</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_14">
+        <bpmn2:targetRef>DataInput_14</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_14">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_27">http://www.jboss.org/overlord/deployment-status.owl#QaTest</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_28">_DataInput_73</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_15">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_15</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_8">
+        <bpmn2:sourceRef>DataOutput_8</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_9">
+        <bpmn2:sourceRef>DataOutput_9</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_10">
+        <bpmn2:sourceRef>DataOutput_10</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:task id="Task_7" drools:taskName="HttpClientNotify" drools:displayName="Notify" drools:icon="audio-input-microphone-3.png" name="Notify Qa">
+      <bpmn2:documentation id="Documentation_19">Notifies the 'Qa' group by sending out an email with a link to the TaskForm in DTGov</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_4">
+        <bpmn2:dataInput id="DataInput_16" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_17" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_18" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataInput id="DataInput_19" itemSubjectRef="_String" name="Target"/>
+        <bpmn2:dataInput id="DataInput_20" itemSubjectRef="_String" name="Group"/>
+        <bpmn2:inputSet id="InputSet_4" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_16</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_17</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_18</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_19</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_20</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_7" name="Output Set 3"/>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_16">
+        <bpmn2:sourceRef>NotificationUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_16</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_17">
+        <bpmn2:targetRef>DataInput_17</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_15">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_29">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_30">_DataInput_76</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_18">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_18</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_19">
+        <bpmn2:targetRef>DataInput_19</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_16">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_31">qa</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_32">_DataInput_78</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_20">
+        <bpmn2:targetRef>DataInput_20</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_17">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_33">qa</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_34">_DataInput_79</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:userTask id="UserTask_2" name="Test deployment '#{ArtifactName}' in the QA environment">
+      <bpmn2:documentation id="Documentation_21">Claim and Start this task before testing this deployment. Set Pass/Fail when complete.</bpmn2:documentation>
+      <bpmn2:extensionElements>
+        <drools:onEntry-script scriptFormat="http://www.java.com/java">
+          <drools:script></drools:script>
+        </drools:onEntry-script>
+        <drools:onExit-script scriptFormat="http://www.java.com/java">
+          <drools:script></drools:script>
+        </drools:onExit-script>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_12</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_5">
+        <bpmn2:dataInput id="DataInput_21" itemSubjectRef="_String" name="TaskName"/>
+        <bpmn2:dataInput id="DataInput_22" itemSubjectRef="ItemDefinition_2" name="Priority"/>
+        <bpmn2:dataInput id="DataInput_23" itemSubjectRef="_String" name="Comment"/>
+        <bpmn2:dataInput id="DataInput_24" itemSubjectRef="_String" name="GroupId"/>
+        <bpmn2:dataInput id="DataInput_25" itemSubjectRef="ItemDefinition_3" name="Skippable"/>
+        <bpmn2:dataInput id="DataInput_26" itemSubjectRef="_String" name="Content"/>
+        <bpmn2:dataInput id="DataInput_27" itemSubjectRef="_String" name="Locale"/>
+        <bpmn2:dataInput id="DataInput_28" itemSubjectRef="_String" name="DeploymentUuid"/>
+        <bpmn2:dataInput id="DataInput_90" itemSubjectRef="_String" name="ArtifactName"/>
+        <bpmn2:dataInput id="DataInput_91" itemSubjectRef="_String" name="ArtifactDescription"/>
+        <bpmn2:dataInput id="DataInput_97" itemSubjectRef="_String" name="DeploymentTarget"/>
+        <bpmn2:dataOutput id="DataOutput_2" name="Status"/>
+        <bpmn2:inputSet id="InputSet_5" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_21</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_22</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_23</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_24</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_25</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_26</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_27</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_28</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_90</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_91</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_97</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_8" name="Output Set">
+          <bpmn2:dataOutputRefs>DataOutput_2</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_21">
+        <bpmn2:targetRef>DataInput_21</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_19">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_37">overlord.demo.CheckDeployment</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_38">_DataInput_80</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_22">
+        <bpmn2:targetRef>DataInput_22</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_112">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_232">3</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_231">DataInput_22</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_23">
+        <bpmn2:targetRef>DataInput_23</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_22">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_44">Please Claim &amp; Start this Task, then verify that deployment '#{ArtifactName}' is working, then choose Pass/Fail.</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_43">DataInput_23</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_24">
+        <bpmn2:targetRef>DataInput_24</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_20">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_39">qa</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_40">_DataInput_83</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_25">
+        <bpmn2:targetRef>DataInput_25</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_26">
+        <bpmn2:targetRef>DataInput_26</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_27">
+        <bpmn2:targetRef>DataInput_27</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_28">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_28</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_90">
+        <bpmn2:sourceRef>artifactName</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_90</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_91">
+        <bpmn2:sourceRef>artifactDescription</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_91</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_97">
+        <bpmn2:sourceRef>deploymentTarget</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_97</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_2">
+        <bpmn2:sourceRef>DataOutput_2</bpmn2:sourceRef>
+        <bpmn2:targetRef>response</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_8" drools:priority="1" name="" sourceRef="Task_4" targetRef="Task_5"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_9" drools:priority="1" name="" sourceRef="Task_5" targetRef="Task_6"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_10" drools:priority="1" name="" sourceRef="Task_6" targetRef="Task_7"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_11" drools:priority="1" name="" sourceRef="Task_7" targetRef="UserTask_2"/>
+    <bpmn2:endEvent id="EndEvent_3" name="Failed Dev">
+      <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
+      <bpmn2:terminateEventDefinition id="TerminateEventDefinition_1"/>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_12" drools:priority="1" name="" sourceRef="UserTask_2" targetRef="ExclusiveGateway_2"/>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_2" name="Continue if PASS - Stop if FAIL" gatewayDirection="Diverging">
+      <bpmn2:documentation id="Documentation_27">The workflow should continue if it the status is set to PASS. It should stop when set to FAIL.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_12</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_13</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_14</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_13" drools:priority="1" name="FAIL" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_6">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_51" language="http://www.java.com/java">return (! response.toLowerCase().startsWith(&quot;ok&quot;) &amp;&amp; ! response.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:endEvent id="EndEvent_6" name="Failed Qa">
+      <bpmn2:incoming>SequenceFlow_13</bpmn2:incoming>
+      <bpmn2:terminateEventDefinition id="TerminateEventDefinition_4"/>
+    </bpmn2:endEvent>
+    <bpmn2:task id="Task_8" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="Classify #QaPass">
+      <bpmn2:documentation id="Documentation_71">Classifies the artifact with the environment classification</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_14</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_16</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_6">
+        <bpmn2:dataInput id="DataInput_29" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_30" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_31" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_32" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_33" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:inputSet id="InputSet_6" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_29</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_30</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_31</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_32</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_33</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_9" name="Output Set 2"/>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_29">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_29</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_30">
+        <bpmn2:targetRef>DataInput_30</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_26">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_52">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_53">_DataInput_71</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_31">
+        <bpmn2:targetRef>DataInput_31</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_27">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_54">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_55">_DataInput_72</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_32">
+        <bpmn2:targetRef>DataInput_32</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_28">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_56">http://www.jboss.org/overlord/deployment-status.owl#QaPass</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_57">_DataInput_73</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_33">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_33</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_14" drools:priority="1" name="PASS" sourceRef="ExclusiveGateway_2" targetRef="Task_8">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_58" language="http://www.java.com/java">return (response.toLowerCase().startsWith(&quot;ok&quot;) || response.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:task id="Task_9" drools:taskName="HttpClientDeploy" drools:displayName="Deploy" drools:icon="run-build-install.png" name="Deploy to Stage">
+      <bpmn2:documentation id="Documentation_82">Deploy the artifact to the Stage environment</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_16</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_17</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_7">
+        <bpmn2:dataInput id="DataInput_34" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_35" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_36" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataInput id="DataInput_37" itemSubjectRef="_String" name="Target"/>
+        <bpmn2:dataOutput id="DataOutput_20" itemSubjectRef="_String" name="target"/>
+        <bpmn2:inputSet id="InputSet_7" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_34</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_35</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_36</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_37</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_10" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_20</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_34">
+        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_34</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_35">
+        <bpmn2:targetRef>DataInput_35</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_29">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_59">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_60">_DataInput_67</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_36">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_36</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_37">
+        <bpmn2:targetRef>DataInput_37</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_30">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_61">stage_fabric</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_62">_DataInput_69</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_20">
+        <bpmn2:sourceRef>DataOutput_20</bpmn2:sourceRef>
+        <bpmn2:targetRef>deploymentTarget</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:task id="Task_10" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="Classify #StageTest">
+      <bpmn2:documentation id="Documentation_84">Classifies the artifact with the environment classification</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_17</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_18</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_8">
+        <bpmn2:dataInput id="DataInput_38" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_39" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_40" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_41" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_42" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_11" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_12" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:dataOutput id="DataOutput_13" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:inputSet id="InputSet_8" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_38</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_39</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_40</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_41</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_42</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_11" name="Output Set 2">
+          <bpmn2:dataOutputRefs>DataOutput_11</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_12</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_13</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_38">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_38</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_39">
+        <bpmn2:targetRef>DataInput_39</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_31">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_63">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_64">_DataInput_71</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_40">
+        <bpmn2:targetRef>DataInput_40</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_32">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_65">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_66">_DataInput_72</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_41">
+        <bpmn2:targetRef>DataInput_41</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_33">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_75">http://www.jboss.org/overlord/deployment-status.owl#StageTest</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_76">_DataInput_73</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_42">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_42</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_11">
+        <bpmn2:sourceRef>DataOutput_11</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_12">
+        <bpmn2:sourceRef>DataOutput_12</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_13">
+        <bpmn2:sourceRef>DataOutput_13</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:task id="Task_11" drools:taskName="HttpClientNotify" drools:displayName="Notify" drools:icon="audio-input-microphone-3.png" name="Notify Stage">
+      <bpmn2:documentation id="Documentation_86">Notifies the 'Staging' group by sending out an email with a link to the TaskForm in DTGov</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_18</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_19</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_9">
+        <bpmn2:dataInput id="DataInput_43" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_44" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_45" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataInput id="DataInput_46" itemSubjectRef="_String" name="Target"/>
+        <bpmn2:dataInput id="DataInput_47" itemSubjectRef="_String" name="Group"/>
+        <bpmn2:inputSet id="InputSet_9" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_43</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_44</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_45</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_46</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_47</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_12" name="Output Set 3"/>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_43">
+        <bpmn2:sourceRef>NotificationUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_43</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_44">
+        <bpmn2:targetRef>DataInput_44</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_37">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_77">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_78">_DataInput_76</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_45">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_45</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_46">
+        <bpmn2:targetRef>DataInput_46</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_38">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_79">stage</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_80">_DataInput_78</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_47">
+        <bpmn2:targetRef>DataInput_47</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_39">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_81">stage</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_82">_DataInput_79</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:userTask id="UserTask_3" name="Test deployment '#{ArtifactName}' in the STAGE environment">
+      <bpmn2:documentation id="Documentation_88">Claim and Start this task before testing this deployment. Set Pass/Fail when complete.</bpmn2:documentation>
+      <bpmn2:extensionElements>
+        <drools:onEntry-script scriptFormat="http://www.java.com/java">
+          <drools:script></drools:script>
+        </drools:onEntry-script>
+        <drools:onExit-script scriptFormat="http://www.java.com/java">
+          <drools:script></drools:script>
+        </drools:onExit-script>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_19</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_20</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_10">
+        <bpmn2:dataInput id="DataInput_48" itemSubjectRef="_String" name="TaskName"/>
+        <bpmn2:dataInput id="DataInput_49" itemSubjectRef="ItemDefinition_2" name="Priority"/>
+        <bpmn2:dataInput id="DataInput_50" itemSubjectRef="_String" name="Comment"/>
+        <bpmn2:dataInput id="DataInput_51" itemSubjectRef="_String" name="GroupId"/>
+        <bpmn2:dataInput id="DataInput_52" itemSubjectRef="ItemDefinition_3" name="Skippable"/>
+        <bpmn2:dataInput id="DataInput_53" itemSubjectRef="_String" name="Content"/>
+        <bpmn2:dataInput id="DataInput_54" itemSubjectRef="_String" name="Locale"/>
+        <bpmn2:dataInput id="DataInput_55" itemSubjectRef="_String" name="DeploymentUuid"/>
+        <bpmn2:dataInput id="DataInput_92" itemSubjectRef="_String" name="ArtifactName"/>
+        <bpmn2:dataInput id="DataInput_93" itemSubjectRef="_String" name="ArtifactDescription"/>
+        <bpmn2:dataInput id="DataInput_98" itemSubjectRef="_String" name="DeploymentTarget"/>
+        <bpmn2:dataOutput id="DataOutput_3" name="Status"/>
+        <bpmn2:inputSet id="InputSet_10" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_48</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_49</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_50</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_51</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_52</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_53</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_54</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_55</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_92</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_93</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_98</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_13" name="Output Set">
+          <bpmn2:dataOutputRefs>DataOutput_3</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_48">
+        <bpmn2:targetRef>DataInput_48</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_40">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_83">overlord.demo.CheckDeployment</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_84">_DataInput_80</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_49">
+        <bpmn2:targetRef>DataInput_49</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_108">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_224">2</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_223">DataInput_49</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_50">
+        <bpmn2:targetRef>DataInput_50</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_41">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_85">Please Claim &amp; Start this Task, then verify that deployment '#{ArtifactName}' is working, then choose Pass/Fail.</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_86">DataInput_23</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_51">
+        <bpmn2:targetRef>DataInput_51</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_42">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_87">stage</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_88">_DataInput_83</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_52">
+        <bpmn2:targetRef>DataInput_52</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_53">
+        <bpmn2:targetRef>DataInput_53</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_54">
+        <bpmn2:targetRef>DataInput_54</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_55">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_55</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_92">
+        <bpmn2:sourceRef>artifactName</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_92</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_93">
+        <bpmn2:sourceRef>artifactDescription</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_93</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_98">
+        <bpmn2:sourceRef>deploymentTarget</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_98</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_3">
+        <bpmn2:sourceRef>DataOutput_3</bpmn2:sourceRef>
+        <bpmn2:targetRef>response</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:userTask>
+    <bpmn2:task id="Task_12" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="Classify #StagePass">
+      <bpmn2:documentation id="Documentation_90">Classifies the artifact with the environment classification</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_22</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_24</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_11">
+        <bpmn2:dataInput id="DataInput_56" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_57" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_58" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_59" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_60" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:inputSet id="InputSet_11" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_56</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_57</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_58</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_59</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_60</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_14" name="Output Set 2"/>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_56">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_56</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_57">
+        <bpmn2:targetRef>DataInput_57</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_43">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_89">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_90">_DataInput_71</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_58">
+        <bpmn2:targetRef>DataInput_58</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_44">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_91">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_92">_DataInput_72</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_59">
+        <bpmn2:targetRef>DataInput_59</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_45">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_93">http://www.jboss.org/overlord/deployment-status.owl#StagePass</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_94">_DataInput_73</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_60">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_60</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:endEvent id="EndEvent_9" name="Failed Stage">
+      <bpmn2:incoming>SequenceFlow_21</bpmn2:incoming>
+      <bpmn2:terminateEventDefinition id="TerminateEventDefinition_7"/>
+    </bpmn2:endEvent>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_3" name="Continue if PASS - Stop if FAIL" gatewayDirection="Diverging">
+      <bpmn2:documentation id="Documentation_101">The workflow should continue if it the status is set to PASS. It should stop when set to FAIL.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_20</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_21</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_22</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_16" drools:priority="1" name="" sourceRef="Task_8" targetRef="Task_9"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_17" drools:priority="1" name="" sourceRef="Task_9" targetRef="Task_10"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_18" drools:priority="1" name="" sourceRef="Task_10" targetRef="Task_11"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_19" drools:priority="1" name="" sourceRef="Task_11" targetRef="UserTask_3"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_20" drools:priority="1" name="" sourceRef="UserTask_3" targetRef="ExclusiveGateway_3"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_21" drools:priority="1" name="FAIL" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_9">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_103" language="http://www.java.com/java">return (! response.toLowerCase().startsWith(&quot;ok&quot;) &amp;&amp; ! response.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_22" drools:priority="1" name="PASS" sourceRef="ExclusiveGateway_3" targetRef="Task_12">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_104" language="http://www.java.com/java">return (response.toLowerCase().startsWith(&quot;ok&quot;) || response.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_23" drools:priority="1" name="PASS" sourceRef="ExclusiveGateway_4" targetRef="Task_16">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_141" language="http://www.java.com/java">return (response.toLowerCase().startsWith(&quot;ok&quot;) || response.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:task id="Task_13" drools:taskName="HttpClientDeploy" drools:displayName="Deploy" drools:icon="run-build-install.png" name="Deploy to Prod">
+      <bpmn2:documentation id="Documentation_116">Deploy the artifact to the Prod environment</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_24</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_25</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_12">
+        <bpmn2:dataInput id="DataInput_61" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_62" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_63" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataInput id="DataInput_64" itemSubjectRef="_String" name="Target"/>
+        <bpmn2:dataOutput id="DataOutput_21" itemSubjectRef="_String" name="target"/>
+        <bpmn2:inputSet id="InputSet_12" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_61</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_62</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_63</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_64</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_15" name="Output Set 1">
+          <bpmn2:dataOutputRefs>DataOutput_21</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_61">
+        <bpmn2:sourceRef>DeploymentUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_61</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_62">
+        <bpmn2:targetRef>DataInput_62</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_50">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_105">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_106">_DataInput_67</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_63">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_63</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_64">
+        <bpmn2:targetRef>DataInput_64</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_51">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_107">prod_fabric</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_108">_DataInput_69</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_21">
+        <bpmn2:sourceRef>DataOutput_21</bpmn2:sourceRef>
+        <bpmn2:targetRef>deploymentTarget</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:task id="Task_14" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="Classify #ProdTest">
+      <bpmn2:documentation id="Documentation_118">Classifies the artifact with the environment classification</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_25</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_26</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_13">
+        <bpmn2:dataInput id="DataInput_65" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_66" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_67" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_68" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_69" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataOutput id="DataOutput_14" itemSubjectRef="_String" name="artifactName"/>
+        <bpmn2:dataOutput id="DataOutput_15" itemSubjectRef="_String" name="artifactDescription"/>
+        <bpmn2:dataOutput id="DataOutput_16" itemSubjectRef="_String" name="artifactCreatedBy"/>
+        <bpmn2:inputSet id="InputSet_13" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_65</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_66</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_67</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_68</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_69</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_16" name="Output Set 2">
+          <bpmn2:dataOutputRefs>DataOutput_14</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_15</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>DataOutput_16</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_65">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_65</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_66">
+        <bpmn2:targetRef>DataInput_66</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_52">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_109">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_110">_DataInput_71</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_67">
+        <bpmn2:targetRef>DataInput_67</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_53">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_111">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_112">_DataInput_72</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_68">
+        <bpmn2:targetRef>DataInput_68</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_54">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_113">http://www.jboss.org/overlord/deployment-status.owl#ProdTest</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_114">_DataInput_73</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_69">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_69</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_14">
+        <bpmn2:sourceRef>DataOutput_14</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactName</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_15">
+        <bpmn2:sourceRef>DataOutput_15</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactDescription</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_16">
+        <bpmn2:sourceRef>DataOutput_16</bpmn2:sourceRef>
+        <bpmn2:targetRef>artifactCreatedBy</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:task id="Task_15" drools:taskName="HttpClientNotify" drools:displayName="Notify" drools:icon="audio-input-microphone-3.png" name="Notify Prod">
+      <bpmn2:documentation id="Documentation_120">Notifies the 'Production' group by sending out an email with a link to the TaskForm in DTGov</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_26</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_27</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_14">
+        <bpmn2:dataInput id="DataInput_70" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_71" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_72" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:dataInput id="DataInput_73" itemSubjectRef="_String" name="Target"/>
+        <bpmn2:dataInput id="DataInput_74" itemSubjectRef="_String" name="Group"/>
+        <bpmn2:inputSet id="InputSet_14" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_70</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_71</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_72</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_73</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_74</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_17" name="Output Set 3"/>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_70">
+        <bpmn2:sourceRef>NotificationUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_70</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_71">
+        <bpmn2:targetRef>DataInput_71</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_55">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_115">POST</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_116">_DataInput_76</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_72">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_72</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_73">
+        <bpmn2:targetRef>DataInput_73</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_56">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_117">prod</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_118">_DataInput_78</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_74">
+        <bpmn2:targetRef>DataInput_74</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_57">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_119">prod</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_120">_DataInput_79</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:userTask id="UserTask_4" name="Test deployment '#{ArtifactName}' in the PROD environment">
+      <bpmn2:documentation id="Documentation_122">Claim and Start this task before testing this deployment. Set Pass/Fail when complete.</bpmn2:documentation>
+      <bpmn2:extensionElements>
+        <drools:onEntry-script scriptFormat="http://www.java.com/java">
+          <drools:script></drools:script>
+        </drools:onEntry-script>
+        <drools:onExit-script scriptFormat="http://www.java.com/java">
+          <drools:script></drools:script>
+        </drools:onExit-script>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_27</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_28</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_15">
+        <bpmn2:dataInput id="DataInput_75" itemSubjectRef="_String" name="TaskName"/>
+        <bpmn2:dataInput id="DataInput_76" itemSubjectRef="ItemDefinition_2" name="Priority"/>
+        <bpmn2:dataInput id="DataInput_77" itemSubjectRef="_String" name="Comment"/>
+        <bpmn2:dataInput id="DataInput_78" itemSubjectRef="_String" name="GroupId"/>
+        <bpmn2:dataInput id="DataInput_79" itemSubjectRef="ItemDefinition_3" name="Skippable"/>
+        <bpmn2:dataInput id="DataInput_80" itemSubjectRef="_String" name="Content"/>
+        <bpmn2:dataInput id="DataInput_81" itemSubjectRef="_String" name="Locale"/>
+        <bpmn2:dataInput id="DataInput_82" itemSubjectRef="_String" name="DeploymentUuid"/>
+        <bpmn2:dataInput id="DataInput_94" itemSubjectRef="_String" name="ArtifactName"/>
+        <bpmn2:dataInput id="DataInput_95" itemSubjectRef="_String" name="ArtifactDescription"/>
+        <bpmn2:dataInput id="DataInput_99" itemSubjectRef="_String" name="DeploymentTarget"/>
+        <bpmn2:dataOutput id="DataOutput_4" name="Status"/>
+        <bpmn2:inputSet id="InputSet_15" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_75</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_76</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_77</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_78</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_79</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_80</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_81</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_82</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_94</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_95</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_99</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_18" name="Output Set">
+          <bpmn2:dataOutputRefs>DataOutput_4</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_75">
+        <bpmn2:targetRef>DataInput_75</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_58">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_121">overlord.demo.CheckDeployment</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_122">_DataInput_80</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_76">
+        <bpmn2:targetRef>DataInput_76</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_104">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_216">1</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_215">DataInput_76</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_77">
+        <bpmn2:targetRef>DataInput_77</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_59">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_123">Please Claim &amp; Start this Task, then verify that deployment '#{ArtifactName}' is working, then choose Pass/Fail.</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_124">DataInput_23</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_78">
+        <bpmn2:targetRef>DataInput_78</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_60">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_125">prod</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_126">_DataInput_83</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_79">
+        <bpmn2:targetRef>DataInput_79</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_80">
+        <bpmn2:targetRef>DataInput_80</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_81">
+        <bpmn2:targetRef>DataInput_81</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_82">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_82</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_94">
+        <bpmn2:sourceRef>artifactName</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_94</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_95">
+        <bpmn2:sourceRef>artifactDescription</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_95</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_99">
+        <bpmn2:sourceRef>deploymentTarget</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_99</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_4">
+        <bpmn2:sourceRef>DataOutput_4</bpmn2:sourceRef>
+        <bpmn2:targetRef>response</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:userTask>
+    <bpmn2:endEvent id="EndEvent_10" name="Failed Prod">
+      <bpmn2:incoming>SequenceFlow_30</bpmn2:incoming>
+      <bpmn2:terminateEventDefinition id="TerminateEventDefinition_8"/>
+    </bpmn2:endEvent>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_4" name="Continue if PASS - Stop if FAIL" gatewayDirection="Diverging">
+      <bpmn2:documentation id="Documentation_125">The workflow should continue if it the status is set to PASS. It should stop when set to FAIL.</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_28</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_23</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_30</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_24" drools:priority="1" name="" sourceRef="Task_12" targetRef="Task_13"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_25" drools:priority="1" name="" sourceRef="Task_13" targetRef="Task_14"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_26" drools:priority="1" name="" sourceRef="Task_14" targetRef="Task_15"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_27" drools:priority="1" name="" sourceRef="Task_15" targetRef="UserTask_4"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_28" drools:priority="1" name="" sourceRef="UserTask_4" targetRef="ExclusiveGateway_4"/>
+    <bpmn2:task id="Task_16" drools:taskName="HttpClientUpdateMetaData" drools:displayName="UpdateMetaData" drools:icon="user-properties.png" name="Classify #ProdPass">
+      <bpmn2:documentation id="Documentation_134">Classifies the artifact with the environment classification</bpmn2:documentation>
+      <bpmn2:incoming>SequenceFlow_23</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_29</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_16">
+        <bpmn2:dataInput id="DataInput_83" itemSubjectRef="_String" name="Url"/>
+        <bpmn2:dataInput id="DataInput_84" itemSubjectRef="_String" name="Method"/>
+        <bpmn2:dataInput id="DataInput_85" itemSubjectRef="_String" name="Name"/>
+        <bpmn2:dataInput id="DataInput_86" itemSubjectRef="_String" name="Value"/>
+        <bpmn2:dataInput id="DataInput_87" itemSubjectRef="_String" name="Uuid"/>
+        <bpmn2:inputSet id="InputSet_16" name="New Input Set">
+          <bpmn2:dataInputRefs>DataInput_83</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_84</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_85</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_86</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_87</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_19" name="Output Set 2"/>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_83">
+        <bpmn2:sourceRef>UpdateMetaDataUrl</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_83</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_84">
+        <bpmn2:targetRef>DataInput_84</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_65">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_135">PUT</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_136">_DataInput_71</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_85">
+        <bpmn2:targetRef>DataInput_85</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_66">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_137">classification</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_138">_DataInput_72</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_86">
+        <bpmn2:targetRef>DataInput_86</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_67">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_139">http://www.jboss.org/overlord/deployment-status.owl#ProdPass</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_140">_DataInput_73</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_87">
+        <bpmn2:sourceRef>ArtifactUuid</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_87</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_29" drools:priority="1" name="" sourceRef="Task_16" targetRef="EndEvent_7"/>
+    <bpmn2:endEvent id="EndEvent_7" name="End">
+      <bpmn2:incoming>SequenceFlow_29</bpmn2:incoming>
+      <bpmn2:terminateEventDefinition id="TerminateEventDefinition_5"/>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_30" drools:priority="1" name="FAIL" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_10">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_142" language="http://www.java.com/java">return (! response.toLowerCase().startsWith(&quot;ok&quot;) &amp;&amp; ! response.toLowerCase().startsWith(&quot;pass&quot;));</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Simple Release Process">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="overlord.demo.SimpleReleaseProcess">
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="StartEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="63.0" y="16.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_2" bpmnElement="Task_2">
+        <dc:Bounds height="50.0" width="141.0" x="10.0" y="170.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_1" bpmnElement="Task_1">
+        <dc:Bounds height="50.0" width="141.0" x="10.0" y="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_3" bpmnElement="Task_3">
+        <dc:Bounds height="50.0" width="141.0" x="10.0" y="260.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_1" bpmnElement="UserTask_1">
+        <dc:Bounds height="50.0" width="141.0" x="10.0" y="350.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_1" bpmnElement="ExclusiveGateway_1" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="55.0" y="425.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_5" bpmnElement="Task_5">
+        <dc:Bounds height="50.0" width="141.0" x="221.0" y="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_4" bpmnElement="Task_4">
+        <dc:Bounds height="50.0" width="141.0" x="221.0" y="2.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_6" bpmnElement="Task_6">
+        <dc:Bounds height="50.0" width="141.0" x="221.0" y="170.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_7" bpmnElement="Task_7">
+        <dc:Bounds height="50.0" width="141.0" x="221.0" y="260.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_2" bpmnElement="UserTask_2">
+        <dc:Bounds height="50.0" width="141.0" x="221.0" y="350.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_2" bpmnElement="ExclusiveGateway_2" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="267.0" y="425.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_3" bpmnElement="EndEvent_3">
+        <dc:Bounds height="36.0" width="36.0" x="62.0" y="520.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_6" bpmnElement="EndEvent_6">
+        <dc:Bounds height="36.0" width="36.0" x="274.0" y="520.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_8" bpmnElement="Task_8">
+        <dc:Bounds height="50.0" width="141.0" x="450.0" y="2.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_7" bpmnElement="EndEvent_7">
+        <dc:Bounds height="36.0" width="36.0" x="953.0" y="87.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_9" bpmnElement="Task_9">
+        <dc:Bounds height="50.0" width="141.0" x="450.0" y="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_10" bpmnElement="Task_10">
+        <dc:Bounds height="50.0" width="141.0" x="450.0" y="170.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_11" bpmnElement="Task_11">
+        <dc:Bounds height="50.0" width="141.0" x="450.0" y="260.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_3" bpmnElement="UserTask_3">
+        <dc:Bounds height="50.0" width="141.0" x="450.0" y="350.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_12" bpmnElement="Task_12">
+        <dc:Bounds height="50.0" width="141.0" x="680.0" y="2.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_9" bpmnElement="EndEvent_9">
+        <dc:Bounds height="36.0" width="36.0" x="503.0" y="520.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_3" bpmnElement="ExclusiveGateway_3" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="496.0" y="425.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_13" bpmnElement="Task_13">
+        <dc:Bounds height="50.0" width="141.0" x="680.0" y="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_14" bpmnElement="Task_14">
+        <dc:Bounds height="50.0" width="141.0" x="680.0" y="170.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_15" bpmnElement="Task_15">
+        <dc:Bounds height="50.0" width="141.0" x="680.0" y="260.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_4" bpmnElement="UserTask_4">
+        <dc:Bounds height="50.0" width="141.0" x="680.0" y="350.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_10" bpmnElement="EndEvent_10">
+        <dc:Bounds height="36.0" width="36.0" x="733.0" y="520.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_4" bpmnElement="ExclusiveGateway_4" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="726.0" y="425.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_16" bpmnElement="Task_16">
+        <dc:Bounds height="50.0" width="141.0" x="900.0" y="2.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_1" targetElement="BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="81.0" y="52.0"/>
+        <di:waypoint xsi:type="dc:Point" x="81.0" y="64.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="64.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="80.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_Task_1" targetElement="BPMNShape_Task_2">
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="130.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="170.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3" sourceElement="BPMNShape_Task_2" targetElement="BPMNShape_Task_3">
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="220.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="238.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="238.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="260.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="SequenceFlow_4" sourceElement="BPMNShape_Task_3" targetElement="BPMNShape_UserTask_1">
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="310.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="328.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="328.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="350.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="SequenceFlow_5" sourceElement="BPMNShape_UserTask_1" targetElement="BPMNShape_ExclusiveGateway_1">
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="400.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="411.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="411.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="425.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_6" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_Task_4">
+        <di:waypoint xsi:type="dc:Point" x="106.0" y="450.0"/>
+        <di:waypoint xsi:type="dc:Point" x="157.0" y="450.0"/>
+        <di:waypoint xsi:type="dc:Point" x="157.0" y="27.0"/>
+        <di:waypoint xsi:type="dc:Point" x="221.0" y="27.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_EndEvent_3">
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="476.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="495.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="495.0"/>
+        <di:waypoint xsi:type="dc:Point" x="80.0" y="520.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="SequenceFlow_8" sourceElement="BPMNShape_Task_4" targetElement="BPMNShape_Task_5">
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="52.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="64.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="64.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="80.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="SequenceFlow_9" sourceElement="BPMNShape_Task_5" targetElement="BPMNShape_Task_6">
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="130.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="170.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_10" sourceElement="BPMNShape_Task_6" targetElement="BPMNShape_Task_7">
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="220.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="238.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="238.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="260.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_11" bpmnElement="SequenceFlow_11" sourceElement="BPMNShape_Task_7" targetElement="BPMNShape_UserTask_2">
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="310.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="328.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="328.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="350.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_12" bpmnElement="SequenceFlow_12" sourceElement="BPMNShape_UserTask_2" targetElement="BPMNShape_ExclusiveGateway_2">
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="400.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="411.0"/>
+        <di:waypoint xsi:type="dc:Point" x="292.0" y="411.0"/>
+        <di:waypoint xsi:type="dc:Point" x="292.0" y="425.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_13" bpmnElement="SequenceFlow_13" sourceElement="BPMNShape_ExclusiveGateway_2" targetElement="BPMNShape_EndEvent_6">
+        <di:waypoint xsi:type="dc:Point" x="292.0" y="476.0"/>
+        <di:waypoint xsi:type="dc:Point" x="292.0" y="495.0"/>
+        <di:waypoint xsi:type="dc:Point" x="292.0" y="495.0"/>
+        <di:waypoint xsi:type="dc:Point" x="292.0" y="520.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_14" bpmnElement="SequenceFlow_14" sourceElement="BPMNShape_ExclusiveGateway_2" targetElement="BPMNShape_Task_8">
+        <di:waypoint xsi:type="dc:Point" x="318.0" y="450.0"/>
+        <di:waypoint xsi:type="dc:Point" x="377.0" y="450.0"/>
+        <di:waypoint xsi:type="dc:Point" x="377.0" y="27.0"/>
+        <di:waypoint xsi:type="dc:Point" x="450.0" y="27.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_16" bpmnElement="SequenceFlow_16" sourceElement="BPMNShape_Task_8" targetElement="BPMNShape_Task_9">
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="52.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="64.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="64.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="80.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_17" bpmnElement="SequenceFlow_17" sourceElement="BPMNShape_Task_9" targetElement="BPMNShape_Task_10">
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="130.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="170.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_18" bpmnElement="SequenceFlow_18" sourceElement="BPMNShape_Task_10" targetElement="BPMNShape_Task_11">
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="220.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="238.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="238.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="260.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_19" bpmnElement="SequenceFlow_19" sourceElement="BPMNShape_Task_11" targetElement="BPMNShape_UserTask_3">
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="310.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="328.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="328.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="350.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_20" bpmnElement="SequenceFlow_20" sourceElement="BPMNShape_UserTask_3" targetElement="BPMNShape_ExclusiveGateway_3">
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="400.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="411.0"/>
+        <di:waypoint xsi:type="dc:Point" x="521.0" y="411.0"/>
+        <di:waypoint xsi:type="dc:Point" x="521.0" y="425.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_21" bpmnElement="SequenceFlow_21" sourceElement="BPMNShape_ExclusiveGateway_3" targetElement="BPMNShape_EndEvent_9">
+        <di:waypoint xsi:type="dc:Point" x="521.0" y="476.0"/>
+        <di:waypoint xsi:type="dc:Point" x="521.0" y="495.0"/>
+        <di:waypoint xsi:type="dc:Point" x="521.0" y="495.0"/>
+        <di:waypoint xsi:type="dc:Point" x="521.0" y="520.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_22" bpmnElement="SequenceFlow_22" sourceElement="BPMNShape_ExclusiveGateway_3" targetElement="BPMNShape_Task_12">
+        <di:waypoint xsi:type="dc:Point" x="547.0" y="450.0"/>
+        <di:waypoint xsi:type="dc:Point" x="606.0" y="450.0"/>
+        <di:waypoint xsi:type="dc:Point" x="606.0" y="27.0"/>
+        <di:waypoint xsi:type="dc:Point" x="680.0" y="27.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_23" bpmnElement="SequenceFlow_23" sourceElement="BPMNShape_ExclusiveGateway_4" targetElement="BPMNShape_Task_16">
+        <di:waypoint xsi:type="dc:Point" x="777.0" y="450.0"/>
+        <di:waypoint xsi:type="dc:Point" x="832.0" y="450.0"/>
+        <di:waypoint xsi:type="dc:Point" x="832.0" y="27.0"/>
+        <di:waypoint xsi:type="dc:Point" x="900.0" y="27.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_24" bpmnElement="SequenceFlow_24" sourceElement="BPMNShape_Task_12" targetElement="BPMNShape_Task_13">
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="52.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="64.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="64.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="80.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_25" bpmnElement="SequenceFlow_25" sourceElement="BPMNShape_Task_13" targetElement="BPMNShape_Task_14">
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="130.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="148.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="170.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_26" bpmnElement="SequenceFlow_26" sourceElement="BPMNShape_Task_14" targetElement="BPMNShape_Task_15">
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="220.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="238.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="238.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="260.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_27" bpmnElement="SequenceFlow_27" sourceElement="BPMNShape_Task_15" targetElement="BPMNShape_UserTask_4">
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="310.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="328.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="328.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="350.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_28" bpmnElement="SequenceFlow_28" sourceElement="BPMNShape_UserTask_4" targetElement="BPMNShape_ExclusiveGateway_4">
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="400.0"/>
+        <di:waypoint xsi:type="dc:Point" x="750.0" y="411.0"/>
+        <di:waypoint xsi:type="dc:Point" x="751.0" y="411.0"/>
+        <di:waypoint xsi:type="dc:Point" x="751.0" y="425.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_29" bpmnElement="SequenceFlow_29" sourceElement="BPMNShape_Task_16" targetElement="BPMNShape_EndEvent_7">
+        <di:waypoint xsi:type="dc:Point" x="970.0" y="52.0"/>
+        <di:waypoint xsi:type="dc:Point" x="970.0" y="67.0"/>
+        <di:waypoint xsi:type="dc:Point" x="971.0" y="67.0"/>
+        <di:waypoint xsi:type="dc:Point" x="971.0" y="87.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_30" bpmnElement="SequenceFlow_30" sourceElement="BPMNShape_ExclusiveGateway_4" targetElement="BPMNShape_EndEvent_10">
+        <di:waypoint xsi:type="dc:Point" x="751.0" y="476.0"/>
+        <di:waypoint xsi:type="dc:Point" x="751.0" y="495.0"/>
+        <di:waypoint xsi:type="dc:Point" x="751.0" y="495.0"/>
+        <di:waypoint xsi:type="dc:Point" x="751.0" y="520.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

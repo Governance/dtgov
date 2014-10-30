@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -59,47 +60,62 @@ public class InitService {
                 if (!governance.isInitialized()) {
                     logger.info(Messages.i18n.format("init.service.init.start"));
 
-                    String workflowArtifact=governance.getGovernanceWorkflowName().concat("-").concat(governance.getGovernanceWorkflowVersion()).concat(".jar");
+                    String workflowArtifact = governance.getGovernanceWorkflowName().concat("-");
                     StringBuilder relativePathWorkflows = new StringBuilder();
-                    relativePathWorkflows.append("WEB-INF").append(File.separatorChar).append("lib").append(File.separatorChar)
-                            .append(workflowArtifact);
+                    relativePathWorkflows.append("WEB-INF").append(File.separatorChar).append("lib").append(File.separatorChar);
 
                     String absolutePath = null;
-
-                    try{
-                        absolutePath=context.getRealPath(relativePathWorkflows.toString());
+                    Set<String> paths = context.getResourcePaths("/" + relativePathWorkflows.toString());
+                    boolean found = false;
+                    if (paths != null && paths.size() > 0) {
+                        for (String path : paths) {
+                            if (path.contains(workflowArtifact)) {
+                                workflowArtifact = path.substring(path.lastIndexOf("/") + 1);
+                                found = true;
+                                break;
+                            }
+                        }
                     }
-                    catch(Exception ee){
-                        InputStream is=this.getClass().getClassLoader().getResourceAsStream(workflowArtifact);
-                        OutputStream os = null;
-                        if(is!=null){
-                            try {
-                                File f = File.createTempFile(workflowArtifact, null);
-                                f.deleteOnExit();
-                                os = new FileOutputStream(f);
-                                IOUtils.copy(is, os);
-                                absolutePath = f.getAbsolutePath();
-                            } finally {
-                                is.close();
-                                if (os != null) {
-                                    os.close();
+
+                    if (found) {
+                        relativePathWorkflows.append(workflowArtifact);
+                        try {
+                            absolutePath = context.getRealPath(relativePathWorkflows.toString());
+                        } catch (Exception ee) {
+                            InputStream is = this.getClass().getClassLoader().getResourceAsStream(workflowArtifact);
+                            OutputStream os = null;
+                            if (is != null) {
+                                try {
+                                    File f = File.createTempFile(workflowArtifact, null);
+                                    f.deleteOnExit();
+                                    os = new FileOutputStream(f);
+                                    IOUtils.copy(is, os);
+                                    absolutePath = f.getAbsolutePath();
+                                } finally {
+                                    is.close();
+                                    if (os != null) {
+                                        os.close();
+                                    }
                                 }
+
+                            } else {
+                                throw new RuntimeException(ee);
                             }
 
                         }
-                        else{
-                            throw new RuntimeException(ee);
+
+                        DataSeeder seeder = new DataSeeder(governance.getSrampUrl().toString(), governance.getSrampUser(),
+                                governance.getSrampPassword(), absolutePath);
+
+                        boolean seed = seeder.seed();
+                        if (seed) {
+                            governance.initialize();
                         }
-
+                    }
+ else {
+                        logger.info(Messages.i18n.format("init.service.init.error"));
                     }
 
-                    DataSeeder seeder = new DataSeeder(governance.getSrampUrl().toString(), governance.getSrampUser(), governance.getSrampPassword(),
-                            absolutePath);
-
-                    boolean seed = seeder.seed();
-                    if (seed) {
-                        governance.initialize();
-                    }
                     logger.info(Messages.i18n.format("init.service.init.end"));
                 } else {
                     logger.info(Messages.i18n.format("init.service.already.init"));

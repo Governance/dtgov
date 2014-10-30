@@ -59,22 +59,17 @@
             <xsl:attribute name="value">20000</xsl:attribute>
           </xsl:element>
           <xsl:element name="property" namespace="urn:jboss:domain:overlord-configuration:1.0">
-            <xsl:attribute name="name">dtgov.workflows.group</xsl:attribute>
-            <xsl:attribute name="value">org.overlord.dtgov</xsl:attribute>
-          </xsl:element>
-          <xsl:element name="property" namespace="urn:jboss:domain:overlord-configuration:1.0">
-            <xsl:attribute name="name">dtgov.workflows.name</xsl:attribute>
-            <xsl:attribute name="value">dtgov-workflows</xsl:attribute>
-          </xsl:element>
-          <xsl:element name="property" namespace="urn:jboss:domain:overlord-configuration:1.0">
             <xsl:attribute name="name">dtgov.workflows.package</xsl:attribute>
             <xsl:attribute name="value">SRAMPPackage</xsl:attribute>
           </xsl:element>
           <xsl:element name="property" namespace="urn:jboss:domain:overlord-configuration:1.0">
             <xsl:attribute name="name">dtgov.workflows.version</xsl:attribute>
-            <xsl:attribute name="value">${project.version}</xsl:attribute>
+            <xsl:attribute name="value">LATEST</xsl:attribute>
           </xsl:element>
-
+          <xsl:element name="property" namespace="urn:jboss:domain:overlord-configuration:1.0">
+            <xsl:attribute name="name">dtgov.automatic.data.initialization.enabled</xsl:attribute>
+            <xsl:attribute name="value">true</xsl:attribute>
+          </xsl:element>
           <xsl:element name="property" namespace="urn:jboss:domain:overlord-configuration:1.0">
             <xsl:attribute name="name">governance.bpm.user</xsl:attribute>
             <xsl:attribute name="value">dtgovworkflow</xsl:attribute>

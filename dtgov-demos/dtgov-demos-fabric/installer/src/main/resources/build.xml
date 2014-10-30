@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Install Overlord: DTGov" default="install">
+
+  <!-- Override properties by putting them in dtgov-build.properties -->
+  <property name="build.properties" location="dtgov-build.properties" />
+  <property file="${build.properties}" />
+  <property name="dtgov.version" value="" />
+
+  <!-- ****************************************************** -->
+  <!-- Customize these properties when calling this installer -->
+  <!-- ****************************************************** -->
+  <property name="appserver.id" value="jboss-eap-6" />
+  <property name="dtgov.install.dir" location="target" />
+  <property name="dtgov.appserver.dir" location="${dtgov.install.dir}/${appserver.id}" />
+  <!-- ****************************************************** -->
+
+  
+  <!-- Seed the S-RAMP repository with required data -->
+  <target name="install">
+    <echo message=" " />
+    <echo message="##############################################" />
+    <echo message="# Adding DTGov specific seed data to the     #" />
+    <echo message="# S-RAMP repository.                         #" />
+    <echo message="##############################################" />
+
+    <property name="dtgov.s-ramp.cli.jar" location="bin/s-ramp-shell-${version.org.overlord.sramp}.jar" />
+    <property name="dtgov.s-ramp.cli.commands" location="${dtgov.install.commands.dir}/cli-commands.txt" />
+    <java jar="${dtgov.s-ramp.cli.jar}" fork="true">
+      <arg value="-f" />
+      <arg value="${dtgov.s-ramp.cli.commands}" />
+      <jvmarg value="-Ds-ramp.endpoint=${s-ramp.endpoint}" />
+      <jvmarg value="-Ds-ramp.username=${s-ramp.shell.username}" />
+      <jvmarg value="-Ds-ramp.password=${s-ramp.shell.password}" />
+      <jvmarg value="-Ddtgov-workflow-jar=${dtgov-workflow-jar}" />
+    </java>
+    
+    <echo message=" " />
+    <echo message="########" />
+    <echo message="# DONE #" />
+    <echo message="########" />
+    <echo message=" " />
+  </target>
+
+</project>

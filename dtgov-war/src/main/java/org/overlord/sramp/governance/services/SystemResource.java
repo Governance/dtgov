@@ -25,8 +25,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.overlord.dtgov.common.model.Deployer;
+import org.overlord.dtgov.common.model.Workflow;
+import org.overlord.dtgov.jbpm.util.WorkflowUtil;
 import org.overlord.dtgov.services.deploy.DeployerFactory;
+import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.governance.Governance;
+import org.overlord.sramp.governance.SrampAtomApiClientFactory;
 
 /**
  * The JAX-RS resource that handles system requests.
@@ -60,5 +64,14 @@ public class SystemResource {
     @Produces(MediaType.APPLICATION_XML)
     public List<Deployer> getCustomDeployers(@Context HttpServletRequest request) throws Exception {
         return DeployerFactory.getCustomDeployerNames();
+    }
+
+    @GET
+    @Path("/config/workflows")
+    @Produces(MediaType.APPLICATION_XML)
+    public List<Workflow> getWorkflows(@Context HttpServletRequest request) throws Exception {
+        SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
+        List<Workflow> workflows = WorkflowUtil.getCurrentWorkflows(client);
+        return workflows;
     }
 }

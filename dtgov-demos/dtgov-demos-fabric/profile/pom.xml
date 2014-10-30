@@ -1,0 +1,95 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.overlord.dtgov.demos.fabric</groupId>
+		<artifactId>dtgov-demos-fabric</artifactId>
+		<version>1.5.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<artifactId>dtgov-demos-fabric-profile</artifactId>
+	<name>DTGov Demos: Fabric Profile</name>
+	<packaging>jar</packaging>
+
+	<properties>
+		<overlord.commons.base.url>${container:httpUrl}</overlord.commons.base.url>
+		<overlord.commons.auth.saml.keystore>${profile:overlord-saml.keystore}</overlord.commons.auth.saml.keystore>
+	</properties>
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.overlord.sramp</groupId>
+				<artifactId>s-ramp-wagon</artifactId>
+				<version>${version.org.overlord.sramp}</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<plugin>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<!-- Disable 'require plugin versions' due to using snapshot -->
+					<execution>
+						<id>enforce-plugin-versions</id>
+						<phase>none</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-dist</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>overlord-commons-profile-${project.version}</finalName>
+							<attach>true</attach>
+							<descriptors>
+								<descriptor>src/main/assembly/dist.xml</descriptor>
+							</descriptors>
+							<tarLongFileMode>gnu</tarLongFileMode>
+							<appendAssemblyId>false</appendAssemblyId>
+							<archiverConfig>
+								<defaultDirectoryMode>0755</defaultDirectoryMode>
+							</archiverConfig>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+	<profiles>
+
+
+		<profile>
+			<id>demo</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-deploy-plugin</artifactId>
+						<version>2.7</version>
+						<configuration>
+							<skip>false</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<distributionManagement>
+				<repository>
+					<id>local-sramp-repo</id>
+					<name>S-RAMP Releases Repository</name>
+					<url>sramp://localhost:8080/s-ramp-server/?artifactGrouping=Project-${project.groupId}.${project.version}</url>
+				</repository>
+				<snapshotRepository>
+					<id>local-sramp-repo-snapshots</id>
+					<name>S-RAMP Snapshots Repository</name>
+					<url>sramp://localhost:8080/s-ramp-server/?artifactGrouping=Project-${project.groupId}.${project.version}</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
+	</profiles>
+</project>

@@ -66,6 +66,12 @@ public class TargetFactory {
                 String deployDir = SrampModelUtils.getCustomProperty(artifact, DtgovModel.COPY_DEPLOY_DIR);
                 target = Target.copy(name, classifier, deployDir);
                 break;
+            case FABRIC:
+                String jolokiaURL = SrampModelUtils.getCustomProperty(artifact, DtgovModel.FABRIC_JOLOKIA_URL);
+                String jolokiaUser = SrampModelUtils.getCustomProperty(artifact, DtgovModel.FABRIC_USER);
+                String jolokiaPassword = SrampModelUtils.getCustomProperty(artifact, DtgovModel.FABRIC_PASSWORD);
+                target = Target.fabric(name, classifier, jolokiaUser, jolokiaPassword, jolokiaURL);
+                break;
             case CUSTOM:
                 String customType = SrampModelUtils.getCustomProperty(artifact, DtgovModel.CUSTOM_TYPE_NAME);
                 Map<String, String> properties = SrampModelUtils.getCustomPropertiesByPrefix(artifact, DtgovModel.PREFIX_CUSTOM_PROPERTY);

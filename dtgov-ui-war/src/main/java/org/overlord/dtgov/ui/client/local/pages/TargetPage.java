@@ -39,6 +39,7 @@ import org.overlord.dtgov.ui.client.local.pages.targets.panel.AbstractTargetPane
 import org.overlord.dtgov.ui.client.local.pages.targets.panel.CliTargetPanel;
 import org.overlord.dtgov.ui.client.local.pages.targets.panel.CopyTargetPanel;
 import org.overlord.dtgov.ui.client.local.pages.targets.panel.CustomTargetPanel;
+import org.overlord.dtgov.ui.client.local.pages.targets.panel.FabricTargetPanel;
 import org.overlord.dtgov.ui.client.local.pages.targets.panel.MavenTargetPanel;
 import org.overlord.dtgov.ui.client.local.pages.targets.panel.RhqTargetPanel;
 import org.overlord.dtgov.ui.client.local.services.ConfigurationService;
@@ -161,6 +162,9 @@ public class TargetPage extends AbstractPage {
 
     @Inject
     Instance<CopyTargetPanel> _addCopyForm;
+
+    @Inject
+    Instance<FabricTargetPanel> _addFabricForm;
 
     @Inject
     Instance<CustomTargetPanel> _addCustomForm;
@@ -290,6 +294,9 @@ public class TargetPage extends AbstractPage {
                     _targetPanel = this._addCopyForm.get();
                     break;
 
+                case FABRIC:
+                    _targetPanel = this._addFabricForm.get();
+                    break;
                 case CUSTOM:
                     _targetPanel = this._addCustomForm.get();
                     break;

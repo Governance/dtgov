@@ -22,6 +22,7 @@ import org.overlord.dtgov.common.Target;
 import org.overlord.dtgov.common.Target.TYPE;
 import org.overlord.dtgov.services.deploy.deployers.CliDeployer;
 import org.overlord.dtgov.services.deploy.deployers.CopyFileDeployer;
+import org.overlord.dtgov.services.deploy.deployers.FabricDeployer;
 import org.overlord.dtgov.services.deploy.deployers.MavenDeployer;
 import org.overlord.dtgov.services.deploy.deployers.RHQDeployer;
 
@@ -46,6 +47,7 @@ public class DTGovDeployerProvider implements DeployerProvider {
         deployers.put(TYPE.COPY.name(), new CopyFileDeployer());
         deployers.put(TYPE.MAVEN.name(), new MavenDeployer());
         deployers.put(TYPE.RHQ.name(), new RHQDeployer());
+        deployers.put(TYPE.FABRIC.name(), new FabricDeployer());
         return deployers;
     }
 

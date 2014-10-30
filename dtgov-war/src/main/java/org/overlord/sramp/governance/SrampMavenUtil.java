@@ -15,6 +15,7 @@
  */
 package org.overlord.sramp.governance;
 
+import org.apache.commons.lang.StringUtils;
 import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.SrampClientException;
@@ -90,8 +91,22 @@ public class SrampMavenUtil {
                 return null;
             }
         } else {
-            return mavenVersion;
+            if (!StringUtils.isBlank(mavenVersion)) {
+                return mavenVersion;
+            } else {
+                return getVersion(queryModel, mavenGroupId, mavenArtifactId, MAVEN_VERSION_LATEST);
+            }
+
         }
         return null;
+    }
+
+    public static boolean isConstantValue(String version) {
+        if (StringUtils.isNotBlank(version)) {
+            if (version.equals(MAVEN_VERSION_LATEST) || version.equals(MAVEN_VERSION_RELEASE)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

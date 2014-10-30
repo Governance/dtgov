@@ -34,7 +34,6 @@ import org.overlord.sramp.client.query.ArtifactSummary;
 import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.governance.Governance;
 import org.overlord.sramp.governance.SrampAtomApiClientFactory;
-import org.overlord.sramp.governance.SrampMavenUtil;
 import org.overlord.sramp.integration.kie.model.KieJarModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +45,7 @@ public class KieSrampUtil {
             + "@maven.groupId=? and @maven.artifactId = ? and @maven.version = ? and xp2:not(@maven.classifier)]"; //$NON-NLS-1$
 
     private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/" + KieJarModel.TYPE_ARCHIVE; //$NON-NLS-1$
-    
+
     /**
      * Returns true if the workflow JAR is deployed to the s-ramp repository.
      * @param groupId
@@ -83,12 +82,10 @@ public class KieSrampUtil {
     	SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
 
 		Governance governance = new Governance();
-        String workflowGroupId = governance.getGovernanceWorkflowGroup();
-        String workflowArtifactId = governance.getGovernanceWorkflowName();
+        String workflowGroupId = releaseId.getGroupId();
+        String workflowArtifactId = releaseId.getArtifactId();
 
-        String workflowVersion = SrampMavenUtil.getVersion(SRAMP_KIE_MODEL, workflowGroupId, workflowArtifactId,
-                governance.getGovernanceWorkflowVersion());
-
+        String workflowVersion = releaseId.getVersion();
         if (StringUtils.isBlank(workflowVersion)) {
             throw new RuntimeException(Messages.i18n.format("maven.version.not.found", workflowGroupId, workflowArtifactId, workflowVersion)); //$NON-NLS-1$
         }

@@ -17,14 +17,12 @@ package org.overlord.dtgov.ui.server.services;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jboss.errai.bus.server.api.RpcContext;
@@ -41,6 +39,7 @@ import org.overlord.dtgov.ui.client.shared.exceptions.DtgovUiException;
 import org.overlord.dtgov.ui.client.shared.services.IWorkflowQueryService;
 import org.overlord.dtgov.ui.server.DtgovUIConfig;
 import org.overlord.dtgov.ui.server.i18n.Messages;
+import org.overlord.dtgov.ui.server.services.dtgov.DtGovClientAccessor;
 import org.overlord.dtgov.ui.server.services.sramp.SrampApiClientAccessor;
 import org.overlord.dtgov.ui.server.services.workflows.WorkflowMavenUtil;
 import org.overlord.dtgov.ui.server.services.workflows.WorkflowQueryFactory;
@@ -49,10 +48,9 @@ import org.overlord.sramp.atom.err.SrampAtomException;
 import org.overlord.sramp.client.SrampAtomApiClient;
 import org.overlord.sramp.client.SrampClientException;
 import org.overlord.sramp.client.SrampClientQuery;
-import org.overlord.sramp.client.query.ArtifactSummary;
 import org.overlord.sramp.client.query.QueryResultSet;
 import org.overlord.sramp.common.ArtifactType;
-import org.overlord.sramp.integration.kie.model.KieJarModel;
+
 
 /**
  * Concrete implementation of the workflow query service.
@@ -66,13 +64,17 @@ public class WorkflowQueryService implements IWorkflowQueryService {
     private final static String WORKFLOW_ARTIFACT_NAME_KEY = "dtgov-ui.workflows.name"; //$NON-NLS-1$
     private final static String WORKFLOW_ARTIFACT_VERSION_KEY = "dtgov-ui.workflows.version"; //$NON-NLS-1$
     private final static String SRAMP_WORKFLOW_QUERY = "/s-ramp/ext/BpmnDocument[expandedFromDocument[@maven.groupId = ? and @maven.artifactId = ? and @maven.version = ?]]"; //$NON-NLS-1$
-    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/" + KieJarModel.TYPE_ARCHIVE; //$NON-NLS-1$
+    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive"; //$NON-NLS-1$
     private static final int PAGE_SIZE = 10;
 
     @Inject
     private WorkflowQueryValidator _queryValidator;
     @Inject
     private SrampApiClientAccessor _srampClientAccessor;
+
+    @Inject
+    private DtGovClientAccessor _dtgovClientAccessor;
+
     @Inject
     private DtgovUIConfig config;
 
@@ -229,37 +231,27 @@ public class WorkflowQueryService implements IWorkflowQueryService {
     @Override
     public List<Workflow> getWorkflowTypes() throws DtgovUiException {
         checkAuthorization();
-        Configuration dtgov_ui_conf = config.getConfiguration();
-        SrampAtomApiClient client = _srampClientAccessor.getClient();
+
         List<Workflow> workflows = new ArrayList<Workflow>();
+
+        List<org.overlord.dtgov.common.model.Workflow> workflows_server = null;
         try {
-
-            String workflowGroupId = (String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_GROUP_KEY);
-            String workflowArtifactId = (String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_NAME_KEY);
-            String workflowVersionId = (String) dtgov_ui_conf.getProperty(WORKFLOW_ARTIFACT_VERSION_KEY);
-            String workflowVersion = WorkflowMavenUtil.getVersion(SRAMP_KIE_MODEL, workflowGroupId, workflowArtifactId, workflowVersionId, client);
-            if (workflowVersion != null) {
-                QueryResultSet results = client.buildQuery(SRAMP_WORKFLOW_QUERY).parameter(workflowGroupId).parameter(workflowArtifactId)
-                        .parameter(workflowVersion).query();
-                if (results != null && results.iterator() != null) {
-                    Iterator<ArtifactSummary> results_iterator = results.iterator();
-                    while (results_iterator.hasNext()) {
-                        ArtifactSummary artifact = results_iterator.next();
-                        String name = artifact.getName().substring(0, artifact.getName().lastIndexOf(".")); //$NON-NLS-1$
-                        Workflow workflow = new Workflow();
-                        workflow.setUuid(artifact.getUuid());
-                        workflow.setName(name);
-                        workflows.add(workflow);
-                    }
-                }
-            }
-
-
-        } catch (SrampClientException e) {
-            throw new DtgovUiException(e.getMessage());
-        } catch (SrampAtomException e) {
-            throw new DtgovUiException(e.getMessage());
+            workflows_server = _dtgovClientAccessor.getClient().getWorkflows();
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
         }
+
+        if (workflows_server != null && workflows_server.size() > 0) {
+            for (org.overlord.dtgov.common.model.Workflow workflow_server : workflows_server) {
+                String name = workflow_server.getName().substring(0, workflow_server.getName().lastIndexOf(".")); //$NON-NLS-1$
+                Workflow workflow = new Workflow();
+                workflow.setUuid(workflow_server.getUuid());
+                workflow.setName(name);
+                workflows.add(workflow);
+            }
+        }
+
         return workflows;
     }
 
@@ -340,5 +332,7 @@ public class WorkflowQueryService implements IWorkflowQueryService {
         query.propertyName(DtgovModel.CUSTOM_PROPERTY_QUERY);
         return query;
     }
+
+
 
 }

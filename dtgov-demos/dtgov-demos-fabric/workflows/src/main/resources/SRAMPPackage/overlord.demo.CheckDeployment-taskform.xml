@@ -1,0 +1,15 @@
+<form>
+  <fieldset>
+    <label>Artifact </label><span data-name="ArtifactName">Unknown</span>&nbsp;(UUID: <span data-name="DeploymentUuid">Unknown</span>)
+    <label>Deployed to Target</label><span data-name="DeploymentTarget">Unknown</span>
+    <label>Please record your findings</label>
+    <label class="radio">
+      <input type="radio" name="Status" value="pass"></input>
+      Pass
+    </label>
+    <label class="radio">
+      <input type="radio" name="Status" value="fail"></input>
+      Fail
+    </label>
+  </fieldSet>
+</form>

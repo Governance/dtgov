@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.overlord.dtgov.demos.fabric</groupId>
+		<artifactId>dtgov-demos-fabric</artifactId>
+		<version>1.5.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<artifactId>dtgov-demos-fabric-installer</artifactId>
+	<name>DTGov Demos: Fabric Installer</name>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.overlord.sramp</groupId>
+			<artifactId>s-ramp-distro-assembly-cli</artifactId>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.overlord.dtgov.demos.fabric</groupId>
+			<artifactId>dtgov-demos-fabric-workflows</artifactId>
+		</dependency> 
+	</dependencies>
+
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources-filtered</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+	</build>
+	<profiles>
+		<profile>
+			<id>seed</id>
+
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<dependencies>
+							<dependency>
+								<groupId>ant</groupId>
+								<artifactId>ant-trax</artifactId>
+								<version>1.6.5</version>
+							</dependency>
+						</dependencies>
+						<executions>
+							<execution>
+								<id>seed</id>
+								<phase>install</phase>
+								<configuration>
+									<tasks>
+										<property name="dtgov.install.dir" location="${project.build.directory}" />
+										<property name="dtgov-workflow-jar"
+											value="${maven.dependency.org.overlord.dtgov.demos.fabric.dtgov-demos-fabric-workflows.jar.path}" />
+										<!-- <property name="s-ramp.password" value="ADMIN_PASSWORD_HERE" 
+											/> -->
+										<property name="dtgov.install.commands.dir" location="${project.build.directory}/classes" />
+										<property name="dtgov.s-ramp.cli.zip"
+											value="${maven.dependency.org.overlord.sramp.s-ramp-distro-assembly-cli.zip.path}" />
+										<unzip src="${dtgov.s-ramp.cli.zip}" dest="${project.build.directory}"
+											overwrite="true" />
+										<property name="dtgov.s-ramp.cli.jar"
+											value="${project.build.directory}/s-ramp-cli-${version.org.overlord.sramp}/bin/s-ramp-shell-${version.org.overlord.sramp}.jar" />
+										<property name="s-ramp.endpoint" value="http://localhost:8080/s-ramp-server/" />
+										<property name="s-ramp.shell.username" value="admin" />
+										<property name="s-ramp.shell.password" value="admin123!" />
+										<ant dir="${basedir}/src/main/resources" antfile="${basedir}/src/main/resources/build.xml">
+											<target name="install" />
+										</ant>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+		</profile>
+	</profiles>
+
+</project>

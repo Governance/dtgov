@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://raw.github.com/droolsjbpm/droolsjbpm-knowledge/master/kie-api/src/main/resources/org/kie/api/kmodule.xsd"
+         xmlns="http://jboss.org/kie/6.0.0/kmodule" >
+
+
+    <kbase name="SRAMPPackage">
+        <ksession name="ksessionSRAMP" scope="javax.enterprise.context.ApplicationScoped">
+        	<workItemHandlers>
+        		<workItemHandler name="HttpClientDeploy" type="new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler()"/>
+        		<workItemHandler name="HttpClientNotify" type="new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler()"/>
+        		<workItemHandler name="HttpClientUpdateMetaData" type="new org.overlord.dtgov.jbpm.util.HttpClientWorkItemHandler()"/>
+      		</workItemHandlers>
+        </ksession>
+    </kbase>
+
+</kmodule>

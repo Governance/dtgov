@@ -20,6 +20,7 @@ import java.util.Map;
 import org.overlord.dtgov.common.targets.CliTarget;
 import org.overlord.dtgov.common.targets.CopyTarget;
 import org.overlord.dtgov.common.targets.CustomTarget;
+import org.overlord.dtgov.common.targets.FabricTarget;
 import org.overlord.dtgov.common.targets.MavenTarget;
 import org.overlord.dtgov.common.targets.RHQTarget;
 
@@ -31,7 +32,7 @@ import org.overlord.dtgov.common.targets.RHQTarget;
 public abstract class Target {
 
     public enum TYPE {
-        COPY, RHQ, AS_CLI, MAVEN, CUSTOM
+        COPY, RHQ, AS_CLI, MAVEN, CUSTOM, FABRIC
     };
 
     /**
@@ -75,6 +76,27 @@ public abstract class Target {
     public static final Target rhq(String name, String classifier, String rhqUser, String rhqPassword, String rhqBaseUrl,
     		String rhqPluginName, String rhqGroup) {
         return RHQTarget.getTarget(name, classifier, rhqUser, rhqPassword, rhqBaseUrl, rhqPluginName, rhqGroup);
+    }
+
+    /**
+     * Constructs a Target of Type RHQ to use it (JON) to deploy archives to a
+     * RHQ server group. The RHQ Server group needs to be prefined and needs to
+     * contain Application Server resources only.
+     * 
+     * @param name
+     *            - name of the target - which needs to correspond to the RHQ
+     *            Server Group.
+     * @param classifier
+     * @param rhqUser
+     *            - username of the RHQ user with rights to deploy to that
+     *            group.
+     * @param rhqPassword
+     *            - password of the rhqUser.
+     * @param rhqBaseUrl
+     *            - baseUrl of the RHQ Server i.e. http://localhost:7080/
+     */
+    public static final Target fabric(String name, String classifier, String user, String password, String jolokiaUrl) {
+        return FabricTarget.getTarget(name, classifier, jolokiaUrl, user, password);
     }
 
     /**

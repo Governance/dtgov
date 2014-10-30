@@ -43,7 +43,6 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.apache.commons.lang.StringUtils;
 import org.jboss.seam.transaction.Transactional;
 import org.jbpm.kie.services.impl.KModuleDeploymentUnit;
 import org.jbpm.services.task.exception.PermissionDeniedException;
@@ -59,8 +58,10 @@ import org.kie.api.task.model.TaskSummary;
 import org.kie.api.task.model.User;
 import org.kie.internal.runtime.manager.context.EmptyContext;
 import org.overlord.dtgov.jbpm.ProcessOperationException;
+import org.overlord.dtgov.jbpm.util.KieJar;
 import org.overlord.dtgov.jbpm.util.KieSrampUtil;
 import org.overlord.dtgov.jbpm.util.ProcessEngineService;
+import org.overlord.dtgov.jbpm.util.WorkflowUtil;
 import org.overlord.dtgov.server.i18n.Messages;
 import org.overlord.dtgov.taskapi.types.FindTasksRequest;
 import org.overlord.dtgov.taskapi.types.FindTasksResponse;
@@ -69,10 +70,8 @@ import org.overlord.dtgov.taskapi.types.TaskDataType;
 import org.overlord.dtgov.taskapi.types.TaskDataType.Entry;
 import org.overlord.dtgov.taskapi.types.TaskSummaryType;
 import org.overlord.dtgov.taskapi.types.TaskType;
-import org.overlord.sramp.atom.err.SrampAtomException;
-import org.overlord.sramp.client.SrampClientException;
-import org.overlord.sramp.governance.Governance;
-import org.overlord.sramp.governance.SrampMavenUtil;
+import org.overlord.sramp.client.SrampAtomApiClient;
+import org.overlord.sramp.governance.SrampAtomApiClientFactory;
 
 /**
  *
@@ -85,7 +84,6 @@ public class TaskApi {
 
 	private static Boolean hasSRAMPPackageDeployed = Boolean.FALSE;
 
-    private static final String SRAMP_KIE_MODEL = "/s-ramp/ext/KieJarArchive"; //$NON-NLS-1$
 
 	@Inject
     TaskService taskService;
@@ -101,35 +99,30 @@ public class TaskApi {
 		//definitions deployed (on first time boot)
 		synchronized(hasSRAMPPackageDeployed) {
 			KieSrampUtil kieSrampUtil = new KieSrampUtil();
-			Governance governance = new Governance();
-			String groupId = governance.getGovernanceWorkflowGroup();
-			String artifactId = governance.getGovernanceWorkflowName();
-            String workflowVersion = governance.getGovernanceWorkflowVersion();
-            String version = null;
-            try {
-                version = SrampMavenUtil.getVersion(SRAMP_KIE_MODEL, groupId, artifactId, workflowVersion);
-            } catch (SrampClientException e) {
-                throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e); //$NON-NLS-1$
-            } catch (SrampAtomException e) {
-                throw new RuntimeException(Messages.i18n.format("maven.version.not.found.error", groupId, artifactId, workflowVersion), e); //$NON-NLS-1$
-            }
-            if (StringUtils.isBlank(version)) {
-                throw new RuntimeException(Messages.i18n.format("maven.version.not.found", groupId, artifactId, workflowVersion)); //$NON-NLS-1$
-            }
-
-			if (kieSrampUtil.isSRAMPPackageDeployed(groupId, artifactId, version)) {
-				KModuleDeploymentUnit unit = new KModuleDeploymentUnit(
-						groupId,
-						artifactId,
-						version,
-						Governance.DEFAULT_GOVERNANCE_WORKFLOW_PACKAGE,
-						Governance.DEFAULT_GOVERNANCE_WORKFLOW_KSESSION);
-				RuntimeManager runtimeManager = kieSrampUtil.getRuntimeManager(processEngineService, unit);
-				RuntimeEngine runtime = runtimeManager.getRuntimeEngine(EmptyContext.get());
-				//use toString to make sure CDI initializes the bean
-				//to make sure the task manager starts up on reboot
-				runtime.getTaskService().toString();
+            SrampAtomApiClient client = SrampAtomApiClientFactory.createAtomApiClient();
+            // With this easy instruction we get all the kie jar artifacts
+            List<KieJar> workflows = WorkflowUtil.getCurrentKieJar(client);
+			if(workflows!=null && workflows.size()>0){
+                // Iterate over all the workflows defined and then initialized
+                // the runtime manager
+			    for(KieJar workflow:workflows){
+			        if (kieSrampUtil.isSRAMPPackageDeployed(workflow.getGroupId(), workflow.getArtifactId(), workflow.getVersion())) {
+		                KModuleDeploymentUnit unit = new KModuleDeploymentUnit(
+		                        workflow.getGroupId(),
+		                        workflow.getArtifactId(),
+		                        workflow.getVersion(),
+		                        workflow.getWorkflowPackage(),
+		                        workflow.getWorkflowKSession());
+		                RuntimeManager runtimeManager = kieSrampUtil.getRuntimeManager(processEngineService, unit);
+		                RuntimeEngine runtime = runtimeManager.getRuntimeEngine(EmptyContext.get());
+		                //use toString to make sure CDI initializes the bean
+		                //to make sure the task manager starts up on reboot
+		                runtime.getTaskService().toString();
+		            }
+			    }
 			}
+
+
 		}
 	}
 
